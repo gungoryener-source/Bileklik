@@ -4,7 +4,9 @@ import 'package:flutter/foundation.dart';
 
 import '../data/health_store.dart';
 import '../data/sync_service.dart';
+import '../data/models.dart';
 import '../device/protocol/commands.dart';
+import '../device/protocol/exercise.dart';
 import '../device/transport.dart';
 import '../device/wristband_client.dart';
 
@@ -25,6 +27,7 @@ class DeviceController extends ChangeNotifier {
       lastUpdate = DateTime.now();
       notifyListeners();
     });
+    _exerciseSub = _client.exerciseEvents.listen(_onExercise);
   }
 
   final DeviceTransport _transport;
@@ -35,6 +38,7 @@ class DeviceController extends ChangeNotifier {
   final HealthStore store;
   late final StreamSubscription<DeviceConnectionState> _stateSub;
   late final StreamSubscription<RealtimeData> _realtimeSub;
+  late final StreamSubscription<ExerciseEvent> _exerciseSub;
 
   DeviceConnectionState connection = DeviceConnectionState.disconnected;
   RealtimeData? live;
@@ -44,6 +48,12 @@ class DeviceController extends ChangeNotifier {
   String? error;
   bool syncing = false;
   DateTime? lastSync;
+
+  /// Devam eden egzersiz; yoksa null.
+  ActiveExercise? exercise;
+
+  /// En son biten egzersiz; özet ekranı bunu gösterir.
+  Workout? lastWorkout;
 
   String get deviceName => _transport.name;
   bool get isConnected => connection == DeviceConnectionState.connected;
@@ -82,6 +92,7 @@ class DeviceController extends ChangeNotifier {
   Future<void> disconnect() async {
     await _transport.disconnect();
     live = null;
+    exercise = null;
     notifyListeners();
   }
 
@@ -96,11 +107,123 @@ class DeviceController extends ChangeNotifier {
     notifyListeners();
   }
 
+  /// Egzersizi başlatır. Bileklik başka bir modda ise false döner.
+  Future<bool> startExercise(SportType type) async {
+    error = null;
+    try {
+      final r = await _client.controlExercise(ExerciseAction.start, type);
+      if (!r.ok) {
+        error = 'Bileklik şu an başka bir egzersizde ya da ölçümde.';
+      } else {
+        exercise = ActiveExercise(type, r.startedAt ?? DateTime.now());
+      }
+    } catch (e) {
+      error = e.toString();
+    }
+    notifyListeners();
+    return exercise != null;
+  }
+
+  Future<void> pauseExercise() => _setPaused(true);
+  Future<void> resumeExercise() => _setPaused(false);
+
+  Future<void> _setPaused(bool paused) async {
+    final ex = exercise;
+    if (ex == null) return;
+    try {
+      await _client.controlExercise(
+        paused ? ExerciseAction.pause : ExerciseAction.resume,
+        ex.type,
+      );
+      ex.paused = paused;
+    } catch (e) {
+      error = e.toString();
+    }
+    notifyListeners();
+  }
+
+  /// Kullanıcı hareketsizlik uyarısında "devam et" dedi.
+  void dismissExercisePrompt() {
+    exercise?.prompt = null;
+    notifyListeners();
+  }
+
+  Future<void> stopExercise() async {
+    final ex = exercise;
+    if (ex == null) return;
+    try {
+      await _client.controlExercise(ExerciseAction.end, ex.type);
+    } catch (e) {
+      error = e.toString();
+    }
+    await _finishExercise(ex);
+  }
+
+  Future<void> _finishExercise(ActiveExercise ex) async {
+    exercise = null;
+    lastWorkout = null;
+    notifyListeners();
+    // Bileklik biten egzersizi 0x5C geçmişine yazar; oradan çekiyoruz.
+    if (!syncing) {
+      try {
+        await _sync.workouts();
+      } catch (e) {
+        error = e.toString();
+      }
+    }
+    lastWorkout = store
+        .workoutsBetween(
+          ex.startedAt.subtract(const Duration(minutes: 1)),
+          DateTime.now().add(const Duration(days: 1)),
+        )
+        .firstOrNull;
+    notifyListeners();
+  }
+
+  void _onExercise(ExerciseEvent e) {
+    final ex = exercise;
+    if (ex == null) return;
+    switch (e) {
+      case ExerciseLive():
+        ex.live = e;
+        if (e.heartRate > 0) ex.heartRates.add(e.heartRate);
+      case ExerciseInactive():
+        ex.prompt = e;
+      case ExerciseEnded():
+        ex.endedByDevice = true;
+        unawaited(_finishExercise(ex));
+        return;
+    }
+    notifyListeners();
+  }
+
   @override
   void dispose() {
     _stateSub.cancel();
     _realtimeSub.cancel();
+    _exerciseSub.cancel();
     _client.dispose();
     super.dispose();
   }
+}
+
+/// Bileklikte süren egzersizin uygulamadaki görünümü.
+class ActiveExercise {
+  ActiveExercise(this.type, this.startedAt);
+
+  final SportType type;
+  final DateTime startedAt;
+  bool paused = false;
+  bool endedByDevice = false;
+  ExerciseLive? live;
+  final heartRates = <int>[];
+
+  /// Bilekliğin "uzun süredir hareketsizsiniz" uyarısı; kullanıcı yanıtlayınca null olur.
+  ExerciseInactive? prompt;
+
+  Duration get elapsed => Duration(seconds: live?.durationSeconds ?? 0);
+
+  int? get averageHeartRate => heartRates.isEmpty
+      ? null
+      : (heartRates.reduce((a, b) => a + b) / heartRates.length).round();
 }

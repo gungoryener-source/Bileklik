@@ -13,7 +13,10 @@ enum HistoryKind {
   heartRateSingle(0x55, 10),
   hrv(0x56, 15),
   temperature(0x62, 11),
-  spo2(0x66, 10);
+  spo2(0x66, 10),
+
+  /// 0x5C egzersiz kayıtları (bkz. `ExerciseRecord`).
+  exercise(0x5C, 25);
 
   const HistoryKind(this.command, this.recordLength);
 

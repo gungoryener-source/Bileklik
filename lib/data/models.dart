@@ -1,3 +1,4 @@
+import '../device/protocol/exercise.dart';
 import '../device/protocol/history.dart';
 
 /// Uygulamanın sakladığı sağlık ölçüm türleri.
@@ -46,4 +47,42 @@ class SleepSession {
   DateTime get end => start.add(Duration(minutes: minutes.length));
 
   int minutesIn(SleepStage s) => minutes.where((m) => m == s).length;
+}
+
+/// Tamamlanmış bir egzersiz (0x5C kaydı).
+class Workout {
+  final SportType? type;
+  final DateTime start;
+  final Duration duration;
+  final int steps;
+  final double distanceKm;
+  final double calories;
+  final int averageHeartRate;
+
+  /// 1 km için geçen süre; mesafe yoksa null.
+  final Duration? pace;
+
+  const Workout({
+    required this.type,
+    required this.start,
+    required this.duration,
+    required this.steps,
+    required this.distanceKm,
+    required this.calories,
+    required this.averageHeartRate,
+    this.pace,
+  });
+
+  DateTime get end => start.add(duration);
+
+  factory Workout.fromRecord(ExerciseRecord r) => Workout(
+    type: r.type,
+    start: r.start,
+    duration: Duration(seconds: r.durationSeconds),
+    steps: r.steps,
+    distanceKm: r.distanceKm,
+    calories: r.calories,
+    averageHeartRate: r.heartRate,
+    pace: r.paceSeconds > 0 ? Duration(seconds: r.paceSeconds) : null,
+  );
 }

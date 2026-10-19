@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../data/models.dart';
+import '../device/protocol/exercise.dart';
 import 'theme.dart';
 
 const _months = [
@@ -56,4 +57,68 @@ extension MetricLook on MetricType {
     MetricType.temperature => v.toStringAsFixed(1),
     _ => v.round().toString(),
   };
+}
+
+extension SportLook on SportType {
+  String get label => switch (this) {
+    SportType.run => 'Koşu',
+    SportType.cycling => 'Bisiklet',
+    SportType.badminton => 'Badminton',
+    SportType.football => 'Futbol',
+    SportType.tennis => 'Tenis',
+    SportType.yoga => 'Yoga',
+    SportType.meditation => 'Meditasyon',
+    SportType.dance => 'Dans',
+    SportType.basketball => 'Basketbol',
+    SportType.walk => 'Yürüyüş',
+    SportType.workout => 'Antrenman',
+    SportType.cricket => 'Kriket',
+    SportType.hiking => 'Doğa yürüyüşü',
+    SportType.aerobics => 'Aerobik',
+    SportType.pingPong => 'Masa tenisi',
+    SportType.ropeJump => 'İp atlama',
+    SportType.sitUps => 'Mekik',
+    SportType.volleyball => 'Voleybol',
+  };
+
+  IconData get icon => switch (this) {
+    SportType.run => Icons.directions_run,
+    SportType.cycling => Icons.directions_bike,
+    SportType.badminton || SportType.tennis => Icons.sports_tennis,
+    SportType.football => Icons.sports_soccer,
+    SportType.yoga || SportType.meditation => Icons.self_improvement,
+    SportType.dance => Icons.music_note,
+    SportType.basketball => Icons.sports_basketball,
+    SportType.walk => Icons.directions_walk,
+    SportType.workout || SportType.sitUps => Icons.fitness_center,
+    SportType.cricket => Icons.sports_cricket,
+    SportType.hiking => Icons.hiking,
+    SportType.aerobics || SportType.ropeJump => Icons.sports_gymnastics,
+    SportType.pingPong => Icons.sports_tennis,
+    SportType.volleyball => Icons.sports_volleyball,
+  };
+
+  /// Mesafe ve tempo anlamlı mı (koşu, yürüyüş, bisiklet gibi).
+  bool get hasDistance => const {
+    SportType.run,
+    SportType.walk,
+    SportType.cycling,
+    SportType.hiking,
+  }.contains(this);
+}
+
+/// Spor türü bilinmiyorsa kullanılan ad ve simge.
+String sportLabel(SportType? t) => t?.label ?? 'Egzersiz';
+IconData sportIcon(SportType? t) => t?.icon ?? Icons.fitness_center;
+
+/// "12:05" ya da "1:02:05" biçiminde süre.
+String clock(Duration d) {
+  final h = d.inHours, m = d.inMinutes % 60, s = d.inSeconds % 60;
+  return h > 0 ? '$h:${two(m)}:${two(s)}' : '${two(m)}:${two(s)}';
+}
+
+/// Tempo: 1 km için dakika ve saniye, örneğin 6'12".
+String paceText(Duration? pace) {
+  if (pace == null || pace == Duration.zero) return '--';
+  return "${pace.inMinutes}'${two(pace.inSeconds % 60)}\"";
 }

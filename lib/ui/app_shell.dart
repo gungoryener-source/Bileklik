@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
 import '../state/device_controller.dart';
+import 'screens/exercise_screen.dart';
 import 'screens/health_screen.dart';
 import 'screens/home_screen.dart';
-import 'screens/placeholder_screen.dart';
 import 'screens/profile_screen.dart';
 
 /// Ekranlara cihaz durumunu taşır; durum değişince dinleyenler yeniden çizilir.
@@ -32,10 +32,7 @@ class _AppShellState extends State<AppShell> {
   static const _pages = [
     HomeScreen(),
     HealthScreen(),
-    PlaceholderScreen(
-      title: 'Egzersiz',
-      description: 'Spor seçimi, canlı egzersiz ve egzersiz geçmişi sonraki adımda gelecek.',
-    ),
+    ExerciseScreen(),
     ProfileScreen(),
   ];
 

@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'protocol/commands.dart';
+import 'protocol/exercise.dart';
 import 'protocol/history.dart';
 import 'protocol/packet.dart';
 import 'transport.dart';
@@ -32,11 +33,20 @@ class WristbandClient {
 
   Stream<RealtimeData> get realtime => _realtime.stream;
 
+  final _exercise = StreamController<ExerciseEvent>.broadcast();
+
+  /// Egzersiz sürerken gelen 0x18 verileri ve uyarıları.
+  Stream<ExerciseEvent> get exerciseEvents => _exercise.stream;
+
   void _onData(List<int> raw) {
     if (raw.isEmpty) return;
     final command = raw[0] & 0x7F;
     if (command == Cmd.realtime && raw.length > Packet.length) {
       _realtime.add(Decoders.realtime(raw));
+      return;
+    }
+    if (command == ExerciseCmd.live && raw.length > 3) {
+      _exercise.add(ExerciseEvent.parse(raw));
       return;
     }
     final history = _history;
@@ -94,6 +104,14 @@ class WristbandClient {
 
   Future<void> stopRealtime() => _request(Commands.realtime(false));
 
+  /// 0x19: egzersizi başlatır, duraklatır, sürdürür ya da bitirir.
+  Future<ExerciseControlResult> controlExercise(
+    ExerciseAction action, [
+    SportType type = SportType.run,
+  ]) async => ExerciseControlResult.parse(
+    await _request(exerciseControl(action, type)),
+  );
+
   _HistoryCollector? _history;
 
   /// Bir geçmiş türünün [since] sonrasındaki tüm kayıtlarını çeker.
@@ -134,6 +152,7 @@ class WristbandClient {
   Future<void> dispose() async {
     await _sub.cancel();
     await _realtime.close();
+    await _exercise.close();
   }
 }
 

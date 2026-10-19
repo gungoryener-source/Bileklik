@@ -17,12 +17,19 @@ abstract class HealthStore extends ChangeNotifier {
   /// Bir türün en son kaydının zamanı; artan senkron bu zamandan sonrasını ister.
   DateTime? lastTime(MetricType type);
   DateTime? lastSleepStart();
+
+  void addWorkouts(Iterable<Workout> items);
+
+  /// En yenisi önce.
+  List<Workout> workoutsBetween(DateTime from, DateTime to);
+  DateTime? lastWorkoutStart();
 }
 
 class MemoryHealthStore extends HealthStore {
   final _data = <MetricType, List<Measurement>>{};
   final _seen = <Measurement>{};
   final _sleep = <DateTime, SleepSession>{};
+  final _workouts = <DateTime, Workout>{};
 
   @override
   void addMeasurements(Iterable<Measurement> items) {
@@ -77,4 +84,27 @@ class MemoryHealthStore extends HealthStore {
   DateTime? lastSleepStart() => _sleep.isEmpty
       ? null
       : _sleep.keys.reduce((a, b) => a.isAfter(b) ? a : b);
+
+  @override
+  void addWorkouts(Iterable<Workout> items) {
+    var changed = false;
+    for (final w in items) {
+      if (_workouts.containsKey(w.start)) continue;
+      _workouts[w.start] = w;
+      changed = true;
+    }
+    if (changed) notifyListeners();
+  }
+
+  @override
+  List<Workout> workoutsBetween(DateTime from, DateTime to) =>
+      _workouts.values
+          .where((w) => !w.start.isBefore(from) && w.start.isBefore(to))
+          .toList()
+        ..sort((a, b) => b.start.compareTo(a.start));
+
+  @override
+  DateTime? lastWorkoutStart() => _workouts.isEmpty
+      ? null
+      : _workouts.keys.reduce((a, b) => a.isAfter(b) ? a : b);
 }

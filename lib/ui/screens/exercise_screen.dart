@@ -1,0 +1,229 @@
+import 'package:flutter/material.dart';
+
+import '../../data/models.dart';
+import '../../device/protocol/exercise.dart';
+import '../app_shell.dart';
+import '../format.dart';
+import '../theme.dart';
+import 'live_exercise_screen.dart';
+import 'workout_detail_screen.dart';
+
+/// Egzersiz sekmesi: spor seçip başlatma ve geçmiş egzersizler.
+class ExerciseScreen extends StatelessWidget {
+  const ExerciseScreen({super.key});
+
+  Future<void> _start(BuildContext context, SportType type) async {
+    final c = DeviceScope.of(context);
+    final messenger = ScaffoldMessenger.of(context);
+    final navigator = Navigator.of(context);
+    if (!c.isConnected) {
+      messenger.showSnackBar(
+        const SnackBar(
+          content: Text('Önce Ana Sayfa\'dan bilekliği bağlayın.'),
+        ),
+      );
+      return;
+    }
+    if (await c.startExercise(type)) {
+      navigator.push(
+        MaterialPageRoute<void>(builder: (_) => const LiveExerciseScreen()),
+      );
+    } else if (c.error != null) {
+      messenger.showSnackBar(SnackBar(content: Text(c.error!)));
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final c = DeviceScope.of(context);
+    final active = c.exercise;
+    return ListenableBuilder(
+      listenable: c.store,
+      builder: (context, _) {
+        final now = DateTime.now();
+        final workouts = c.store.workoutsBetween(
+          now.subtract(const Duration(days: 30)),
+          now,
+        );
+        final week = workouts.where(
+          (w) => w.start.isAfter(now.subtract(const Duration(days: 7))),
+        );
+        final weekMinutes = week.fold(
+          0,
+          (sum, w) => sum + w.duration.inMinutes,
+        );
+        final weekKcal = week.fold(0.0, (sum, w) => sum + w.calories);
+
+        return ListView(
+          padding: const EdgeInsets.all(20),
+          children: [
+            Text('Egzersiz', style: Theme.of(context).textTheme.headlineMedium),
+            const SizedBox(height: 16),
+            if (active != null) ...[
+              Card(
+                color: AppColors.accent.withValues(alpha: 0.18),
+                child: ListTile(
+                  leading: Icon(active.type.icon, color: AppColors.accent),
+                  title: Text('${active.type.label} sürüyor'),
+                  subtitle: Text(
+                    active.paused
+                        ? 'Duraklatıldı · ${clock(active.elapsed)}'
+                        : clock(active.elapsed),
+                  ),
+                  trailing: const Icon(Icons.chevron_right),
+                  onTap: () => Navigator.of(context).push(
+                    MaterialPageRoute<void>(
+                      builder: (_) => const LiveExerciseScreen(),
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 16),
+            ],
+            Row(
+              children: [
+                _WeekStat('Bu hafta', '${week.length}', 'egzersiz'),
+                const SizedBox(width: 10),
+                _WeekStat('Süre', duration(weekMinutes), ''),
+                const SizedBox(width: 10),
+                _WeekStat('Kalori', weekKcal.round().toString(), 'kcal'),
+              ],
+            ),
+            const SizedBox(height: 24),
+            Text(
+              'Egzersiz başlat',
+              style: Theme.of(context).textTheme.titleMedium,
+            ),
+            const SizedBox(height: 10),
+            GridView.count(
+              crossAxisCount: 4,
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              mainAxisSpacing: 10,
+              crossAxisSpacing: 10,
+              childAspectRatio: 0.85,
+              children: [
+                for (final s in SportType.startable)
+                  _SportButton(
+                    type: s,
+                    onTap: active == null ? () => _start(context, s) : null,
+                  ),
+              ],
+            ),
+            const SizedBox(height: 24),
+            Text('Son 30 gün', style: Theme.of(context).textTheme.titleMedium),
+            const SizedBox(height: 10),
+            if (workouts.isEmpty)
+              Text(
+                c.isConnected
+                    ? 'Henüz egzersiz kaydı yok.'
+                    : 'Geçmiş egzersizleri görmek için bilekliği bağlayın.',
+                style: const TextStyle(color: AppColors.muted),
+              ),
+            for (final w in workouts) _WorkoutTile(w),
+          ],
+        );
+      },
+    );
+  }
+}
+
+class _WeekStat extends StatelessWidget {
+  const _WeekStat(this.label, this.value, this.unit);
+  final String label, value, unit;
+
+  @override
+  Widget build(BuildContext context) => Expanded(
+    child: Card(
+      child: Padding(
+        padding: const EdgeInsets.all(12),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              label,
+              style: const TextStyle(color: AppColors.muted, fontSize: 12),
+            ),
+            const SizedBox(height: 4),
+            Text(
+              unit.isEmpty ? value : '$value $unit',
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+            ),
+          ],
+        ),
+      ),
+    ),
+  );
+}
+
+class _SportButton extends StatelessWidget {
+  const _SportButton({required this.type, required this.onTap});
+  final SportType type;
+  final VoidCallback? onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final enabled = onTap != null;
+    return Card(
+      clipBehavior: Clip.antiAlias,
+      child: InkWell(
+        onTap: onTap,
+        child: Padding(
+          padding: const EdgeInsets.all(6),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(
+                type.icon,
+                color: enabled ? AppColors.accent : AppColors.muted,
+              ),
+              const SizedBox(height: 6),
+              Text(
+                type.label,
+                textAlign: TextAlign.center,
+                maxLines: 2,
+                style: const TextStyle(fontSize: 12),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _WorkoutTile extends StatelessWidget {
+  const _WorkoutTile(this.w);
+  final Workout w;
+
+  @override
+  Widget build(BuildContext context) {
+    final details = [
+      clock(w.duration),
+      if (w.distanceKm > 0) '${w.distanceKm.toStringAsFixed(2)} km',
+      '${w.calories.round()} kcal',
+    ].join(' · ');
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 10),
+      child: Card(
+        child: ListTile(
+          leading: CircleAvatar(
+            backgroundColor: AppColors.accent.withValues(alpha: 0.15),
+            child: Icon(sportIcon(w.type), color: AppColors.accent),
+          ),
+          title: Text(sportLabel(w.type)),
+          subtitle: Text('${whenText(w.start, DateTime.now())}\n$details'),
+          isThreeLine: true,
+          trailing: const Icon(Icons.chevron_right, color: AppColors.muted),
+          onTap: () => Navigator.of(context).push(
+            MaterialPageRoute<void>(
+              builder: (_) => WorkoutDetailScreen(workout: w),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}

@@ -20,6 +20,7 @@ flutter test       # protokol, sahte cihaz ve ekran testleri
 | --- | --- |
 | `lib/device/protocol/` | 16 baytlık paket, CRC, komut üretici ve yanıt çözücüler |
 | `lib/device/transport.dart` | Cihaz katmanı arayüzü (gerçek BLE ve sahte cihaz bunu uygular) |
+| `lib/device/protocol/exercise.dart` | Egzersiz komutları: başlat/duraklat/bitir (0x19), canlı veri (0x18), geçmiş (0x5C) |
 | `lib/device/protocol/history.dart` | Geçmiş veri komutları (adım, uyku, nabız, HRV, ısı, SpO2) |
 | `lib/device/fake_device.dart` | Bileklik yerine geçen sahte cihaz |
 | `lib/device/fake_history.dart` | Sahte cihazın son 7 günlük geçmiş kayıtları |
