@@ -15,10 +15,10 @@ extension SleepLook on SleepStage {
   };
 
   Color get color => switch (this) {
-    SleepStage.deep => const Color(0xFF3A47B8),
-    SleepStage.light => const Color(0xFF6C8CFF),
-    SleepStage.rem => const Color(0xFFB388EB),
-    SleepStage.awake => AppColors.temperature,
+    SleepStage.deep => DataColors.sleepDeep,
+    SleepStage.light => DataColors.sleepLight,
+    SleepStage.rem => DataColors.sleepRem,
+    SleepStage.awake => DataColors.temperature,
   };
 }
 
@@ -48,10 +48,10 @@ class _SleepScreenState extends State<SleepScreen> {
             ),
           );
           if (nights.isEmpty) {
-            return const Center(
+            return Center(
               child: Text(
                 'Henüz uyku kaydı yok',
-                style: TextStyle(color: AppColors.muted),
+                style: TextStyle(color: context.colors.muted),
               ),
             );
           }
@@ -86,21 +86,21 @@ class _SleepScreenState extends State<SleepScreen> {
                 ],
               ),
               const SizedBox(height: 8),
-              const Text(
+              Text(
                 'Uyku süresi',
-                style: TextStyle(color: AppColors.muted),
+                style: TextStyle(color: context.colors.muted),
               ),
               Text(
                 duration(night.asleepMinutes),
                 style: const TextStyle(
                   fontSize: 40,
                   fontWeight: FontWeight.w600,
-                  color: Color(0xFF6C8CFF),
+                  color: DataColors.sleepLight,
                 ),
               ),
               Text(
                 '${hhmm(night.start)} - ${hhmm(night.end)}',
-                style: const TextStyle(color: AppColors.muted),
+                style: TextStyle(color: context.colors.muted),
               ),
               const SizedBox(height: 16),
               _Hypnogram(night),
@@ -184,7 +184,7 @@ class _StageRow extends StatelessWidget {
             child: Text(
               '%$pct',
               textAlign: TextAlign.end,
-              style: const TextStyle(color: AppColors.muted),
+              style: TextStyle(color: context.colors.muted),
             ),
           ),
         ],
@@ -222,17 +222,14 @@ class _WeekBars extends StatelessWidget {
                     height: 70 * n.asleepMinutes / most,
                     margin: const EdgeInsets.symmetric(horizontal: 6),
                     decoration: BoxDecoration(
-                      color: const Color(0xFF6C8CFF),
+                      color: DataColors.sleepLight,
                       borderRadius: BorderRadius.circular(4),
                     ),
                   ),
                   const SizedBox(height: 4),
                   Text(
                     weekdaysShort[n.day.weekday - 1],
-                    style: const TextStyle(
-                      color: AppColors.muted,
-                      fontSize: 11,
-                    ),
+                    style: TextStyle(color: context.colors.muted, fontSize: 11),
                   ),
                 ],
               ),

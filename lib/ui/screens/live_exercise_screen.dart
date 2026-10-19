@@ -132,7 +132,7 @@ class _LiveExerciseScreenState extends State<LiveExerciseScreen> {
               children: [
                 Text(
                   ex.paused ? 'Duraklatıldı' : 'Süre',
-                  style: const TextStyle(color: AppColors.muted),
+                  style: TextStyle(color: context.colors.muted),
                 ),
                 Text(
                   clock(ex.elapsed),
@@ -146,7 +146,7 @@ class _LiveExerciseScreenState extends State<LiveExerciseScreen> {
                 Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    const Icon(Icons.favorite, color: AppColors.heart),
+                    const Icon(Icons.favorite, color: DataColors.heart),
                     const SizedBox(width: 6),
                     Text(
                       live == null || live.heartRate == 0
@@ -158,7 +158,7 @@ class _LiveExerciseScreenState extends State<LiveExerciseScreen> {
                       ),
                     ),
                     const SizedBox(width: 4),
-                    const Text('bpm', style: TextStyle(color: AppColors.muted)),
+                    Text('bpm', style: TextStyle(color: context.colors.muted)),
                   ],
                 ),
               ],
@@ -214,7 +214,7 @@ class _LiveExerciseScreenState extends State<LiveExerciseScreen> {
               Expanded(
                 child: FilledButton.icon(
                   style: FilledButton.styleFrom(
-                    backgroundColor: AppColors.heart,
+                    backgroundColor: DataColors.heart,
                     foregroundColor: Colors.white,
                   ),
                   onPressed: _confirmStop,

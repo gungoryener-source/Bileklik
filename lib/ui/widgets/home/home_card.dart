@@ -18,10 +18,10 @@ class HomeCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: AppColors.surface,
+      color: context.colors.surface,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(20),
-        side: const BorderSide(color: AppColors.outline),
+        side: BorderSide(color: context.colors.outline),
       ),
       clipBehavior: Clip.antiAlias,
       child: InkWell(
@@ -45,7 +45,7 @@ class HomeCard extends StatelessWidget {
                       ),
                     ),
                     if (onTap != null)
-                      const Icon(Icons.chevron_right, color: AppColors.muted),
+                      Icon(Icons.chevron_right, color: context.colors.muted),
                   ],
                 ),
               ),
@@ -88,12 +88,12 @@ class BigValue extends StatelessWidget {
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
             decoration: BoxDecoration(
-              color: AppColors.surfaceHigh,
+              color: context.colors.surfaceHigh,
               borderRadius: BorderRadius.circular(12),
             ),
             child: Text(
               caption!,
-              style: const TextStyle(color: AppColors.muted, fontSize: 13),
+              style: TextStyle(color: context.colors.muted, fontSize: 13),
             ),
           ),
         ],
@@ -114,7 +114,7 @@ class MiniStats extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 8),
       decoration: BoxDecoration(
-        color: AppColors.surfaceHigh,
+        color: context.colors.surfaceHigh,
         borderRadius: BorderRadius.circular(14),
       ),
       child: Row(
@@ -142,10 +142,7 @@ class MiniStats extends StatelessWidget {
                     textAlign: TextAlign.center,
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(
-                      color: AppColors.muted,
-                      fontSize: 12,
-                    ),
+                    style: TextStyle(color: context.colors.muted, fontSize: 12),
                   ),
                 ],
               ),
@@ -172,15 +169,15 @@ class EmptyHint extends StatelessWidget {
           height: 40,
           decoration: BoxDecoration(
             shape: BoxShape.circle,
-            border: Border.all(color: AppColors.outline),
+            border: Border.all(color: context.colors.outline),
           ),
-          child: Icon(icon, size: 20, color: AppColors.muted),
+          child: Icon(icon, size: 20, color: context.colors.muted),
         ),
         const SizedBox(width: 12),
         Expanded(
           child: Text(
             text,
-            style: const TextStyle(color: AppColors.muted, fontSize: 13),
+            style: TextStyle(color: context.colors.muted, fontSize: 13),
           ),
         ),
       ],

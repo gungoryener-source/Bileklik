@@ -118,10 +118,10 @@ class _MetricDetailScreenState extends State<MetricDetailScreen> {
               SizedBox(
                 height: 220,
                 child: stats == null
-                    ? const Center(
+                    ? Center(
                         child: Text(
                           'Bu dönem için kayıt yok',
-                          style: TextStyle(color: AppColors.muted),
+                          style: TextStyle(color: context.colors.muted),
                         ),
                       )
                     : MetricChart(
@@ -150,10 +150,10 @@ class _MetricDetailScreenState extends State<MetricDetailScreen> {
               ],
               if (type == MetricType.systolic) ...[
                 const SizedBox(height: 16),
-                const Text(
+                Text(
                   'Bileklik tansiyonu tahmini olarak hesaplar. Tanı ve tedavi '
                   'için onaylı bir tansiyon aleti kullanın.',
-                  style: TextStyle(color: AppColors.muted),
+                  style: TextStyle(color: context.colors.muted),
                 ),
               ],
             ],
@@ -204,7 +204,7 @@ class _Headline extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(caption, style: const TextStyle(color: AppColors.muted)),
+        Text(caption, style: TextStyle(color: context.colors.muted)),
         Row(
           crossAxisAlignment: CrossAxisAlignment.baseline,
           textBaseline: TextBaseline.alphabetic,
@@ -218,7 +218,7 @@ class _Headline extends StatelessWidget {
               ),
             ),
             const SizedBox(width: 6),
-            Text(type.unit, style: const TextStyle(color: AppColors.muted)),
+            Text(type.unit, style: TextStyle(color: context.colors.muted)),
             if (band != null) ...[
               const SizedBox(width: 12),
               Chip(label: Text(band.label)),
@@ -244,7 +244,7 @@ class _StatBox extends StatelessWidget {
           children: [
             Text(
               label,
-              style: const TextStyle(color: AppColors.muted, fontSize: 12),
+              style: TextStyle(color: context.colors.muted, fontSize: 12),
             ),
             const SizedBox(height: 4),
             Text(
@@ -293,7 +293,7 @@ class _BandLegend extends StatelessWidget {
                         b.to >= 100 && b.from > 0
                             ? '> ${b.from.round() - 1}'
                             : '${b.from.round()}-${b.to.round()}',
-                        style: const TextStyle(color: AppColors.muted),
+                        style: TextStyle(color: context.colors.muted),
                       ),
                     ),
                     Expanded(
@@ -303,7 +303,7 @@ class _BandLegend extends StatelessWidget {
                             : items.where((m) => b.contains(m.value)).length /
                                   total,
                         color: type.color,
-                        backgroundColor: AppColors.background,
+                        backgroundColor: context.colors.background,
                         minHeight: 6,
                         borderRadius: BorderRadius.circular(3),
                       ),

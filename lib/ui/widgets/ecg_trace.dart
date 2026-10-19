@@ -37,7 +37,14 @@ class EcgTrace extends StatelessWidget {
     height: height,
     width: double.infinity,
     child: CustomPaint(
-      painter: _EcgPainter(samples, sampleRate, seconds, peaks, offset),
+      painter: _EcgPainter(
+        samples,
+        sampleRate,
+        seconds,
+        peaks,
+        offset,
+        context.colors.text,
+      ),
     ),
   );
 }
@@ -49,7 +56,11 @@ class _EcgPainter extends CustomPainter {
     this.seconds,
     this.peaks,
     this.offset,
+    this.lineColor,
   );
+
+  /// Sinyal çizgisi; temaya göre açık ya da koyu.
+  final Color lineColor;
 
   final List<int> samples;
   final int sampleRate;
@@ -106,13 +117,13 @@ class _EcgPainter extends CustomPainter {
     canvas.drawPath(
       path,
       Paint()
-        ..color = AppColors.accent
+        ..color = lineColor
         ..style = PaintingStyle.stroke
         ..strokeWidth = 1.6
         ..strokeJoin = StrokeJoin.round,
     );
 
-    final dot = Paint()..color = AppColors.heart;
+    final dot = Paint()..color = DataColors.heart;
     for (final p in peaks) {
       final i = p - offset;
       if (i < 0 || i >= count) continue;
@@ -129,6 +140,7 @@ class _EcgPainter extends CustomPainter {
 
   @override
   bool shouldRepaint(_EcgPainter old) =>
+      old.lineColor != lineColor ||
       old.samples.length != samples.length ||
       old.offset != offset ||
       !identical(old.samples, samples);

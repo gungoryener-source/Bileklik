@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../state/app_settings.dart';
 import '../state/device_controller.dart';
 import 'screens/exercise_screen.dart';
 import 'screens/health_screen.dart';
@@ -17,6 +18,18 @@ class DeviceScope extends InheritedNotifier<DeviceController> {
 
   static DeviceController of(BuildContext context) =>
       context.dependOnInheritedWidgetOfExactType<DeviceScope>()!.notifier!;
+}
+
+/// Uygulama tercihlerini (tema) ekranlara taşır.
+class SettingsScope extends InheritedNotifier<AppSettings> {
+  const SettingsScope({
+    super.key,
+    required AppSettings settings,
+    required super.child,
+  }) : super(notifier: settings);
+
+  static AppSettings of(BuildContext context) =>
+      context.dependOnInheritedWidgetOfExactType<SettingsScope>()!.notifier!;
 }
 
 /// Alt menü: Ana Sayfa, Sağlık, Egzersiz, Profil.
@@ -58,12 +71,12 @@ class _AppShellState extends State<AppShell> {
           child: DecoratedBox(
             position: DecorationPosition.foreground,
             decoration: BoxDecoration(
-              border: Border.all(color: AppColors.outline),
+              border: Border.all(color: context.colors.outline),
               borderRadius: BorderRadius.circular(28),
             ),
             child: NavigationBar(
               height: 68,
-              backgroundColor: AppColors.surface,
+              backgroundColor: context.colors.surface,
               selectedIndex: _index,
               onDestinationSelected: _select,
               destinations: const [

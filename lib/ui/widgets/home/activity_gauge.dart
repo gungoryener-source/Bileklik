@@ -30,7 +30,7 @@ class ActivityGauge extends StatelessWidget {
         duration: still ? Duration.zero : const Duration(milliseconds: 700),
         curve: Curves.easeOutCubic,
         builder: (context, p, _) => CustomPaint(
-          painter: _GaugePainter(p, color),
+          painter: _GaugePainter(p, color, context.colors),
           child: Align(
             alignment: Alignment.bottomCenter,
             child: Padding(
@@ -45,7 +45,9 @@ class ActivityGauge extends StatelessWidget {
 }
 
 class _GaugePainter extends CustomPainter {
-  _GaugePainter(this.progress, this.color);
+  _GaugePainter(this.progress, this.color, this.palette);
+
+  final AppColors palette;
 
   final double progress;
   final Color color;
@@ -59,7 +61,7 @@ class _GaugePainter extends CustomPainter {
     // Arka plan ve ilerleme yayı.
     final rect = Rect.fromCircle(center: c, radius: r);
     final track = Paint()
-      ..color = AppColors.surfaceHigh
+      ..color = palette.surfaceHigh
       ..style = PaintingStyle.stroke
       ..strokeWidth = stroke
       ..strokeCap = StrokeCap.round;
@@ -80,23 +82,22 @@ class _GaugePainter extends CustomPainter {
       final a = pi + pi * i / ticks;
       final on = i / ticks <= progress && progress > 0;
       final p = Paint()
-        ..color = on ? color.withValues(alpha: 0.7) : AppColors.outline
+        ..color = on ? color.withValues(alpha: 0.7) : palette.outline
         ..strokeWidth = 2
         ..strokeCap = StrokeCap.round;
       final dir = Offset(cos(a), sin(a));
       canvas.drawLine(c + dir * inner, c + dir * (inner - 10), p);
     }
 
-    // Yayın ucundaki nokta.
+    // Yayın ucundaki nokta: kart renginde, yay renginde kenarlı;
+    // açık temada da görünür.
     final a = pi + pi * progress;
-    canvas.drawCircle(
-      c + Offset(cos(a), sin(a)) * r,
-      stroke / 2 + 2,
-      Paint()..color = Colors.white,
-    );
+    final end = c + Offset(cos(a), sin(a)) * r;
+    canvas.drawCircle(end, stroke / 2 + 2, Paint()..color = color);
+    canvas.drawCircle(end, stroke / 2 - 1, Paint()..color = palette.surface);
   }
 
   @override
   bool shouldRepaint(_GaugePainter old) =>
-      old.progress != progress || old.color != color;
+      old.progress != progress || old.color != color || old.palette != palette;
 }

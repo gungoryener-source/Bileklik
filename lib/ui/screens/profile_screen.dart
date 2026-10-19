@@ -51,15 +51,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Future<void> _save() async {
     if (!_form.currentState!.validate()) return;
     final c = DeviceScope.of(context);
-    await c.saveProfile(PersonalInfo(
-      isMale: _isMale,
-      age: int.parse(_age.text),
-      heightCm: int.parse(_height.text),
-      weightKg: int.parse(_weight.text),
-    ));
+    await c.saveProfile(
+      PersonalInfo(
+        isMale: _isMale,
+        age: int.parse(_age.text),
+        heightCm: int.parse(_height.text),
+        weightKg: int.parse(_weight.text),
+      ),
+    );
     if (!mounted) return;
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text(c.error ?? 'Bilgiler bilekliğe kaydedildi')));
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(c.error ?? 'Bilgiler bilekliğe kaydedildi')),
+    );
   }
 
   @override
@@ -76,7 +79,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             c.profile?.mac != null
                 ? 'Cihaz: ${c.profile!.mac}'
                 : 'Bilgileri kaydetmek için önce bilekliği bağlayın.',
-            style: const TextStyle(color: AppColors.muted),
+            style: TextStyle(color: context.colors.muted),
           ),
           const SizedBox(height: 20),
           SegmentedButton<bool>(
@@ -96,24 +99,64 @@ class _ProfileScreenState extends State<ProfileScreen> {
             onPressed: c.isConnected ? _save : null,
             child: const Text('Kaydet'),
           ),
+          const SizedBox(height: 32),
+          Text('Görünüm', style: Theme.of(context).textTheme.titleMedium),
+          const SizedBox(height: 12),
+          const _ThemePicker(),
         ],
       ),
     );
   }
 
-  Widget _field(TextEditingController ctrl, String label, String suffix,
-      String? Function(String?) validator) {
+  Widget _field(
+    TextEditingController ctrl,
+    String label,
+    String suffix,
+    String? Function(String?) validator,
+  ) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 12),
       child: TextFormField(
         controller: ctrl,
         keyboardType: TextInputType.number,
         decoration: InputDecoration(
-            labelText: label,
-            suffixText: suffix,
-            border: const OutlineInputBorder()),
+          labelText: label,
+          suffixText: suffix,
+          border: const OutlineInputBorder(),
+        ),
         validator: validator,
       ),
+    );
+  }
+}
+
+/// Tema seçimi: telefonun ayarına uy, her zaman açık ya da koyu.
+class _ThemePicker extends StatelessWidget {
+  const _ThemePicker();
+
+  @override
+  Widget build(BuildContext context) {
+    final settings = SettingsScope.of(context);
+    return SegmentedButton<ThemeMode>(
+      segments: const [
+        ButtonSegment(
+          value: ThemeMode.system,
+          icon: Icon(Icons.brightness_auto),
+          label: Text('Sistem'),
+        ),
+        ButtonSegment(
+          value: ThemeMode.light,
+          icon: Icon(Icons.light_mode),
+          label: Text('Açık'),
+        ),
+        ButtonSegment(
+          value: ThemeMode.dark,
+          icon: Icon(Icons.dark_mode),
+          label: Text('Koyu'),
+        ),
+      ],
+      selected: {settings.themeMode},
+      onSelectionChanged: (s) => settings.setThemeMode(s.first),
     );
   }
 }
