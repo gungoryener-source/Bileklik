@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import '../../data/aggregate.dart';
 import '../../data/day_summary.dart';
@@ -41,6 +42,7 @@ class _HomeScreenState extends State<HomeScreen> {
   bool get isToday => _day == null || _day == _today();
 
   void _shift(int by) {
+    HapticFeedback.selectionClick();
     final next = DateTime(day.year, day.month, day.day + by);
     setState(() => _day = next.isBefore(_today()) ? next : null);
   }

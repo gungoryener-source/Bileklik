@@ -1,6 +1,8 @@
-# Flutter mobil tasarım kuralları
+# Bileklik ekran ayrıntıları
 
-Bileklik ekranları bu kurallara uyar. Yeni ekran yazarken ve gözden geçirirken kullanın.
+Asıl kurallar `.claude/skills/flutter-mobile-design/SKILL.md` içinde (ve CLAUDE.md'deki
+"Tasarım skill'leri" bölümünde). Bu dosya o kuralları Bileklik'e uyarlayan ölçüleri tutar;
+çelişki olursa skill geçerlidir.
 
 ## Düzen
 - 8 dp ızgara: boşluklar 4, 8, 12, 16, 24, 32. Ekran kenar boşluğu 16 (yatay), kartlar arası 12.
