@@ -30,6 +30,12 @@ class AppLocalizationsAr extends AppLocalizations {
   }
 
   @override
+  String get actionCancel => 'إلغاء';
+
+  @override
+  String get actionClose => 'إغلاق';
+
+  @override
   String get appTitle => 'Bileklik';
 
   @override
@@ -61,6 +67,168 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get comingSoonMessage => 'سيتوفر هذا القسم في إصدار قادم.';
+
+  @override
+  String get communityAccept => 'انضمام';
+
+  @override
+  String get communityAnswered => 'تم الرد';
+
+  @override
+  String get communityCodeCopied => 'تم نسخ الرمز';
+
+  @override
+  String get communityCodeInvalid => 'لم يتم العثور على مجموعة بهذا الرمز.';
+
+  @override
+  String get communityCodeLabel => 'رمز المجموعة';
+
+  @override
+  String communityConsentSince(Object date) {
+    return 'تاريخ الإذن: $date';
+  }
+
+  @override
+  String get communityCopyCode => 'نسخ الرمز';
+
+  @override
+  String get communityCreate => 'إنشاء';
+
+  @override
+  String get communityCreateGroup => 'إنشاء مجموعة جديدة';
+
+  @override
+  String get communityDecline => 'رفض';
+
+  @override
+  String get communityDelete => 'حذف المجموعة';
+
+  @override
+  String communityDeleteConfirm(Object group) {
+    return 'سيتم حذف «$group» وتنتهي كل المشاركات فيها.';
+  }
+
+  @override
+  String get communityGroupName => 'اسم المجموعة';
+
+  @override
+  String get communityGroupNameHint => 'مثلًا: عائلتي';
+
+  @override
+  String get communityInvite => 'دعوة عضو';
+
+  @override
+  String communityInviteCodeBody(Object name) {
+    return 'شارك هذا الرمز مع $name. يمكنه الانضمام من مجتمع الصحة > الانضمام برمز.';
+  }
+
+  @override
+  String get communityInviteCodeTitle => 'رمز الدعوة';
+
+  @override
+  String get communityInviteName => 'اسم الشخص المدعو';
+
+  @override
+  String get communityInviteSend => 'دعوة';
+
+  @override
+  String get communityJoinWithCode => 'الانضمام برمز';
+
+  @override
+  String get communityJoinedEmpty => 'يمكنك الانضمام بدعوة أو برمز مجموعة.';
+
+  @override
+  String get communityJoinedGroups => 'المجموعات التي انضممت إليها';
+
+  @override
+  String communityJoinedMessage(Object group) {
+    return 'انضممت إلى «$group».';
+  }
+
+  @override
+  String get communityLeave => 'مغادرة المجموعة';
+
+  @override
+  String communityLeaveConfirm(Object group) {
+    return 'عند مغادرة «$group» لن يرى أعضاؤها بياناتك المشتركة بعد الآن.';
+  }
+
+  @override
+  String communityMemberCount(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count عضو',
+      many: '$count عضوًا',
+      few: '$count أعضاء',
+      two: 'عضوان',
+      one: 'عضو واحد',
+      zero: 'لا أعضاء',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get communityMembers => 'الأعضاء';
+
+  @override
+  String get communityMessages => 'الرسائل';
+
+  @override
+  String get communityMessagesEmpty => 'لا توجد رسائل بعد.';
+
+  @override
+  String communityMsgInvite(Object name, Object group) {
+    return 'دعاك $name إلى مجموعة «$group».';
+  }
+
+  @override
+  String communityMsgJoined(Object name, Object group) {
+    return 'انضم $name إلى مجموعة «$group».';
+  }
+
+  @override
+  String get communityMyGroups => 'مجموعاتي';
+
+  @override
+  String get communityMyGroupsEmpty =>
+      'ليست لديك مجموعة بعد. أنشئ مجموعة وادعُ عائلتك.';
+
+  @override
+  String get communityMyShareNote =>
+      'يراها أعضاء هذه المجموعة فقط. لا تتم مشاركة أي شيء حتى تقوم بتفعيله.';
+
+  @override
+  String get communityMyShareTitle => 'ما تشاركه مع هذه المجموعة';
+
+  @override
+  String get communityOwner => 'المالك';
+
+  @override
+  String communityOwnerName(Object name) {
+    return 'المالك: $name';
+  }
+
+  @override
+  String get communityPending => 'الدعوة قيد الانتظار';
+
+  @override
+  String get communityPrivacyNote =>
+      'تُشارَك بياناتك الصحية فقط مع المجموعات التي تختارها وبالأنواع التي تحددها. يمكنك سحب الإذن في أي وقت.';
+
+  @override
+  String get communityRemoveMember => 'إزالة من المجموعة';
+
+  @override
+  String communityShares(Object types) {
+    return 'يشارك: $types';
+  }
+
+  @override
+  String get communitySharesNothing => 'لا يشارك أي شيء بعد';
+
+  @override
+  String get communityYou => 'أنت';
 
   @override
   String get continueButton => 'متابعة';
@@ -794,6 +962,12 @@ class AppLocalizationsAr extends AppLocalizations {
   String get profileMenuAbout => 'حول التطبيق';
 
   @override
+  String get profileMenuCommunity => 'مجتمع الصحة';
+
+  @override
+  String get profileMenuCommunitySubtitle => 'مجموعات العائلة وأذونات المشاركة';
+
+  @override
   String get profileMenuDevice => 'الجهاز';
 
   @override
@@ -823,9 +997,6 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get profileMenuResearch => 'مؤسسة بحثية';
-
-  @override
-  String get profileMenuSharing => 'المشاركة مع العائلة والأطباء';
 
   @override
   String get profileMenuThirdParty => 'ربط تطبيقات الصحة';
@@ -876,6 +1047,30 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get profileWeight => 'الوزن';
+
+  @override
+  String get shareActivity => 'النشاط والخطوات';
+
+  @override
+  String get shareBloodPressure => 'ضغط الدم (تقديري)';
+
+  @override
+  String get shareEcg => 'تسجيلات تخطيط القلب';
+
+  @override
+  String get shareHeartRate => 'نبض القلب';
+
+  @override
+  String get shareSleep => 'النوم';
+
+  @override
+  String get shareSpo2 => 'أكسجين الدم (SpO2)';
+
+  @override
+  String get shareStress => 'التوتر وتقلب نبض القلب';
+
+  @override
+  String get shareTemperature => 'حرارة الجسم';
 
   @override
   String get sleepAwake => 'مستيقظ';

@@ -132,6 +132,18 @@ abstract class AppLocalizations {
   /// **'Sürüm {version}'**
   String aboutVersion(Object version);
 
+  /// No description provided for @actionCancel.
+  ///
+  /// In tr, this message translates to:
+  /// **'Vazgeç'**
+  String get actionCancel;
+
+  /// No description provided for @actionClose.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kapat'**
+  String get actionClose;
+
   /// No description provided for @appTitle.
   ///
   /// In tr, this message translates to:
@@ -197,6 +209,264 @@ abstract class AppLocalizations {
   /// In tr, this message translates to:
   /// **'Bu bölüm sonraki bir sürümde gelecek.'**
   String get comingSoonMessage;
+
+  /// No description provided for @communityAccept.
+  ///
+  /// In tr, this message translates to:
+  /// **'Katıl'**
+  String get communityAccept;
+
+  /// No description provided for @communityAnswered.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yanıtlandı'**
+  String get communityAnswered;
+
+  /// No description provided for @communityCodeCopied.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kod kopyalandı'**
+  String get communityCodeCopied;
+
+  /// No description provided for @communityCodeInvalid.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bu kodla bir grup bulunamadı.'**
+  String get communityCodeInvalid;
+
+  /// No description provided for @communityCodeLabel.
+  ///
+  /// In tr, this message translates to:
+  /// **'Grup kodu'**
+  String get communityCodeLabel;
+
+  /// No description provided for @communityConsentSince.
+  ///
+  /// In tr, this message translates to:
+  /// **'İzin tarihi: {date}'**
+  String communityConsentSince(Object date);
+
+  /// No description provided for @communityCopyCode.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kodu kopyala'**
+  String get communityCopyCode;
+
+  /// No description provided for @communityCreate.
+  ///
+  /// In tr, this message translates to:
+  /// **'Oluştur'**
+  String get communityCreate;
+
+  /// No description provided for @communityCreateGroup.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yeni grup oluştur'**
+  String get communityCreateGroup;
+
+  /// No description provided for @communityDecline.
+  ///
+  /// In tr, this message translates to:
+  /// **'Reddet'**
+  String get communityDecline;
+
+  /// No description provided for @communityDelete.
+  ///
+  /// In tr, this message translates to:
+  /// **'Grubu sil'**
+  String get communityDelete;
+
+  /// No description provided for @communityDeleteConfirm.
+  ///
+  /// In tr, this message translates to:
+  /// **'\"{group}\" silinir ve gruptaki tüm paylaşımlar sona erer.'**
+  String communityDeleteConfirm(Object group);
+
+  /// No description provided for @communityGroupName.
+  ///
+  /// In tr, this message translates to:
+  /// **'Grup adı'**
+  String get communityGroupName;
+
+  /// No description provided for @communityGroupNameHint.
+  ///
+  /// In tr, this message translates to:
+  /// **'Örn. Ailem'**
+  String get communityGroupNameHint;
+
+  /// No description provided for @communityInvite.
+  ///
+  /// In tr, this message translates to:
+  /// **'Üye davet et'**
+  String get communityInvite;
+
+  /// No description provided for @communityInviteCodeBody.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bu kodu {name} ile paylaşın. Uygulamada Sağlık topluluğu > Kodla katıl ile gruba katılabilir.'**
+  String communityInviteCodeBody(Object name);
+
+  /// No description provided for @communityInviteCodeTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Davet kodu'**
+  String get communityInviteCodeTitle;
+
+  /// No description provided for @communityInviteName.
+  ///
+  /// In tr, this message translates to:
+  /// **'Davet edilecek kişinin adı'**
+  String get communityInviteName;
+
+  /// No description provided for @communityInviteSend.
+  ///
+  /// In tr, this message translates to:
+  /// **'Davet et'**
+  String get communityInviteSend;
+
+  /// No description provided for @communityJoinWithCode.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kodla katıl'**
+  String get communityJoinWithCode;
+
+  /// No description provided for @communityJoinedEmpty.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bir davetle ya da grup koduyla katılabilirsiniz.'**
+  String get communityJoinedEmpty;
+
+  /// No description provided for @communityJoinedGroups.
+  ///
+  /// In tr, this message translates to:
+  /// **'Katıldığım gruplar'**
+  String get communityJoinedGroups;
+
+  /// No description provided for @communityJoinedMessage.
+  ///
+  /// In tr, this message translates to:
+  /// **'\"{group}\" grubuna katıldınız.'**
+  String communityJoinedMessage(Object group);
+
+  /// No description provided for @communityLeave.
+  ///
+  /// In tr, this message translates to:
+  /// **'Gruptan ayrıl'**
+  String get communityLeave;
+
+  /// No description provided for @communityLeaveConfirm.
+  ///
+  /// In tr, this message translates to:
+  /// **'\"{group}\" grubundan ayrılınca paylaştığınız veriler üyelere artık görünmez.'**
+  String communityLeaveConfirm(Object group);
+
+  /// No description provided for @communityMemberCount.
+  ///
+  /// In tr, this message translates to:
+  /// **'{count, plural, =1{1 üye} other{{count} üye}}'**
+  String communityMemberCount(num count);
+
+  /// No description provided for @communityMembers.
+  ///
+  /// In tr, this message translates to:
+  /// **'Üyeler'**
+  String get communityMembers;
+
+  /// No description provided for @communityMessages.
+  ///
+  /// In tr, this message translates to:
+  /// **'Mesajlar'**
+  String get communityMessages;
+
+  /// No description provided for @communityMessagesEmpty.
+  ///
+  /// In tr, this message translates to:
+  /// **'Henüz mesaj yok.'**
+  String get communityMessagesEmpty;
+
+  /// No description provided for @communityMsgInvite.
+  ///
+  /// In tr, this message translates to:
+  /// **'{name} sizi \"{group}\" grubuna davet etti.'**
+  String communityMsgInvite(Object name, Object group);
+
+  /// No description provided for @communityMsgJoined.
+  ///
+  /// In tr, this message translates to:
+  /// **'{name}, \"{group}\" grubuna katıldı.'**
+  String communityMsgJoined(Object name, Object group);
+
+  /// No description provided for @communityMyGroups.
+  ///
+  /// In tr, this message translates to:
+  /// **'Gruplarım'**
+  String get communityMyGroups;
+
+  /// No description provided for @communityMyGroupsEmpty.
+  ///
+  /// In tr, this message translates to:
+  /// **'Henüz bir grubunuz yok. Bir grup oluşturup ailenizi davet edin.'**
+  String get communityMyGroupsEmpty;
+
+  /// No description provided for @communityMyShareNote.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yalnızca bu grubun üyeleri görür. Siz açmadıkça hiçbir veri paylaşılmaz.'**
+  String get communityMyShareNote;
+
+  /// No description provided for @communityMyShareTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bu grupla paylaştıklarınız'**
+  String get communityMyShareTitle;
+
+  /// No description provided for @communityOwner.
+  ///
+  /// In tr, this message translates to:
+  /// **'Grup sahibi'**
+  String get communityOwner;
+
+  /// No description provided for @communityOwnerName.
+  ///
+  /// In tr, this message translates to:
+  /// **'Grup sahibi: {name}'**
+  String communityOwnerName(Object name);
+
+  /// No description provided for @communityPending.
+  ///
+  /// In tr, this message translates to:
+  /// **'Davet bekleniyor'**
+  String get communityPending;
+
+  /// No description provided for @communityPrivacyNote.
+  ///
+  /// In tr, this message translates to:
+  /// **'Sağlık verileriniz yalnızca seçtiğiniz gruplarla ve seçtiğiniz türlerde paylaşılır. İzninizi istediğiniz an geri alabilirsiniz.'**
+  String get communityPrivacyNote;
+
+  /// No description provided for @communityRemoveMember.
+  ///
+  /// In tr, this message translates to:
+  /// **'Gruptan çıkar'**
+  String get communityRemoveMember;
+
+  /// No description provided for @communityShares.
+  ///
+  /// In tr, this message translates to:
+  /// **'Paylaşıyor: {types}'**
+  String communityShares(Object types);
+
+  /// No description provided for @communitySharesNothing.
+  ///
+  /// In tr, this message translates to:
+  /// **'Henüz bir şey paylaşmıyor'**
+  String get communitySharesNothing;
+
+  /// No description provided for @communityYou.
+  ///
+  /// In tr, this message translates to:
+  /// **'Siz'**
+  String get communityYou;
 
   /// No description provided for @continueButton.
   ///
@@ -1398,6 +1668,18 @@ abstract class AppLocalizations {
   /// **'Hakkında'**
   String get profileMenuAbout;
 
+  /// No description provided for @profileMenuCommunity.
+  ///
+  /// In tr, this message translates to:
+  /// **'Sağlık topluluğu'**
+  String get profileMenuCommunity;
+
+  /// No description provided for @profileMenuCommunitySubtitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Aile grupları ve paylaşım izinleri'**
+  String get profileMenuCommunitySubtitle;
+
   /// No description provided for @profileMenuDevice.
   ///
   /// In tr, this message translates to:
@@ -1451,12 +1733,6 @@ abstract class AppLocalizations {
   /// In tr, this message translates to:
   /// **'Araştırma kurumu'**
   String get profileMenuResearch;
-
-  /// No description provided for @profileMenuSharing.
-  ///
-  /// In tr, this message translates to:
-  /// **'Aile ve hekimle paylaşım'**
-  String get profileMenuSharing;
 
   /// No description provided for @profileMenuThirdParty.
   ///
@@ -1553,6 +1829,54 @@ abstract class AppLocalizations {
   /// In tr, this message translates to:
   /// **'Kilo'**
   String get profileWeight;
+
+  /// No description provided for @shareActivity.
+  ///
+  /// In tr, this message translates to:
+  /// **'Aktivite ve adım'**
+  String get shareActivity;
+
+  /// No description provided for @shareBloodPressure.
+  ///
+  /// In tr, this message translates to:
+  /// **'Tansiyon (tahmini)'**
+  String get shareBloodPressure;
+
+  /// No description provided for @shareEcg.
+  ///
+  /// In tr, this message translates to:
+  /// **'EKG kayıtları'**
+  String get shareEcg;
+
+  /// No description provided for @shareHeartRate.
+  ///
+  /// In tr, this message translates to:
+  /// **'Nabız'**
+  String get shareHeartRate;
+
+  /// No description provided for @shareSleep.
+  ///
+  /// In tr, this message translates to:
+  /// **'Uyku'**
+  String get shareSleep;
+
+  /// No description provided for @shareSpo2.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kan oksijeni (SpO2)'**
+  String get shareSpo2;
+
+  /// No description provided for @shareStress.
+  ///
+  /// In tr, this message translates to:
+  /// **'Stres ve HRV'**
+  String get shareStress;
+
+  /// No description provided for @shareTemperature.
+  ///
+  /// In tr, this message translates to:
+  /// **'Vücut ısısı'**
+  String get shareTemperature;
 
   /// No description provided for @sleepAwake.
   ///

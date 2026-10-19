@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
 
+import '../data/community.dart';
 import '../data/models.dart';
 import '../data/aggregate.dart';
 import '../device/protocol/exercise.dart';
@@ -227,3 +228,46 @@ String? issueText(DeviceController c) => switch (c.issue) {
   DeviceIssue.noEcgSignal => currentL10n.issueNoEcgSignal,
   DeviceIssue.failed => currentL10n.issueFailed,
 };
+
+extension ShareScopeLook on ShareScope {
+  String get label {
+    final l = currentL10n;
+    return switch (this) {
+      ShareScope.heartRate => l.shareHeartRate,
+      ShareScope.spo2 => l.shareSpo2,
+      ShareScope.sleep => l.shareSleep,
+      ShareScope.activity => l.shareActivity,
+      ShareScope.ecg => l.shareEcg,
+      ShareScope.bloodPressure => l.shareBloodPressure,
+      ShareScope.stress => l.shareStress,
+      ShareScope.temperature => l.shareTemperature,
+    };
+  }
+
+  IconData get icon => switch (this) {
+    ShareScope.heartRate => Icons.favorite,
+    ShareScope.spo2 => Icons.water_drop,
+    ShareScope.sleep => Icons.bedtime,
+    ShareScope.activity => Icons.directions_walk,
+    ShareScope.ecg => Icons.monitor_heart,
+    ShareScope.bloodPressure => Icons.bloodtype,
+    ShareScope.stress => Icons.self_improvement,
+    ShareScope.temperature => Icons.thermostat,
+  };
+
+  Color get color => switch (this) {
+    ShareScope.heartRate || ShareScope.ecg => DataColors.heart,
+    ShareScope.spo2 => DataColors.oxygen,
+    ShareScope.sleep => DataColors.sleepLight,
+    ShareScope.activity => DataColors.steps,
+    ShareScope.bloodPressure => DataColors.pressure,
+    ShareScope.stress => DataColors.stress,
+    ShareScope.temperature => DataColors.temperature,
+  };
+}
+
+/// Paylaşılan türlerin kısa listesi, sabit sırayla ("Nabız, Uyku").
+String shareList(Set<ShareScope> scopes) => ShareScope.values
+    .where(scopes.contains)
+    .map((s) => s.label)
+    .join(currentL10n.localeName == 'ar' ? '، ' : ', ');
