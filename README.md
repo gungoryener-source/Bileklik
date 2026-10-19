@@ -1,3 +1,37 @@
 # Bileklik
 
-JCV8 bileklik için iOS ve Android sağlık uygulaması.
+JCV8 ekransız ECG bileklik için iOS ve Android sağlık uygulaması (Flutter).
+
+Bileklik henüz elde olmadığından uygulama **sahte cihazla** çalışır. Sahte cihaz,
+üreticinin V8 API protokolündeki paketlerin aynısını üretir; gerçek bileklik
+geldiğinde yalnızca cihaz katmanı değişir.
+
+## Çalıştırma
+
+```sh
+flutter pub get
+flutter run        # bağlı telefon ya da emülatörde
+flutter test       # protokol, sahte cihaz ve ekran testleri
+```
+
+## Klasörler
+
+| Klasör | İçerik |
+| --- | --- |
+| `lib/device/protocol/` | 16 baytlık paket, CRC, komut üretici ve yanıt çözücüler |
+| `lib/device/transport.dart` | Cihaz katmanı arayüzü (gerçek BLE ve sahte cihaz bunu uygular) |
+| `lib/device/fake_device.dart` | Bileklik yerine geçen sahte cihaz |
+| `lib/device/wristband_client.dart` | Komut gönderip yanıt bekleyen istemci |
+| `lib/state/` | Ekranların dinlediği uygulama durumu |
+| `lib/ui/` | Tema ve ekranlar |
+| `test/` | PDF'teki örnek paketlerle protokol testleri |
+
+## Protokol özeti
+
+- BLE servisi `0xFFF0`; uygulama `0xFFF6` karakteristiğine yazar, cihaz `0xFFF7` ile bildirir.
+- Paket: 1 bayt komut + 14 bayt veri + 1 bayt CRC (ilk 15 baytın toplamı & 0xFF).
+- Hata yanıtında komutun 7. biti 1 olur (ör. `0x01` → `0x81`).
+- Saat alanları BCD, diğer sayılar onaltılık; çok baytlı değerler küçük sonludur.
+- `0x09` anlık veri yanıtı 16 bayttan uzundur ve CRC taşımaz.
+
+Plan ve ekran analizi: [V8 Bileklik Uygulaması: Mimari ve Ekran Analizi](https://claude.ai/code/artifact/dc42487d-5b8e-412b-8e67-b0ae96220721)
