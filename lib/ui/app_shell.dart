@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../data/community.dart';
 import '../l10n/l10n.dart';
 
 import '../state/app_settings.dart';
@@ -32,6 +33,18 @@ class SettingsScope extends InheritedNotifier<AppSettings> {
 
   static AppSettings of(BuildContext context) =>
       context.dependOnInheritedWidgetOfExactType<SettingsScope>()!.notifier!;
+}
+
+/// Sağlık topluluğu sunucusunu (gruplar, davetler, izinler) ekranlara taşır.
+class CommunityScope extends InheritedNotifier<CommunityService> {
+  const CommunityScope({
+    super.key,
+    required CommunityService service,
+    required super.child,
+  }) : super(notifier: service);
+
+  static CommunityService of(BuildContext context) =>
+      context.dependOnInheritedWidgetOfExactType<CommunityScope>()!.notifier!;
 }
 
 /// Alt menü: Ana Sayfa, Sağlık, Egzersiz, Profil.

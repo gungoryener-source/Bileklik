@@ -30,6 +30,12 @@ class AppLocalizationsTr extends AppLocalizations {
   }
 
   @override
+  String get actionCancel => 'Vazgeç';
+
+  @override
+  String get actionClose => 'Kapat';
+
+  @override
   String get appTitle => 'Bileklik';
 
   @override
@@ -61,6 +67,165 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get comingSoonMessage => 'Bu bölüm sonraki bir sürümde gelecek.';
+
+  @override
+  String get communityAccept => 'Katıl';
+
+  @override
+  String get communityAnswered => 'Yanıtlandı';
+
+  @override
+  String get communityCodeCopied => 'Kod kopyalandı';
+
+  @override
+  String get communityCodeInvalid => 'Bu kodla bir grup bulunamadı.';
+
+  @override
+  String get communityCodeLabel => 'Grup kodu';
+
+  @override
+  String communityConsentSince(Object date) {
+    return 'İzin tarihi: $date';
+  }
+
+  @override
+  String get communityCopyCode => 'Kodu kopyala';
+
+  @override
+  String get communityCreate => 'Oluştur';
+
+  @override
+  String get communityCreateGroup => 'Yeni grup oluştur';
+
+  @override
+  String get communityDecline => 'Reddet';
+
+  @override
+  String get communityDelete => 'Grubu sil';
+
+  @override
+  String communityDeleteConfirm(Object group) {
+    return '\"$group\" silinir ve gruptaki tüm paylaşımlar sona erer.';
+  }
+
+  @override
+  String get communityGroupName => 'Grup adı';
+
+  @override
+  String get communityGroupNameHint => 'Örn. Ailem';
+
+  @override
+  String get communityInvite => 'Üye davet et';
+
+  @override
+  String communityInviteCodeBody(Object name) {
+    return 'Bu kodu $name ile paylaşın. Uygulamada Sağlık topluluğu > Kodla katıl ile gruba katılabilir.';
+  }
+
+  @override
+  String get communityInviteCodeTitle => 'Davet kodu';
+
+  @override
+  String get communityInviteName => 'Davet edilecek kişinin adı';
+
+  @override
+  String get communityInviteSend => 'Davet et';
+
+  @override
+  String get communityJoinWithCode => 'Kodla katıl';
+
+  @override
+  String get communityJoinedEmpty =>
+      'Bir davetle ya da grup koduyla katılabilirsiniz.';
+
+  @override
+  String get communityJoinedGroups => 'Katıldığım gruplar';
+
+  @override
+  String communityJoinedMessage(Object group) {
+    return '\"$group\" grubuna katıldınız.';
+  }
+
+  @override
+  String get communityLeave => 'Gruptan ayrıl';
+
+  @override
+  String communityLeaveConfirm(Object group) {
+    return '\"$group\" grubundan ayrılınca paylaştığınız veriler üyelere artık görünmez.';
+  }
+
+  @override
+  String communityMemberCount(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count üye',
+      one: '1 üye',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get communityMembers => 'Üyeler';
+
+  @override
+  String get communityMessages => 'Mesajlar';
+
+  @override
+  String get communityMessagesEmpty => 'Henüz mesaj yok.';
+
+  @override
+  String communityMsgInvite(Object name, Object group) {
+    return '$name sizi \"$group\" grubuna davet etti.';
+  }
+
+  @override
+  String communityMsgJoined(Object name, Object group) {
+    return '$name, \"$group\" grubuna katıldı.';
+  }
+
+  @override
+  String get communityMyGroups => 'Gruplarım';
+
+  @override
+  String get communityMyGroupsEmpty =>
+      'Henüz bir grubunuz yok. Bir grup oluşturup ailenizi davet edin.';
+
+  @override
+  String get communityMyShareNote =>
+      'Yalnızca bu grubun üyeleri görür. Siz açmadıkça hiçbir veri paylaşılmaz.';
+
+  @override
+  String get communityMyShareTitle => 'Bu grupla paylaştıklarınız';
+
+  @override
+  String get communityOwner => 'Grup sahibi';
+
+  @override
+  String communityOwnerName(Object name) {
+    return 'Grup sahibi: $name';
+  }
+
+  @override
+  String get communityPending => 'Davet bekleniyor';
+
+  @override
+  String get communityPrivacyNote =>
+      'Sağlık verileriniz yalnızca seçtiğiniz gruplarla ve seçtiğiniz türlerde paylaşılır. İzninizi istediğiniz an geri alabilirsiniz.';
+
+  @override
+  String get communityRemoveMember => 'Gruptan çıkar';
+
+  @override
+  String communityShares(Object types) {
+    return 'Paylaşıyor: $types';
+  }
+
+  @override
+  String get communitySharesNothing => 'Henüz bir şey paylaşmıyor';
+
+  @override
+  String get communityYou => 'Siz';
 
   @override
   String get continueButton => 'Devam';
@@ -780,6 +945,13 @@ class AppLocalizationsTr extends AppLocalizations {
   String get profileMenuAbout => 'Hakkında';
 
   @override
+  String get profileMenuCommunity => 'Sağlık topluluğu';
+
+  @override
+  String get profileMenuCommunitySubtitle =>
+      'Aile grupları ve paylaşım izinleri';
+
+  @override
   String get profileMenuDevice => 'Cihaz';
 
   @override
@@ -809,9 +981,6 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get profileMenuResearch => 'Araştırma kurumu';
-
-  @override
-  String get profileMenuSharing => 'Aile ve hekimle paylaşım';
 
   @override
   String get profileMenuThirdParty => 'Health Connect ve Apple Health';
@@ -862,6 +1031,30 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get profileWeight => 'Kilo';
+
+  @override
+  String get shareActivity => 'Aktivite ve adım';
+
+  @override
+  String get shareBloodPressure => 'Tansiyon (tahmini)';
+
+  @override
+  String get shareEcg => 'EKG kayıtları';
+
+  @override
+  String get shareHeartRate => 'Nabız';
+
+  @override
+  String get shareSleep => 'Uyku';
+
+  @override
+  String get shareSpo2 => 'Kan oksijeni (SpO2)';
+
+  @override
+  String get shareStress => 'Stres ve HRV';
+
+  @override
+  String get shareTemperature => 'Vücut ısısı';
 
   @override
   String get sleepAwake => 'Uyanık';

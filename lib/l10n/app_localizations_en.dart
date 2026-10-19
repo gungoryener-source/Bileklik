@@ -30,6 +30,12 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String get actionCancel => 'Cancel';
+
+  @override
+  String get actionClose => 'Close';
+
+  @override
   String get appTitle => 'Bileklik';
 
   @override
@@ -61,6 +67,165 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get comingSoonMessage => 'This section is coming in a future version.';
+
+  @override
+  String get communityAccept => 'Join';
+
+  @override
+  String get communityAnswered => 'Answered';
+
+  @override
+  String get communityCodeCopied => 'Code copied';
+
+  @override
+  String get communityCodeInvalid => 'No group found with this code.';
+
+  @override
+  String get communityCodeLabel => 'Group code';
+
+  @override
+  String communityConsentSince(Object date) {
+    return 'Permission given: $date';
+  }
+
+  @override
+  String get communityCopyCode => 'Copy code';
+
+  @override
+  String get communityCreate => 'Create';
+
+  @override
+  String get communityCreateGroup => 'Create a new group';
+
+  @override
+  String get communityDecline => 'Decline';
+
+  @override
+  String get communityDelete => 'Delete group';
+
+  @override
+  String communityDeleteConfirm(Object group) {
+    return '\"$group\" will be deleted and all sharing in it ends.';
+  }
+
+  @override
+  String get communityGroupName => 'Group name';
+
+  @override
+  String get communityGroupNameHint => 'e.g. My family';
+
+  @override
+  String get communityInvite => 'Invite a member';
+
+  @override
+  String communityInviteCodeBody(Object name) {
+    return 'Share this code with $name. They can join from Health community > Join with a code.';
+  }
+
+  @override
+  String get communityInviteCodeTitle => 'Invitation code';
+
+  @override
+  String get communityInviteName => 'Name of the person to invite';
+
+  @override
+  String get communityInviteSend => 'Invite';
+
+  @override
+  String get communityJoinWithCode => 'Join with a code';
+
+  @override
+  String get communityJoinedEmpty =>
+      'You can join with an invitation or a group code.';
+
+  @override
+  String get communityJoinedGroups => 'Groups I\'ve joined';
+
+  @override
+  String communityJoinedMessage(Object group) {
+    return 'You joined \"$group\".';
+  }
+
+  @override
+  String get communityLeave => 'Leave group';
+
+  @override
+  String communityLeaveConfirm(Object group) {
+    return 'When you leave \"$group\", its members can no longer see the data you share.';
+  }
+
+  @override
+  String communityMemberCount(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count members',
+      one: '1 member',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get communityMembers => 'Members';
+
+  @override
+  String get communityMessages => 'Messages';
+
+  @override
+  String get communityMessagesEmpty => 'No messages yet.';
+
+  @override
+  String communityMsgInvite(Object name, Object group) {
+    return '$name invited you to the group \"$group\".';
+  }
+
+  @override
+  String communityMsgJoined(Object name, Object group) {
+    return '$name joined \"$group\".';
+  }
+
+  @override
+  String get communityMyGroups => 'My groups';
+
+  @override
+  String get communityMyGroupsEmpty =>
+      'You don\'t have a group yet. Create one and invite your family.';
+
+  @override
+  String get communityMyShareNote =>
+      'Only members of this group can see it. Nothing is shared until you turn it on.';
+
+  @override
+  String get communityMyShareTitle => 'What you share with this group';
+
+  @override
+  String get communityOwner => 'Owner';
+
+  @override
+  String communityOwnerName(Object name) {
+    return 'Owner: $name';
+  }
+
+  @override
+  String get communityPending => 'Invitation pending';
+
+  @override
+  String get communityPrivacyNote =>
+      'Your health data is shared only with the groups you choose, and only the types you choose. You can withdraw permission at any time.';
+
+  @override
+  String get communityRemoveMember => 'Remove from group';
+
+  @override
+  String communityShares(Object types) {
+    return 'Shares: $types';
+  }
+
+  @override
+  String get communitySharesNothing => 'Not sharing anything yet';
+
+  @override
+  String get communityYou => 'You';
 
   @override
   String get continueButton => 'Continue';
@@ -798,6 +963,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get profileMenuAbout => 'About';
 
   @override
+  String get profileMenuCommunity => 'Health community';
+
+  @override
+  String get profileMenuCommunitySubtitle =>
+      'Family groups and sharing permissions';
+
+  @override
   String get profileMenuDevice => 'Device';
 
   @override
@@ -827,9 +999,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get profileMenuResearch => 'Research institution';
-
-  @override
-  String get profileMenuSharing => 'Share with family and doctors';
 
   @override
   String get profileMenuThirdParty => 'Health Connect and Apple Health';
@@ -880,6 +1049,30 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get profileWeight => 'Weight';
+
+  @override
+  String get shareActivity => 'Activity and steps';
+
+  @override
+  String get shareBloodPressure => 'Blood pressure (estimated)';
+
+  @override
+  String get shareEcg => 'ECG recordings';
+
+  @override
+  String get shareHeartRate => 'Heart rate';
+
+  @override
+  String get shareSleep => 'Sleep';
+
+  @override
+  String get shareSpo2 => 'Blood oxygen (SpO2)';
+
+  @override
+  String get shareStress => 'Stress and HRV';
+
+  @override
+  String get shareTemperature => 'Body temperature';
 
   @override
   String get sleepAwake => 'Awake';

@@ -30,6 +30,12 @@ class AppLocalizationsDe extends AppLocalizations {
   }
 
   @override
+  String get actionCancel => 'Abbrechen';
+
+  @override
+  String get actionClose => 'Schließen';
+
+  @override
   String get appTitle => 'Bileklik';
 
   @override
@@ -62,6 +68,165 @@ class AppLocalizationsDe extends AppLocalizations {
   @override
   String get comingSoonMessage =>
       'Dieser Bereich folgt in einer späteren Version.';
+
+  @override
+  String get communityAccept => 'Beitreten';
+
+  @override
+  String get communityAnswered => 'Beantwortet';
+
+  @override
+  String get communityCodeCopied => 'Code kopiert';
+
+  @override
+  String get communityCodeInvalid => 'Keine Gruppe mit diesem Code gefunden.';
+
+  @override
+  String get communityCodeLabel => 'Gruppencode';
+
+  @override
+  String communityConsentSince(Object date) {
+    return 'Freigegeben am: $date';
+  }
+
+  @override
+  String get communityCopyCode => 'Code kopieren';
+
+  @override
+  String get communityCreate => 'Erstellen';
+
+  @override
+  String get communityCreateGroup => 'Neue Gruppe erstellen';
+
+  @override
+  String get communityDecline => 'Ablehnen';
+
+  @override
+  String get communityDelete => 'Gruppe löschen';
+
+  @override
+  String communityDeleteConfirm(Object group) {
+    return '„$group“ wird gelöscht und alle Freigaben darin enden.';
+  }
+
+  @override
+  String get communityGroupName => 'Gruppenname';
+
+  @override
+  String get communityGroupNameHint => 'z. B. Meine Familie';
+
+  @override
+  String get communityInvite => 'Mitglied einladen';
+
+  @override
+  String communityInviteCodeBody(Object name) {
+    return 'Teilen Sie diesen Code mit $name. Beitritt über Gesundheitsgemeinschaft > Mit Code beitreten.';
+  }
+
+  @override
+  String get communityInviteCodeTitle => 'Einladungscode';
+
+  @override
+  String get communityInviteName => 'Name der einzuladenden Person';
+
+  @override
+  String get communityInviteSend => 'Einladen';
+
+  @override
+  String get communityJoinWithCode => 'Mit Code beitreten';
+
+  @override
+  String get communityJoinedEmpty =>
+      'Sie können per Einladung oder Gruppencode beitreten.';
+
+  @override
+  String get communityJoinedGroups => 'Beigetretene Gruppen';
+
+  @override
+  String communityJoinedMessage(Object group) {
+    return 'Sie sind „$group“ beigetreten.';
+  }
+
+  @override
+  String get communityLeave => 'Gruppe verlassen';
+
+  @override
+  String communityLeaveConfirm(Object group) {
+    return 'Wenn Sie „$group“ verlassen, sehen die Mitglieder Ihre geteilten Daten nicht mehr.';
+  }
+
+  @override
+  String communityMemberCount(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count Mitglieder',
+      one: '1 Mitglied',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get communityMembers => 'Mitglieder';
+
+  @override
+  String get communityMessages => 'Nachrichten';
+
+  @override
+  String get communityMessagesEmpty => 'Noch keine Nachrichten.';
+
+  @override
+  String communityMsgInvite(Object name, Object group) {
+    return '$name hat Sie in die Gruppe „$group“ eingeladen.';
+  }
+
+  @override
+  String communityMsgJoined(Object name, Object group) {
+    return '$name ist „$group“ beigetreten.';
+  }
+
+  @override
+  String get communityMyGroups => 'Meine Gruppen';
+
+  @override
+  String get communityMyGroupsEmpty =>
+      'Sie haben noch keine Gruppe. Erstellen Sie eine und laden Sie Ihre Familie ein.';
+
+  @override
+  String get communityMyShareNote =>
+      'Nur Mitglieder dieser Gruppe sehen es. Nichts wird geteilt, bevor Sie es einschalten.';
+
+  @override
+  String get communityMyShareTitle => 'Was Sie mit dieser Gruppe teilen';
+
+  @override
+  String get communityOwner => 'Inhaber';
+
+  @override
+  String communityOwnerName(Object name) {
+    return 'Inhaber: $name';
+  }
+
+  @override
+  String get communityPending => 'Einladung ausstehend';
+
+  @override
+  String get communityPrivacyNote =>
+      'Ihre Gesundheitsdaten werden nur mit den Gruppen geteilt, die Sie wählen, und nur in den Arten, die Sie festlegen. Sie können die Freigabe jederzeit widerrufen.';
+
+  @override
+  String get communityRemoveMember => 'Aus Gruppe entfernen';
+
+  @override
+  String communityShares(Object types) {
+    return 'Teilt: $types';
+  }
+
+  @override
+  String get communitySharesNothing => 'Teilt noch nichts';
+
+  @override
+  String get communityYou => 'Sie';
 
   @override
   String get continueButton => 'Weiter';
@@ -800,6 +965,12 @@ class AppLocalizationsDe extends AppLocalizations {
   String get profileMenuAbout => 'Über die App';
 
   @override
+  String get profileMenuCommunity => 'Gesundheitsgemeinschaft';
+
+  @override
+  String get profileMenuCommunitySubtitle => 'Familiengruppen und Freigaben';
+
+  @override
   String get profileMenuDevice => 'Gerät';
 
   @override
@@ -829,9 +1000,6 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get profileMenuResearch => 'Forschungseinrichtung';
-
-  @override
-  String get profileMenuSharing => 'Mit Familie und Ärzten teilen';
 
   @override
   String get profileMenuThirdParty => 'Health Connect und Apple Health';
@@ -882,6 +1050,30 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get profileWeight => 'Gewicht';
+
+  @override
+  String get shareActivity => 'Aktivität und Schritte';
+
+  @override
+  String get shareBloodPressure => 'Blutdruck (geschätzt)';
+
+  @override
+  String get shareEcg => 'EKG-Aufzeichnungen';
+
+  @override
+  String get shareHeartRate => 'Herzfrequenz';
+
+  @override
+  String get shareSleep => 'Schlaf';
+
+  @override
+  String get shareSpo2 => 'Blutsauerstoff (SpO2)';
+
+  @override
+  String get shareStress => 'Stress und HRV';
+
+  @override
+  String get shareTemperature => 'Körpertemperatur';
 
   @override
   String get sleepAwake => 'Wach';

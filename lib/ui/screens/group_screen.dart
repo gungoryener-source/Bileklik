@@ -1,0 +1,227 @@
+import 'package:flutter/material.dart';
+
+import '../../data/community.dart';
+import '../../l10n/l10n.dart';
+import '../app_shell.dart';
+import '../format.dart';
+import '../theme.dart';
+import '../widgets/menu_group.dart';
+import 'community_dialogs.dart';
+import 'community_screen.dart';
+
+/// Grup sayfası: kullanıcının bu grupla paylaştıkları (izin anahtarları),
+/// üyeler ve her üyenin ne paylaştığı. Sahip davet eder ve üye çıkarır;
+/// üye gruptan ayrılır.
+class GroupScreen extends StatelessWidget {
+  const GroupScreen({super.key, required this.groupId});
+  final String groupId;
+
+  @override
+  Widget build(BuildContext context) {
+    final service = CommunityScope.of(context);
+    final l = context.l10n;
+    final colors = context.colors;
+    final g = service.group(groupId);
+    // Grup silindiyse ya da ayrıldıysa sayfa kapanırken boş çizilir.
+    if (g == null) return const Scaffold();
+
+    final consent = g.myConsent;
+
+    Future<void> toggle(ShareScope s, bool on) => service.setConsent(g.id, {
+      ...consent.scopes.where((x) => x != s),
+      if (on) s,
+    });
+
+    Future<void> leave() async {
+      final ok = await showDialog<bool>(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: Text(g.ownedByMe ? l.communityDelete : l.communityLeave),
+          content: Text(
+            g.ownedByMe
+                ? l.communityDeleteConfirm(g.name)
+                : l.communityLeaveConfirm(g.name),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(false),
+              child: Text(l.actionCancel),
+            ),
+            FilledButton(
+              style: FilledButton.styleFrom(
+                backgroundColor: colors.danger,
+                foregroundColor: colors.onAccent,
+              ),
+              onPressed: () => Navigator.of(context).pop(true),
+              child: Text(g.ownedByMe ? l.communityDelete : l.communityLeave),
+            ),
+          ],
+        ),
+      );
+      if (ok != true || !context.mounted) return;
+      final navigator = Navigator.of(context);
+      await service.leave(g.id);
+      navigator.pop();
+    }
+
+    return Scaffold(
+      appBar: AppBar(),
+      body: SafeArea(
+        top: false,
+        child: ListView(
+          padding: const EdgeInsets.fromLTRB(16, 8, 16, 32),
+          children: [
+            Row(
+              children: [
+                GroupAvatar(name: g.name, size: 56),
+                const SizedBox(width: 14),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        g.name,
+                        style: Theme.of(context).textTheme.titleLarge,
+                      ),
+                      Text(
+                        l.communityMemberCount(g.memberCount),
+                        style: TextStyle(color: colors.muted),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+            MenuHeader(l.communityMyShareTitle),
+            MenuGroup(
+              children: [
+                for (final s in ShareScope.values)
+                  SwitchListTile(
+                    contentPadding: const EdgeInsetsDirectional.only(
+                      start: 16,
+                      end: 12,
+                    ),
+                    secondary: Icon(s.icon, color: s.color),
+                    title: Text(s.label),
+                    value: consent.scopes.contains(s),
+                    onChanged: (on) => toggle(s, on),
+                  ),
+              ],
+            ),
+            Padding(
+              padding: const EdgeInsetsDirectional.fromSTEB(4, 8, 4, 0),
+              child: Text(
+                [
+                  l.communityMyShareNote,
+                  if (consent.grantedAt case final t?)
+                    l.communityConsentSince('${dayMonth(t)} ${ltr(hhmm(t))}'),
+                ].join('\n'),
+                style: TextStyle(color: colors.muted, fontSize: 13),
+              ),
+            ),
+            MenuHeader(l.communityMembers),
+            MenuGroup(
+              children: [
+                for (final m in g.members)
+                  _MemberTile(
+                    member: m,
+                    onRemove: g.ownedByMe && !m.isMe
+                        ? () => service.removeMember(g.id, m.id)
+                        : null,
+                  ),
+                if (g.ownedByMe) ...[
+                  MenuTile(
+                    icon: Icons.person_add_alt,
+                    title: l.communityInvite,
+                    onTap: () => showInviteDialog(context, g),
+                  ),
+                  MenuTile(
+                    icon: Icons.pin_outlined,
+                    title: l.communityCodeLabel,
+                    value: ltr(g.inviteCode),
+                    onTap: () => showDialog<void>(
+                      context: context,
+                      builder: (_) => InviteCodeDialog(code: g.inviteCode),
+                    ),
+                  ),
+                ],
+              ],
+            ),
+            const SizedBox(height: 24),
+            OutlinedButton.icon(
+              style: OutlinedButton.styleFrom(
+                foregroundColor: colors.danger,
+                side: BorderSide(color: colors.outline),
+                minimumSize: const Size.fromHeight(52),
+              ),
+              onPressed: leave,
+              icon: Icon(g.ownedByMe ? Icons.delete_outline : Icons.logout),
+              label: Text(g.ownedByMe ? l.communityDelete : l.communityLeave),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _MemberTile extends StatelessWidget {
+  const _MemberTile({required this.member, this.onRemove});
+  final GroupMember member;
+  final VoidCallback? onRemove;
+
+  @override
+  Widget build(BuildContext context) {
+    final l = context.l10n;
+    final colors = context.colors;
+    final m = member;
+    final name = m.isMe ? l.communityYou : m.name;
+    final role = [
+      if (m.isOwner) l.communityOwner,
+      if (m.pending) l.communityPending,
+    ].join(' · ');
+    // Kullanıcının kendi paylaşımı yukarıdaki anahtarlarda; boşsa tekrar yazılmaz.
+    final shares = m.pending || (m.isMe && m.shares.isEmpty)
+        ? null
+        : m.shares.isEmpty
+        ? l.communitySharesNothing
+        : l.communityShares(shareList(m.shares));
+    return ListTile(
+      minTileHeight: 64,
+      contentPadding: const EdgeInsetsDirectional.only(start: 16, end: 4),
+      leading: CircleAvatar(
+        backgroundColor: m.isMe ? colors.glow : colors.surfaceHigh,
+        foregroundColor: m.isMe ? colors.accent : colors.text,
+        child: m.pending
+            ? Icon(Icons.hourglass_empty, size: 20, color: colors.muted)
+            : Text(
+                name.characters.firstOrNull?.toUpperCase() ?? '?',
+                style: const TextStyle(fontWeight: FontWeight.w600),
+              ),
+      ),
+      title: Text(
+        role.isEmpty ? name : '$name · $role',
+        maxLines: 2,
+        overflow: TextOverflow.ellipsis,
+        style: TextStyle(
+          fontWeight: FontWeight.w500,
+          color: m.pending ? colors.muted : colors.text,
+        ),
+      ),
+      subtitle: shares == null
+          ? null
+          : Text(shares, style: TextStyle(color: colors.muted)),
+      trailing: onRemove == null
+          ? null
+          : PopupMenuButton<void>(
+              icon: Icon(Icons.more_vert, color: colors.muted),
+              itemBuilder: (_) => [
+                PopupMenuItem(
+                  onTap: onRemove,
+                  child: Text(l.communityRemoveMember),
+                ),
+              ],
+            ),
+    );
+  }
+}

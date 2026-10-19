@@ -41,6 +41,8 @@ Future<DeviceController> _openProfile(
   return controller;
 }
 
+const _research = 'Araştırma kurumu';
+
 void main() {
   test('uygulama sürümü pubspec ile aynı', () {
     final pubspec = File('pubspec.yaml').readAsStringSync();
@@ -67,11 +69,11 @@ void main() {
       'Cihaz',
       'Bileklik bağlı değil',
       'Genel ayarlar',
-      'Aile ve hekimle paylaşım',
+      'Sağlık topluluğu',
     ]) {
       expect(find.text(t), findsOneWidget, reason: t);
     }
-    await tester.tap(find.text('Aile ve hekimle paylaşım'));
+    await tester.tap(find.text(_research));
     await tester.pump();
     expect(find.text('Bu bölüm sonraki bir sürümde gelecek.'), findsOneWidget);
     // Bildirim kapanana kadar bekle; alttaki satırların üstünü örtüyor.
