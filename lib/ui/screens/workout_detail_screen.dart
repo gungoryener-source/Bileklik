@@ -40,10 +40,10 @@ class WorkoutDetailScreen extends StatelessWidget {
             children: [
               CircleAvatar(
                 radius: 28,
-                backgroundColor: AppColors.accent.withValues(alpha: 0.15),
+                backgroundColor: context.colors.accent.withValues(alpha: 0.15),
                 child: Icon(
                   sportIcon(w.type),
-                  color: AppColors.accent,
+                  color: context.colors.accent,
                   size: 30,
                 ),
               ),
@@ -60,7 +60,7 @@ class WorkoutDetailScreen extends StatelessWidget {
                     ),
                     Text(
                       '${dayMonth(w.start)} · ${hhmm(w.start)} - ${hhmm(w.end)}',
-                      style: const TextStyle(color: AppColors.muted),
+                      style: TextStyle(color: context.colors.muted),
                     ),
                   ],
                 ),

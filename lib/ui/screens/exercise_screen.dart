@@ -61,9 +61,9 @@ class ExerciseScreen extends StatelessWidget {
             const SizedBox(height: 16),
             if (active != null) ...[
               Card(
-                color: AppColors.accent.withValues(alpha: 0.18),
+                color: context.colors.accent.withValues(alpha: 0.18),
                 child: ListTile(
-                  leading: Icon(active.type.icon, color: AppColors.accent),
+                  leading: Icon(active.type.icon, color: context.colors.accent),
                   title: Text('${active.type.label} sürüyor'),
                   subtitle: Text(
                     active.paused
@@ -118,7 +118,7 @@ class ExerciseScreen extends StatelessWidget {
                 c.isConnected
                     ? 'Henüz egzersiz kaydı yok.'
                     : 'Geçmiş egzersizleri görmek için bilekliği bağlayın.',
-                style: const TextStyle(color: AppColors.muted),
+                style: TextStyle(color: context.colors.muted),
               ),
             for (final w in workouts) _WorkoutTile(w),
           ],
@@ -142,7 +142,7 @@ class _WeekStat extends StatelessWidget {
           children: [
             Text(
               label,
-              style: const TextStyle(color: AppColors.muted, fontSize: 12),
+              style: TextStyle(color: context.colors.muted, fontSize: 12),
             ),
             const SizedBox(height: 4),
             Text(
@@ -177,7 +177,7 @@ class _SportButton extends StatelessWidget {
             children: [
               Icon(
                 type.icon,
-                color: enabled ? AppColors.accent : AppColors.muted,
+                color: enabled ? context.colors.accent : context.colors.muted,
               ),
               const SizedBox(height: 6),
               Text(
@@ -210,13 +210,13 @@ class _WorkoutTile extends StatelessWidget {
       child: Card(
         child: ListTile(
           leading: CircleAvatar(
-            backgroundColor: AppColors.accent.withValues(alpha: 0.15),
-            child: Icon(sportIcon(w.type), color: AppColors.accent),
+            backgroundColor: context.colors.accent.withValues(alpha: 0.15),
+            child: Icon(sportIcon(w.type), color: context.colors.accent),
           ),
           title: Text(sportLabel(w.type)),
           subtitle: Text('${whenText(w.start, DateTime.now())}\n$details'),
           isThreeLine: true,
-          trailing: const Icon(Icons.chevron_right, color: AppColors.muted),
+          trailing: Icon(Icons.chevron_right, color: context.colors.muted),
           onTap: () => Navigator.of(context).push(
             MaterialPageRoute<void>(
               builder: (_) => WorkoutDetailScreen(workout: w),

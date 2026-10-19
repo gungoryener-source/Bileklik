@@ -74,11 +74,11 @@ class _HomeScreenState extends State<HomeScreen> {
         final s = DaySummary.of(store, day);
         return DecoratedBox(
           // Üstte hafif bir renk geçişi; görsel ya da fotoğraf kullanılmaz.
-          decoration: const BoxDecoration(
+          decoration: BoxDecoration(
             gradient: LinearGradient(
               begin: Alignment.topCenter,
               end: Alignment(0, -0.2),
-              colors: [AppColors.glow, AppColors.background],
+              colors: [context.colors.glow, context.colors.background],
             ),
           ),
           child: RefreshIndicator(
@@ -101,7 +101,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   const SizedBox(height: 12),
                   Text(
                     c.error!,
-                    style: const TextStyle(color: AppColors.heart),
+                    style: const TextStyle(color: DataColors.heart),
                   ),
                 ],
                 const SizedBox(height: 16),
@@ -175,10 +175,10 @@ class _TopBar extends StatelessWidget {
         IconButton(
           tooltip: 'Profil',
           onPressed: () => AppShell.selectTab(context, 3),
-          icon: const CircleAvatar(
+          icon: CircleAvatar(
             radius: 18,
-            backgroundColor: AppColors.accent,
-            foregroundColor: AppColors.background,
+            backgroundColor: context.colors.accent,
+            foregroundColor: context.colors.background,
             child: Icon(Icons.person, size: 20),
           ),
         ),
@@ -192,11 +192,13 @@ class _TopBar extends StatelessWidget {
                 avatar: Icon(
                   Icons.watch,
                   size: 18,
-                  color: c.isConnected ? AppColors.accent : AppColors.muted,
+                  color: c.isConnected
+                      ? context.colors.accent
+                      : context.colors.muted,
                 ),
                 label: Text(status, overflow: TextOverflow.ellipsis),
-                backgroundColor: AppColors.surface,
-                side: const BorderSide(color: AppColors.outline),
+                backgroundColor: context.colors.surface,
+                side: BorderSide(color: context.colors.outline),
                 shape: const StadiumBorder(),
                 onPressed: connecting
                     ? null
@@ -267,7 +269,7 @@ class _DateNav extends StatelessWidget {
               overflow: TextOverflow.ellipsis,
               style: const TextStyle(fontSize: 17, fontWeight: FontWeight.w600),
             ),
-            style: TextButton.styleFrom(foregroundColor: Colors.white),
+            style: TextButton.styleFrom(foregroundColor: context.colors.text),
           ),
         ),
         IconButton(
@@ -323,9 +325,9 @@ class _Summary extends StatelessWidget {
           height: 56,
           decoration: BoxDecoration(
             shape: BoxShape.circle,
-            color: AppColors.accent.withValues(alpha: 0.15),
+            color: context.colors.accent.withValues(alpha: 0.15),
           ),
-          child: const Icon(Icons.wb_twilight, color: AppColors.accent),
+          child: Icon(Icons.wb_twilight, color: context.colors.accent),
         ),
         const SizedBox(height: 12),
         Text(
@@ -340,7 +342,7 @@ class _Summary extends StatelessWidget {
           child: Text(
             body,
             textAlign: TextAlign.center,
-            style: const TextStyle(color: AppColors.muted, height: 1.4),
+            style: TextStyle(color: context.colors.muted, height: 1.4),
           ),
         ),
         const SizedBox(height: 20),
@@ -351,9 +353,9 @@ class _Summary extends StatelessWidget {
                 night == null ? null : duration(night.asleepMinutes),
                 'Uyku',
               ),
-              const VerticalDivider(color: AppColors.outline, width: 1),
+              VerticalDivider(color: context.colors.outline, width: 1),
               _SummaryItem(hrvBand?.label, 'Toparlanma'),
-              const VerticalDivider(color: AppColors.outline, width: 1),
+              VerticalDivider(color: context.colors.outline, width: 1),
               _SummaryItem(stressBand?.label, 'Stres yükü'),
             ],
           ),
@@ -391,7 +393,7 @@ class _SummaryItem extends StatelessWidget {
           Text(
             label,
             textAlign: TextAlign.center,
-            style: const TextStyle(color: AppColors.muted, fontSize: 13),
+            style: TextStyle(color: context.colors.muted, fontSize: 13),
           ),
         ],
       ),
@@ -408,9 +410,9 @@ class _Shortcuts extends StatelessWidget {
   Widget build(BuildContext context) {
     final style = OutlinedButton.styleFrom(
       minimumSize: const Size.fromHeight(52),
-      foregroundColor: Colors.white,
-      side: const BorderSide(color: AppColors.outline),
-      backgroundColor: AppColors.surface,
+      foregroundColor: context.colors.text,
+      side: BorderSide(color: context.colors.outline),
+      backgroundColor: context.colors.surface,
       shape: const StadiumBorder(),
     );
     return Row(
@@ -419,7 +421,7 @@ class _Shortcuts extends StatelessWidget {
           child: OutlinedButton.icon(
             style: style,
             onPressed: () => AppShell.selectTab(context, 2),
-            icon: const Icon(Icons.directions_run, color: AppColors.steps),
+            icon: const Icon(Icons.directions_run, color: DataColors.steps),
             label: const Text(
               'Egzersize başla',
               overflow: TextOverflow.ellipsis,
@@ -431,7 +433,7 @@ class _Shortcuts extends StatelessWidget {
           child: OutlinedButton.icon(
             style: style,
             onPressed: onEcg,
-            icon: const Icon(Icons.monitor_heart, color: AppColors.heart),
+            icon: const Icon(Icons.monitor_heart, color: DataColors.heart),
             label: const Text('EKG ölç', overflow: TextOverflow.ellipsis),
           ),
         ),
@@ -465,26 +467,26 @@ class _SleepCard extends StatelessWidget {
           const SizedBox(height: 6),
           Row(
             children: [
-              const Icon(
+              Icon(
                 Icons.bedtime_outlined,
                 size: 16,
-                color: AppColors.muted,
+                color: context.colors.muted,
               ),
               const SizedBox(width: 4),
               Text(
                 n == null ? '--' : hhmm(n.start),
-                style: const TextStyle(color: AppColors.muted, fontSize: 12),
+                style: TextStyle(color: context.colors.muted, fontSize: 12),
               ),
               const Spacer(),
               Text(
                 n == null ? '--' : hhmm(n.end),
-                style: const TextStyle(color: AppColors.muted, fontSize: 12),
+                style: TextStyle(color: context.colors.muted, fontSize: 12),
               ),
               const SizedBox(width: 4),
-              const Icon(
+              Icon(
                 Icons.wb_sunny_outlined,
                 size: 16,
-                color: AppColors.muted,
+                color: context.colors.muted,
               ),
             ],
           ),
@@ -542,7 +544,7 @@ class _StageStrip extends StatelessWidget {
         child: SizedBox(
           height: 20,
           child: runs.isEmpty
-              ? const ColoredBox(color: AppColors.surfaceHigh)
+              ? ColoredBox(color: context.colors.surfaceHigh)
               : Row(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
@@ -589,7 +591,7 @@ class _ActivityCard extends StatelessWidget {
             label: 'Adım hedefi: $steps / $dailyStepGoal, yüzde $pct',
             child: ActivityGauge(
               progress: steps / dailyStepGoal,
-              color: AppColors.steps,
+              color: DataColors.steps,
               child: BigValue(
                 hasData ? '$steps' : null,
                 caption: hasData
@@ -618,10 +620,10 @@ class _BalanceCard extends StatelessWidget {
   final VoidCallback onTap;
 
   static Color _stressColor(double v) => switch (v) {
-    < 25 => AppColors.accent,
-    < 51 => AppColors.steps,
-    < 76 => AppColors.temperature,
-    _ => AppColors.heart,
+    < 25 => DataColors.hrv,
+    < 51 => DataColors.steps,
+    < 76 => DataColors.temperature,
+    _ => DataColors.heart,
   };
 
   @override
@@ -711,11 +713,11 @@ class _DayChartCard extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(width: 4),
-                Text(type.unit, style: const TextStyle(color: AppColors.muted)),
+                Text(type.unit, style: TextStyle(color: context.colors.muted)),
                 const Spacer(),
                 Text(
                   'Ort. ${type.format(st.average)}',
-                  style: const TextStyle(color: AppColors.muted),
+                  style: TextStyle(color: context.colors.muted),
                 ),
               ],
             ),
@@ -756,7 +758,7 @@ class _Timeline extends StatelessWidget {
               ?.copyWith(fontWeight: FontWeight.w600),
         ),
         const SizedBox(height: 4),
-        const Text('Günün kayıtları', style: TextStyle(color: AppColors.muted)),
+        Text('Günün kayıtları', style: TextStyle(color: context.colors.muted)),
         const SizedBox(height: 12),
         if (events.isEmpty)
           const EmptyHint(
@@ -764,12 +766,12 @@ class _Timeline extends StatelessWidget {
             text: 'Egzersiz, EKG ve uyku kayıtlarınız burada saat sırasıyla görünür.',
           )
         else
-          for (final e in events) _eventTile(e),
+          for (final e in events) _eventTile(context, e),
       ],
     );
   }
 
-  Widget _eventTile(TimelineEvent e) {
+  Widget _eventTile(BuildContext context, TimelineEvent e) {
     final (
       IconData icon,
       Color color,
@@ -779,14 +781,14 @@ class _Timeline extends StatelessWidget {
     ) = switch (e) {
       WorkoutEvent(:final workout) => (
         sportIcon(workout.type),
-        AppColors.steps,
+        DataColors.steps,
         sportLabel(workout.type),
         '${clock(workout.duration)} · ${workout.calories.round()} kcal',
         WorkoutDetailScreen(workout: workout),
       ),
       EcgEvent(:final recording) => (
         Icons.monitor_heart,
-        AppColors.heart,
+        DataColors.heart,
         'EKG',
         recording.averageHeartRate == null
             ? '${recording.duration.inSeconds} sn'
@@ -810,10 +812,10 @@ class _Timeline extends StatelessWidget {
         child: Icon(icon, size: 20),
       ),
       title: Text(title),
-      subtitle: Text(sub, style: const TextStyle(color: AppColors.muted)),
+      subtitle: Text(sub, style: TextStyle(color: context.colors.muted)),
       trailing: Text(
         hhmm(e.time),
-        style: const TextStyle(color: AppColors.muted),
+        style: TextStyle(color: context.colors.muted),
       ),
       onTap: () => open(to),
     );

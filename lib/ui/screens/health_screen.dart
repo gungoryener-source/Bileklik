@@ -109,13 +109,13 @@ class HealthScreen extends StatelessWidget {
                           ? 'Bileklikten veriler alınıyor…'
                           : 'Verileri görmek için Ana Sayfa\'dan bilekliği bağlayın.')
                     : 'Son güncelleme ${hhmm(c.lastSync!)}',
-                style: const TextStyle(color: AppColors.muted),
+                style: TextStyle(color: context.colors.muted),
               ),
               const SizedBox(height: 16),
               _HealthCard(
                 title: 'EKG',
                 icon: Icons.monitor_heart,
-                color: AppColors.heart,
+                color: DataColors.heart,
                 value: lastEcg?.averageHeartRate?.toString(),
                 unit: lastEcg?.averageHeartRate == null ? '' : 'bpm',
                 subtitle: lastEcg == null
@@ -131,7 +131,7 @@ class HealthScreen extends StatelessWidget {
               _HealthCard(
                 title: 'Uyku',
                 icon: Icons.bedtime,
-                color: const Color(0xFF6C8CFF),
+                color: DataColors.sleepLight,
                 value: lastNight == null
                     ? null
                     : duration(lastNight.asleepMinutes),
@@ -207,8 +207,8 @@ class _HealthCard extends StatelessWidget {
                       const SizedBox(height: 2),
                       Text(
                         subtitle,
-                        style: const TextStyle(
-                          color: AppColors.muted,
+                        style: TextStyle(
+                          color: context.colors.muted,
                           fontSize: 13,
                         ),
                       ),
@@ -224,9 +224,9 @@ class _HealthCard extends StatelessWidget {
                 ),
                 if (unit.isNotEmpty) ...[
                   const SizedBox(width: 4),
-                  Text(unit, style: const TextStyle(color: AppColors.muted)),
+                  Text(unit, style: TextStyle(color: context.colors.muted)),
                 ],
-                const Icon(Icons.chevron_right, color: AppColors.muted),
+                Icon(Icons.chevron_right, color: context.colors.muted),
               ],
             ),
           ),

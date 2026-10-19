@@ -35,15 +35,15 @@ String whenText(DateTime t, DateTime now) {
 /// Her metriğin ekrandaki rengi ve simgesi.
 extension MetricLook on MetricType {
   Color get color => switch (this) {
-    MetricType.steps || MetricType.distance => AppColors.steps,
-    MetricType.calories => AppColors.temperature,
-    MetricType.heartRate => AppColors.heart,
-    MetricType.spo2 => AppColors.oxygen,
-    MetricType.hrv => AppColors.accent,
-    MetricType.stress => const Color(0xFFB388EB),
-    MetricType.temperature => AppColors.temperature,
-    MetricType.respiratoryRate => const Color(0xFF7BDFF2),
-    MetricType.systolic || MetricType.diastolic => const Color(0xFFFF8FA3),
+    MetricType.steps || MetricType.distance => DataColors.steps,
+    MetricType.calories => DataColors.temperature,
+    MetricType.heartRate => DataColors.heart,
+    MetricType.spo2 => DataColors.oxygen,
+    MetricType.hrv => DataColors.hrv,
+    MetricType.stress => DataColors.stress,
+    MetricType.temperature => DataColors.temperature,
+    MetricType.respiratoryRate => DataColors.respiration,
+    MetricType.systolic || MetricType.diastolic => DataColors.pressure,
   };
 
   IconData get icon => switch (this) {

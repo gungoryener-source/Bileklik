@@ -25,7 +25,7 @@ class DayLineChart extends StatelessWidget {
             height: 96,
             child: CustomPaint(
               size: Size.infinite,
-              painter: _LinePainter(values, color),
+              painter: _LinePainter(values, color, context.colors.outline),
             ),
           ),
           const SizedBox(height: 8),
@@ -71,7 +71,9 @@ class DayBars extends StatelessWidget {
                         : (v / max).clamp(0.12, 1.0).toDouble(),
                     child: DecoratedBox(
                       decoration: BoxDecoration(
-                        color: v == null ? AppColors.surfaceHigh : colorOf(v),
+                        color: v == null
+                            ? context.colors.surfaceHigh
+                            : colorOf(v),
                         borderRadius: BorderRadius.circular(4),
                       ),
                     ),
@@ -110,7 +112,7 @@ class _HourLabels extends StatelessWidget {
                 fit: BoxFit.scaleDown,
                 child: Text(
                   _labels[i],
-                  style: const TextStyle(color: AppColors.muted, fontSize: 11),
+                  style: TextStyle(color: context.colors.muted, fontSize: 11),
                 ),
               ),
             ),
@@ -121,7 +123,9 @@ class _HourLabels extends StatelessWidget {
 }
 
 class _LinePainter extends CustomPainter {
-  _LinePainter(this.values, this.color);
+  _LinePainter(this.values, this.color, this.tickColor);
+
+  final Color tickColor;
 
   final List<double?> values;
   final Color color;
@@ -134,7 +138,7 @@ class _LinePainter extends CustomPainter {
 
     // Saat çentikleri: veri olmasa da grafiğin yeri belli olsun.
     final tick = Paint()
-      ..color = AppColors.outline
+      ..color = tickColor
       ..strokeWidth = 1.5;
     for (var i = 0; i <= n; i++) {
       final x = i * step;
@@ -181,5 +185,5 @@ class _LinePainter extends CustomPainter {
 
   @override
   bool shouldRepaint(_LinePainter old) =>
-      old.values != values || old.color != color;
+      old.values != values || old.color != color || old.tickColor != tickColor;
 }

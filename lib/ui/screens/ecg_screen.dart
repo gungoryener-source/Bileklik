@@ -62,9 +62,9 @@ class EcgScreen extends StatelessWidget {
               Text('Kayıtlar', style: Theme.of(context).textTheme.titleMedium),
               const SizedBox(height: 10),
               if (records.isEmpty)
-                const Text(
+                Text(
                   'Henüz EKG kaydı yok.',
-                  style: TextStyle(color: AppColors.muted),
+                  style: TextStyle(color: context.colors.muted),
                 ),
               for (final r in records)
                 Padding(
@@ -73,7 +73,7 @@ class EcgScreen extends StatelessWidget {
                     child: ListTile(
                       leading: const Icon(
                         Icons.monitor_heart,
-                        color: AppColors.heart,
+                        color: DataColors.heart,
                       ),
                       title: Text(
                         r.averageHeartRate == null
@@ -83,9 +83,9 @@ class EcgScreen extends StatelessWidget {
                       subtitle: Text(
                         '${whenText(r.start, DateTime.now())} · ${r.duration.inSeconds} sn',
                       ),
-                      trailing: const Icon(
+                      trailing: Icon(
                         Icons.chevron_right,
-                        color: AppColors.muted,
+                        color: context.colors.muted,
                       ),
                       onTap: () => Navigator.of(context).push(
                         MaterialPageRoute<void>(
@@ -206,8 +206,8 @@ class _EcgMeasureScreenState extends State<EcgMeasureScreen> {
             const SizedBox(height: 8),
             LinearProgressIndicator(
               value: s?.progress ?? 1,
-              color: AppColors.heart,
-              backgroundColor: AppColors.surface,
+              color: DataColors.heart,
+              backgroundColor: context.colors.surface,
               minHeight: 6,
               borderRadius: BorderRadius.circular(3),
             ),
@@ -224,7 +224,7 @@ class _EcgMeasureScreenState extends State<EcgMeasureScreen> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Icon(Icons.favorite, color: AppColors.heart),
+                const Icon(Icons.favorite, color: DataColors.heart),
                 const SizedBox(width: 6),
                 Text(
                   '${live?.averageHeartRate ?? '--'}',
@@ -234,14 +234,14 @@ class _EcgMeasureScreenState extends State<EcgMeasureScreen> {
                   ),
                 ),
                 const SizedBox(width: 4),
-                const Text('bpm', style: TextStyle(color: AppColors.muted)),
+                Text('bpm', style: TextStyle(color: context.colors.muted)),
               ],
             ),
             const SizedBox(height: 16),
-            const Text(
+            Text(
               'Parmağınızı elektrottan kaldırmayın ve hareket etmeyin.',
               textAlign: TextAlign.center,
-              style: TextStyle(color: AppColors.muted),
+              style: TextStyle(color: context.colors.muted),
             ),
             const SizedBox(height: 24),
             OutlinedButton(
@@ -329,7 +329,7 @@ class EcgDetailScreen extends StatelessWidget {
               ),
             ),
           const SizedBox(height: 12),
-          const Text(_disclaimer, style: TextStyle(color: AppColors.muted)),
+          Text(_disclaimer, style: TextStyle(color: context.colors.muted)),
         ],
       ),
     );

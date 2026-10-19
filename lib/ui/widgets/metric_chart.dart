@@ -49,7 +49,7 @@ class MetricChart extends StatelessWidget {
             meta: meta,
             child: Text(
               _label(v.toInt()),
-              style: const TextStyle(color: AppColors.muted, fontSize: 11),
+              style: TextStyle(color: context.colors.muted, fontSize: 11),
             ),
           ),
         ),

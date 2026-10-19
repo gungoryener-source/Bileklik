@@ -24,7 +24,7 @@ class StatTile extends StatelessWidget {
               label,
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
-              style: const TextStyle(color: AppColors.muted),
+              style: TextStyle(color: context.colors.muted),
             ),
             FittedBox(
               fit: BoxFit.scaleDown,

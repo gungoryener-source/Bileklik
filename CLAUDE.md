@@ -52,7 +52,7 @@ UI (lib/ui)  ->  DeviceController (lib/state)  ->  WristbandClient  ->  DeviceTr
 1. Komut gerekiyorsa: `lib/device/protocol/` altına kodlayıcı/çözücü, PDF örneğiyle test.
 2. Sahte cihaz o komuta gerçekçi yanıt versin (`fake_device.dart` / `fake_history.dart`).
 3. Veri saklanacaksa `MetricType` ve `SyncService`'e ekleyin.
-4. Ekranı `lib/ui/screens/` altına yazın. Renkler `AppColors` ve `MetricLook`'tan gelir.
+4. Ekranı `lib/ui/screens/` altına yazın. Renkler temadan gelir: nötr renkler `context.colors` (`AppColors` ThemeExtension), veri renkleri `DataColors` ve `MetricLook`. Sabit renk yazmayın; açık ve koyu temada deneyin.
    Tasarım bize ait; referans uygulamanın görselleri kopyalanmaz.
 5. Ekran için `test/` altına widget testi ekleyin.
 
