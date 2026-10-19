@@ -1,8 +1,10 @@
 import 'dart:async';
 import 'dart:math';
 
+import 'fake_ecg.dart';
 import 'fake_history.dart';
 import 'protocol/commands.dart';
+import 'protocol/ecg.dart';
 import 'protocol/exercise.dart';
 import 'protocol/history.dart';
 import 'protocol/packet.dart';
@@ -18,6 +20,7 @@ class FakeDevice implements DeviceTransport {
     Random? random,
     this.realtimeInterval = const Duration(seconds: 2),
     this.exerciseInterval = const Duration(seconds: 1),
+    this.ecgPacketInterval = const Duration(milliseconds: 60),
     DateTime Function()? clock,
   }) : _random = random ?? Random(),
        _clock = clock ?? DateTime.now;
@@ -29,6 +32,13 @@ class FakeDevice implements DeviceTransport {
   /// Egzersizde 0x18 paketlerinin aralığı; her paket 1 saniyelik ilerleme sayılır.
   final Duration exerciseInterval;
   final history = FakeHistory();
+
+  /// Her EKG paketi 15 örnek taşır; 250 Hz için 60 ms'de bir gönderilir.
+  final Duration ecgPacketInterval;
+  static const ecgSamplesPerPacket = 15;
+  bool _ecgRaw = false;
+  Timer? _ecgTimer;
+  int _ecgMode = 0;
 
   _FakeExercise? _exercise;
   Timer? _exerciseTimer;
@@ -75,6 +85,7 @@ class FakeDevice implements DeviceTransport {
   Future<void> disconnect() async {
     _realtimeTimer?.cancel();
     _exerciseTimer?.cancel();
+    _ecgTimer?.cancel();
     _connected = false;
     _state.add(DeviceConnectionState.disconnected);
   }
@@ -145,6 +156,11 @@ class FakeDevice implements DeviceTransport {
         _reply(Packet.build(Cmd.batteryLevel, [_battery, 0, 0x0F, 0xA0]).bytes);
       case ExerciseCmd.control:
         _handleExercise(d);
+      case EcgCmd.raw:
+        _ecgRaw = d[0] == 1;
+        _reply(Packet.build(EcgCmd.raw, [d[0]]).bytes);
+      case EcgCmd.measure:
+        _handleMeasure(d);
       case Cmd.realtime:
         _realtimeTimer?.cancel();
         if (d[0] == 1) {
@@ -300,9 +316,44 @@ class FakeDevice implements DeviceTransport {
     _reply(Packet.build(ExerciseCmd.live, [0xFF, 2]).bytes);
   }
 
+  void _handleMeasure(List<int> d) {
+    if (d[0] == 0x80) {
+      _reply(Packet.build(EcgCmd.measure, [0x80, _ecgMode]).bytes);
+      return;
+    }
+    _ecgTimer?.cancel();
+    final start = d[1] == 1;
+    _ecgMode = start ? d[0] : 0;
+    _reply(Packet.build(EcgCmd.measure, [d[0]]).bytes);
+    if (!start || d[0] != MeasureMode.ecg.code || !_ecgRaw) return;
+
+    final seconds = max(30, d[3] | (d[4] << 8));
+    final synth = EcgSynth(
+      sampleRate: ecgSampleRate,
+      heartRate: _heartRate.toDouble(),
+      random: _random,
+    );
+    var sent = 0;
+    var seq = 0;
+    _ecgTimer = Timer.periodic(ecgPacketInterval, (t) {
+      final raw = <int>[EcgCmd.raw, seq++ & 0xFF];
+      for (var i = 0; i < ecgSamplesPerPacket; i++) {
+        final v = synth.next() & 0xFFFFFF;
+        raw.addAll([v & 0xFF, (v >> 8) & 0xFF, (v >> 16) & 0xFF]);
+      }
+      _reply(raw);
+      sent += ecgSamplesPerPacket;
+      if (sent >= seconds * ecgSampleRate) {
+        t.cancel();
+        _ecgMode = 0;
+      }
+    });
+  }
+
   void dispose() {
     _realtimeTimer?.cancel();
     _exerciseTimer?.cancel();
+    _ecgTimer?.cancel();
     _state.close();
     _incoming.close();
   }

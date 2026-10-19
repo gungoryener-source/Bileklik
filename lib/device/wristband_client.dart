@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'protocol/commands.dart';
+import 'protocol/ecg.dart';
 import 'protocol/exercise.dart';
 import 'protocol/history.dart';
 import 'protocol/packet.dart';
@@ -33,6 +34,11 @@ class WristbandClient {
 
   Stream<RealtimeData> get realtime => _realtime.stream;
 
+  final _ecg = StreamController<EcgPacket>.broadcast();
+
+  /// 0x07 ile açılan ham EKG örnekleri.
+  Stream<EcgPacket> get ecg => _ecg.stream;
+
   final _exercise = StreamController<ExerciseEvent>.broadcast();
 
   /// Egzersiz sürerken gelen 0x18 verileri ve uyarıları.
@@ -43,6 +49,10 @@ class WristbandClient {
     final command = raw[0] & 0x7F;
     if (command == Cmd.realtime && raw.length > Packet.length) {
       _realtime.add(Decoders.realtime(raw));
+      return;
+    }
+    if (EcgPacket.isData(raw)) {
+      _ecg.add(EcgPacket.parse(raw));
       return;
     }
     if (command == ExerciseCmd.live && raw.length > 3) {
@@ -112,6 +122,17 @@ class WristbandClient {
     await _request(exerciseControl(action, type)),
   );
 
+  /// EKG ölçümünü başlatır: önce ham veri akışı, sonra 0x28 04 01.
+  Future<void> startEcg({int seconds = 30}) async {
+    await _request(ecgRawSwitch(true));
+    await _request(measurement(MeasureMode.ecg, start: true, seconds: seconds));
+  }
+
+  Future<void> stopEcg() async {
+    await _request(measurement(MeasureMode.ecg, start: false));
+    await _request(ecgRawSwitch(false));
+  }
+
   _HistoryCollector? _history;
 
   /// Bir geçmiş türünün [since] sonrasındaki tüm kayıtlarını çeker.
@@ -153,6 +174,7 @@ class WristbandClient {
     await _sub.cancel();
     await _realtime.close();
     await _exercise.close();
+    await _ecg.close();
   }
 }
 

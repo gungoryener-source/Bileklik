@@ -2,10 +2,12 @@ import 'dart:async';
 
 import 'package:flutter/foundation.dart';
 
+import '../data/ecg_analysis.dart';
 import '../data/health_store.dart';
 import '../data/sync_service.dart';
 import '../data/models.dart';
 import '../device/protocol/commands.dart';
+import '../device/protocol/ecg.dart';
 import '../device/protocol/exercise.dart';
 import '../device/transport.dart';
 import '../device/wristband_client.dart';
@@ -28,6 +30,7 @@ class DeviceController extends ChangeNotifier {
       notifyListeners();
     });
     _exerciseSub = _client.exerciseEvents.listen(_onExercise);
+    _ecgSub = _client.ecg.listen(_onEcg);
   }
 
   final DeviceTransport _transport;
@@ -39,6 +42,7 @@ class DeviceController extends ChangeNotifier {
   late final StreamSubscription<DeviceConnectionState> _stateSub;
   late final StreamSubscription<RealtimeData> _realtimeSub;
   late final StreamSubscription<ExerciseEvent> _exerciseSub;
+  late final StreamSubscription<EcgPacket> _ecgSub;
 
   DeviceConnectionState connection = DeviceConnectionState.disconnected;
   RealtimeData? live;
@@ -54,6 +58,12 @@ class DeviceController extends ChangeNotifier {
 
   /// En son biten egzersiz; özet ekranı bunu gösterir.
   Workout? lastWorkout;
+
+  /// Süren EKG ölçümü; yoksa null.
+  EcgSession? ecg;
+
+  /// En son tamamlanan EKG kaydı.
+  EcgRecording? lastEcg;
 
   String get deviceName => _transport.name;
   bool get isConnected => connection == DeviceConnectionState.connected;
@@ -93,6 +103,7 @@ class DeviceController extends ChangeNotifier {
     await _transport.disconnect();
     live = null;
     exercise = null;
+    ecg = null;
     notifyListeners();
   }
 
@@ -197,8 +208,84 @@ class DeviceController extends ChangeNotifier {
     notifyListeners();
   }
 
+  /// EKG ölçümünü başlatır. Bileklik [seconds] boyunca ham veri gönderir.
+  Future<bool> startEcg({int seconds = 30}) async {
+    if (ecg != null) return true;
+    error = null;
+    lastEcg = null;
+    final session = EcgSession(DateTime.now(), seconds);
+    ecg = session;
+    notifyListeners();
+    try {
+      await _client.startEcg(seconds: seconds);
+      // Paketler gelmezse ölçüm süresi ve 10 sn pay sonunda bitir.
+      session.watchdog = Timer(Duration(seconds: seconds + 10), () {
+        if (ecg == session) _completeEcg(session);
+      });
+    } catch (e) {
+      error = e.toString();
+      ecg = null;
+      notifyListeners();
+      return false;
+    }
+    return true;
+  }
+
+  Future<void> cancelEcg() async {
+    final session = ecg;
+    if (session == null) return;
+    session.watchdog?.cancel();
+    ecg = null;
+    notifyListeners();
+    try {
+      await _client.stopEcg();
+    } catch (_) {}
+  }
+
+  void _onEcg(EcgPacket p) {
+    final session = ecg;
+    if (session == null) return;
+    session.samples.addAll(p.samples);
+    if (session.samples.length >= session.target) {
+      _completeEcg(session);
+    } else {
+      notifyListeners();
+    }
+  }
+
+  Future<void> _completeEcg(EcgSession session) async {
+    session.watchdog?.cancel();
+    ecg = null;
+    final samples = session.samples.length > session.target
+        ? session.samples.sublist(0, session.target)
+        : session.samples;
+    if (samples.length >= ecgSampleRate * 5) {
+      final s = EcgSummary.analyze(samples, ecgSampleRate);
+      final r = EcgRecording(
+        start: session.start,
+        sampleRate: ecgSampleRate,
+        samples: List.unmodifiable(samples),
+        averageHeartRate: s.averageHeartRate,
+        minHeartRate: s.minHeartRate,
+        maxHeartRate: s.maxHeartRate,
+        sdnn: s.sdnn,
+        beats: s.peaks.length,
+      );
+      store.addEcg(r);
+      lastEcg = r;
+    } else {
+      error = 'EKG verisi alınamadı. Bilekliği takıp parmağınızı elektroda dokundurun.';
+    }
+    notifyListeners();
+    try {
+      await _client.stopEcg();
+    } catch (_) {}
+  }
+
   @override
   void dispose() {
+    ecg?.watchdog?.cancel();
+    _ecgSub.cancel();
     _stateSub.cancel();
     _realtimeSub.cancel();
     _exerciseSub.cancel();
@@ -226,4 +313,19 @@ class ActiveExercise {
   int? get averageHeartRate => heartRates.isEmpty
       ? null
       : (heartRates.reduce((a, b) => a + b) / heartRates.length).round();
+}
+
+/// Süren EKG ölçümü.
+class EcgSession {
+  EcgSession(this.start, this.seconds);
+
+  final DateTime start;
+  final int seconds;
+  final samples = <int>[];
+  Timer? watchdog;
+
+  int get target => seconds * ecgSampleRate;
+  double get progress => (samples.length / target).clamp(0, 1);
+  Duration get remaining =>
+      Duration(seconds: seconds - samples.length ~/ ecgSampleRate);
 }

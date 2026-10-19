@@ -23,6 +23,11 @@ abstract class HealthStore extends ChangeNotifier {
   /// En yenisi önce.
   List<Workout> workoutsBetween(DateTime from, DateTime to);
   DateTime? lastWorkoutStart();
+
+  void addEcg(EcgRecording r);
+
+  /// En yenisi önce.
+  List<EcgRecording> ecgRecordings();
 }
 
 class MemoryHealthStore extends HealthStore {
@@ -30,6 +35,7 @@ class MemoryHealthStore extends HealthStore {
   final _seen = <Measurement>{};
   final _sleep = <DateTime, SleepSession>{};
   final _workouts = <DateTime, Workout>{};
+  final _ecg = <EcgRecording>[];
 
   @override
   void addMeasurements(Iterable<Measurement> items) {
@@ -107,4 +113,14 @@ class MemoryHealthStore extends HealthStore {
   DateTime? lastWorkoutStart() => _workouts.isEmpty
       ? null
       : _workouts.keys.reduce((a, b) => a.isAfter(b) ? a : b);
+
+  @override
+  void addEcg(EcgRecording r) {
+    _ecg.add(r);
+    notifyListeners();
+  }
+
+  @override
+  List<EcgRecording> ecgRecordings() =>
+      [..._ecg]..sort((a, b) => b.start.compareTo(a.start));
 }
