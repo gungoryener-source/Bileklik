@@ -32,10 +32,15 @@ String weekdayLong(int weekday) => _fmt('EEEE').format(_monday(weekday));
 // 2024-01-01 bir pazartesi.
 DateTime _monday(int weekday) => DateTime(2024, 1, weekday);
 
+/// Sayı ve birimi soldan sağa yalıtır; Arapça satırda "3.81 km" parçalanmaz.
+String ltr(String s) => '\u2066$s\u2069';
+
 String two(int v) => v.toString().padLeft(2, '0');
 String hhmm(DateTime t) => '${two(t.hour)}:${two(t.minute)}';
-String dayMonth(DateTime t) => _fmt('d MMMM').format(t);
-String monthYear(DateTime t) => _fmt('MMMM y').format(t);
+// Kalıp yerine iskelet: her dil kendi sırasını ve noktalamasını kullanır
+// (19 Ekim, October 19, 19. Oktober).
+String dayMonth(DateTime t) => _fmt(DateFormat.MONTH_DAY).format(t);
+String monthYear(DateTime t) => _fmt(DateFormat.YEAR_MONTH).format(t);
 
 /// "1 sa 25 dk" biçiminde süre.
 String duration(int minutes) {
@@ -76,6 +81,8 @@ extension MetricLook on MetricType {
   String get unit => switch (this) {
     MetricType.steps => currentL10n.unitSteps,
     MetricType.respiratoryRate => currentL10n.unitPerMinute,
+    // Soldan sağa işareti: Arapçada "°C" ters dönüp "C°" görünmesin.
+    MetricType.temperature => '\u200E$symbol',
     _ => symbol,
   };
 

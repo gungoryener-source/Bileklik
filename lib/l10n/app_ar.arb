@@ -91,7 +91,7 @@
   "homeHrvLabel": "تقلب معدل نبض القلب",
   "homeKilometers": "كيلومتر",
   "homeListSeparator": "، ",
-  "homeMeasureEcg": "قياس تخطيط القلب",
+  "homeMeasureEcg": "تخطيط القلب",
   "homeMs": "{value} مللي ثانية",
   "homeNextDay": "اليوم التالي",
   "homeNoRecord": "لا يوجد سجل",

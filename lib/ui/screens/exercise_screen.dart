@@ -90,7 +90,7 @@ class ExerciseScreen extends StatelessWidget {
                 const SizedBox(width: 10),
                 _WeekStat(
                   MetricType.calories.label,
-                  '${weekKcal.round()} ${MetricType.calories.unit}',
+                  ltr('${weekKcal.round()} ${MetricType.calories.unit}'),
                 ),
               ],
             ),
@@ -156,11 +156,18 @@ class _WeekStat extends StatelessWidget {
               style: TextStyle(color: context.colors.muted, fontSize: 12),
             ),
             const SizedBox(height: 4),
-            Text(
-              value,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+            // Uzun değer ("4 Trainings", "2 Std. 18 Min.") kesilmez, küçülür.
+            FittedBox(
+              fit: BoxFit.scaleDown,
+              alignment: AlignmentDirectional.centerStart,
+              child: Text(
+                value,
+                maxLines: 1,
+                style: const TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
             ),
           ],
         ),
@@ -219,7 +226,7 @@ class _WorkoutTile extends StatelessWidget {
       if (w.distanceKm > 0)
         '${w.distanceKm.toStringAsFixed(2)} ${MetricType.distance.unit}',
       '${w.calories.round()} ${MetricType.calories.unit}',
-    ].join(' · ');
+    ].map(ltr).join(' · ');
     return Padding(
       padding: const EdgeInsets.only(bottom: 10),
       child: Card(

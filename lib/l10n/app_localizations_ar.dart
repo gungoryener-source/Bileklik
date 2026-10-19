@@ -347,7 +347,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get homeListSeparator => '، ';
 
   @override
-  String get homeMeasureEcg => 'قياس تخطيط القلب';
+  String get homeMeasureEcg => 'تخطيط القلب';
 
   @override
   String homeMs(Object value) {
