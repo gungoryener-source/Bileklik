@@ -61,6 +61,7 @@ class DeviceController extends ChangeNotifier {
   BatteryStatus? battery;
   PersonalInfo? profile;
   DateTime? lastUpdate;
+
   /// Son hatanın teknik ayrıntısı (kayıt ve hata ayıklama için).
   String? get error => _error;
   String? _error;
@@ -119,6 +120,33 @@ class DeviceController extends ChangeNotifier {
     syncing = false;
     notifyListeners();
   }
+
+  /// Arama sürüyor mu.
+  bool scanning = false;
+
+  /// Son aramada bulunan bileklikler.
+  List<DiscoveredDevice> found = const [];
+
+  /// Yakındaki bileklikleri arar.
+  Future<List<DiscoveredDevice>> scan() async {
+    if (scanning) return found;
+    scanning = true;
+    error = null;
+    notifyListeners();
+    try {
+      found = await _transport.scan();
+    } catch (e) {
+      error = e.toString();
+      found = const [];
+    }
+    scanning = false;
+    notifyListeners();
+    return found;
+  }
+
+  /// Aramada seçilen bilekliğe bağlanır. Sahte cihazda tek bileklik var;
+  /// gerçek BLE katmanı adresi kullanacak (bileklik gelince).
+  Future<void> connectTo(DiscoveredDevice device) => connect();
 
   Future<void> disconnect() async {
     await _transport.disconnect();

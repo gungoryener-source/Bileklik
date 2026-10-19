@@ -1,222 +1,250 @@
 import 'package:flutter/material.dart';
 
-import '../../device/protocol/commands.dart';
+import '../../app_info.dart';
 import '../../l10n/l10n.dart';
 import '../app_shell.dart';
-import '../format.dart';
 import '../theme.dart';
-import 'language_screen.dart';
+import 'about_screen.dart';
+import 'device_screen.dart';
+import 'general_settings_screen.dart';
+import 'personal_info_screen.dart';
 
-/// Kişisel bilgiler. Kaydedilen değerler 0x02 komutuyla bilekliğe yazılır;
-/// cihaz kalori ve mesafeyi bu bilgilerle hesaplar.
-class ProfileScreen extends StatefulWidget {
+/// Profil sekmesi: kişisel bilgiler, cihaz, ayarlar ve uygulama menüsü.
+///
+/// Paylaşım, araştırma kurumu ve üçüncü taraf bölümleri ROADMAP 9-11'de
+/// gelecek; şimdilik "Yakında" olarak görünür.
+class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
 
   @override
-  State<ProfileScreen> createState() => _ProfileScreenState();
-}
-
-class _ProfileScreenState extends State<ProfileScreen> {
-  final _form = GlobalKey<FormState>();
-  final _age = TextEditingController();
-  final _height = TextEditingController();
-  final _weight = TextEditingController();
-  bool _isMale = true;
-  PersonalInfo? _loaded;
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    final p = DeviceScope.of(context).profile;
-    if (p != null && !identical(p, _loaded)) {
-      _loaded = p;
-      _isMale = p.isMale;
-      _age.text = '${p.age}';
-      _height.text = '${p.heightCm}';
-      _weight.text = '${p.weightKg}';
-    }
-  }
-
-  @override
-  void dispose() {
-    _age.dispose();
-    _height.dispose();
-    _weight.dispose();
-    super.dispose();
-  }
-
-  String? _range(String? v, int min, int max) {
-    final n = int.tryParse(v ?? '');
-    if (n == null || n < min || n > max) {
-      return context.l10n.profileRangeError(min, max);
-    }
-    return null;
-  }
-
-  Future<void> _save() async {
-    if (!_form.currentState!.validate()) return;
-    final c = DeviceScope.of(context);
-    await c.saveProfile(
-      PersonalInfo(
-        isMale: _isMale,
-        age: int.parse(_age.text),
-        heightCm: int.parse(_height.text),
-        weightKg: int.parse(_weight.text),
-      ),
-    );
-    if (!mounted) return;
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(issueText(c) ?? context.l10n.profileSaved)),
-    );
-  }
-
-  @override
   Widget build(BuildContext context) {
     final c = DeviceScope.of(context);
     final l = context.l10n;
-    return Form(
-      key: _form,
-      child: ListView(
-        padding: const EdgeInsets.all(20),
-        children: [
-          Text(
+    final p = c.profile;
+    final battery = c.battery?.percent;
+
+    void open(Widget screen) =>
+        Navigator.of(context)
+            .push(MaterialPageRoute<void>(builder: (_) => screen));
+
+    void soon() {
+      ScaffoldMessenger.of(context)
+        ..hideCurrentSnackBar()
+        ..showSnackBar(SnackBar(content: Text(l.comingSoonMessage)));
+    }
+
+    return ListView(
+      padding: const EdgeInsets.fromLTRB(16, 20, 16, 24),
+      children: [
+        Padding(
+          padding: const EdgeInsetsDirectional.only(start: 4, bottom: 16),
+          child: Text(
             l.profileTitle,
             style: Theme.of(context).textTheme.headlineMedium,
           ),
-          const SizedBox(height: 4),
-          Text(
-            c.profile?.mac != null
-                ? l.profileDevice(c.profile!.mac!)
-                : l.profileConnectFirst,
-            style: TextStyle(color: context.colors.muted),
-          ),
-          const SizedBox(height: 20),
-          SegmentedButton<bool>(
-            segments: [
-              ButtonSegment(value: false, label: Text(l.profileFemale)),
-              ButtonSegment(value: true, label: Text(l.profileMale)),
-            ],
-            selected: {_isMale},
-            onSelectionChanged: (s) => setState(() => _isMale = s.first),
-          ),
-          const SizedBox(height: 16),
-          _field(
-            _age,
-            l.profileAge,
-            l.profileUnitYears,
-            (v) => _range(v, 5, 120),
-          ),
-          _field(
-            _height,
-            l.profileHeight,
-            l.profileUnitCm,
-            (v) => _range(v, 80, 250),
-          ),
-          _field(
-            _weight,
-            l.profileWeight,
-            l.profileUnitKg,
-            (v) => _range(v, 20, 250),
-          ),
-          const SizedBox(height: 8),
-          FilledButton(
-            onPressed: c.isConnected ? _save : null,
-            child: Text(l.profileSave),
-          ),
-          const SizedBox(height: 32),
-          Text(
-            l.profileAppearance,
-            style: Theme.of(context).textTheme.titleMedium,
-          ),
-          const SizedBox(height: 12),
-          const _ThemePicker(),
-          const SizedBox(height: 8),
-          const _LanguageRow(),
-        ],
-      ),
-    );
-  }
-
-  Widget _field(
-    TextEditingController ctrl,
-    String label,
-    String suffix,
-    String? Function(String?) validator,
-  ) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 12),
-      child: TextFormField(
-        controller: ctrl,
-        keyboardType: TextInputType.number,
-        decoration: InputDecoration(
-          labelText: label,
-          suffixText: suffix,
-          border: const OutlineInputBorder(),
         ),
-        validator: validator,
-      ),
-    );
-  }
-}
-
-/// Tema seçimi: telefonun ayarına uy, her zaman açık ya da koyu.
-class _ThemePicker extends StatelessWidget {
-  const _ThemePicker();
-
-  @override
-  Widget build(BuildContext context) {
-    final settings = SettingsScope.of(context);
-    final l = context.l10n;
-    return SegmentedButton<ThemeMode>(
-      segments: [
-        ButtonSegment(
-          value: ThemeMode.system,
-          icon: const Icon(Icons.brightness_auto),
-          label: Text(l.profileThemeSystem),
+        _Group(
+          children: [
+            _MenuTile(
+              icon: Icons.person,
+              large: true,
+              title: l.personalInfoTitle,
+              subtitle: p == null
+                  ? l.profileMenuPersonalEmpty
+                  : l.profileMenuPersonalSummary(p.age, p.heightCm, p.weightKg),
+              onTap: () => open(const PersonalInfoScreen()),
+            ),
+          ],
         ),
-        ButtonSegment(
-          value: ThemeMode.light,
-          icon: const Icon(Icons.light_mode),
-          label: Text(l.profileThemeLight),
+        _Header(l.profileSectionSettings),
+        _Group(
+          children: [
+            _MenuTile(
+              icon: Icons.watch,
+              title: l.profileMenuDevice,
+              subtitle: c.isConnected
+                  ? l.profileMenuDeviceConnected(battery ?? 0)
+                  : l.profileMenuDeviceNone,
+              onTap: () => open(const DeviceScreen()),
+            ),
+            _MenuTile(
+              icon: Icons.tune,
+              title: l.profileMenuGeneral,
+              subtitle: l.profileMenuGeneralSubtitle,
+              onTap: () => open(const GeneralSettingsScreen()),
+            ),
+          ],
         ),
-        ButtonSegment(
-          value: ThemeMode.dark,
-          icon: const Icon(Icons.dark_mode),
-          label: Text(l.profileThemeDark),
+        _Header(l.profileSectionSharing),
+        _Group(
+          children: [
+            _MenuTile(
+              icon: Icons.family_restroom,
+              title: l.profileMenuSharing,
+              soon: true,
+              onTap: soon,
+            ),
+            _MenuTile(
+              icon: Icons.biotech,
+              title: l.profileMenuResearch,
+              soon: true,
+              onTap: soon,
+            ),
+            _MenuTile(
+              icon: Icons.sync_alt,
+              title: l.profileMenuThirdParty,
+              soon: true,
+              onTap: soon,
+            ),
+          ],
+        ),
+        _Header(l.profileSectionApp),
+        _Group(
+          children: [
+            _MenuTile(
+              icon: Icons.info_outline,
+              title: l.profileMenuAbout,
+              onTap: () => open(const AboutScreen()),
+            ),
+            _MenuTile(
+              icon: Icons.chat_bubble_outline,
+              title: l.profileMenuFeedback,
+              soon: true,
+              onTap: soon,
+            ),
+            _MenuTile(
+              icon: Icons.verified_outlined,
+              title: l.profileMenuVersion,
+              value: appVersion,
+            ),
+          ],
         ),
       ],
-      selected: {settings.themeMode},
-      onSelectionChanged: (s) => settings.setThemeMode(s.first),
     );
   }
 }
 
-/// Dil satırı: seçili dili gösterir, dokununca dil seçimini açar.
-class _LanguageRow extends StatelessWidget {
-  const _LanguageRow();
+class _Header extends StatelessWidget {
+  const _Header(this.text);
+  final String text;
+
+  @override
+  Widget build(BuildContext context) => Padding(
+    padding: const EdgeInsetsDirectional.fromSTEB(4, 24, 4, 8),
+    child: Text(
+      text,
+      style: Theme.of(context).textTheme.titleSmall
+          ?.copyWith(color: context.colors.muted, fontWeight: FontWeight.w600),
+    ),
+  );
+}
+
+/// Kenarlı kart içinde, aralarında ince çizgi olan satırlar.
+class _Group extends StatelessWidget {
+  const _Group({required this.children});
+  final List<Widget> children;
+
+  @override
+  Widget build(BuildContext context) => Material(
+    color: context.colors.surface,
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(20),
+      side: BorderSide(color: context.colors.outline),
+    ),
+    clipBehavior: Clip.antiAlias,
+    child: Column(
+      children: [
+        for (var i = 0; i < children.length; i++) ...[
+          if (i > 0)
+            Divider(
+              height: 1,
+              indent: 72,
+              endIndent: 16,
+              color: context.colors.outline,
+            ),
+          children[i],
+        ],
+      ],
+    ),
+  );
+}
+
+class _MenuTile extends StatelessWidget {
+  const _MenuTile({
+    required this.icon,
+    required this.title,
+    this.subtitle,
+    this.value,
+    this.onTap,
+    this.soon = false,
+    this.large = false,
+  });
+
+  final IconData icon;
+  final String title;
+  final String? subtitle;
+
+  /// Sağda (Arapçada solda) gösterilen değer; varsa ok çizilmez.
+  final String? value;
+  final VoidCallback? onTap;
+  final bool soon;
+  final bool large;
 
   @override
   Widget build(BuildContext context) {
-    final l = context.l10n;
-    final code = SettingsScope.of(context).language;
-    final current = code == null ? l.languageSystem : languageName(code);
-    return Card(
-      margin: EdgeInsets.zero,
-      clipBehavior: Clip.antiAlias,
-      child: Semantics(
-        button: true,
-        child: ListTile(
-          minTileHeight: 56,
-          leading: const Icon(Icons.translate),
-          title: Text(l.languageTitle),
-          subtitle: Text(current),
-          // chevron_right yazı yönüne göre kendiliğinden döner.
-          trailing: Icon(Icons.chevron_right, color: context.colors.muted),
-          onTap: () => Navigator.of(context).push(
-            MaterialPageRoute<void>(builder: (_) => const LanguageScreen()),
-          ),
+    final colors = context.colors;
+    final size = large ? 48.0 : 40.0;
+    final Widget? trailing = value != null
+        ? Text(value!, style: TextStyle(color: colors.muted))
+        : soon
+        ? _SoonChip()
+        : onTap != null
+        ? Icon(Icons.chevron_right, color: colors.muted)
+        : null;
+    return ListTile(
+      minTileHeight: large ? 76 : 60,
+      contentPadding: const EdgeInsetsDirectional.only(start: 16, end: 12),
+      leading: Container(
+        width: size,
+        height: size,
+        decoration: BoxDecoration(
+          color: large ? colors.glow : colors.surfaceHigh,
+          shape: BoxShape.circle,
+        ),
+        child: Icon(
+          icon,
+          size: large ? 26 : 22,
+          color: large ? colors.accent : colors.text,
         ),
       ),
+      title: Text(
+        title,
+        style: TextStyle(
+          fontWeight: large ? FontWeight.w600 : FontWeight.w500,
+          fontSize: large ? 17 : 15,
+          color: soon ? colors.muted : colors.text,
+        ),
+      ),
+      subtitle: subtitle == null
+          ? null
+          : Text(subtitle!, style: TextStyle(color: colors.muted)),
+      trailing: trailing,
+      onTap: onTap,
     );
   }
+}
+
+class _SoonChip extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) => Container(
+    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+    decoration: BoxDecoration(
+      color: context.colors.surfaceHigh,
+      borderRadius: BorderRadius.circular(12),
+    ),
+    child: Text(
+      context.l10n.comingSoon,
+      style: TextStyle(color: context.colors.muted, fontSize: 12),
+    ),
+  );
 }

@@ -10,6 +10,26 @@ class AppLocalizationsDe extends AppLocalizations {
   AppLocalizationsDe([String locale = 'de']) : super(locale);
 
   @override
+  String get aboutDescription =>
+      'Bileklik zeigt die Messwerte Ihres JCV8-EKG-Armbands auf dem Telefon an.';
+
+  @override
+  String get aboutLicenses => 'Open-Source-Lizenzen';
+
+  @override
+  String get aboutMedical =>
+      'Diese App ist kein Medizinprodukt; wenden Sie sich für Diagnose und Behandlung an Ihren Arzt. Blutdruckwerte sind Schätzwerte.';
+
+  @override
+  String get aboutPrivacy =>
+      'Ihre Messwerte bleiben auf diesem Telefon. Wenn das Teilen hinzukommt, entscheiden Sie, wer was sieht.';
+
+  @override
+  String aboutVersion(Object version) {
+    return 'Version $version';
+  }
+
+  @override
   String get appTitle => 'Bileklik';
 
   @override
@@ -37,7 +57,47 @@ class AppLocalizationsDe extends AppLocalizations {
   String get bandTense => 'Angespannt';
 
   @override
+  String get comingSoon => 'Demnächst';
+
+  @override
+  String get comingSoonMessage =>
+      'Dieser Bereich folgt in einer späteren Version.';
+
+  @override
   String get continueButton => 'Weiter';
+
+  @override
+  String get deviceAddress => 'Adresse';
+
+  @override
+  String get deviceBattery => 'Akku';
+
+  @override
+  String deviceBatteryValue(Object value) {
+    return '$value %';
+  }
+
+  @override
+  String get deviceConnected => 'Verbunden';
+
+  @override
+  String get deviceDisconnect => 'Trennen';
+
+  @override
+  String get deviceDisconnected => 'Nicht verbunden';
+
+  @override
+  String get deviceLastSync => 'Letzte Synchronisierung';
+
+  @override
+  String get devicePairNew => 'Anderes Armband koppeln';
+
+  @override
+  String get deviceSettingsNote =>
+      'Einstellungen für Pulsintervall und Hinweise folgen hier bald.';
+
+  @override
+  String get deviceStatus => 'Status';
 
   @override
   String durationHours(Object h) {
@@ -648,6 +708,59 @@ class AppLocalizationsDe extends AppLocalizations {
   String get noValue => '--';
 
   @override
+  String get pairCode => 'Mit Adresse koppeln';
+
+  @override
+  String get pairCodeHint =>
+      'Geben Sie die Adresse unter dem QR-Code auf der Verpackung oder der Rückseite des Armbands ein.';
+
+  @override
+  String get pairCodeInvalid =>
+      'Die Adresse hat 12 Zeichen, z. B. A1:B2:C3:D4:E5:F6';
+
+  @override
+  String get pairCodeLabel => 'Geräteadresse';
+
+  @override
+  String get pairCodeNotFound =>
+      'Unter dieser Adresse wurde kein Armband gefunden.';
+
+  @override
+  String get pairConnect => 'Verbinden';
+
+  @override
+  String get pairConnected => 'Armband verbunden.';
+
+  @override
+  String get pairFound => 'Gefundene Armbänder';
+
+  @override
+  String get pairNoneFound =>
+      'Kein Armband gefunden. Prüfen Sie, ob es geladen und in der Nähe ist, und versuchen Sie es erneut.';
+
+  @override
+  String get pairNote =>
+      'Laden Sie das Armband und halten Sie es in der Nähe des Telefons. Bluetooth muss eingeschaltet sein.';
+
+  @override
+  String get pairScan => 'Suche starten';
+
+  @override
+  String get pairScanning => 'Suche läuft…';
+
+  @override
+  String pairSignal(Object rssi) {
+    return 'Signal $rssi dBm';
+  }
+
+  @override
+  String get pairSubtitle =>
+      'Verbinden Sie Ihr Armband, damit Ihre Messwerte auf das Telefon kommen.';
+
+  @override
+  String get pairTitle => 'Armband koppeln';
+
+  @override
   String get periodDay => 'Tag';
 
   @override
@@ -655,6 +768,9 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get periodWeek => 'Woche';
+
+  @override
+  String get personalInfoTitle => 'Persönliche Daten';
 
   @override
   String get profileAge => 'Alter';
@@ -681,6 +797,49 @@ class AppLocalizationsDe extends AppLocalizations {
   String get profileMale => 'Männlich';
 
   @override
+  String get profileMenuAbout => 'Über die App';
+
+  @override
+  String get profileMenuDevice => 'Gerät';
+
+  @override
+  String profileMenuDeviceConnected(Object battery) {
+    return 'Verbunden · Akku $battery %';
+  }
+
+  @override
+  String get profileMenuDeviceNone => 'Kein Armband verbunden';
+
+  @override
+  String get profileMenuFeedback => 'Feedback';
+
+  @override
+  String get profileMenuGeneral => 'Allgemeine Einstellungen';
+
+  @override
+  String get profileMenuGeneralSubtitle => 'Darstellung und Sprache';
+
+  @override
+  String get profileMenuPersonalEmpty => 'Alter, Größe und Gewicht eingeben';
+
+  @override
+  String profileMenuPersonalSummary(Object age, Object height, Object weight) {
+    return '$age J. · $height cm · $weight kg';
+  }
+
+  @override
+  String get profileMenuResearch => 'Forschungseinrichtung';
+
+  @override
+  String get profileMenuSharing => 'Mit Familie und Ärzten teilen';
+
+  @override
+  String get profileMenuThirdParty => 'Health Connect und Apple Health';
+
+  @override
+  String get profileMenuVersion => 'App-Version';
+
+  @override
   String profileRangeError(Object min, Object max) {
     return 'Muss zwischen $min und $max liegen';
   }
@@ -690,6 +849,15 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get profileSaved => 'Angaben auf dem Armband gespeichert';
+
+  @override
+  String get profileSectionApp => 'App';
+
+  @override
+  String get profileSectionSettings => 'Einstellungen';
+
+  @override
+  String get profileSectionSharing => 'Teilen und Verbindungen';
 
   @override
   String get profileThemeDark => 'Dunkel';

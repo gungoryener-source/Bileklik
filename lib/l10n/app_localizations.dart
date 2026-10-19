@@ -102,6 +102,36 @@ abstract class AppLocalizations {
     Locale('tr'),
   ];
 
+  /// No description provided for @aboutDescription.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bileklik, JCV8 EKG bilekliğinizin ölçümlerini telefonunuzda gösterir.'**
+  String get aboutDescription;
+
+  /// No description provided for @aboutLicenses.
+  ///
+  /// In tr, this message translates to:
+  /// **'Açık kaynak lisansları'**
+  String get aboutLicenses;
+
+  /// No description provided for @aboutMedical.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bu uygulama tıbbi cihaz değildir; teşhis ve tedavi için hekiminize danışın. Tansiyon değerleri tahminidir.'**
+  String get aboutMedical;
+
+  /// No description provided for @aboutPrivacy.
+  ///
+  /// In tr, this message translates to:
+  /// **'Ölçümleriniz yalnızca bu telefonda tutulur. Paylaşım geldiğinde kimin neyi göreceğine siz karar vereceksiniz (KVKK).'**
+  String get aboutPrivacy;
+
+  /// No description provided for @aboutVersion.
+  ///
+  /// In tr, this message translates to:
+  /// **'Sürüm {version}'**
+  String aboutVersion(Object version);
+
   /// No description provided for @appTitle.
   ///
   /// In tr, this message translates to:
@@ -156,11 +186,83 @@ abstract class AppLocalizations {
   /// **'Gergin'**
   String get bandTense;
 
+  /// No description provided for @comingSoon.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yakında'**
+  String get comingSoon;
+
+  /// No description provided for @comingSoonMessage.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bu bölüm sonraki bir sürümde gelecek.'**
+  String get comingSoonMessage;
+
   /// No description provided for @continueButton.
   ///
   /// In tr, this message translates to:
   /// **'Devam'**
   String get continueButton;
+
+  /// No description provided for @deviceAddress.
+  ///
+  /// In tr, this message translates to:
+  /// **'Adres'**
+  String get deviceAddress;
+
+  /// No description provided for @deviceBattery.
+  ///
+  /// In tr, this message translates to:
+  /// **'Pil'**
+  String get deviceBattery;
+
+  /// No description provided for @deviceBatteryValue.
+  ///
+  /// In tr, this message translates to:
+  /// **'%{value}'**
+  String deviceBatteryValue(Object value);
+
+  /// No description provided for @deviceConnected.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bağlı'**
+  String get deviceConnected;
+
+  /// No description provided for @deviceDisconnect.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bağlantıyı kes'**
+  String get deviceDisconnect;
+
+  /// No description provided for @deviceDisconnected.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bağlı değil'**
+  String get deviceDisconnected;
+
+  /// No description provided for @deviceLastSync.
+  ///
+  /// In tr, this message translates to:
+  /// **'Son eşitleme'**
+  String get deviceLastSync;
+
+  /// No description provided for @devicePairNew.
+  ///
+  /// In tr, this message translates to:
+  /// **'Başka bileklik eşleştir'**
+  String get devicePairNew;
+
+  /// No description provided for @deviceSettingsNote.
+  ///
+  /// In tr, this message translates to:
+  /// **'Nabız ölçüm aralığı ve bildirim ayarları yakında burada olacak.'**
+  String get deviceSettingsNote;
+
+  /// No description provided for @deviceStatus.
+  ///
+  /// In tr, this message translates to:
+  /// **'Durum'**
+  String get deviceStatus;
 
   /// No description provided for @durationHours.
   ///
@@ -1134,6 +1236,96 @@ abstract class AppLocalizations {
   /// **'--'**
   String get noValue;
 
+  /// No description provided for @pairCode.
+  ///
+  /// In tr, this message translates to:
+  /// **'Adresle eşleştir'**
+  String get pairCode;
+
+  /// No description provided for @pairCodeHint.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kutudaki ya da bilekliğin arkasındaki QR kodunun altında yazan adresi girin.'**
+  String get pairCodeHint;
+
+  /// No description provided for @pairCodeInvalid.
+  ///
+  /// In tr, this message translates to:
+  /// **'Adres 12 karakterdir, ör. A1:B2:C3:D4:E5:F6'**
+  String get pairCodeInvalid;
+
+  /// No description provided for @pairCodeLabel.
+  ///
+  /// In tr, this message translates to:
+  /// **'Cihaz adresi'**
+  String get pairCodeLabel;
+
+  /// No description provided for @pairCodeNotFound.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bu adreste bir bileklik bulunamadı.'**
+  String get pairCodeNotFound;
+
+  /// No description provided for @pairConnect.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bağlan'**
+  String get pairConnect;
+
+  /// No description provided for @pairConnected.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bileklik bağlandı.'**
+  String get pairConnected;
+
+  /// No description provided for @pairFound.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bulunan bileklikler'**
+  String get pairFound;
+
+  /// No description provided for @pairNoneFound.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bileklik bulunamadı. Şarjlı ve yakında olduğundan emin olup tekrar deneyin.'**
+  String get pairNoneFound;
+
+  /// No description provided for @pairNote.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bilekliği şarj edin ve telefonun yakınında tutun. Bluetooth açık olmalı.'**
+  String get pairNote;
+
+  /// No description provided for @pairScan.
+  ///
+  /// In tr, this message translates to:
+  /// **'Aramayı başlat'**
+  String get pairScan;
+
+  /// No description provided for @pairScanning.
+  ///
+  /// In tr, this message translates to:
+  /// **'Aranıyor…'**
+  String get pairScanning;
+
+  /// No description provided for @pairSignal.
+  ///
+  /// In tr, this message translates to:
+  /// **'Sinyal {rssi} dBm'**
+  String pairSignal(Object rssi);
+
+  /// No description provided for @pairSubtitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bilekliğinizi bağlayın, ölçümleriniz telefonunuza gelsin.'**
+  String get pairSubtitle;
+
+  /// No description provided for @pairTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bileklik eşleştirme'**
+  String get pairTitle;
+
   /// No description provided for @periodDay.
   ///
   /// In tr, this message translates to:
@@ -1151,6 +1343,12 @@ abstract class AppLocalizations {
   /// In tr, this message translates to:
   /// **'Hafta'**
   String get periodWeek;
+
+  /// No description provided for @personalInfoTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kişisel bilgiler'**
+  String get personalInfoTitle;
 
   /// No description provided for @profileAge.
   ///
@@ -1194,6 +1392,84 @@ abstract class AppLocalizations {
   /// **'Erkek'**
   String get profileMale;
 
+  /// No description provided for @profileMenuAbout.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hakkında'**
+  String get profileMenuAbout;
+
+  /// No description provided for @profileMenuDevice.
+  ///
+  /// In tr, this message translates to:
+  /// **'Cihaz'**
+  String get profileMenuDevice;
+
+  /// No description provided for @profileMenuDeviceConnected.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bağlı · pil %{battery}'**
+  String profileMenuDeviceConnected(Object battery);
+
+  /// No description provided for @profileMenuDeviceNone.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bileklik bağlı değil'**
+  String get profileMenuDeviceNone;
+
+  /// No description provided for @profileMenuFeedback.
+  ///
+  /// In tr, this message translates to:
+  /// **'Geri bildirim'**
+  String get profileMenuFeedback;
+
+  /// No description provided for @profileMenuGeneral.
+  ///
+  /// In tr, this message translates to:
+  /// **'Genel ayarlar'**
+  String get profileMenuGeneral;
+
+  /// No description provided for @profileMenuGeneralSubtitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Görünüm ve dil'**
+  String get profileMenuGeneralSubtitle;
+
+  /// No description provided for @profileMenuPersonalEmpty.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yaş, boy ve kilonuzu girin'**
+  String get profileMenuPersonalEmpty;
+
+  /// No description provided for @profileMenuPersonalSummary.
+  ///
+  /// In tr, this message translates to:
+  /// **'{age} yaş · {height} cm · {weight} kg'**
+  String profileMenuPersonalSummary(Object age, Object height, Object weight);
+
+  /// No description provided for @profileMenuResearch.
+  ///
+  /// In tr, this message translates to:
+  /// **'Araştırma kurumu'**
+  String get profileMenuResearch;
+
+  /// No description provided for @profileMenuSharing.
+  ///
+  /// In tr, this message translates to:
+  /// **'Aile ve hekimle paylaşım'**
+  String get profileMenuSharing;
+
+  /// No description provided for @profileMenuThirdParty.
+  ///
+  /// In tr, this message translates to:
+  /// **'Health Connect ve Apple Health'**
+  String get profileMenuThirdParty;
+
+  /// No description provided for @profileMenuVersion.
+  ///
+  /// In tr, this message translates to:
+  /// **'Uygulama sürümü'**
+  String get profileMenuVersion;
+
   /// No description provided for @profileRangeError.
   ///
   /// In tr, this message translates to:
@@ -1211,6 +1487,24 @@ abstract class AppLocalizations {
   /// In tr, this message translates to:
   /// **'Bilgiler bilekliğe kaydedildi'**
   String get profileSaved;
+
+  /// No description provided for @profileSectionApp.
+  ///
+  /// In tr, this message translates to:
+  /// **'Uygulama'**
+  String get profileSectionApp;
+
+  /// No description provided for @profileSectionSettings.
+  ///
+  /// In tr, this message translates to:
+  /// **'Ayarlar'**
+  String get profileSectionSettings;
+
+  /// No description provided for @profileSectionSharing.
+  ///
+  /// In tr, this message translates to:
+  /// **'Paylaşım ve bağlantılar'**
+  String get profileSectionSharing;
 
   /// No description provided for @profileThemeDark.
   ///
