@@ -86,3 +86,33 @@ class Workout {
     pace: r.paceSeconds > 0 ? Duration(seconds: r.paceSeconds) : null,
   );
 }
+
+/// Bir EKG kaydı: ham örnekler ve uygulamanın çıkardığı özet.
+///
+/// Portala FHIR Observation (SampledData) olarak aktarılacak.
+class EcgRecording {
+  final DateTime start;
+  final int sampleRate;
+  final List<int> samples;
+  final int? averageHeartRate;
+  final int? minHeartRate;
+  final int? maxHeartRate;
+
+  /// Atımlar arası sürelerin standart sapması (ms).
+  final double? sdnn;
+  final int beats;
+
+  const EcgRecording({
+    required this.start,
+    required this.sampleRate,
+    required this.samples,
+    required this.averageHeartRate,
+    required this.minHeartRate,
+    required this.maxHeartRate,
+    required this.sdnn,
+    required this.beats,
+  });
+
+  Duration get duration =>
+      Duration(milliseconds: samples.length * 1000 ~/ sampleRate);
+}

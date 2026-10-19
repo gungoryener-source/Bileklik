@@ -13,7 +13,9 @@ void main() {
     addTearDown(tester.view.reset);
 
     final device = FakeDevice(
-        random: Random(3), realtimeInterval: const Duration(seconds: 1));
+      random: Random(3),
+      realtimeInterval: const Duration(seconds: 1),
+    );
     final controller = DeviceController(device);
     await tester.pumpWidget(BileklikApp(controller: controller));
     await tester.runAsync(() => controller.connect());
@@ -24,6 +26,8 @@ void main() {
     expect(find.text('Uyku'), findsOneWidget);
     expect(find.textContaining('Son güncelleme'), findsOneWidget);
 
+    await tester.ensureVisible(find.text('Uyku'));
+    await tester.pumpAndSettle();
     await tester.tap(find.text('Uyku'));
     await tester.pumpAndSettle();
     expect(find.text('Derin'), findsOneWidget);

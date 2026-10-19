@@ -5,6 +5,7 @@ import '../../data/models.dart';
 import '../app_shell.dart';
 import '../format.dart';
 import '../theme.dart';
+import 'ecg_screen.dart';
 import 'metric_detail_screen.dart';
 import 'sleep_screen.dart';
 
@@ -27,6 +28,8 @@ class HealthScreen extends StatelessWidget {
         final lastNight = NightSleep.group(
           store.sleepBetween(now.subtract(const Duration(days: 2)), now),
         ).lastOrNull;
+
+        final lastEcg = store.ecgRecordings().firstOrNull;
 
         void open(Widget screen) =>
             Navigator.of(context)
@@ -109,6 +112,17 @@ class HealthScreen extends StatelessWidget {
                 style: const TextStyle(color: AppColors.muted),
               ),
               const SizedBox(height: 16),
+              _HealthCard(
+                title: 'EKG',
+                icon: Icons.monitor_heart,
+                color: AppColors.heart,
+                value: lastEcg?.averageHeartRate?.toString(),
+                unit: lastEcg?.averageHeartRate == null ? '' : 'bpm',
+                subtitle: lastEcg == null
+                    ? '30 saniyelik ölçüm yapın'
+                    : 'Son ölçüm · ${whenText(lastEcg.start, now)}',
+                onTap: () => open(const EcgScreen()),
+              ),
               card(
                 MetricType.steps,
                 value: todaySteps.round().toString(),
