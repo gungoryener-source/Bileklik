@@ -33,7 +33,7 @@ void main() {
     expect(find.text('Derin'), findsOneWidget);
     expect(find.text('Son 7 gece'), findsOneWidget);
 
-    await tester.pageBack();
+    await tester.tap(find.byTooltip('Geri'));
     await tester.pumpAndSettle();
     await tester.ensureVisible(find.text('Kalp Atış Hızı'));
     await tester.pumpAndSettle();

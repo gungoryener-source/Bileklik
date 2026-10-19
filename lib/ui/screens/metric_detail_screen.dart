@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../data/aggregate.dart';
 import '../../data/models.dart';
+import '../../l10n/l10n.dart';
 import '../app_shell.dart';
 import '../format.dart';
 import '../theme.dart';
@@ -31,8 +32,10 @@ class _MetricDetailScreenState extends State<MetricDetailScreen> {
 
   String get _rangeText => switch (_range.period) {
     Period.day => dayMonth(_range.start),
-    Period.week =>
-      '${dayMonth(_range.start)} - ${dayMonth(_range.end.subtract(const Duration(days: 1)))}',
+    Period.week => context.l10n.metricDetailWeekRange(
+      dayMonth(_range.start),
+      dayMonth(_range.end.subtract(const Duration(days: 1))),
+    ),
     Period.month => monthYear(_range.start),
   };
 
@@ -40,6 +43,7 @@ class _MetricDetailScreenState extends State<MetricDetailScreen> {
   Widget build(BuildContext context) {
     final store = DeviceScope.of(context).store;
     final type = widget.type;
+    final l = context.l10n;
     return Scaffold(
       appBar: AppBar(title: Text(widget.title ?? type.label)),
       body: ListenableBuilder(
@@ -79,7 +83,7 @@ class _MetricDetailScreenState extends State<MetricDetailScreen> {
               Row(
                 children: [
                   IconButton(
-                    tooltip: 'Önceki',
+                    tooltip: l.metricDetailPrevious,
                     icon: const Icon(Icons.chevron_left),
                     onPressed: () => setState(() => _range = _range.shift(-1)),
                   ),
@@ -91,7 +95,7 @@ class _MetricDetailScreenState extends State<MetricDetailScreen> {
                     ),
                   ),
                   IconButton(
-                    tooltip: 'Sonraki',
+                    tooltip: l.metricDetailNext,
                     icon: const Icon(Icons.chevron_right),
                     onPressed: canGoForward
                         ? () => setState(() => _range = _range.shift(1))
@@ -120,7 +124,7 @@ class _MetricDetailScreenState extends State<MetricDetailScreen> {
                 child: stats == null
                     ? Center(
                         child: Text(
-                          'Bu dönem için kayıt yok',
+                          l.metricDetailNoData,
                           style: TextStyle(color: context.colors.muted),
                         ),
                       )
@@ -137,11 +141,11 @@ class _MetricDetailScreenState extends State<MetricDetailScreen> {
               if (stats != null && !isSteps)
                 Row(
                   children: [
-                    _StatBox('Ortalama', type.format(stats.average), type.unit),
+                    _StatBox(l.statAverage, _withUnit(l, type, stats.average)),
                     const SizedBox(width: 10),
-                    _StatBox('En yüksek', type.format(stats.max), type.unit),
+                    _StatBox(l.statMax, _withUnit(l, type, stats.max)),
                     const SizedBox(width: 10),
-                    _StatBox('En düşük', type.format(stats.min), type.unit),
+                    _StatBox(l.statMin, _withUnit(l, type, stats.min)),
                   ],
                 ),
               if (bandsFor(type) case final bands?) ...[
@@ -151,8 +155,7 @@ class _MetricDetailScreenState extends State<MetricDetailScreen> {
               if (type == MetricType.systolic) ...[
                 const SizedBox(height: 16),
                 Text(
-                  'Bileklik tansiyonu tahmini olarak hesaplar. Tanı ve tedavi '
-                  'için onaylı bir tansiyon aleti kullanın.',
+                  l.metricDetailBpEstimate,
                   style: TextStyle(color: context.colors.muted),
                 ),
               ],
@@ -184,46 +187,61 @@ class _Headline extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final s = stats;
+    final l = context.l10n;
     final String caption;
     final String value;
     if (s == null) {
-      caption = 'Ölçüm yok';
-      value = '--';
+      caption = l.healthNoMeasurement;
+      value = l.noValue;
     } else if (steps) {
-      caption = period == Period.day ? 'Toplam' : 'Günlük ortalama';
+      caption = period == Period.day
+          ? l.metricDetailTotal
+          : l.metricDetailDailyAverage;
       value = (period == Period.day ? s.total : s.average).round().toString();
     } else if (secondary != null && secondStats != null) {
-      caption = 'Ortalama';
+      caption = l.statAverage;
       value =
           '${type.format(s.average)}/${secondary!.format(secondStats!.average)}';
     } else {
-      caption = 'Ortalama';
-      value = type.format(s.average);
+      caption = l.statAverage;
+      value = type.symbol == '%'
+          ? l.statPercent(type.format(s.average))
+          : type.format(s.average);
     }
+    // Yüzdede işaret değerin içinde; ayrı birim yazılmaz.
+    final unit = type.symbol == '%' ? '' : type.unit;
     final band = s == null || steps ? null : bandOf(type, s.average);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(caption, style: TextStyle(color: context.colors.muted)),
-        Row(
-          crossAxisAlignment: CrossAxisAlignment.baseline,
-          textBaseline: TextBaseline.alphabetic,
-          children: [
-            Text(
-              value,
-              style: TextStyle(
-                fontSize: 40,
-                fontWeight: FontWeight.w600,
-                color: type.color,
+        // Büyük sayı ve uzun birim (ör. "Schritte") dar ekranda küçülerek sığar.
+        FittedBox(
+          fit: BoxFit.scaleDown,
+          alignment: AlignmentDirectional.centerStart,
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.baseline,
+            textBaseline: TextBaseline.alphabetic,
+            children: [
+              Text(
+                value,
+                style: TextStyle(
+                  fontSize: 40,
+                  fontWeight: FontWeight.w600,
+                  color: type.color,
+                ),
               ),
-            ),
-            const SizedBox(width: 6),
-            Text(type.unit, style: TextStyle(color: context.colors.muted)),
-            if (band != null) ...[
-              const SizedBox(width: 12),
-              Chip(label: Text(band.label)),
+              if (unit.isNotEmpty) ...[
+                const SizedBox(width: 6),
+                Text(unit, style: TextStyle(color: context.colors.muted)),
+              ],
+              if (band != null) ...[
+                const SizedBox(width: 12),
+                Chip(label: Text(band.label)),
+              ],
             ],
-          ],
+          ),
         ),
       ],
     );
@@ -231,8 +249,8 @@ class _Headline extends StatelessWidget {
 }
 
 class _StatBox extends StatelessWidget {
-  const _StatBox(this.label, this.value, this.unit);
-  final String label, value, unit;
+  const _StatBox(this.label, this.value);
+  final String label, value;
 
   @override
   Widget build(BuildContext context) => Expanded(
@@ -248,7 +266,7 @@ class _StatBox extends StatelessWidget {
             ),
             const SizedBox(height: 4),
             Text(
-              '$value $unit',
+              value,
               style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
             ),
           ],
@@ -279,7 +297,10 @@ class _BandLegend extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('Aralıklar', style: Theme.of(context).textTheme.titleSmall),
+            Text(
+              context.l10n.metricDetailBands,
+              style: Theme.of(context).textTheme.titleSmall,
+            ),
             const SizedBox(height: 8),
             for (final b in bands)
               Padding(
@@ -291,7 +312,7 @@ class _BandLegend extends StatelessWidget {
                       width: 70,
                       child: Text(
                         b.to >= 100 && b.from > 0
-                            ? '> ${b.from.round() - 1}'
+                            ? context.l10n.metricDetailAbove(b.from.round() - 1)
                             : '${b.from.round()}-${b.to.round()}',
                         style: TextStyle(color: context.colors.muted),
                       ),
@@ -316,4 +337,12 @@ class _BandLegend extends StatelessWidget {
       ),
     );
   }
+}
+
+/// Değer ve birimi etkin dile göre yazar; yüzde işaretinin yeri dile bağlıdır.
+String _withUnit(AppLocalizations l, MetricType type, double v) {
+  final text = type.format(v);
+  if (type.symbol == '%') return l.statPercent(text);
+  final unit = type.unit;
+  return unit.isEmpty ? text : '$text $unit';
 }

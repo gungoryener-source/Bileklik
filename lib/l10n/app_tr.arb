@@ -1,0 +1,402 @@
+{
+  "@@locale": "tr",
+  "appTitle": "Bileklik",
+  "bandAnxious": "Kaygılı",
+  "bandCalm": "Sakin",
+  "bandGood": "İyi",
+  "bandGreat": "Harika",
+  "bandLow": "Düşük",
+  "bandMild": "Hafif",
+  "bandNormal": "Normal",
+  "bandTense": "Gergin",
+  "continueButton": "Devam",
+  "durationHours": "{h} sa",
+  "durationHoursMinutes": "{h} sa {m} dk",
+  "@durationHoursMinutes": {
+    "placeholders": {
+      "h": {},
+      "m": {}
+    }
+  },
+  "durationMinutes": "{m} dk",
+  "ecgAverageBpm": "{bpm} bpm ortalama",
+  "ecgAverageHeartRate": "Ortalama nabız",
+  "ecgBeats": "Atım sayısı",
+  "ecgBpm": "bpm",
+  "ecgCancel": "Ölçümü iptal et",
+  "ecgConnectFirst": "Önce Ana Sayfa'dan bilekliği bağlayın.",
+  "ecgDetailTitle": "EKG · {date} {time}",
+  "@ecgDetailTitle": {
+    "placeholders": {
+      "date": {},
+      "time": {}
+    }
+  },
+  "ecgDisclaimer": "Bu ölçüm tıbbi tanı yerine geçmez. Göğüs ağrısı, nefes darlığı ya da bayılma hissi varsa hemen 112'yi arayın.",
+  "ecgHowToSteps": "1. Bilekliği bileğinize sıkıca takın.\n2. Oturun, kolunuzu masaya koyun.\n3. Diğer elinizin parmağını bilekliğin üstündeki elektroda hafifçe dokundurun.\n4. 30 saniye boyunca hareket etmeyin ve konuşmayın.",
+  "ecgHowToTitle": "Nasıl ölçülür",
+  "ecgKeepStill": "Parmağınızı elektrottan kaldırmayın ve hareket etmeyin.",
+  "ecgMeasuringTitle": "EKG ölçülüyor",
+  "ecgMs": "ms",
+  "ecgNoHeartRate": "Nabız hesaplanamadı",
+  "ecgNoRecords": "Henüz EKG kaydı yok.",
+  "ecgRange": "Aralık",
+  "ecgRangeValue": "{min}-{max}",
+  "@ecgRangeValue": {
+    "placeholders": {
+      "min": {},
+      "max": {}
+    }
+  },
+  "ecgRecordHeader": "Kayıt ({seconds} sn, satır başına {perRow} sn)",
+  "@ecgRecordHeader": {
+    "placeholders": {
+      "seconds": {},
+      "perRow": {}
+    }
+  },
+  "ecgRecordSubtitle": "{when} · {seconds} sn",
+  "@ecgRecordSubtitle": {
+    "placeholders": {
+      "when": {},
+      "seconds": {}
+    }
+  },
+  "ecgRecordsTitle": "Kayıtlar",
+  "ecgSdnn": "Değişkenlik (SDNN)",
+  "ecgSecondsLeft": "{seconds} sn",
+  "ecgStartButton": "30 saniyelik ölçüm başlat",
+  "ecgTitle": "EKG",
+  "exerciseConnectFirst": "Önce Ana Sayfa'dan bilekliği bağlayın.",
+  "exerciseConnectHint": "Geçmiş egzersizleri görmek için bilekliği bağlayın.",
+  "exerciseCount": "{count} egzersiz",
+  "@exerciseCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "exerciseEmpty": "Henüz egzersiz kaydı yok.",
+  "exerciseInProgress": "{sport} sürüyor",
+  "exerciseLast30Days": "Son 30 gün",
+  "exercisePausedAt": "Duraklatıldı · {time}",
+  "exerciseStart": "Egzersiz başlat",
+  "exerciseThisWeek": "Bu hafta",
+  "healthBloodPressure": "Tansiyon",
+  "healthBloodPressureSubtitle": "Tahmini · {details}",
+  "@healthBloodPressureSubtitle": {
+    "description": "Tansiyon kartı alt yazısı; değerin tahmini olduğunu belirtir."
+  },
+  "healthConnectHint": "Verileri görmek için Ana Sayfa'dan bilekliği bağlayın.",
+  "healthEcg": "EKG",
+  "healthEcgLast": "Son ölçüm · {time}",
+  "healthEcgPrompt": "30 saniyelik ölçüm yapın",
+  "healthLastSync": "Son güncelleme {time}",
+  "healthNoMeasurement": "Ölçüm yok",
+  "healthNoRecord": "Kayıt yok",
+  "healthSleep": "Uyku",
+  "healthSleepLastNight": "Dün gece · {start} - {end}",
+  "@healthSleepLastNight": {
+    "placeholders": {
+      "start": {},
+      "end": {}
+    }
+  },
+  "healthStepsToday": "Bugün · hedef {goal}",
+  "healthSyncTooltip": "Bileklikten güncelle",
+  "healthSyncing": "Bileklikten veriler alınıyor…",
+  "homeActivity": "Aktivite",
+  "homeAverageStress": "Ortalama stres",
+  "homeAverageStressBand": "Ortalama stres · {band}",
+  "homeAverageValue": "Ort. {value}",
+  "homeBalance": "Denge",
+  "homeBloodOxygen": "Kan oksijeni",
+  "homeBpm": "{value} bpm",
+  "homeCaloriesKcal": "Kalori (kcal)",
+  "homeChartNoData": "{title}: ölçüm yok",
+  "homeChartSemantics": "{title}: en düşük {min}, en yüksek {max} {unit}",
+  "@homeChartSemantics": {
+    "placeholders": {
+      "title": {},
+      "min": {},
+      "max": {},
+      "unit": {}
+    }
+  },
+  "homeConnect": "Bağlan",
+  "homeConnectTooltip": "Bilekliğe bağlan",
+  "homeConnected": "Bağlı",
+  "homeConnectedBattery": "Bağlı · %{percent}",
+  "homeConnecting": "Bağlanıyor…",
+  "homeDaySummary": "Günün özeti",
+  "homeDeepSleep": "Derin uyku {duration}",
+  "homeDisconnectTooltip": "Bağlantıyı kes",
+  "homeDuration": "Süre",
+  "homeEcg": "EKG",
+  "homeEcgSubtitle": "{bpm} bpm · {seconds} sn",
+  "@homeEcgSubtitle": {
+    "placeholders": {
+      "bpm": {},
+      "seconds": {}
+    }
+  },
+  "homeEcgSubtitleNoHr": "{seconds} sn",
+  "homeGoodAfternoon": "İyi günler",
+  "homeGoodEvening": "İyi akşamlar",
+  "homeGoodMorning": "Günaydın",
+  "homeHeartRateHint": "Kalp atış hızınızı görmek için bilekliği gün boyu takın.",
+  "homeHeartRateLabel": "Kalp atış hızı",
+  "homeHourlyStressSemantics": "Saatlik stres sütunları",
+  "homeHrvLabel": "Kalp atış hızı değişkenliği",
+  "homeKilometers": "Kilometre",
+  "homeListSeparator": ", ",
+  "homeMeasureEcg": "EKG ölç",
+  "homeMs": "{value} ms",
+  "homeNextDay": "Sonraki gün",
+  "homeNoRecord": "Kayıt yok",
+  "homeNoSleepLastNight": "Dün gece uyku ölçülmedi",
+  "homeNoSleepPastHint": "Bilekliğin takılı olduğu günlerin özeti burada görünür.",
+  "homeNoSleepStages": "Uyku evresi yok",
+  "homeNoSleepThisDay": "Bu gün için uyku kaydı yok",
+  "homeNoSleepTonightHint": "Bilekliği bu gece takın; sabah uyku ve toparlanma özetiniz burada olacak.",
+  "homePercent": "%{value}",
+  "homePickDay": "Gün seçin",
+  "homePrevDay": "Önceki gün",
+  "homeProfileTooltip": "Profil",
+  "homeRange": "{min}-{max}",
+  "@homeRange": {
+    "placeholders": {
+      "min": {},
+      "max": {}
+    }
+  },
+  "homeRecovery": "Toparlanma",
+  "homeSleep": "Uyku",
+  "homeSleepStageItem": "{stage} {duration}",
+  "@homeSleepStageItem": {
+    "placeholders": {
+      "stage": {},
+      "duration": {}
+    }
+  },
+  "homeSleepStagesSemantics": "Uyku evreleri: {stages}",
+  "homeSleptHrvBandSummary": "{duration} uyudunuz, gece HRV ortalamanız {hrv} ms ({band}).",
+  "@homeSleptHrvBandSummary": {
+    "placeholders": {
+      "duration": {},
+      "hrv": {},
+      "band": {}
+    }
+  },
+  "homeSleptHrvSummary": "{duration} uyudunuz, gece HRV ortalamanız {hrv} ms.",
+  "@homeSleptHrvSummary": {
+    "placeholders": {
+      "duration": {},
+      "hrv": {}
+    }
+  },
+  "homeSleptSummary": "{duration} uyudunuz.",
+  "homeSpo2Hint": "Kan oksijeninizi görmek için bilekliği gün boyu takın.",
+  "homeStartWorkout": "Egzersize başla",
+  "homeStepGoal": "Hedef {goal} adım",
+  "homeStepGoalProgress": "%{percent} · hedef {goal}",
+  "@homeStepGoalProgress": {
+    "placeholders": {
+      "percent": {},
+      "goal": {}
+    }
+  },
+  "homeStepGoalSemantics": "Adım hedefi: {steps} / {goal}, yüzde {percent}",
+  "@homeStepGoalSemantics": {
+    "placeholders": {
+      "steps": {},
+      "goal": {},
+      "percent": {}
+    }
+  },
+  "homeSteps": "Adım",
+  "homeStressHint": "Stres ve HRV, bileklik takılıyken gün içinde ölçülür.",
+  "homeStressLevel": "Stres düzeyi",
+  "homeStressLoad": "Stres yükü",
+  "homeSyncTooltip": "Eşitle",
+  "homeTimeline": "Zaman çizelgesi",
+  "homeTimelineEmpty": "Egzersiz, EKG ve uyku kayıtlarınız burada saat sırasıyla görünür.",
+  "homeTimelineSubtitle": "Günün kayıtları",
+  "homeTodayDate": "Bugün, {date}",
+  "homeWeekdayDate": "{weekday}, {date}",
+  "@homeWeekdayDate": {
+    "placeholders": {
+      "weekday": {},
+      "date": {}
+    }
+  },
+  "homeWokeUp": "Uyandınız",
+  "homeWokeUpSubtitle": "{duration} uyku · {time} yatış",
+  "@homeWokeUpSubtitle": {
+    "placeholders": {
+      "duration": {},
+      "time": {}
+    }
+  },
+  "homeWorkoutSubtitle": "{duration} · {kcal} kcal",
+  "@homeWorkoutSubtitle": {
+    "placeholders": {
+      "duration": {},
+      "kcal": {}
+    }
+  },
+  "homeYesterdayDate": "Dün, {date}",
+  "issueBusy": "Bileklik şu an başka bir egzersizde ya da ölçümde.",
+  "issueFailed": "Bileklikle iletişim kurulamadı. Yakında ve açık olduğundan emin olun.",
+  "issueNoEcgSignal": "EKG verisi alınamadı. Bilekliği takıp parmağınızı elektroda dokundurun.",
+  "languagePickHint": "Daha sonra Profil ekranından değiştirebilirsiniz.",
+  "languagePickTitle": "Dilinizi seçin",
+  "languageSystem": "Telefonun dili",
+  "languageTitle": "Dil",
+  "liveCancel": "Vazgeç",
+  "liveConfirmBody": "Egzersiz kaydedilip özet gösterilecek.",
+  "liveConfirmTitle": "Egzersizi bitir",
+  "liveContinue": "Devam et",
+  "liveFinish": "Bitir",
+  "liveInactiveBody": "Son {minutes} dakikada {steps} adımdan az attınız. Egzersizi bitirmek ister misiniz?",
+  "@liveInactiveBody": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      },
+      "steps": {
+        "type": "int"
+      }
+    }
+  },
+  "liveInactiveTitle": "Hareketsiz görünüyorsunuz",
+  "livePause": "Duraklat",
+  "livePaused": "Duraklatıldı",
+  "metricCalories": "Kalori",
+  "metricDetailAbove": "> {value}",
+  "metricDetailBands": "Aralıklar",
+  "metricDetailBpEstimate": "Bileklik tansiyonu tahmini olarak hesaplar. Tanı ve tedavi için onaylı bir tansiyon aleti kullanın.",
+  "@metricDetailBpEstimate": {
+    "description": "Tansiyonun tahmini olduğu notu; her dilde bu anlam korunmalı."
+  },
+  "metricDetailDailyAverage": "Günlük ortalama",
+  "metricDetailNext": "Sonraki",
+  "metricDetailNoData": "Bu dönem için kayıt yok",
+  "metricDetailPrevious": "Önceki",
+  "metricDetailTotal": "Toplam",
+  "metricDetailWeekRange": "{start} - {end}",
+  "@metricDetailWeekRange": {
+    "placeholders": {
+      "start": {},
+      "end": {}
+    }
+  },
+  "metricDiastolic": "Tansiyon (küçük)",
+  "metricDistance": "Mesafe",
+  "metricHeartRate": "Kalp Atış Hızı",
+  "metricHrv": "Kalp Atış Hızı Değişkenliği",
+  "metricRespiratoryRate": "Solunum Hızı",
+  "metricSpo2": "Kan Oksijen Doygunluğu",
+  "metricSteps": "Adım",
+  "metricStress": "Stres",
+  "metricSystolic": "Tansiyon (büyük)",
+  "metricTemperature": "Vücut Isısı",
+  "navExercise": "Egzersiz",
+  "navHealth": "Sağlık",
+  "navHome": "Ana Sayfa",
+  "navProfile": "Profil",
+  "noValue": "--",
+  "periodDay": "Gün",
+  "periodMonth": "Ay",
+  "periodWeek": "Hafta",
+  "profileAge": "Yaş",
+  "profileAppearance": "Görünüm",
+  "profileConnectFirst": "Bilgileri kaydetmek için önce bilekliği bağlayın.",
+  "profileDevice": "Cihaz: {mac}",
+  "profileFemale": "Kadın",
+  "profileHeight": "Boy",
+  "profileMale": "Erkek",
+  "profileRangeError": "{min} ile {max} arasında olmalı",
+  "@profileRangeError": {
+    "placeholders": {
+      "min": {},
+      "max": {}
+    }
+  },
+  "profileSave": "Kaydet",
+  "profileSaved": "Bilgiler bilekliğe kaydedildi",
+  "profileThemeDark": "Koyu",
+  "profileThemeLight": "Açık",
+  "profileThemeSystem": "Sistem",
+  "profileTitle": "Profil",
+  "profileUnitCm": "cm",
+  "profileUnitKg": "kg",
+  "profileUnitYears": "yıl",
+  "profileWeight": "Kilo",
+  "sleepAwake": "Uyanık",
+  "sleepDeep": "Derin",
+  "sleepDuration": "Uyku süresi",
+  "sleepEmpty": "Henüz uyku kaydı yok",
+  "sleepLast7Nights": "Son 7 gece",
+  "sleepLight": "Hafif",
+  "sleepNextNight": "Sonraki gece",
+  "sleepPercent": "%{value}",
+  "sleepPreviousNight": "Önceki gece",
+  "sleepRem": "REM",
+  "sleepTimeRange": "{start} - {end}",
+  "@sleepTimeRange": {
+    "placeholders": {
+      "start": {},
+      "end": {}
+    }
+  },
+  "sleepTitle": "Uyku",
+  "sleepWeekBarHint": "{day}: {duration}",
+  "@sleepWeekBarHint": {
+    "placeholders": {
+      "day": {},
+      "duration": {}
+    }
+  },
+  "sportAerobics": "Aerobik",
+  "sportBadminton": "Badminton",
+  "sportBasketball": "Basketbol",
+  "sportCricket": "Kriket",
+  "sportCycling": "Bisiklet",
+  "sportDance": "Dans",
+  "sportFootball": "Futbol",
+  "sportHiking": "Doğa yürüyüşü",
+  "sportMeditation": "Meditasyon",
+  "sportPingPong": "Masa tenisi",
+  "sportRopeJump": "İp atlama",
+  "sportRun": "Koşu",
+  "sportSitUps": "Mekik",
+  "sportTennis": "Tenis",
+  "sportUnknown": "Egzersiz",
+  "sportVolleyball": "Voleybol",
+  "sportWalk": "Yürüyüş",
+  "sportWorkout": "Antrenman",
+  "sportYoga": "Yoga",
+  "statAverage": "Ortalama",
+  "statAvgHeartRate": "Ortalama nabız",
+  "statDuration": "Süre",
+  "statMax": "En yüksek",
+  "statMin": "En düşük",
+  "statPace": "Tempo",
+  "statPercent": "%{value}",
+  "@statPercent": {
+    "description": "Yüzde değeri; dile göre % işaretinin yeri değişir."
+  },
+  "unitPerMinute": "/dk",
+  "unitSteps": "adım",
+  "workoutCongrats": "Tebrikler, egzersiz kaydedildi",
+  "workoutTimeRange": "{day} · {start} - {end}",
+  "@workoutTimeRange": {
+    "placeholders": {
+      "day": {},
+      "start": {},
+      "end": {}
+    }
+  }
+}

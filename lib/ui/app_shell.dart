@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../l10n/l10n.dart';
+
 import '../state/app_settings.dart';
 import '../state/device_controller.dart';
 import 'screens/exercise_screen.dart';
@@ -79,26 +81,26 @@ class _AppShellState extends State<AppShell> {
               backgroundColor: context.colors.surface,
               selectedIndex: _index,
               onDestinationSelected: _select,
-              destinations: const [
+              destinations: [
                 NavigationDestination(
                   icon: Icon(Icons.home_outlined),
                   selectedIcon: Icon(Icons.home),
-                  label: 'Ana Sayfa',
+                  label: context.l10n.navHome,
                 ),
                 NavigationDestination(
                   icon: Icon(Icons.favorite_border),
                   selectedIcon: Icon(Icons.favorite),
-                  label: 'Sağlık',
+                  label: context.l10n.navHealth,
                 ),
                 NavigationDestination(
                   icon: Icon(Icons.directions_run_outlined),
                   selectedIcon: Icon(Icons.directions_run),
-                  label: 'Egzersiz',
+                  label: context.l10n.navExercise,
                 ),
                 NavigationDestination(
                   icon: Icon(Icons.person_outline),
                   selectedIcon: Icon(Icons.person),
-                  label: 'Profil',
+                  label: context.l10n.navProfile,
                 ),
               ],
             ),

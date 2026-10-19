@@ -1,28 +1,53 @@
 import 'package:flutter/material.dart';
+import 'package:intl/date_symbol_data_local.dart';
+import 'package:intl/intl.dart';
 
 import '../data/models.dart';
+import '../data/aggregate.dart';
 import '../device/protocol/exercise.dart';
+import '../device/protocol/history.dart';
+import '../l10n/l10n.dart';
+import '../state/device_controller.dart';
 import 'theme.dart';
 
-const _months = [
-  'Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran', //
-  'Temmuz', 'Ağustos', 'Eylül', 'Ekim', 'Kasım', 'Aralık',
-];
-const weekdaysShort = ['Pzt', 'Sal', 'Çar', 'Per', 'Cum', 'Cmt', 'Paz'];
-const weekdaysLong = [
-  'Pazartesi', 'Salı', 'Çarşamba', 'Perşembe', 'Cuma', 'Cumartesi', 'Pazar', //
-];
+/// Tarih biçimleri etkin dile göre; rakamlar her dilde Batı rakamı
+/// (sağlık değerleriyle aynı görünsün).
+DateFormat _fmt(String pattern) {
+  if (!_dateReady) {
+    initializeDateFormatting();
+    DateFormat.useNativeDigitsByDefaultFor('ar', false);
+    _dateReady = true;
+  }
+  return DateFormat(pattern, currentL10n.localeName);
+}
+
+bool _dateReady = false;
+
+/// Kısa gün adı; 1 = Pazartesi.
+String weekdayShort(int weekday) => _fmt('E').format(_monday(weekday));
+
+/// Uzun gün adı; 1 = Pazartesi.
+String weekdayLong(int weekday) => _fmt('EEEE').format(_monday(weekday));
+
+// 2024-01-01 bir pazartesi.
+DateTime _monday(int weekday) => DateTime(2024, 1, weekday);
+
+/// Sayı ve birimi soldan sağa yalıtır; Arapça satırda "3.81 km" parçalanmaz.
+String ltr(String s) => '\u2066$s\u2069';
 
 String two(int v) => v.toString().padLeft(2, '0');
 String hhmm(DateTime t) => '${two(t.hour)}:${two(t.minute)}';
-String dayMonth(DateTime t) => '${t.day} ${_months[t.month - 1]}';
-String monthYear(DateTime t) => '${_months[t.month - 1]} ${t.year}';
+// Kalıp yerine iskelet: her dil kendi sırasını ve noktalamasını kullanır
+// (19 Ekim, October 19, 19. Oktober).
+String dayMonth(DateTime t) => _fmt(DateFormat.MONTH_DAY).format(t);
+String monthYear(DateTime t) => _fmt(DateFormat.YEAR_MONTH).format(t);
 
 /// "1 sa 25 dk" biçiminde süre.
 String duration(int minutes) {
+  final l = currentL10n;
   final h = minutes ~/ 60, m = minutes % 60;
-  if (h == 0) return '$m dk';
-  return m == 0 ? '$h sa' : '$h sa $m dk';
+  if (h == 0) return l.durationMinutes(m);
+  return m == 0 ? l.durationHours(h) : l.durationHoursMinutes(h, m);
 }
 
 /// Ölçümün en yakın zamanı: bugünse saat, değilse gün ve saat.
@@ -34,6 +59,33 @@ String whenText(DateTime t, DateTime now) {
 
 /// Her metriğin ekrandaki rengi ve simgesi.
 extension MetricLook on MetricType {
+  /// Ekrandaki ad, etkin dilde.
+  String get label {
+    final l = currentL10n;
+    return switch (this) {
+      MetricType.steps => l.metricSteps,
+      MetricType.calories => l.metricCalories,
+      MetricType.distance => l.metricDistance,
+      MetricType.heartRate => l.metricHeartRate,
+      MetricType.spo2 => l.metricSpo2,
+      MetricType.hrv => l.metricHrv,
+      MetricType.stress => l.metricStress,
+      MetricType.temperature => l.metricTemperature,
+      MetricType.respiratoryRate => l.metricRespiratoryRate,
+      MetricType.systolic => l.metricSystolic,
+      MetricType.diastolic => l.metricDiastolic,
+    };
+  }
+
+  /// Ekrandaki birim; yalnızca dile bağlı olanlar çevrilir.
+  String get unit => switch (this) {
+    MetricType.steps => currentL10n.unitSteps,
+    MetricType.respiratoryRate => currentL10n.unitPerMinute,
+    // Soldan sağa işareti: Arapçada "°C" ters dönüp "C°" görünmesin.
+    MetricType.temperature => '\u200E$symbol',
+    _ => symbol,
+  };
+
   Color get color => switch (this) {
     MetricType.steps || MetricType.distance => DataColors.steps,
     MetricType.calories => DataColors.temperature,
@@ -67,26 +119,29 @@ extension MetricLook on MetricType {
 }
 
 extension SportLook on SportType {
-  String get label => switch (this) {
-    SportType.run => 'Koşu',
-    SportType.cycling => 'Bisiklet',
-    SportType.badminton => 'Badminton',
-    SportType.football => 'Futbol',
-    SportType.tennis => 'Tenis',
-    SportType.yoga => 'Yoga',
-    SportType.meditation => 'Meditasyon',
-    SportType.dance => 'Dans',
-    SportType.basketball => 'Basketbol',
-    SportType.walk => 'Yürüyüş',
-    SportType.workout => 'Antrenman',
-    SportType.cricket => 'Kriket',
-    SportType.hiking => 'Doğa yürüyüşü',
-    SportType.aerobics => 'Aerobik',
-    SportType.pingPong => 'Masa tenisi',
-    SportType.ropeJump => 'İp atlama',
-    SportType.sitUps => 'Mekik',
-    SportType.volleyball => 'Voleybol',
-  };
+  String get label {
+    final l = currentL10n;
+    return switch (this) {
+      SportType.run => l.sportRun,
+      SportType.cycling => l.sportCycling,
+      SportType.badminton => l.sportBadminton,
+      SportType.football => l.sportFootball,
+      SportType.tennis => l.sportTennis,
+      SportType.yoga => l.sportYoga,
+      SportType.meditation => l.sportMeditation,
+      SportType.dance => l.sportDance,
+      SportType.basketball => l.sportBasketball,
+      SportType.walk => l.sportWalk,
+      SportType.workout => l.sportWorkout,
+      SportType.cricket => l.sportCricket,
+      SportType.hiking => l.sportHiking,
+      SportType.aerobics => l.sportAerobics,
+      SportType.pingPong => l.sportPingPong,
+      SportType.ropeJump => l.sportRopeJump,
+      SportType.sitUps => l.sportSitUps,
+      SportType.volleyball => l.sportVolleyball,
+    };
+  }
 
   IconData get icon => switch (this) {
     SportType.run => Icons.directions_run,
@@ -115,7 +170,7 @@ extension SportLook on SportType {
 }
 
 /// Spor türü bilinmiyorsa kullanılan ad ve simge.
-String sportLabel(SportType? t) => t?.label ?? 'Egzersiz';
+String sportLabel(SportType? t) => t?.label ?? currentL10n.sportUnknown;
 IconData sportIcon(SportType? t) => t?.icon ?? Icons.fitness_center;
 
 /// "12:05" ya da "1:02:05" biçiminde süre.
@@ -129,3 +184,46 @@ String paceText(Duration? pace) {
   if (pace == null || pace == Duration.zero) return '--';
   return "${pace.inMinutes}'${two(pace.inSeconds % 60)}\"";
 }
+
+extension BandLook on Band {
+  /// Aralığın etkin dildeki adı.
+  String get label {
+    final l = currentL10n;
+    return switch (id) {
+      'calm' => l.bandCalm,
+      'mild' => l.bandMild,
+      'tense' => l.bandTense,
+      'anxious' => l.bandAnxious,
+      'low' => l.bandLow,
+      'normal' => l.bandNormal,
+      'good' => l.bandGood,
+      'great' => l.bandGreat,
+      _ => id,
+    };
+  }
+}
+
+extension PeriodLook on Period {
+  String get label => switch (this) {
+    Period.day => currentL10n.periodDay,
+    Period.week => currentL10n.periodWeek,
+    Period.month => currentL10n.periodMonth,
+  };
+}
+
+extension SleepStageName on SleepStage {
+  String get label => switch (this) {
+    SleepStage.deep => currentL10n.sleepDeep,
+    SleepStage.light => currentL10n.sleepLight,
+    SleepStage.rem => currentL10n.sleepRem,
+    SleepStage.awake => currentL10n.sleepAwake,
+  };
+}
+
+/// Denetleyicinin son hatası, etkin dilde; hata yoksa null.
+String? issueText(DeviceController c) => switch (c.issue) {
+  null => null,
+  DeviceIssue.busy => currentL10n.issueBusy,
+  DeviceIssue.noEcgSignal => currentL10n.issueNoEcgSignal,
+  DeviceIssue.failed => currentL10n.issueFailed,
+};

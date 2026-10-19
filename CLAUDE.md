@@ -6,8 +6,16 @@ ekran analizi: https://claude.ai/code/artifact/dc42487d-5b8e-412b-8e67-b0ae96220
 
 ## Dil
 
-- Arayüz metinleri, kod yorumları, commit mesajları ve PR açıklamaları Türkçe.
+- Kod yorumları, commit mesajları ve PR açıklamaları Türkçe.
 - Kod adları (sınıf, değişken, dosya) İngilizce.
+- Uygulama dört dilde: Türkçe (kaynak), İngilizce, Arapça (sağdan sola), Almanca.
+  Ekrana yazılan her metin `lib/l10n/app_<dil>.arb` dosyalarına anahtar olarak
+  eklenir ve `context.l10n.anahtar` ile okunur; koda Türkçe metin yazılmaz.
+  Dört dosyaya birlikte ekleyin, sonra `flutter gen-l10n`.
+- Cümleyi parçalardan birleştirmeyin; yer tutuculu tek anahtar kullanın
+  (`{value}` gibi). Yüzde işareti dile göre yer değiştirir (%97 / 97% / 97٪).
+- Kenar boşluğu ve hizalamada `EdgeInsetsDirectional`, `AlignmentDirectional`,
+  `start`/`end` kullanın; Arapçada ekran aynalanır.
 
 ## Komutlar
 

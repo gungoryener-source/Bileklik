@@ -43,7 +43,7 @@ void main() {
     );
     expect(find.textContaining('tıbbi tanı yerine geçmez'), findsOneWidget);
 
-    await tester.pageBack();
+    await tester.tap(find.byTooltip('Geri'));
     await tester.pumpAndSettle();
     expect(find.textContaining('bpm ortalama'), findsOneWidget);
 

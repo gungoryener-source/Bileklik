@@ -2,14 +2,8 @@ import '../device/protocol/history.dart';
 import 'models.dart';
 
 /// Grafiklerde seçilen zaman aralığı.
-enum Period {
-  day('Gün'),
-  week('Hafta'),
-  month('Ay');
-
-  const Period(this.label);
-  final String label;
-}
+/// Ekrandaki adı `PeriodLook`'ta.
+enum Period { day, week, month }
 
 /// Bir dönemin başı ve sonu, ve grafikteki sütunlar.
 class PeriodRange {
@@ -120,26 +114,27 @@ class Stats {
 
 /// Stres ve HRV için ekranda gösterilen aralıklar.
 class Band {
-  final String label;
+  /// Dilden bağımsız ad; ekrandaki adı `BandLook`'ta.
+  final String id;
   final double from;
   final double to;
-  const Band(this.label, this.from, this.to);
+  const Band(this.id, this.from, this.to);
 
   bool contains(double v) => v >= from && v <= to;
 }
 
 const stressBands = [
-  Band('Sakin', 0, 24),
-  Band('Hafif', 25, 50),
-  Band('Gergin', 51, 75),
-  Band('Kaygılı', 76, 100),
+  Band('calm', 0, 24),
+  Band('mild', 25, 50),
+  Band('tense', 51, 75),
+  Band('anxious', 76, 100),
 ];
 
 const hrvBands = [
-  Band('Düşük', 0, 24),
-  Band('Normal', 25, 50),
-  Band('İyi', 51, 75),
-  Band('Harika', 76, 255),
+  Band('low', 0, 24),
+  Band('normal', 25, 50),
+  Band('good', 51, 75),
+  Band('great', 76, 255),
 ];
 
 List<Band>? bandsFor(MetricType type) => switch (type) {

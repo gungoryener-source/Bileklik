@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../data/models.dart';
 import '../../device/protocol/exercise.dart';
+import '../../l10n/l10n.dart';
 import '../app_shell.dart';
 import '../format.dart';
 import '../theme.dart';
@@ -16,20 +17,17 @@ class ExerciseScreen extends StatelessWidget {
     final c = DeviceScope.of(context);
     final messenger = ScaffoldMessenger.of(context);
     final navigator = Navigator.of(context);
+    final l = context.l10n;
     if (!c.isConnected) {
-      messenger.showSnackBar(
-        const SnackBar(
-          content: Text('Önce Ana Sayfa\'dan bilekliği bağlayın.'),
-        ),
-      );
+      messenger.showSnackBar(SnackBar(content: Text(l.exerciseConnectFirst)));
       return;
     }
     if (await c.startExercise(type)) {
       navigator.push(
         MaterialPageRoute<void>(builder: (_) => const LiveExerciseScreen()),
       );
-    } else if (c.error != null) {
-      messenger.showSnackBar(SnackBar(content: Text(c.error!)));
+    } else if (issueText(c) case final issue?) {
+      messenger.showSnackBar(SnackBar(content: Text(issue)));
     }
   }
 
@@ -37,6 +35,7 @@ class ExerciseScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final c = DeviceScope.of(context);
     final active = c.exercise;
+    final l = context.l10n;
     return ListenableBuilder(
       listenable: c.store,
       builder: (context, _) {
@@ -57,17 +56,20 @@ class ExerciseScreen extends StatelessWidget {
         return ListView(
           padding: const EdgeInsets.all(20),
           children: [
-            Text('Egzersiz', style: Theme.of(context).textTheme.headlineMedium),
+            Text(
+              l.navExercise,
+              style: Theme.of(context).textTheme.headlineMedium,
+            ),
             const SizedBox(height: 16),
             if (active != null) ...[
               Card(
                 color: context.colors.accent.withValues(alpha: 0.18),
                 child: ListTile(
                   leading: Icon(active.type.icon, color: context.colors.accent),
-                  title: Text('${active.type.label} sürüyor'),
+                  title: Text(l.exerciseInProgress(active.type.label)),
                   subtitle: Text(
                     active.paused
-                        ? 'Duraklatıldı · ${clock(active.elapsed)}'
+                        ? l.exercisePausedAt(clock(active.elapsed))
                         : clock(active.elapsed),
                   ),
                   trailing: const Icon(Icons.chevron_right),
@@ -82,26 +84,34 @@ class ExerciseScreen extends StatelessWidget {
             ],
             Row(
               children: [
-                _WeekStat('Bu hafta', '${week.length}', 'egzersiz'),
+                _WeekStat(l.exerciseThisWeek, l.exerciseCount(week.length)),
                 const SizedBox(width: 10),
-                _WeekStat('Süre', duration(weekMinutes), ''),
+                _WeekStat(l.statDuration, duration(weekMinutes)),
                 const SizedBox(width: 10),
-                _WeekStat('Kalori', weekKcal.round().toString(), 'kcal'),
+                _WeekStat(
+                  MetricType.calories.label,
+                  ltr('${weekKcal.round()} ${MetricType.calories.unit}'),
+                ),
               ],
             ),
             const SizedBox(height: 24),
             Text(
-              'Egzersiz başlat',
+              l.exerciseStart,
               style: Theme.of(context).textTheme.titleMedium,
             ),
             const SizedBox(height: 10),
-            GridView.count(
-              crossAxisCount: 4,
+            GridView(
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
-              mainAxisSpacing: 10,
-              crossAxisSpacing: 10,
-              childAspectRatio: 0.85,
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 4,
+                mainAxisSpacing: 10,
+                crossAxisSpacing: 10,
+                // Simge + iki satır ad; yükseklik yazı boyutuyla büyür,
+                // böylece büyük yazıda ve uzun adlarda (Almanca) taşmaz.
+                mainAxisExtent:
+                    48 + MediaQuery.textScalerOf(context).scale(12) * 1.4 * 2,
+              ),
               children: [
                 for (final s in SportType.startable)
                   _SportButton(
@@ -111,13 +121,14 @@ class ExerciseScreen extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 24),
-            Text('Son 30 gün', style: Theme.of(context).textTheme.titleMedium),
+            Text(
+              l.exerciseLast30Days,
+              style: Theme.of(context).textTheme.titleMedium,
+            ),
             const SizedBox(height: 10),
             if (workouts.isEmpty)
               Text(
-                c.isConnected
-                    ? 'Henüz egzersiz kaydı yok.'
-                    : 'Geçmiş egzersizleri görmek için bilekliği bağlayın.',
+                c.isConnected ? l.exerciseEmpty : l.exerciseConnectHint,
                 style: TextStyle(color: context.colors.muted),
               ),
             for (final w in workouts) _WorkoutTile(w),
@@ -129,8 +140,8 @@ class ExerciseScreen extends StatelessWidget {
 }
 
 class _WeekStat extends StatelessWidget {
-  const _WeekStat(this.label, this.value, this.unit);
-  final String label, value, unit;
+  const _WeekStat(this.label, this.value);
+  final String label, value;
 
   @override
   Widget build(BuildContext context) => Expanded(
@@ -145,11 +156,18 @@ class _WeekStat extends StatelessWidget {
               style: TextStyle(color: context.colors.muted, fontSize: 12),
             ),
             const SizedBox(height: 4),
-            Text(
-              unit.isEmpty ? value : '$value $unit',
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+            // Uzun değer ("4 Trainings", "2 Std. 18 Min.") kesilmez, küçülür.
+            FittedBox(
+              fit: BoxFit.scaleDown,
+              alignment: AlignmentDirectional.centerStart,
+              child: Text(
+                value,
+                maxLines: 1,
+                style: const TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
             ),
           ],
         ),
@@ -180,11 +198,14 @@ class _SportButton extends StatelessWidget {
                 color: enabled ? context.colors.accent : context.colors.muted,
               ),
               const SizedBox(height: 6),
-              Text(
-                type.label,
-                textAlign: TextAlign.center,
-                maxLines: 2,
-                style: const TextStyle(fontSize: 12),
+              Flexible(
+                child: Text(
+                  type.label,
+                  textAlign: TextAlign.center,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(fontSize: 12, height: 1.3),
+                ),
               ),
             ],
           ),
@@ -202,9 +223,10 @@ class _WorkoutTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final details = [
       clock(w.duration),
-      if (w.distanceKm > 0) '${w.distanceKm.toStringAsFixed(2)} km',
-      '${w.calories.round()} kcal',
-    ].join(' · ');
+      if (w.distanceKm > 0)
+        '${w.distanceKm.toStringAsFixed(2)} ${MetricType.distance.unit}',
+      '${w.calories.round()} ${MetricType.calories.unit}',
+    ].map(ltr).join(' · ');
     return Padding(
       padding: const EdgeInsets.only(bottom: 10),
       child: Card(

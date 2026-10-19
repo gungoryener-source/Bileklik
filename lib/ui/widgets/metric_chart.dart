@@ -28,7 +28,7 @@ class MetricChart extends StatelessWidget {
     final t = range.buckets[i];
     return switch (range.period) {
       Period.day => i % 6 == 0 ? two(t.hour) : '',
-      Period.week => weekdaysShort[t.weekday - 1],
+      Period.week => weekdayShort(t.weekday),
       Period.month => (t.day - 1) % 7 == 0 ? '${t.day}' : '',
     };
   }

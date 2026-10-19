@@ -1,0 +1,1558 @@
+import 'dart:async';
+
+import 'package:flutter/foundation.dart';
+import 'package:flutter/widgets.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:intl/intl.dart' as intl;
+
+import 'app_localizations_ar.dart';
+import 'app_localizations_de.dart';
+import 'app_localizations_en.dart';
+import 'app_localizations_tr.dart';
+
+// ignore_for_file: type=lint
+
+/// Callers can lookup localized strings with an instance of AppLocalizations
+/// returned by `AppLocalizations.of(context)`.
+///
+/// Applications need to include `AppLocalizations.delegate()` in their app's
+/// `localizationDelegates` list, and the locales they support in the app's
+/// `supportedLocales` list. For example:
+///
+/// ```dart
+/// import 'l10n/app_localizations.dart';
+///
+/// return MaterialApp(
+///   localizationsDelegates: AppLocalizations.localizationsDelegates,
+///   supportedLocales: AppLocalizations.supportedLocales,
+///   home: MyApplicationHome(),
+/// );
+/// ```
+///
+/// ## Update pubspec.yaml
+///
+/// Please make sure to update your pubspec.yaml to include the following
+/// packages:
+///
+/// ```yaml
+/// dependencies:
+///   # Internationalization support.
+///   flutter_localizations:
+///     sdk: flutter
+///   intl: any # Use the pinned version from flutter_localizations
+///
+///   # Rest of dependencies
+/// ```
+///
+/// ## iOS Applications
+///
+/// iOS applications define key application metadata, including supported
+/// locales, in an Info.plist file that is built into the application bundle.
+/// To configure the locales supported by your app, you’ll need to edit this
+/// file.
+///
+/// First, open your project’s ios/Runner.xcworkspace Xcode workspace file.
+/// Then, in the Project Navigator, open the Info.plist file under the Runner
+/// project’s Runner folder.
+///
+/// Next, select the Information Property List item, select Add Item from the
+/// Editor menu, then select Localizations from the pop-up menu.
+///
+/// Select and expand the newly-created Localizations item then, for each
+/// locale your application supports, add a new item and select the locale
+/// you wish to add from the pop-up menu in the Value field. This list should
+/// be consistent with the languages listed in the AppLocalizations.supportedLocales
+/// property.
+abstract class AppLocalizations {
+  AppLocalizations(String locale)
+    : localeName = intl.Intl.canonicalizedLocale(locale.toString());
+
+  final String localeName;
+
+  static AppLocalizations of(BuildContext context) {
+    return Localizations.of<AppLocalizations>(context, AppLocalizations)!;
+  }
+
+  static const LocalizationsDelegate<AppLocalizations> delegate =
+      _AppLocalizationsDelegate();
+
+  /// A list of this localizations delegate along with the default localizations
+  /// delegates.
+  ///
+  /// Returns a list of localizations delegates containing this delegate along with
+  /// GlobalMaterialLocalizations.delegate, GlobalCupertinoLocalizations.delegate,
+  /// and GlobalWidgetsLocalizations.delegate.
+  ///
+  /// Additional delegates can be added by appending to this list in
+  /// MaterialApp. This list does not have to be used at all if a custom list
+  /// of delegates is preferred or required.
+  static const List<LocalizationsDelegate<dynamic>> localizationsDelegates =
+      <LocalizationsDelegate<dynamic>>[
+        delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+      ];
+
+  /// A list of this localizations delegate's supported locales.
+  static const List<Locale> supportedLocales = <Locale>[
+    Locale('ar'),
+    Locale('de'),
+    Locale('en'),
+    Locale('tr'),
+  ];
+
+  /// No description provided for @appTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bileklik'**
+  String get appTitle;
+
+  /// No description provided for @bandAnxious.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kaygılı'**
+  String get bandAnxious;
+
+  /// No description provided for @bandCalm.
+  ///
+  /// In tr, this message translates to:
+  /// **'Sakin'**
+  String get bandCalm;
+
+  /// No description provided for @bandGood.
+  ///
+  /// In tr, this message translates to:
+  /// **'İyi'**
+  String get bandGood;
+
+  /// No description provided for @bandGreat.
+  ///
+  /// In tr, this message translates to:
+  /// **'Harika'**
+  String get bandGreat;
+
+  /// No description provided for @bandLow.
+  ///
+  /// In tr, this message translates to:
+  /// **'Düşük'**
+  String get bandLow;
+
+  /// No description provided for @bandMild.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hafif'**
+  String get bandMild;
+
+  /// No description provided for @bandNormal.
+  ///
+  /// In tr, this message translates to:
+  /// **'Normal'**
+  String get bandNormal;
+
+  /// No description provided for @bandTense.
+  ///
+  /// In tr, this message translates to:
+  /// **'Gergin'**
+  String get bandTense;
+
+  /// No description provided for @continueButton.
+  ///
+  /// In tr, this message translates to:
+  /// **'Devam'**
+  String get continueButton;
+
+  /// No description provided for @durationHours.
+  ///
+  /// In tr, this message translates to:
+  /// **'{h} sa'**
+  String durationHours(Object h);
+
+  /// No description provided for @durationHoursMinutes.
+  ///
+  /// In tr, this message translates to:
+  /// **'{h} sa {m} dk'**
+  String durationHoursMinutes(Object h, Object m);
+
+  /// No description provided for @durationMinutes.
+  ///
+  /// In tr, this message translates to:
+  /// **'{m} dk'**
+  String durationMinutes(Object m);
+
+  /// No description provided for @ecgAverageBpm.
+  ///
+  /// In tr, this message translates to:
+  /// **'{bpm} bpm ortalama'**
+  String ecgAverageBpm(Object bpm);
+
+  /// No description provided for @ecgAverageHeartRate.
+  ///
+  /// In tr, this message translates to:
+  /// **'Ortalama nabız'**
+  String get ecgAverageHeartRate;
+
+  /// No description provided for @ecgBeats.
+  ///
+  /// In tr, this message translates to:
+  /// **'Atım sayısı'**
+  String get ecgBeats;
+
+  /// No description provided for @ecgBpm.
+  ///
+  /// In tr, this message translates to:
+  /// **'bpm'**
+  String get ecgBpm;
+
+  /// No description provided for @ecgCancel.
+  ///
+  /// In tr, this message translates to:
+  /// **'Ölçümü iptal et'**
+  String get ecgCancel;
+
+  /// No description provided for @ecgConnectFirst.
+  ///
+  /// In tr, this message translates to:
+  /// **'Önce Ana Sayfa\'dan bilekliği bağlayın.'**
+  String get ecgConnectFirst;
+
+  /// No description provided for @ecgDetailTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'EKG · {date} {time}'**
+  String ecgDetailTitle(Object date, Object time);
+
+  /// No description provided for @ecgDisclaimer.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bu ölçüm tıbbi tanı yerine geçmez. Göğüs ağrısı, nefes darlığı ya da bayılma hissi varsa hemen 112\'yi arayın.'**
+  String get ecgDisclaimer;
+
+  /// No description provided for @ecgHowToSteps.
+  ///
+  /// In tr, this message translates to:
+  /// **'1. Bilekliği bileğinize sıkıca takın.\n2. Oturun, kolunuzu masaya koyun.\n3. Diğer elinizin parmağını bilekliğin üstündeki elektroda hafifçe dokundurun.\n4. 30 saniye boyunca hareket etmeyin ve konuşmayın.'**
+  String get ecgHowToSteps;
+
+  /// No description provided for @ecgHowToTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Nasıl ölçülür'**
+  String get ecgHowToTitle;
+
+  /// No description provided for @ecgKeepStill.
+  ///
+  /// In tr, this message translates to:
+  /// **'Parmağınızı elektrottan kaldırmayın ve hareket etmeyin.'**
+  String get ecgKeepStill;
+
+  /// No description provided for @ecgMeasuringTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'EKG ölçülüyor'**
+  String get ecgMeasuringTitle;
+
+  /// No description provided for @ecgMs.
+  ///
+  /// In tr, this message translates to:
+  /// **'ms'**
+  String get ecgMs;
+
+  /// No description provided for @ecgNoHeartRate.
+  ///
+  /// In tr, this message translates to:
+  /// **'Nabız hesaplanamadı'**
+  String get ecgNoHeartRate;
+
+  /// No description provided for @ecgNoRecords.
+  ///
+  /// In tr, this message translates to:
+  /// **'Henüz EKG kaydı yok.'**
+  String get ecgNoRecords;
+
+  /// No description provided for @ecgRange.
+  ///
+  /// In tr, this message translates to:
+  /// **'Aralık'**
+  String get ecgRange;
+
+  /// No description provided for @ecgRangeValue.
+  ///
+  /// In tr, this message translates to:
+  /// **'{min}-{max}'**
+  String ecgRangeValue(Object min, Object max);
+
+  /// No description provided for @ecgRecordHeader.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kayıt ({seconds} sn, satır başına {perRow} sn)'**
+  String ecgRecordHeader(Object seconds, Object perRow);
+
+  /// No description provided for @ecgRecordSubtitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'{when} · {seconds} sn'**
+  String ecgRecordSubtitle(Object when, Object seconds);
+
+  /// No description provided for @ecgRecordsTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kayıtlar'**
+  String get ecgRecordsTitle;
+
+  /// No description provided for @ecgSdnn.
+  ///
+  /// In tr, this message translates to:
+  /// **'Değişkenlik (SDNN)'**
+  String get ecgSdnn;
+
+  /// No description provided for @ecgSecondsLeft.
+  ///
+  /// In tr, this message translates to:
+  /// **'{seconds} sn'**
+  String ecgSecondsLeft(Object seconds);
+
+  /// No description provided for @ecgStartButton.
+  ///
+  /// In tr, this message translates to:
+  /// **'30 saniyelik ölçüm başlat'**
+  String get ecgStartButton;
+
+  /// No description provided for @ecgTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'EKG'**
+  String get ecgTitle;
+
+  /// No description provided for @exerciseConnectFirst.
+  ///
+  /// In tr, this message translates to:
+  /// **'Önce Ana Sayfa\'dan bilekliği bağlayın.'**
+  String get exerciseConnectFirst;
+
+  /// No description provided for @exerciseConnectHint.
+  ///
+  /// In tr, this message translates to:
+  /// **'Geçmiş egzersizleri görmek için bilekliği bağlayın.'**
+  String get exerciseConnectHint;
+
+  /// No description provided for @exerciseCount.
+  ///
+  /// In tr, this message translates to:
+  /// **'{count} egzersiz'**
+  String exerciseCount(int count);
+
+  /// No description provided for @exerciseEmpty.
+  ///
+  /// In tr, this message translates to:
+  /// **'Henüz egzersiz kaydı yok.'**
+  String get exerciseEmpty;
+
+  /// No description provided for @exerciseInProgress.
+  ///
+  /// In tr, this message translates to:
+  /// **'{sport} sürüyor'**
+  String exerciseInProgress(Object sport);
+
+  /// No description provided for @exerciseLast30Days.
+  ///
+  /// In tr, this message translates to:
+  /// **'Son 30 gün'**
+  String get exerciseLast30Days;
+
+  /// No description provided for @exercisePausedAt.
+  ///
+  /// In tr, this message translates to:
+  /// **'Duraklatıldı · {time}'**
+  String exercisePausedAt(Object time);
+
+  /// No description provided for @exerciseStart.
+  ///
+  /// In tr, this message translates to:
+  /// **'Egzersiz başlat'**
+  String get exerciseStart;
+
+  /// No description provided for @exerciseThisWeek.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bu hafta'**
+  String get exerciseThisWeek;
+
+  /// No description provided for @healthBloodPressure.
+  ///
+  /// In tr, this message translates to:
+  /// **'Tansiyon'**
+  String get healthBloodPressure;
+
+  /// Tansiyon kartı alt yazısı; değerin tahmini olduğunu belirtir.
+  ///
+  /// In tr, this message translates to:
+  /// **'Tahmini · {details}'**
+  String healthBloodPressureSubtitle(Object details);
+
+  /// No description provided for @healthConnectHint.
+  ///
+  /// In tr, this message translates to:
+  /// **'Verileri görmek için Ana Sayfa\'dan bilekliği bağlayın.'**
+  String get healthConnectHint;
+
+  /// No description provided for @healthEcg.
+  ///
+  /// In tr, this message translates to:
+  /// **'EKG'**
+  String get healthEcg;
+
+  /// No description provided for @healthEcgLast.
+  ///
+  /// In tr, this message translates to:
+  /// **'Son ölçüm · {time}'**
+  String healthEcgLast(Object time);
+
+  /// No description provided for @healthEcgPrompt.
+  ///
+  /// In tr, this message translates to:
+  /// **'30 saniyelik ölçüm yapın'**
+  String get healthEcgPrompt;
+
+  /// No description provided for @healthLastSync.
+  ///
+  /// In tr, this message translates to:
+  /// **'Son güncelleme {time}'**
+  String healthLastSync(Object time);
+
+  /// No description provided for @healthNoMeasurement.
+  ///
+  /// In tr, this message translates to:
+  /// **'Ölçüm yok'**
+  String get healthNoMeasurement;
+
+  /// No description provided for @healthNoRecord.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kayıt yok'**
+  String get healthNoRecord;
+
+  /// No description provided for @healthSleep.
+  ///
+  /// In tr, this message translates to:
+  /// **'Uyku'**
+  String get healthSleep;
+
+  /// No description provided for @healthSleepLastNight.
+  ///
+  /// In tr, this message translates to:
+  /// **'Dün gece · {start} - {end}'**
+  String healthSleepLastNight(Object start, Object end);
+
+  /// No description provided for @healthStepsToday.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bugün · hedef {goal}'**
+  String healthStepsToday(Object goal);
+
+  /// No description provided for @healthSyncTooltip.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bileklikten güncelle'**
+  String get healthSyncTooltip;
+
+  /// No description provided for @healthSyncing.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bileklikten veriler alınıyor…'**
+  String get healthSyncing;
+
+  /// No description provided for @homeActivity.
+  ///
+  /// In tr, this message translates to:
+  /// **'Aktivite'**
+  String get homeActivity;
+
+  /// No description provided for @homeAverageStress.
+  ///
+  /// In tr, this message translates to:
+  /// **'Ortalama stres'**
+  String get homeAverageStress;
+
+  /// No description provided for @homeAverageStressBand.
+  ///
+  /// In tr, this message translates to:
+  /// **'Ortalama stres · {band}'**
+  String homeAverageStressBand(Object band);
+
+  /// No description provided for @homeAverageValue.
+  ///
+  /// In tr, this message translates to:
+  /// **'Ort. {value}'**
+  String homeAverageValue(Object value);
+
+  /// No description provided for @homeBalance.
+  ///
+  /// In tr, this message translates to:
+  /// **'Denge'**
+  String get homeBalance;
+
+  /// No description provided for @homeBloodOxygen.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kan oksijeni'**
+  String get homeBloodOxygen;
+
+  /// No description provided for @homeBpm.
+  ///
+  /// In tr, this message translates to:
+  /// **'{value} bpm'**
+  String homeBpm(Object value);
+
+  /// No description provided for @homeCaloriesKcal.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kalori (kcal)'**
+  String get homeCaloriesKcal;
+
+  /// No description provided for @homeChartNoData.
+  ///
+  /// In tr, this message translates to:
+  /// **'{title}: ölçüm yok'**
+  String homeChartNoData(Object title);
+
+  /// No description provided for @homeChartSemantics.
+  ///
+  /// In tr, this message translates to:
+  /// **'{title}: en düşük {min}, en yüksek {max} {unit}'**
+  String homeChartSemantics(Object title, Object min, Object max, Object unit);
+
+  /// No description provided for @homeConnect.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bağlan'**
+  String get homeConnect;
+
+  /// No description provided for @homeConnectTooltip.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bilekliğe bağlan'**
+  String get homeConnectTooltip;
+
+  /// No description provided for @homeConnected.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bağlı'**
+  String get homeConnected;
+
+  /// No description provided for @homeConnectedBattery.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bağlı · %{percent}'**
+  String homeConnectedBattery(Object percent);
+
+  /// No description provided for @homeConnecting.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bağlanıyor…'**
+  String get homeConnecting;
+
+  /// No description provided for @homeDaySummary.
+  ///
+  /// In tr, this message translates to:
+  /// **'Günün özeti'**
+  String get homeDaySummary;
+
+  /// No description provided for @homeDeepSleep.
+  ///
+  /// In tr, this message translates to:
+  /// **'Derin uyku {duration}'**
+  String homeDeepSleep(Object duration);
+
+  /// No description provided for @homeDisconnectTooltip.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bağlantıyı kes'**
+  String get homeDisconnectTooltip;
+
+  /// No description provided for @homeDuration.
+  ///
+  /// In tr, this message translates to:
+  /// **'Süre'**
+  String get homeDuration;
+
+  /// No description provided for @homeEcg.
+  ///
+  /// In tr, this message translates to:
+  /// **'EKG'**
+  String get homeEcg;
+
+  /// No description provided for @homeEcgSubtitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'{bpm} bpm · {seconds} sn'**
+  String homeEcgSubtitle(Object bpm, Object seconds);
+
+  /// No description provided for @homeEcgSubtitleNoHr.
+  ///
+  /// In tr, this message translates to:
+  /// **'{seconds} sn'**
+  String homeEcgSubtitleNoHr(Object seconds);
+
+  /// No description provided for @homeGoodAfternoon.
+  ///
+  /// In tr, this message translates to:
+  /// **'İyi günler'**
+  String get homeGoodAfternoon;
+
+  /// No description provided for @homeGoodEvening.
+  ///
+  /// In tr, this message translates to:
+  /// **'İyi akşamlar'**
+  String get homeGoodEvening;
+
+  /// No description provided for @homeGoodMorning.
+  ///
+  /// In tr, this message translates to:
+  /// **'Günaydın'**
+  String get homeGoodMorning;
+
+  /// No description provided for @homeHeartRateHint.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kalp atış hızınızı görmek için bilekliği gün boyu takın.'**
+  String get homeHeartRateHint;
+
+  /// No description provided for @homeHeartRateLabel.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kalp atış hızı'**
+  String get homeHeartRateLabel;
+
+  /// No description provided for @homeHourlyStressSemantics.
+  ///
+  /// In tr, this message translates to:
+  /// **'Saatlik stres sütunları'**
+  String get homeHourlyStressSemantics;
+
+  /// No description provided for @homeHrvLabel.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kalp atış hızı değişkenliği'**
+  String get homeHrvLabel;
+
+  /// No description provided for @homeKilometers.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kilometre'**
+  String get homeKilometers;
+
+  /// No description provided for @homeListSeparator.
+  ///
+  /// In tr, this message translates to:
+  /// **', '**
+  String get homeListSeparator;
+
+  /// No description provided for @homeMeasureEcg.
+  ///
+  /// In tr, this message translates to:
+  /// **'EKG ölç'**
+  String get homeMeasureEcg;
+
+  /// No description provided for @homeMs.
+  ///
+  /// In tr, this message translates to:
+  /// **'{value} ms'**
+  String homeMs(Object value);
+
+  /// No description provided for @homeNextDay.
+  ///
+  /// In tr, this message translates to:
+  /// **'Sonraki gün'**
+  String get homeNextDay;
+
+  /// No description provided for @homeNoRecord.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kayıt yok'**
+  String get homeNoRecord;
+
+  /// No description provided for @homeNoSleepLastNight.
+  ///
+  /// In tr, this message translates to:
+  /// **'Dün gece uyku ölçülmedi'**
+  String get homeNoSleepLastNight;
+
+  /// No description provided for @homeNoSleepPastHint.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bilekliğin takılı olduğu günlerin özeti burada görünür.'**
+  String get homeNoSleepPastHint;
+
+  /// No description provided for @homeNoSleepStages.
+  ///
+  /// In tr, this message translates to:
+  /// **'Uyku evresi yok'**
+  String get homeNoSleepStages;
+
+  /// No description provided for @homeNoSleepThisDay.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bu gün için uyku kaydı yok'**
+  String get homeNoSleepThisDay;
+
+  /// No description provided for @homeNoSleepTonightHint.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bilekliği bu gece takın; sabah uyku ve toparlanma özetiniz burada olacak.'**
+  String get homeNoSleepTonightHint;
+
+  /// No description provided for @homePercent.
+  ///
+  /// In tr, this message translates to:
+  /// **'%{value}'**
+  String homePercent(Object value);
+
+  /// No description provided for @homePickDay.
+  ///
+  /// In tr, this message translates to:
+  /// **'Gün seçin'**
+  String get homePickDay;
+
+  /// No description provided for @homePrevDay.
+  ///
+  /// In tr, this message translates to:
+  /// **'Önceki gün'**
+  String get homePrevDay;
+
+  /// No description provided for @homeProfileTooltip.
+  ///
+  /// In tr, this message translates to:
+  /// **'Profil'**
+  String get homeProfileTooltip;
+
+  /// No description provided for @homeRange.
+  ///
+  /// In tr, this message translates to:
+  /// **'{min}-{max}'**
+  String homeRange(Object min, Object max);
+
+  /// No description provided for @homeRecovery.
+  ///
+  /// In tr, this message translates to:
+  /// **'Toparlanma'**
+  String get homeRecovery;
+
+  /// No description provided for @homeSleep.
+  ///
+  /// In tr, this message translates to:
+  /// **'Uyku'**
+  String get homeSleep;
+
+  /// No description provided for @homeSleepStageItem.
+  ///
+  /// In tr, this message translates to:
+  /// **'{stage} {duration}'**
+  String homeSleepStageItem(Object stage, Object duration);
+
+  /// No description provided for @homeSleepStagesSemantics.
+  ///
+  /// In tr, this message translates to:
+  /// **'Uyku evreleri: {stages}'**
+  String homeSleepStagesSemantics(Object stages);
+
+  /// No description provided for @homeSleptHrvBandSummary.
+  ///
+  /// In tr, this message translates to:
+  /// **'{duration} uyudunuz, gece HRV ortalamanız {hrv} ms ({band}).'**
+  String homeSleptHrvBandSummary(Object duration, Object hrv, Object band);
+
+  /// No description provided for @homeSleptHrvSummary.
+  ///
+  /// In tr, this message translates to:
+  /// **'{duration} uyudunuz, gece HRV ortalamanız {hrv} ms.'**
+  String homeSleptHrvSummary(Object duration, Object hrv);
+
+  /// No description provided for @homeSleptSummary.
+  ///
+  /// In tr, this message translates to:
+  /// **'{duration} uyudunuz.'**
+  String homeSleptSummary(Object duration);
+
+  /// No description provided for @homeSpo2Hint.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kan oksijeninizi görmek için bilekliği gün boyu takın.'**
+  String get homeSpo2Hint;
+
+  /// No description provided for @homeStartWorkout.
+  ///
+  /// In tr, this message translates to:
+  /// **'Egzersize başla'**
+  String get homeStartWorkout;
+
+  /// No description provided for @homeStepGoal.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hedef {goal} adım'**
+  String homeStepGoal(Object goal);
+
+  /// No description provided for @homeStepGoalProgress.
+  ///
+  /// In tr, this message translates to:
+  /// **'%{percent} · hedef {goal}'**
+  String homeStepGoalProgress(Object percent, Object goal);
+
+  /// No description provided for @homeStepGoalSemantics.
+  ///
+  /// In tr, this message translates to:
+  /// **'Adım hedefi: {steps} / {goal}, yüzde {percent}'**
+  String homeStepGoalSemantics(Object steps, Object goal, Object percent);
+
+  /// No description provided for @homeSteps.
+  ///
+  /// In tr, this message translates to:
+  /// **'Adım'**
+  String get homeSteps;
+
+  /// No description provided for @homeStressHint.
+  ///
+  /// In tr, this message translates to:
+  /// **'Stres ve HRV, bileklik takılıyken gün içinde ölçülür.'**
+  String get homeStressHint;
+
+  /// No description provided for @homeStressLevel.
+  ///
+  /// In tr, this message translates to:
+  /// **'Stres düzeyi'**
+  String get homeStressLevel;
+
+  /// No description provided for @homeStressLoad.
+  ///
+  /// In tr, this message translates to:
+  /// **'Stres yükü'**
+  String get homeStressLoad;
+
+  /// No description provided for @homeSyncTooltip.
+  ///
+  /// In tr, this message translates to:
+  /// **'Eşitle'**
+  String get homeSyncTooltip;
+
+  /// No description provided for @homeTimeline.
+  ///
+  /// In tr, this message translates to:
+  /// **'Zaman çizelgesi'**
+  String get homeTimeline;
+
+  /// No description provided for @homeTimelineEmpty.
+  ///
+  /// In tr, this message translates to:
+  /// **'Egzersiz, EKG ve uyku kayıtlarınız burada saat sırasıyla görünür.'**
+  String get homeTimelineEmpty;
+
+  /// No description provided for @homeTimelineSubtitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Günün kayıtları'**
+  String get homeTimelineSubtitle;
+
+  /// No description provided for @homeTodayDate.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bugün, {date}'**
+  String homeTodayDate(Object date);
+
+  /// No description provided for @homeWeekdayDate.
+  ///
+  /// In tr, this message translates to:
+  /// **'{weekday}, {date}'**
+  String homeWeekdayDate(Object weekday, Object date);
+
+  /// No description provided for @homeWokeUp.
+  ///
+  /// In tr, this message translates to:
+  /// **'Uyandınız'**
+  String get homeWokeUp;
+
+  /// No description provided for @homeWokeUpSubtitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'{duration} uyku · {time} yatış'**
+  String homeWokeUpSubtitle(Object duration, Object time);
+
+  /// No description provided for @homeWorkoutSubtitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'{duration} · {kcal} kcal'**
+  String homeWorkoutSubtitle(Object duration, Object kcal);
+
+  /// No description provided for @homeYesterdayDate.
+  ///
+  /// In tr, this message translates to:
+  /// **'Dün, {date}'**
+  String homeYesterdayDate(Object date);
+
+  /// No description provided for @issueBusy.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bileklik şu an başka bir egzersizde ya da ölçümde.'**
+  String get issueBusy;
+
+  /// No description provided for @issueFailed.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bileklikle iletişim kurulamadı. Yakında ve açık olduğundan emin olun.'**
+  String get issueFailed;
+
+  /// No description provided for @issueNoEcgSignal.
+  ///
+  /// In tr, this message translates to:
+  /// **'EKG verisi alınamadı. Bilekliği takıp parmağınızı elektroda dokundurun.'**
+  String get issueNoEcgSignal;
+
+  /// No description provided for @languagePickHint.
+  ///
+  /// In tr, this message translates to:
+  /// **'Daha sonra Profil ekranından değiştirebilirsiniz.'**
+  String get languagePickHint;
+
+  /// No description provided for @languagePickTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Dilinizi seçin'**
+  String get languagePickTitle;
+
+  /// No description provided for @languageSystem.
+  ///
+  /// In tr, this message translates to:
+  /// **'Telefonun dili'**
+  String get languageSystem;
+
+  /// No description provided for @languageTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Dil'**
+  String get languageTitle;
+
+  /// No description provided for @liveCancel.
+  ///
+  /// In tr, this message translates to:
+  /// **'Vazgeç'**
+  String get liveCancel;
+
+  /// No description provided for @liveConfirmBody.
+  ///
+  /// In tr, this message translates to:
+  /// **'Egzersiz kaydedilip özet gösterilecek.'**
+  String get liveConfirmBody;
+
+  /// No description provided for @liveConfirmTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Egzersizi bitir'**
+  String get liveConfirmTitle;
+
+  /// No description provided for @liveContinue.
+  ///
+  /// In tr, this message translates to:
+  /// **'Devam et'**
+  String get liveContinue;
+
+  /// No description provided for @liveFinish.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bitir'**
+  String get liveFinish;
+
+  /// No description provided for @liveInactiveBody.
+  ///
+  /// In tr, this message translates to:
+  /// **'Son {minutes} dakikada {steps} adımdan az attınız. Egzersizi bitirmek ister misiniz?'**
+  String liveInactiveBody(int minutes, int steps);
+
+  /// No description provided for @liveInactiveTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hareketsiz görünüyorsunuz'**
+  String get liveInactiveTitle;
+
+  /// No description provided for @livePause.
+  ///
+  /// In tr, this message translates to:
+  /// **'Duraklat'**
+  String get livePause;
+
+  /// No description provided for @livePaused.
+  ///
+  /// In tr, this message translates to:
+  /// **'Duraklatıldı'**
+  String get livePaused;
+
+  /// No description provided for @metricCalories.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kalori'**
+  String get metricCalories;
+
+  /// No description provided for @metricDetailAbove.
+  ///
+  /// In tr, this message translates to:
+  /// **'> {value}'**
+  String metricDetailAbove(Object value);
+
+  /// No description provided for @metricDetailBands.
+  ///
+  /// In tr, this message translates to:
+  /// **'Aralıklar'**
+  String get metricDetailBands;
+
+  /// Tansiyonun tahmini olduğu notu; her dilde bu anlam korunmalı.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bileklik tansiyonu tahmini olarak hesaplar. Tanı ve tedavi için onaylı bir tansiyon aleti kullanın.'**
+  String get metricDetailBpEstimate;
+
+  /// No description provided for @metricDetailDailyAverage.
+  ///
+  /// In tr, this message translates to:
+  /// **'Günlük ortalama'**
+  String get metricDetailDailyAverage;
+
+  /// No description provided for @metricDetailNext.
+  ///
+  /// In tr, this message translates to:
+  /// **'Sonraki'**
+  String get metricDetailNext;
+
+  /// No description provided for @metricDetailNoData.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bu dönem için kayıt yok'**
+  String get metricDetailNoData;
+
+  /// No description provided for @metricDetailPrevious.
+  ///
+  /// In tr, this message translates to:
+  /// **'Önceki'**
+  String get metricDetailPrevious;
+
+  /// No description provided for @metricDetailTotal.
+  ///
+  /// In tr, this message translates to:
+  /// **'Toplam'**
+  String get metricDetailTotal;
+
+  /// No description provided for @metricDetailWeekRange.
+  ///
+  /// In tr, this message translates to:
+  /// **'{start} - {end}'**
+  String metricDetailWeekRange(Object start, Object end);
+
+  /// No description provided for @metricDiastolic.
+  ///
+  /// In tr, this message translates to:
+  /// **'Tansiyon (küçük)'**
+  String get metricDiastolic;
+
+  /// No description provided for @metricDistance.
+  ///
+  /// In tr, this message translates to:
+  /// **'Mesafe'**
+  String get metricDistance;
+
+  /// No description provided for @metricHeartRate.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kalp Atış Hızı'**
+  String get metricHeartRate;
+
+  /// No description provided for @metricHrv.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kalp Atış Hızı Değişkenliği'**
+  String get metricHrv;
+
+  /// No description provided for @metricRespiratoryRate.
+  ///
+  /// In tr, this message translates to:
+  /// **'Solunum Hızı'**
+  String get metricRespiratoryRate;
+
+  /// No description provided for @metricSpo2.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kan Oksijen Doygunluğu'**
+  String get metricSpo2;
+
+  /// No description provided for @metricSteps.
+  ///
+  /// In tr, this message translates to:
+  /// **'Adım'**
+  String get metricSteps;
+
+  /// No description provided for @metricStress.
+  ///
+  /// In tr, this message translates to:
+  /// **'Stres'**
+  String get metricStress;
+
+  /// No description provided for @metricSystolic.
+  ///
+  /// In tr, this message translates to:
+  /// **'Tansiyon (büyük)'**
+  String get metricSystolic;
+
+  /// No description provided for @metricTemperature.
+  ///
+  /// In tr, this message translates to:
+  /// **'Vücut Isısı'**
+  String get metricTemperature;
+
+  /// No description provided for @navExercise.
+  ///
+  /// In tr, this message translates to:
+  /// **'Egzersiz'**
+  String get navExercise;
+
+  /// No description provided for @navHealth.
+  ///
+  /// In tr, this message translates to:
+  /// **'Sağlık'**
+  String get navHealth;
+
+  /// No description provided for @navHome.
+  ///
+  /// In tr, this message translates to:
+  /// **'Ana Sayfa'**
+  String get navHome;
+
+  /// No description provided for @navProfile.
+  ///
+  /// In tr, this message translates to:
+  /// **'Profil'**
+  String get navProfile;
+
+  /// No description provided for @noValue.
+  ///
+  /// In tr, this message translates to:
+  /// **'--'**
+  String get noValue;
+
+  /// No description provided for @periodDay.
+  ///
+  /// In tr, this message translates to:
+  /// **'Gün'**
+  String get periodDay;
+
+  /// No description provided for @periodMonth.
+  ///
+  /// In tr, this message translates to:
+  /// **'Ay'**
+  String get periodMonth;
+
+  /// No description provided for @periodWeek.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hafta'**
+  String get periodWeek;
+
+  /// No description provided for @profileAge.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yaş'**
+  String get profileAge;
+
+  /// No description provided for @profileAppearance.
+  ///
+  /// In tr, this message translates to:
+  /// **'Görünüm'**
+  String get profileAppearance;
+
+  /// No description provided for @profileConnectFirst.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bilgileri kaydetmek için önce bilekliği bağlayın.'**
+  String get profileConnectFirst;
+
+  /// No description provided for @profileDevice.
+  ///
+  /// In tr, this message translates to:
+  /// **'Cihaz: {mac}'**
+  String profileDevice(Object mac);
+
+  /// No description provided for @profileFemale.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kadın'**
+  String get profileFemale;
+
+  /// No description provided for @profileHeight.
+  ///
+  /// In tr, this message translates to:
+  /// **'Boy'**
+  String get profileHeight;
+
+  /// No description provided for @profileMale.
+  ///
+  /// In tr, this message translates to:
+  /// **'Erkek'**
+  String get profileMale;
+
+  /// No description provided for @profileRangeError.
+  ///
+  /// In tr, this message translates to:
+  /// **'{min} ile {max} arasında olmalı'**
+  String profileRangeError(Object min, Object max);
+
+  /// No description provided for @profileSave.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kaydet'**
+  String get profileSave;
+
+  /// No description provided for @profileSaved.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bilgiler bilekliğe kaydedildi'**
+  String get profileSaved;
+
+  /// No description provided for @profileThemeDark.
+  ///
+  /// In tr, this message translates to:
+  /// **'Koyu'**
+  String get profileThemeDark;
+
+  /// No description provided for @profileThemeLight.
+  ///
+  /// In tr, this message translates to:
+  /// **'Açık'**
+  String get profileThemeLight;
+
+  /// No description provided for @profileThemeSystem.
+  ///
+  /// In tr, this message translates to:
+  /// **'Sistem'**
+  String get profileThemeSystem;
+
+  /// No description provided for @profileTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Profil'**
+  String get profileTitle;
+
+  /// No description provided for @profileUnitCm.
+  ///
+  /// In tr, this message translates to:
+  /// **'cm'**
+  String get profileUnitCm;
+
+  /// No description provided for @profileUnitKg.
+  ///
+  /// In tr, this message translates to:
+  /// **'kg'**
+  String get profileUnitKg;
+
+  /// No description provided for @profileUnitYears.
+  ///
+  /// In tr, this message translates to:
+  /// **'yıl'**
+  String get profileUnitYears;
+
+  /// No description provided for @profileWeight.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kilo'**
+  String get profileWeight;
+
+  /// No description provided for @sleepAwake.
+  ///
+  /// In tr, this message translates to:
+  /// **'Uyanık'**
+  String get sleepAwake;
+
+  /// No description provided for @sleepDeep.
+  ///
+  /// In tr, this message translates to:
+  /// **'Derin'**
+  String get sleepDeep;
+
+  /// No description provided for @sleepDuration.
+  ///
+  /// In tr, this message translates to:
+  /// **'Uyku süresi'**
+  String get sleepDuration;
+
+  /// No description provided for @sleepEmpty.
+  ///
+  /// In tr, this message translates to:
+  /// **'Henüz uyku kaydı yok'**
+  String get sleepEmpty;
+
+  /// No description provided for @sleepLast7Nights.
+  ///
+  /// In tr, this message translates to:
+  /// **'Son 7 gece'**
+  String get sleepLast7Nights;
+
+  /// No description provided for @sleepLight.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hafif'**
+  String get sleepLight;
+
+  /// No description provided for @sleepNextNight.
+  ///
+  /// In tr, this message translates to:
+  /// **'Sonraki gece'**
+  String get sleepNextNight;
+
+  /// No description provided for @sleepPercent.
+  ///
+  /// In tr, this message translates to:
+  /// **'%{value}'**
+  String sleepPercent(Object value);
+
+  /// No description provided for @sleepPreviousNight.
+  ///
+  /// In tr, this message translates to:
+  /// **'Önceki gece'**
+  String get sleepPreviousNight;
+
+  /// No description provided for @sleepRem.
+  ///
+  /// In tr, this message translates to:
+  /// **'REM'**
+  String get sleepRem;
+
+  /// No description provided for @sleepTimeRange.
+  ///
+  /// In tr, this message translates to:
+  /// **'{start} - {end}'**
+  String sleepTimeRange(Object start, Object end);
+
+  /// No description provided for @sleepTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Uyku'**
+  String get sleepTitle;
+
+  /// No description provided for @sleepWeekBarHint.
+  ///
+  /// In tr, this message translates to:
+  /// **'{day}: {duration}'**
+  String sleepWeekBarHint(Object day, Object duration);
+
+  /// No description provided for @sportAerobics.
+  ///
+  /// In tr, this message translates to:
+  /// **'Aerobik'**
+  String get sportAerobics;
+
+  /// No description provided for @sportBadminton.
+  ///
+  /// In tr, this message translates to:
+  /// **'Badminton'**
+  String get sportBadminton;
+
+  /// No description provided for @sportBasketball.
+  ///
+  /// In tr, this message translates to:
+  /// **'Basketbol'**
+  String get sportBasketball;
+
+  /// No description provided for @sportCricket.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kriket'**
+  String get sportCricket;
+
+  /// No description provided for @sportCycling.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bisiklet'**
+  String get sportCycling;
+
+  /// No description provided for @sportDance.
+  ///
+  /// In tr, this message translates to:
+  /// **'Dans'**
+  String get sportDance;
+
+  /// No description provided for @sportFootball.
+  ///
+  /// In tr, this message translates to:
+  /// **'Futbol'**
+  String get sportFootball;
+
+  /// No description provided for @sportHiking.
+  ///
+  /// In tr, this message translates to:
+  /// **'Doğa yürüyüşü'**
+  String get sportHiking;
+
+  /// No description provided for @sportMeditation.
+  ///
+  /// In tr, this message translates to:
+  /// **'Meditasyon'**
+  String get sportMeditation;
+
+  /// No description provided for @sportPingPong.
+  ///
+  /// In tr, this message translates to:
+  /// **'Masa tenisi'**
+  String get sportPingPong;
+
+  /// No description provided for @sportRopeJump.
+  ///
+  /// In tr, this message translates to:
+  /// **'İp atlama'**
+  String get sportRopeJump;
+
+  /// No description provided for @sportRun.
+  ///
+  /// In tr, this message translates to:
+  /// **'Koşu'**
+  String get sportRun;
+
+  /// No description provided for @sportSitUps.
+  ///
+  /// In tr, this message translates to:
+  /// **'Mekik'**
+  String get sportSitUps;
+
+  /// No description provided for @sportTennis.
+  ///
+  /// In tr, this message translates to:
+  /// **'Tenis'**
+  String get sportTennis;
+
+  /// No description provided for @sportUnknown.
+  ///
+  /// In tr, this message translates to:
+  /// **'Egzersiz'**
+  String get sportUnknown;
+
+  /// No description provided for @sportVolleyball.
+  ///
+  /// In tr, this message translates to:
+  /// **'Voleybol'**
+  String get sportVolleyball;
+
+  /// No description provided for @sportWalk.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yürüyüş'**
+  String get sportWalk;
+
+  /// No description provided for @sportWorkout.
+  ///
+  /// In tr, this message translates to:
+  /// **'Antrenman'**
+  String get sportWorkout;
+
+  /// No description provided for @sportYoga.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yoga'**
+  String get sportYoga;
+
+  /// No description provided for @statAverage.
+  ///
+  /// In tr, this message translates to:
+  /// **'Ortalama'**
+  String get statAverage;
+
+  /// No description provided for @statAvgHeartRate.
+  ///
+  /// In tr, this message translates to:
+  /// **'Ortalama nabız'**
+  String get statAvgHeartRate;
+
+  /// No description provided for @statDuration.
+  ///
+  /// In tr, this message translates to:
+  /// **'Süre'**
+  String get statDuration;
+
+  /// No description provided for @statMax.
+  ///
+  /// In tr, this message translates to:
+  /// **'En yüksek'**
+  String get statMax;
+
+  /// No description provided for @statMin.
+  ///
+  /// In tr, this message translates to:
+  /// **'En düşük'**
+  String get statMin;
+
+  /// No description provided for @statPace.
+  ///
+  /// In tr, this message translates to:
+  /// **'Tempo'**
+  String get statPace;
+
+  /// Yüzde değeri; dile göre % işaretinin yeri değişir.
+  ///
+  /// In tr, this message translates to:
+  /// **'%{value}'**
+  String statPercent(Object value);
+
+  /// No description provided for @unitPerMinute.
+  ///
+  /// In tr, this message translates to:
+  /// **'/dk'**
+  String get unitPerMinute;
+
+  /// No description provided for @unitSteps.
+  ///
+  /// In tr, this message translates to:
+  /// **'adım'**
+  String get unitSteps;
+
+  /// No description provided for @workoutCongrats.
+  ///
+  /// In tr, this message translates to:
+  /// **'Tebrikler, egzersiz kaydedildi'**
+  String get workoutCongrats;
+
+  /// No description provided for @workoutTimeRange.
+  ///
+  /// In tr, this message translates to:
+  /// **'{day} · {start} - {end}'**
+  String workoutTimeRange(Object day, Object start, Object end);
+}
+
+class _AppLocalizationsDelegate
+    extends LocalizationsDelegate<AppLocalizations> {
+  const _AppLocalizationsDelegate();
+
+  @override
+  Future<AppLocalizations> load(Locale locale) {
+    return SynchronousFuture<AppLocalizations>(lookupAppLocalizations(locale));
+  }
+
+  @override
+  bool isSupported(Locale locale) =>
+      <String>['ar', 'de', 'en', 'tr'].contains(locale.languageCode);
+
+  @override
+  bool shouldReload(_AppLocalizationsDelegate old) => false;
+}
+
+AppLocalizations lookupAppLocalizations(Locale locale) {
+  // Lookup logic when only language code is specified.
+  switch (locale.languageCode) {
+    case 'ar':
+      return AppLocalizationsAr();
+    case 'de':
+      return AppLocalizationsDe();
+    case 'en':
+      return AppLocalizationsEn();
+    case 'tr':
+      return AppLocalizationsTr();
+  }
+
+  throw FlutterError(
+    'AppLocalizations.delegate failed to load unsupported locale "$locale". This is likely '
+    'an issue with the localizations generation tool. Please file an issue '
+    'on GitHub with a reproducible sample app and the gen-l10n configuration '
+    'that was used.',
+  );
+}
