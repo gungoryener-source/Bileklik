@@ -9,6 +9,9 @@ const _months = [
   'Temmuz', 'Ağustos', 'Eylül', 'Ekim', 'Kasım', 'Aralık',
 ];
 const weekdaysShort = ['Pzt', 'Sal', 'Çar', 'Per', 'Cum', 'Cmt', 'Paz'];
+const weekdaysLong = [
+  'Pazartesi', 'Salı', 'Çarşamba', 'Perşembe', 'Cuma', 'Cumartesi', 'Pazar', //
+];
 
 String two(int v) => v.toString().padLeft(2, '0');
 String hhmm(DateTime t) => '${two(t.hour)}:${two(t.minute)}';
@@ -32,7 +35,8 @@ String whenText(DateTime t, DateTime now) {
 /// Her metriğin ekrandaki rengi ve simgesi.
 extension MetricLook on MetricType {
   Color get color => switch (this) {
-    MetricType.steps => AppColors.steps,
+    MetricType.steps || MetricType.distance => AppColors.steps,
+    MetricType.calories => AppColors.temperature,
     MetricType.heartRate => AppColors.heart,
     MetricType.spo2 => AppColors.oxygen,
     MetricType.hrv => AppColors.accent,
@@ -44,6 +48,8 @@ extension MetricLook on MetricType {
 
   IconData get icon => switch (this) {
     MetricType.steps => Icons.directions_walk,
+    MetricType.calories => Icons.local_fire_department,
+    MetricType.distance => Icons.straighten,
     MetricType.heartRate => Icons.favorite,
     MetricType.spo2 => Icons.water_drop,
     MetricType.hrv => Icons.monitor_heart,
@@ -55,6 +61,7 @@ extension MetricLook on MetricType {
 
   String format(double v) => switch (this) {
     MetricType.temperature => v.toStringAsFixed(1),
+    MetricType.distance => v.toStringAsFixed(2),
     _ => v.round().toString(),
   };
 }

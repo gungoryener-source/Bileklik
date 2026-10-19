@@ -39,13 +39,15 @@ class SyncService {
       HistoryKind.stepDetail,
       since: store.lastTime(MetricType.steps),
     );
-    store.addMeasurements(
-      rows
-          .map(StepDetailRecord.parse)
-          .map(
-            (r) => Measurement(MetricType.steps, r.time, r.steps.toDouble()),
-          ),
-    );
+    store.addMeasurements([
+      for (final r in rows.map(StepDetailRecord.parse)) ...[
+        Measurement(MetricType.steps, r.time, r.steps.toDouble()),
+        if (r.calories > 0)
+          Measurement(MetricType.calories, r.time, r.calories),
+        if (r.distanceKm > 0)
+          Measurement(MetricType.distance, r.time, r.distanceKm),
+      ],
+    ]);
   }
 
   Future<void> _heartRate() async {
