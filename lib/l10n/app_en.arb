@@ -201,7 +201,7 @@
   "pairNote": "Charge the wristband and keep it near your phone. Bluetooth must be on.",
   "pairScan": "Start search",
   "pairScanning": "Searching…",
-  "pairSignal": "Signal {rssi} dBm",
+  "pairSignal": "Signal {rssi}",
   "pairSubtitle": "Connect your wristband to bring your measurements to your phone.",
   "pairTitle": "Pair your wristband",
   "periodDay": "Day",

@@ -108,7 +108,7 @@ class _PairingViewState extends State<PairingView> {
                   leading: Icon(Icons.watch, color: colors.accent),
                   title: Text(d.name),
                   subtitle: Text(
-                    '${ltr(d.address)} · ${l.pairSignal(d.rssi)}',
+                    '${ltr(d.address)} · ${l.pairSignal(ltr('${d.rssi} dBm'))}',
                     style: TextStyle(color: colors.muted),
                   ),
                   trailing: FilledButton.tonal(

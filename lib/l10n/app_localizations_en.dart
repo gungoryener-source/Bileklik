@@ -748,7 +748,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String pairSignal(Object rssi) {
-    return 'Signal $rssi dBm';
+    return 'Signal $rssi';
   }
 
   @override

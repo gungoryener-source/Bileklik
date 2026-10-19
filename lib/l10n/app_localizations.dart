@@ -1311,7 +1311,7 @@ abstract class AppLocalizations {
   /// No description provided for @pairSignal.
   ///
   /// In tr, this message translates to:
-  /// **'Sinyal {rssi} dBm'**
+  /// **'Sinyal {rssi}'**
   String pairSignal(Object rssi);
 
   /// No description provided for @pairSubtitle.

@@ -746,7 +746,7 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String pairSignal(Object rssi) {
-    return 'الإشارة $rssi dBm';
+    return 'الإشارة $rssi';
   }
 
   @override
@@ -828,7 +828,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get profileMenuSharing => 'المشاركة مع العائلة والأطباء';
 
   @override
-  String get profileMenuThirdParty => 'Health Connect وApple Health';
+  String get profileMenuThirdParty => 'ربط تطبيقات الصحة';
 
   @override
   String get profileMenuVersion => 'إصدار التطبيق';

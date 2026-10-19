@@ -336,7 +336,7 @@
   "pairNote": "Bilekliği şarj edin ve telefonun yakınında tutun. Bluetooth açık olmalı.",
   "pairScan": "Aramayı başlat",
   "pairScanning": "Aranıyor…",
-  "pairSignal": "Sinyal {rssi} dBm",
+  "pairSignal": "Sinyal {rssi}",
   "pairSubtitle": "Bilekliğinizi bağlayın, ölçümleriniz telefonunuza gelsin.",
   "pairTitle": "Bileklik eşleştirme",
   "periodDay": "Gün",

@@ -201,7 +201,7 @@
   "pairNote": "Laden Sie das Armband und halten Sie es in der Nähe des Telefons. Bluetooth muss eingeschaltet sein.",
   "pairScan": "Suche starten",
   "pairScanning": "Suche läuft…",
-  "pairSignal": "Signal {rssi} dBm",
+  "pairSignal": "Signal {rssi}",
   "pairSubtitle": "Verbinden Sie Ihr Armband, damit Ihre Messwerte auf das Telefon kommen.",
   "pairTitle": "Armband koppeln",
   "periodDay": "Tag",
