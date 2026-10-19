@@ -94,12 +94,26 @@ void main() {
     });
 
     test('iptal edilen ölçüm kaydedilmez', () async {
-      await controller.startEcg();
-      await Future<void>.delayed(const Duration(milliseconds: 30));
-      await controller.cancelEcg();
+      // Ölçüm iptalden önce bitmesin diye paketler yavaş gelir.
+      final slow = FakeDevice(
+        random: Random(4),
+        realtimeInterval: const Duration(seconds: 30),
+        ecgPacketInterval: const Duration(milliseconds: 20),
+      );
+      final c = DeviceController(slow, store: MemoryHealthStore());
+      await c.connect();
+      await c.startEcg();
+      for (var i = 0; i < 50 && c.ecg!.samples.isEmpty; i++) {
+        await Future<void>.delayed(const Duration(milliseconds: 10));
+      }
+      expect(c.ecg!.samples, isNotEmpty);
+      await c.cancelEcg();
       await Future<void>.delayed(const Duration(milliseconds: 100));
-      expect(controller.ecg, isNull);
-      expect(controller.store.ecgRecordings(), isEmpty);
+      expect(c.ecg, isNull);
+      expect(c.lastEcg, isNull);
+      expect(c.store.ecgRecordings(), isEmpty);
+      await c.disconnect();
+      slow.dispose();
     });
   });
 }
