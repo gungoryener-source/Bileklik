@@ -46,6 +46,8 @@ void main() {
 
     await tester.tap(find.text('Profil').last);
     await tester.pumpAndSettle();
+    await tester.tap(find.text('Genel ayarlar'));
+    await tester.pumpAndSettle();
     await tester.scrollUntilVisible(
       find.text('Koyu'),
       200,
@@ -55,6 +57,8 @@ void main() {
     await tester.pumpAndSettle();
     expect(settings.themeMode, ThemeMode.dark);
 
+    await tester.tap(find.byTooltip('Geri'));
+    await tester.pumpAndSettle();
     await tester.tap(find.text('Ana Sayfa'));
     await tester.pumpAndSettle();
     expect(bg(), AppColors.dark.background);

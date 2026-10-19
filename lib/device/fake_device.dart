@@ -21,6 +21,7 @@ class FakeDevice implements DeviceTransport {
     this.realtimeInterval = const Duration(seconds: 2),
     this.exerciseInterval = const Duration(seconds: 1),
     this.ecgPacketInterval = const Duration(milliseconds: 60),
+    this.scanDelay = const Duration(milliseconds: 1500),
     DateTime Function()? clock,
   }) : _random = random ?? Random(),
        _clock = clock ?? DateTime.now;
@@ -28,6 +29,9 @@ class FakeDevice implements DeviceTransport {
   final Random _random;
   final DateTime Function() _clock;
   final Duration realtimeInterval;
+
+  /// Aramanın süresi; gerçek BLE taraması da birkaç saniye sürer.
+  final Duration scanDelay;
 
   /// Egzersizde 0x18 paketlerinin aralığı; her paket 1 saniyelik ilerleme sayılır.
   final Duration exerciseInterval;
@@ -65,13 +69,27 @@ class FakeDevice implements DeviceTransport {
   static const mac = [0xA1, 0xB2, 0xC3, 0xD4, 0xE5, 0xF6];
 
   @override
-  String get name => 'Sahte bileklik (JCV8)';
+  String get name => 'JCV8 (demo)';
 
   @override
   Stream<DeviceConnectionState> get state => _state.stream;
 
   @override
   Stream<List<int>> get incoming => _incoming.stream;
+
+  @override
+  Future<List<DiscoveredDevice>> scan() async {
+    await Future<void>.delayed(scanDelay);
+    return [
+      DiscoveredDevice(
+        name: 'JCV8',
+        address: [for (final b in mac) b.toRadixString(16).padLeft(2, '0')]
+            .join(':')
+            .toUpperCase(),
+        rssi: -58,
+      ),
+    ];
+  }
 
   @override
   Future<void> connect() async {

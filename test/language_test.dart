@@ -23,6 +23,8 @@ void main() {
 
     await tester.tap(find.text('Profil').last);
     await tester.pumpAndSettle();
+    await tester.tap(find.text('Genel ayarlar'));
+    await tester.pumpAndSettle();
     await tester.scrollUntilVisible(
       find.text('Dil'),
       200,
@@ -39,6 +41,10 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(settings.language, 'en');
+    // Genel ayarlar sayfası da artık İngilizce; geri dönülür.
+    expect(find.text('General settings'), findsOneWidget);
+    await tester.tap(find.byTooltip('Back'));
+    await tester.pumpAndSettle();
     final nav = find.byType(NavigationBar);
     expect(
       find.descendant(of: nav, matching: find.text('Profile')),

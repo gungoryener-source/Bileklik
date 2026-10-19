@@ -10,6 +10,26 @@ class AppLocalizationsEn extends AppLocalizations {
   AppLocalizationsEn([String locale = 'en']) : super(locale);
 
   @override
+  String get aboutDescription =>
+      'Bileklik shows the measurements of your JCV8 ECG wristband on your phone.';
+
+  @override
+  String get aboutLicenses => 'Open source licenses';
+
+  @override
+  String get aboutMedical =>
+      'This app is not a medical device; consult your doctor for diagnosis and treatment. Blood pressure values are estimates.';
+
+  @override
+  String get aboutPrivacy =>
+      'Your measurements stay on this phone. When sharing arrives, you will decide who sees what.';
+
+  @override
+  String aboutVersion(Object version) {
+    return 'Version $version';
+  }
+
+  @override
   String get appTitle => 'Bileklik';
 
   @override
@@ -37,7 +57,46 @@ class AppLocalizationsEn extends AppLocalizations {
   String get bandTense => 'Tense';
 
   @override
+  String get comingSoon => 'Coming soon';
+
+  @override
+  String get comingSoonMessage => 'This section is coming in a future version.';
+
+  @override
   String get continueButton => 'Continue';
+
+  @override
+  String get deviceAddress => 'Address';
+
+  @override
+  String get deviceBattery => 'Battery';
+
+  @override
+  String deviceBatteryValue(Object value) {
+    return '$value%';
+  }
+
+  @override
+  String get deviceConnected => 'Connected';
+
+  @override
+  String get deviceDisconnect => 'Disconnect';
+
+  @override
+  String get deviceDisconnected => 'Not connected';
+
+  @override
+  String get deviceLastSync => 'Last sync';
+
+  @override
+  String get devicePairNew => 'Pair another wristband';
+
+  @override
+  String get deviceSettingsNote =>
+      'Heart rate interval and alert settings will appear here soon.';
+
+  @override
+  String get deviceStatus => 'Status';
 
   @override
   String durationHours(Object h) {
@@ -648,6 +707,58 @@ class AppLocalizationsEn extends AppLocalizations {
   String get noValue => '--';
 
   @override
+  String get pairCode => 'Pair with address';
+
+  @override
+  String get pairCodeHint =>
+      'Enter the address printed under the QR code on the box or on the back of the wristband.';
+
+  @override
+  String get pairCodeInvalid =>
+      'The address has 12 characters, e.g. A1:B2:C3:D4:E5:F6';
+
+  @override
+  String get pairCodeLabel => 'Device address';
+
+  @override
+  String get pairCodeNotFound => 'No wristband found at this address.';
+
+  @override
+  String get pairConnect => 'Connect';
+
+  @override
+  String get pairConnected => 'Wristband connected.';
+
+  @override
+  String get pairFound => 'Wristbands found';
+
+  @override
+  String get pairNoneFound =>
+      'No wristband found. Make sure it is charged and nearby, then try again.';
+
+  @override
+  String get pairNote =>
+      'Charge the wristband and keep it near your phone. Bluetooth must be on.';
+
+  @override
+  String get pairScan => 'Start search';
+
+  @override
+  String get pairScanning => 'Searching…';
+
+  @override
+  String pairSignal(Object rssi) {
+    return 'Signal $rssi';
+  }
+
+  @override
+  String get pairSubtitle =>
+      'Connect your wristband to bring your measurements to your phone.';
+
+  @override
+  String get pairTitle => 'Pair your wristband';
+
+  @override
   String get periodDay => 'Day';
 
   @override
@@ -655,6 +766,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get periodWeek => 'Week';
+
+  @override
+  String get personalInfoTitle => 'Personal info';
 
   @override
   String get profileAge => 'Age';
@@ -681,6 +795,49 @@ class AppLocalizationsEn extends AppLocalizations {
   String get profileMale => 'Male';
 
   @override
+  String get profileMenuAbout => 'About';
+
+  @override
+  String get profileMenuDevice => 'Device';
+
+  @override
+  String profileMenuDeviceConnected(Object battery) {
+    return 'Connected · battery $battery%';
+  }
+
+  @override
+  String get profileMenuDeviceNone => 'No wristband connected';
+
+  @override
+  String get profileMenuFeedback => 'Feedback';
+
+  @override
+  String get profileMenuGeneral => 'General settings';
+
+  @override
+  String get profileMenuGeneralSubtitle => 'Appearance and language';
+
+  @override
+  String get profileMenuPersonalEmpty => 'Enter your age, height and weight';
+
+  @override
+  String profileMenuPersonalSummary(Object age, Object height, Object weight) {
+    return '$age yrs · $height cm · $weight kg';
+  }
+
+  @override
+  String get profileMenuResearch => 'Research institution';
+
+  @override
+  String get profileMenuSharing => 'Share with family and doctors';
+
+  @override
+  String get profileMenuThirdParty => 'Health Connect and Apple Health';
+
+  @override
+  String get profileMenuVersion => 'App version';
+
+  @override
   String profileRangeError(Object min, Object max) {
     return 'Must be between $min and $max';
   }
@@ -690,6 +847,15 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get profileSaved => 'Details saved to your wristband';
+
+  @override
+  String get profileSectionApp => 'App';
+
+  @override
+  String get profileSectionSettings => 'Settings';
+
+  @override
+  String get profileSectionSharing => 'Sharing and connections';
 
   @override
   String get profileThemeDark => 'Dark';

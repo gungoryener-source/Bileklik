@@ -10,6 +10,26 @@ class AppLocalizationsTr extends AppLocalizations {
   AppLocalizationsTr([String locale = 'tr']) : super(locale);
 
   @override
+  String get aboutDescription =>
+      'Bileklik, JCV8 EKG bilekliğinizin ölçümlerini telefonunuzda gösterir.';
+
+  @override
+  String get aboutLicenses => 'Açık kaynak lisansları';
+
+  @override
+  String get aboutMedical =>
+      'Bu uygulama tıbbi cihaz değildir; teşhis ve tedavi için hekiminize danışın. Tansiyon değerleri tahminidir.';
+
+  @override
+  String get aboutPrivacy =>
+      'Ölçümleriniz yalnızca bu telefonda tutulur. Paylaşım geldiğinde kimin neyi göreceğine siz karar vereceksiniz (KVKK).';
+
+  @override
+  String aboutVersion(Object version) {
+    return 'Sürüm $version';
+  }
+
+  @override
   String get appTitle => 'Bileklik';
 
   @override
@@ -37,7 +57,46 @@ class AppLocalizationsTr extends AppLocalizations {
   String get bandTense => 'Gergin';
 
   @override
+  String get comingSoon => 'Yakında';
+
+  @override
+  String get comingSoonMessage => 'Bu bölüm sonraki bir sürümde gelecek.';
+
+  @override
   String get continueButton => 'Devam';
+
+  @override
+  String get deviceAddress => 'Adres';
+
+  @override
+  String get deviceBattery => 'Pil';
+
+  @override
+  String deviceBatteryValue(Object value) {
+    return '%$value';
+  }
+
+  @override
+  String get deviceConnected => 'Bağlı';
+
+  @override
+  String get deviceDisconnect => 'Bağlantıyı kes';
+
+  @override
+  String get deviceDisconnected => 'Bağlı değil';
+
+  @override
+  String get deviceLastSync => 'Son eşitleme';
+
+  @override
+  String get devicePairNew => 'Başka bileklik eşleştir';
+
+  @override
+  String get deviceSettingsNote =>
+      'Nabız ölçüm aralığı ve bildirim ayarları yakında burada olacak.';
+
+  @override
+  String get deviceStatus => 'Durum';
 
   @override
   String durationHours(Object h) {
@@ -631,6 +690,57 @@ class AppLocalizationsTr extends AppLocalizations {
   String get noValue => '--';
 
   @override
+  String get pairCode => 'Adresle eşleştir';
+
+  @override
+  String get pairCodeHint =>
+      'Kutudaki ya da bilekliğin arkasındaki QR kodunun altında yazan adresi girin.';
+
+  @override
+  String get pairCodeInvalid => 'Adres 12 karakterdir, ör. A1:B2:C3:D4:E5:F6';
+
+  @override
+  String get pairCodeLabel => 'Cihaz adresi';
+
+  @override
+  String get pairCodeNotFound => 'Bu adreste bir bileklik bulunamadı.';
+
+  @override
+  String get pairConnect => 'Bağlan';
+
+  @override
+  String get pairConnected => 'Bileklik bağlandı.';
+
+  @override
+  String get pairFound => 'Bulunan bileklikler';
+
+  @override
+  String get pairNoneFound =>
+      'Bileklik bulunamadı. Şarjlı ve yakında olduğundan emin olup tekrar deneyin.';
+
+  @override
+  String get pairNote =>
+      'Bilekliği şarj edin ve telefonun yakınında tutun. Bluetooth açık olmalı.';
+
+  @override
+  String get pairScan => 'Aramayı başlat';
+
+  @override
+  String get pairScanning => 'Aranıyor…';
+
+  @override
+  String pairSignal(Object rssi) {
+    return 'Sinyal $rssi';
+  }
+
+  @override
+  String get pairSubtitle =>
+      'Bilekliğinizi bağlayın, ölçümleriniz telefonunuza gelsin.';
+
+  @override
+  String get pairTitle => 'Bileklik eşleştirme';
+
+  @override
   String get periodDay => 'Gün';
 
   @override
@@ -638,6 +748,9 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get periodWeek => 'Hafta';
+
+  @override
+  String get personalInfoTitle => 'Kişisel bilgiler';
 
   @override
   String get profileAge => 'Yaş';
@@ -664,6 +777,49 @@ class AppLocalizationsTr extends AppLocalizations {
   String get profileMale => 'Erkek';
 
   @override
+  String get profileMenuAbout => 'Hakkında';
+
+  @override
+  String get profileMenuDevice => 'Cihaz';
+
+  @override
+  String profileMenuDeviceConnected(Object battery) {
+    return 'Bağlı · pil %$battery';
+  }
+
+  @override
+  String get profileMenuDeviceNone => 'Bileklik bağlı değil';
+
+  @override
+  String get profileMenuFeedback => 'Geri bildirim';
+
+  @override
+  String get profileMenuGeneral => 'Genel ayarlar';
+
+  @override
+  String get profileMenuGeneralSubtitle => 'Görünüm ve dil';
+
+  @override
+  String get profileMenuPersonalEmpty => 'Yaş, boy ve kilonuzu girin';
+
+  @override
+  String profileMenuPersonalSummary(Object age, Object height, Object weight) {
+    return '$age yaş · $height cm · $weight kg';
+  }
+
+  @override
+  String get profileMenuResearch => 'Araştırma kurumu';
+
+  @override
+  String get profileMenuSharing => 'Aile ve hekimle paylaşım';
+
+  @override
+  String get profileMenuThirdParty => 'Health Connect ve Apple Health';
+
+  @override
+  String get profileMenuVersion => 'Uygulama sürümü';
+
+  @override
   String profileRangeError(Object min, Object max) {
     return '$min ile $max arasında olmalı';
   }
@@ -673,6 +829,15 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get profileSaved => 'Bilgiler bilekliğe kaydedildi';
+
+  @override
+  String get profileSectionApp => 'Uygulama';
+
+  @override
+  String get profileSectionSettings => 'Ayarlar';
+
+  @override
+  String get profileSectionSharing => 'Paylaşım ve bağlantılar';
 
   @override
   String get profileThemeDark => 'Koyu';

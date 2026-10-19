@@ -10,6 +10,26 @@ class AppLocalizationsAr extends AppLocalizations {
   AppLocalizationsAr([String locale = 'ar']) : super(locale);
 
   @override
+  String get aboutDescription =>
+      'يعرض تطبيق Bileklik قياسات سوار تخطيط القلب JCV8 على هاتفك.';
+
+  @override
+  String get aboutLicenses => 'تراخيص المصادر المفتوحة';
+
+  @override
+  String get aboutMedical =>
+      'هذا التطبيق ليس جهازًا طبيًا؛ استشر طبيبك للتشخيص والعلاج. قيم ضغط الدم تقديرية.';
+
+  @override
+  String get aboutPrivacy =>
+      'تبقى قياساتك على هذا الهاتف. عند إضافة المشاركة، ستقرر أنت من يرى ماذا.';
+
+  @override
+  String aboutVersion(Object version) {
+    return 'الإصدار $version';
+  }
+
+  @override
   String get appTitle => 'Bileklik';
 
   @override
@@ -37,7 +57,46 @@ class AppLocalizationsAr extends AppLocalizations {
   String get bandTense => 'متوتر';
 
   @override
+  String get comingSoon => 'قريبًا';
+
+  @override
+  String get comingSoonMessage => 'سيتوفر هذا القسم في إصدار قادم.';
+
+  @override
   String get continueButton => 'متابعة';
+
+  @override
+  String get deviceAddress => 'العنوان';
+
+  @override
+  String get deviceBattery => 'البطارية';
+
+  @override
+  String deviceBatteryValue(Object value) {
+    return '$value٪';
+  }
+
+  @override
+  String get deviceConnected => 'متصل';
+
+  @override
+  String get deviceDisconnect => 'قطع الاتصال';
+
+  @override
+  String get deviceDisconnected => 'غير متصل';
+
+  @override
+  String get deviceLastSync => 'آخر مزامنة';
+
+  @override
+  String get devicePairNew => 'إقران سوار آخر';
+
+  @override
+  String get deviceSettingsNote =>
+      'ستظهر هنا قريبًا إعدادات فاصل قياس النبض والتنبيهات.';
+
+  @override
+  String get deviceStatus => 'الحالة';
 
   @override
   String durationHours(Object h) {
@@ -646,6 +705,57 @@ class AppLocalizationsAr extends AppLocalizations {
   String get noValue => '--';
 
   @override
+  String get pairCode => 'الإقران بالعنوان';
+
+  @override
+  String get pairCodeHint =>
+      'أدخل العنوان المطبوع أسفل رمز QR على العلبة أو على ظهر السوار.';
+
+  @override
+  String get pairCodeInvalid =>
+      'يتكون العنوان من 12 حرفًا، مثل A1:B2:C3:D4:E5:F6';
+
+  @override
+  String get pairCodeLabel => 'عنوان الجهاز';
+
+  @override
+  String get pairCodeNotFound => 'لم يتم العثور على سوار بهذا العنوان.';
+
+  @override
+  String get pairConnect => 'اتصال';
+
+  @override
+  String get pairConnected => 'تم توصيل السوار.';
+
+  @override
+  String get pairFound => 'الأساور التي تم العثور عليها';
+
+  @override
+  String get pairNoneFound =>
+      'لم يتم العثور على سوار. تأكد من شحنه وقربه ثم حاول مرة أخرى.';
+
+  @override
+  String get pairNote =>
+      'اشحن السوار وأبقه قريبًا من هاتفك. يجب أن يكون البلوتوث مفعّلًا.';
+
+  @override
+  String get pairScan => 'بدء البحث';
+
+  @override
+  String get pairScanning => 'جارٍ البحث…';
+
+  @override
+  String pairSignal(Object rssi) {
+    return 'الإشارة $rssi';
+  }
+
+  @override
+  String get pairSubtitle => 'اربط سوارك لتصل قياساتك إلى هاتفك.';
+
+  @override
+  String get pairTitle => 'إقران السوار';
+
+  @override
   String get periodDay => 'يوم';
 
   @override
@@ -653,6 +763,9 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get periodWeek => 'أسبوع';
+
+  @override
+  String get personalInfoTitle => 'المعلومات الشخصية';
 
   @override
   String get profileAge => 'العمر';
@@ -678,6 +791,49 @@ class AppLocalizationsAr extends AppLocalizations {
   String get profileMale => 'ذكر';
 
   @override
+  String get profileMenuAbout => 'حول التطبيق';
+
+  @override
+  String get profileMenuDevice => 'الجهاز';
+
+  @override
+  String profileMenuDeviceConnected(Object battery) {
+    return 'متصل · البطارية $battery٪';
+  }
+
+  @override
+  String get profileMenuDeviceNone => 'لا يوجد سوار متصل';
+
+  @override
+  String get profileMenuFeedback => 'الملاحظات';
+
+  @override
+  String get profileMenuGeneral => 'الإعدادات العامة';
+
+  @override
+  String get profileMenuGeneralSubtitle => 'المظهر واللغة';
+
+  @override
+  String get profileMenuPersonalEmpty => 'أدخل عمرك وطولك ووزنك';
+
+  @override
+  String profileMenuPersonalSummary(Object age, Object height, Object weight) {
+    return '$age سنة · $height سم · $weight كغ';
+  }
+
+  @override
+  String get profileMenuResearch => 'مؤسسة بحثية';
+
+  @override
+  String get profileMenuSharing => 'المشاركة مع العائلة والأطباء';
+
+  @override
+  String get profileMenuThirdParty => 'ربط تطبيقات الصحة';
+
+  @override
+  String get profileMenuVersion => 'إصدار التطبيق';
+
+  @override
   String profileRangeError(Object min, Object max) {
     return 'يجب أن تكون القيمة بين $min و$max';
   }
@@ -687,6 +843,15 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get profileSaved => 'تم حفظ البيانات على السوار';
+
+  @override
+  String get profileSectionApp => 'التطبيق';
+
+  @override
+  String get profileSectionSettings => 'الإعدادات';
+
+  @override
+  String get profileSectionSharing => 'المشاركة والربط';
 
   @override
   String get profileThemeDark => 'داكن';
