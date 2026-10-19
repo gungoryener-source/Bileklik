@@ -1,5 +1,7 @@
 import 'dart:math';
+import 'dart:typed_data';
 
+import 'protocol/exercise.dart';
 import 'protocol/history.dart';
 import 'protocol/packet.dart';
 
@@ -108,8 +110,112 @@ class FakeHistory {
           const Duration(hours: 1),
           (t, id) => _single(kind, t, id, 95 + _rng(t, 0x66).nextInt(5)),
         );
+      case HistoryKind.exercise:
+        _exerciseRecords(now, out);
     }
     return out;
+  }
+
+  /// Uygulamadan başlatılıp bitirilen egzersizler (sahte cihaz ekler).
+  final _finished = <({DateTime time, List<int> bytes})>[];
+
+  void addExercise(
+    DateTime start,
+    SportType type, {
+    required int seconds,
+    required int steps,
+    required int heartRate,
+    required double calories,
+    required double km,
+  }) {
+    _finished.add((
+      time: start,
+      bytes: exerciseRecord(
+        _finished.length + 100,
+        start,
+        type,
+        seconds: seconds,
+        steps: steps,
+        heartRate: heartRate,
+        calories: calories,
+        km: km,
+      ),
+    ));
+  }
+
+  /// Her akşam 18:05'te yürüyüş, koşu ya da bisiklet; bazı günler boş.
+  void _exerciseRecords(
+    DateTime now,
+    List<({DateTime time, List<int> bytes})> out,
+  ) {
+    final first = _firstDay(now);
+    var id = 0;
+    for (var n = 0; n < days; n++) {
+      final start = DateTime(first.year, first.month, first.day + n, 18, 5);
+      final rng = _rng(start, 0x5C);
+      if (rng.nextInt(4) == 0) continue;
+      const types = [SportType.walk, SportType.run, SportType.cycling];
+      final type = types[rng.nextInt(types.length)];
+      final seconds = (20 + rng.nextInt(30)) * 60;
+      if (start.add(Duration(seconds: seconds)).isAfter(now)) break;
+      final speedKmh = switch (type) {
+        SportType.run => 9 + rng.nextDouble() * 2,
+        SportType.cycling => 16 + rng.nextDouble() * 6,
+        _ => 5 + rng.nextDouble(),
+      };
+      final km = speedKmh * seconds / 3600;
+      final cadence = switch (type) {
+        SportType.run => 2.7,
+        SportType.cycling => 0.0,
+        _ => 1.8,
+      };
+      out.add((
+        time: start,
+        bytes: exerciseRecord(
+          id++,
+          start,
+          type,
+          seconds: seconds,
+          steps: (seconds * cadence).round(),
+          heartRate: type == SportType.walk
+              ? 102 + rng.nextInt(10)
+              : 135 + rng.nextInt(20),
+          calories: seconds / 60 * (type == SportType.walk ? 4.5 : 10.5),
+          km: km,
+        ),
+      ));
+    }
+    out
+      ..addAll(_finished.where((e) => !e.time.isAfter(now)))
+      ..sort((a, b) => a.time.compareTo(b.time));
+  }
+
+  static List<int> exerciseRecord(
+    int id,
+    DateTime start,
+    SportType type, {
+    required int seconds,
+    required int steps,
+    required int heartRate,
+    required double calories,
+    required double km,
+  }) {
+    final r = _header(HistoryKind.exercise.command, id, start, 25);
+    final pace = km <= 0 ? 0 : (seconds / km).round();
+    r[9] = type.code;
+    r[10] = heartRate.clamp(0, 255);
+    _le(r, 11, seconds.clamp(0, 0xFFFF), 2);
+    _le(r, 13, steps.clamp(0, 0xFFFF), 2);
+    r[15] = (pace ~/ 60).clamp(0, 255);
+    r[16] = pace % 60;
+    r.setAll(17, float32LE(calories));
+    r.setAll(21, float32LE(km));
+    return r;
+  }
+
+  static List<int> float32LE(double v) {
+    final b = ByteData(4)..setFloat32(0, v, Endian.little);
+    return b.buffer.asUint8List();
   }
 
   static Random _rng(DateTime t, int salt) =>

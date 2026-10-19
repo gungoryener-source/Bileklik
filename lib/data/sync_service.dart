@@ -1,3 +1,4 @@
+import '../device/protocol/exercise.dart';
 import '../device/protocol/history.dart';
 import '../device/wristband_client.dart';
 import 'health_store.dart';
@@ -21,6 +22,16 @@ class SyncService {
     await _hrv();
     await _temperature();
     await _sleep();
+    await workouts();
+  }
+
+  /// Yalnızca egzersiz kayıtlarını çeker; egzersiz bitince kullanılır.
+  Future<void> workouts() async {
+    final rows = await client.fetchHistory(
+      HistoryKind.exercise,
+      since: store.lastWorkoutStart(),
+    );
+    store.addWorkouts(rows.map(ExerciseRecord.parse).map(Workout.fromRecord));
   }
 
   Future<void> _steps() async {
