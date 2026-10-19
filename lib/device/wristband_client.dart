@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'protocol/commands.dart';
+import 'protocol/history.dart';
 import 'protocol/packet.dart';
 import 'transport.dart';
 
@@ -38,13 +39,19 @@ class WristbandClient {
       _realtime.add(Decoders.realtime(raw));
       return;
     }
+    final history = _history;
+    if (history != null && history.kind.command == command) {
+      history.add(raw);
+      return;
+    }
     final completer = _pending.remove(command);
     if (completer == null) return;
     try {
       final packet = Packet.parse(raw);
       if (packet.isError) {
         completer.completeError(
-            DeviceCommandException(command, 'cihaz hata döndü'));
+          DeviceCommandException(command, 'cihaz hata döndü'),
+        );
       } else {
         completer.complete(packet);
       }
@@ -56,13 +63,17 @@ class WristbandClient {
   Future<Packet> _request(Packet packet) {
     final completer = Completer<Packet>();
     _pending[packet.command]?.completeError(
-        DeviceCommandException(packet.command, 'yeni istekle değiştirildi'));
+      DeviceCommandException(packet.command, 'yeni istekle değiştirildi'),
+    );
     _pending[packet.command] = completer;
     transport.send(packet.bytes);
-    return completer.future.timeout(timeout, onTimeout: () {
-      _pending.remove(packet.command);
-      throw DeviceCommandException(packet.command, 'yanıt gelmedi');
-    });
+    return completer.future.timeout(
+      timeout,
+      onTimeout: () {
+        _pending.remove(packet.command);
+        throw DeviceCommandException(packet.command, 'yanıt gelmedi');
+      },
+    );
   }
 
   Future<void> syncTime(DateTime now) => _request(Commands.setTime(now));
@@ -83,8 +94,68 @@ class WristbandClient {
 
   Future<void> stopRealtime() => _request(Commands.realtime(false));
 
+  _HistoryCollector? _history;
+
+  /// Bir geçmiş türünün [since] sonrasındaki tüm kayıtlarını çeker.
+  ///
+  /// Cihaz her istekte en fazla [pageSize] kayıt döner; tam sayfa gelirse
+  /// "devam" moduyla sonraki sayfa istenir.
+  Future<List<List<int>>> fetchHistory(
+    HistoryKind kind, {
+    DateTime? since,
+    int pageSize = 50,
+  }) async {
+    if (_history != null) {
+      throw DeviceCommandException(kind.command, 'başka bir senkron sürüyor');
+    }
+    final all = <List<int>>[];
+    var mode = HistoryMode.read;
+    try {
+      while (true) {
+        final collector = _HistoryCollector(kind);
+        _history = collector;
+        await transport.send(historyRequest(kind, mode, since: since).bytes);
+        final page = await collector.done.timeout(
+          timeout,
+          onTimeout: () {
+            throw DeviceCommandException(kind.command, 'yanıt gelmedi');
+          },
+        );
+        all.addAll(page);
+        if (kind == HistoryKind.dailyTotals || page.length < pageSize) break;
+        mode = HistoryMode.next;
+      }
+    } finally {
+      _history = null;
+    }
+    return all;
+  }
+
   Future<void> dispose() async {
     await _sub.cancel();
     await _realtime.close();
+  }
+}
+
+class _HistoryCollector {
+  _HistoryCollector(this.kind);
+
+  final HistoryKind kind;
+  final _records = <List<int>>[];
+  final _done = Completer<List<List<int>>>();
+
+  Future<List<List<int>>> get done => _done.future;
+
+  void add(List<int> raw) {
+    if (_done.isCompleted) return;
+    if (raw[0] & Packet.errorBit != 0) {
+      _done.completeError(
+        DeviceCommandException(kind.command, 'cihaz hata döndü'),
+      );
+      return;
+    }
+    final chunk = splitHistory(kind, raw);
+    _records.addAll(chunk.records);
+    if (chunk.ended) _done.complete(_records);
   }
 }
