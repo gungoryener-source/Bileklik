@@ -1,24 +1,26 @@
 # Bileklik
 
-JCV8 bileklik için iOS ve Android sağlık uygulaması.
+JCV8 bileklik için iOS ve Android sağlık uygulaması. Flutter ile yazılıyor.
 
 ## Tasarım skill'leri
 
-Arayüz işi yaparken `.claude/skills/` altındaki skill'leri kullan:
+Arayüz işi yaparken `.claude/skills/` altındaki skill'leri kullan. Ana skill `flutter-mobile-design`; kodu her zaman Flutter (Dart) ile yaz.
 
-- Yeni ekran veya bileşen: önce `frontend-design` (görsel yön, tipografi, renk), sonra `mobile-native`.
-- Hareket, geçiş, bottom sheet, jest: `apple-design` ve `animate`.
-- Detay cilası: `emil-design-eng`.
-- Teslimden önce: `break-ui` ile uç durumları dene (uzun isim, boş veri, büyük sayı, taşan metin).
+- Her arayüz işinde: `flutter-mobile-design`.
+- Görsel yön, tipografi, renk: `frontend-design`.
+- Detay cilası ve hareket felsefesi: `emil-design-eng`, `apple-design`.
+- Hareket kararları (gerekli mi, süre, eğri): `animate`.
+- Uç durum düşüncesi (uzun metin, boş veri, büyük sayı): `break-ui`.
 - Birden fazla tasarım seçeneği istenirse: `prototype`.
 
-Not: `mobile-native`, `apple-design` ve `animate` web odaklıdır. Uygulama React Native/Expo ise `animate-expo` skill'ini de repoya ekle ve animasyon için onu kullan.
+Not: `mobile-native`, `apple-design`, `animate`, `break-ui` ve `prototype` web (HTML/CSS/JS) için yazıldı. Bunlardan yalnızca tasarım ilkelerini al; CSS, meta etiketi veya tarayıcı önerilerini kullanma, Flutter karşılığını yaz.
 
 ## Mobil tasarım kuralları
 
-- Mobil öncelikli tasarla, 375px genişlikle başla.
-- Dokunma hedefleri en az 44x44.
-- Çentik ve alt çubuk güvenli alanlarına (safe area) uy.
-- Sağlık verisi ekranlarında sayılar okunaklı ve büyük olsun; veri yoksa boş durum (empty state) göster.
-- Açık ve koyu temayı birlikte düşün.
-- Hareketi azalt (reduced motion) ayarına saygı göster.
+- Mobil öncelikli tasarla; küçük (yaklaşık 360 dp) ve büyük telefonu birlikte düşün.
+- Dokunma hedefleri en az 48x48 dp.
+- `SafeArea` kullan; çentik ve alt çubuğa uy.
+- Sağlık verisi ekranlarında sayılar büyük ve okunaklı olsun; veri yoksa boş durum göster.
+- Açık ve koyu temayı birlikte düşün; tek `ThemeData` üzerinden yönet.
+- Hareketi azalt ayarına (`disableAnimations`) saygı göster.
+- Teslimden önce `flutter analyze` çalıştır ve uç durumları dene.
