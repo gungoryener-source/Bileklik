@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
+import '../../data/models.dart';
 import '../../device/protocol/exercise.dart';
+import '../../l10n/l10n.dart';
 import '../../state/device_controller.dart';
 import '../app_shell.dart';
 import '../format.dart';
@@ -64,19 +66,17 @@ class _LiveExerciseScreenState extends State<LiveExerciseScreen> {
     final end = await showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Hareketsiz görünüyorsunuz'),
-        content: Text(
-          'Son ${prompt.minutes} dakikada 80 adımdan az attınız. '
-          'Egzersizi bitirmek ister misiniz?',
-        ),
+        title: Text(context.l10n.liveInactiveTitle),
+        // 80 adım eşiği bilekliğin kuralı (V8 API PDF).
+        content: Text(context.l10n.liveInactiveBody(prompt.minutes, 80)),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context, false),
-            child: const Text('Devam et'),
+            child: Text(context.l10n.liveContinue),
           ),
           FilledButton(
             onPressed: () => Navigator.pop(context, true),
-            child: const Text('Bitir'),
+            child: Text(context.l10n.liveFinish),
           ),
         ],
       ),
@@ -93,16 +93,16 @@ class _LiveExerciseScreenState extends State<LiveExerciseScreen> {
     final ok = await showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Egzersizi bitir'),
-        content: const Text('Egzersiz kaydedilip özet gösterilecek.'),
+        title: Text(context.l10n.liveConfirmTitle),
+        content: Text(context.l10n.liveConfirmBody),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context, false),
-            child: const Text('Vazgeç'),
+            child: Text(context.l10n.liveCancel),
           ),
           FilledButton(
             onPressed: () => Navigator.pop(context, true),
-            child: const Text('Bitir'),
+            child: Text(context.l10n.liveFinish),
           ),
         ],
       ),
@@ -121,6 +121,7 @@ class _LiveExerciseScreenState extends State<LiveExerciseScreen> {
       );
     }
     final live = ex.live;
+    final l = context.l10n;
     final type = ex.type;
     return Scaffold(
       appBar: AppBar(title: Text(type.label)),
@@ -131,7 +132,7 @@ class _LiveExerciseScreenState extends State<LiveExerciseScreen> {
             child: Column(
               children: [
                 Text(
-                  ex.paused ? 'Duraklatıldı' : 'Süre',
+                  ex.paused ? l.livePaused : l.statDuration,
                   style: TextStyle(color: context.colors.muted),
                 ),
                 Text(
@@ -150,7 +151,7 @@ class _LiveExerciseScreenState extends State<LiveExerciseScreen> {
                     const SizedBox(width: 6),
                     Text(
                       live == null || live.heartRate == 0
-                          ? '--'
+                          ? l.noValue
                           : '${live.heartRate}',
                       style: const TextStyle(
                         fontSize: 28,
@@ -158,7 +159,10 @@ class _LiveExerciseScreenState extends State<LiveExerciseScreen> {
                       ),
                     ),
                     const SizedBox(width: 4),
-                    Text('bpm', style: TextStyle(color: context.colors.muted)),
+                    Text(
+                      MetricType.heartRate.unit,
+                      style: TextStyle(color: context.colors.muted),
+                    ),
                   ],
                 ),
               ],
@@ -173,20 +177,20 @@ class _LiveExerciseScreenState extends State<LiveExerciseScreen> {
             crossAxisSpacing: 10,
             childAspectRatio: 1.6,
             children: [
-              StatTile('Adım', live?.steps.toString()),
+              StatTile(MetricType.steps.label, live?.steps.toString()),
               StatTile(
-                'Kalori',
+                MetricType.calories.label,
                 live?.calories.round().toString(),
-                unit: 'kcal',
+                unit: MetricType.calories.unit,
               ),
               if (type.hasDistance) ...[
                 StatTile(
-                  'Mesafe',
+                  MetricType.distance.label,
                   live?.distanceKm.toStringAsFixed(2),
-                  unit: 'km',
+                  unit: MetricType.distance.unit,
                 ),
                 StatTile(
-                  'Tempo',
+                  l.statPace,
                   live == null || live.distanceKm < 0.01
                       ? null
                       : paceText(
@@ -195,7 +199,7 @@ class _LiveExerciseScreenState extends State<LiveExerciseScreen> {
                                 .round(),
                           ),
                         ),
-                  unit: '/km',
+                  unit: '/${MetricType.distance.unit}',
                 ),
               ],
             ],
@@ -207,7 +211,7 @@ class _LiveExerciseScreenState extends State<LiveExerciseScreen> {
                 child: FilledButton.tonalIcon(
                   onPressed: ex.paused ? c.resumeExercise : c.pauseExercise,
                   icon: Icon(ex.paused ? Icons.play_arrow : Icons.pause),
-                  label: Text(ex.paused ? 'Devam et' : 'Duraklat'),
+                  label: Text(ex.paused ? l.liveContinue : l.livePause),
                 ),
               ),
               const SizedBox(width: 12),
@@ -219,7 +223,7 @@ class _LiveExerciseScreenState extends State<LiveExerciseScreen> {
                   ),
                   onPressed: _confirmStop,
                   icon: const Icon(Icons.stop),
-                  label: const Text('Bitir'),
+                  label: Text(l.liveFinish),
                 ),
               ),
             ],

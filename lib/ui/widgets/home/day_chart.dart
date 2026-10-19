@@ -57,7 +57,9 @@ class DayBars extends StatelessWidget {
       label: semanticLabel,
       child: SizedBox(
         height: 72,
+        // Saat ekseni her dilde soldan sağa; çizgi grafiğiyle aynı yönde.
         child: Row(
+          textDirection: TextDirection.ltr,
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
             for (final v in values)
@@ -102,7 +104,9 @@ class _HourLabels extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // Dar ekranda ve büyük yazıda etiketler taşmak yerine küçülür.
+    // Saat ekseni RTL dillerde de soldan sağa kalır; çizimle örtüşsün.
     return Row(
+      textDirection: TextDirection.ltr,
       children: [
         for (var i = 0; i < _labels.length; i++)
           Expanded(

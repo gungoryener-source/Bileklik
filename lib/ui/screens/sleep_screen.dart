@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../data/aggregate.dart';
 import '../../device/protocol/history.dart';
+import '../../l10n/l10n.dart';
 import '../app_shell.dart';
 import '../format.dart';
 import '../theme.dart';
@@ -30,8 +31,9 @@ class _SleepScreenState extends State<SleepScreen> {
   @override
   Widget build(BuildContext context) {
     final store = DeviceScope.of(context).store;
+    final l = context.l10n;
     return Scaffold(
-      appBar: AppBar(title: const Text('Uyku')),
+      appBar: AppBar(title: Text(l.sleepTitle)),
       body: ListenableBuilder(
         listenable: store,
         builder: (context, _) {
@@ -44,7 +46,7 @@ class _SleepScreenState extends State<SleepScreen> {
           if (nights.isEmpty) {
             return Center(
               child: Text(
-                'Henüz uyku kaydı yok',
+                l.sleepEmpty,
                 style: TextStyle(color: context.colors.muted),
               ),
             );
@@ -57,7 +59,7 @@ class _SleepScreenState extends State<SleepScreen> {
               Row(
                 children: [
                   IconButton(
-                    tooltip: 'Önceki gece',
+                    tooltip: l.sleepPreviousNight,
                     icon: const Icon(Icons.chevron_left),
                     onPressed: i > 0
                         ? () => setState(() => _index = i - 1)
@@ -71,7 +73,7 @@ class _SleepScreenState extends State<SleepScreen> {
                     ),
                   ),
                   IconButton(
-                    tooltip: 'Sonraki gece',
+                    tooltip: l.sleepNextNight,
                     icon: const Icon(Icons.chevron_right),
                     onPressed: i < nights.length - 1
                         ? () => setState(() => _index = i + 1)
@@ -81,7 +83,7 @@ class _SleepScreenState extends State<SleepScreen> {
               ),
               const SizedBox(height: 8),
               Text(
-                'Uyku süresi',
+                l.sleepDuration,
                 style: TextStyle(color: context.colors.muted),
               ),
               Text(
@@ -93,7 +95,7 @@ class _SleepScreenState extends State<SleepScreen> {
                 ),
               ),
               Text(
-                '${hhmm(night.start)} - ${hhmm(night.end)}',
+                l.sleepTimeRange(hhmm(night.start), hhmm(night.end)),
                 style: TextStyle(color: context.colors.muted),
               ),
               const SizedBox(height: 16),
@@ -101,7 +103,10 @@ class _SleepScreenState extends State<SleepScreen> {
               const SizedBox(height: 20),
               for (final s in SleepStage.values) _StageRow(night, s),
               const SizedBox(height: 24),
-              Text('Son 7 gece', style: Theme.of(context).textTheme.titleSmall),
+              Text(
+                l.sleepLast7Nights,
+                style: Theme.of(context).textTheme.titleSmall,
+              ),
               const SizedBox(height: 8),
               _WeekBars(
                 nights.sublist((nights.length - 7).clamp(0, nights.length)),
@@ -176,7 +181,7 @@ class _StageRow extends StatelessWidget {
           SizedBox(
             width: 52,
             child: Text(
-              '%$pct',
+              context.l10n.sleepPercent(pct),
               textAlign: TextAlign.end,
               style: TextStyle(color: context.colors.muted),
             ),
@@ -204,28 +209,38 @@ class _WeekBars extends StatelessWidget {
         children: [
           for (final n in nights)
             Expanded(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Text(
-                    (n.asleepMinutes / 60).toStringAsFixed(1),
-                    style: const TextStyle(fontSize: 11),
-                  ),
-                  const SizedBox(height: 4),
-                  Container(
-                    height: 70 * n.asleepMinutes / most,
-                    margin: const EdgeInsets.symmetric(horizontal: 6),
-                    decoration: BoxDecoration(
-                      color: DataColors.sleepLight,
-                      borderRadius: BorderRadius.circular(4),
+              child: Semantics(
+                label: context.l10n.sleepWeekBarHint(
+                  weekdayLong(n.day.weekday),
+                  duration(n.asleepMinutes),
+                ),
+                excludeSemantics: true,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Text(
+                      (n.asleepMinutes / 60).toStringAsFixed(1),
+                      style: const TextStyle(fontSize: 11),
                     ),
-                  ),
-                  const SizedBox(height: 4),
-                  Text(
-                    weekdayShort(n.day.weekday),
-                    style: TextStyle(color: context.colors.muted, fontSize: 11),
-                  ),
-                ],
+                    const SizedBox(height: 4),
+                    Container(
+                      height: 70 * n.asleepMinutes / most,
+                      margin: const EdgeInsets.symmetric(horizontal: 6),
+                      decoration: BoxDecoration(
+                        color: DataColors.sleepLight,
+                        borderRadius: BorderRadius.circular(4),
+                      ),
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      weekdayShort(n.day.weekday),
+                      style: TextStyle(
+                        color: context.colors.muted,
+                        fontSize: 11,
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
         ],

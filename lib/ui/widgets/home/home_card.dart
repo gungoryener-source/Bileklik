@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 
+import '../../../l10n/l10n.dart';
 import '../../theme.dart';
 
-/// Ana Sayfa kartı: başlık, sağda ok; kartın tamamı dokunulabilir.
+/// Ana Sayfa kartı: başlık, sonda ok (RTL'de ok kendiliğinden döner); kartın tamamı dokunulabilir.
 class HomeCard extends StatelessWidget {
   const HomeCard({
     super.key,
@@ -74,7 +75,7 @@ class BigValue extends StatelessWidget {
         FittedBox(
           fit: BoxFit.scaleDown,
           child: Text(
-            value ?? '--',
+            value ?? context.l10n.noValue,
             style: TextStyle(
               fontSize: 34,
               fontWeight: FontWeight.w700,
@@ -126,7 +127,7 @@ class MiniStats extends StatelessWidget {
                   FittedBox(
                     fit: BoxFit.scaleDown,
                     child: Text(
-                      value ?? '--',
+                      value ?? context.l10n.noValue,
                       style: TextStyle(
                         fontSize: 17,
                         fontWeight: FontWeight.w600,

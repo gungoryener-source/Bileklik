@@ -55,6 +55,456 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String ecgAverageBpm(Object bpm) {
+    return '$bpm bpm average';
+  }
+
+  @override
+  String get ecgAverageHeartRate => 'Average heart rate';
+
+  @override
+  String get ecgBeats => 'Beats';
+
+  @override
+  String get ecgBpm => 'bpm';
+
+  @override
+  String get ecgCancel => 'Cancel reading';
+
+  @override
+  String get ecgConnectFirst => 'Connect your wristband on the Home tab first.';
+
+  @override
+  String ecgDetailTitle(Object date, Object time) {
+    return 'ECG · $date $time';
+  }
+
+  @override
+  String get ecgDisclaimer =>
+      'This reading does not replace a medical diagnosis. If you have chest pain, shortness of breath or feel faint, call your local emergency number right away.';
+
+  @override
+  String get ecgHowToSteps =>
+      '1. Wear the wristband snugly on your wrist.\n2. Sit down and rest your arm on a table.\n3. Lightly touch the electrode on top of the wristband with a finger of your other hand.\n4. Stay still and don\'t talk for 30 seconds.';
+
+  @override
+  String get ecgHowToTitle => 'How to measure';
+
+  @override
+  String get ecgKeepStill =>
+      'Keep your finger on the electrode and stay still.';
+
+  @override
+  String get ecgMeasuringTitle => 'Recording ECG';
+
+  @override
+  String get ecgMs => 'ms';
+
+  @override
+  String get ecgNoHeartRate => 'Couldn\'t calculate heart rate';
+
+  @override
+  String get ecgNoRecords => 'No ECG recordings yet.';
+
+  @override
+  String get ecgRange => 'Range';
+
+  @override
+  String ecgRangeValue(Object min, Object max) {
+    return '$min-$max';
+  }
+
+  @override
+  String ecgRecordHeader(Object seconds, Object perRow) {
+    return 'Recording ($seconds s, $perRow s per row)';
+  }
+
+  @override
+  String ecgRecordSubtitle(Object when, Object seconds) {
+    return '$when · $seconds s';
+  }
+
+  @override
+  String get ecgRecordsTitle => 'Recordings';
+
+  @override
+  String get ecgSdnn => 'Variability (SDNN)';
+
+  @override
+  String ecgSecondsLeft(Object seconds) {
+    return '$seconds s';
+  }
+
+  @override
+  String get ecgStartButton => 'Start 30-second reading';
+
+  @override
+  String get ecgTitle => 'ECG';
+
+  @override
+  String get exerciseConnectFirst =>
+      'Connect your wristband on the Home tab first.';
+
+  @override
+  String get exerciseConnectHint =>
+      'Connect your wristband to see past workouts.';
+
+  @override
+  String exerciseCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count workouts',
+      one: '1 workout',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get exerciseEmpty => 'No workouts yet.';
+
+  @override
+  String exerciseInProgress(Object sport) {
+    return '$sport in progress';
+  }
+
+  @override
+  String get exerciseLast30Days => 'Last 30 days';
+
+  @override
+  String exercisePausedAt(Object time) {
+    return 'Paused · $time';
+  }
+
+  @override
+  String get exerciseStart => 'Start a workout';
+
+  @override
+  String get exerciseThisWeek => 'This week';
+
+  @override
+  String get healthBloodPressure => 'Blood pressure';
+
+  @override
+  String healthBloodPressureSubtitle(Object details) {
+    return 'Estimated · $details';
+  }
+
+  @override
+  String get healthConnectHint =>
+      'Connect your wristband on the Home tab to see your data.';
+
+  @override
+  String get healthEcg => 'ECG';
+
+  @override
+  String healthEcgLast(Object time) {
+    return 'Last reading · $time';
+  }
+
+  @override
+  String get healthEcgPrompt => 'Take a 30-second reading';
+
+  @override
+  String healthLastSync(Object time) {
+    return 'Last updated $time';
+  }
+
+  @override
+  String get healthNoMeasurement => 'No readings';
+
+  @override
+  String get healthNoRecord => 'No data';
+
+  @override
+  String get healthSleep => 'Sleep';
+
+  @override
+  String healthSleepLastNight(Object start, Object end) {
+    return 'Last night · $start - $end';
+  }
+
+  @override
+  String healthStepsToday(Object goal) {
+    return 'Today · goal $goal';
+  }
+
+  @override
+  String get healthSyncTooltip => 'Update from wristband';
+
+  @override
+  String get healthSyncing => 'Getting data from your wristband…';
+
+  @override
+  String get homeActivity => 'Activity';
+
+  @override
+  String get homeAverageStress => 'Average stress';
+
+  @override
+  String homeAverageStressBand(Object band) {
+    return 'Average stress · $band';
+  }
+
+  @override
+  String homeAverageValue(Object value) {
+    return 'Avg. $value';
+  }
+
+  @override
+  String get homeBalance => 'Balance';
+
+  @override
+  String get homeBloodOxygen => 'Blood oxygen';
+
+  @override
+  String homeBpm(Object value) {
+    return '$value bpm';
+  }
+
+  @override
+  String get homeCaloriesKcal => 'Calories (kcal)';
+
+  @override
+  String homeChartNoData(Object title) {
+    return '$title: no measurements';
+  }
+
+  @override
+  String homeChartSemantics(Object title, Object min, Object max, Object unit) {
+    return '$title: lowest $min, highest $max $unit';
+  }
+
+  @override
+  String get homeConnect => 'Connect';
+
+  @override
+  String get homeConnectTooltip => 'Connect to wristband';
+
+  @override
+  String get homeConnected => 'Connected';
+
+  @override
+  String homeConnectedBattery(Object percent) {
+    return 'Connected · $percent%';
+  }
+
+  @override
+  String get homeConnecting => 'Connecting…';
+
+  @override
+  String get homeDaySummary => 'Day summary';
+
+  @override
+  String homeDeepSleep(Object duration) {
+    return 'Deep sleep $duration';
+  }
+
+  @override
+  String get homeDisconnectTooltip => 'Disconnect';
+
+  @override
+  String get homeDuration => 'Duration';
+
+  @override
+  String get homeEcg => 'ECG';
+
+  @override
+  String homeEcgSubtitle(Object bpm, Object seconds) {
+    return '$bpm bpm · $seconds s';
+  }
+
+  @override
+  String homeEcgSubtitleNoHr(Object seconds) {
+    return '$seconds s';
+  }
+
+  @override
+  String get homeGoodAfternoon => 'Good afternoon';
+
+  @override
+  String get homeGoodEvening => 'Good evening';
+
+  @override
+  String get homeGoodMorning => 'Good morning';
+
+  @override
+  String get homeHeartRateHint =>
+      'Wear the wristband all day to see your heart rate.';
+
+  @override
+  String get homeHeartRateLabel => 'Heart rate';
+
+  @override
+  String get homeHourlyStressSemantics => 'Hourly stress bars';
+
+  @override
+  String get homeHrvLabel => 'Heart rate variability';
+
+  @override
+  String get homeKilometers => 'Kilometers';
+
+  @override
+  String get homeListSeparator => ', ';
+
+  @override
+  String get homeMeasureEcg => 'Take ECG';
+
+  @override
+  String homeMs(Object value) {
+    return '$value ms';
+  }
+
+  @override
+  String get homeNextDay => 'Next day';
+
+  @override
+  String get homeNoRecord => 'No record';
+
+  @override
+  String get homeNoSleepLastNight => 'No sleep recorded last night';
+
+  @override
+  String get homeNoSleepPastHint =>
+      'Summaries appear here for days you wore the wristband.';
+
+  @override
+  String get homeNoSleepStages => 'No sleep stages';
+
+  @override
+  String get homeNoSleepThisDay => 'No sleep record for this day';
+
+  @override
+  String get homeNoSleepTonightHint =>
+      'Wear the wristband tonight, and your sleep and recovery summary will be here in the morning.';
+
+  @override
+  String homePercent(Object value) {
+    return '$value%';
+  }
+
+  @override
+  String get homePickDay => 'Select a day';
+
+  @override
+  String get homePrevDay => 'Previous day';
+
+  @override
+  String get homeProfileTooltip => 'Profile';
+
+  @override
+  String homeRange(Object min, Object max) {
+    return '$min–$max';
+  }
+
+  @override
+  String get homeRecovery => 'Recovery';
+
+  @override
+  String get homeSleep => 'Sleep';
+
+  @override
+  String homeSleepStageItem(Object stage, Object duration) {
+    return '$stage $duration';
+  }
+
+  @override
+  String homeSleepStagesSemantics(Object stages) {
+    return 'Sleep stages: $stages';
+  }
+
+  @override
+  String homeSleptHrvBandSummary(Object duration, Object hrv, Object band) {
+    return 'You slept $duration, and your overnight HRV averaged $hrv ms ($band).';
+  }
+
+  @override
+  String homeSleptHrvSummary(Object duration, Object hrv) {
+    return 'You slept $duration, and your overnight HRV averaged $hrv ms.';
+  }
+
+  @override
+  String homeSleptSummary(Object duration) {
+    return 'You slept $duration.';
+  }
+
+  @override
+  String get homeSpo2Hint =>
+      'Wear the wristband all day to see your blood oxygen.';
+
+  @override
+  String get homeStartWorkout => 'Start workout';
+
+  @override
+  String homeStepGoal(Object goal) {
+    return 'Goal: $goal steps';
+  }
+
+  @override
+  String homeStepGoalProgress(Object percent, Object goal) {
+    return '$percent% · goal $goal';
+  }
+
+  @override
+  String homeStepGoalSemantics(Object steps, Object goal, Object percent) {
+    return 'Step goal: $steps of $goal, $percent percent';
+  }
+
+  @override
+  String get homeSteps => 'Steps';
+
+  @override
+  String get homeStressHint =>
+      'Stress and HRV are measured during the day while you wear the wristband.';
+
+  @override
+  String get homeStressLevel => 'Stress level';
+
+  @override
+  String get homeStressLoad => 'Stress load';
+
+  @override
+  String get homeSyncTooltip => 'Sync';
+
+  @override
+  String get homeTimeline => 'Timeline';
+
+  @override
+  String get homeTimelineEmpty =>
+      'Your workouts, ECGs and sleep appear here in time order.';
+
+  @override
+  String get homeTimelineSubtitle => 'Today\'s records';
+
+  @override
+  String homeTodayDate(Object date) {
+    return 'Today, $date';
+  }
+
+  @override
+  String homeWeekdayDate(Object weekday, Object date) {
+    return '$weekday, $date';
+  }
+
+  @override
+  String get homeWokeUp => 'You woke up';
+
+  @override
+  String homeWokeUpSubtitle(Object duration, Object time) {
+    return '$duration asleep · in bed at $time';
+  }
+
+  @override
+  String homeWorkoutSubtitle(Object duration, Object kcal) {
+    return '$duration · $kcal kcal';
+  }
+
+  @override
+  String homeYesterdayDate(Object date) {
+    return 'Yesterday, $date';
+  }
+
+  @override
   String get issueBusy =>
       'The wristband is busy with another exercise or measurement.';
 
@@ -80,7 +530,77 @@ class AppLocalizationsEn extends AppLocalizations {
   String get languageTitle => 'Language';
 
   @override
+  String get liveCancel => 'Cancel';
+
+  @override
+  String get liveConfirmBody =>
+      'Your workout will be saved and a summary shown.';
+
+  @override
+  String get liveConfirmTitle => 'End workout';
+
+  @override
+  String get liveContinue => 'Resume';
+
+  @override
+  String get liveFinish => 'End';
+
+  @override
+  String liveInactiveBody(int minutes, int steps) {
+    String _temp0 = intl.Intl.pluralLogic(
+      minutes,
+      locale: localeName,
+      other:
+          'You took fewer than $steps steps in the last $minutes minutes. End the workout?',
+      one:
+          'You took fewer than $steps steps in the last minute. End the workout?',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get liveInactiveTitle => 'Looks like you\'ve stopped moving';
+
+  @override
+  String get livePause => 'Pause';
+
+  @override
+  String get livePaused => 'Paused';
+
+  @override
   String get metricCalories => 'Calories';
+
+  @override
+  String metricDetailAbove(Object value) {
+    return '> $value';
+  }
+
+  @override
+  String get metricDetailBands => 'Ranges';
+
+  @override
+  String get metricDetailBpEstimate =>
+      'Blood pressure from the wristband is an estimate. Use an approved blood pressure monitor for diagnosis and treatment.';
+
+  @override
+  String get metricDetailDailyAverage => 'Daily average';
+
+  @override
+  String get metricDetailNext => 'Next';
+
+  @override
+  String get metricDetailNoData => 'No data for this period';
+
+  @override
+  String get metricDetailPrevious => 'Previous';
+
+  @override
+  String get metricDetailTotal => 'Total';
+
+  @override
+  String metricDetailWeekRange(Object start, Object end) {
+    return '$start – $end';
+  }
 
   @override
   String get metricDiastolic => 'Blood Pressure (diastolic)';
@@ -137,16 +657,108 @@ class AppLocalizationsEn extends AppLocalizations {
   String get periodWeek => 'Week';
 
   @override
+  String get profileAge => 'Age';
+
+  @override
+  String get profileAppearance => 'Appearance';
+
+  @override
+  String get profileConnectFirst =>
+      'Connect your wristband to save your details.';
+
+  @override
+  String profileDevice(Object mac) {
+    return 'Device: $mac';
+  }
+
+  @override
+  String get profileFemale => 'Female';
+
+  @override
+  String get profileHeight => 'Height';
+
+  @override
+  String get profileMale => 'Male';
+
+  @override
+  String profileRangeError(Object min, Object max) {
+    return 'Must be between $min and $max';
+  }
+
+  @override
+  String get profileSave => 'Save';
+
+  @override
+  String get profileSaved => 'Details saved to your wristband';
+
+  @override
+  String get profileThemeDark => 'Dark';
+
+  @override
+  String get profileThemeLight => 'Light';
+
+  @override
+  String get profileThemeSystem => 'System';
+
+  @override
+  String get profileTitle => 'Profile';
+
+  @override
+  String get profileUnitCm => 'cm';
+
+  @override
+  String get profileUnitKg => 'kg';
+
+  @override
+  String get profileUnitYears => 'yrs';
+
+  @override
+  String get profileWeight => 'Weight';
+
+  @override
   String get sleepAwake => 'Awake';
 
   @override
   String get sleepDeep => 'Deep';
 
   @override
+  String get sleepDuration => 'Time asleep';
+
+  @override
+  String get sleepEmpty => 'No sleep data yet';
+
+  @override
+  String get sleepLast7Nights => 'Last 7 nights';
+
+  @override
   String get sleepLight => 'Light';
 
   @override
+  String get sleepNextNight => 'Next night';
+
+  @override
+  String sleepPercent(Object value) {
+    return '$value%';
+  }
+
+  @override
+  String get sleepPreviousNight => 'Previous night';
+
+  @override
   String get sleepRem => 'REM';
+
+  @override
+  String sleepTimeRange(Object start, Object end) {
+    return '$start - $end';
+  }
+
+  @override
+  String get sleepTitle => 'Sleep';
+
+  @override
+  String sleepWeekBarHint(Object day, Object duration) {
+    return '$day: $duration';
+  }
 
   @override
   String get sportAerobics => 'Aerobics';
@@ -206,8 +818,39 @@ class AppLocalizationsEn extends AppLocalizations {
   String get sportYoga => 'Yoga';
 
   @override
+  String get statAverage => 'Average';
+
+  @override
+  String get statAvgHeartRate => 'Avg heart rate';
+
+  @override
+  String get statDuration => 'Duration';
+
+  @override
+  String get statMax => 'Highest';
+
+  @override
+  String get statMin => 'Lowest';
+
+  @override
+  String get statPace => 'Pace';
+
+  @override
+  String statPercent(Object value) {
+    return '$value%';
+  }
+
+  @override
   String get unitPerMinute => '/min';
 
   @override
   String get unitSteps => 'steps';
+
+  @override
+  String get workoutCongrats => 'Nice work! Workout saved';
+
+  @override
+  String workoutTimeRange(Object day, Object start, Object end) {
+    return '$day · $start – $end';
+  }
 }

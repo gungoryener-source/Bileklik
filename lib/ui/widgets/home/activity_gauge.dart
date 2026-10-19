@@ -30,7 +30,12 @@ class ActivityGauge extends StatelessWidget {
         duration: still ? Duration.zero : const Duration(milliseconds: 700),
         curve: Curves.easeOutCubic,
         builder: (context, p, _) => CustomPaint(
-          painter: _GaugePainter(p, color, context.colors),
+          painter: _GaugePainter(
+            p,
+            color,
+            context.colors,
+            Directionality.of(context),
+          ),
           child: Align(
             alignment: Alignment.bottomCenter,
             child: Padding(
@@ -45,7 +50,10 @@ class ActivityGauge extends StatelessWidget {
 }
 
 class _GaugePainter extends CustomPainter {
-  _GaugePainter(this.progress, this.color, this.palette);
+  _GaugePainter(this.progress, this.color, this.palette, this.direction);
+
+  /// RTL dillerde yay sağdan sola dolar.
+  final TextDirection direction;
 
   final AppColors palette;
 
@@ -54,6 +62,10 @@ class _GaugePainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
+    if (direction == TextDirection.rtl) {
+      canvas.translate(size.width, 0);
+      canvas.scale(-1, 1);
+    }
     final r = min(size.width / 2, size.height) - 8;
     final c = Offset(size.width / 2, size.height - 4);
     const stroke = 10.0;
@@ -99,5 +111,8 @@ class _GaugePainter extends CustomPainter {
 
   @override
   bool shouldRepaint(_GaugePainter old) =>
-      old.progress != progress || old.color != color || old.palette != palette;
+      old.progress != progress ||
+      old.color != color ||
+      old.palette != palette ||
+      old.direction != direction;
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../data/models.dart';
+import '../../l10n/l10n.dart';
 import '../format.dart';
 import '../theme.dart';
 import '../widgets/stat_tile.dart';
@@ -22,14 +23,29 @@ class WorkoutDetailScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final w = workout;
     final hasDistance = w.distanceKm > 0.01;
+    final l = context.l10n;
     final stats = [
-      ('Süre', clock(w.duration), ''),
-      ('Kalori', w.calories.round().toString(), 'kcal'),
+      (l.statDuration, clock(w.duration), ''),
+      (
+        MetricType.calories.label,
+        w.calories.round().toString(),
+        MetricType.calories.unit,
+      ),
       if (w.averageHeartRate > 0)
-        ('Ortalama nabız', '${w.averageHeartRate}', 'bpm'),
-      if (w.steps > 0) ('Adım', '${w.steps}', ''),
-      if (hasDistance) ('Mesafe', w.distanceKm.toStringAsFixed(2), 'km'),
-      if (hasDistance) ('Tempo', paceText(w.pace), '/km'),
+        (
+          l.statAvgHeartRate,
+          '${w.averageHeartRate}',
+          MetricType.heartRate.unit,
+        ),
+      if (w.steps > 0) (MetricType.steps.label, '${w.steps}', ''),
+      if (hasDistance)
+        (
+          MetricType.distance.label,
+          w.distanceKm.toStringAsFixed(2),
+          MetricType.distance.unit,
+        ),
+      if (hasDistance)
+        (l.statPace, paceText(w.pace), '/${MetricType.distance.unit}'),
     ];
     return Scaffold(
       appBar: AppBar(title: Text(sportLabel(w.type))),
@@ -53,13 +69,15 @@ class WorkoutDetailScreen extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      justFinished
-                          ? 'Tebrikler, egzersiz kaydedildi'
-                          : sportLabel(w.type),
+                      justFinished ? l.workoutCongrats : sportLabel(w.type),
                       style: Theme.of(context).textTheme.titleMedium,
                     ),
                     Text(
-                      '${dayMonth(w.start)} · ${hhmm(w.start)} - ${hhmm(w.end)}',
+                      l.workoutTimeRange(
+                        dayMonth(w.start),
+                        hhmm(w.start),
+                        hhmm(w.end),
+                      ),
                       style: TextStyle(color: context.colors.muted),
                     ),
                   ],

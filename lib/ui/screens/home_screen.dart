@@ -6,6 +6,7 @@ import '../../data/day_summary.dart';
 import '../../data/models.dart';
 import '../../device/protocol/history.dart';
 import '../../device/transport.dart';
+import '../../l10n/l10n.dart';
 import '../app_shell.dart';
 import '../format.dart';
 import '../theme.dart';
@@ -53,7 +54,7 @@ class _HomeScreenState extends State<HomeScreen> {
       initialDate: day,
       firstDate: _today().subtract(const Duration(days: 365)),
       lastDate: _today(),
-      helpText: 'Gün seçin',
+      helpText: context.l10n.homePickDay,
     );
     if (picked != null) {
       setState(() => _day = picked == _today() ? null : picked);
@@ -68,6 +69,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     final c = DeviceScope.of(context);
     final store = c.store;
+    final l = context.l10n;
     return ListenableBuilder(
       listenable: store,
       builder: (context, _) {
@@ -97,12 +99,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 const SizedBox(height: 16),
                 _Summary(s: s, isToday: isToday),
-                if (c.error != null) ...[
+                if (issueText(c) case final issue?) ...[
                   const SizedBox(height: 12),
-                  Text(
-                    c.error!,
-                    style: const TextStyle(color: DataColors.heart),
-                  ),
+                  Text(issue, style: const TextStyle(color: DataColors.heart)),
                 ],
                 const SizedBox(height: 16),
                 _Shortcuts(onEcg: () => _open(const EcgScreen())),
@@ -123,25 +122,24 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 const SizedBox(height: 12),
                 _DayChartCard(
-                  title: 'Kalp Atış Hızı',
+                  title: l.metricHeartRate,
                   type: MetricType.heartRate,
                   values: s.hourlyHeartRate,
                   stats: s.heartRateStats,
                   hintIcon: Icons.monitor_heart_outlined,
-                  hint: 'Kalp atış hızınızı görmek için bilekliği gün boyu takın.',
+                  hint: l.homeHeartRateHint,
                   onTap: () => _open(
                     const MetricDetailScreen(type: MetricType.heartRate),
                   ),
                 ),
                 const SizedBox(height: 12),
                 _DayChartCard(
-                  title: 'Kan Oksijen Doygunluğu',
+                  title: l.metricSpo2,
                   type: MetricType.spo2,
                   values: s.hourlySpo2,
                   stats: s.spo2Stats,
                   hintIcon: Icons.water_drop_outlined,
-                  hint:
-                      'Kan oksijeninizi görmek için bilekliği gün boyu takın.',
+                  hint: l.homeSpo2Hint,
                   onTap: () =>
                       _open(const MetricDetailScreen(type: MetricType.spo2)),
                 ),
@@ -163,17 +161,19 @@ class _TopBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final c = DeviceScope.of(context);
+    final l = context.l10n;
     final connecting = c.connection == DeviceConnectionState.connecting;
+    final percent = c.battery?.percent;
     final status = switch (c.connection) {
       DeviceConnectionState.connected =>
-        'Bağlı · %${c.battery?.percent ?? '--'}',
-      DeviceConnectionState.connecting => 'Bağlanıyor…',
-      DeviceConnectionState.disconnected => 'Bağlan',
+        percent == null ? l.homeConnected : l.homeConnectedBattery(percent),
+      DeviceConnectionState.connecting => l.homeConnecting,
+      DeviceConnectionState.disconnected => l.homeConnect,
     };
     return Row(
       children: [
         IconButton(
-          tooltip: 'Profil',
+          tooltip: l.homeProfileTooltip,
           onPressed: () => AppShell.selectTab(context, 3),
           icon: CircleAvatar(
             radius: 18,
@@ -185,9 +185,11 @@ class _TopBar extends StatelessWidget {
         const SizedBox(width: 4),
         Expanded(
           child: Align(
-            alignment: Alignment.centerLeft,
+            alignment: AlignmentDirectional.centerStart,
             child: Tooltip(
-              message: c.isConnected ? 'Bağlantıyı kes' : 'Bilekliğe bağlan',
+              message: c.isConnected
+                  ? l.homeDisconnectTooltip
+                  : l.homeConnectTooltip,
               child: ActionChip(
                 avatar: Icon(
                   Icons.watch,
@@ -208,7 +210,7 @@ class _TopBar extends StatelessWidget {
           ),
         ),
         IconButton(
-          tooltip: 'Eşitle',
+          tooltip: l.homeSyncTooltip,
           onPressed: c.isConnected && !c.syncing ? c.sync : null,
           icon: c.syncing
               ? const SizedBox.square(
@@ -218,7 +220,7 @@ class _TopBar extends StatelessWidget {
               : const Icon(Icons.sync),
         ),
         IconButton(
-          tooltip: 'EKG ölç',
+          tooltip: l.homeMeasureEcg,
           onPressed: () => Navigator.of(context)
               .push(MaterialPageRoute<void>(builder: (_) => const EcgScreen())),
           icon: const Icon(Icons.monitor_heart_outlined),
@@ -247,16 +249,18 @@ class _DateNav extends StatelessWidget {
   Widget build(BuildContext context) {
     final today = DateTime.now();
     final yesterday = DateTime(today.year, today.month, today.day - 1);
+    final l = context.l10n;
+    final date = dayMonth(day);
     final label = isToday
-        ? 'Bugün, ${dayMonth(day)}'
+        ? l.homeTodayDate(date)
         : day == yesterday
-        ? 'Dün, ${dayMonth(day)}'
-        : '${weekdayLong(day.weekday)}, ${dayMonth(day)}';
+        ? l.homeYesterdayDate(date)
+        : l.homeWeekdayDate(weekdayLong(day.weekday), date);
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         IconButton(
-          tooltip: 'Önceki gün',
+          tooltip: l.homePrevDay,
           onPressed: onPrev,
           icon: const Icon(Icons.chevron_left),
         ),
@@ -273,7 +277,7 @@ class _DateNav extends StatelessWidget {
           ),
         ),
         IconButton(
-          tooltip: 'Sonraki gün',
+          tooltip: l.homeNextDay,
           onPressed: onNext,
           icon: const Icon(Icons.chevron_right),
         ),
@@ -299,23 +303,20 @@ class _Summary extends StatelessWidget {
         ? null
         : bandOf(MetricType.stress, stress);
 
+    final l = context.l10n;
     final String title;
     final String body;
     if (night == null) {
-      title = isToday
-          ? 'Dün gece uyku ölçülmedi'
-          : 'Bu gün için uyku kaydı yok';
-      body = isToday
-          ? 'Bilekliği bu gece takın; sabah uyku ve toparlanma özetiniz burada olacak.'
-          : 'Bilekliğin takılı olduğu günlerin özeti burada görünür.';
+      title = isToday ? l.homeNoSleepLastNight : l.homeNoSleepThisDay;
+      body = isToday ? l.homeNoSleepTonightHint : l.homeNoSleepPastHint;
     } else {
-      title = isToday ? _greeting(DateTime.now()) : 'Günün özeti';
-      final parts = [
-        '${duration(night.asleepMinutes)} uyudunuz',
-        if (hrv != null)
-          'gece HRV ortalamanız ${hrv.round()} ms${hrvBand == null ? '' : ' (${hrvBand.label})'}',
-      ];
-      body = '${parts.join(', ')}.';
+      title = isToday ? _greeting(l, DateTime.now()) : l.homeDaySummary;
+      final slept = duration(night.asleepMinutes);
+      body = hrv == null
+          ? l.homeSleptSummary(slept)
+          : hrvBand == null
+          ? l.homeSleptHrvSummary(slept, hrv.round())
+          : l.homeSleptHrvBandSummary(slept, hrv.round(), hrvBand.label);
     }
 
     return Column(
@@ -351,12 +352,12 @@ class _Summary extends StatelessWidget {
             children: [
               _SummaryItem(
                 night == null ? null : duration(night.asleepMinutes),
-                'Uyku',
+                l.homeSleep,
               ),
               VerticalDivider(color: context.colors.outline, width: 1),
-              _SummaryItem(hrvBand?.label, 'Toparlanma'),
+              _SummaryItem(hrvBand?.label, l.homeRecovery),
               VerticalDivider(color: context.colors.outline, width: 1),
-              _SummaryItem(stressBand?.label, 'Stres yükü'),
+              _SummaryItem(stressBand?.label, l.homeStressLoad),
             ],
           ),
         ),
@@ -364,10 +365,10 @@ class _Summary extends StatelessWidget {
     );
   }
 
-  static String _greeting(DateTime t) => switch (t.hour) {
-    >= 5 && < 11 => 'Günaydın',
-    >= 11 && < 18 => 'İyi günler',
-    _ => 'İyi akşamlar',
+  static String _greeting(AppLocalizations l, DateTime t) => switch (t.hour) {
+    >= 5 && < 11 => l.homeGoodMorning,
+    >= 11 && < 18 => l.homeGoodAfternoon,
+    _ => l.homeGoodEvening,
   };
 }
 
@@ -385,7 +386,7 @@ class _SummaryItem extends StatelessWidget {
           FittedBox(
             fit: BoxFit.scaleDown,
             child: Text(
-              value ?? '--',
+              value ?? context.l10n.noValue,
               style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
             ),
           ),
@@ -422,8 +423,8 @@ class _Shortcuts extends StatelessWidget {
             style: style,
             onPressed: () => AppShell.selectTab(context, 2),
             icon: const Icon(Icons.directions_run, color: DataColors.steps),
-            label: const Text(
-              'Egzersize başla',
+            label: Text(
+              context.l10n.homeStartWorkout,
               overflow: TextOverflow.ellipsis,
             ),
           ),
@@ -434,7 +435,10 @@ class _Shortcuts extends StatelessWidget {
             style: style,
             onPressed: onEcg,
             icon: const Icon(Icons.monitor_heart, color: DataColors.heart),
-            label: const Text('EKG ölç', overflow: TextOverflow.ellipsis),
+            label: Text(
+              context.l10n.homeMeasureEcg,
+              overflow: TextOverflow.ellipsis,
+            ),
           ),
         ),
       ],
@@ -452,20 +456,26 @@ class _SleepCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final n = s.night;
     final deep = n?.minutesIn(SleepStage.deep);
+    final l = context.l10n;
+    final muted = TextStyle(color: context.colors.muted, fontSize: 12);
     return HomeCard(
-      title: 'Uyku',
+      title: l.homeSleep,
       onTap: onTap,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           BigValue(
             n == null ? null : duration(n.asleepMinutes),
-            caption: n == null ? 'Kayıt yok' : 'Derin uyku ${duration(deep!)}',
+            caption: n == null
+                ? l.homeNoRecord
+                : l.homeDeepSleep(duration(deep!)),
           ),
           const SizedBox(height: 16),
           _StageStrip(night: n),
           const SizedBox(height: 6),
+          // Saat ekseni şeritle birlikte her dilde soldan sağa akar.
           Row(
+            textDirection: TextDirection.ltr,
             children: [
               Icon(
                 Icons.bedtime_outlined,
@@ -473,15 +483,9 @@ class _SleepCard extends StatelessWidget {
                 color: context.colors.muted,
               ),
               const SizedBox(width: 4),
-              Text(
-                n == null ? '--' : hhmm(n.start),
-                style: TextStyle(color: context.colors.muted, fontSize: 12),
-              ),
+              Text(n == null ? l.noValue : hhmm(n.start), style: muted),
               const Spacer(),
-              Text(
-                n == null ? '--' : hhmm(n.end),
-                style: TextStyle(color: context.colors.muted, fontSize: 12),
-              ),
+              Text(n == null ? l.noValue : hhmm(n.end), style: muted),
               const SizedBox(width: 4),
               Icon(
                 Icons.wb_sunny_outlined,
@@ -492,16 +496,16 @@ class _SleepCard extends StatelessWidget {
           ),
           const SizedBox(height: 16),
           MiniStats([
-            (n == null ? null : duration(n.asleepMinutes), 'Süre'),
+            (n == null ? null : duration(n.asleepMinutes), l.homeDuration),
             (
               s.sleepHeartRate == null
                   ? null
-                  : '${s.sleepHeartRate!.round()} bpm',
-              'Kalp atış hızı',
+                  : l.homeBpm(s.sleepHeartRate!.round()),
+              l.homeHeartRateLabel,
             ),
             (
-              s.sleepSpo2 == null ? null : '%${s.sleepSpo2!.round()}',
-              'Kan oksijeni',
+              s.sleepSpo2 == null ? null : l.homePercent(s.sleepSpo2!.round()),
+              l.homeBloodOxygen,
             ),
           ]),
         ],
@@ -510,7 +514,8 @@ class _SleepCard extends StatelessWidget {
   }
 }
 
-/// Gecenin evreleri soldan sağa, yatıştan uyanışa.
+/// Gecenin evreleri soldan sağa, yatıştan uyanışa (RTL dillerde de;
+/// zaman ekseni grafiklerdeki gibi sabit kalır).
 class _StageStrip extends StatelessWidget {
   const _StageStrip({required this.night});
 
@@ -535,10 +540,16 @@ class _StageStrip extends StatelessWidget {
         t = session.end;
       }
     }
+    final l = context.l10n;
     return Semantics(
       label: n == null
-          ? 'Uyku evresi yok'
-          : 'Uyku evreleri: ${[for (final st in SleepStage.values) '${st.label} ${duration(n.minutesIn(st))}'].join(', ')}',
+          ? l.homeNoSleepStages
+          : l.homeSleepStagesSemantics(
+              [
+                for (final st in SleepStage.values)
+                  l.homeSleepStageItem(st.label, duration(n.minutesIn(st))),
+              ].join(l.homeListSeparator),
+            ),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(10),
         child: SizedBox(
@@ -546,6 +557,7 @@ class _StageStrip extends StatelessWidget {
           child: runs.isEmpty
               ? ColoredBox(color: context.colors.surfaceHigh)
               : Row(
+                  textDirection: TextDirection.ltr,
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     for (final (stage, minutes) in runs)
@@ -582,29 +594,30 @@ class _ActivityCard extends StatelessWidget {
     final km = useLive ? live.distanceKm : s.distanceKm;
     final hasData = steps > 0;
     final pct = (steps / dailyStepGoal * 100).round();
+    final l = context.l10n;
     return HomeCard(
-      title: 'Aktivite',
+      title: l.homeActivity,
       onTap: onTap,
       child: Column(
         children: [
           Semantics(
-            label: 'Adım hedefi: $steps / $dailyStepGoal, yüzde $pct',
+            label: l.homeStepGoalSemantics(steps, dailyStepGoal, pct),
             child: ActivityGauge(
               progress: steps / dailyStepGoal,
               color: DataColors.steps,
               child: BigValue(
                 hasData ? '$steps' : null,
                 caption: hasData
-                    ? '%$pct · hedef $dailyStepGoal'
-                    : 'Hedef $dailyStepGoal adım',
+                    ? l.homeStepGoalProgress(pct, dailyStepGoal)
+                    : l.homeStepGoal(dailyStepGoal),
               ),
             ),
           ),
           const SizedBox(height: 16),
           MiniStats([
-            (hasData ? '$steps' : null, 'Adım'),
-            (hasData ? kcal.round().toString() : null, 'Kalori (kcal)'),
-            (hasData ? km.toStringAsFixed(2) : null, 'Kilometre'),
+            (hasData ? '$steps' : null, l.homeSteps),
+            (hasData ? kcal.round().toString() : null, l.homeCaloriesKcal),
+            (hasData ? km.toStringAsFixed(2) : null, l.homeKilometers),
           ]),
         ],
       ),
@@ -631,8 +644,9 @@ class _BalanceCard extends StatelessWidget {
     final stress = s.averageStress;
     final band = stress == null ? null : bandOf(MetricType.stress, stress);
     final hrv = s.recoveryHrv;
+    final l = context.l10n;
     return HomeCard(
-      title: 'Denge',
+      title: l.homeBalance,
       onTap: onTap,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -640,30 +654,24 @@ class _BalanceCard extends StatelessWidget {
           BigValue(
             stress?.round().toString(),
             caption: band == null
-                ? 'Ortalama stres'
-                : 'Ortalama stres · ${band.label}',
+                ? l.homeAverageStress
+                : l.homeAverageStressBand(band.label),
           ),
           const SizedBox(height: 16),
           DayBars(
             values: s.hourlyStress,
             max: 100,
             colorOf: _stressColor,
-            semanticLabel: 'Saatlik stres sütunları',
+            semanticLabel: l.homeHourlyStressSemantics,
           ),
           const SizedBox(height: 16),
           MiniStats([
-            (
-              hrv == null ? null : '${hrv.round()} ms',
-              'Kalp atış hızı değişkenliği',
-            ),
-            (band?.label, 'Stres düzeyi'),
+            (hrv == null ? null : l.homeMs(hrv.round()), l.homeHrvLabel),
+            (band?.label, l.homeStressLevel),
           ]),
           if (stress == null) ...[
             const SizedBox(height: 12),
-            const EmptyHint(
-              icon: Icons.self_improvement,
-              text: 'Stres ve HRV, bileklik takılıyken gün içinde ölçülür.',
-            ),
+            EmptyHint(icon: Icons.self_improvement, text: l.homeStressHint),
           ],
         ],
       ),
@@ -693,6 +701,7 @@ class _DayChartCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final st = stats;
+    final l = context.l10n;
     return HomeCard(
       title: title,
       onTap: onTap,
@@ -700,23 +709,39 @@ class _DayChartCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           if (st != null) ...[
+            // Uzun birim (ör. Arapça) ve büyük yazıda aralık taşmak yerine küçülür.
             Row(
               crossAxisAlignment: CrossAxisAlignment.baseline,
               textBaseline: TextBaseline.alphabetic,
               children: [
-                Text(
-                  '${type.format(st.min)}-${type.format(st.max)}',
-                  style: const TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.w700,
-                    fontFeatures: [FontFeature.tabularFigures()],
+                Expanded(
+                  child: FittedBox(
+                    fit: BoxFit.scaleDown,
+                    alignment: AlignmentDirectional.centerStart,
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.baseline,
+                      textBaseline: TextBaseline.alphabetic,
+                      children: [
+                        Text(
+                          l.homeRange(type.format(st.min), type.format(st.max)),
+                          style: const TextStyle(
+                            fontSize: 24,
+                            fontWeight: FontWeight.w700,
+                            fontFeatures: [FontFeature.tabularFigures()],
+                          ),
+                        ),
+                        const SizedBox(width: 4),
+                        Text(
+                          type.unit,
+                          style: TextStyle(color: context.colors.muted),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-                const SizedBox(width: 4),
-                Text(type.unit, style: TextStyle(color: context.colors.muted)),
-                const Spacer(),
+                const SizedBox(width: 8),
                 Text(
-                  'Ort. ${type.format(st.average)}',
+                  l.homeAverageValue(type.format(st.average)),
                   style: TextStyle(color: context.colors.muted),
                 ),
               ],
@@ -727,8 +752,13 @@ class _DayChartCard extends StatelessWidget {
             values: values,
             color: type.color,
             semanticLabel: st == null
-                ? '$title: ölçüm yok'
-                : '$title: en düşük ${type.format(st.min)}, en yüksek ${type.format(st.max)} ${type.unit}',
+                ? l.homeChartNoData(title)
+                : l.homeChartSemantics(
+                    title,
+                    type.format(st.min),
+                    type.format(st.max),
+                    type.unit,
+                  ),
           ),
           if (st == null) ...[
             const SizedBox(height: 16),
@@ -749,22 +779,23 @@ class _Timeline extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final events = s.timeline;
+    final l = context.l10n;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'Zaman çizelgesi',
+          l.homeTimeline,
           style: Theme.of(context).textTheme.titleLarge
               ?.copyWith(fontWeight: FontWeight.w600),
         ),
         const SizedBox(height: 4),
-        Text('Günün kayıtları', style: TextStyle(color: context.colors.muted)),
+        Text(
+          l.homeTimelineSubtitle,
+          style: TextStyle(color: context.colors.muted),
+        ),
         const SizedBox(height: 12),
         if (events.isEmpty)
-          const EmptyHint(
-            icon: Icons.info_outline,
-            text: 'Egzersiz, EKG ve uyku kayıtlarınız burada saat sırasıyla görünür.',
-          )
+          EmptyHint(icon: Icons.info_outline, text: l.homeTimelineEmpty)
         else
           for (final e in events) _eventTile(context, e),
       ],
@@ -772,6 +803,7 @@ class _Timeline extends StatelessWidget {
   }
 
   Widget _eventTile(BuildContext context, TimelineEvent e) {
+    final l = context.l10n;
     final (
       IconData icon,
       Color color,
@@ -783,23 +815,29 @@ class _Timeline extends StatelessWidget {
         sportIcon(workout.type),
         DataColors.steps,
         sportLabel(workout.type),
-        '${clock(workout.duration)} · ${workout.calories.round()} kcal',
+        l.homeWorkoutSubtitle(
+          clock(workout.duration),
+          workout.calories.round(),
+        ),
         WorkoutDetailScreen(workout: workout),
       ),
       EcgEvent(:final recording) => (
         Icons.monitor_heart,
         DataColors.heart,
-        'EKG',
+        l.homeEcg,
         recording.averageHeartRate == null
-            ? '${recording.duration.inSeconds} sn'
-            : '${recording.averageHeartRate} bpm · ${recording.duration.inSeconds} sn',
+            ? l.homeEcgSubtitleNoHr(recording.duration.inSeconds)
+            : l.homeEcgSubtitle(
+                recording.averageHeartRate!,
+                recording.duration.inSeconds,
+              ),
         EcgDetailScreen(recording: recording),
       ),
       SleepEvent(:final night) => (
         Icons.bedtime,
         SleepStage.light.color,
-        'Uyandınız',
-        '${duration(night.asleepMinutes)} uyku · ${hhmm(night.start)} yatış',
+        l.homeWokeUp,
+        l.homeWokeUpSubtitle(duration(night.asleepMinutes), hhmm(night.start)),
         const SleepScreen(),
       ),
     };

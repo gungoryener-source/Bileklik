@@ -55,6 +55,454 @@ class AppLocalizationsAr extends AppLocalizations {
   }
 
   @override
+  String ecgAverageBpm(Object bpm) {
+    return 'متوسط $bpm نبضة/دقيقة';
+  }
+
+  @override
+  String get ecgAverageHeartRate => 'متوسط النبض';
+
+  @override
+  String get ecgBeats => 'عدد النبضات';
+
+  @override
+  String get ecgBpm => 'نبضة/د';
+
+  @override
+  String get ecgCancel => 'إلغاء القياس';
+
+  @override
+  String get ecgConnectFirst => 'صِل السوار أولًا من الصفحة الرئيسية.';
+
+  @override
+  String ecgDetailTitle(Object date, Object time) {
+    return 'تخطيط القلب · $date $time';
+  }
+
+  @override
+  String get ecgDisclaimer =>
+      'هذا القياس لا يغني عن التشخيص الطبي. إذا شعرت بألم في الصدر أو ضيق في التنفس أو بأنك على وشك الإغماء، فاتصل برقم الطوارئ المحلي فورًا.';
+
+  @override
+  String get ecgHowToSteps =>
+      '1. ارتدِ السوار بإحكام على معصمك.\n2. اجلس وضع ذراعك على الطاولة.\n3. المس برفق القطب الموجود أعلى السوار بإصبع من يدك الأخرى.\n4. لا تتحرك ولا تتكلم لمدة 30 ثانية.';
+
+  @override
+  String get ecgHowToTitle => 'طريقة القياس';
+
+  @override
+  String get ecgKeepStill => 'أبقِ إصبعك على القطب ولا تتحرك.';
+
+  @override
+  String get ecgMeasuringTitle => 'جارٍ تسجيل تخطيط القلب';
+
+  @override
+  String get ecgMs => 'مللي ث';
+
+  @override
+  String get ecgNoHeartRate => 'تعذّر حساب النبض';
+
+  @override
+  String get ecgNoRecords => 'لا توجد تسجيلات لتخطيط القلب بعد.';
+
+  @override
+  String get ecgRange => 'النطاق';
+
+  @override
+  String ecgRangeValue(Object min, Object max) {
+    return '$min-$max';
+  }
+
+  @override
+  String ecgRecordHeader(Object seconds, Object perRow) {
+    return 'التسجيل ($seconds ث، $perRow ث لكل سطر)';
+  }
+
+  @override
+  String ecgRecordSubtitle(Object when, Object seconds) {
+    return '$when · $seconds ث';
+  }
+
+  @override
+  String get ecgRecordsTitle => 'التسجيلات';
+
+  @override
+  String get ecgSdnn => 'التباين (SDNN)';
+
+  @override
+  String ecgSecondsLeft(Object seconds) {
+    return '$seconds ث';
+  }
+
+  @override
+  String get ecgStartButton => 'ابدأ قياسًا لمدة 30 ثانية';
+
+  @override
+  String get ecgTitle => 'تخطيط القلب';
+
+  @override
+  String get exerciseConnectFirst => 'صِل السوار من الصفحة الرئيسية أولًا.';
+
+  @override
+  String get exerciseConnectHint => 'صِل السوار لعرض التمارين السابقة.';
+
+  @override
+  String exerciseCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count تمرين',
+      many: '$count تمرينًا',
+      few: '$count تمارين',
+      two: 'تمرينان',
+      one: 'تمرين واحد',
+      zero: 'لا تمارين',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get exerciseEmpty => 'لا توجد تمارين بعد.';
+
+  @override
+  String exerciseInProgress(Object sport) {
+    return '$sport قيد التقدم';
+  }
+
+  @override
+  String get exerciseLast30Days => 'آخر 30 يومًا';
+
+  @override
+  String exercisePausedAt(Object time) {
+    return 'متوقف مؤقتًا · $time';
+  }
+
+  @override
+  String get exerciseStart => 'ابدأ تمرينًا';
+
+  @override
+  String get exerciseThisWeek => 'هذا الأسبوع';
+
+  @override
+  String get healthBloodPressure => 'ضغط الدم';
+
+  @override
+  String healthBloodPressureSubtitle(Object details) {
+    return 'تقديري · $details';
+  }
+
+  @override
+  String get healthConnectHint => 'صِل السوار من الصفحة الرئيسية لعرض بياناتك.';
+
+  @override
+  String get healthEcg => 'تخطيط القلب';
+
+  @override
+  String healthEcgLast(Object time) {
+    return 'آخر قياس · $time';
+  }
+
+  @override
+  String get healthEcgPrompt => 'أجرِ قياسًا لمدة 30 ثانية';
+
+  @override
+  String healthLastSync(Object time) {
+    return 'آخر تحديث $time';
+  }
+
+  @override
+  String get healthNoMeasurement => 'لا توجد قياسات';
+
+  @override
+  String get healthNoRecord => 'لا توجد بيانات';
+
+  @override
+  String get healthSleep => 'النوم';
+
+  @override
+  String healthSleepLastNight(Object start, Object end) {
+    return 'الليلة الماضية · $start - $end';
+  }
+
+  @override
+  String healthStepsToday(Object goal) {
+    return 'اليوم · الهدف $goal';
+  }
+
+  @override
+  String get healthSyncTooltip => 'تحديث من السوار';
+
+  @override
+  String get healthSyncing => 'جارٍ جلب البيانات من السوار…';
+
+  @override
+  String get homeActivity => 'النشاط';
+
+  @override
+  String get homeAverageStress => 'متوسط التوتر';
+
+  @override
+  String homeAverageStressBand(Object band) {
+    return 'متوسط التوتر · $band';
+  }
+
+  @override
+  String homeAverageValue(Object value) {
+    return 'المتوسط $value';
+  }
+
+  @override
+  String get homeBalance => 'التوازن';
+
+  @override
+  String get homeBloodOxygen => 'أكسجين الدم';
+
+  @override
+  String homeBpm(Object value) {
+    return '$value نبضة/د';
+  }
+
+  @override
+  String get homeCaloriesKcal => 'السعرات (kcal)';
+
+  @override
+  String homeChartNoData(Object title) {
+    return '$title: لا توجد قياسات';
+  }
+
+  @override
+  String homeChartSemantics(Object title, Object min, Object max, Object unit) {
+    return '$title: الأدنى $min، الأعلى $max $unit';
+  }
+
+  @override
+  String get homeConnect => 'اتصال';
+
+  @override
+  String get homeConnectTooltip => 'الاتصال بالسوار';
+
+  @override
+  String get homeConnected => 'متصل';
+
+  @override
+  String homeConnectedBattery(Object percent) {
+    return 'متصل · $percent٪';
+  }
+
+  @override
+  String get homeConnecting => 'جارٍ الاتصال…';
+
+  @override
+  String get homeDaySummary => 'ملخص اليوم';
+
+  @override
+  String homeDeepSleep(Object duration) {
+    return 'نوم عميق $duration';
+  }
+
+  @override
+  String get homeDisconnectTooltip => 'قطع الاتصال';
+
+  @override
+  String get homeDuration => 'المدة';
+
+  @override
+  String get homeEcg => 'تخطيط القلب';
+
+  @override
+  String homeEcgSubtitle(Object bpm, Object seconds) {
+    return '$bpm نبضة/د · $seconds ث';
+  }
+
+  @override
+  String homeEcgSubtitleNoHr(Object seconds) {
+    return '$seconds ث';
+  }
+
+  @override
+  String get homeGoodAfternoon => 'طاب يومك';
+
+  @override
+  String get homeGoodEvening => 'مساء الخير';
+
+  @override
+  String get homeGoodMorning => 'صباح الخير';
+
+  @override
+  String get homeHeartRateHint => 'ارتدِ السوار طوال اليوم لترى معدل نبض قلبك.';
+
+  @override
+  String get homeHeartRateLabel => 'معدل نبض القلب';
+
+  @override
+  String get homeHourlyStressSemantics => 'أعمدة التوتر لكل ساعة';
+
+  @override
+  String get homeHrvLabel => 'تقلب معدل نبض القلب';
+
+  @override
+  String get homeKilometers => 'كيلومتر';
+
+  @override
+  String get homeListSeparator => '، ';
+
+  @override
+  String get homeMeasureEcg => 'قياس تخطيط القلب';
+
+  @override
+  String homeMs(Object value) {
+    return '$value مللي ثانية';
+  }
+
+  @override
+  String get homeNextDay => 'اليوم التالي';
+
+  @override
+  String get homeNoRecord => 'لا يوجد سجل';
+
+  @override
+  String get homeNoSleepLastNight => 'لم يُسجَّل نوم الليلة الماضية';
+
+  @override
+  String get homeNoSleepPastHint =>
+      'يظهر هنا ملخص الأيام التي ارتديت فيها السوار.';
+
+  @override
+  String get homeNoSleepStages => 'لا توجد مراحل نوم';
+
+  @override
+  String get homeNoSleepThisDay => 'لا يوجد سجل نوم لهذا اليوم';
+
+  @override
+  String get homeNoSleepTonightHint =>
+      'ارتدِ السوار الليلة، وستجد ملخص نومك وتعافيك هنا في الصباح.';
+
+  @override
+  String homePercent(Object value) {
+    return '$value٪';
+  }
+
+  @override
+  String get homePickDay => 'اختر يومًا';
+
+  @override
+  String get homePrevDay => 'اليوم السابق';
+
+  @override
+  String get homeProfileTooltip => 'الملف الشخصي';
+
+  @override
+  String homeRange(Object min, Object max) {
+    return '$min–$max';
+  }
+
+  @override
+  String get homeRecovery => 'التعافي';
+
+  @override
+  String get homeSleep => 'النوم';
+
+  @override
+  String homeSleepStageItem(Object stage, Object duration) {
+    return '$stage $duration';
+  }
+
+  @override
+  String homeSleepStagesSemantics(Object stages) {
+    return 'مراحل النوم: $stages';
+  }
+
+  @override
+  String homeSleptHrvBandSummary(Object duration, Object hrv, Object band) {
+    return 'نمت $duration، وكان متوسط HRV الليلي $hrv مللي ثانية ($band).';
+  }
+
+  @override
+  String homeSleptHrvSummary(Object duration, Object hrv) {
+    return 'نمت $duration، وكان متوسط HRV الليلي $hrv مللي ثانية.';
+  }
+
+  @override
+  String homeSleptSummary(Object duration) {
+    return 'نمت $duration.';
+  }
+
+  @override
+  String get homeSpo2Hint => 'ارتدِ السوار طوال اليوم لترى مستوى أكسجين دمك.';
+
+  @override
+  String get homeStartWorkout => 'ابدأ التمرين';
+
+  @override
+  String homeStepGoal(Object goal) {
+    return 'الهدف: $goal خطوة';
+  }
+
+  @override
+  String homeStepGoalProgress(Object percent, Object goal) {
+    return '$percent٪ · الهدف $goal';
+  }
+
+  @override
+  String homeStepGoalSemantics(Object steps, Object goal, Object percent) {
+    return 'هدف الخطوات: $steps من $goal، $percent بالمئة';
+  }
+
+  @override
+  String get homeSteps => 'الخطوات';
+
+  @override
+  String get homeStressHint =>
+      'يُقاس التوتر وHRV خلال اليوم أثناء ارتداء السوار.';
+
+  @override
+  String get homeStressLevel => 'مستوى التوتر';
+
+  @override
+  String get homeStressLoad => 'عبء التوتر';
+
+  @override
+  String get homeSyncTooltip => 'مزامنة';
+
+  @override
+  String get homeTimeline => 'الخط الزمني';
+
+  @override
+  String get homeTimelineEmpty =>
+      'تظهر هنا تمارينك وتخطيطات القلب ونومك بترتيب الوقت.';
+
+  @override
+  String get homeTimelineSubtitle => 'سجلات اليوم';
+
+  @override
+  String homeTodayDate(Object date) {
+    return 'اليوم، $date';
+  }
+
+  @override
+  String homeWeekdayDate(Object weekday, Object date) {
+    return '$weekday، $date';
+  }
+
+  @override
+  String get homeWokeUp => 'استيقظت';
+
+  @override
+  String homeWokeUpSubtitle(Object duration, Object time) {
+    return 'نوم $duration · وقت النوم $time';
+  }
+
+  @override
+  String homeWorkoutSubtitle(Object duration, Object kcal) {
+    return '$duration · $kcal سعرة';
+  }
+
+  @override
+  String homeYesterdayDate(Object date) {
+    return 'أمس، $date';
+  }
+
+  @override
   String get issueBusy => 'السوار مشغول بتمرين أو قياس آخر.';
 
   @override
@@ -78,7 +526,79 @@ class AppLocalizationsAr extends AppLocalizations {
   String get languageTitle => 'اللغة';
 
   @override
+  String get liveCancel => 'إلغاء';
+
+  @override
+  String get liveConfirmBody => 'سيُحفظ التمرين ويُعرض ملخصه.';
+
+  @override
+  String get liveConfirmTitle => 'إنهاء التمرين';
+
+  @override
+  String get liveContinue => 'استئناف';
+
+  @override
+  String get liveFinish => 'إنهاء';
+
+  @override
+  String liveInactiveBody(int minutes, int steps) {
+    String _temp0 = intl.Intl.pluralLogic(
+      minutes,
+      locale: localeName,
+      other:
+          'مشيت أقل من $steps خطوة في آخر $minutes دقيقة. هل تريد إنهاء التمرين؟',
+      few:
+          'مشيت أقل من $steps خطوة في آخر $minutes دقائق. هل تريد إنهاء التمرين؟',
+      two:
+          'مشيت أقل من $steps خطوة في الدقيقتين الأخيرتين. هل تريد إنهاء التمرين؟',
+      one: 'مشيت أقل من $steps خطوة في الدقيقة الأخيرة. هل تريد إنهاء التمرين؟',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get liveInactiveTitle => 'يبدو أنك توقفت عن الحركة';
+
+  @override
+  String get livePause => 'إيقاف مؤقت';
+
+  @override
+  String get livePaused => 'متوقف مؤقتًا';
+
+  @override
   String get metricCalories => 'السعرات';
+
+  @override
+  String metricDetailAbove(Object value) {
+    return '> $value';
+  }
+
+  @override
+  String get metricDetailBands => 'النطاقات';
+
+  @override
+  String get metricDetailBpEstimate =>
+      'قيمة ضغط الدم من السوار تقديرية. استخدم جهاز قياس ضغط معتمدًا للتشخيص والعلاج.';
+
+  @override
+  String get metricDetailDailyAverage => 'المتوسط اليومي';
+
+  @override
+  String get metricDetailNext => 'التالي';
+
+  @override
+  String get metricDetailNoData => 'لا توجد بيانات لهذه الفترة';
+
+  @override
+  String get metricDetailPrevious => 'السابق';
+
+  @override
+  String get metricDetailTotal => 'الإجمالي';
+
+  @override
+  String metricDetailWeekRange(Object start, Object end) {
+    return '$start - $end';
+  }
 
   @override
   String get metricDiastolic => 'ضغط الدم (الانبساطي)';
@@ -135,16 +655,107 @@ class AppLocalizationsAr extends AppLocalizations {
   String get periodWeek => 'أسبوع';
 
   @override
+  String get profileAge => 'العمر';
+
+  @override
+  String get profileAppearance => 'المظهر';
+
+  @override
+  String get profileConnectFirst => 'صِل السوار أولًا لحفظ بياناتك.';
+
+  @override
+  String profileDevice(Object mac) {
+    return 'الجهاز: $mac';
+  }
+
+  @override
+  String get profileFemale => 'أنثى';
+
+  @override
+  String get profileHeight => 'الطول';
+
+  @override
+  String get profileMale => 'ذكر';
+
+  @override
+  String profileRangeError(Object min, Object max) {
+    return 'يجب أن تكون القيمة بين $min و$max';
+  }
+
+  @override
+  String get profileSave => 'حفظ';
+
+  @override
+  String get profileSaved => 'تم حفظ البيانات على السوار';
+
+  @override
+  String get profileThemeDark => 'داكن';
+
+  @override
+  String get profileThemeLight => 'فاتح';
+
+  @override
+  String get profileThemeSystem => 'النظام';
+
+  @override
+  String get profileTitle => 'الملف الشخصي';
+
+  @override
+  String get profileUnitCm => 'سم';
+
+  @override
+  String get profileUnitKg => 'كغ';
+
+  @override
+  String get profileUnitYears => 'سنة';
+
+  @override
+  String get profileWeight => 'الوزن';
+
+  @override
   String get sleepAwake => 'مستيقظ';
 
   @override
   String get sleepDeep => 'عميق';
 
   @override
+  String get sleepDuration => 'مدة النوم';
+
+  @override
+  String get sleepEmpty => 'لا توجد بيانات نوم بعد';
+
+  @override
+  String get sleepLast7Nights => 'آخر 7 ليالٍ';
+
+  @override
   String get sleepLight => 'خفيف';
 
   @override
+  String get sleepNextNight => 'الليلة التالية';
+
+  @override
+  String sleepPercent(Object value) {
+    return '$value٪';
+  }
+
+  @override
+  String get sleepPreviousNight => 'الليلة السابقة';
+
+  @override
   String get sleepRem => 'حركة العين السريعة';
+
+  @override
+  String sleepTimeRange(Object start, Object end) {
+    return '$start - $end';
+  }
+
+  @override
+  String get sleepTitle => 'النوم';
+
+  @override
+  String sleepWeekBarHint(Object day, Object duration) {
+    return '$day: $duration';
+  }
 
   @override
   String get sportAerobics => 'أيروبيك';
@@ -204,8 +815,39 @@ class AppLocalizationsAr extends AppLocalizations {
   String get sportYoga => 'يوغا';
 
   @override
+  String get statAverage => 'المتوسط';
+
+  @override
+  String get statAvgHeartRate => 'متوسط النبض';
+
+  @override
+  String get statDuration => 'المدة';
+
+  @override
+  String get statMax => 'الأعلى';
+
+  @override
+  String get statMin => 'الأدنى';
+
+  @override
+  String get statPace => 'الوتيرة';
+
+  @override
+  String statPercent(Object value) {
+    return '$value٪';
+  }
+
+  @override
   String get unitPerMinute => '/د';
 
   @override
   String get unitSteps => 'خطوة';
+
+  @override
+  String get workoutCongrats => 'أحسنت! تم حفظ التمرين';
+
+  @override
+  String workoutTimeRange(Object day, Object start, Object end) {
+    return '$day · $start - $end';
+  }
 }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../data/aggregate.dart';
 import '../../data/models.dart';
+import '../../l10n/l10n.dart';
 import '../app_shell.dart';
 import '../format.dart';
 import '../theme.dart';
@@ -30,6 +31,7 @@ class HealthScreen extends StatelessWidget {
         ).lastOrNull;
 
         final lastEcg = store.ecgRecordings().firstOrNull;
+        final l = context.l10n;
 
         void open(Widget screen) =>
             Navigator.of(context)
@@ -41,31 +43,41 @@ class HealthScreen extends StatelessWidget {
           String? subtitle,
           MetricType? secondary,
           String? title,
+          bool estimated = false,
         }) {
           final latest = store.latest(type);
           final second = secondary == null ? null : store.latest(secondary);
+          final band = latest == null ? null : bandOf(type, latest.value);
+          // Yüzde işaretinin yeri dile göre değişir; değerle birlikte yazılır.
+          final percent = type.symbol == '%';
           final shown =
               value ??
               (latest == null
                   ? null
                   : second == null
-                  ? type.format(latest.value)
+                  ? (percent
+                        ? l.statPercent(type.format(latest.value))
+                        : type.format(latest.value))
                   : '${type.format(latest.value)}/${secondary!.format(second.value)}');
-          final band = latest == null ? null : bandOf(type, latest.value);
+          final details = latest == null
+              ? null
+              : [
+                  if (band != null) band.label,
+                  whenText(latest.time, now),
+                ].join(' · ');
           return _HealthCard(
             title: title ?? type.label,
             icon: type.icon,
             color: type.color,
             value: shown,
-            unit: type.unit,
+            unit: percent ? '' : type.unit,
             subtitle:
                 subtitle ??
-                (latest == null
-                    ? 'Ölçüm yok'
-                    : [
-                        if (band != null) band.label,
-                        whenText(latest.time, now),
-                      ].join(' · ')),
+                (details == null
+                    ? l.healthNoMeasurement
+                    : estimated
+                    ? l.healthBloodPressureSubtitle(details)
+                    : details),
             onTap: () => open(
               MetricDetailScreen(
                 type: type,
@@ -85,7 +97,7 @@ class HealthScreen extends StatelessWidget {
                 children: [
                   Expanded(
                     child: Text(
-                      'Sağlık',
+                      l.navHealth,
                       style: Theme.of(context).textTheme.headlineMedium,
                     ),
                   ),
@@ -97,7 +109,7 @@ class HealthScreen extends StatelessWidget {
                     )
                   else
                     IconButton(
-                      tooltip: 'Bileklikten güncelle',
+                      tooltip: l.healthSyncTooltip,
                       onPressed: c.isConnected ? c.sync : null,
                       icon: const Icon(Icons.sync),
                     ),
@@ -105,31 +117,31 @@ class HealthScreen extends StatelessWidget {
               ),
               Text(
                 c.lastSync == null
-                    ? (c.isConnected
-                          ? 'Bileklikten veriler alınıyor…'
-                          : 'Verileri görmek için Ana Sayfa\'dan bilekliği bağlayın.')
-                    : 'Son güncelleme ${hhmm(c.lastSync!)}',
+                    ? (c.isConnected ? l.healthSyncing : l.healthConnectHint)
+                    : l.healthLastSync(hhmm(c.lastSync!)),
                 style: TextStyle(color: context.colors.muted),
               ),
               const SizedBox(height: 16),
               _HealthCard(
-                title: 'EKG',
+                title: l.healthEcg,
                 icon: Icons.monitor_heart,
                 color: DataColors.heart,
                 value: lastEcg?.averageHeartRate?.toString(),
-                unit: lastEcg?.averageHeartRate == null ? '' : 'bpm',
+                unit: lastEcg?.averageHeartRate == null
+                    ? ''
+                    : MetricType.heartRate.unit,
                 subtitle: lastEcg == null
-                    ? '30 saniyelik ölçüm yapın'
-                    : 'Son ölçüm · ${whenText(lastEcg.start, now)}',
+                    ? l.healthEcgPrompt
+                    : l.healthEcgLast(whenText(lastEcg.start, now)),
                 onTap: () => open(const EcgScreen()),
               ),
               card(
                 MetricType.steps,
                 value: todaySteps.round().toString(),
-                subtitle: 'Bugün · hedef 10000',
+                subtitle: l.healthStepsToday(10000),
               ),
               _HealthCard(
-                title: 'Uyku',
+                title: l.healthSleep,
                 icon: Icons.bedtime,
                 color: DataColors.sleepLight,
                 value: lastNight == null
@@ -137,8 +149,11 @@ class HealthScreen extends StatelessWidget {
                     : duration(lastNight.asleepMinutes),
                 unit: '',
                 subtitle: lastNight == null
-                    ? 'Kayıt yok'
-                    : 'Dün gece · ${hhmm(lastNight.start)} - ${hhmm(lastNight.end)}',
+                    ? l.healthNoRecord
+                    : l.healthSleepLastNight(
+                        hhmm(lastNight.start),
+                        hhmm(lastNight.end),
+                      ),
                 onTap: () => open(const SleepScreen()),
               ),
               card(MetricType.heartRate),
@@ -150,7 +165,8 @@ class HealthScreen extends StatelessWidget {
               card(
                 MetricType.systolic,
                 secondary: MetricType.diastolic,
-                title: 'Tansiyon',
+                title: l.healthBloodPressure,
+                estimated: true,
               ),
             ],
           ),
@@ -215,17 +231,33 @@ class _HealthCard extends StatelessWidget {
                     ],
                   ),
                 ),
-                Text(
-                  value ?? '--',
-                  style: const TextStyle(
-                    fontSize: 22,
-                    fontWeight: FontWeight.w600,
+                // Uzun değerler (ör. Almanca süre) dar ekranda küçülerek sığar.
+                ConstrainedBox(
+                  constraints: const BoxConstraints(maxWidth: 140),
+                  child: FittedBox(
+                    fit: BoxFit.scaleDown,
+                    alignment: AlignmentDirectional.centerEnd,
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          value ?? context.l10n.noValue,
+                          style: const TextStyle(
+                            fontSize: 22,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                        if (unit.isNotEmpty) ...[
+                          const SizedBox(width: 4),
+                          Text(
+                            unit,
+                            style: TextStyle(color: context.colors.muted),
+                          ),
+                        ],
+                      ],
+                    ),
                   ),
                 ),
-                if (unit.isNotEmpty) ...[
-                  const SizedBox(width: 4),
-                  Text(unit, style: TextStyle(color: context.colors.muted)),
-                ],
                 Icon(Icons.chevron_right, color: context.colors.muted),
               ],
             ),

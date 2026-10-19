@@ -55,6 +55,449 @@ class AppLocalizationsTr extends AppLocalizations {
   }
 
   @override
+  String ecgAverageBpm(Object bpm) {
+    return '$bpm bpm ortalama';
+  }
+
+  @override
+  String get ecgAverageHeartRate => 'Ortalama nabız';
+
+  @override
+  String get ecgBeats => 'Atım sayısı';
+
+  @override
+  String get ecgBpm => 'bpm';
+
+  @override
+  String get ecgCancel => 'Ölçümü iptal et';
+
+  @override
+  String get ecgConnectFirst => 'Önce Ana Sayfa\'dan bilekliği bağlayın.';
+
+  @override
+  String ecgDetailTitle(Object date, Object time) {
+    return 'EKG · $date $time';
+  }
+
+  @override
+  String get ecgDisclaimer =>
+      'Bu ölçüm tıbbi tanı yerine geçmez. Göğüs ağrısı, nefes darlığı ya da bayılma hissi varsa hemen 112\'yi arayın.';
+
+  @override
+  String get ecgHowToSteps =>
+      '1. Bilekliği bileğinize sıkıca takın.\n2. Oturun, kolunuzu masaya koyun.\n3. Diğer elinizin parmağını bilekliğin üstündeki elektroda hafifçe dokundurun.\n4. 30 saniye boyunca hareket etmeyin ve konuşmayın.';
+
+  @override
+  String get ecgHowToTitle => 'Nasıl ölçülür';
+
+  @override
+  String get ecgKeepStill =>
+      'Parmağınızı elektrottan kaldırmayın ve hareket etmeyin.';
+
+  @override
+  String get ecgMeasuringTitle => 'EKG ölçülüyor';
+
+  @override
+  String get ecgMs => 'ms';
+
+  @override
+  String get ecgNoHeartRate => 'Nabız hesaplanamadı';
+
+  @override
+  String get ecgNoRecords => 'Henüz EKG kaydı yok.';
+
+  @override
+  String get ecgRange => 'Aralık';
+
+  @override
+  String ecgRangeValue(Object min, Object max) {
+    return '$min-$max';
+  }
+
+  @override
+  String ecgRecordHeader(Object seconds, Object perRow) {
+    return 'Kayıt ($seconds sn, satır başına $perRow sn)';
+  }
+
+  @override
+  String ecgRecordSubtitle(Object when, Object seconds) {
+    return '$when · $seconds sn';
+  }
+
+  @override
+  String get ecgRecordsTitle => 'Kayıtlar';
+
+  @override
+  String get ecgSdnn => 'Değişkenlik (SDNN)';
+
+  @override
+  String ecgSecondsLeft(Object seconds) {
+    return '$seconds sn';
+  }
+
+  @override
+  String get ecgStartButton => '30 saniyelik ölçüm başlat';
+
+  @override
+  String get ecgTitle => 'EKG';
+
+  @override
+  String get exerciseConnectFirst => 'Önce Ana Sayfa\'dan bilekliği bağlayın.';
+
+  @override
+  String get exerciseConnectHint =>
+      'Geçmiş egzersizleri görmek için bilekliği bağlayın.';
+
+  @override
+  String exerciseCount(int count) {
+    return '$count egzersiz';
+  }
+
+  @override
+  String get exerciseEmpty => 'Henüz egzersiz kaydı yok.';
+
+  @override
+  String exerciseInProgress(Object sport) {
+    return '$sport sürüyor';
+  }
+
+  @override
+  String get exerciseLast30Days => 'Son 30 gün';
+
+  @override
+  String exercisePausedAt(Object time) {
+    return 'Duraklatıldı · $time';
+  }
+
+  @override
+  String get exerciseStart => 'Egzersiz başlat';
+
+  @override
+  String get exerciseThisWeek => 'Bu hafta';
+
+  @override
+  String get healthBloodPressure => 'Tansiyon';
+
+  @override
+  String healthBloodPressureSubtitle(Object details) {
+    return 'Tahmini · $details';
+  }
+
+  @override
+  String get healthConnectHint =>
+      'Verileri görmek için Ana Sayfa\'dan bilekliği bağlayın.';
+
+  @override
+  String get healthEcg => 'EKG';
+
+  @override
+  String healthEcgLast(Object time) {
+    return 'Son ölçüm · $time';
+  }
+
+  @override
+  String get healthEcgPrompt => '30 saniyelik ölçüm yapın';
+
+  @override
+  String healthLastSync(Object time) {
+    return 'Son güncelleme $time';
+  }
+
+  @override
+  String get healthNoMeasurement => 'Ölçüm yok';
+
+  @override
+  String get healthNoRecord => 'Kayıt yok';
+
+  @override
+  String get healthSleep => 'Uyku';
+
+  @override
+  String healthSleepLastNight(Object start, Object end) {
+    return 'Dün gece · $start - $end';
+  }
+
+  @override
+  String healthStepsToday(Object goal) {
+    return 'Bugün · hedef $goal';
+  }
+
+  @override
+  String get healthSyncTooltip => 'Bileklikten güncelle';
+
+  @override
+  String get healthSyncing => 'Bileklikten veriler alınıyor…';
+
+  @override
+  String get homeActivity => 'Aktivite';
+
+  @override
+  String get homeAverageStress => 'Ortalama stres';
+
+  @override
+  String homeAverageStressBand(Object band) {
+    return 'Ortalama stres · $band';
+  }
+
+  @override
+  String homeAverageValue(Object value) {
+    return 'Ort. $value';
+  }
+
+  @override
+  String get homeBalance => 'Denge';
+
+  @override
+  String get homeBloodOxygen => 'Kan oksijeni';
+
+  @override
+  String homeBpm(Object value) {
+    return '$value bpm';
+  }
+
+  @override
+  String get homeCaloriesKcal => 'Kalori (kcal)';
+
+  @override
+  String homeChartNoData(Object title) {
+    return '$title: ölçüm yok';
+  }
+
+  @override
+  String homeChartSemantics(Object title, Object min, Object max, Object unit) {
+    return '$title: en düşük $min, en yüksek $max $unit';
+  }
+
+  @override
+  String get homeConnect => 'Bağlan';
+
+  @override
+  String get homeConnectTooltip => 'Bilekliğe bağlan';
+
+  @override
+  String get homeConnected => 'Bağlı';
+
+  @override
+  String homeConnectedBattery(Object percent) {
+    return 'Bağlı · %$percent';
+  }
+
+  @override
+  String get homeConnecting => 'Bağlanıyor…';
+
+  @override
+  String get homeDaySummary => 'Günün özeti';
+
+  @override
+  String homeDeepSleep(Object duration) {
+    return 'Derin uyku $duration';
+  }
+
+  @override
+  String get homeDisconnectTooltip => 'Bağlantıyı kes';
+
+  @override
+  String get homeDuration => 'Süre';
+
+  @override
+  String get homeEcg => 'EKG';
+
+  @override
+  String homeEcgSubtitle(Object bpm, Object seconds) {
+    return '$bpm bpm · $seconds sn';
+  }
+
+  @override
+  String homeEcgSubtitleNoHr(Object seconds) {
+    return '$seconds sn';
+  }
+
+  @override
+  String get homeGoodAfternoon => 'İyi günler';
+
+  @override
+  String get homeGoodEvening => 'İyi akşamlar';
+
+  @override
+  String get homeGoodMorning => 'Günaydın';
+
+  @override
+  String get homeHeartRateHint =>
+      'Kalp atış hızınızı görmek için bilekliği gün boyu takın.';
+
+  @override
+  String get homeHeartRateLabel => 'Kalp atış hızı';
+
+  @override
+  String get homeHourlyStressSemantics => 'Saatlik stres sütunları';
+
+  @override
+  String get homeHrvLabel => 'Kalp atış hızı değişkenliği';
+
+  @override
+  String get homeKilometers => 'Kilometre';
+
+  @override
+  String get homeListSeparator => ', ';
+
+  @override
+  String get homeMeasureEcg => 'EKG ölç';
+
+  @override
+  String homeMs(Object value) {
+    return '$value ms';
+  }
+
+  @override
+  String get homeNextDay => 'Sonraki gün';
+
+  @override
+  String get homeNoRecord => 'Kayıt yok';
+
+  @override
+  String get homeNoSleepLastNight => 'Dün gece uyku ölçülmedi';
+
+  @override
+  String get homeNoSleepPastHint =>
+      'Bilekliğin takılı olduğu günlerin özeti burada görünür.';
+
+  @override
+  String get homeNoSleepStages => 'Uyku evresi yok';
+
+  @override
+  String get homeNoSleepThisDay => 'Bu gün için uyku kaydı yok';
+
+  @override
+  String get homeNoSleepTonightHint =>
+      'Bilekliği bu gece takın; sabah uyku ve toparlanma özetiniz burada olacak.';
+
+  @override
+  String homePercent(Object value) {
+    return '%$value';
+  }
+
+  @override
+  String get homePickDay => 'Gün seçin';
+
+  @override
+  String get homePrevDay => 'Önceki gün';
+
+  @override
+  String get homeProfileTooltip => 'Profil';
+
+  @override
+  String homeRange(Object min, Object max) {
+    return '$min-$max';
+  }
+
+  @override
+  String get homeRecovery => 'Toparlanma';
+
+  @override
+  String get homeSleep => 'Uyku';
+
+  @override
+  String homeSleepStageItem(Object stage, Object duration) {
+    return '$stage $duration';
+  }
+
+  @override
+  String homeSleepStagesSemantics(Object stages) {
+    return 'Uyku evreleri: $stages';
+  }
+
+  @override
+  String homeSleptHrvBandSummary(Object duration, Object hrv, Object band) {
+    return '$duration uyudunuz, gece HRV ortalamanız $hrv ms ($band).';
+  }
+
+  @override
+  String homeSleptHrvSummary(Object duration, Object hrv) {
+    return '$duration uyudunuz, gece HRV ortalamanız $hrv ms.';
+  }
+
+  @override
+  String homeSleptSummary(Object duration) {
+    return '$duration uyudunuz.';
+  }
+
+  @override
+  String get homeSpo2Hint =>
+      'Kan oksijeninizi görmek için bilekliği gün boyu takın.';
+
+  @override
+  String get homeStartWorkout => 'Egzersize başla';
+
+  @override
+  String homeStepGoal(Object goal) {
+    return 'Hedef $goal adım';
+  }
+
+  @override
+  String homeStepGoalProgress(Object percent, Object goal) {
+    return '%$percent · hedef $goal';
+  }
+
+  @override
+  String homeStepGoalSemantics(Object steps, Object goal, Object percent) {
+    return 'Adım hedefi: $steps / $goal, yüzde $percent';
+  }
+
+  @override
+  String get homeSteps => 'Adım';
+
+  @override
+  String get homeStressHint =>
+      'Stres ve HRV, bileklik takılıyken gün içinde ölçülür.';
+
+  @override
+  String get homeStressLevel => 'Stres düzeyi';
+
+  @override
+  String get homeStressLoad => 'Stres yükü';
+
+  @override
+  String get homeSyncTooltip => 'Eşitle';
+
+  @override
+  String get homeTimeline => 'Zaman çizelgesi';
+
+  @override
+  String get homeTimelineEmpty =>
+      'Egzersiz, EKG ve uyku kayıtlarınız burada saat sırasıyla görünür.';
+
+  @override
+  String get homeTimelineSubtitle => 'Günün kayıtları';
+
+  @override
+  String homeTodayDate(Object date) {
+    return 'Bugün, $date';
+  }
+
+  @override
+  String homeWeekdayDate(Object weekday, Object date) {
+    return '$weekday, $date';
+  }
+
+  @override
+  String get homeWokeUp => 'Uyandınız';
+
+  @override
+  String homeWokeUpSubtitle(Object duration, Object time) {
+    return '$duration uyku · $time yatış';
+  }
+
+  @override
+  String homeWorkoutSubtitle(Object duration, Object kcal) {
+    return '$duration · $kcal kcal';
+  }
+
+  @override
+  String homeYesterdayDate(Object date) {
+    return 'Dün, $date';
+  }
+
+  @override
   String get issueBusy => 'Bileklik şu an başka bir egzersizde ya da ölçümde.';
 
   @override
@@ -79,7 +522,68 @@ class AppLocalizationsTr extends AppLocalizations {
   String get languageTitle => 'Dil';
 
   @override
+  String get liveCancel => 'Vazgeç';
+
+  @override
+  String get liveConfirmBody => 'Egzersiz kaydedilip özet gösterilecek.';
+
+  @override
+  String get liveConfirmTitle => 'Egzersizi bitir';
+
+  @override
+  String get liveContinue => 'Devam et';
+
+  @override
+  String get liveFinish => 'Bitir';
+
+  @override
+  String liveInactiveBody(int minutes, int steps) {
+    return 'Son $minutes dakikada $steps adımdan az attınız. Egzersizi bitirmek ister misiniz?';
+  }
+
+  @override
+  String get liveInactiveTitle => 'Hareketsiz görünüyorsunuz';
+
+  @override
+  String get livePause => 'Duraklat';
+
+  @override
+  String get livePaused => 'Duraklatıldı';
+
+  @override
   String get metricCalories => 'Kalori';
+
+  @override
+  String metricDetailAbove(Object value) {
+    return '> $value';
+  }
+
+  @override
+  String get metricDetailBands => 'Aralıklar';
+
+  @override
+  String get metricDetailBpEstimate =>
+      'Bileklik tansiyonu tahmini olarak hesaplar. Tanı ve tedavi için onaylı bir tansiyon aleti kullanın.';
+
+  @override
+  String get metricDetailDailyAverage => 'Günlük ortalama';
+
+  @override
+  String get metricDetailNext => 'Sonraki';
+
+  @override
+  String get metricDetailNoData => 'Bu dönem için kayıt yok';
+
+  @override
+  String get metricDetailPrevious => 'Önceki';
+
+  @override
+  String get metricDetailTotal => 'Toplam';
+
+  @override
+  String metricDetailWeekRange(Object start, Object end) {
+    return '$start - $end';
+  }
 
   @override
   String get metricDiastolic => 'Tansiyon (küçük)';
@@ -136,16 +640,108 @@ class AppLocalizationsTr extends AppLocalizations {
   String get periodWeek => 'Hafta';
 
   @override
+  String get profileAge => 'Yaş';
+
+  @override
+  String get profileAppearance => 'Görünüm';
+
+  @override
+  String get profileConnectFirst =>
+      'Bilgileri kaydetmek için önce bilekliği bağlayın.';
+
+  @override
+  String profileDevice(Object mac) {
+    return 'Cihaz: $mac';
+  }
+
+  @override
+  String get profileFemale => 'Kadın';
+
+  @override
+  String get profileHeight => 'Boy';
+
+  @override
+  String get profileMale => 'Erkek';
+
+  @override
+  String profileRangeError(Object min, Object max) {
+    return '$min ile $max arasında olmalı';
+  }
+
+  @override
+  String get profileSave => 'Kaydet';
+
+  @override
+  String get profileSaved => 'Bilgiler bilekliğe kaydedildi';
+
+  @override
+  String get profileThemeDark => 'Koyu';
+
+  @override
+  String get profileThemeLight => 'Açık';
+
+  @override
+  String get profileThemeSystem => 'Sistem';
+
+  @override
+  String get profileTitle => 'Profil';
+
+  @override
+  String get profileUnitCm => 'cm';
+
+  @override
+  String get profileUnitKg => 'kg';
+
+  @override
+  String get profileUnitYears => 'yıl';
+
+  @override
+  String get profileWeight => 'Kilo';
+
+  @override
   String get sleepAwake => 'Uyanık';
 
   @override
   String get sleepDeep => 'Derin';
 
   @override
+  String get sleepDuration => 'Uyku süresi';
+
+  @override
+  String get sleepEmpty => 'Henüz uyku kaydı yok';
+
+  @override
+  String get sleepLast7Nights => 'Son 7 gece';
+
+  @override
   String get sleepLight => 'Hafif';
 
   @override
+  String get sleepNextNight => 'Sonraki gece';
+
+  @override
+  String sleepPercent(Object value) {
+    return '%$value';
+  }
+
+  @override
+  String get sleepPreviousNight => 'Önceki gece';
+
+  @override
   String get sleepRem => 'REM';
+
+  @override
+  String sleepTimeRange(Object start, Object end) {
+    return '$start - $end';
+  }
+
+  @override
+  String get sleepTitle => 'Uyku';
+
+  @override
+  String sleepWeekBarHint(Object day, Object duration) {
+    return '$day: $duration';
+  }
 
   @override
   String get sportAerobics => 'Aerobik';
@@ -205,8 +801,39 @@ class AppLocalizationsTr extends AppLocalizations {
   String get sportYoga => 'Yoga';
 
   @override
+  String get statAverage => 'Ortalama';
+
+  @override
+  String get statAvgHeartRate => 'Ortalama nabız';
+
+  @override
+  String get statDuration => 'Süre';
+
+  @override
+  String get statMax => 'En yüksek';
+
+  @override
+  String get statMin => 'En düşük';
+
+  @override
+  String get statPace => 'Tempo';
+
+  @override
+  String statPercent(Object value) {
+    return '%$value';
+  }
+
+  @override
   String get unitPerMinute => '/dk';
 
   @override
   String get unitSteps => 'adım';
+
+  @override
+  String get workoutCongrats => 'Tebrikler, egzersiz kaydedildi';
+
+  @override
+  String workoutTimeRange(Object day, Object start, Object end) {
+    return '$day · $start - $end';
+  }
 }

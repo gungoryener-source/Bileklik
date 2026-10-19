@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../l10n/l10n.dart';
 import '../theme.dart';
 
 /// Etiket ve büyük değerden oluşan kart; değer sığmazsa küçülür.
@@ -12,7 +13,7 @@ class StatTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final v = value ?? '--';
+    final v = value ?? context.l10n.noValue;
     return Card(
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
@@ -28,7 +29,7 @@ class StatTile extends StatelessWidget {
             ),
             FittedBox(
               fit: BoxFit.scaleDown,
-              alignment: Alignment.centerLeft,
+              alignment: AlignmentDirectional.centerStart,
               child: Text(
                 unit.isEmpty ? v : '$v $unit',
                 style: const TextStyle(
