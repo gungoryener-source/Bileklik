@@ -6,21 +6,22 @@ import '../device/protocol/history.dart';
 /// Portal aktarımında her tür bir FHIR Observation'a eşlenecek
 /// (LOINC kodları analiz belgesindeki tabloda).
 enum MetricType {
-  steps('Adım', 'adım'),
-  calories('Kalori', 'kcal'),
-  distance('Mesafe', 'km'),
-  heartRate('Kalp Atış Hızı', 'bpm'),
-  spo2('Kan Oksijen Doygunluğu', '%'),
-  hrv('Kalp Atış Hızı Değişkenliği', 'ms'),
-  stress('Stres', ''),
-  temperature('Vücut Isısı', '°C'),
-  respiratoryRate('Solunum Hızı', '/dk'),
-  systolic('Tansiyon (büyük)', 'mmHg'),
-  diastolic('Tansiyon (küçük)', 'mmHg');
+  steps('steps'),
+  calories('kcal'),
+  distance('km'),
+  heartRate('bpm'),
+  spo2('%'),
+  hrv('ms'),
+  stress(''),
+  temperature('°C'),
+  respiratoryRate('/min'),
+  systolic('mmHg'),
+  diastolic('mmHg');
 
-  const MetricType(this.label, this.unit);
-  final String label;
-  final String unit;
+  const MetricType(this.symbol);
+
+  /// Dilden bağımsız birim simgesi. Ekrandaki ad ve birim `MetricLook`'ta.
+  final String symbol;
 
   /// Dönem içinde toplanan türler (adım, kalori, mesafe); diğerlerinin ortalaması alınır.
   bool get isTotal => this == steps || this == calories || this == distance;

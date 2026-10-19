@@ -33,7 +33,7 @@ void main() {
     tester.view.devicePixelRatio = 3;
     addTearDown(tester.view.reset);
 
-    final settings = AppSettings.memory(ThemeMode.light);
+    final settings = AppSettings.memory(themeMode: ThemeMode.light);
     final device = FakeDevice(random: Random(1));
     final controller = DeviceController(device, store: MemoryHealthStore());
     await tester.pumpWidget(

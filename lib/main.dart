@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 import 'device/fake_device.dart';
+import 'l10n/l10n.dart';
 import 'state/app_settings.dart';
 import 'state/device_controller.dart';
 import 'ui/app_shell.dart';
+import 'ui/screens/language_screen.dart';
 import 'ui/theme.dart';
 
 Future<void> main() async {
@@ -31,12 +34,31 @@ class BileklikApp extends StatelessWidget {
         child: ListenableBuilder(
           listenable: settings,
           builder: (context, _) => MaterialApp(
-            title: 'Bileklik',
+            onGenerateTitle: (context) => context.l10n.appTitle,
             debugShowCheckedModeBanner: false,
+            localizationsDelegates: const [
+              AppLocalizations.delegate,
+              GlobalMaterialLocalizations.delegate,
+              GlobalWidgetsLocalizations.delegate,
+              GlobalCupertinoLocalizations.delegate,
+            ],
+            // Telefonun dili desteklenmiyorsa listenin ilki (İngilizce) seçilir.
+            supportedLocales: const [
+              Locale('en'),
+              Locale('tr'),
+              Locale('ar'),
+              Locale('de'),
+            ],
+            // null: telefonun dili.
+            locale: settings.locale,
+            builder: (context, child) => LocaleSync(child: child!),
             theme: buildTheme(Brightness.light),
             darkTheme: buildTheme(Brightness.dark),
             themeMode: settings.themeMode,
-            home: const AppShell(),
+            // İlk açılışta dil seçilir; sonra Profil'den değişir.
+            home: settings.languageChosen
+                ? const AppShell()
+                : const LanguageScreen(firstRun: true),
           ),
         ),
       ),

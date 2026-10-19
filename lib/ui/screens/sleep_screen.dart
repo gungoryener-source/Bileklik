@@ -6,14 +6,8 @@ import '../app_shell.dart';
 import '../format.dart';
 import '../theme.dart';
 
+/// Uyku evresinin rengi; adı `SleepStageName`'de (format.dart).
 extension SleepLook on SleepStage {
-  String get label => switch (this) {
-    SleepStage.deep => 'Derin',
-    SleepStage.light => 'Hafif',
-    SleepStage.rem => 'REM',
-    SleepStage.awake => 'Uyanık',
-  };
-
   Color get color => switch (this) {
     SleepStage.deep => DataColors.sleepDeep,
     SleepStage.light => DataColors.sleepLight,
@@ -228,7 +222,7 @@ class _WeekBars extends StatelessWidget {
                   ),
                   const SizedBox(height: 4),
                   Text(
-                    weekdaysShort[n.day.weekday - 1],
+                    weekdayShort(n.day.weekday),
                     style: TextStyle(color: context.colors.muted, fontSize: 11),
                   ),
                 ],

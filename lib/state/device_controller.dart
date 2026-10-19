@@ -12,6 +12,18 @@ import '../device/protocol/exercise.dart';
 import '../device/transport.dart';
 import '../device/wristband_client.dart';
 
+/// Kullanıcıya gösterilen hata türleri.
+enum DeviceIssue {
+  /// Bileklik başka bir egzersizde ya da ölçümde.
+  busy,
+
+  /// EKG sırasında sinyal gelmedi.
+  noEcgSignal,
+
+  /// Bağlantı ya da komut hatası; ayrıntı `error` içinde.
+  failed,
+}
+
 /// Ekranların bileklik durumunu dinlediği tek nokta.
 ///
 /// Hangi cihaz katmanının (sahte ya da gerçek) kullanılacağı dışarıdan verilir.
@@ -49,7 +61,16 @@ class DeviceController extends ChangeNotifier {
   BatteryStatus? battery;
   PersonalInfo? profile;
   DateTime? lastUpdate;
-  String? error;
+  /// Son hatanın teknik ayrıntısı (kayıt ve hata ayıklama için).
+  String? get error => _error;
+  String? _error;
+  set error(String? v) {
+    _error = v;
+    issue = v == null ? null : DeviceIssue.failed;
+  }
+
+  /// Son hatanın türü; ekran bunu kullanıcının dilinde gösterir.
+  DeviceIssue? issue;
   bool syncing = false;
   DateTime? lastSync;
 
@@ -124,7 +145,8 @@ class DeviceController extends ChangeNotifier {
     try {
       final r = await _client.controlExercise(ExerciseAction.start, type);
       if (!r.ok) {
-        error = 'Bileklik şu an başka bir egzersizde ya da ölçümde.';
+        error = 'device busy';
+        issue = DeviceIssue.busy;
       } else {
         exercise = ActiveExercise(type, r.startedAt ?? DateTime.now());
       }
@@ -274,7 +296,8 @@ class DeviceController extends ChangeNotifier {
       store.addEcg(r);
       lastEcg = r;
     } else {
-      error = 'EKG verisi alınamadı. Bilekliği takıp parmağınızı elektroda dokundurun.';
+      error = 'no ECG signal';
+      issue = DeviceIssue.noEcgSignal;
     }
     notifyListeners();
     try {

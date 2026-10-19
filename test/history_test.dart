@@ -130,9 +130,9 @@ void main() {
     });
 
     test('stres ve HRV aralıkları', () {
-      expect(bandOf(MetricType.stress, 20)?.label, 'Sakin');
-      expect(bandOf(MetricType.stress, 60)?.label, 'Gergin');
-      expect(bandOf(MetricType.hrv, 80)?.label, 'Harika');
+      expect(bandOf(MetricType.stress, 20)?.id, 'calm');
+      expect(bandOf(MetricType.stress, 60)?.id, 'tense');
+      expect(bandOf(MetricType.hrv, 80)?.id, 'great');
       expect(bandOf(MetricType.heartRate, 80), isNull);
     });
 

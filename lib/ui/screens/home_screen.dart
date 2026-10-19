@@ -251,7 +251,7 @@ class _DateNav extends StatelessWidget {
         ? 'Bugün, ${dayMonth(day)}'
         : day == yesterday
         ? 'Dün, ${dayMonth(day)}'
-        : '${weekdaysLong[day.weekday - 1]}, ${dayMonth(day)}';
+        : '${weekdayLong(day.weekday)}, ${dayMonth(day)}';
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
