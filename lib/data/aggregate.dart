@@ -89,7 +89,7 @@ List<double?> aggregate(
     sum[i] += m.value;
     count[i]++;
   }
-  final total = type == MetricType.steps;
+  final total = type.isTotal;
   return [
     for (var i = 0; i < n; i++)
       if (count[i] == 0) null else total ? sum[i] : sum[i] / count[i],

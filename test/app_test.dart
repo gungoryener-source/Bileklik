@@ -6,14 +6,17 @@ import 'package:bileklik/state/device_controller.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
-  testWidgets('sahte bilekliğe bağlanınca canlı değerler görünür',
-      (tester) async {
+  testWidgets('sahte bilekliğe bağlanınca canlı değerler görünür', (
+    tester,
+  ) async {
     final device = FakeDevice(
-        random: Random(3), realtimeInterval: const Duration(seconds: 1));
+      random: Random(3),
+      realtimeInterval: const Duration(seconds: 1),
+    );
     final controller = DeviceController(device);
     await tester.pumpWidget(BileklikApp(controller: controller));
 
-    expect(find.text('Bağlı değil'), findsOneWidget);
+    expect(find.text('Bağlan'), findsOneWidget);
     await tester.runAsync(() async {
       await controller.connect().catchError((_) {});
       await Future<void>.delayed(const Duration(milliseconds: 100));
@@ -21,7 +24,7 @@ void main() {
     await tester.pump();
 
     expect(find.textContaining('Bağlı ·'), findsOneWidget);
-    expect(find.text('bpm'), findsOneWidget);
+    expect(find.text('Egzersize başla'), findsOneWidget);
     expect(controller.live, isNotNull);
 
     await tester.runAsync(() async {

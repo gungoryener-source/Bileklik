@@ -7,6 +7,8 @@ import '../device/protocol/history.dart';
 /// (LOINC kodları analiz belgesindeki tabloda).
 enum MetricType {
   steps('Adım', 'adım'),
+  calories('Kalori', 'kcal'),
+  distance('Mesafe', 'km'),
   heartRate('Kalp Atış Hızı', 'bpm'),
   spo2('Kan Oksijen Doygunluğu', '%'),
   hrv('Kalp Atış Hızı Değişkenliği', 'ms'),
@@ -19,6 +21,9 @@ enum MetricType {
   const MetricType(this.label, this.unit);
   final String label;
   final String unit;
+
+  /// Dönem içinde toplanan türler (adım, kalori, mesafe); diğerlerinin ortalaması alınır.
+  bool get isTotal => this == steps || this == calories || this == distance;
 }
 
 class Measurement {
