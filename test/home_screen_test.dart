@@ -5,9 +5,24 @@ import 'package:bileklik/data/health_store.dart';
 import 'package:bileklik/data/models.dart';
 import 'package:bileklik/device/fake_device.dart';
 import 'package:bileklik/main.dart';
+import 'package:bileklik/state/app_settings.dart';
 import 'package:bileklik/state/device_controller.dart';
+import 'package:bileklik/ui/widgets/cam/cam.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+
+/// Ana Sayfa listesini öğe kurulana dek aşağı kaydırır, sonra görünür
+/// alana getirir. Alt menü içeriğin üstünde yüzdüğü için isabet testi
+/// yerine bu yol kullanılır.
+Future<void> _reveal(WidgetTester tester, Finder f) async {
+  final list = find.byType(Scrollable).first;
+  for (var i = 0; i < 40 && f.evaluate().isEmpty; i++) {
+    await tester.drag(list, const Offset(0, -200));
+    await tester.pumpAndSettle();
+  }
+  await tester.ensureVisible(f);
+  await tester.pumpAndSettle();
+}
 
 void main() {
   group('günün özeti', () {
@@ -69,24 +84,28 @@ void main() {
     await tester.pumpWidget(BileklikApp(controller: controller));
     await tester.pumpAndSettle();
 
-    expect(find.text('Dün gece uyku ölçülmedi'), findsOneWidget);
-    expect(find.text('Bağlan'), findsOneWidget);
+    expect(find.text('Bağlı değil'), findsOneWidget);
     for (final title in [
+      'Nabız',
+      'Nabız ölç',
       'Uyku',
-      'Aktivite',
+      'Adım',
+      'Kalori',
+      'Aktif süre',
+      'Dün gece uyku ölçülmedi',
       'Denge',
       'Kalp Atış Hızı',
       'Kan Oksijen Doygunluğu',
       'Zaman çizelgesi',
     ]) {
-      await tester.scrollUntilVisible(
-        find.text(title),
-        200,
-        scrollable: find.byType(Scrollable).first,
-      );
-      expect(find.text(title), findsOneWidget);
+      await _reveal(tester, find.text(title, skipOffstage: false).first);
+      expect(find.text(title), findsWidgets);
+      expect(tester.takeException(), isNull, reason: title);
     }
-    expect(find.textContaining('bilekliği gün boyu takın'), findsNWidgets(2));
+    expect(
+      find.textContaining('bilekliği gün boyu takın', skipOffstage: false),
+      findsNWidgets(2),
+    );
     expect(tester.takeException(), isNull);
     device.dispose();
   });
@@ -107,21 +126,21 @@ void main() {
     await tester.runAsync(() => controller.connect());
     await tester.pumpAndSettle();
 
-    expect(find.textContaining('Bugün,'), findsOneWidget);
+    expect(find.text('Bugün'), findsOneWidget);
     expect(find.textContaining('Bağlı ·'), findsOneWidget);
+    expect(find.text('Canlı'), findsOneWidget);
     // Bileklik takılı olmadığı için ölçemediği gün yerine dün tam bir gündür.
     await tester.tap(find.byTooltip('Önceki gün'));
     await tester.pumpAndSettle();
-    expect(find.textContaining('Dün,'), findsOneWidget);
-    expect(find.text('Günün özeti'), findsOneWidget);
-    expect(find.text('Dün gece uyku ölçülmedi'), findsNothing);
-    expect(find.textContaining('uyudunuz'), findsOneWidget);
-
+    expect(find.text('Dün'), findsOneWidget);
     await tester.scrollUntilVisible(
-      find.text('Kilometre'),
+      find.text('Günün özeti'),
       200,
       scrollable: find.byType(Scrollable).first,
     );
+    expect(find.text('Dün gece uyku ölçülmedi'), findsNothing);
+    expect(find.textContaining('uyudunuz'), findsOneWidget);
+
     expect(find.textContaining('hedef 10000'), findsOneWidget);
 
     await tester.scrollUntilVisible(
@@ -138,7 +157,7 @@ void main() {
     await tester.pumpAndSettle();
     await tester.tap(find.byTooltip('Sonraki gün'));
     await tester.pumpAndSettle();
-    expect(find.textContaining('Bugün,'), findsOneWidget);
+    expect(find.text('Bugün'), findsOneWidget);
 
     await tester.tap(find.text('Egzersize başla'));
     await tester.pumpAndSettle();
@@ -147,4 +166,81 @@ void main() {
     await tester.runAsync(() => controller.disconnect());
     device.dispose();
   });
+
+  testWidgets('bileklik bağlı değilken nabız kartı yönlendirir', (
+    tester,
+  ) async {
+    tester.view.physicalSize = const Size(1170, 2532);
+    tester.view.devicePixelRatio = 3;
+    addTearDown(tester.view.reset);
+
+    final device = FakeDevice(random: Random(3));
+    final controller = DeviceController(device, store: MemoryHealthStore());
+    await tester.pumpWidget(BileklikApp(controller: controller));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Bağlı değil'), findsOneWidget);
+    expect(find.text('Canlı'), findsNothing);
+    expect(
+      find.text('Nabzınızı görmek için bilekliği bağlayın.'),
+      findsOneWidget,
+    );
+    final measure = tester.widget<GlowButton>(
+      find.widgetWithText(GlowButton, 'Şimdi ölç'),
+    );
+    expect(measure.onTap, isNull);
+
+    // Çipe dokununca bağlanır; düğme etkinleşir. Sahte bilekliğin
+    // zamanlayıcıları test saatinde ilerler.
+    await tester.tap(find.text('Bağlı değil'));
+    await tester.pump(const Duration(seconds: 2));
+    await tester.pumpAndSettle();
+    expect(controller.isConnected, isTrue);
+    expect(
+      tester
+          .widget<GlowButton>(find.widgetWithText(GlowButton, 'Şimdi ölç'))
+          .onTap,
+      isNotNull,
+    );
+    await controller.disconnect();
+    await tester.pumpAndSettle();
+    device.dispose();
+  });
+
+  for (final lang in ['tr', 'ar', 'de']) {
+    testWidgets('$lang: veri yokken ızgara boş durum gösterir, taşmaz', (
+      tester,
+    ) async {
+      tester.view.physicalSize = const Size(960, 1920); // 320 x 640 dp
+      tester.view.devicePixelRatio = 3;
+      tester.platformDispatcher.textScaleFactorTestValue = 1.3;
+      addTearDown(tester.view.reset);
+      addTearDown(tester.platformDispatcher.clearTextScaleFactorTestValue);
+
+      final device = FakeDevice(random: Random(3));
+      final controller = DeviceController(device, store: MemoryHealthStore());
+      await tester.pumpWidget(
+        BileklikApp(
+          controller: controller,
+          settings: AppSettings.memory(language: lang),
+        ),
+      );
+      await tester.pumpAndSettle();
+      final scrollable = find.byType(Scrollable).first;
+      await _reveal(tester, find.byType(Flame3D, skipOffstage: false));
+      // Nabız, uyku, adım, kalori ve aktif süre değeri yok: "--".
+      expect(find.text('--', skipOffstage: false), findsAtLeastNWidgets(4));
+      if (lang == 'tr') {
+        expect(find.text('Kayıt yok', skipOffstage: false), findsWidgets);
+        expect(
+          find.text('Hedef 10000 adım', skipOffstage: false),
+          findsOneWidget,
+        );
+      }
+      await tester.drag(scrollable, const Offset(0, -4000));
+      await tester.pumpAndSettle();
+      expect(tester.takeException(), isNull);
+      device.dispose();
+    });
+  }
 }

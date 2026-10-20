@@ -11,6 +11,7 @@ import 'package:bileklik/ui/screens/connection_detail_screen.dart';
 import 'package:bileklik/ui/screens/connections_screen.dart';
 import 'package:bileklik/ui/screens/consent_screen.dart';
 import 'package:bileklik/ui/screens/profile_screen.dart';
+import 'package:bileklik/ui/widgets/cam/cam.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -43,7 +44,14 @@ Future<void> _openConnections(
     ),
   );
   await tester.pumpAndSettle();
-  await tester.tap(find.byType(NavigationDestination).at(3));
+  await tester.tap(
+    find
+        .descendant(
+          of: find.byType(GlassNavBar),
+          matching: find.byType(Pressable),
+        )
+        .at(3),
+  );
   await tester.pumpAndSettle();
   final tile = find.byIcon(Icons.biotech);
   await tester.scrollUntilVisible(
@@ -123,17 +131,17 @@ void main() {
     expect(_inConsent(find.text(_dr)), findsOneWidget);
 
     // Hiçbir veri önceden seçili değil; onay düğmesi kapalı.
-    FilledButton confirm() =>
-        tester.widget(find.widgetWithText(FilledButton, 'Onayla ve bağlan'));
-    expect(confirm().onPressed, isNull);
+    GlowButton confirm() =>
+        tester.widget(find.widgetWithText(GlowButton, 'Onayla ve bağlan'));
+    expect(confirm().onTap, isNull);
     await _tap(tester, _inConsent(find.text('Nabız')));
     await _tap(tester, _inConsent(find.text('EKG kayıtları')));
     await tester.pumpAndSettle();
     // Rıza kutusu işaretlenmeden bağlanılamaz.
-    expect(confirm().onPressed, isNull);
+    expect(confirm().onTap, isNull);
     await _tap(tester, _inConsent(find.textContaining('açıkça rıza')));
     await tester.pumpAndSettle();
-    expect(confirm().onPressed, isNotNull);
+    expect(confirm().onTap, isNotNull);
     await tester.tap(find.text('Onayla ve bağlan'));
     await tester.pumpAndSettle();
 

@@ -10,6 +10,7 @@ import '../format.dart';
 import '../theme.dart';
 import '../widgets/ecg_trace.dart';
 import '../widgets/stat_tile.dart';
+import '../widgets/cam/cam.dart';
 
 /// EKG kayıtları ve yeni ölçüm.
 class EcgScreen extends StatelessWidget {
@@ -38,7 +39,7 @@ class EcgScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final c = DeviceScope.of(context);
     final l = context.l10n;
-    return Scaffold(
+    return CamScaffold(
       appBar: AppBar(title: Text(l.ecgTitle)),
       body: ListenableBuilder(
         listenable: c.store,
@@ -49,10 +50,10 @@ class EcgScreen extends StatelessWidget {
             children: [
               const _HowTo(),
               const SizedBox(height: 16),
-              FilledButton.icon(
-                onPressed: () => _start(context),
-                icon: const Icon(Icons.monitor_heart),
-                label: Text(l.ecgStartButton),
+              GlowButton(
+                onTap: () => _start(context),
+                icon: Icons.monitor_heart,
+                label: l.ecgStartButton,
               ),
               const SizedBox(height: 24),
               Text(
@@ -68,7 +69,8 @@ class EcgScreen extends StatelessWidget {
               for (final r in records)
                 Padding(
                   padding: const EdgeInsets.only(bottom: 10),
-                  child: Card(
+                  child: GlassCard(
+                    padding: EdgeInsets.zero,
                     child: ListTile(
                       leading: const Icon(
                         Icons.monitor_heart,
@@ -109,7 +111,7 @@ class _HowTo extends StatelessWidget {
   const _HowTo();
 
   @override
-  Widget build(BuildContext context) => Card(
+  Widget build(BuildContext context) => GlassCard(
     child: Padding(
       padding: const EdgeInsets.all(16),
       child: Column(
@@ -189,7 +191,7 @@ class _EcgMeasureScreenState extends State<EcgMeasureScreen> {
       onPopInvokedWithResult: (didPop, _) {
         if (didPop && c.ecg != null) c.cancelEcg();
       },
-      child: Scaffold(
+      child: CamScaffold(
         appBar: AppBar(title: Text(l.ecgMeasuringTitle)),
         body: ListView(
           padding: const EdgeInsets.all(20),
@@ -212,8 +214,8 @@ class _EcgMeasureScreenState extends State<EcgMeasureScreen> {
               borderRadius: BorderRadius.circular(3),
             ),
             const SizedBox(height: 20),
-            Card(
-              clipBehavior: Clip.antiAlias,
+            GlassCard(
+              padding: EdgeInsets.zero,
               child: EcgTrace(
                 samples: samples,
                 sampleRate: rate,
@@ -273,7 +275,7 @@ class EcgDetailScreen extends StatelessWidget {
     final summary = EcgSummary.analyze(r.samples, r.sampleRate);
     const secondsPerRow = 5;
     final rows = (r.samples.length / (secondsPerRow * r.sampleRate)).ceil();
-    return Scaffold(
+    return CamScaffold(
       appBar: AppBar(
         title: Text(l.ecgDetailTitle(dayMonth(r.start), hhmm(r.start))),
       ),
@@ -313,8 +315,8 @@ class EcgDetailScreen extends StatelessWidget {
           for (var i = 0; i < rows; i++)
             Padding(
               padding: const EdgeInsets.only(bottom: 6),
-              child: Card(
-                clipBehavior: Clip.antiAlias,
+              child: GlassCard(
+                padding: EdgeInsets.zero,
                 child: EcgTrace(
                   samples: r.samples,
                   sampleRate: r.sampleRate,

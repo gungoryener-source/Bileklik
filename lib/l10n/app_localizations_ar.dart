@@ -568,7 +568,12 @@ class AppLocalizationsAr extends AppLocalizations {
   String get healthSyncing => 'جارٍ جلب البيانات من السوار…';
 
   @override
-  String get homeActivity => 'النشاط';
+  String homeActiveGoal(Object minutes) {
+    return 'الهدف $minutes دقيقة';
+  }
+
+  @override
+  String get homeActiveTime => 'وقت النشاط';
 
   @override
   String get homeAverageStress => 'متوسط التوتر';
@@ -595,7 +600,7 @@ class AppLocalizationsAr extends AppLocalizations {
   }
 
   @override
-  String get homeCaloriesKcal => 'السعرات (kcal)';
+  String get homeCalories => 'السعرات';
 
   @override
   String homeChartNoData(Object title) {
@@ -606,9 +611,6 @@ class AppLocalizationsAr extends AppLocalizations {
   String homeChartSemantics(Object title, Object min, Object max, Object unit) {
     return '$title: الأدنى $min، الأعلى $max $unit';
   }
-
-  @override
-  String get homeConnect => 'اتصال';
 
   @override
   String get homeConnectTooltip => 'الاتصال بالسوار';
@@ -634,9 +636,6 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get homeDisconnectTooltip => 'قطع الاتصال';
-
-  @override
-  String get homeDuration => 'المدة';
 
   @override
   String get homeEcg => 'تخطيط القلب';
@@ -667,19 +666,37 @@ class AppLocalizationsAr extends AppLocalizations {
   String get homeHeartRateLabel => 'معدل نبض القلب';
 
   @override
+  String get homeHeroEmpty => 'صِل السوار لترى نبضك.';
+
+  @override
+  String homeHeroSemantics(Object value) {
+    return 'النبض $value نبضة/د';
+  }
+
+  @override
   String get homeHourlyStressSemantics => 'أعمدة التوتر لكل ساعة';
 
   @override
   String get homeHrvLabel => 'تقلب معدل نبض القلب';
 
   @override
-  String get homeKilometers => 'كيلومتر';
+  String get homeKcal => 'سعرة';
+
+  @override
+  String homeKm(Object value) {
+    return '$value كم';
+  }
+
+  @override
+  String homeLastMeasured(Object time) {
+    return 'آخر قياس $time';
+  }
 
   @override
   String get homeListSeparator => '، ';
 
   @override
-  String get homeMeasureEcg => 'تخطيط القلب';
+  String get homeLive => 'مباشر';
 
   @override
   String get homeMeasureNow => 'قِس الآن';
@@ -713,6 +730,9 @@ class AppLocalizationsAr extends AppLocalizations {
       'ارتدِ السوار الليلة، وستجد ملخص نومك وتعافيك هنا في الصباح.';
 
   @override
+  String get homeNotConnected => 'غير متصل';
+
+  @override
   String homePercent(Object value) {
     return '$value٪';
   }
@@ -724,7 +744,13 @@ class AppLocalizationsAr extends AppLocalizations {
   String get homePrevDay => 'اليوم السابق';
 
   @override
-  String get homeProfileTooltip => 'الملف الشخصي';
+  String get homeQuickActions => 'إجراءات سريعة';
+
+  @override
+  String get homeQuickHeartRate => 'قِس النبض';
+
+  @override
+  String get homeQuickSync => 'مزامنة';
 
   @override
   String homeRange(Object min, Object max) {
@@ -733,6 +759,11 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get homeRecovery => 'التعافي';
+
+  @override
+  String homeRestingHr(Object value) {
+    return 'نبض الراحة $value نبضة/د';
+  }
 
   @override
   String get homeSleep => 'النوم';
@@ -797,7 +828,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get homeStressLoad => 'عبء التوتر';
 
   @override
-  String get homeSyncTooltip => 'مزامنة';
+  String get homeSyncing => 'جارٍ المزامنة…';
 
   @override
   String get homeTimeline => 'الخط الزمني';
@@ -810,9 +841,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get homeTimelineSubtitle => 'سجلات اليوم';
 
   @override
-  String homeTodayDate(Object date) {
-    return 'اليوم، $date';
-  }
+  String get homeToday => 'اليوم';
 
   @override
   String homeWeekdayDate(Object weekday, Object date) {
@@ -833,9 +862,7 @@ class AppLocalizationsAr extends AppLocalizations {
   }
 
   @override
-  String homeYesterdayDate(Object date) {
-    return 'أمس، $date';
-  }
+  String get homeYesterday => 'أمس';
 
   @override
   String get hpActivity => 'الخطوات والمسافة والسعرات';
@@ -1094,6 +1121,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get navProfile => 'الملف الشخصي';
 
   @override
+  String get navSemantics => 'القائمة الرئيسية';
+
+  @override
   String get noValue => '--';
 
   @override
@@ -1163,9 +1193,6 @@ class AppLocalizationsAr extends AppLocalizations {
   String get profileAge => 'العمر';
 
   @override
-  String get profileAppearance => 'المظهر';
-
-  @override
   String get profileConnectFirst => 'صِل السوار أولًا لحفظ بياناتك.';
 
   @override
@@ -1209,7 +1236,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get profileMenuGeneral => 'الإعدادات العامة';
 
   @override
-  String get profileMenuGeneralSubtitle => 'المظهر واللغة';
+  String get profileMenuGeneralSubtitle => 'لغة التطبيق';
 
   @override
   String get profileMenuPersonalEmpty => 'أدخل عمرك وطولك ووزنك';
@@ -1254,15 +1281,6 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get profileSectionSharing => 'المشاركة والربط';
-
-  @override
-  String get profileThemeDark => 'داكن';
-
-  @override
-  String get profileThemeLight => 'فاتح';
-
-  @override
-  String get profileThemeSystem => 'النظام';
 
   @override
   String get profileTitle => 'الملف الشخصي';

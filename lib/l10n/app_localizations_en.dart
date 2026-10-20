@@ -562,7 +562,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get healthSyncing => 'Getting data from your wristband…';
 
   @override
-  String get homeActivity => 'Activity';
+  String homeActiveGoal(Object minutes) {
+    return 'Goal $minutes min';
+  }
+
+  @override
+  String get homeActiveTime => 'Active time';
 
   @override
   String get homeAverageStress => 'Average stress';
@@ -589,7 +594,7 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get homeCaloriesKcal => 'Calories (kcal)';
+  String get homeCalories => 'Calories';
 
   @override
   String homeChartNoData(Object title) {
@@ -600,9 +605,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String homeChartSemantics(Object title, Object min, Object max, Object unit) {
     return '$title: lowest $min, highest $max $unit';
   }
-
-  @override
-  String get homeConnect => 'Connect';
 
   @override
   String get homeConnectTooltip => 'Connect to wristband';
@@ -628,9 +630,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get homeDisconnectTooltip => 'Disconnect';
-
-  @override
-  String get homeDuration => 'Duration';
 
   @override
   String get homeEcg => 'ECG';
@@ -662,19 +661,37 @@ class AppLocalizationsEn extends AppLocalizations {
   String get homeHeartRateLabel => 'Heart rate';
 
   @override
+  String get homeHeroEmpty => 'Connect your wristband to see your heart rate.';
+
+  @override
+  String homeHeroSemantics(Object value) {
+    return 'Heart rate $value bpm';
+  }
+
+  @override
   String get homeHourlyStressSemantics => 'Hourly stress bars';
 
   @override
   String get homeHrvLabel => 'Heart rate variability';
 
   @override
-  String get homeKilometers => 'Kilometers';
+  String get homeKcal => 'kcal';
+
+  @override
+  String homeKm(Object value) {
+    return '$value km';
+  }
+
+  @override
+  String homeLastMeasured(Object time) {
+    return 'Last reading $time';
+  }
 
   @override
   String get homeListSeparator => ', ';
 
   @override
-  String get homeMeasureEcg => 'Take ECG';
+  String get homeLive => 'Live';
 
   @override
   String get homeMeasureNow => 'Measure now';
@@ -708,6 +725,9 @@ class AppLocalizationsEn extends AppLocalizations {
       'Wear the wristband tonight, and your sleep and recovery summary will be here in the morning.';
 
   @override
+  String get homeNotConnected => 'Not connected';
+
+  @override
   String homePercent(Object value) {
     return '$value%';
   }
@@ -719,7 +739,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get homePrevDay => 'Previous day';
 
   @override
-  String get homeProfileTooltip => 'Profile';
+  String get homeQuickActions => 'Quick actions';
+
+  @override
+  String get homeQuickHeartRate => 'Measure HR';
+
+  @override
+  String get homeQuickSync => 'Sync';
 
   @override
   String homeRange(Object min, Object max) {
@@ -728,6 +754,11 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get homeRecovery => 'Recovery';
+
+  @override
+  String homeRestingHr(Object value) {
+    return 'Resting $value bpm';
+  }
 
   @override
   String get homeSleep => 'Sleep';
@@ -793,7 +824,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get homeStressLoad => 'Stress load';
 
   @override
-  String get homeSyncTooltip => 'Sync';
+  String get homeSyncing => 'Syncing…';
 
   @override
   String get homeTimeline => 'Timeline';
@@ -806,9 +837,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get homeTimelineSubtitle => 'Today\'s records';
 
   @override
-  String homeTodayDate(Object date) {
-    return 'Today, $date';
-  }
+  String get homeToday => 'Today';
 
   @override
   String homeWeekdayDate(Object weekday, Object date) {
@@ -829,9 +858,7 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String homeYesterdayDate(Object date) {
-    return 'Yesterday, $date';
-  }
+  String get homeYesterday => 'Yesterday';
 
   @override
   String get hpActivity => 'Steps, distance and calories';
@@ -1088,6 +1115,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get navProfile => 'Profile';
 
   @override
+  String get navSemantics => 'Main menu';
+
+  @override
   String get noValue => '--';
 
   @override
@@ -1158,9 +1188,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get profileAge => 'Age';
 
   @override
-  String get profileAppearance => 'Appearance';
-
-  @override
   String get profileConnectFirst =>
       'Connect your wristband to save your details.';
 
@@ -1206,7 +1233,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get profileMenuGeneral => 'General settings';
 
   @override
-  String get profileMenuGeneralSubtitle => 'Appearance and language';
+  String get profileMenuGeneralSubtitle => 'App language';
 
   @override
   String get profileMenuPersonalEmpty => 'Enter your age, height and weight';
@@ -1252,15 +1279,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get profileSectionSharing => 'Sharing and connections';
-
-  @override
-  String get profileThemeDark => 'Dark';
-
-  @override
-  String get profileThemeLight => 'Light';
-
-  @override
-  String get profileThemeSystem => 'System';
 
   @override
   String get profileTitle => 'Profile';

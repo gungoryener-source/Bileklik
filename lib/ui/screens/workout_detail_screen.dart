@@ -5,6 +5,7 @@ import '../../l10n/l10n.dart';
 import '../format.dart';
 import '../theme.dart';
 import '../widgets/stat_tile.dart';
+import '../widgets/cam/cam.dart';
 
 /// Bir egzersizin özeti.
 class WorkoutDetailScreen extends StatelessWidget {
@@ -47,7 +48,7 @@ class WorkoutDetailScreen extends StatelessWidget {
       if (hasDistance)
         (l.statPace, paceText(w.pace), '/${MetricType.distance.unit}'),
     ];
-    return Scaffold(
+    return CamScaffold(
       appBar: AppBar(title: Text(sportLabel(w.type))),
       body: ListView(
         padding: const EdgeInsets.all(20),

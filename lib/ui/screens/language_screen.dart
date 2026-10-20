@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../l10n/l10n.dart';
 import '../app_shell.dart';
 import '../theme.dart';
+import '../widgets/cam/cam.dart';
 
 /// Dil seçimi. İlk açılışta tam ekran gelir; sonra Profil'den açılır.
 ///
@@ -61,7 +62,7 @@ class _LanguageScreenState extends State<LanguageScreen> {
   Widget _page(BuildContext context) {
     final l = context.l10n;
     final options = [if (!widget.firstRun) _system, ...supportedLanguages];
-    return Scaffold(
+    return CamScaffold(
       appBar: widget.firstRun ? null : AppBar(title: Text(l.languageTitle)),
       body: SafeArea(
         child: ListView(
@@ -101,13 +102,7 @@ class _LanguageScreenState extends State<LanguageScreen> {
               ),
             ),
             const SizedBox(height: 24),
-            FilledButton(
-              onPressed: _done,
-              style: FilledButton.styleFrom(
-                minimumSize: const Size.fromHeight(52),
-              ),
-              child: Text(l.continueButton),
-            ),
+            GlowButton(onTap: _done, label: l.continueButton),
           ],
         ),
       ),

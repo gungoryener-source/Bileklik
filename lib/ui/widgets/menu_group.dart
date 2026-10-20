@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../l10n/l10n.dart';
 import '../theme.dart';
+import 'cam/glass_card.dart';
 
 /// Profil ve topluluk menülerinin ortak parçaları.
 
@@ -21,19 +22,14 @@ class MenuHeader extends StatelessWidget {
   );
 }
 
-/// Kenarlı kart içinde, aralarında ince çizgi olan satırlar.
+/// Cam kart içinde, aralarında ince çizgi olan satırlar.
 class MenuGroup extends StatelessWidget {
   const MenuGroup({super.key, required this.children});
   final List<Widget> children;
 
   @override
-  Widget build(BuildContext context) => Material(
-    color: context.colors.surface,
-    shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(20),
-      side: BorderSide(color: context.colors.outline),
-    ),
-    clipBehavior: Clip.antiAlias,
+  Widget build(BuildContext context) => GlassCard(
+    padding: const EdgeInsets.symmetric(vertical: 4),
     child: Column(
       children: [
         for (var i = 0; i < children.length; i++) ...[
@@ -42,7 +38,7 @@ class MenuGroup extends StatelessWidget {
               height: 1,
               indent: 72,
               endIndent: 16,
-              color: context.colors.outline,
+              color: context.colors.grid,
             ),
           children[i],
         ],

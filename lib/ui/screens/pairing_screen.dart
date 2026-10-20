@@ -6,6 +6,7 @@ import '../../l10n/l10n.dart';
 import '../app_shell.dart';
 import '../format.dart';
 import '../theme.dart';
+import '../widgets/cam/cam.dart';
 
 /// Ayrı sayfa olarak eşleştirme ("Başka bileklik eşleştir").
 /// Bağlanınca kendini kapatır.
@@ -13,7 +14,7 @@ class PairingScreen extends StatelessWidget {
   const PairingScreen({super.key});
 
   @override
-  Widget build(BuildContext context) => Scaffold(
+  Widget build(BuildContext context) => CamScaffold(
     appBar: AppBar(),
     body: SafeArea(
       top: false,
@@ -62,7 +63,7 @@ class _PairingViewState extends State<PairingView> {
   }
 
   Future<void> _pairWithAddress() async {
-    final address = await showDialog<String>(
+    final address = await showCamDialog<String>(
       context: context,
       builder: (_) => const _AddressDialog(),
     );
@@ -102,7 +103,8 @@ class _PairingViewState extends State<PairingView> {
             Text(l.pairFound, style: Theme.of(context).textTheme.titleMedium),
             const SizedBox(height: 8),
             for (final d in c.found)
-              Card(
+              GlassCard(
+                padding: EdgeInsets.zero,
                 child: ListTile(
                   minTileHeight: 64,
                   leading: Icon(Icons.watch, color: colors.accent),
@@ -138,16 +140,11 @@ class _PairingViewState extends State<PairingView> {
           ),
         ),
         const SizedBox(height: 20),
-        FilledButton.icon(
-          onPressed: busy ? null : _scan,
-          icon: c.scanning
-              ? const SizedBox.square(
-                  dimension: 18,
-                  child: CircularProgressIndicator(strokeWidth: 2),
-                )
-              : const Icon(Icons.bluetooth_searching),
-          label: Text(c.scanning ? l.pairScanning : l.pairScan),
-          style: FilledButton.styleFrom(minimumSize: const Size.fromHeight(52)),
+        GlowButton(
+          onTap: busy ? null : _scan,
+          loading: c.scanning,
+          icon: Icons.bluetooth_searching,
+          label: c.scanning ? l.pairScanning : l.pairScan,
         ),
         const SizedBox(height: 12),
         OutlinedButton.icon(

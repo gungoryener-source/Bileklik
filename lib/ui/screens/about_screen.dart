@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../app_info.dart';
 import '../../l10n/l10n.dart';
 import '../theme.dart';
+import '../widgets/cam/cam.dart';
 
 /// Uygulama hakkında: amaç, tıbbi uyarı, gizlilik ve lisanslar.
 class AboutScreen extends StatelessWidget {
@@ -12,7 +13,7 @@ class AboutScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final l = context.l10n;
     final colors = context.colors;
-    return Scaffold(
+    return CamScaffold(
       appBar: AppBar(title: Text(l.profileMenuAbout)),
       body: SafeArea(
         top: false,

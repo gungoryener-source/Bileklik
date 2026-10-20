@@ -6,6 +6,7 @@ import '../app_shell.dart';
 import '../format.dart';
 import '../theme.dart';
 import '../widgets/menu_group.dart';
+import '../widgets/cam/cam.dart';
 import 'connections_screen.dart';
 
 /// Süren bir bağlantının ayrıntısı: kim, ne paylaşılıyor, ne zamana kadar.
@@ -23,11 +24,11 @@ class ConnectionDetailScreen extends StatelessWidget {
         .where((c) => c.id == connectionId)
         .firstOrNull;
     // Kaldırıldıysa sayfa kapanırken boş çizilir.
-    if (c == null) return const Scaffold();
+    if (c == null) return const CamScaffold();
     final offer = c.offer;
 
     Future<void> disconnect() async {
-      final ok = await showDialog<bool>(
+      final ok = await showCamDialog<bool>(
         context: context,
         builder: (context) => AlertDialog(
           title: Text(l.connDisconnect),
@@ -54,7 +55,7 @@ class ConnectionDetailScreen extends StatelessWidget {
       navigator.pop();
     }
 
-    return Scaffold(
+    return CamScaffold(
       appBar: AppBar(),
       body: SafeArea(
         top: false,

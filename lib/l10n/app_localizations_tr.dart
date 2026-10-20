@@ -555,7 +555,12 @@ class AppLocalizationsTr extends AppLocalizations {
   String get healthSyncing => 'Bileklikten veriler alınıyor…';
 
   @override
-  String get homeActivity => 'Aktivite';
+  String homeActiveGoal(Object minutes) {
+    return 'Hedef $minutes dk';
+  }
+
+  @override
+  String get homeActiveTime => 'Aktif süre';
 
   @override
   String get homeAverageStress => 'Ortalama stres';
@@ -582,7 +587,7 @@ class AppLocalizationsTr extends AppLocalizations {
   }
 
   @override
-  String get homeCaloriesKcal => 'Kalori (kcal)';
+  String get homeCalories => 'Kalori';
 
   @override
   String homeChartNoData(Object title) {
@@ -593,9 +598,6 @@ class AppLocalizationsTr extends AppLocalizations {
   String homeChartSemantics(Object title, Object min, Object max, Object unit) {
     return '$title: en düşük $min, en yüksek $max $unit';
   }
-
-  @override
-  String get homeConnect => 'Bağlan';
 
   @override
   String get homeConnectTooltip => 'Bilekliğe bağlan';
@@ -621,9 +623,6 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get homeDisconnectTooltip => 'Bağlantıyı kes';
-
-  @override
-  String get homeDuration => 'Süre';
 
   @override
   String get homeEcg => 'EKG';
@@ -655,19 +654,37 @@ class AppLocalizationsTr extends AppLocalizations {
   String get homeHeartRateLabel => 'Kalp atış hızı';
 
   @override
+  String get homeHeroEmpty => 'Nabzınızı görmek için bilekliği bağlayın.';
+
+  @override
+  String homeHeroSemantics(Object value) {
+    return 'Nabız $value bpm';
+  }
+
+  @override
   String get homeHourlyStressSemantics => 'Saatlik stres sütunları';
 
   @override
   String get homeHrvLabel => 'Kalp atış hızı değişkenliği';
 
   @override
-  String get homeKilometers => 'Kilometre';
+  String get homeKcal => 'kcal';
+
+  @override
+  String homeKm(Object value) {
+    return '$value km';
+  }
+
+  @override
+  String homeLastMeasured(Object time) {
+    return 'Son ölçüm $time';
+  }
 
   @override
   String get homeListSeparator => ', ';
 
   @override
-  String get homeMeasureEcg => 'EKG ölç';
+  String get homeLive => 'Canlı';
 
   @override
   String get homeMeasureNow => 'Şimdi ölç';
@@ -701,6 +718,9 @@ class AppLocalizationsTr extends AppLocalizations {
       'Bilekliği bu gece takın; sabah uyku ve toparlanma özetiniz burada olacak.';
 
   @override
+  String get homeNotConnected => 'Bağlı değil';
+
+  @override
   String homePercent(Object value) {
     return '%$value';
   }
@@ -712,7 +732,13 @@ class AppLocalizationsTr extends AppLocalizations {
   String get homePrevDay => 'Önceki gün';
 
   @override
-  String get homeProfileTooltip => 'Profil';
+  String get homeQuickActions => 'Hızlı işlemler';
+
+  @override
+  String get homeQuickHeartRate => 'Nabız ölç';
+
+  @override
+  String get homeQuickSync => 'Senkronize';
 
   @override
   String homeRange(Object min, Object max) {
@@ -721,6 +747,11 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get homeRecovery => 'Toparlanma';
+
+  @override
+  String homeRestingHr(Object value) {
+    return 'Dinlenik nabız $value bpm';
+  }
 
   @override
   String get homeSleep => 'Uyku';
@@ -786,7 +817,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get homeStressLoad => 'Stres yükü';
 
   @override
-  String get homeSyncTooltip => 'Eşitle';
+  String get homeSyncing => 'Senkronize ediliyor…';
 
   @override
   String get homeTimeline => 'Zaman çizelgesi';
@@ -799,9 +830,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get homeTimelineSubtitle => 'Günün kayıtları';
 
   @override
-  String homeTodayDate(Object date) {
-    return 'Bugün, $date';
-  }
+  String get homeToday => 'Bugün';
 
   @override
   String homeWeekdayDate(Object weekday, Object date) {
@@ -822,9 +851,7 @@ class AppLocalizationsTr extends AppLocalizations {
   }
 
   @override
-  String homeYesterdayDate(Object date) {
-    return 'Dün, $date';
-  }
+  String get homeYesterday => 'Dün';
 
   @override
   String get hpActivity => 'Adım, mesafe ve kalori';
@@ -1070,6 +1097,9 @@ class AppLocalizationsTr extends AppLocalizations {
   String get navProfile => 'Profil';
 
   @override
+  String get navSemantics => 'Ana menü';
+
+  @override
   String get noValue => '--';
 
   @override
@@ -1139,9 +1169,6 @@ class AppLocalizationsTr extends AppLocalizations {
   String get profileAge => 'Yaş';
 
   @override
-  String get profileAppearance => 'Görünüm';
-
-  @override
   String get profileConnectFirst =>
       'Bilgileri kaydetmek için önce bilekliği bağlayın.';
 
@@ -1187,7 +1214,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get profileMenuGeneral => 'Genel ayarlar';
 
   @override
-  String get profileMenuGeneralSubtitle => 'Görünüm ve dil';
+  String get profileMenuGeneralSubtitle => 'Uygulama dili';
 
   @override
   String get profileMenuPersonalEmpty => 'Yaş, boy ve kilonuzu girin';
@@ -1232,15 +1259,6 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get profileSectionSharing => 'Paylaşım ve bağlantılar';
-
-  @override
-  String get profileThemeDark => 'Koyu';
-
-  @override
-  String get profileThemeLight => 'Açık';
-
-  @override
-  String get profileThemeSystem => 'Sistem';
 
   @override
   String get profileTitle => 'Profil';

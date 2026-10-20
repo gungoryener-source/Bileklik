@@ -6,6 +6,7 @@ import 'package:bileklik/main.dart';
 import 'package:bileklik/state/app_settings.dart';
 import 'package:bileklik/state/device_controller.dart';
 import 'package:bileklik/ui/app_shell.dart';
+import 'package:bileklik/ui/widgets/cam/cam.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -80,8 +81,8 @@ void main() {
       await tester.pumpAndSettle();
 
       final tabs = find.descendant(
-        of: find.byType(NavigationBar),
-        matching: find.byType(NavigationDestination),
+        of: find.byType(GlassNavBar),
+        matching: find.byType(Pressable),
       );
       expect(tabs, findsNWidgets(4));
       for (var i = 0; i < 4; i++) {

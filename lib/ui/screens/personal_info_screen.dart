@@ -5,6 +5,7 @@ import '../../l10n/l10n.dart';
 import '../app_shell.dart';
 import '../format.dart';
 import '../theme.dart';
+import '../widgets/cam/cam.dart';
 
 /// Kişisel bilgiler. Kaydedilen değerler 0x02 komutuyla bilekliğe yazılır;
 /// cihaz kalori ve mesafeyi bu bilgilerle hesaplar.
@@ -73,7 +74,7 @@ class _PersonalInfoScreenState extends State<PersonalInfoScreen> {
   Widget build(BuildContext context) {
     final c = DeviceScope.of(context);
     final l = context.l10n;
-    return Scaffold(
+    return CamScaffold(
       appBar: AppBar(title: Text(l.personalInfoTitle)),
       body: Form(
         key: _form,
@@ -115,9 +116,9 @@ class _PersonalInfoScreenState extends State<PersonalInfoScreen> {
               (v) => _range(v, 20, 250),
             ),
             const SizedBox(height: 8),
-            FilledButton(
-              onPressed: c.isConnected ? _save : null,
-              child: Text(l.profileSave),
+            GlowButton(
+              onTap: c.isConnected ? _save : null,
+              label: l.profileSave,
             ),
           ],
         ),

@@ -27,7 +27,7 @@ class ActivityGauge extends StatelessWidget {
       aspectRatio: 1.8,
       child: TweenAnimationBuilder<double>(
         tween: Tween(begin: still ? target : 0, end: target),
-        duration: still ? Duration.zero : const Duration(milliseconds: 700),
+        duration: still ? Duration.zero : const Duration(milliseconds: 900),
         curve: Curves.easeOutCubic,
         builder: (context, p, _) => CustomPaint(
           painter: _GaugePainter(
@@ -79,6 +79,18 @@ class _GaugePainter extends CustomPainter {
       ..strokeCap = StrokeCap.round;
     canvas.drawArc(rect, pi, pi, false, track);
     if (progress > 0) {
+      canvas.drawArc(
+        rect,
+        pi,
+        pi * progress,
+        false,
+        Paint()
+          ..color = color.withValues(alpha: 0.5)
+          ..style = PaintingStyle.stroke
+          ..strokeWidth = stroke
+          ..strokeCap = StrokeCap.round
+          ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 6),
+      );
       final fill = Paint()
         ..color = color
         ..style = PaintingStyle.stroke
@@ -101,12 +113,11 @@ class _GaugePainter extends CustomPainter {
       canvas.drawLine(c + dir * inner, c + dir * (inner - 10), p);
     }
 
-    // Yayın ucundaki nokta: kart renginde, yay renginde kenarlı;
-    // açık temada da görünür.
+    // Yayın ucundaki nokta: zemin renginde, yay renginde kenarlı.
     final a = pi + pi * progress;
     final end = c + Offset(cos(a), sin(a)) * r;
     canvas.drawCircle(end, stroke / 2 + 2, Paint()..color = color);
-    canvas.drawCircle(end, stroke / 2 - 1, Paint()..color = palette.surface);
+    canvas.drawCircle(end, stroke / 2 - 1, Paint()..color = palette.bgMid);
   }
 
   @override

@@ -18,6 +18,7 @@ bir öncekinin dalı üzerine kurulur. Durum: ✅ bitti (PR açık ya da birleş
 | 11 | Üçüncü taraf entegrasyonu: Android'de Health Connect, iOS'ta Apple Health'e veri yazma (izin akışı, hangi türlerin paylaşılacağı). Referans: `/mnt/project-files/referans/gece-ekranlari/5-ucuncu-taraf.jpg` | ✅ | #13 (gerçek `health` eklentisi ve AndroidManifest/Info.plist izinleri 17. maddeyle birlikte) |
 | 12 | Kalıcı veri deposu: SQLite (`HealthStore` arayüzünün arkasında), uygulama kapanınca veri kaybolmasın | ✅ | #14 (web demosu bellekte kalır; ek şifreleme KVKK değerlendirmesiyle) |
 | 13 | Elle nabız ve SpO2 ölçümü (0x28 02/03), Ana Sayfa'dan "Şimdi ölç" | ✅ | #15 (ölçüm bitişi PDF'te yok; süre dolunca uygulama bitiriyor, gerçek cihazda doğrulanacak) |
+| 13b | Cam tasarım dili, yalnızca koyu tema: aurora zemin, cam kartlar, parlayan ana düğme, cam alt menü, 3D çizimler (kalp, ay, alev, halka), Manrope yazı tipi; tema seçimi kaldırıldı. Kurallar `docs/flutter-mobile-design.md` | ✅ | #16 |
 | 14 | Ayarlar: otomatik ölçüm aralığı (0x2A/0x2B), takma algılama (0x86), saat/birim tercihleri | ⬜ | |
 | 15 | Hatırlatıcılar: ilaç, su, hareketsizlik (0x23/0x57) | ⬜ | |
 | 16 | Kilo ve vücut kompozisyonu: elle giriş, VKİ, grafik | ⬜ | |

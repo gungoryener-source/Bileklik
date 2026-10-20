@@ -564,7 +564,12 @@ class AppLocalizationsDe extends AppLocalizations {
   String get healthSyncing => 'Daten werden vom Armband geladen…';
 
   @override
-  String get homeActivity => 'Aktivität';
+  String homeActiveGoal(Object minutes) {
+    return 'Ziel $minutes Min.';
+  }
+
+  @override
+  String get homeActiveTime => 'Aktive Zeit';
 
   @override
   String get homeAverageStress => 'Durchschnittlicher Stress';
@@ -591,7 +596,7 @@ class AppLocalizationsDe extends AppLocalizations {
   }
 
   @override
-  String get homeCaloriesKcal => 'Kalorien (kcal)';
+  String get homeCalories => 'Kalorien';
 
   @override
   String homeChartNoData(Object title) {
@@ -602,9 +607,6 @@ class AppLocalizationsDe extends AppLocalizations {
   String homeChartSemantics(Object title, Object min, Object max, Object unit) {
     return '$title: niedrigster Wert $min, höchster Wert $max $unit';
   }
-
-  @override
-  String get homeConnect => 'Verbinden';
 
   @override
   String get homeConnectTooltip => 'Mit Armband verbinden';
@@ -630,9 +632,6 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get homeDisconnectTooltip => 'Verbindung trennen';
-
-  @override
-  String get homeDuration => 'Dauer';
 
   @override
   String get homeEcg => 'EKG';
@@ -664,19 +663,38 @@ class AppLocalizationsDe extends AppLocalizations {
   String get homeHeartRateLabel => 'Herzfrequenz';
 
   @override
+  String get homeHeroEmpty =>
+      'Verbinden Sie das Armband, um Ihren Puls zu sehen.';
+
+  @override
+  String homeHeroSemantics(Object value) {
+    return 'Puls $value bpm';
+  }
+
+  @override
   String get homeHourlyStressSemantics => 'Stress pro Stunde (Balken)';
 
   @override
   String get homeHrvLabel => 'Herzfrequenzvariabilität';
 
   @override
-  String get homeKilometers => 'Kilometer';
+  String get homeKcal => 'kcal';
+
+  @override
+  String homeKm(Object value) {
+    return '$value km';
+  }
+
+  @override
+  String homeLastMeasured(Object time) {
+    return 'Letzte Messung $time';
+  }
 
   @override
   String get homeListSeparator => ', ';
 
   @override
-  String get homeMeasureEcg => 'EKG messen';
+  String get homeLive => 'Live';
 
   @override
   String get homeMeasureNow => 'Jetzt messen';
@@ -710,6 +728,9 @@ class AppLocalizationsDe extends AppLocalizations {
       'Tragen Sie das Armband heute Nacht – morgen früh finden Sie hier Ihre Schlaf- und Erholungsübersicht.';
 
   @override
+  String get homeNotConnected => 'Nicht verbunden';
+
+  @override
   String homePercent(Object value) {
     return '$value %';
   }
@@ -721,7 +742,13 @@ class AppLocalizationsDe extends AppLocalizations {
   String get homePrevDay => 'Vorheriger Tag';
 
   @override
-  String get homeProfileTooltip => 'Profil';
+  String get homeQuickActions => 'Schnellaktionen';
+
+  @override
+  String get homeQuickHeartRate => 'Puls messen';
+
+  @override
+  String get homeQuickSync => 'Synchronisieren';
 
   @override
   String homeRange(Object min, Object max) {
@@ -730,6 +757,11 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get homeRecovery => 'Erholung';
+
+  @override
+  String homeRestingHr(Object value) {
+    return 'Ruhepuls $value bpm';
+  }
 
   @override
   String get homeSleep => 'Schlaf';
@@ -795,7 +827,7 @@ class AppLocalizationsDe extends AppLocalizations {
   String get homeStressLoad => 'Stressbelastung';
 
   @override
-  String get homeSyncTooltip => 'Synchronisieren';
+  String get homeSyncing => 'Wird synchronisiert…';
 
   @override
   String get homeTimeline => 'Zeitachse';
@@ -808,9 +840,7 @@ class AppLocalizationsDe extends AppLocalizations {
   String get homeTimelineSubtitle => 'Einträge des Tages';
 
   @override
-  String homeTodayDate(Object date) {
-    return 'Heute, $date';
-  }
+  String get homeToday => 'Heute';
 
   @override
   String homeWeekdayDate(Object weekday, Object date) {
@@ -831,9 +861,7 @@ class AppLocalizationsDe extends AppLocalizations {
   }
 
   @override
-  String homeYesterdayDate(Object date) {
-    return 'Gestern, $date';
-  }
+  String get homeYesterday => 'Gestern';
 
   @override
   String get hpActivity => 'Schritte, Strecke und Kalorien';
@@ -1089,6 +1117,9 @@ class AppLocalizationsDe extends AppLocalizations {
   String get navProfile => 'Profil';
 
   @override
+  String get navSemantics => 'Hauptmenü';
+
+  @override
   String get noValue => '--';
 
   @override
@@ -1160,9 +1191,6 @@ class AppLocalizationsDe extends AppLocalizations {
   String get profileAge => 'Alter';
 
   @override
-  String get profileAppearance => 'Darstellung';
-
-  @override
   String get profileConnectFirst =>
       'Verbinden Sie zuerst das Armband, um Ihre Angaben zu speichern.';
 
@@ -1207,7 +1235,7 @@ class AppLocalizationsDe extends AppLocalizations {
   String get profileMenuGeneral => 'Allgemeine Einstellungen';
 
   @override
-  String get profileMenuGeneralSubtitle => 'Darstellung und Sprache';
+  String get profileMenuGeneralSubtitle => 'App-Sprache';
 
   @override
   String get profileMenuPersonalEmpty => 'Alter, Größe und Gewicht eingeben';
@@ -1252,15 +1280,6 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get profileSectionSharing => 'Teilen und Verbindungen';
-
-  @override
-  String get profileThemeDark => 'Dunkel';
-
-  @override
-  String get profileThemeLight => 'Hell';
-
-  @override
-  String get profileThemeSystem => 'System';
 
   @override
   String get profileTitle => 'Profil';

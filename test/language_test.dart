@@ -5,6 +5,7 @@ import 'package:bileklik/device/fake_device.dart';
 import 'package:bileklik/main.dart';
 import 'package:bileklik/state/app_settings.dart';
 import 'package:bileklik/state/device_controller.dart';
+import 'package:bileklik/ui/widgets/cam/cam.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -45,7 +46,7 @@ void main() {
     expect(find.text('General settings'), findsOneWidget);
     await tester.tap(find.byTooltip('Back'));
     await tester.pumpAndSettle();
-    final nav = find.byType(NavigationBar);
+    final nav = find.byType(GlassNavBar);
     expect(
       find.descendant(of: nav, matching: find.text('Profile')),
       findsOneWidget,

@@ -59,7 +59,7 @@ class _EcgPainter extends CustomPainter {
     this.lineColor,
   );
 
-  /// Sinyal çizgisi; temaya göre açık ya da koyu.
+  /// Sinyal çizgisi.
   final Color lineColor;
 
   final List<int> samples;
@@ -68,8 +68,9 @@ class _EcgPainter extends CustomPainter {
   final List<int> peaks;
   final int offset;
 
-  static const _grid = Color(0x33E85D75);
-  static const _gridBold = Color(0x66E85D75);
+  // EKG kâğıdı ızgarası, veri renginin soluk tonları.
+  static final _grid = DataColors.heart.withValues(alpha: 0.2);
+  static final _gridBold = DataColors.heart.withValues(alpha: 0.4);
 
   @override
   void paint(Canvas canvas, Size size) {

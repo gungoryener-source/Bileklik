@@ -4,6 +4,7 @@ import '../../app_info.dart';
 import '../../l10n/l10n.dart';
 import '../app_shell.dart';
 import '../widgets/menu_group.dart';
+import '../widgets/cam/cam.dart';
 import 'about_screen.dart';
 import 'community_screen.dart';
 import 'connections_screen.dart';
@@ -36,7 +37,7 @@ class ProfileScreen extends StatelessWidget {
     }
 
     return ListView(
-      padding: const EdgeInsets.fromLTRB(16, 20, 16, 24),
+      padding: EdgeInsets.fromLTRB(16, 20, 16, GlassNavBar.clearance(context)),
       children: [
         Padding(
           padding: const EdgeInsetsDirectional.only(start: 4, bottom: 16),

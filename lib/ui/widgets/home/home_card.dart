@@ -2,33 +2,35 @@ import 'package:flutter/material.dart';
 
 import '../../../l10n/l10n.dart';
 import '../../theme.dart';
+import '../cam/glass_card.dart';
 
-/// Ana Sayfa kartı: başlık, sonda ok (RTL'de ok kendiliğinden döner); kartın tamamı dokunulabilir.
+/// Ana Sayfa kartı (cam): başlık, sonda ok (RTL'de ok kendiliğinden
+/// döner); kartın tamamı dokunulabilir.
 class HomeCard extends StatelessWidget {
   const HomeCard({
     super.key,
     required this.title,
     required this.child,
     this.onTap,
+    this.tint,
   });
 
   final String title;
   final Widget child;
   final VoidCallback? onTap;
 
+  /// Kartın renk tonu ([camTint]); verilmezse düz cam.
+  final Gradient? tint;
+
   @override
   Widget build(BuildContext context) {
-    return Material(
-      color: context.colors.surface,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(20),
-        side: BorderSide(color: context.colors.outline),
-      ),
-      clipBehavior: Clip.antiAlias,
+    return GlassCard(
+      padding: EdgeInsets.zero,
+      tint: tint,
       child: InkWell(
         onTap: onTap,
         child: Padding(
-          padding: const EdgeInsets.all(16),
+          padding: CamSpace.cardPadding,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
@@ -77,8 +79,8 @@ class BigValue extends StatelessWidget {
           child: Text(
             value ?? context.l10n.noValue,
             style: TextStyle(
-              fontSize: 34,
-              fontWeight: FontWeight.w700,
+              fontSize: 36,
+              fontWeight: FontWeight.w800,
               // Tire işareti eşit genişlikli rakamlarla aralıklı görünür.
               fontFeatures: [if (value != null) FontFeature.tabularFigures()],
             ),
@@ -90,7 +92,7 @@ class BigValue extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
             decoration: BoxDecoration(
               color: context.colors.surfaceHigh,
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(CamRadius.chip),
             ),
             child: Text(
               caption!,
@@ -116,7 +118,7 @@ class MiniStats extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 8),
       decoration: BoxDecoration(
         color: context.colors.surfaceHigh,
-        borderRadius: BorderRadius.circular(14),
+        borderRadius: BorderRadius.circular(18),
       ),
       child: Row(
         children: [
@@ -130,7 +132,7 @@ class MiniStats extends StatelessWidget {
                       value ?? context.l10n.noValue,
                       style: TextStyle(
                         fontSize: 17,
-                        fontWeight: FontWeight.w600,
+                        fontWeight: FontWeight.w700,
                         fontFeatures: [
                           if (value != null) FontFeature.tabularFigures(),
                         ],
@@ -170,7 +172,8 @@ class EmptyHint extends StatelessWidget {
           height: 40,
           decoration: BoxDecoration(
             shape: BoxShape.circle,
-            border: Border.all(color: context.colors.outline),
+            color: context.colors.surfaceHigh,
+            border: Border.all(color: context.colors.glassBorder),
           ),
           child: Icon(icon, size: 20, color: context.colors.muted),
         ),

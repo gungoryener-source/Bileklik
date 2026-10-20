@@ -153,11 +153,20 @@ void main() {
     final controller = DeviceController(device, store: MemoryHealthStore());
     await tester.pumpWidget(BileklikApp(controller: controller));
     await tester.pumpAndSettle();
+    // "Şimdi ölç" bağlı değilken pasif; hızlı işlemdeki "Nabız ölç" nedenini
+    // söyler.
     await tester.tap(find.text('Şimdi ölç'));
     await tester.pumpAndSettle();
-    await tester.tap(find.text('Nabız'));
+    expect(find.text('Ne ölçmek istersiniz?'), findsNothing);
+    await tester.tap(find.text('Nabız ölç'));
     await tester.pumpAndSettle();
-    expect(find.textContaining('bilekliği bağlayın'), findsOneWidget);
+    expect(
+      find.descendant(
+        of: find.byType(SnackBar),
+        matching: find.textContaining('bilekliği bağlayın'),
+      ),
+      findsOneWidget,
+    );
     expect(find.byType(SpotMeasureScreen), findsNothing);
     device.dispose();
   });

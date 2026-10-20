@@ -4,6 +4,7 @@ import '../../l10n/l10n.dart';
 import '../app_shell.dart';
 import '../format.dart';
 import '../theme.dart';
+import '../widgets/cam/cam.dart';
 import 'pairing_screen.dart';
 
 /// Cihaz: bağlıysa bilekliğin durumu, değilse eşleştirme.
@@ -14,7 +15,7 @@ class DeviceScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final c = DeviceScope.of(context);
     final l = context.l10n;
-    return Scaffold(
+    return CamScaffold(
       appBar: AppBar(title: Text(l.profileMenuDevice)),
       body: SafeArea(
         top: false,
@@ -55,7 +56,8 @@ class _Connected extends StatelessWidget {
           style: Theme.of(context).textTheme.titleLarge,
         ),
         const SizedBox(height: 24),
-        Card(
+        GlassCard(
+          padding: EdgeInsets.zero,
           child: Column(
             children: [
               _Row(l.deviceStatus, l.deviceConnected),
