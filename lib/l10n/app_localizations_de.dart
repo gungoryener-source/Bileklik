@@ -229,6 +229,108 @@ class AppLocalizationsDe extends AppLocalizations {
   String get communityYou => 'Sie';
 
   @override
+  String get connActive => 'Meine Verbindungen';
+
+  @override
+  String connAgree(Object name) {
+    return 'Ich habe diese Informationen gelesen und willige ausdrücklich ein, die ausgewählten Daten für den genannten Zweck mit $name zu teilen.';
+  }
+
+  @override
+  String get connCodeInvalid => 'Dieser Code ist ungültig oder abgelaufen.';
+
+  @override
+  String get connConfirm => 'Zustimmen und verbinden';
+
+  @override
+  String connConnected(Object name) {
+    return 'Mit $name verbunden.';
+  }
+
+  @override
+  String get connConsentTitle => 'Ausdrückliche Einwilligung';
+
+  @override
+  String get connDisconnect => 'Verbindung entfernen';
+
+  @override
+  String connDisconnectConfirm(Object name) {
+    return '$name sieht Ihre neuen Daten nicht mehr. Die Löschung bereits geteilter Daten können Sie dort verlangen.';
+  }
+
+  @override
+  String get connDuration => 'Dauer';
+
+  @override
+  String connDurationText(Object date, Object days) {
+    return 'Bis $date ($days Tage). Danach endet die Freigabe automatisch; Sie können sie auch früher beenden.';
+  }
+
+  @override
+  String get connEmpty => 'Noch keine Verbindungen.';
+
+  @override
+  String get connEnterCode => 'Einladungscode eingeben';
+
+  @override
+  String get connIntro =>
+      'Ihr Arzt oder eine Studie, an der Sie teilnehmen, gibt Ihnen einen Einladungscode. Nach der Eingabe sehen Sie, wer welche Daten wie lange möchte, und entscheiden selbst.';
+
+  @override
+  String get connKindClinician => 'Arzt';
+
+  @override
+  String get connKindResearch => 'Forschungseinrichtung';
+
+  @override
+  String get connPurpose => 'Zweck';
+
+  @override
+  String get connRequested => 'Angeforderte Daten';
+
+  @override
+  String get connRequestedNote =>
+      'Wählen Sie, was Sie teilen möchten. Nicht Ausgewähltes bleibt privat.';
+
+  @override
+  String get connRights =>
+      'Ihre Daten werden nach dem Datenschutzgesetz (KVKK) verarbeitet. Sie haben das Recht auf Auskunft, Berichtigung und Löschung.';
+
+  @override
+  String get connScan => 'QR-Code scannen';
+
+  @override
+  String get connScanSoon =>
+      'Scannen mit der Kamera folgt bald. Geben Sie vorerst den Code unter dem QR-Code ein.';
+
+  @override
+  String get connSelectAll => 'Alle auswählen';
+
+  @override
+  String get connShared => 'Geteilte Daten';
+
+  @override
+  String connSharedCount(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count Datentypen',
+      one: '1 Datentyp',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String connSince(Object date) {
+    return 'Seit $date';
+  }
+
+  @override
+  String connUntil(Object date) {
+    return 'Bis $date';
+  }
+
+  @override
   String get continueButton => 'Weiter';
 
   @override
@@ -999,7 +1101,10 @@ class AppLocalizationsDe extends AppLocalizations {
   }
 
   @override
-  String get profileMenuResearch => 'Forschungseinrichtung';
+  String get profileMenuResearch => 'Ärzte und Forschung';
+
+  @override
+  String get profileMenuResearchSubtitle => 'Daten per Einladungscode teilen';
 
   @override
   String get profileMenuThirdParty => 'Health Connect und Apple Health';

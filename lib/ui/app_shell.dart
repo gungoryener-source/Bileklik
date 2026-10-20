@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../data/community.dart';
+import '../data/connections.dart';
 import '../l10n/l10n.dart';
 
 import '../state/app_settings.dart';
@@ -45,6 +46,18 @@ class CommunityScope extends InheritedNotifier<CommunityService> {
 
   static CommunityService of(BuildContext context) =>
       context.dependOnInheritedWidgetOfExactType<CommunityScope>()!.notifier!;
+}
+
+/// Hekim ve araştırma kurumu bağlantılarını ekranlara taşır.
+class ConnectionScope extends InheritedNotifier<ConnectionService> {
+  const ConnectionScope({
+    super.key,
+    required ConnectionService service,
+    required super.child,
+  }) : super(notifier: service);
+
+  static ConnectionService of(BuildContext context) =>
+      context.dependOnInheritedWidgetOfExactType<ConnectionScope>()!.notifier!;
 }
 
 /// Alt menü: Ana Sayfa, Sağlık, Egzersiz, Profil.

@@ -468,6 +468,162 @@ abstract class AppLocalizations {
   /// **'Siz'**
   String get communityYou;
 
+  /// No description provided for @connActive.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bağlantılarım'**
+  String get connActive;
+
+  /// No description provided for @connAgree.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bu bilgileri okudum. Seçtiğim verilerin yukarıdaki amaçla {name} ile paylaşılmasına açıkça rıza veriyorum.'**
+  String connAgree(Object name);
+
+  /// No description provided for @connCodeInvalid.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bu kod geçersiz ya da süresi dolmuş.'**
+  String get connCodeInvalid;
+
+  /// No description provided for @connConfirm.
+  ///
+  /// In tr, this message translates to:
+  /// **'Onayla ve bağlan'**
+  String get connConfirm;
+
+  /// No description provided for @connConnected.
+  ///
+  /// In tr, this message translates to:
+  /// **'{name} ile bağlantı kuruldu.'**
+  String connConnected(Object name);
+
+  /// No description provided for @connConsentTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Açık rıza'**
+  String get connConsentTitle;
+
+  /// No description provided for @connDisconnect.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bağlantıyı kaldır'**
+  String get connDisconnect;
+
+  /// No description provided for @connDisconnectConfirm.
+  ///
+  /// In tr, this message translates to:
+  /// **'{name} artık yeni verilerinizi göremez. Daha önce paylaşılanların silinmesini kurumdan isteyebilirsiniz.'**
+  String connDisconnectConfirm(Object name);
+
+  /// No description provided for @connDuration.
+  ///
+  /// In tr, this message translates to:
+  /// **'Süre'**
+  String get connDuration;
+
+  /// No description provided for @connDurationText.
+  ///
+  /// In tr, this message translates to:
+  /// **'{date} tarihine kadar ({days} gün). Süre bitince paylaşım kendiliğinden durur; daha önce de kaldırabilirsiniz.'**
+  String connDurationText(Object date, Object days);
+
+  /// No description provided for @connEmpty.
+  ///
+  /// In tr, this message translates to:
+  /// **'Henüz bir bağlantınız yok.'**
+  String get connEmpty;
+
+  /// No description provided for @connEnterCode.
+  ///
+  /// In tr, this message translates to:
+  /// **'Davet kodu gir'**
+  String get connEnterCode;
+
+  /// No description provided for @connIntro.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hekiminiz ya da katıldığınız bir araştırma size davet kodu verir. Kodu girince kimin, hangi verileri, ne kadar süre istediğini görür ve siz karar verirsiniz.'**
+  String get connIntro;
+
+  /// No description provided for @connKindClinician.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hekim'**
+  String get connKindClinician;
+
+  /// No description provided for @connKindResearch.
+  ///
+  /// In tr, this message translates to:
+  /// **'Araştırma kurumu'**
+  String get connKindResearch;
+
+  /// No description provided for @connPurpose.
+  ///
+  /// In tr, this message translates to:
+  /// **'Amaç'**
+  String get connPurpose;
+
+  /// No description provided for @connRequested.
+  ///
+  /// In tr, this message translates to:
+  /// **'İstenen veriler'**
+  String get connRequested;
+
+  /// No description provided for @connRequestedNote.
+  ///
+  /// In tr, this message translates to:
+  /// **'Paylaşmak istediklerinizi seçin. Seçmedikleriniz paylaşılmaz.'**
+  String get connRequestedNote;
+
+  /// No description provided for @connRights.
+  ///
+  /// In tr, this message translates to:
+  /// **'Verileriniz KVKK kapsamında işlenir. Verilerinize erişme, düzeltilmesini ya da silinmesini isteme hakkınız vardır.'**
+  String get connRights;
+
+  /// No description provided for @connScan.
+  ///
+  /// In tr, this message translates to:
+  /// **'QR kodu tara'**
+  String get connScan;
+
+  /// No description provided for @connScanSoon.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kamerayla tarama yakında. Şimdilik QR kodun altındaki kodu girin.'**
+  String get connScanSoon;
+
+  /// No description provided for @connSelectAll.
+  ///
+  /// In tr, this message translates to:
+  /// **'Tümünü seç'**
+  String get connSelectAll;
+
+  /// No description provided for @connShared.
+  ///
+  /// In tr, this message translates to:
+  /// **'Paylaşılan veriler'**
+  String get connShared;
+
+  /// No description provided for @connSharedCount.
+  ///
+  /// In tr, this message translates to:
+  /// **'{count, plural, =1{1 veri türü} other{{count} veri türü}}'**
+  String connSharedCount(num count);
+
+  /// No description provided for @connSince.
+  ///
+  /// In tr, this message translates to:
+  /// **'Başlangıç: {date}'**
+  String connSince(Object date);
+
+  /// No description provided for @connUntil.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bitiş: {date}'**
+  String connUntil(Object date);
+
   /// No description provided for @continueButton.
   ///
   /// In tr, this message translates to:
@@ -1731,8 +1887,14 @@ abstract class AppLocalizations {
   /// No description provided for @profileMenuResearch.
   ///
   /// In tr, this message translates to:
-  /// **'Araştırma kurumu'**
+  /// **'Hekim ve araştırma kurumu'**
   String get profileMenuResearch;
+
+  /// No description provided for @profileMenuResearchSubtitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Davet koduyla veri paylaşımı'**
+  String get profileMenuResearchSubtitle;
 
   /// No description provided for @profileMenuThirdParty.
   ///

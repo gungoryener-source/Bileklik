@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
 import 'data/community.dart';
+import 'data/connections.dart';
 import 'device/fake_device.dart';
 import 'l10n/l10n.dart';
 import 'state/app_settings.dart';
@@ -25,13 +26,16 @@ class BileklikApp extends StatelessWidget {
     required this.controller,
     AppSettings? settings,
     CommunityService? community,
+    ConnectionService? connections,
   }) : settings = settings ?? AppSettings.memory(),
-       // Portal arka ucu gelene kadar sahte sunucu.
-       community = community ?? FakeCommunityServer();
+       // Portal arka ucu gelene kadar sahte sunucular.
+       community = community ?? FakeCommunityServer(),
+       connections = connections ?? FakeConnectionServer();
 
   final DeviceController controller;
   final AppSettings settings;
   final CommunityService community;
+  final ConnectionService connections;
 
   @override
   Widget build(BuildContext context) {
@@ -41,34 +45,37 @@ class BileklikApp extends StatelessWidget {
         controller: controller,
         child: CommunityScope(
           service: community,
-          child: ListenableBuilder(
-            listenable: settings,
-            builder: (context, _) => MaterialApp(
-              onGenerateTitle: (context) => context.l10n.appTitle,
-              debugShowCheckedModeBanner: false,
-              localizationsDelegates: const [
-                AppLocalizations.delegate,
-                GlobalMaterialLocalizations.delegate,
-                GlobalWidgetsLocalizations.delegate,
-                GlobalCupertinoLocalizations.delegate,
-              ],
-              // Telefonun dili desteklenmiyorsa listenin ilki (İngilizce) seçilir.
-              supportedLocales: const [
-                Locale('en'),
-                Locale('tr'),
-                Locale('ar'),
-                Locale('de'),
-              ],
-              // null: telefonun dili.
-              locale: settings.locale,
-              builder: (context, child) => LocaleSync(child: child!),
-              theme: buildTheme(Brightness.light),
-              darkTheme: buildTheme(Brightness.dark),
-              themeMode: settings.themeMode,
-              // İlk açılışta dil seçilir; sonra Profil'den değişir.
-              home: settings.languageChosen
-                  ? const AppShell()
-                  : const LanguageScreen(firstRun: true),
+          child: ConnectionScope(
+            service: connections,
+            child: ListenableBuilder(
+              listenable: settings,
+              builder: (context, _) => MaterialApp(
+                onGenerateTitle: (context) => context.l10n.appTitle,
+                debugShowCheckedModeBanner: false,
+                localizationsDelegates: const [
+                  AppLocalizations.delegate,
+                  GlobalMaterialLocalizations.delegate,
+                  GlobalWidgetsLocalizations.delegate,
+                  GlobalCupertinoLocalizations.delegate,
+                ],
+                // Telefonun dili desteklenmiyorsa listenin ilki (İngilizce) seçilir.
+                supportedLocales: const [
+                  Locale('en'),
+                  Locale('tr'),
+                  Locale('ar'),
+                  Locale('de'),
+                ],
+                // null: telefonun dili.
+                locale: settings.locale,
+                builder: (context, child) => LocaleSync(child: child!),
+                theme: buildTheme(Brightness.light),
+                darkTheme: buildTheme(Brightness.dark),
+                themeMode: settings.themeMode,
+                // İlk açılışta dil seçilir; sonra Profil'den değişir.
+                home: settings.languageChosen
+                    ? const AppShell()
+                    : const LanguageScreen(firstRun: true),
+              ),
             ),
           ),
         ),

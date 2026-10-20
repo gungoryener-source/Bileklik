@@ -13,7 +13,7 @@ Future<CareGroup?> showCreateGroupDialog(BuildContext context) {
   final l = context.l10n;
   return showDialog<CareGroup>(
     context: context,
-    builder: (_) => _TextDialog<CareGroup>(
+    builder: (_) => TextEntryDialog<CareGroup>(
       title: l.communityCreateGroup,
       label: l.communityGroupName,
       hint: l.communityGroupNameHint,
@@ -30,7 +30,7 @@ Future<CareGroup?> showJoinWithCodeDialog(BuildContext context) {
   final l = context.l10n;
   return showDialog<CareGroup>(
     context: context,
-    builder: (_) => _TextDialog<CareGroup>(
+    builder: (_) => TextEntryDialog<CareGroup>(
       title: l.communityJoinWithCode,
       label: l.communityCodeLabel,
       action: l.communityAccept,
@@ -50,7 +50,7 @@ Future<void> showInviteDialog(BuildContext context, CareGroup group) async {
   final l = context.l10n;
   final name = await showDialog<String>(
     context: context,
-    builder: (_) => _TextDialog<String>(
+    builder: (_) => TextEntryDialog<String>(
       title: l.communityInvite,
       label: l.communityInviteName,
       action: l.communityInviteSend,
@@ -134,8 +134,9 @@ class InviteCodeDialog extends StatelessWidget {
 
 /// Tek alanlı form diyaloğu. [submit] sonucu ve hata metnini döndürür;
 /// hata varsa diyalog açık kalır.
-class _TextDialog<T> extends StatefulWidget {
-  const _TextDialog({
+class TextEntryDialog<T> extends StatefulWidget {
+  const TextEntryDialog({
+    super.key,
     required this.title,
     required this.label,
     required this.action,
@@ -143,6 +144,7 @@ class _TextDialog<T> extends StatefulWidget {
     this.hint,
     this.maxLength,
     this.code = false,
+    this.minLength = 6,
   });
 
   final String title, label, action;
@@ -151,13 +153,16 @@ class _TextDialog<T> extends StatefulWidget {
 
   /// Büyük harf, boşluksuz kod alanı.
   final bool code;
+
+  /// Kod alanında en az kaç karakter girilince düğme açılır.
+  final int minLength;
   final Future<(T?, String?)> Function(String text) submit;
 
   @override
-  State<_TextDialog<T>> createState() => _TextDialogState<T>();
+  State<TextEntryDialog<T>> createState() => _TextEntryDialogState<T>();
 }
 
-class _TextDialogState<T> extends State<_TextDialog<T>> {
+class _TextEntryDialogState<T> extends State<TextEntryDialog<T>> {
   final _text = TextEditingController();
   String? _error;
   var _busy = false;
@@ -175,7 +180,7 @@ class _TextDialogState<T> extends State<_TextDialog<T>> {
   }
 
   bool get _valid => widget.code
-      ? _text.text.trim().length == 6
+      ? _text.text.trim().length >= widget.minLength
       : _text.text.trim().isNotEmpty;
 
   Future<void> _go() async {

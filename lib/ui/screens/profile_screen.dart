@@ -6,13 +6,14 @@ import '../app_shell.dart';
 import '../widgets/menu_group.dart';
 import 'about_screen.dart';
 import 'community_screen.dart';
+import 'connections_screen.dart';
 import 'device_screen.dart';
 import 'general_settings_screen.dart';
 import 'personal_info_screen.dart';
 
 /// Profil sekmesi: kişisel bilgiler, cihaz, ayarlar ve uygulama menüsü.
 ///
-/// Araştırma kurumu ve üçüncü taraf bölümleri ROADMAP 10-11'de gelecek; şimdilik "Yakında" olarak görünür.
+/// Üçüncü taraf bölümü ROADMAP 11'de gelecek; şimdilik "Yakında" olarak görünür.
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
 
@@ -88,8 +89,8 @@ class ProfileScreen extends StatelessWidget {
             MenuTile(
               icon: Icons.biotech,
               title: l.profileMenuResearch,
-              soon: true,
-              onTap: soon,
+              subtitle: l.profileMenuResearchSubtitle,
+              onTap: () => open(const ConnectionsScreen()),
             ),
             MenuTile(
               icon: Icons.sync_alt,

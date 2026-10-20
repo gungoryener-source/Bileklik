@@ -231,6 +231,111 @@ class AppLocalizationsAr extends AppLocalizations {
   String get communityYou => 'أنت';
 
   @override
+  String get connActive => 'اتصالاتي';
+
+  @override
+  String connAgree(Object name) {
+    return 'قرأت هذه المعلومات وأوافق صراحةً على مشاركة البيانات التي اخترتها مع $name للغرض المذكور أعلاه.';
+  }
+
+  @override
+  String get connCodeInvalid => 'هذا الرمز غير صالح أو منتهي الصلاحية.';
+
+  @override
+  String get connConfirm => 'الموافقة والاتصال';
+
+  @override
+  String connConnected(Object name) {
+    return 'تم الاتصال بـ $name.';
+  }
+
+  @override
+  String get connConsentTitle => 'الموافقة الصريحة';
+
+  @override
+  String get connDisconnect => 'إزالة الاتصال';
+
+  @override
+  String connDisconnectConfirm(Object name) {
+    return 'لن يتمكن $name من رؤية بياناتك الجديدة. يمكنك أن تطلب منهم حذف البيانات التي تمت مشاركتها سابقًا.';
+  }
+
+  @override
+  String get connDuration => 'المدة';
+
+  @override
+  String connDurationText(Object date, Object days) {
+    return 'حتى $date ($days يومًا). تتوقف المشاركة تلقائيًا عند انتهاء المدة، ويمكنك إيقافها قبل ذلك.';
+  }
+
+  @override
+  String get connEmpty => 'ليست لديك اتصالات بعد.';
+
+  @override
+  String get connEnterCode => 'إدخال رمز الدعوة';
+
+  @override
+  String get connIntro =>
+      'يعطيك طبيبك أو دراسة تشارك فيها رمز دعوة. عند إدخاله ترى من يطلب، وأي بيانات، ولأي مدة، ثم تقرر أنت.';
+
+  @override
+  String get connKindClinician => 'طبيب';
+
+  @override
+  String get connKindResearch => 'مؤسسة بحثية';
+
+  @override
+  String get connPurpose => 'الغرض';
+
+  @override
+  String get connRequested => 'البيانات المطلوبة';
+
+  @override
+  String get connRequestedNote =>
+      'اختر ما تريد مشاركته. ما لا تختاره لا تتم مشاركته.';
+
+  @override
+  String get connRights =>
+      'تُعالَج بياناتك وفق قانون حماية البيانات الشخصية (KVKK). يحق لك الاطلاع على بياناتك وطلب تصحيحها أو حذفها.';
+
+  @override
+  String get connScan => 'مسح رمز QR';
+
+  @override
+  String get connScanSoon =>
+      'المسح بالكاميرا قريبًا. أدخل الآن الرمز المكتوب أسفل رمز QR.';
+
+  @override
+  String get connSelectAll => 'تحديد الكل';
+
+  @override
+  String get connShared => 'البيانات المشتركة';
+
+  @override
+  String connSharedCount(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count نوع بيانات',
+      many: '$count نوعًا من البيانات',
+      few: '$count أنواع بيانات',
+      two: 'نوعا بيانات',
+      one: 'نوع بيانات واحد',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String connSince(Object date) {
+    return 'منذ $date';
+  }
+
+  @override
+  String connUntil(Object date) {
+    return 'حتى $date';
+  }
+
+  @override
   String get continueButton => 'متابعة';
 
   @override
@@ -996,7 +1101,10 @@ class AppLocalizationsAr extends AppLocalizations {
   }
 
   @override
-  String get profileMenuResearch => 'مؤسسة بحثية';
+  String get profileMenuResearch => 'الأطباء ومؤسسات البحث';
+
+  @override
+  String get profileMenuResearchSubtitle => 'مشاركة البيانات برمز دعوة';
 
   @override
   String get profileMenuThirdParty => 'ربط تطبيقات الصحة';

@@ -228,6 +228,108 @@ class AppLocalizationsEn extends AppLocalizations {
   String get communityYou => 'You';
 
   @override
+  String get connActive => 'My connections';
+
+  @override
+  String connAgree(Object name) {
+    return 'I have read this information and explicitly consent to sharing the data I selected with $name for the purpose above.';
+  }
+
+  @override
+  String get connCodeInvalid => 'This code is invalid or has expired.';
+
+  @override
+  String get connConfirm => 'Agree and connect';
+
+  @override
+  String connConnected(Object name) {
+    return 'Connected with $name.';
+  }
+
+  @override
+  String get connConsentTitle => 'Explicit consent';
+
+  @override
+  String get connDisconnect => 'Remove connection';
+
+  @override
+  String connDisconnectConfirm(Object name) {
+    return '$name will no longer see your new data. You can ask them to delete data that was already shared.';
+  }
+
+  @override
+  String get connDuration => 'Duration';
+
+  @override
+  String connDurationText(Object date, Object days) {
+    return 'Until $date ($days days). Sharing stops by itself when this ends, and you can remove it earlier.';
+  }
+
+  @override
+  String get connEmpty => 'You have no connections yet.';
+
+  @override
+  String get connEnterCode => 'Enter invitation code';
+
+  @override
+  String get connIntro =>
+      'Your doctor or a study you take part in gives you an invitation code. When you enter it, you see who is asking, for which data and for how long, and you decide.';
+
+  @override
+  String get connKindClinician => 'Doctor';
+
+  @override
+  String get connKindResearch => 'Research institution';
+
+  @override
+  String get connPurpose => 'Purpose';
+
+  @override
+  String get connRequested => 'Requested data';
+
+  @override
+  String get connRequestedNote =>
+      'Choose what you want to share. Anything you don\'t choose stays private.';
+
+  @override
+  String get connRights =>
+      'Your data is processed under data protection law (KVKK). You have the right to access your data and to ask for it to be corrected or deleted.';
+
+  @override
+  String get connScan => 'Scan QR code';
+
+  @override
+  String get connScanSoon =>
+      'Camera scanning is coming soon. For now, enter the code printed under the QR code.';
+
+  @override
+  String get connSelectAll => 'Select all';
+
+  @override
+  String get connShared => 'Shared data';
+
+  @override
+  String connSharedCount(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count data types',
+      one: '1 data type',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String connSince(Object date) {
+    return 'Since $date';
+  }
+
+  @override
+  String connUntil(Object date) {
+    return 'Until $date';
+  }
+
+  @override
   String get continueButton => 'Continue';
 
   @override
@@ -998,7 +1100,11 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get profileMenuResearch => 'Research institution';
+  String get profileMenuResearch => 'Doctors and research';
+
+  @override
+  String get profileMenuResearchSubtitle =>
+      'Share data with an invitation code';
 
   @override
   String get profileMenuThirdParty => 'Health Connect and Apple Health';

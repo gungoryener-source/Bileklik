@@ -41,7 +41,7 @@ Future<DeviceController> _openProfile(
   return controller;
 }
 
-const _research = 'Araştırma kurumu';
+const _thirdParty = 'Health Connect ve Apple Health';
 
 void main() {
   test('uygulama sürümü pubspec ile aynı', () {
@@ -73,7 +73,9 @@ void main() {
     ]) {
       expect(find.text(t), findsOneWidget, reason: t);
     }
-    await tester.tap(find.text(_research));
+    await tester.ensureVisible(find.text(_thirdParty));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text(_thirdParty));
     await tester.pump();
     expect(find.text('Bu bölüm sonraki bir sürümde gelecek.'), findsOneWidget);
     // Bildirim kapanana kadar bekle; alttaki satırların üstünü örtüyor.
