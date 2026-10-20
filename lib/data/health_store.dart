@@ -4,8 +4,8 @@ import 'models.dart';
 
 /// Ölçümlerin saklandığı yer.
 ///
-/// Şimdilik bellekte tutulur; kalıcı veritabanı (SQLite) bu arayüzün
-/// arkasına eklenecek, ekranlar değişmeyecek.
+/// Telefonda [SqliteHealthStore] (sqlite_health_store.dart), testlerde ve
+/// web demosunda [MemoryHealthStore] kullanılır; ekranlar farkı görmez.
 abstract class HealthStore extends ChangeNotifier {
   void addMeasurements(Iterable<Measurement> items);
   void addSleep(Iterable<SleepSession> sessions);
@@ -30,6 +30,8 @@ abstract class HealthStore extends ChangeNotifier {
   List<EcgRecording> ecgRecordings();
 }
 
+/// Ölçümleri bellekte tutar. Yalnızca yeni kayıtlar [onAdded]'a gider;
+/// kalıcı depo bu kancayla diske yazar.
 class MemoryHealthStore extends HealthStore {
   final _data = <MetricType, List<Measurement>>{};
   final _seen = <Measurement>{};
@@ -39,14 +41,15 @@ class MemoryHealthStore extends HealthStore {
 
   @override
   void addMeasurements(Iterable<Measurement> items) {
-    var changed = false;
+    final added = <Measurement>[];
     for (final m in items) {
       // Aynı kayıt iki kez gelirse bir kez saklanır.
       if (!_seen.add(m)) continue;
       _data.putIfAbsent(m.type, () => []).add(m);
-      changed = true;
+      added.add(m);
     }
-    if (!changed) return;
+    if (added.isEmpty) return;
+    onAdded(measurements: added);
     for (final list in _data.values) {
       list.sort((a, b) => a.time.compareTo(b.time));
     }
@@ -55,13 +58,15 @@ class MemoryHealthStore extends HealthStore {
 
   @override
   void addSleep(Iterable<SleepSession> sessions) {
-    var changed = false;
+    final added = <SleepSession>[];
     for (final s in sessions) {
       if (_sleep.containsKey(s.start)) continue;
       _sleep[s.start] = s;
-      changed = true;
+      added.add(s);
     }
-    if (changed) notifyListeners();
+    if (added.isEmpty) return;
+    onAdded(sleep: added);
+    notifyListeners();
   }
 
   @override
@@ -93,13 +98,15 @@ class MemoryHealthStore extends HealthStore {
 
   @override
   void addWorkouts(Iterable<Workout> items) {
-    var changed = false;
+    final added = <Workout>[];
     for (final w in items) {
       if (_workouts.containsKey(w.start)) continue;
       _workouts[w.start] = w;
-      changed = true;
+      added.add(w);
     }
-    if (changed) notifyListeners();
+    if (added.isEmpty) return;
+    onAdded(workouts: added);
+    notifyListeners();
   }
 
   @override
@@ -116,11 +123,23 @@ class MemoryHealthStore extends HealthStore {
 
   @override
   void addEcg(EcgRecording r) {
+    // Aynı anda başlamış ikinci kayıt aynı kayıttır.
+    if (_ecg.any((e) => e.start == r.start)) return;
     _ecg.add(r);
+    onAdded(ecg: [r]);
     notifyListeners();
   }
 
   @override
   List<EcgRecording> ecgRecordings() =>
       [..._ecg]..sort((a, b) => b.start.compareTo(a.start));
+
+  /// Belleğe yeni giren kayıtlar; tekrar gelenler buraya düşmez.
+  @protected
+  void onAdded({
+    List<Measurement> measurements = const [],
+    List<SleepSession> sleep = const [],
+    List<Workout> workouts = const [],
+    List<EcgRecording> ecg = const [],
+  }) {}
 }
