@@ -13,7 +13,8 @@ import 'transport.dart';
 /// Bileklik elde yokken onun yerine geçen sahte cihaz.
 ///
 /// Gelen komutlara V8 API PDF'indeki biçimde yanıt verir ve anlık mod açıkken
-/// gerçekçi adım, nabız, ısı ve SpO2 değerleri üretir. Geçmiş komutlarına
+/// gerçekçi adım, nabız ve ısı değerleri üretir; SpO2 yalnızca elle ölçüm
+/// sürerken gelir. Geçmiş komutlarına
 /// son 7 günün kayıtlarıyla yanıt verir.
 class FakeDevice implements DeviceTransport {
   FakeDevice({
@@ -21,6 +22,7 @@ class FakeDevice implements DeviceTransport {
     this.realtimeInterval = const Duration(seconds: 2),
     this.exerciseInterval = const Duration(seconds: 1),
     this.ecgPacketInterval = const Duration(milliseconds: 60),
+    this.spotInterval = const Duration(seconds: 1),
     this.scanDelay = const Duration(milliseconds: 1500),
     DateTime Function()? clock,
   }) : _random = random ?? Random(),
@@ -43,6 +45,17 @@ class FakeDevice implements DeviceTransport {
   bool _ecgRaw = false;
   Timer? _ecgTimer;
   int _ecgMode = 0;
+
+  /// Elle nabız/SpO2 ölçümünde 0x09 paketlerinin aralığı; her paket bir
+  /// saniye sayılır.
+  final Duration spotInterval;
+
+  /// Ölçümün ilk saniyelerinde sensör oturana kadar değer 0 gelir.
+  static const spotWarmup = 5;
+  int _spotMode = 0;
+  int _spotTicks = 0;
+  Timer? _spotTimer;
+  bool _realtimeOn = false;
 
   _FakeExercise? _exercise;
   Timer? _exerciseTimer;
@@ -104,6 +117,9 @@ class FakeDevice implements DeviceTransport {
     _realtimeTimer?.cancel();
     _exerciseTimer?.cancel();
     _ecgTimer?.cancel();
+    _spotTimer?.cancel();
+    _spotMode = 0;
+    _realtimeOn = false;
     _connected = false;
     _state.add(DeviceConnectionState.disconnected);
   }
@@ -180,14 +196,12 @@ class FakeDevice implements DeviceTransport {
       case EcgCmd.measure:
         _handleMeasure(d);
       case Cmd.realtime:
-        _realtimeTimer?.cancel();
-        if (d[0] == 1) {
+        _realtimeOn = d[0] == 1;
+        if (_realtimeOn) {
           _emitRealtime();
-          _realtimeTimer = Timer.periodic(
-            realtimeInterval,
-            (_) => _emitRealtime(),
-          );
+          if (_spotMode == 0) _startRealtimeTimer();
         } else {
+          _realtimeTimer?.cancel();
           _reply(Packet.build(Cmd.realtime).bytes);
         }
       default:
@@ -197,6 +211,11 @@ class FakeDevice implements DeviceTransport {
           _reply(Packet.error(cmd.command).bytes);
         }
     }
+  }
+
+  void _startRealtimeTimer() {
+    _realtimeTimer?.cancel();
+    _realtimeTimer = Timer.periodic(realtimeInterval, (_) => _emitRealtime());
   }
 
   void _emitRealtime() {
@@ -218,9 +237,13 @@ class FakeDevice implements DeviceTransport {
     _writeLE(raw, 1, _steps, 4);
     _writeLE(raw, 5, calories, 4);
     _writeLE(raw, 9, distance, 4);
-    raw[21] = _heartRate;
+    final warming = _spotMode != 0 && _spotTicks <= spotWarmup;
+    raw[21] = warming && _spotMode == MeasureMode.heartRate.code
+        ? 0
+        : _heartRate;
     _writeLE(raw, 22, temp, 2);
-    raw[24] = _spo2;
+    // SpO2 yalnızca 0x28 03 ölçümü sürerken dolar (PDF, 0x09 S1 alanı).
+    raw[24] = _spotMode == MeasureMode.spo2.code && !warming ? _spo2 : 0;
     _reply(raw);
   }
 
@@ -339,6 +362,10 @@ class FakeDevice implements DeviceTransport {
       _reply(Packet.build(EcgCmd.measure, [0x80, _ecgMode]).bytes);
       return;
     }
+    if (d[0] == MeasureMode.heartRate.code || d[0] == MeasureMode.spo2.code) {
+      _handleSpot(d);
+      return;
+    }
     _ecgTimer?.cancel();
     final start = d[1] == 1;
     _ecgMode = start ? d[0] : 0;
@@ -368,7 +395,34 @@ class FakeDevice implements DeviceTransport {
     });
   }
 
+  /// Elle nabız/SpO2: süre boyunca saniyede bir anlık veri gönderir, sonra
+  /// normal anlık akışa döner. Süre 30 sn'den azsa cihaz 30 sn ölçer.
+  void _handleSpot(List<int> d) {
+    _spotTimer?.cancel();
+    _reply(Packet.build(EcgCmd.measure, [d[0]]).bytes);
+    if (d[1] != 1) {
+      _endSpot();
+      return;
+    }
+    _spotMode = d[0];
+    _spotTicks = 0;
+    _realtimeTimer?.cancel();
+    final seconds = max(30, d[3] | (d[4] << 8));
+    _spotTimer = Timer.periodic(spotInterval, (t) {
+      _spotTicks++;
+      if (_realtimeOn) _emitRealtime();
+      if (_spotTicks >= seconds) _endSpot();
+    });
+  }
+
+  void _endSpot() {
+    _spotTimer?.cancel();
+    _spotMode = 0;
+    if (_realtimeOn && _connected) _startRealtimeTimer();
+  }
+
   void dispose() {
+    _spotTimer?.cancel();
     _realtimeTimer?.cancel();
     _exerciseTimer?.cancel();
     _ecgTimer?.cancel();

@@ -133,6 +133,14 @@ class WristbandClient {
     await _request(ecgRawSwitch(false));
   }
 
+  /// 0x28 02/03: elle nabız ya da SpO2 ölçümünü başlatır. Ölçülen değer
+  /// saniyede bir 0x09 anlık verisiyle gelir; anlık mod açık olmalı.
+  Future<void> startSpot(MeasureMode mode, {int seconds = 30}) =>
+      _request(measurement(mode, start: true, seconds: seconds));
+
+  Future<void> stopSpot(MeasureMode mode) =>
+      _request(measurement(mode, start: false));
+
   _HistoryCollector? _history;
 
   /// Bir geçmiş türünün [since] sonrasındaki tüm kayıtlarını çeker.

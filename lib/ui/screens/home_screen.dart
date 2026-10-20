@@ -16,6 +16,7 @@ import '../widgets/home/home_card.dart';
 import 'ecg_screen.dart';
 import 'metric_detail_screen.dart';
 import 'sleep_screen.dart';
+import 'spot_measure_screen.dart';
 import 'workout_detail_screen.dart';
 
 /// Günlük adım hedefi. Ayarlar ekranı gelince kullanıcı değiştirebilecek.
@@ -104,7 +105,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   Text(issue, style: const TextStyle(color: DataColors.heart)),
                 ],
                 const SizedBox(height: 16),
-                _Shortcuts(onEcg: () => _open(const EcgScreen())),
+                _Shortcuts(onMeasure: () => showMeasureSheet(context)),
                 const SizedBox(height: 16),
                 _SleepCard(s: s, onTap: () => _open(const SleepScreen())),
                 const SizedBox(height: 12),
@@ -403,9 +404,9 @@ class _SummaryItem extends StatelessWidget {
 }
 
 class _Shortcuts extends StatelessWidget {
-  const _Shortcuts({required this.onEcg});
+  const _Shortcuts({required this.onMeasure});
 
-  final VoidCallback onEcg;
+  final VoidCallback onMeasure;
 
   @override
   Widget build(BuildContext context) {
@@ -433,10 +434,10 @@ class _Shortcuts extends StatelessWidget {
         Expanded(
           child: OutlinedButton.icon(
             style: style,
-            onPressed: onEcg,
-            icon: const Icon(Icons.monitor_heart, color: DataColors.heart),
+            onPressed: onMeasure,
+            icon: const Icon(Icons.favorite, color: DataColors.heart),
             label: Text(
-              context.l10n.homeMeasureEcg,
+              context.l10n.homeMeasureNow,
               overflow: TextOverflow.ellipsis,
             ),
           ),

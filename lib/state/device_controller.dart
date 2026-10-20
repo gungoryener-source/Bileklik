@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math';
 
 import 'package:flutter/foundation.dart';
 
@@ -20,6 +21,9 @@ enum DeviceIssue {
   /// EKG sırasında sinyal gelmedi.
   noEcgSignal,
 
+  /// Elle nabız/SpO2 ölçümünde değer gelmedi.
+  noSpotSignal,
+
   /// Bağlantı ya da komut hatası; ayrıntı `error` içinde.
   failed,
 }
@@ -39,7 +43,11 @@ class DeviceController extends ChangeNotifier {
     _realtimeSub = _client.realtime.listen((d) {
       live = d;
       lastUpdate = DateTime.now();
-      notifyListeners();
+      if (spot case final s?) {
+        _onSpot(s, d);
+      } else {
+        notifyListeners();
+      }
     });
     _exerciseSub = _client.exerciseEvents.listen(_onExercise);
     _ecgSub = _client.ecg.listen(_onEcg);
@@ -148,11 +156,19 @@ class DeviceController extends ChangeNotifier {
   /// gerçek BLE katmanı adresi kullanacak (bileklik gelince).
   Future<void> connectTo(DiscoveredDevice device) => connect();
 
+  /// Süren elle nabız/SpO2 ölçümü; yoksa null.
+  SpotSession? spot;
+
+  /// En son tamamlanan elle ölçüm.
+  Measurement? lastSpot;
+
   Future<void> disconnect() async {
+    spot?.watchdog?.cancel();
     await _transport.disconnect();
     live = null;
     exercise = null;
     ecg = null;
+    spot = null;
     notifyListeners();
   }
 
@@ -333,8 +349,80 @@ class DeviceController extends ChangeNotifier {
     } catch (_) {}
   }
 
+  /// Elle nabız ya da SpO2 ölçümü başlatır ([type] heartRate ya da spo2).
+  /// Bileklik [seconds] boyunca saniyede bir değer gönderir; EKG ya da
+  /// egzersiz sürüyorsa başlamaz.
+  Future<bool> startSpot(MetricType type, {int seconds = 30}) async {
+    if (spot != null) return true;
+    error = null;
+    if (ecg != null || exercise != null) {
+      issue = DeviceIssue.busy;
+      notifyListeners();
+      return false;
+    }
+    lastSpot = null;
+    final session = SpotSession(type, DateTime.now(), seconds);
+    spot = session;
+    notifyListeners();
+    try {
+      await _client.startSpot(session.mode, seconds: seconds);
+      // Bitiş paketi PDF'te yok; süre ve 10 sn pay sonunda kendimiz bitiririz
+      // (gerçek cihazda doğrulanacak).
+      session.watchdog = Timer(Duration(seconds: seconds + 10), () {
+        if (spot == session) _completeSpot(session);
+      });
+    } catch (e) {
+      error = e.toString();
+      spot = null;
+      notifyListeners();
+      return false;
+    }
+    return true;
+  }
+
+  Future<void> cancelSpot() async {
+    final session = spot;
+    if (session == null) return;
+    session.watchdog?.cancel();
+    spot = null;
+    notifyListeners();
+    try {
+      await _client.stopSpot(session.mode);
+    } catch (_) {}
+  }
+
+  void _onSpot(SpotSession session, RealtimeData d) {
+    session.ticks++;
+    final v = session.type == MetricType.spo2 ? d.spo2 : d.heartRate;
+    if (v > 0) session.readings.add(v);
+    if (session.ticks >= session.seconds) {
+      _completeSpot(session);
+    } else {
+      notifyListeners();
+    }
+  }
+
+  Future<void> _completeSpot(SpotSession session) async {
+    session.watchdog?.cancel();
+    spot = null;
+    final value = session.result;
+    if (value != null) {
+      final m = Measurement(session.type, DateTime.now(), value.toDouble());
+      store.addMeasurements([m]);
+      lastSpot = m;
+    } else {
+      error = 'no reading';
+      issue = DeviceIssue.noSpotSignal;
+    }
+    notifyListeners();
+    try {
+      await _client.stopSpot(session.mode);
+    } catch (_) {}
+  }
+
   @override
   void dispose() {
+    spot?.watchdog?.cancel();
     ecg?.watchdog?.cancel();
     _ecgSub.cancel();
     _stateSub.cancel();
@@ -379,4 +467,35 @@ class EcgSession {
   double get progress => (samples.length / target).clamp(0, 1);
   Duration get remaining =>
       Duration(seconds: seconds - samples.length ~/ ecgSampleRate);
+}
+
+/// Süren elle nabız ya da SpO2 ölçümü. Bileklik saniyede bir anlık veri
+/// gönderir; her paket bir saniye sayılır.
+class SpotSession {
+  SpotSession(this.type, this.start, this.seconds);
+
+  final MetricType type;
+  final DateTime start;
+  final int seconds;
+  int ticks = 0;
+
+  /// Sıfır olmayan okumalar; sensör oturana kadar 0 gelir.
+  final readings = <int>[];
+  Timer? watchdog;
+
+  MeasureMode get mode =>
+      type == MetricType.spo2 ? MeasureMode.spo2 : MeasureMode.heartRate;
+
+  double get progress => (ticks / seconds).clamp(0, 1);
+  Duration get remaining => Duration(seconds: max(0, seconds - ticks));
+
+  /// En son okunan değer; ekranda canlı gösterilir.
+  int? get latest => readings.isEmpty ? null : readings.last;
+
+  /// Son 10 okumanın ortancası; tek tük sıçramalar sonucu bozmaz.
+  int? get result {
+    if (readings.isEmpty) return null;
+    final last = readings.sublist(max(0, readings.length - 10))..sort();
+    return last[last.length ~/ 2];
+  }
 }
