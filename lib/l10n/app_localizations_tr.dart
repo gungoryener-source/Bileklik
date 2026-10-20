@@ -228,6 +228,108 @@ class AppLocalizationsTr extends AppLocalizations {
   String get communityYou => 'Siz';
 
   @override
+  String get connActive => 'Bağlantılarım';
+
+  @override
+  String connAgree(Object name) {
+    return 'Bu bilgileri okudum. Seçtiğim verilerin yukarıdaki amaçla $name ile paylaşılmasına açıkça rıza veriyorum.';
+  }
+
+  @override
+  String get connCodeInvalid => 'Bu kod geçersiz ya da süresi dolmuş.';
+
+  @override
+  String get connConfirm => 'Onayla ve bağlan';
+
+  @override
+  String connConnected(Object name) {
+    return '$name ile bağlantı kuruldu.';
+  }
+
+  @override
+  String get connConsentTitle => 'Açık rıza';
+
+  @override
+  String get connDisconnect => 'Bağlantıyı kaldır';
+
+  @override
+  String connDisconnectConfirm(Object name) {
+    return '$name artık yeni verilerinizi göremez. Daha önce paylaşılanların silinmesini kurumdan isteyebilirsiniz.';
+  }
+
+  @override
+  String get connDuration => 'Süre';
+
+  @override
+  String connDurationText(Object date, Object days) {
+    return '$date tarihine kadar ($days gün). Süre bitince paylaşım kendiliğinden durur; daha önce de kaldırabilirsiniz.';
+  }
+
+  @override
+  String get connEmpty => 'Henüz bir bağlantınız yok.';
+
+  @override
+  String get connEnterCode => 'Davet kodu gir';
+
+  @override
+  String get connIntro =>
+      'Hekiminiz ya da katıldığınız bir araştırma size davet kodu verir. Kodu girince kimin, hangi verileri, ne kadar süre istediğini görür ve siz karar verirsiniz.';
+
+  @override
+  String get connKindClinician => 'Hekim';
+
+  @override
+  String get connKindResearch => 'Araştırma kurumu';
+
+  @override
+  String get connPurpose => 'Amaç';
+
+  @override
+  String get connRequested => 'İstenen veriler';
+
+  @override
+  String get connRequestedNote =>
+      'Paylaşmak istediklerinizi seçin. Seçmedikleriniz paylaşılmaz.';
+
+  @override
+  String get connRights =>
+      'Verileriniz KVKK kapsamında işlenir. Verilerinize erişme, düzeltilmesini ya da silinmesini isteme hakkınız vardır.';
+
+  @override
+  String get connScan => 'QR kodu tara';
+
+  @override
+  String get connScanSoon =>
+      'Kamerayla tarama yakında. Şimdilik QR kodun altındaki kodu girin.';
+
+  @override
+  String get connSelectAll => 'Tümünü seç';
+
+  @override
+  String get connShared => 'Paylaşılan veriler';
+
+  @override
+  String connSharedCount(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count veri türü',
+      one: '1 veri türü',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String connSince(Object date) {
+    return 'Başlangıç: $date';
+  }
+
+  @override
+  String connUntil(Object date) {
+    return 'Bitiş: $date';
+  }
+
+  @override
   String get continueButton => 'Devam';
 
   @override
@@ -980,7 +1082,10 @@ class AppLocalizationsTr extends AppLocalizations {
   }
 
   @override
-  String get profileMenuResearch => 'Araştırma kurumu';
+  String get profileMenuResearch => 'Hekim ve araştırma kurumu';
+
+  @override
+  String get profileMenuResearchSubtitle => 'Davet koduyla veri paylaşımı';
 
   @override
   String get profileMenuThirdParty => 'Health Connect ve Apple Health';

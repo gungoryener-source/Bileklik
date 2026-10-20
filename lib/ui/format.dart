@@ -36,12 +36,17 @@ DateTime _monday(int weekday) => DateTime(2024, 1, weekday);
 /// Sayı ve birimi soldan sağa yalıtır; Arapça satırda "3.81 km" parçalanmaz.
 String ltr(String s) => '\u2066$s\u2069';
 
+/// Karşı tarafın yazdığı metni (kurum adı, amaç) kendi yönünde yalıtır;
+/// Arapça ekranda Türkçe bir cümlenin noktası başa kaçmaz.
+String isolate(String s) => '\u2068$s\u2069';
+
 String two(int v) => v.toString().padLeft(2, '0');
 String hhmm(DateTime t) => '${two(t.hour)}:${two(t.minute)}';
 // Kalıp yerine iskelet: her dil kendi sırasını ve noktalamasını kullanır
 // (19 Ekim, October 19, 19. Oktober).
 String dayMonth(DateTime t) => _fmt(DateFormat.MONTH_DAY).format(t);
 String monthYear(DateTime t) => _fmt(DateFormat.YEAR_MONTH).format(t);
+String longDate(DateTime t) => _fmt(DateFormat.YEAR_MONTH_DAY).format(t);
 
 /// "1 sa 25 dk" biçiminde süre.
 String duration(int minutes) {
