@@ -677,6 +677,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get homeMeasureEcg => 'Take ECG';
 
   @override
+  String get homeMeasureNow => 'Measure now';
+
+  @override
   String homeMs(Object value) {
     return '$value ms';
   }
@@ -933,6 +936,10 @@ class AppLocalizationsEn extends AppLocalizations {
       'No ECG data received. Wear the wristband and touch the electrode with your finger.';
 
   @override
+  String get issueNoSpotSignal =>
+      'Couldn\'t get a reading. Tighten the band a little and try again.';
+
+  @override
   String get languagePickHint =>
       'You can change this later on the Profile screen.';
 
@@ -982,6 +989,26 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get livePaused => 'Paused';
+
+  @override
+  String get measureEcg => 'ECG';
+
+  @override
+  String get measureEcgHint => 'With your finger on the electrode';
+
+  @override
+  String get measureHeartRate => 'Heart rate';
+
+  @override
+  String get measureSheetTitle => 'What would you like to measure?';
+
+  @override
+  String get measureSpo2 => 'Blood oxygen (SpO2)';
+
+  @override
+  String measureTakes(Object seconds) {
+    return 'Takes about $seconds seconds';
+  }
 
   @override
   String get metricCalories => 'Calories';
@@ -1375,6 +1402,31 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get sportYoga => 'Yoga';
+
+  @override
+  String get spotAgain => 'Measure again';
+
+  @override
+  String get spotDone => 'Done';
+
+  @override
+  String get spotKeepStill =>
+      'Wear the band snugly, rest your arm and stay still.';
+
+  @override
+  String get spotLowSpo2 =>
+      'This value is low. Rest and measure again; if it stays low, talk to your doctor.';
+
+  @override
+  String get spotMeasuring => 'Measuring…';
+
+  @override
+  String get spotNote => 'Wristband readings do not replace a medical device.';
+
+  @override
+  String spotSaved(Object time) {
+    return 'Saved, measured at $time';
+  }
 
   @override
   String get statAverage => 'Average';

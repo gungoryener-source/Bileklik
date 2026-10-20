@@ -231,6 +231,7 @@ String? issueText(DeviceController c) => switch (c.issue) {
   null => null,
   DeviceIssue.busy => currentL10n.issueBusy,
   DeviceIssue.noEcgSignal => currentL10n.issueNoEcgSignal,
+  DeviceIssue.noSpotSignal => currentL10n.issueNoSpotSignal,
   DeviceIssue.failed => currentL10n.issueFailed,
 };
 

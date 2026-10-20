@@ -17,7 +17,7 @@ bir öncekinin dalı üzerine kurulur. Durum: ✅ bitti (PR açık ya da birleş
 | 10 | Araştırma kurumu ve hekim bağlantısı: davet kodu gir, QR tara, hangi verilerin ne süreyle paylaşılacağını gösteren KVKK açık rıza ekranı, bağlantıyı kaldırma. Referans: `/mnt/project-files/referans/gece-ekranlari/3-arastirma-kurumu.jpg` | ✅ | #11 (QR şimdilik kodla; kamera 17. maddede) |
 | 11 | Üçüncü taraf entegrasyonu: Android'de Health Connect, iOS'ta Apple Health'e veri yazma (izin akışı, hangi türlerin paylaşılacağı). Referans: `/mnt/project-files/referans/gece-ekranlari/5-ucuncu-taraf.jpg` | ✅ | #13 (gerçek `health` eklentisi ve AndroidManifest/Info.plist izinleri 17. maddeyle birlikte) |
 | 12 | Kalıcı veri deposu: SQLite (`HealthStore` arayüzünün arkasında), uygulama kapanınca veri kaybolmasın | ✅ | #14 (web demosu bellekte kalır; ek şifreleme KVKK değerlendirmesiyle) |
-| 13 | Elle nabız ve SpO2 ölçümü (0x28 02/03), Ana Sayfa'dan "Şimdi ölç" | ⬜ | |
+| 13 | Elle nabız ve SpO2 ölçümü (0x28 02/03), Ana Sayfa'dan "Şimdi ölç" | ✅ | #15 (ölçüm bitişi PDF'te yok; süre dolunca uygulama bitiriyor, gerçek cihazda doğrulanacak) |
 | 14 | Ayarlar: otomatik ölçüm aralığı (0x2A/0x2B), takma algılama (0x86), saat/birim tercihleri | ⬜ | |
 | 15 | Hatırlatıcılar: ilaç, su, hareketsizlik (0x23/0x57) | ⬜ | |
 | 16 | Kilo ve vücut kompozisyonu: elle giriş, VKİ, grafik | ⬜ | |

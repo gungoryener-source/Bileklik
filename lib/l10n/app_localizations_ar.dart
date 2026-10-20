@@ -682,6 +682,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get homeMeasureEcg => 'تخطيط القلب';
 
   @override
+  String get homeMeasureNow => 'قِس الآن';
+
+  @override
   String homeMs(Object value) {
     return '$value مللي ثانية';
   }
@@ -938,6 +941,10 @@ class AppLocalizationsAr extends AppLocalizations {
       'لم يتم استلام بيانات تخطيط القلب. ارتدِ السوار والمس القطب بإصبعك.';
 
   @override
+  String get issueNoSpotSignal =>
+      'تعذّر الحصول على قراءة. شدّ السوار قليلًا وحاول مرة أخرى.';
+
+  @override
   String get languagePickHint => 'يمكنك تغييرها لاحقًا من شاشة الملف الشخصي.';
 
   @override
@@ -988,6 +995,26 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get livePaused => 'متوقف مؤقتًا';
+
+  @override
+  String get measureEcg => 'تخطيط القلب';
+
+  @override
+  String get measureEcgHint => 'بلمس القطب بإصبعك';
+
+  @override
+  String get measureHeartRate => 'نبض القلب';
+
+  @override
+  String get measureSheetTitle => 'ماذا تريد أن تقيس؟';
+
+  @override
+  String get measureSpo2 => 'أكسجين الدم (SpO2)';
+
+  @override
+  String measureTakes(Object seconds) {
+    return 'يستغرق نحو $seconds ثانية';
+  }
 
   @override
   String get metricCalories => 'السعرات';
@@ -1377,6 +1404,30 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get sportYoga => 'يوغا';
+
+  @override
+  String get spotAgain => 'قِس مرة أخرى';
+
+  @override
+  String get spotDone => 'تم';
+
+  @override
+  String get spotKeepStill => 'ثبّت السوار على معصمك، وأسند ذراعك ولا تتحرك.';
+
+  @override
+  String get spotLowSpo2 =>
+      'القيمة منخفضة. استرح وقِس مرة أخرى؛ وإذا بقيت منخفضة فاستشر طبيبك.';
+
+  @override
+  String get spotMeasuring => 'جارٍ القياس…';
+
+  @override
+  String get spotNote => 'قراءات السوار لا تغني عن الجهاز الطبي.';
+
+  @override
+  String spotSaved(Object time) {
+    return 'حُفظ القياس الساعة $time';
+  }
 
   @override
   String get statAverage => 'المتوسط';

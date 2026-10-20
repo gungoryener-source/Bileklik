@@ -670,6 +670,9 @@ class AppLocalizationsTr extends AppLocalizations {
   String get homeMeasureEcg => 'EKG ölç';
 
   @override
+  String get homeMeasureNow => 'Şimdi ölç';
+
+  @override
   String homeMs(Object value) {
     return '$value ms';
   }
@@ -924,6 +927,10 @@ class AppLocalizationsTr extends AppLocalizations {
       'EKG verisi alınamadı. Bilekliği takıp parmağınızı elektroda dokundurun.';
 
   @override
+  String get issueNoSpotSignal =>
+      'Ölçüm alınamadı. Bilekliği biraz sıkılaştırıp tekrar deneyin.';
+
+  @override
   String get languagePickHint =>
       'Daha sonra Profil ekranından değiştirebilirsiniz.';
 
@@ -964,6 +971,26 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get livePaused => 'Duraklatıldı';
+
+  @override
+  String get measureEcg => 'EKG';
+
+  @override
+  String get measureEcgHint => 'Parmağınızı elektroda dokundurarak';
+
+  @override
+  String get measureHeartRate => 'Nabız';
+
+  @override
+  String get measureSheetTitle => 'Ne ölçmek istersiniz?';
+
+  @override
+  String get measureSpo2 => 'Kan oksijeni (SpO2)';
+
+  @override
+  String measureTakes(Object seconds) {
+    return 'Yaklaşık $seconds saniye sürer';
+  }
 
   @override
   String get metricCalories => 'Kalori';
@@ -1355,6 +1382,31 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get sportYoga => 'Yoga';
+
+  @override
+  String get spotAgain => 'Tekrar ölç';
+
+  @override
+  String get spotDone => 'Bitti';
+
+  @override
+  String get spotKeepStill =>
+      'Bilekliği bileğinize oturtun, kolunuzu bir yere dayayıp hareket etmeyin.';
+
+  @override
+  String get spotLowSpo2 =>
+      'Değer düşük. Dinlenip tekrar ölçün; düşük kalırsa hekiminize danışın.';
+
+  @override
+  String get spotMeasuring => 'Ölçülüyor…';
+
+  @override
+  String get spotNote => 'Bileklik ölçümü tıbbi cihaz yerine geçmez.';
+
+  @override
+  String spotSaved(Object time) {
+    return '$time ölçümü kaydedildi';
+  }
 
   @override
   String get statAverage => 'Ortalama';

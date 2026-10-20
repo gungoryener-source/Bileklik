@@ -12,7 +12,9 @@ void main() {
 
   setUp(() async {
     device = FakeDevice(
-        random: Random(1), realtimeInterval: const Duration(milliseconds: 20));
+      random: Random(1),
+      realtimeInterval: const Duration(milliseconds: 20),
+    );
     client = WristbandClient(device);
     await device.connect();
   });
@@ -31,8 +33,9 @@ void main() {
   });
 
   test('kişisel bilgi yazılıp okunur', () async {
-    await client.setPersonalInfo(const PersonalInfo(
-        isMale: false, age: 41, heightCm: 168, weightKg: 62));
+    await client.setPersonalInfo(
+      const PersonalInfo(isMale: false, age: 41, heightCm: 168, weightKg: 62),
+    );
     final info = await client.getPersonalInfo();
     expect(info.isMale, isFalse);
     expect(info.age, 41);
@@ -54,7 +57,8 @@ void main() {
     await client.stopRealtime();
     for (final s in samples) {
       expect(s.heartRate, inInclusiveRange(40, 200));
-      expect(s.spo2, inInclusiveRange(90, 100));
+      // SpO2 yalnızca 0x28 03 ölçümü sürerken gelir.
+      expect(s.spo2, 0);
       expect(s.temperatureC, inInclusiveRange(30, 40));
     }
     expect(samples.last.steps, greaterThanOrEqualTo(samples.first.steps));

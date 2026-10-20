@@ -679,6 +679,9 @@ class AppLocalizationsDe extends AppLocalizations {
   String get homeMeasureEcg => 'EKG messen';
 
   @override
+  String get homeMeasureNow => 'Jetzt messen';
+
+  @override
   String homeMs(Object value) {
     return '$value ms';
   }
@@ -935,6 +938,10 @@ class AppLocalizationsDe extends AppLocalizations {
       'Keine EKG-Daten empfangen. Tragen Sie das Armband und berühren Sie die Elektrode mit dem Finger.';
 
   @override
+  String get issueNoSpotSignal =>
+      'Keine Messung möglich. Ziehen Sie das Armband etwas enger und versuchen Sie es erneut.';
+
+  @override
   String get languagePickHint => 'Sie können dies später im Profil ändern.';
 
   @override
@@ -983,6 +990,26 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get livePaused => 'Pausiert';
+
+  @override
+  String get measureEcg => 'EKG';
+
+  @override
+  String get measureEcgHint => 'Mit dem Finger auf der Elektrode';
+
+  @override
+  String get measureHeartRate => 'Herzfrequenz';
+
+  @override
+  String get measureSheetTitle => 'Was möchten Sie messen?';
+
+  @override
+  String get measureSpo2 => 'Blutsauerstoff (SpO2)';
+
+  @override
+  String measureTakes(Object seconds) {
+    return 'Dauert etwa $seconds Sekunden';
+  }
 
   @override
   String get metricCalories => 'Kalorien';
@@ -1375,6 +1402,31 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get sportYoga => 'Yoga';
+
+  @override
+  String get spotAgain => 'Erneut messen';
+
+  @override
+  String get spotDone => 'Fertig';
+
+  @override
+  String get spotKeepStill =>
+      'Tragen Sie das Armband eng, legen Sie den Arm ab und halten Sie still.';
+
+  @override
+  String get spotLowSpo2 =>
+      'Der Wert ist niedrig. Ruhen Sie sich aus und messen Sie erneut; bleibt er niedrig, sprechen Sie mit Ihrer Ärztin oder Ihrem Arzt.';
+
+  @override
+  String get spotMeasuring => 'Wird gemessen…';
+
+  @override
+  String get spotNote => 'Armbandmessungen ersetzen kein Medizinprodukt.';
+
+  @override
+  String spotSaved(Object time) {
+    return 'Gespeichert, gemessen um $time';
+  }
 
   @override
   String get statAverage => 'Durchschnitt';

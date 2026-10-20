@@ -1182,6 +1182,12 @@ abstract class AppLocalizations {
   /// **'EKG ölç'**
   String get homeMeasureEcg;
 
+  /// No description provided for @homeMeasureNow.
+  ///
+  /// In tr, this message translates to:
+  /// **'Şimdi ölç'**
+  String get homeMeasureNow;
+
   /// No description provided for @homeMs.
   ///
   /// In tr, this message translates to:
@@ -1560,6 +1566,12 @@ abstract class AppLocalizations {
   /// **'EKG verisi alınamadı. Bilekliği takıp parmağınızı elektroda dokundurun.'**
   String get issueNoEcgSignal;
 
+  /// No description provided for @issueNoSpotSignal.
+  ///
+  /// In tr, this message translates to:
+  /// **'Ölçüm alınamadı. Bilekliği biraz sıkılaştırıp tekrar deneyin.'**
+  String get issueNoSpotSignal;
+
   /// No description provided for @languagePickHint.
   ///
   /// In tr, this message translates to:
@@ -1637,6 +1649,42 @@ abstract class AppLocalizations {
   /// In tr, this message translates to:
   /// **'Duraklatıldı'**
   String get livePaused;
+
+  /// No description provided for @measureEcg.
+  ///
+  /// In tr, this message translates to:
+  /// **'EKG'**
+  String get measureEcg;
+
+  /// No description provided for @measureEcgHint.
+  ///
+  /// In tr, this message translates to:
+  /// **'Parmağınızı elektroda dokundurarak'**
+  String get measureEcgHint;
+
+  /// No description provided for @measureHeartRate.
+  ///
+  /// In tr, this message translates to:
+  /// **'Nabız'**
+  String get measureHeartRate;
+
+  /// No description provided for @measureSheetTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Ne ölçmek istersiniz?'**
+  String get measureSheetTitle;
+
+  /// No description provided for @measureSpo2.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kan oksijeni (SpO2)'**
+  String get measureSpo2;
+
+  /// No description provided for @measureTakes.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yaklaşık {seconds} saniye sürer'**
+  String measureTakes(Object seconds);
 
   /// No description provided for @metricCalories.
   ///
@@ -2363,6 +2411,48 @@ abstract class AppLocalizations {
   /// In tr, this message translates to:
   /// **'Yoga'**
   String get sportYoga;
+
+  /// No description provided for @spotAgain.
+  ///
+  /// In tr, this message translates to:
+  /// **'Tekrar ölç'**
+  String get spotAgain;
+
+  /// No description provided for @spotDone.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bitti'**
+  String get spotDone;
+
+  /// No description provided for @spotKeepStill.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bilekliği bileğinize oturtun, kolunuzu bir yere dayayıp hareket etmeyin.'**
+  String get spotKeepStill;
+
+  /// No description provided for @spotLowSpo2.
+  ///
+  /// In tr, this message translates to:
+  /// **'Değer düşük. Dinlenip tekrar ölçün; düşük kalırsa hekiminize danışın.'**
+  String get spotLowSpo2;
+
+  /// No description provided for @spotMeasuring.
+  ///
+  /// In tr, this message translates to:
+  /// **'Ölçülüyor…'**
+  String get spotMeasuring;
+
+  /// No description provided for @spotNote.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bileklik ölçümü tıbbi cihaz yerine geçmez.'**
+  String get spotNote;
+
+  /// No description provided for @spotSaved.
+  ///
+  /// In tr, this message translates to:
+  /// **'{time} ölçümü kaydedildi'**
+  String spotSaved(Object time);
 
   /// No description provided for @statAverage.
   ///
