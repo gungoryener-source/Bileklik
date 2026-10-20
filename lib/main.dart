@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
 import 'data/community.dart';
@@ -17,11 +18,21 @@ import 'ui/theme.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  // Uygulama sistem çubuklarının altına uzanır; çubuklar saydam.
+  SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
+  SystemChrome.setSystemUIOverlayStyle(camSystemOverlay);
+  LicenseRegistry.addLicense(_fontLicense);
   final settings = await AppSettings.load();
   // Bileklik gelene kadar sahte cihaz kullanılır. Gerçek BLE katmanı
   // eklendiğinde yalnızca bu satır değişecek.
   final controller = DeviceController(FakeDevice(), store: await _openStore());
   runApp(BileklikApp(controller: controller, settings: settings));
+}
+
+/// Manrope yazı tipinin lisansı "Lisanslar" sayfasında görünsün.
+Stream<LicenseEntry> _fontLicense() async* {
+  final text = await rootBundle.loadString('assets/fonts/Manrope-OFL.txt');
+  yield LicenseEntryWithLineBreaks(const ['Manrope'], text);
 }
 
 /// Telefonda SQLite; web demosunda (sqflite web'de yok) ya da veritabanı
@@ -67,6 +78,8 @@ class BileklikApp extends StatelessWidget {
   final ConnectionService connections;
   final HealthExportService healthExport;
 
+  static final _theme = buildTheme();
+
   @override
   Widget build(BuildContext context) {
     return SettingsScope(
@@ -100,9 +113,8 @@ class BileklikApp extends StatelessWidget {
                   // null: telefonun dili.
                   locale: settings.locale,
                   builder: (context, child) => LocaleSync(child: child!),
-                  theme: buildTheme(Brightness.light),
-                  darkTheme: buildTheme(Brightness.dark),
-                  themeMode: settings.themeMode,
+                  // Tek tema: koyu Cam.
+                  theme: _theme,
                   // İlk açılışta dil seçilir; sonra Profil'den değişir.
                   home: settings.languageChosen
                       ? const AppShell()

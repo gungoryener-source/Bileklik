@@ -10,6 +10,7 @@ import 'package:bileklik/state/app_settings.dart';
 import 'package:bileklik/state/device_controller.dart';
 import 'package:bileklik/ui/screens/pairing_screen.dart';
 import 'package:bileklik/ui/screens/profile_screen.dart';
+import 'package:bileklik/ui/widgets/cam/cam.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -35,7 +36,10 @@ Future<DeviceController> _openProfile(
     ),
   );
   await tester.pumpAndSettle();
-  final tabs = find.byType(NavigationDestination);
+  final tabs = find.descendant(
+    of: find.byType(GlassNavBar),
+    matching: find.byType(Pressable),
+  );
   await tester.tap(tabs.at(3));
   await tester.pumpAndSettle();
   return controller;

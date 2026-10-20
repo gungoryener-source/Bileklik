@@ -16,7 +16,7 @@ void main() {
     final controller = DeviceController(device);
     await tester.pumpWidget(BileklikApp(controller: controller));
 
-    expect(find.text('Bağlan'), findsOneWidget);
+    expect(find.text('Bağlı değil'), findsOneWidget);
     await tester.runAsync(() async {
       await controller.connect().catchError((_) {});
       await Future<void>.delayed(const Duration(milliseconds: 100));

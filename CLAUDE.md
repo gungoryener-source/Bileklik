@@ -60,7 +60,7 @@ UI (lib/ui)  ->  DeviceController (lib/state)  ->  WristbandClient  ->  DeviceTr
 1. Komut gerekiyorsa: `lib/device/protocol/` altına kodlayıcı/çözücü, PDF örneğiyle test.
 2. Sahte cihaz o komuta gerçekçi yanıt versin (`fake_device.dart` / `fake_history.dart`).
 3. Veri saklanacaksa `MetricType` ve `SyncService`'e ekleyin.
-4. Ekranı `lib/ui/screens/` altına yazın. Renkler temadan gelir: nötr renkler `context.colors` (`AppColors` ThemeExtension), veri renkleri `DataColors` ve `MetricLook`. Sabit renk yazmayın; açık ve koyu temada deneyin.
+4. Ekranı `lib/ui/screens/` altına yazın. Renkler temadan gelir: nötr renkler `context.colors` (`AppColors` ThemeExtension), veri renkleri `DataColors` ve `MetricLook`. Sabit renk yazmayın. Uygulama yalnızca koyu (Cam) temada çalışır; Cam bileşenlerini (`lib/ui/widgets/cam/`) kullanın, kurallar `docs/flutter-mobile-design.md` içinde.
    Tasarım bize ait; referans uygulamanın görselleri kopyalanmaz.
 5. Ekran için `test/` altına widget testi ekleyin.
 
@@ -90,6 +90,6 @@ Not: `mobile-native`, `apple-design`, `animate`, `break-ui` ve `prototype` web (
 - Dokunma hedefleri en az 48x48 dp.
 - `SafeArea` kullan; çentik ve alt çubuğa uy.
 - Sağlık verisi ekranlarında sayılar büyük ve okunaklı olsun; veri yoksa boş durum göster.
-- Açık ve koyu temayı birlikte düşün; tek `ThemeData` üzerinden yönet.
+- Tema yalnızca koyu (Cam); tek `ThemeData` (`buildTheme()`) üzerinden yönet, açık tema yok.
 - Hareketi azalt ayarına (`disableAnimations`) saygı göster.
 - Teslimden önce `flutter analyze` çalıştır ve uç durumları dene.

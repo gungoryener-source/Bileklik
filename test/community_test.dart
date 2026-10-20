@@ -9,6 +9,7 @@ import 'package:bileklik/state/device_controller.dart';
 import 'package:bileklik/ui/screens/community_screen.dart';
 import 'package:bileklik/ui/screens/group_screen.dart';
 import 'package:bileklik/ui/screens/profile_screen.dart';
+import 'package:bileklik/ui/widgets/cam/cam.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -43,7 +44,14 @@ Future<void> _openCommunity(
     ),
   );
   await tester.pumpAndSettle();
-  await tester.tap(find.byType(NavigationDestination).at(3));
+  await tester.tap(
+    find
+        .descendant(
+          of: find.byType(GlassNavBar),
+          matching: find.byType(Pressable),
+        )
+        .at(3),
+  );
   await tester.pumpAndSettle();
   final tile = find.byIcon(Icons.family_restroom);
   await tester.scrollUntilVisible(
@@ -275,7 +283,7 @@ void main() {
       expect(tester.takeException(), isNull);
 
       for (final g in [mine, kaya!]) {
-        await _tap(tester, find.text(g.name).first);
+        await _tap(tester, find.text(g.name, skipOffstage: false).first);
         await tester.pumpAndSettle();
         await tester.drag(
           _inGroup(find.byType(Scrollable)).first,

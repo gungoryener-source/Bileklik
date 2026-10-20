@@ -6,6 +6,7 @@ import '../../l10n/l10n.dart';
 import '../app_shell.dart';
 import '../format.dart';
 import '../theme.dart';
+import '../widgets/cam/cam.dart';
 import 'ecg_screen.dart';
 import 'metric_detail_screen.dart';
 import 'sleep_screen.dart';
@@ -91,7 +92,12 @@ class HealthScreen extends StatelessWidget {
         return RefreshIndicator(
           onRefresh: c.sync,
           child: ListView(
-            padding: const EdgeInsets.all(20),
+            padding: EdgeInsets.fromLTRB(
+              20,
+              20,
+              20,
+              GlassNavBar.clearance(context),
+            ),
             children: [
               Row(
                 children: [
@@ -199,8 +205,8 @@ class _HealthCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 10),
-      child: Card(
-        clipBehavior: Clip.antiAlias,
+      child: GlassCard(
+        padding: EdgeInsets.zero,
         child: InkWell(
           onTap: onTap,
           child: Padding(

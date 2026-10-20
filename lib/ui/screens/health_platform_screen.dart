@@ -6,6 +6,7 @@ import '../app_shell.dart';
 import '../format.dart';
 import '../theme.dart';
 import '../widgets/menu_group.dart';
+import '../widgets/cam/cam.dart';
 
 /// Health Connect (Android) ve Apple Health (iOS) aktarımı: tür seçimi,
 /// platformun izin penceresi, son aktarım ve durdurma.
@@ -91,7 +92,7 @@ class _HealthPlatformScreenState extends State<HealthPlatformScreen> {
   Future<void> _disconnect(HealthExportService s, String name) async {
     final l = context.l10n;
     final colors = context.colors;
-    final ok = await showDialog<bool>(
+    final ok = await showCamDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
         title: Text(l.hpDisconnect),
@@ -123,7 +124,7 @@ class _HealthPlatformScreenState extends State<HealthPlatformScreen> {
     final name = ltr(platformName(s.platform.kind));
     final connected = s.connected;
 
-    return Scaffold(
+    return CamScaffold(
       appBar: AppBar(title: Text(l.hpTitle)),
       body: SafeArea(
         top: false,
@@ -211,24 +212,17 @@ class _HealthPlatformScreenState extends State<HealthPlatformScreen> {
             ),
             Padding(
               padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
-              child: FilledButton.icon(
-                style: FilledButton.styleFrom(
-                  minimumSize: const Size.fromHeight(52),
-                ),
-                onPressed: s.busy || (!connected && _chosen.isEmpty)
+              child: GlowButton(
+                onTap: s.busy || (!connected && _chosen.isEmpty)
                     ? null
                     : connected
                     ? () async {
                         _snack(_exported(await s.exportNow()));
                       }
                     : () => _connect(s, name),
-                icon: s.busy
-                    ? const SizedBox.square(
-                        dimension: 18,
-                        child: CircularProgressIndicator(strokeWidth: 2),
-                      )
-                    : Icon(connected ? Icons.sync : Icons.link),
-                label: Text(connected ? l.hpExportNow : l.hpConnect(name)),
+                loading: s.busy,
+                icon: connected ? Icons.sync : Icons.link,
+                label: connected ? l.hpExportNow : l.hpConnect(name),
               ),
             ),
           ],

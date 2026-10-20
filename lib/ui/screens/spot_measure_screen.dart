@@ -7,16 +7,14 @@ import '../../state/device_controller.dart';
 import '../app_shell.dart';
 import '../format.dart';
 import '../theme.dart';
+import '../widgets/cam/cam.dart';
 import 'ecg_screen.dart';
 
 /// Ana Sayfa'daki "Şimdi ölç": nabız, SpO2 ya da EKG seçimi.
 Future<void> showMeasureSheet(BuildContext context) {
   final l = context.l10n;
-  return showModalBottomSheet<void>(
+  return showCamSheet<void>(
     context: context,
-    showDragHandle: true,
-    // Büyük yazıda ve küçük ekranda içerik kaydırılabilsin.
-    isScrollControlled: true,
     builder: (sheet) {
       Widget tile(
         IconData icon,
@@ -27,12 +25,17 @@ Future<void> showMeasureSheet(BuildContext context) {
       ) => ListTile(
         minTileHeight: 64,
         contentPadding: const EdgeInsetsDirectional.only(start: 20, end: 16),
-        leading: CircleAvatar(
-          backgroundColor: color.withValues(alpha: 0.14),
-          foregroundColor: color,
-          child: Icon(icon),
+        leading: Container(
+          width: 44,
+          height: 44,
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            color: color.withValues(alpha: 0.16),
+            border: Border.all(color: color.withValues(alpha: 0.4)),
+          ),
+          child: Icon(icon, color: color),
         ),
-        title: Text(title),
+        title: Text(title, style: const TextStyle(fontWeight: FontWeight.w700)),
         subtitle: Text(sub),
         trailing: Icon(Icons.chevron_right, color: context.colors.muted),
         onTap: () {
@@ -40,45 +43,46 @@ Future<void> showMeasureSheet(BuildContext context) {
           onTap();
         },
       );
-      return SafeArea(
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.only(bottom: 12),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Padding(
-                padding: const EdgeInsetsDirectional.fromSTEB(20, 0, 20, 8),
-                child: Text(
-                  l.measureSheetTitle,
-                  style: Theme.of(context).textTheme.titleMedium,
+      return Padding(
+        padding: const EdgeInsets.only(bottom: 12),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Padding(
+              padding: const EdgeInsetsDirectional.fromSTEB(20, 0, 20, 8),
+              child: Text(
+                l.measureSheetTitle,
+                style: const TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.w800,
                 ),
               ),
-              tile(
-                Icons.favorite,
-                DataColors.heart,
-                l.measureHeartRate,
-                l.measureTakes(30),
-                () => startSpotMeasurement(context, MetricType.heartRate),
+            ),
+            tile(
+              Icons.favorite,
+              DataColors.heart,
+              l.measureHeartRate,
+              l.measureTakes(30),
+              () => startSpotMeasurement(context, MetricType.heartRate),
+            ),
+            tile(
+              Icons.water_drop,
+              DataColors.oxygen,
+              l.measureSpo2,
+              l.measureTakes(30),
+              () => startSpotMeasurement(context, MetricType.spo2),
+            ),
+            tile(
+              Icons.monitor_heart,
+              DataColors.heart,
+              l.measureEcg,
+              l.measureEcgHint,
+              () => Navigator.of(context).push(
+                MaterialPageRoute<void>(builder: (_) => const EcgScreen()),
               ),
-              tile(
-                Icons.water_drop,
-                DataColors.oxygen,
-                l.measureSpo2,
-                l.measureTakes(30),
-                () => startSpotMeasurement(context, MetricType.spo2),
-              ),
-              tile(
-                Icons.monitor_heart,
-                DataColors.heart,
-                l.measureEcg,
-                l.measureEcgHint,
-                () => Navigator.of(context).push(
-                  MaterialPageRoute<void>(builder: (_) => const EcgScreen()),
-                ),
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
       );
     },
@@ -187,7 +191,7 @@ class _SpotMeasureScreenState extends State<SpotMeasureScreen> {
       onPopInvokedWithResult: (didPop, _) {
         if (didPop && c.spot != null) c.cancelSpot();
       },
-      child: Scaffold(
+      child: CamScaffold(
         appBar: AppBar(title: Text(type.label)),
         body: SafeArea(
           top: false,
@@ -225,7 +229,7 @@ class _SpotMeasureScreenState extends State<SpotMeasureScreen> {
                       Text(
                         l.spotLowSpo2,
                         textAlign: TextAlign.center,
-                        style: const TextStyle(color: DataColors.heart),
+                        style: TextStyle(color: context.colors.danger),
                       ),
                       const SizedBox(height: 12),
                     ],
@@ -270,15 +274,9 @@ class _SpotMeasureScreenState extends State<SpotMeasureScreen> {
                           ),
                           const SizedBox(width: 12),
                           Expanded(
-                            child: FilledButton(
-                              style: FilledButton.styleFrom(
-                                minimumSize: const Size.fromHeight(52),
-                              ),
-                              onPressed: () => Navigator.of(context).pop(),
-                              child: Text(
-                                l.spotDone,
-                                overflow: TextOverflow.ellipsis,
-                              ),
+                            child: GlowButton(
+                              onTap: () => Navigator.of(context).pop(),
+                              label: l.spotDone,
                             ),
                           ),
                         ],

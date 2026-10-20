@@ -7,6 +7,7 @@ import '../app_shell.dart';
 import '../format.dart';
 import '../theme.dart';
 import '../widgets/menu_group.dart';
+import '../widgets/cam/cam.dart';
 import 'connections_screen.dart';
 
 /// KVKK açık rıza ekranı: kim, hangi amaçla, hangi verileri, ne kadar süre
@@ -47,7 +48,7 @@ class _ConsentScreenState extends State<ConsentScreen> {
     final allSelected = _selected.length == offer.requested.length;
     final canConnect = _selected.isNotEmpty && _agreed && !_busy;
 
-    return Scaffold(
+    return CamScaffold(
       appBar: AppBar(title: Text(l.connConsentTitle)),
       body: SafeArea(
         top: false,
@@ -158,17 +159,10 @@ class _ConsentScreenState extends State<ConsentScreen> {
             ),
             Padding(
               padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
-              child: FilledButton(
-                style: FilledButton.styleFrom(
-                  minimumSize: const Size.fromHeight(52),
-                ),
-                onPressed: canConnect ? _connect : null,
-                child: _busy
-                    ? const SizedBox.square(
-                        dimension: 20,
-                        child: CircularProgressIndicator(strokeWidth: 2),
-                      )
-                    : Text(l.connConfirm),
+              child: GlowButton(
+                onTap: canConnect ? _connect : null,
+                loading: _busy,
+                label: l.connConfirm,
               ),
             ),
           ],

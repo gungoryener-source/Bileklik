@@ -25,7 +25,7 @@ class DayLineChart extends StatelessWidget {
             height: 96,
             child: CustomPaint(
               size: Size.infinite,
-              painter: _LinePainter(values, color, context.colors.outline),
+              painter: _LinePainter(values, color, context.colors.grid),
             ),
           ),
           const SizedBox(height: 8),
@@ -167,24 +167,51 @@ class _LinePainter extends CustomPainter {
       ..strokeWidth = 2.5
       ..strokeJoin = StrokeJoin.round
       ..strokeCap = StrokeCap.round;
+    // Çizginin altında veri renginde parıltı.
+    final glow = Paint()
+      ..color = color.withValues(alpha: 0.5)
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 4
+      ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 4);
+    final fill = Paint()
+      ..shader = LinearGradient(
+        begin: Alignment.topCenter,
+        end: Alignment.bottomCenter,
+        colors: [color.withValues(alpha: 0.3), color.withValues(alpha: 0)],
+      ).createShader(Offset.zero & size);
     final dot = Paint()..color = color;
-    Path? path;
+
+    // Kesintisiz her parça ayrı çizilir; altına solan dolgu.
+    void segment(List<Offset> pts) {
+      final path = Path()..moveTo(pts.first.dx, pts.first.dy);
+      for (final p in pts.skip(1)) {
+        path.lineTo(p.dx, p.dy);
+      }
+      if (pts.length > 1) {
+        final area = Path.from(path)
+          ..lineTo(pts.last.dx, size.height)
+          ..lineTo(pts.first.dx, size.height)
+          ..close();
+        canvas
+          ..drawPath(area, fill)
+          ..drawPath(path, glow);
+      }
+      canvas
+        ..drawPath(path, line)
+        ..drawCircle(pts.first, 2.5, dot);
+    }
+
+    var pts = <Offset>[];
     for (var i = 0; i < n; i++) {
       final v = values[i];
       if (v == null) {
-        if (path != null) canvas.drawPath(path, line);
-        path = null;
+        if (pts.isNotEmpty) segment(pts);
+        pts = [];
         continue;
       }
-      final p = Offset(i * step + step / 2, y(v));
-      if (path == null) {
-        path = Path()..moveTo(p.dx, p.dy);
-        canvas.drawCircle(p, 2.5, dot);
-      } else {
-        path.lineTo(p.dx, p.dy);
-      }
+      pts.add(Offset(i * step + step / 2, y(v)));
     }
-    if (path != null) canvas.drawPath(path, line);
+    if (pts.isNotEmpty) segment(pts);
   }
 
   @override

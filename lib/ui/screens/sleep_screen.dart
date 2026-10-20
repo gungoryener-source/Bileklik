@@ -6,6 +6,7 @@ import '../../l10n/l10n.dart';
 import '../app_shell.dart';
 import '../format.dart';
 import '../theme.dart';
+import '../widgets/cam/cam.dart';
 
 /// Uyku evresinin rengi; adı `SleepStageName`'de (format.dart).
 extension SleepLook on SleepStage {
@@ -32,7 +33,7 @@ class _SleepScreenState extends State<SleepScreen> {
   Widget build(BuildContext context) {
     final store = DeviceScope.of(context).store;
     final l = context.l10n;
-    return Scaffold(
+    return CamScaffold(
       appBar: AppBar(title: Text(l.sleepTitle)),
       body: ListenableBuilder(
         listenable: store,

@@ -7,6 +7,7 @@ import '../app_shell.dart';
 import '../format.dart';
 import '../theme.dart';
 import '../widgets/metric_chart.dart';
+import '../widgets/cam/cam.dart';
 
 /// Bir metriğin gün, hafta ve ay grafiği ile özet değerleri.
 ///
@@ -44,7 +45,7 @@ class _MetricDetailScreenState extends State<MetricDetailScreen> {
     final store = DeviceScope.of(context).store;
     final type = widget.type;
     final l = context.l10n;
-    return Scaffold(
+    return CamScaffold(
       appBar: AppBar(title: Text(widget.title ?? type.label)),
       body: ListenableBuilder(
         listenable: store,
@@ -254,7 +255,8 @@ class _StatBox extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Expanded(
-    child: Card(
+    child: GlassCard(
+      padding: EdgeInsets.zero,
       child: Padding(
         padding: const EdgeInsets.all(12),
         child: Column(
@@ -291,7 +293,8 @@ class _BandLegend extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final total = items.length;
-    return Card(
+    return GlassCard(
+      padding: EdgeInsets.zero,
       child: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(

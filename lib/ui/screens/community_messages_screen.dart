@@ -5,6 +5,7 @@ import '../../l10n/l10n.dart';
 import '../app_shell.dart';
 import '../format.dart';
 import '../theme.dart';
+import '../widgets/cam/cam.dart';
 
 /// Topluluk mesajları: grup davetleri (katıl / reddet) ve katılım bildirimleri.
 /// Sayfa açılınca mesajlar okunmuş sayılır.
@@ -31,7 +32,7 @@ class _CommunityMessagesScreenState extends State<CommunityMessagesScreen> {
     final l = context.l10n;
     final colors = context.colors;
     final messages = service.messages;
-    return Scaffold(
+    return CamScaffold(
       appBar: AppBar(title: Text(l.communityMessages)),
       body: SafeArea(
         top: false,

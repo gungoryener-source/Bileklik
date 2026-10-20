@@ -10,7 +10,7 @@ Web odaklı skill'lerdeki (`frontend-design`, `apple-design`, `emil-design-eng`)
 ## Sıra
 
 1. Görsel yönü seç (`frontend-design`): renk, tipografi, boşluk, ton. Sağlık uygulaması için sakin, okunaklı, veri odaklı.
-2. Temayı kodla: tek bir `ThemeData` (Material 3, `ColorScheme.fromSeed`), açık ve koyu tema birlikte. Renk ve yazı stilini widget içinde sabitleme, `Theme.of(context)` üzerinden al.
+2. Temayı kodla: tek bir `ThemeData` (Material 3, `ColorScheme.fromSeed`), yalnızca koyu (Cam) tema. Renk ve yazı stilini widget içinde sabitleme, `Theme.of(context)` ve `context.colors` üzerinden al. Cam bileşenleri ve ölçüleri için `docs/flutter-mobile-design.md`.
 3. Ekranı kur: yerleşim, güvenli alan, uyarlanabilirlik.
 4. Hareketi ekle, sonra uç durumları dene.
 
@@ -26,7 +26,7 @@ Web odaklı skill'lerdeki (`frontend-design`, `apple-design`, `emil-design-eng`)
 
 - Tek kod tabanı ama platforma saygı: iOS'ta geri kaydırma jesti çalışmalı, kaydırma fiziği platforma uygun kalmalı (varsayılanı bozma).
 - iOS'ta gerekli yerlerde Cupertino bileşenleri (örneğin sistem tarzı seçiciler, dialoglar) düşün; her yerde Material zorunlu değil.
-- Durum çubuğu ve sistem çubuğu renklerini temaya uydur.
+- Durum çubuğu ve sistem çubuğu saydam, ikonlar açık (edge-to-edge); `CamScaffold` bunu kendisi ayarlar.
 
 ## Hareket
 
@@ -57,7 +57,7 @@ Her yeni ekranı şu verilerle dene, taşma (`RenderFlex overflowed`) veya kesil
 
 - Çok uzun ad, tek harfli ad, boş alan
 - Sıfır öğe, çok büyük sayı, eksik alan
-- Yazı boyutu en büyük, koyu tema, küçük ekran
+- Yazı boyutu en büyük, küçük ekran (Cam teması, auroranın en parlak yerinde de okunur mu)
 - Hata ve çevrimdışı durumu
 
 Mümkünse bu durumları widget testi veya golden test ile kalıcı hale getir. Kod yazdıktan sonra `flutter analyze` çalıştır.

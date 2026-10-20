@@ -990,11 +990,17 @@ abstract class AppLocalizations {
   /// **'Bileklikten veriler alınıyor…'**
   String get healthSyncing;
 
-  /// No description provided for @homeActivity.
+  /// No description provided for @homeActiveGoal.
   ///
   /// In tr, this message translates to:
-  /// **'Aktivite'**
-  String get homeActivity;
+  /// **'Hedef {minutes} dk'**
+  String homeActiveGoal(Object minutes);
+
+  /// No description provided for @homeActiveTime.
+  ///
+  /// In tr, this message translates to:
+  /// **'Aktif süre'**
+  String get homeActiveTime;
 
   /// No description provided for @homeAverageStress.
   ///
@@ -1032,11 +1038,11 @@ abstract class AppLocalizations {
   /// **'{value} bpm'**
   String homeBpm(Object value);
 
-  /// No description provided for @homeCaloriesKcal.
+  /// No description provided for @homeCalories.
   ///
   /// In tr, this message translates to:
-  /// **'Kalori (kcal)'**
-  String get homeCaloriesKcal;
+  /// **'Kalori'**
+  String get homeCalories;
 
   /// No description provided for @homeChartNoData.
   ///
@@ -1049,12 +1055,6 @@ abstract class AppLocalizations {
   /// In tr, this message translates to:
   /// **'{title}: en düşük {min}, en yüksek {max} {unit}'**
   String homeChartSemantics(Object title, Object min, Object max, Object unit);
-
-  /// No description provided for @homeConnect.
-  ///
-  /// In tr, this message translates to:
-  /// **'Bağlan'**
-  String get homeConnect;
 
   /// No description provided for @homeConnectTooltip.
   ///
@@ -1097,12 +1097,6 @@ abstract class AppLocalizations {
   /// In tr, this message translates to:
   /// **'Bağlantıyı kes'**
   String get homeDisconnectTooltip;
-
-  /// No description provided for @homeDuration.
-  ///
-  /// In tr, this message translates to:
-  /// **'Süre'**
-  String get homeDuration;
 
   /// No description provided for @homeEcg.
   ///
@@ -1152,6 +1146,18 @@ abstract class AppLocalizations {
   /// **'Kalp atış hızı'**
   String get homeHeartRateLabel;
 
+  /// No description provided for @homeHeroEmpty.
+  ///
+  /// In tr, this message translates to:
+  /// **'Nabzınızı görmek için bilekliği bağlayın.'**
+  String get homeHeroEmpty;
+
+  /// No description provided for @homeHeroSemantics.
+  ///
+  /// In tr, this message translates to:
+  /// **'Nabız {value} bpm'**
+  String homeHeroSemantics(Object value);
+
   /// No description provided for @homeHourlyStressSemantics.
   ///
   /// In tr, this message translates to:
@@ -1164,11 +1170,23 @@ abstract class AppLocalizations {
   /// **'Kalp atış hızı değişkenliği'**
   String get homeHrvLabel;
 
-  /// No description provided for @homeKilometers.
+  /// No description provided for @homeKcal.
   ///
   /// In tr, this message translates to:
-  /// **'Kilometre'**
-  String get homeKilometers;
+  /// **'kcal'**
+  String get homeKcal;
+
+  /// No description provided for @homeKm.
+  ///
+  /// In tr, this message translates to:
+  /// **'{value} km'**
+  String homeKm(Object value);
+
+  /// No description provided for @homeLastMeasured.
+  ///
+  /// In tr, this message translates to:
+  /// **'Son ölçüm {time}'**
+  String homeLastMeasured(Object time);
 
   /// No description provided for @homeListSeparator.
   ///
@@ -1176,11 +1194,11 @@ abstract class AppLocalizations {
   /// **', '**
   String get homeListSeparator;
 
-  /// No description provided for @homeMeasureEcg.
+  /// No description provided for @homeLive.
   ///
   /// In tr, this message translates to:
-  /// **'EKG ölç'**
-  String get homeMeasureEcg;
+  /// **'Canlı'**
+  String get homeLive;
 
   /// No description provided for @homeMeasureNow.
   ///
@@ -1236,6 +1254,12 @@ abstract class AppLocalizations {
   /// **'Bilekliği bu gece takın; sabah uyku ve toparlanma özetiniz burada olacak.'**
   String get homeNoSleepTonightHint;
 
+  /// No description provided for @homeNotConnected.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bağlı değil'**
+  String get homeNotConnected;
+
   /// No description provided for @homePercent.
   ///
   /// In tr, this message translates to:
@@ -1254,11 +1278,23 @@ abstract class AppLocalizations {
   /// **'Önceki gün'**
   String get homePrevDay;
 
-  /// No description provided for @homeProfileTooltip.
+  /// No description provided for @homeQuickActions.
   ///
   /// In tr, this message translates to:
-  /// **'Profil'**
-  String get homeProfileTooltip;
+  /// **'Hızlı işlemler'**
+  String get homeQuickActions;
+
+  /// No description provided for @homeQuickHeartRate.
+  ///
+  /// In tr, this message translates to:
+  /// **'Nabız ölç'**
+  String get homeQuickHeartRate;
+
+  /// No description provided for @homeQuickSync.
+  ///
+  /// In tr, this message translates to:
+  /// **'Senkronize'**
+  String get homeQuickSync;
 
   /// No description provided for @homeRange.
   ///
@@ -1271,6 +1307,12 @@ abstract class AppLocalizations {
   /// In tr, this message translates to:
   /// **'Toparlanma'**
   String get homeRecovery;
+
+  /// No description provided for @homeRestingHr.
+  ///
+  /// In tr, this message translates to:
+  /// **'Dinlenik nabız {value} bpm'**
+  String homeRestingHr(Object value);
 
   /// No description provided for @homeSleep.
   ///
@@ -1362,11 +1404,11 @@ abstract class AppLocalizations {
   /// **'Stres yükü'**
   String get homeStressLoad;
 
-  /// No description provided for @homeSyncTooltip.
+  /// No description provided for @homeSyncing.
   ///
   /// In tr, this message translates to:
-  /// **'Eşitle'**
-  String get homeSyncTooltip;
+  /// **'Senkronize ediliyor…'**
+  String get homeSyncing;
 
   /// No description provided for @homeTimeline.
   ///
@@ -1386,11 +1428,11 @@ abstract class AppLocalizations {
   /// **'Günün kayıtları'**
   String get homeTimelineSubtitle;
 
-  /// No description provided for @homeTodayDate.
+  /// No description provided for @homeToday.
   ///
   /// In tr, this message translates to:
-  /// **'Bugün, {date}'**
-  String homeTodayDate(Object date);
+  /// **'Bugün'**
+  String get homeToday;
 
   /// No description provided for @homeWeekdayDate.
   ///
@@ -1416,11 +1458,11 @@ abstract class AppLocalizations {
   /// **'{duration} · {kcal} kcal'**
   String homeWorkoutSubtitle(Object duration, Object kcal);
 
-  /// No description provided for @homeYesterdayDate.
+  /// No description provided for @homeYesterday.
   ///
   /// In tr, this message translates to:
-  /// **'Dün, {date}'**
-  String homeYesterdayDate(Object date);
+  /// **'Dün'**
+  String get homeYesterday;
 
   /// No description provided for @hpActivity.
   ///
@@ -1830,6 +1872,12 @@ abstract class AppLocalizations {
   /// **'Profil'**
   String get navProfile;
 
+  /// No description provided for @navSemantics.
+  ///
+  /// In tr, this message translates to:
+  /// **'Ana menü'**
+  String get navSemantics;
+
   /// No description provided for @noValue.
   ///
   /// In tr, this message translates to:
@@ -1956,12 +2004,6 @@ abstract class AppLocalizations {
   /// **'Yaş'**
   String get profileAge;
 
-  /// No description provided for @profileAppearance.
-  ///
-  /// In tr, this message translates to:
-  /// **'Görünüm'**
-  String get profileAppearance;
-
   /// No description provided for @profileConnectFirst.
   ///
   /// In tr, this message translates to:
@@ -2043,7 +2085,7 @@ abstract class AppLocalizations {
   /// No description provided for @profileMenuGeneralSubtitle.
   ///
   /// In tr, this message translates to:
-  /// **'Görünüm ve dil'**
+  /// **'Uygulama dili'**
   String get profileMenuGeneralSubtitle;
 
   /// No description provided for @profileMenuPersonalEmpty.
@@ -2123,24 +2165,6 @@ abstract class AppLocalizations {
   /// In tr, this message translates to:
   /// **'Paylaşım ve bağlantılar'**
   String get profileSectionSharing;
-
-  /// No description provided for @profileThemeDark.
-  ///
-  /// In tr, this message translates to:
-  /// **'Koyu'**
-  String get profileThemeDark;
-
-  /// No description provided for @profileThemeLight.
-  ///
-  /// In tr, this message translates to:
-  /// **'Açık'**
-  String get profileThemeLight;
-
-  /// No description provided for @profileThemeSystem.
-  ///
-  /// In tr, this message translates to:
-  /// **'Sistem'**
-  String get profileThemeSystem;
 
   /// No description provided for @profileTitle.
   ///

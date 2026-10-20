@@ -6,6 +6,7 @@ import '../app_shell.dart';
 import '../format.dart';
 import '../theme.dart';
 import '../widgets/menu_group.dart';
+import '../widgets/cam/cam.dart';
 import 'community_dialogs.dart';
 import 'connection_detail_screen.dart';
 import 'consent_screen.dart';
@@ -24,7 +25,7 @@ class ConnectionsScreen extends StatelessWidget {
     final list = service.connections;
 
     Future<void> enterCode() async {
-      final offer = await showDialog<ConnectionOffer>(
+      final offer = await showCamDialog<ConnectionOffer>(
         context: context,
         builder: (_) => TextEntryDialog<ConnectionOffer>(
           title: l.connEnterCode,
@@ -59,7 +60,7 @@ class ConnectionsScreen extends StatelessWidget {
       await enterCode();
     }
 
-    return Scaffold(
+    return CamScaffold(
       appBar: AppBar(title: Text(l.profileMenuResearch)),
       body: SafeArea(
         top: false,
@@ -95,13 +96,10 @@ class ConnectionsScreen extends StatelessWidget {
               padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
               child: Column(
                 children: [
-                  FilledButton.icon(
-                    style: FilledButton.styleFrom(
-                      minimumSize: const Size.fromHeight(52),
-                    ),
-                    onPressed: enterCode,
-                    icon: const Icon(Icons.pin_outlined),
-                    label: Text(l.connEnterCode),
+                  GlowButton(
+                    onTap: enterCode,
+                    icon: Icons.pin_outlined,
+                    label: l.connEnterCode,
                   ),
                   const SizedBox(height: 10),
                   OutlinedButton.icon(

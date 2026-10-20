@@ -6,6 +6,7 @@ import '../../l10n/l10n.dart';
 import '../app_shell.dart';
 import '../format.dart';
 import '../theme.dart';
+import '../widgets/cam/cam.dart';
 import 'live_exercise_screen.dart';
 import 'workout_detail_screen.dart';
 
@@ -54,7 +55,12 @@ class ExerciseScreen extends StatelessWidget {
         final weekKcal = week.fold(0.0, (sum, w) => sum + w.calories);
 
         return ListView(
-          padding: const EdgeInsets.all(20),
+          padding: EdgeInsets.fromLTRB(
+            20,
+            20,
+            20,
+            GlassNavBar.clearance(context),
+          ),
           children: [
             Text(
               l.navExercise,
@@ -62,8 +68,12 @@ class ExerciseScreen extends StatelessWidget {
             ),
             const SizedBox(height: 16),
             if (active != null) ...[
-              Card(
-                color: context.colors.accent.withValues(alpha: 0.18),
+              GlassCard(
+                padding: EdgeInsets.zero,
+                tint: camTint(
+                  context.colors.heroTintStart,
+                  context.colors.heroTintEnd,
+                ),
                 child: ListTile(
                   leading: Icon(active.type.icon, color: context.colors.accent),
                   title: Text(l.exerciseInProgress(active.type.label)),
@@ -145,7 +155,8 @@ class _WeekStat extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Expanded(
-    child: Card(
+    child: GlassCard(
+      padding: EdgeInsets.zero,
       child: Padding(
         padding: const EdgeInsets.all(12),
         child: Column(
@@ -184,8 +195,8 @@ class _SportButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final enabled = onTap != null;
-    return Card(
-      clipBehavior: Clip.antiAlias,
+    return GlassCard(
+      padding: EdgeInsets.zero,
       child: InkWell(
         onTap: onTap,
         child: Padding(
@@ -229,7 +240,8 @@ class _WorkoutTile extends StatelessWidget {
     ].map(ltr).join(' · ');
     return Padding(
       padding: const EdgeInsets.only(bottom: 10),
-      child: Card(
+      child: GlassCard(
+        padding: EdgeInsets.zero,
         child: ListTile(
           leading: CircleAvatar(
             backgroundColor: context.colors.accent.withValues(alpha: 0.15),

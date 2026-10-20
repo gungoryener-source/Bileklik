@@ -11,6 +11,7 @@ import 'package:bileklik/state/app_settings.dart';
 import 'package:bileklik/state/device_controller.dart';
 import 'package:bileklik/ui/screens/health_platform_screen.dart';
 import 'package:bileklik/ui/screens/profile_screen.dart';
+import 'package:bileklik/ui/widgets/cam/cam.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -166,7 +167,14 @@ void main() {
       ),
     );
     await tester.pumpAndSettle();
-    await tester.tap(find.byType(NavigationDestination).at(3));
+    await tester.tap(
+      find
+          .descendant(
+            of: find.byType(GlassNavBar),
+            matching: find.byType(Pressable),
+          )
+          .at(3),
+    );
     await tester.pumpAndSettle();
     final tile = find.byIcon(Icons.sync_alt);
     await tester.scrollUntilVisible(

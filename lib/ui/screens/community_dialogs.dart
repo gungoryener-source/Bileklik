@@ -6,12 +6,13 @@ import '../../l10n/l10n.dart';
 import '../app_shell.dart';
 import '../format.dart';
 import '../theme.dart';
+import '../widgets/cam/cam.dart';
 
 /// Grup adı sorar ve grubu oluşturur; vazgeçilirse null.
 Future<CareGroup?> showCreateGroupDialog(BuildContext context) {
   final service = CommunityScope.of(context);
   final l = context.l10n;
-  return showDialog<CareGroup>(
+  return showCamDialog<CareGroup>(
     context: context,
     builder: (_) => TextEntryDialog<CareGroup>(
       title: l.communityCreateGroup,
@@ -28,7 +29,7 @@ Future<CareGroup?> showCreateGroupDialog(BuildContext context) {
 Future<CareGroup?> showJoinWithCodeDialog(BuildContext context) {
   final service = CommunityScope.of(context);
   final l = context.l10n;
-  return showDialog<CareGroup>(
+  return showCamDialog<CareGroup>(
     context: context,
     builder: (_) => TextEntryDialog<CareGroup>(
       title: l.communityJoinWithCode,
@@ -48,7 +49,7 @@ Future<CareGroup?> showJoinWithCodeDialog(BuildContext context) {
 Future<void> showInviteDialog(BuildContext context, CareGroup group) async {
   final service = CommunityScope.of(context);
   final l = context.l10n;
-  final name = await showDialog<String>(
+  final name = await showCamDialog<String>(
     context: context,
     builder: (_) => TextEntryDialog<String>(
       title: l.communityInvite,
@@ -62,7 +63,7 @@ Future<void> showInviteDialog(BuildContext context, CareGroup group) async {
     ),
   );
   if (name == null || !context.mounted) return;
-  await showDialog<void>(
+  await showCamDialog<void>(
     context: context,
     builder: (_) => InviteCodeDialog(code: group.inviteCode, name: name),
   );

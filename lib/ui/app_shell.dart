@@ -11,7 +11,7 @@ import 'screens/exercise_screen.dart';
 import 'screens/health_screen.dart';
 import 'screens/home_screen.dart';
 import 'screens/profile_screen.dart';
-import 'theme.dart';
+import 'widgets/cam/cam.dart';
 
 /// Ekranlara cihaz durumunu taşır; durum değişince dinleyenler yeniden çizilir.
 class DeviceScope extends InheritedNotifier<DeviceController> {
@@ -25,7 +25,7 @@ class DeviceScope extends InheritedNotifier<DeviceController> {
       context.dependOnInheritedWidgetOfExactType<DeviceScope>()!.notifier!;
 }
 
-/// Uygulama tercihlerini (tema) ekranlara taşır.
+/// Uygulama tercihlerini (dil) ekranlara taşır.
 class SettingsScope extends InheritedNotifier<AppSettings> {
   const SettingsScope({
     super.key,
@@ -101,52 +101,40 @@ class _AppShellState extends State<AppShell> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    final l = context.l10n;
+    return CamScaffold(
+      // Menü içeriğin üstünde yüzer; içerik altından kayar ve bulanık görünür.
+      extendBody: true,
       body: SafeArea(
+        bottom: false,
         child: IndexedStack(index: _index, children: _pages),
       ),
-      // Yüzen görünümlü menü: kenarlardan boşluklu, yuvarlak köşeli; içerik
-      // menünün altında kalmaz çünkü Scaffold ona kendi yerini ayırır.
-      bottomNavigationBar: SafeArea(
-        minimum: const EdgeInsets.fromLTRB(16, 0, 16, 12),
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(28),
-          child: DecoratedBox(
-            position: DecorationPosition.foreground,
-            decoration: BoxDecoration(
-              border: Border.all(color: context.colors.outline),
-              borderRadius: BorderRadius.circular(28),
-            ),
-            child: NavigationBar(
-              height: 68,
-              backgroundColor: context.colors.surface,
-              selectedIndex: _index,
-              onDestinationSelected: _select,
-              destinations: [
-                NavigationDestination(
-                  icon: Icon(Icons.home_outlined),
-                  selectedIcon: Icon(Icons.home),
-                  label: context.l10n.navHome,
-                ),
-                NavigationDestination(
-                  icon: Icon(Icons.favorite_border),
-                  selectedIcon: Icon(Icons.favorite),
-                  label: context.l10n.navHealth,
-                ),
-                NavigationDestination(
-                  icon: Icon(Icons.directions_run_outlined),
-                  selectedIcon: Icon(Icons.directions_run),
-                  label: context.l10n.navExercise,
-                ),
-                NavigationDestination(
-                  icon: Icon(Icons.person_outline),
-                  selectedIcon: Icon(Icons.person),
-                  label: context.l10n.navProfile,
-                ),
-              ],
-            ),
+      bottomNavigationBar: GlassNavBar(
+        semanticLabel: l.navSemantics,
+        selectedIndex: _index,
+        onSelected: _select,
+        items: [
+          (
+            icon: Icons.home_outlined,
+            activeIcon: Icons.home,
+            label: l.navHome,
           ),
-        ),
+          (
+            icon: Icons.favorite_border,
+            activeIcon: Icons.favorite,
+            label: l.navHealth,
+          ),
+          (
+            icon: Icons.directions_run_outlined,
+            activeIcon: Icons.directions_run,
+            label: l.navExercise,
+          ),
+          (
+            icon: Icons.person_outline,
+            activeIcon: Icons.person,
+            label: l.navProfile,
+          ),
+        ],
       ),
     );
   }

@@ -5,6 +5,7 @@ import '../../l10n/l10n.dart';
 import '../app_shell.dart';
 import '../theme.dart';
 import '../widgets/menu_group.dart';
+import '../widgets/cam/cam.dart';
 import 'community_dialogs.dart';
 import 'community_messages_screen.dart';
 import 'group_screen.dart';
@@ -41,7 +42,7 @@ class CommunityScreen extends StatelessWidget {
         );
     }
 
-    return Scaffold(
+    return CamScaffold(
       appBar: AppBar(
         title: Text(l.profileMenuCommunity),
         actions: [
@@ -102,13 +103,10 @@ class CommunityScreen extends StatelessWidget {
               padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
               child: SizedBox(
                 width: double.infinity,
-                child: FilledButton.icon(
-                  style: FilledButton.styleFrom(
-                    minimumSize: const Size.fromHeight(52),
-                  ),
-                  onPressed: create,
-                  icon: const Icon(Icons.group_add),
-                  label: Text(l.communityCreateGroup),
+                child: GlowButton(
+                  onTap: create,
+                  icon: Icons.group_add,
+                  label: l.communityCreateGroup,
                 ),
               ),
             ),

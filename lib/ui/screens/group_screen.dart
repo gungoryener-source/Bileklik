@@ -6,6 +6,7 @@ import '../app_shell.dart';
 import '../format.dart';
 import '../theme.dart';
 import '../widgets/menu_group.dart';
+import '../widgets/cam/cam.dart';
 import 'community_dialogs.dart';
 import 'community_screen.dart';
 
@@ -23,7 +24,7 @@ class GroupScreen extends StatelessWidget {
     final colors = context.colors;
     final g = service.group(groupId);
     // Grup silindiyse ya da ayrıldıysa sayfa kapanırken boş çizilir.
-    if (g == null) return const Scaffold();
+    if (g == null) return const CamScaffold();
 
     final consent = g.myConsent;
 
@@ -33,7 +34,7 @@ class GroupScreen extends StatelessWidget {
     });
 
     Future<void> leave() async {
-      final ok = await showDialog<bool>(
+      final ok = await showCamDialog<bool>(
         context: context,
         builder: (context) => AlertDialog(
           title: Text(g.ownedByMe ? l.communityDelete : l.communityLeave),
@@ -64,7 +65,7 @@ class GroupScreen extends StatelessWidget {
       navigator.pop();
     }
 
-    return Scaffold(
+    return CamScaffold(
       appBar: AppBar(),
       body: SafeArea(
         top: false,
@@ -139,7 +140,7 @@ class GroupScreen extends StatelessWidget {
                     icon: Icons.pin_outlined,
                     title: l.communityCodeLabel,
                     value: ltr(g.inviteCode),
-                    onTap: () => showDialog<void>(
+                    onTap: () => showCamDialog<void>(
                       context: context,
                       builder: (_) => InviteCodeDialog(code: g.inviteCode),
                     ),

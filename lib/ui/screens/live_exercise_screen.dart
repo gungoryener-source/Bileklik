@@ -8,6 +8,7 @@ import '../app_shell.dart';
 import '../format.dart';
 import '../theme.dart';
 import '../widgets/stat_tile.dart';
+import '../widgets/cam/cam.dart';
 import 'workout_detail_screen.dart';
 
 /// Süren egzersiz: süre, nabız, adım, kalori, mesafe; duraklat ve bitir.
@@ -63,7 +64,7 @@ class _LiveExerciseScreenState extends State<LiveExerciseScreen> {
   }
 
   Future<void> _askToEnd(ExerciseInactive prompt) async {
-    final end = await showDialog<bool>(
+    final end = await showCamDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
         title: Text(context.l10n.liveInactiveTitle),
@@ -90,7 +91,7 @@ class _LiveExerciseScreenState extends State<LiveExerciseScreen> {
   }
 
   Future<void> _confirmStop() async {
-    final ok = await showDialog<bool>(
+    final ok = await showCamDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
         title: Text(context.l10n.liveConfirmTitle),
@@ -115,7 +116,7 @@ class _LiveExerciseScreenState extends State<LiveExerciseScreen> {
     final c = DeviceScope.of(context);
     final ex = c.exercise;
     if (ex == null) {
-      return Scaffold(
+      return CamScaffold(
         appBar: AppBar(),
         body: const Center(child: CircularProgressIndicator()),
       );
@@ -123,7 +124,7 @@ class _LiveExerciseScreenState extends State<LiveExerciseScreen> {
     final live = ex.live;
     final l = context.l10n;
     final type = ex.type;
-    return Scaffold(
+    return CamScaffold(
       appBar: AppBar(title: Text(type.label)),
       body: ListView(
         padding: const EdgeInsets.all(20),
@@ -208,7 +209,10 @@ class _LiveExerciseScreenState extends State<LiveExerciseScreen> {
           Row(
             children: [
               Expanded(
-                child: FilledButton.tonalIcon(
+                child: OutlinedButton.icon(
+                  style: OutlinedButton.styleFrom(
+                    minimumSize: const Size.fromHeight(52),
+                  ),
                   onPressed: ex.paused ? c.resumeExercise : c.pauseExercise,
                   icon: Icon(ex.paused ? Icons.play_arrow : Icons.pause),
                   label: Text(ex.paused ? l.liveContinue : l.livePause),
@@ -216,14 +220,10 @@ class _LiveExerciseScreenState extends State<LiveExerciseScreen> {
               ),
               const SizedBox(width: 12),
               Expanded(
-                child: FilledButton.icon(
-                  style: FilledButton.styleFrom(
-                    backgroundColor: DataColors.heart,
-                    foregroundColor: Colors.white,
-                  ),
-                  onPressed: _confirmStop,
-                  icon: const Icon(Icons.stop),
-                  label: Text(l.liveFinish),
+                child: GlowButton(
+                  onTap: _confirmStop,
+                  icon: Icons.stop,
+                  label: l.liveFinish,
                 ),
               ),
             ],
