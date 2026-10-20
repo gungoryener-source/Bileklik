@@ -833,6 +833,96 @@ class AppLocalizationsDe extends AppLocalizations {
   }
 
   @override
+  String get hpActivity => 'Schritte, Strecke und Kalorien';
+
+  @override
+  String get hpAuto =>
+      'Neue Daten werden nach jeder Armband-Synchronisierung automatisch gesendet.';
+
+  @override
+  String get hpChooseTypes => 'Zu sendende Daten';
+
+  @override
+  String hpConnect(Object platform) {
+    return 'Mit $platform verbinden';
+  }
+
+  @override
+  String get hpConnected => 'Verbunden';
+
+  @override
+  String hpDenied(Object platform) {
+    return 'Keine Berechtigung erteilt. Sie können sie in den Einstellungen von $platform erlauben.';
+  }
+
+  @override
+  String get hpDisconnect => 'Senden beenden';
+
+  @override
+  String hpDisconnectNote(Object platform) {
+    return 'Bereits geschriebene Daten bleiben in $platform; löschen Sie sie in den Einstellungen von $platform.';
+  }
+
+  @override
+  String get hpExportNow => 'Jetzt senden';
+
+  @override
+  String hpExported(Object records) {
+    return '$records gesendet';
+  }
+
+  @override
+  String get hpHrv => 'Herzfrequenzvariabilität (HRV)';
+
+  @override
+  String hpIntro(Object platform) {
+    return 'Ihre Armbanddaten werden in $platform geschrieben, wo andere Gesundheits-Apps auf Ihrem Telefon sie sehen können. Sie wählen, welche Arten gesendet werden.';
+  }
+
+  @override
+  String hpLastExport(Object time, Object records) {
+    return 'Zuletzt gesendet: $time · $records';
+  }
+
+  @override
+  String get hpNever => 'Noch nicht gesendet';
+
+  @override
+  String get hpNotExported =>
+      'Der Blutdruck ist geschätzt und wird daher nicht gesendet. Gesundheitsplattformen nehmen keine EKG-Aufzeichnungen anderer Apps an.';
+
+  @override
+  String get hpNothingNew => 'Keine neuen Einträge zum Senden';
+
+  @override
+  String hpPermissionNote(Object platform) {
+    return 'Beim Fortfahren öffnet $platform das Berechtigungsfenster; dort können Sie ebenfalls einzeln wählen.';
+  }
+
+  @override
+  String hpRecords(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count Einträge',
+      one: '1 Eintrag',
+      zero: 'keine Einträge',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get hpTitle => 'Gesundheits-App';
+
+  @override
+  String hpUnavailable(Object platform) {
+    return '$platform ist auf diesem Telefon nicht verfügbar. Sie können es über Google Play installieren.';
+  }
+
+  @override
+  String get hpWorkouts => 'Trainings';
+
+  @override
   String get issueBusy =>
       'Das Armband ist gerade mit einem anderen Training oder einer Messung beschäftigt.';
 
@@ -1108,6 +1198,10 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get profileMenuThirdParty => 'Health Connect und Apple Health';
+
+  @override
+  String get profileMenuThirdPartySubtitle =>
+      'Daten an die Gesundheits-App des Telefons senden';
 
   @override
   String get profileMenuVersion => 'App-Version';

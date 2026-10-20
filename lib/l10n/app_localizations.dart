@@ -1416,6 +1416,132 @@ abstract class AppLocalizations {
   /// **'Dün, {date}'**
   String homeYesterdayDate(Object date);
 
+  /// No description provided for @hpActivity.
+  ///
+  /// In tr, this message translates to:
+  /// **'Adım, mesafe ve kalori'**
+  String get hpActivity;
+
+  /// No description provided for @hpAuto.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bileklik eşitlendikçe yeni veriler kendiliğinden aktarılır.'**
+  String get hpAuto;
+
+  /// No description provided for @hpChooseTypes.
+  ///
+  /// In tr, this message translates to:
+  /// **'Aktarılacak veriler'**
+  String get hpChooseTypes;
+
+  /// No description provided for @hpConnect.
+  ///
+  /// In tr, this message translates to:
+  /// **'{platform} ile bağlan'**
+  String hpConnect(Object platform);
+
+  /// No description provided for @hpConnected.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bağlı'**
+  String get hpConnected;
+
+  /// No description provided for @hpDenied.
+  ///
+  /// In tr, this message translates to:
+  /// **'İzin verilmedi. {platform} ayarlarından izin verebilirsiniz.'**
+  String hpDenied(Object platform);
+
+  /// No description provided for @hpDisconnect.
+  ///
+  /// In tr, this message translates to:
+  /// **'Aktarımı durdur'**
+  String get hpDisconnect;
+
+  /// No description provided for @hpDisconnectNote.
+  ///
+  /// In tr, this message translates to:
+  /// **'Daha önce yazılan veriler {platform} içinde kalır; silmek için {platform} ayarlarını kullanın.'**
+  String hpDisconnectNote(Object platform);
+
+  /// No description provided for @hpExportNow.
+  ///
+  /// In tr, this message translates to:
+  /// **'Şimdi aktar'**
+  String get hpExportNow;
+
+  /// No description provided for @hpExported.
+  ///
+  /// In tr, this message translates to:
+  /// **'{records} aktarıldı'**
+  String hpExported(Object records);
+
+  /// No description provided for @hpHrv.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kalp atış hızı değişkenliği (HRV)'**
+  String get hpHrv;
+
+  /// No description provided for @hpIntro.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bileklik verileriniz {platform} uygulamasına yazılır; telefonunuzdaki diğer sağlık uygulamaları da görebilir. Hangi türlerin aktarılacağını siz seçersiniz.'**
+  String hpIntro(Object platform);
+
+  /// No description provided for @hpLastExport.
+  ///
+  /// In tr, this message translates to:
+  /// **'Son aktarım: {time} · {records}'**
+  String hpLastExport(Object time, Object records);
+
+  /// No description provided for @hpNever.
+  ///
+  /// In tr, this message translates to:
+  /// **'Henüz aktarılmadı'**
+  String get hpNever;
+
+  /// No description provided for @hpNotExported.
+  ///
+  /// In tr, this message translates to:
+  /// **'Tansiyon tahmini olduğu için aktarılmaz. EKG kayıtlarını sağlık platformları dışarıdan kabul etmez.'**
+  String get hpNotExported;
+
+  /// No description provided for @hpNothingNew.
+  ///
+  /// In tr, this message translates to:
+  /// **'Aktarılacak yeni kayıt yok'**
+  String get hpNothingNew;
+
+  /// No description provided for @hpPermissionNote.
+  ///
+  /// In tr, this message translates to:
+  /// **'Devam edince {platform} izin penceresi açılır; orada da tek tek seçebilirsiniz.'**
+  String hpPermissionNote(Object platform);
+
+  /// No description provided for @hpRecords.
+  ///
+  /// In tr, this message translates to:
+  /// **'{count, plural, =0{kayıt yok} other{{count} kayıt}}'**
+  String hpRecords(num count);
+
+  /// No description provided for @hpTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Sağlık uygulaması'**
+  String get hpTitle;
+
+  /// No description provided for @hpUnavailable.
+  ///
+  /// In tr, this message translates to:
+  /// **'{platform} bu telefonda yok. Google Play\'den yükleyebilirsiniz.'**
+  String hpUnavailable(Object platform);
+
+  /// No description provided for @hpWorkouts.
+  ///
+  /// In tr, this message translates to:
+  /// **'Egzersizler'**
+  String get hpWorkouts;
+
   /// No description provided for @issueBusy.
   ///
   /// In tr, this message translates to:
@@ -1901,6 +2027,12 @@ abstract class AppLocalizations {
   /// In tr, this message translates to:
   /// **'Health Connect ve Apple Health'**
   String get profileMenuThirdParty;
+
+  /// No description provided for @profileMenuThirdPartySubtitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Verileri telefonun sağlık uygulamasına aktar'**
+  String get profileMenuThirdPartySubtitle;
 
   /// No description provided for @profileMenuVersion.
   ///

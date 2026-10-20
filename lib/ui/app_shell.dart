@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../data/community.dart';
 import '../data/connections.dart';
+import '../data/health_platform.dart';
 import '../l10n/l10n.dart';
 
 import '../state/app_settings.dart';
@@ -58,6 +59,20 @@ class ConnectionScope extends InheritedNotifier<ConnectionService> {
 
   static ConnectionService of(BuildContext context) =>
       context.dependOnInheritedWidgetOfExactType<ConnectionScope>()!.notifier!;
+}
+
+/// Telefonun sağlık platformuna (Health Connect / Apple Health) aktarımı
+/// ekranlara taşır.
+class HealthExportScope extends InheritedNotifier<HealthExportService> {
+  const HealthExportScope({
+    super.key,
+    required HealthExportService service,
+    required super.child,
+  }) : super(notifier: service);
+
+  static HealthExportService of(BuildContext context) => context
+      .dependOnInheritedWidgetOfExactType<HealthExportScope>()!
+      .notifier!;
 }
 
 /// Alt menü: Ana Sayfa, Sağlık, Egzersiz, Profil.

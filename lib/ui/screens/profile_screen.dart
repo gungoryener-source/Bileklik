@@ -9,11 +9,12 @@ import 'community_screen.dart';
 import 'connections_screen.dart';
 import 'device_screen.dart';
 import 'general_settings_screen.dart';
+import 'health_platform_screen.dart';
 import 'personal_info_screen.dart';
 
 /// Profil sekmesi: kişisel bilgiler, cihaz, ayarlar ve uygulama menüsü.
 ///
-/// Üçüncü taraf bölümü ROADMAP 11'de gelecek; şimdilik "Yakında" olarak görünür.
+/// Geri bildirim henüz yok; "Yakında" olarak görünür.
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
 
@@ -95,8 +96,8 @@ class ProfileScreen extends StatelessWidget {
             MenuTile(
               icon: Icons.sync_alt,
               title: l.profileMenuThirdParty,
-              soon: true,
-              onTap: soon,
+              subtitle: l.profileMenuThirdPartySubtitle,
+              onTap: () => open(const HealthPlatformScreen()),
             ),
           ],
         ),

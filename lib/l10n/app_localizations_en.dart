@@ -831,6 +831,96 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String get hpActivity => 'Steps, distance and calories';
+
+  @override
+  String get hpAuto =>
+      'New data is sent automatically after each wristband sync.';
+
+  @override
+  String get hpChooseTypes => 'Data to send';
+
+  @override
+  String hpConnect(Object platform) {
+    return 'Connect to $platform';
+  }
+
+  @override
+  String get hpConnected => 'Connected';
+
+  @override
+  String hpDenied(Object platform) {
+    return 'Permission was not granted. You can allow it in $platform settings.';
+  }
+
+  @override
+  String get hpDisconnect => 'Stop sending';
+
+  @override
+  String hpDisconnectNote(Object platform) {
+    return 'Data already written stays in $platform; use $platform settings to delete it.';
+  }
+
+  @override
+  String get hpExportNow => 'Send now';
+
+  @override
+  String hpExported(Object records) {
+    return '$records sent';
+  }
+
+  @override
+  String get hpHrv => 'Heart rate variability (HRV)';
+
+  @override
+  String hpIntro(Object platform) {
+    return 'Your wristband data is written to $platform, where other health apps on your phone can see it. You choose which types are sent.';
+  }
+
+  @override
+  String hpLastExport(Object time, Object records) {
+    return 'Last sent: $time · $records';
+  }
+
+  @override
+  String get hpNever => 'Not sent yet';
+
+  @override
+  String get hpNotExported =>
+      'Blood pressure is an estimate, so it is not sent. Health platforms don\'t accept ECG recordings from other apps.';
+
+  @override
+  String get hpNothingNew => 'No new records to send';
+
+  @override
+  String hpPermissionNote(Object platform) {
+    return 'When you continue, $platform opens its permission screen, where you can also choose one by one.';
+  }
+
+  @override
+  String hpRecords(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count records',
+      one: '1 record',
+      zero: 'no records',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get hpTitle => 'Health app';
+
+  @override
+  String hpUnavailable(Object platform) {
+    return '$platform is not available on this phone. You can install it from Google Play.';
+  }
+
+  @override
+  String get hpWorkouts => 'Workouts';
+
+  @override
   String get issueBusy =>
       'The wristband is busy with another exercise or measurement.';
 
@@ -1108,6 +1198,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get profileMenuThirdParty => 'Health Connect and Apple Health';
+
+  @override
+  String get profileMenuThirdPartySubtitle =>
+      'Send data to your phone\'s health app';
 
   @override
   String get profileMenuVersion => 'App version';
