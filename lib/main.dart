@@ -5,6 +5,8 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'data/community.dart';
 import 'data/connections.dart';
 import 'data/health_platform.dart';
+import 'data/health_store.dart';
+import 'data/sqlite_health_store.dart';
 import 'device/fake_device.dart';
 import 'l10n/l10n.dart';
 import 'state/app_settings.dart';
@@ -18,8 +20,22 @@ Future<void> main() async {
   final settings = await AppSettings.load();
   // Bileklik gelene kadar sahte cihaz kullanılır. Gerçek BLE katmanı
   // eklendiğinde yalnızca bu satır değişecek.
-  final controller = DeviceController(FakeDevice());
+  final controller = DeviceController(FakeDevice(), store: await _openStore());
   runApp(BileklikApp(controller: controller, settings: settings));
+}
+
+/// Telefonda SQLite; web demosunda (sqflite web'de yok) ya da veritabanı
+/// açılamazsa bellek. Açılamama durumu raporlanır, uygulama yine açılır.
+Future<HealthStore> _openStore() async {
+  if (kIsWeb) return MemoryHealthStore();
+  try {
+    return await SqliteHealthStore.open();
+  } catch (e, s) {
+    FlutterError.reportError(
+      FlutterErrorDetails(exception: e, stack: s, library: 'bileklik'),
+    );
+    return MemoryHealthStore();
+  }
 }
 
 class BileklikApp extends StatelessWidget {
