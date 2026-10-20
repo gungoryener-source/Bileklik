@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../data/models.dart';
 import '../../device/protocol/exercise.dart';
+import '../../device/transport.dart';
 import '../../l10n/l10n.dart';
 import '../app_shell.dart';
 import '../format.dart';
@@ -19,9 +20,17 @@ class ExerciseScreen extends StatelessWidget {
     final messenger = ScaffoldMessenger.of(context);
     final navigator = Navigator.of(context);
     final l = context.l10n;
+    // Bileklik bağlı değilse önce bağlanılır; spora dokunmak hiçbir şey
+    // yapmıyormuş gibi görünmesin.
     if (!c.isConnected) {
-      messenger.showSnackBar(SnackBar(content: Text(l.exerciseConnectFirst)));
-      return;
+      if (c.connection == DeviceConnectionState.connecting) return;
+      await c.connect();
+      if (!c.isConnected) {
+        messenger.showSnackBar(
+          SnackBar(content: Text(issueText(c) ?? l.exerciseConnectFirst)),
+        );
+        return;
+      }
     }
     if (await c.startExercise(type)) {
       navigator.push(
@@ -111,6 +120,9 @@ class ExerciseScreen extends StatelessWidget {
             ),
             const SizedBox(height: 10),
             GridView(
+              // Boş verilmezse liste içindeki ızgara alt menü boşluğunu
+              // (MediaQuery) kendine de ekler ve altında büyük bir boşluk kalır.
+              padding: EdgeInsets.zero,
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
