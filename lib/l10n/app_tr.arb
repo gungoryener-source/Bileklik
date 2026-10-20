@@ -353,6 +353,33 @@
     }
   },
   "homeYesterdayDate": "Dün, {date}",
+  "hpActivity": "Adım, mesafe ve kalori",
+  "hpAuto": "Bileklik eşitlendikçe yeni veriler kendiliğinden aktarılır.",
+  "hpChooseTypes": "Aktarılacak veriler",
+  "hpConnect": "{platform} ile bağlan",
+  "hpConnected": "Bağlı",
+  "hpDenied": "İzin verilmedi. {platform} ayarlarından izin verebilirsiniz.",
+  "hpDisconnect": "Aktarımı durdur",
+  "hpDisconnectNote": "Daha önce yazılan veriler {platform} içinde kalır; silmek için {platform} ayarlarını kullanın.",
+  "hpExportNow": "Şimdi aktar",
+  "hpExported": "{records} aktarıldı",
+  "hpHrv": "Kalp atış hızı değişkenliği (HRV)",
+  "hpIntro": "Bileklik verileriniz {platform} uygulamasına yazılır; telefonunuzdaki diğer sağlık uygulamaları da görebilir. Hangi türlerin aktarılacağını siz seçersiniz.",
+  "hpLastExport": "Son aktarım: {time} · {records}",
+  "@hpLastExport": {
+    "placeholders": {
+      "time": {},
+      "records": {}
+    }
+  },
+  "hpNever": "Henüz aktarılmadı",
+  "hpNotExported": "Tansiyon tahmini olduğu için aktarılmaz. EKG kayıtlarını sağlık platformları dışarıdan kabul etmez.",
+  "hpNothingNew": "Aktarılacak yeni kayıt yok",
+  "hpPermissionNote": "Devam edince {platform} izin penceresi açılır; orada da tek tek seçebilirsiniz.",
+  "hpRecords": "{count, plural, =0{kayıt yok} other{{count} kayıt}}",
+  "hpTitle": "Sağlık uygulaması",
+  "hpUnavailable": "{platform} bu telefonda yok. Google Play'den yükleyebilirsiniz.",
+  "hpWorkouts": "Egzersizler",
   "issueBusy": "Bileklik şu an başka bir egzersizde ya da ölçümde.",
   "issueFailed": "Bileklikle iletişim kurulamadı. Yakında ve açık olduğundan emin olun.",
   "issueNoEcgSignal": "EKG verisi alınamadı. Bilekliği takıp parmağınızı elektroda dokundurun.",
@@ -460,6 +487,7 @@
   "profileMenuResearch": "Hekim ve araştırma kurumu",
   "profileMenuResearchSubtitle": "Davet koduyla veri paylaşımı",
   "profileMenuThirdParty": "Health Connect ve Apple Health",
+  "profileMenuThirdPartySubtitle": "Verileri telefonun sağlık uygulamasına aktar",
   "profileMenuVersion": "Uygulama sürümü",
   "profileRangeError": "{min} ile {max} arasında olmalı",
   "@profileRangeError": {

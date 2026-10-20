@@ -824,6 +824,95 @@ class AppLocalizationsTr extends AppLocalizations {
   }
 
   @override
+  String get hpActivity => 'Adım, mesafe ve kalori';
+
+  @override
+  String get hpAuto =>
+      'Bileklik eşitlendikçe yeni veriler kendiliğinden aktarılır.';
+
+  @override
+  String get hpChooseTypes => 'Aktarılacak veriler';
+
+  @override
+  String hpConnect(Object platform) {
+    return '$platform ile bağlan';
+  }
+
+  @override
+  String get hpConnected => 'Bağlı';
+
+  @override
+  String hpDenied(Object platform) {
+    return 'İzin verilmedi. $platform ayarlarından izin verebilirsiniz.';
+  }
+
+  @override
+  String get hpDisconnect => 'Aktarımı durdur';
+
+  @override
+  String hpDisconnectNote(Object platform) {
+    return 'Daha önce yazılan veriler $platform içinde kalır; silmek için $platform ayarlarını kullanın.';
+  }
+
+  @override
+  String get hpExportNow => 'Şimdi aktar';
+
+  @override
+  String hpExported(Object records) {
+    return '$records aktarıldı';
+  }
+
+  @override
+  String get hpHrv => 'Kalp atış hızı değişkenliği (HRV)';
+
+  @override
+  String hpIntro(Object platform) {
+    return 'Bileklik verileriniz $platform uygulamasına yazılır; telefonunuzdaki diğer sağlık uygulamaları da görebilir. Hangi türlerin aktarılacağını siz seçersiniz.';
+  }
+
+  @override
+  String hpLastExport(Object time, Object records) {
+    return 'Son aktarım: $time · $records';
+  }
+
+  @override
+  String get hpNever => 'Henüz aktarılmadı';
+
+  @override
+  String get hpNotExported =>
+      'Tansiyon tahmini olduğu için aktarılmaz. EKG kayıtlarını sağlık platformları dışarıdan kabul etmez.';
+
+  @override
+  String get hpNothingNew => 'Aktarılacak yeni kayıt yok';
+
+  @override
+  String hpPermissionNote(Object platform) {
+    return 'Devam edince $platform izin penceresi açılır; orada da tek tek seçebilirsiniz.';
+  }
+
+  @override
+  String hpRecords(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count kayıt',
+      zero: 'kayıt yok',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get hpTitle => 'Sağlık uygulaması';
+
+  @override
+  String hpUnavailable(Object platform) {
+    return '$platform bu telefonda yok. Google Play\'den yükleyebilirsiniz.';
+  }
+
+  @override
+  String get hpWorkouts => 'Egzersizler';
+
+  @override
   String get issueBusy => 'Bileklik şu an başka bir egzersizde ya da ölçümde.';
 
   @override
@@ -1089,6 +1178,10 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get profileMenuThirdParty => 'Health Connect ve Apple Health';
+
+  @override
+  String get profileMenuThirdPartySubtitle =>
+      'Verileri telefonun sağlık uygulamasına aktar';
 
   @override
   String get profileMenuVersion => 'Uygulama sürümü';

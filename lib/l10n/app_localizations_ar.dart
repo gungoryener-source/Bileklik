@@ -835,6 +835,98 @@ class AppLocalizationsAr extends AppLocalizations {
   }
 
   @override
+  String get hpActivity => 'الخطوات والمسافة والسعرات';
+
+  @override
+  String get hpAuto => 'تُرسل البيانات الجديدة تلقائيًا بعد كل مزامنة للسوار.';
+
+  @override
+  String get hpChooseTypes => 'البيانات المراد إرسالها';
+
+  @override
+  String hpConnect(Object platform) {
+    return 'الاتصال بـ $platform';
+  }
+
+  @override
+  String get hpConnected => 'متصل';
+
+  @override
+  String hpDenied(Object platform) {
+    return 'لم يُمنح الإذن. يمكنك السماح به من إعدادات $platform.';
+  }
+
+  @override
+  String get hpDisconnect => 'إيقاف الإرسال';
+
+  @override
+  String hpDisconnectNote(Object platform) {
+    return 'تبقى البيانات المكتوبة في $platform؛ استخدم إعدادات $platform لحذفها.';
+  }
+
+  @override
+  String get hpExportNow => 'إرسال الآن';
+
+  @override
+  String hpExported(Object records) {
+    return 'تم إرسال $records';
+  }
+
+  @override
+  String get hpHrv => 'تقلب نبض القلب (HRV)';
+
+  @override
+  String hpIntro(Object platform) {
+    return 'تُكتب بيانات السوار في $platform، حيث يمكن لتطبيقات الصحة الأخرى في هاتفك رؤيتها. أنت تختار الأنواع التي تُرسل.';
+  }
+
+  @override
+  String hpLastExport(Object time, Object records) {
+    return 'آخر إرسال: $time · $records';
+  }
+
+  @override
+  String get hpNever => 'لم يُرسل بعد';
+
+  @override
+  String get hpNotExported =>
+      'لا يُرسل ضغط الدم لأنه تقديري. لا تقبل منصات الصحة تسجيلات تخطيط القلب من التطبيقات الأخرى.';
+
+  @override
+  String get hpNothingNew => 'لا توجد سجلات جديدة للإرسال';
+
+  @override
+  String hpPermissionNote(Object platform) {
+    return 'عند المتابعة تفتح $platform شاشة الأذونات، ويمكنك الاختيار هناك أيضًا واحدًا تلو الآخر.';
+  }
+
+  @override
+  String hpRecords(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count سجل',
+      many: '$count سجلًا',
+      few: '$count سجلات',
+      two: 'سجلان',
+      one: 'سجل واحد',
+      zero: 'لا سجلات',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get hpTitle => 'تطبيق الصحة';
+
+  @override
+  String hpUnavailable(Object platform) {
+    return '$platform غير متوفر على هذا الهاتف. يمكنك تثبيته من Google Play.';
+  }
+
+  @override
+  String get hpWorkouts => 'التمارين';
+
+  @override
   String get issueBusy => 'السوار مشغول بتمرين أو قياس آخر.';
 
   @override
@@ -1108,6 +1200,10 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get profileMenuThirdParty => 'ربط تطبيقات الصحة';
+
+  @override
+  String get profileMenuThirdPartySubtitle =>
+      'إرسال البيانات إلى تطبيق الصحة في هاتفك';
 
   @override
   String get profileMenuVersion => 'إصدار التطبيق';
