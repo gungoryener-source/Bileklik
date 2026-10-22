@@ -1,0 +1,9 @@
+/// Bileklik portalı: uygulamadan FHIR R4 verisi alır, takipçilere (hekim,
+/// araştırma kurumu, aile) yalnızca hastanın rızasıyla gösterir ve her erişimi
+/// KVKK için kaydeder.
+library;
+
+export 'src/api.dart';
+export 'src/ingest.dart';
+export 'src/model.dart';
+export 'src/store.dart';

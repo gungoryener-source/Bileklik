@@ -5,3 +5,5 @@ analyzer:
     - build/**
     - android/**
     - ios/**
+    # Portal ayrı bir Dart paketi; kendi analizi CI'daki portal işinde.
+    - portal/**
