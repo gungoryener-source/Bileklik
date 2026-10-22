@@ -16,7 +16,23 @@ jobs:
           cache: true
       - run: flutter pub get
       - run: flutter analyze
-      - run: flutter test
+      - name: flutter test
+        run: |
+          set -o pipefail
+          flutter test --reporter expanded 2>&1 | tee test-output.txt
+      # GEÇİCİ: başarısız testlerin çıktısını açıklama olarak yazar.
+      - name: Başarısız testler
+        if: failure()
+        run: |
+          python3 - <<'PY'
+          lines = open('test-output.txt', encoding='utf-8', errors='replace').read().splitlines()
+          marks = [i for i, l in enumerate(lines) if '[E]' in l]
+          for n, i in enumerate(marks[:8]):
+              start = max(0, i - 70)
+              chunk = '\n'.join(lines[start:i + 12])[-3800:]
+              msg = chunk.replace('%', '%25').replace('\r', '').replace('\n', '%0A')
+              print(f'::error title=fail{n}::{msg}')
+          PY
 
   portal:
     runs-on: ubuntu-latest
