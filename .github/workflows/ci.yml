@@ -16,4 +16,5 @@ jobs:
           cache: true
       - run: flutter pub get
       - run: flutter analyze
-      - run: flutter test
+      # GitHub raporcusu başarısız testleri PR'da açıklama olarak gösterir.
+      - run: flutter test --reporter github
