@@ -1186,6 +1186,35 @@ class AppLocalizationsEn extends AppLocalizations {
   String get hpWorkouts => 'Workouts';
 
   @override
+  String get hrvBeats => 'Beats';
+
+  @override
+  String get hrvDetailEmpty => 'No overnight beat-interval readings in the past week. Wear the wristband while you sleep.';
+
+  @override
+  String hrvDetailNight(Object date) {
+    return 'Night ending $date';
+  }
+
+  @override
+  String get hrvDetailNote => 'Calculated from beat intervals measured overnight. RMSSD reflects short-term and SDNN overall variability; compare with your own trend.';
+
+  @override
+  String get hrvDetailTitle => 'Overnight HRV details';
+
+  @override
+  String get hrvMeanHeartRate => 'Average heart rate';
+
+  @override
+  String get hrvPnn50 => 'pNN50';
+
+  @override
+  String get hrvRmssd => 'RMSSD';
+
+  @override
+  String get hrvSdnn => 'SDNN';
+
+  @override
   String get issueBusy =>
       'The wristband is busy with another exercise or measurement.';
 
@@ -1330,6 +1359,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get metricMuscleMass => 'Muscle mass';
+
+  @override
+  String get metricPpi => 'Beat interval';
 
   @override
   String get metricRespiratoryRate => 'Respiratory Rate';
@@ -1915,6 +1947,28 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get unitsTitle => 'Units';
+
+  @override
+  String vo2MaxBasis(Object age, Object resting) {
+    return 'Based on age $age and resting heart rate $resting';
+  }
+
+  @override
+  String get vo2MaxNeedsAge => 'Your age is needed for the estimate. Connect the wristband and enter it under Profile > Personal info.';
+
+  @override
+  String get vo2MaxNeedsData => 'A few days of heart-rate or overnight readings are needed to work out your resting heart rate.';
+
+  @override
+  String get vo2MaxNote => 'Estimated from the ratio of age-predicted maximum heart rate to resting heart rate; this is not a lab measurement. Use it to follow your fitness trend.';
+
+  @override
+  String get vo2MaxTitle => 'Estimated VO2 max';
+
+  @override
+  String vo2MaxValue(Object value) {
+    return '$value ml/kg/min';
+  }
 
   @override
   String get wearDetectionFailed =>

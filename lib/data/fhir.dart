@@ -330,7 +330,7 @@ class FhirExporter {
         '${h.substring(16, 20)}-${h.substring(20)}';
   }
 
-  /// Bir ölçüm türünün FHIR kodu; tansiyon bileşenleri için null.
+  /// Bir ölçüm türünün FHIR kodu; tansiyon bileşenleri ve ham PPI için null.
   static FhirCode? codeOf(MetricType t) => switch (t) {
     MetricType.heartRate => const FhirCode(
       'vital-signs',
@@ -422,7 +422,8 @@ class FhirExporter {
       'kg',
       'kg',
     ),
-    MetricType.systolic || MetricType.diastolic => null,
+    // Tansiyon panelde yazılır; ham PPI dışa aktarılmaz.
+    MetricType.systolic || MetricType.diastolic || MetricType.ppi => null,
   };
 }
 

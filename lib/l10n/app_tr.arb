@@ -532,6 +532,20 @@
   "hpTitle": "Sağlık uygulaması",
   "hpUnavailable": "{platform} bu telefonda yok. Google Play'den yükleyebilirsiniz.",
   "hpWorkouts": "Egzersizler",
+  "hrvBeats": "Atım",
+  "hrvDetailEmpty": "Son bir haftada gece atım aralığı ölçümü yok. Bilekliği uyurken takın.",
+  "hrvDetailNight": "{date} sabahına kadarki gece",
+  "@hrvDetailNight": {
+    "placeholders": {
+      "date": {}
+    }
+  },
+  "hrvDetailNote": "Gece ölçülen atım aralıklarından hesaplanır. RMSSD kısa süreli, SDNN genel değişkenliği gösterir; kendi eğiliminizle karşılaştırın.",
+  "hrvDetailTitle": "Gece HRV ayrıntısı",
+  "hrvMeanHeartRate": "Ortalama nabız",
+  "hrvPnn50": "pNN50",
+  "hrvRmssd": "RMSSD",
+  "hrvSdnn": "SDNN",
   "issueBusy": "Bileklik şu an başka bir egzersizde ya da ölçümde.",
   "issueFailed": "Bileklikle iletişim kurulamadı. Yakında ve açık olduğundan emin olun.",
   "issueNoEcgSignal": "EKG verisi alınamadı. Bilekliği takıp parmağınızı elektroda dokundurun.",
@@ -592,6 +606,7 @@
   "metricHeartRate": "Kalp Atış Hızı",
   "metricHrv": "Kalp Atış Hızı Değişkenliği",
   "metricMuscleMass": "Kas kütlesi",
+  "metricPpi": "Atım aralığı",
   "metricRespiratoryRate": "Solunum Hızı",
   "metricSpo2": "Kan Oksijen Doygunluğu",
   "metricSteps": "Adım",
@@ -849,6 +864,23 @@
   "unitsImperial": "ABD (mil, °F)",
   "unitsMetric": "Metrik (km, °C)",
   "unitsTitle": "Birimler",
+  "vo2MaxBasis": "{age} yaş ve dinlenik nabız {resting} ile",
+  "@vo2MaxBasis": {
+    "placeholders": {
+      "age": {},
+      "resting": {}
+    }
+  },
+  "vo2MaxNeedsAge": "Tahmin için yaşınız gerekiyor. Bilekliği bağlayıp Profil > Kişisel bilgiler'den girin.",
+  "vo2MaxNeedsData": "Dinlenik nabzı hesaplamak için birkaç günlük nabız ya da gece ölçümü gerekiyor.",
+  "vo2MaxNote": "Yaştan beklenen en yüksek nabız ile dinlenik nabzın oranından tahmin edilir; laboratuvar ölçümü değildir. Kondisyonunuzun eğilimini izlemek için kullanın.",
+  "vo2MaxTitle": "VO2 Max tahmini",
+  "vo2MaxValue": "{value} ml/kg/dk",
+  "@vo2MaxValue": {
+    "placeholders": {
+      "value": {}
+    }
+  },
   "wearDetectionFailed": "Takma algılama ayarı bilekliğe yazılamadı.",
   "wearDetectionSubtitle": "Ölçüm sırasında bileklik çıkarılırsa ya da kolunuz hareket ederse uyarır.",
   "wearDetectionTitle": "Takma algılama",

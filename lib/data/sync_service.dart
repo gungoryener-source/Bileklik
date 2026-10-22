@@ -23,6 +23,31 @@ class SyncService {
     await _temperature();
     await _sleep();
     await workouts();
+    // 0x63'ün biçimi tahmini; bileklik bu komutu desteklemezse diğer
+    // veriler yine senkronlanmış olur.
+    try {
+      await _ppi();
+    } on DeviceCommandException {
+      // Gerçek cihazda doğrulanacak.
+    }
+  }
+
+  /// Atımdan atıma aralıklar: her aralık, atımın bittiği anla saklanır.
+  Future<void> _ppi() async {
+    final rows = await client.fetchHistory(
+      HistoryKind.ppi,
+      since: store.lastTime(MetricType.ppi),
+    );
+    final out = <Measurement>[];
+    for (final r in rows.map(PpiRecord.parse)) {
+      var t = r.time;
+      for (final ms in r.intervalsMs) {
+        if (ms <= 0) continue;
+        t = t.add(Duration(milliseconds: ms));
+        out.add(Measurement(MetricType.ppi, t, ms.toDouble()));
+      }
+    }
+    store.addMeasurements(out);
   }
 
   /// Yalnızca egzersiz kayıtlarını çeker; egzersiz bitince kullanılır.
