@@ -1386,6 +1386,155 @@ class AppLocalizationsAr extends AppLocalizations {
   String get profileWeight => 'الوزن';
 
   @override
+  String get reminderAddMedication => 'إضافة موعد دواء';
+
+  @override
+  String get reminderAddWater => 'إضافة موعد شرب الماء';
+
+  @override
+  String get reminderAlarm => 'المنبّه';
+
+  @override
+  String reminderCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count تذكير',
+      many: '$count تذكيرًا',
+      few: '$count تذكيرات',
+      two: 'تذكيران',
+      one: 'تذكير واحد',
+      zero: 'لا تذكيرات',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String reminderCountSedentary(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count تذكير وتنبيه قلة الحركة',
+      many: '$count تذكيرًا وتنبيه قلة الحركة',
+      few: '$count تذكيرات وتنبيه قلة الحركة',
+      two: 'تذكيران وتنبيه قلة الحركة',
+      one: 'تذكير واحد وتنبيه قلة الحركة',
+      zero: 'تنبيه قلة الحركة فقط',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get reminderDelete => 'حذف';
+
+  @override
+  String get reminderDuplicate =>
+      'يوجد بالفعل تذكير من هذا النوع في هذا الوقت.';
+
+  @override
+  String get reminderEdit => 'تعديل التذكير';
+
+  @override
+  String get reminderEmptyMedication =>
+      'أضف مواعيد دوائك؛ يهتز السوار في كل موعد.';
+
+  @override
+  String get reminderEmptyWater =>
+      'أضف مواعيد ليذكّرك السوار بشرب الماء خلال اليوم.';
+
+  @override
+  String get reminderLabel => 'اسم الدواء (اختياري)';
+
+  @override
+  String get reminderLabelHint => 'مثال: دواء الصباح';
+
+  @override
+  String get reminderMedication => 'الدواء';
+
+  @override
+  String get reminderNewMedication => 'تذكير دواء جديد';
+
+  @override
+  String get reminderNewWater => 'تذكير ماء جديد';
+
+  @override
+  String get reminderSave => 'حفظ';
+
+  @override
+  String get reminderTime => 'الوقت';
+
+  @override
+  String get reminderWater => 'الماء';
+
+  @override
+  String get reminderWeekdays => 'أيام العمل';
+
+  @override
+  String get reminderWeekend => 'عطلة نهاية الأسبوع';
+
+  @override
+  String remindersFull(int max) {
+    return 'يتسع السوار لـ $max تذكيرات كحد أقصى.';
+  }
+
+  @override
+  String get remindersIntro =>
+      'عند حلول موعد التذكير يهتز السوار؛ لا يظهر إشعار على الهاتف.';
+
+  @override
+  String get remindersLoadFailed => 'تعذّرت قراءة التذكيرات من السوار.';
+
+  @override
+  String get remindersNotConnected => 'وصّل السوار لعرض التذكيرات وتغييرها.';
+
+  @override
+  String get remindersSaveFailed =>
+      'تعذّر حفظ التذكير في السوار. حاول مرة أخرى.';
+
+  @override
+  String get remindersTitle => 'التذكيرات';
+
+  @override
+  String sedentaryHours(int hours) {
+    String _temp0 = intl.Intl.pluralLogic(
+      hours,
+      locale: localeName,
+      other: '$hours ساعة',
+      many: '$hours ساعة',
+      few: '$hours ساعات',
+      two: 'ساعتان',
+      one: 'ساعة واحدة',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String sedentaryHoursMinutes(int hours, int minutes) {
+    return '$hours س $minutes د';
+  }
+
+  @override
+  String get sedentaryInterval => 'مدة عدم الحركة';
+
+  @override
+  String sedentaryMinutes(int minutes) {
+    return '$minutes دقيقة';
+  }
+
+  @override
+  String sedentaryNote(int steps) {
+    return 'يصلك التنبيه إذا مشيت أقل من $steps خطوة خلال هذه المدة. لا تنبيهات أثناء النوم.';
+  }
+
+  @override
+  String sedentarySubtitle(String time) {
+    return 'يهتز السوار إذا لم تتحرك لمدة $time.';
+  }
+
+  @override
+  String get sedentaryTitle => 'تنبيه قلة الحركة';
+
+  @override
   String get shareActivity => 'النشاط والخطوات';
 
   @override

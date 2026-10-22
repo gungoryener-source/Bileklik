@@ -5,6 +5,7 @@ import 'protocol/ecg.dart';
 import 'protocol/exercise.dart';
 import 'protocol/history.dart';
 import 'protocol/packet.dart';
+import 'protocol/reminders.dart';
 import 'protocol/settings.dart';
 import 'transport.dart';
 
@@ -78,7 +79,7 @@ class WristbandClient {
       return;
     }
     final history = _history;
-    if (history != null && history.kind.command == command) {
+    if (history != null && history.command == command) {
       history.add(raw);
       return;
     }
@@ -186,6 +187,63 @@ class WristbandClient {
     );
   }
 
+  /// 0x57: bileklikteki hatırlatıcıları okur. Kayıtlar geçmiş verisi gibi
+  /// uç uca gelir ve `57 FF` ile biter (gerçek cihazda doğrulanacak).
+  Future<List<Reminder>> getReminders() async {
+    if (_history != null) {
+      throw DeviceCommandException(
+        ReminderCmd.get,
+        'başka bir senkron sürüyor',
+      );
+    }
+    final collector = _HistoryCollector(ReminderCmd.get, reminderRecordLength);
+    _history = collector;
+    try {
+      await transport.send(getRemindersCommand().bytes);
+      final records = await collector.done.timeout(
+        timeout,
+        onTimeout: () {
+          throw DeviceCommandException(ReminderCmd.get, 'yanıt gelmedi');
+        },
+      );
+      return [for (final r in records) decodeReminder(r)];
+    } finally {
+      _history = null;
+    }
+  }
+
+  /// 0x23: hatırlatıcı listesini bilekliğe yazar; boş listede 0x57 99 ile
+  /// hepsini siler. Bileklik 16 baytlık `23` onayı döner (gerçek cihazda
+  /// doğrulanacak).
+  Future<void> setReminders(List<Reminder> reminders) async {
+    if (reminders.isEmpty) {
+      await _request(deleteRemindersCommand());
+      return;
+    }
+    final completer = Completer<Packet>();
+    _pending[ReminderCmd.set]?.completeError(
+      DeviceCommandException(ReminderCmd.set, 'yeni istekle değiştirildi'),
+    );
+    _pending[ReminderCmd.set] = completer;
+    await transport.send(setRemindersCommand(reminders));
+    await completer.future.timeout(
+      timeout,
+      onTimeout: () {
+        _pending.remove(ReminderCmd.set);
+        throw DeviceCommandException(ReminderCmd.set, 'yanıt gelmedi');
+      },
+    );
+  }
+
+  /// 0x25: hareketsizlik uyarısını yazar.
+  Future<void> setSedentary(SedentaryConfig config) =>
+      _request(setSedentaryCommand(config));
+
+  /// 0x26: hareketsizlik uyarısını okur.
+  Future<SedentaryConfig> getSedentary() async => SedentaryConfig.fromBytes(
+    (await _request(getSedentaryCommand())).payload,
+  );
+
   _HistoryCollector? _history;
 
   /// Bir geçmiş türünün [since] sonrasındaki tüm kayıtlarını çeker.
@@ -204,7 +262,7 @@ class WristbandClient {
     var mode = HistoryMode.read;
     try {
       while (true) {
-        final collector = _HistoryCollector(kind);
+        final collector = _HistoryCollector(kind.command, kind.recordLength);
         _history = collector;
         await transport.send(historyRequest(kind, mode, since: since).bytes);
         final page = await collector.done.timeout(
@@ -233,9 +291,10 @@ class WristbandClient {
 }
 
 class _HistoryCollector {
-  _HistoryCollector(this.kind);
+  _HistoryCollector(this.command, this.recordLength);
 
-  final HistoryKind kind;
+  final int command;
+  final int recordLength;
   final _records = <List<int>>[];
   final _done = Completer<List<List<int>>>();
 
@@ -244,12 +303,10 @@ class _HistoryCollector {
   void add(List<int> raw) {
     if (_done.isCompleted) return;
     if (raw[0] & Packet.errorBit != 0) {
-      _done.completeError(
-        DeviceCommandException(kind.command, 'cihaz hata döndü'),
-      );
+      _done.completeError(DeviceCommandException(command, 'cihaz hata döndü'));
       return;
     }
-    final chunk = splitHistory(kind, raw);
+    final chunk = splitRecords(command, recordLength, raw);
     _records.addAll(chunk.records);
     if (chunk.ended) _done.complete(_records);
   }

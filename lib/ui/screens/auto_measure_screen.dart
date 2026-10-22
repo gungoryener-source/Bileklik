@@ -8,6 +8,7 @@ import '../format.dart';
 import '../theme.dart';
 import '../widgets/cam/cam.dart';
 import '../widgets/choice_sheet.dart';
+import '../widgets/settings_rows.dart';
 
 /// Otomatik ölçüm ayarları (0x2A/0x2B): nabız, SpO2 ve HRV için aralık,
 /// saat dilimi ve günler. Her değişiklik hemen bilekliğe yazılır; bileklik
@@ -24,13 +25,13 @@ class AutoMeasureScreen extends StatelessWidget {
 
     Widget body;
     if (!c.isConnected) {
-      body = _Notice(
+      body = SettingsNotice(
         text: l.autoMeasureNotConnected,
         action: l.autoMeasureConnect,
         onTap: c.connect,
       );
     } else if (configs.isEmpty && c.settingsFailed) {
-      body = _Notice(
+      body = SettingsNotice(
         text: l.autoMeasureLoadFailed,
         action: l.autoMeasureRetry,
         onTap: c.reloadDeviceSettings,
@@ -196,17 +197,17 @@ class _TypeCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
                       Divider(height: 1, color: colors.grid),
-                      _ValueRow(
+                      SettingsValueRow(
                         label: l.autoMeasureInterval,
                         value: intervalText(l, config.intervalMinutes),
                         onTap: () => _pickInterval(context),
                       ),
-                      _ValueRow(
+                      SettingsValueRow(
                         label: l.autoMeasureStart,
                         value: ltr(minuteOfDay(config.startMinute)),
                         onTap: () => _pickTime(context, start: true),
                       ),
-                      _ValueRow(
+                      SettingsValueRow(
                         label: l.autoMeasureEnd,
                         value: endText(l, config),
                         onTap: () => _pickTime(context, start: false),
@@ -230,8 +231,8 @@ class _TypeCard extends StatelessWidget {
                           12,
                           12,
                         ),
-                        child: _DayPicker(
-                          config: config,
+                        child: WeekdayPicker(
+                          isSelected: config.hasDay,
                           onChanged: (day, v) => _toggleDay(context, day, v),
                         ),
                       ),
@@ -274,102 +275,4 @@ String hoursText(AppLocalizations l, AutoMeasureConfig c) => c.allDay
 String endText(AppLocalizations l, AutoMeasureConfig c) {
   final time = ltr(minuteOfDay(c.endMinute));
   return c.endMinute < c.startMinute ? l.autoMeasureNextDay(time) : time;
-}
-
-class _ValueRow extends StatelessWidget {
-  const _ValueRow({
-    required this.label,
-    required this.value,
-    required this.onTap,
-  });
-
-  final String label, value;
-  final VoidCallback onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = context.colors;
-    return ListTile(
-      minTileHeight: 52,
-      contentPadding: const EdgeInsetsDirectional.only(start: 16, end: 12),
-      title: Text(label),
-      trailing: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          ConstrainedBox(
-            constraints: BoxConstraints(
-              maxWidth: MediaQuery.sizeOf(context).width * 0.4,
-            ),
-            child: Text(
-              value,
-              textAlign: TextAlign.end,
-              overflow: TextOverflow.ellipsis,
-              maxLines: 2,
-              style: const TextStyle(fontWeight: FontWeight.w600),
-            ),
-          ),
-          Icon(Icons.chevron_right, color: colors.muted),
-        ],
-      ),
-      onTap: onTap,
-    );
-  }
-}
-
-/// Haftanın günleri; sıra dilin hafta başlangıcına göre.
-class _DayPicker extends StatelessWidget {
-  const _DayPicker({required this.config, required this.onChanged});
-
-  final AutoMeasureConfig config;
-  final void Function(int weekday, bool on) onChanged;
-
-  @override
-  Widget build(BuildContext context) {
-    // 0 pazar, 1 pazartesi; DateTime gün numarasına çevrilir (7 pazar).
-    final first = MaterialLocalizations.of(context).firstDayOfWeekIndex;
-    final days = [for (var i = 0; i < 7; i++) (first + i) % 7]
-        .map((d) => d == 0 ? 7 : d)
-        .toList();
-    return Wrap(
-      spacing: 6,
-      runSpacing: 6,
-      children: [
-        for (final day in days)
-          FilterChip(
-            label: Text(weekdayShort(day)),
-            tooltip: weekdayLong(day),
-            showCheckmark: false,
-            materialTapTargetSize: MaterialTapTargetSize.padded,
-            selected: config.hasDay(day),
-            onSelected: (v) => onChanged(day, v),
-          ),
-      ],
-    );
-  }
-}
-
-/// Bağlı değil ya da ayar okunamadı: açıklama ve tek düğme.
-class _Notice extends StatelessWidget {
-  const _Notice({
-    required this.text,
-    required this.action,
-    required this.onTap,
-  });
-
-  final String text, action;
-  final VoidCallback onTap;
-
-  @override
-  Widget build(BuildContext context) => GlassCard(
-    child: Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        Icon(Icons.watch_off_outlined, size: 40, color: context.colors.muted),
-        const SizedBox(height: 12),
-        Text(text, textAlign: TextAlign.center),
-        const SizedBox(height: 16),
-        GlowButton(onTap: onTap, label: action),
-      ],
-    ),
-  );
 }

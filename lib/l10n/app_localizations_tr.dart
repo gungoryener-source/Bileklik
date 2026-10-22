@@ -1365,6 +1365,147 @@ class AppLocalizationsTr extends AppLocalizations {
   String get profileWeight => 'Kilo';
 
   @override
+  String get reminderAddMedication => 'İlaç saati ekle';
+
+  @override
+  String get reminderAddWater => 'Su saati ekle';
+
+  @override
+  String get reminderAlarm => 'Çalar saat';
+
+  @override
+  String reminderCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count hatırlatıcı',
+      one: '1 hatırlatıcı',
+      zero: 'Hatırlatıcı yok',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String reminderCountSedentary(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count hatırlatıcı ve hareketsizlik uyarısı',
+      one: '1 hatırlatıcı ve hareketsizlik uyarısı',
+      zero: 'Yalnızca hareketsizlik uyarısı',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get reminderDelete => 'Sil';
+
+  @override
+  String get reminderDuplicate =>
+      'Bu saatte aynı türde bir hatırlatıcı zaten var.';
+
+  @override
+  String get reminderEdit => 'Hatırlatıcıyı düzenle';
+
+  @override
+  String get reminderEmptyMedication =>
+      'İlaç saatlerinizi ekleyin; bileklik o saatte titrer.';
+
+  @override
+  String get reminderEmptyWater =>
+      'Gün içinde su içmeyi hatırlatması için saat ekleyin.';
+
+  @override
+  String get reminderLabel => 'İlaç adı (isteğe bağlı)';
+
+  @override
+  String get reminderLabelHint => 'ör. Sabah ilacı';
+
+  @override
+  String get reminderMedication => 'İlaç';
+
+  @override
+  String get reminderNewMedication => 'Yeni ilaç hatırlatıcısı';
+
+  @override
+  String get reminderNewWater => 'Yeni su hatırlatıcısı';
+
+  @override
+  String get reminderSave => 'Kaydet';
+
+  @override
+  String get reminderTime => 'Saat';
+
+  @override
+  String get reminderWater => 'Su';
+
+  @override
+  String get reminderWeekdays => 'Hafta içi';
+
+  @override
+  String get reminderWeekend => 'Hafta sonu';
+
+  @override
+  String remindersFull(int max) {
+    return 'Bileklik en fazla $max hatırlatıcı tutabilir.';
+  }
+
+  @override
+  String get remindersIntro =>
+      'Hatırlatma saati gelince bileklik titrer; telefona bildirim gelmez.';
+
+  @override
+  String get remindersLoadFailed => 'Hatırlatıcılar bileklikten okunamadı.';
+
+  @override
+  String get remindersNotConnected =>
+      'Hatırlatıcıları görmek ve değiştirmek için bilekliği bağlayın.';
+
+  @override
+  String get remindersSaveFailed =>
+      'Hatırlatıcı bilekliğe yazılamadı. Tekrar deneyin.';
+
+  @override
+  String get remindersTitle => 'Hatırlatıcılar';
+
+  @override
+  String sedentaryHours(int hours) {
+    String _temp0 = intl.Intl.pluralLogic(
+      hours,
+      locale: localeName,
+      other: '$hours saat',
+      one: '1 saat',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String sedentaryHoursMinutes(int hours, int minutes) {
+    return '$hours sa $minutes dk';
+  }
+
+  @override
+  String get sedentaryInterval => 'Hareketsiz kalma süresi';
+
+  @override
+  String sedentaryMinutes(int minutes) {
+    return '$minutes dakika';
+  }
+
+  @override
+  String sedentaryNote(int steps) {
+    return 'Bu sürede $steps adımdan az atarsanız uyarı gelir. Uykuda uyarı gelmez.';
+  }
+
+  @override
+  String sedentarySubtitle(String time) {
+    return '$time boyunca kıpırdamazsanız bileklik titrer.';
+  }
+
+  @override
+  String get sedentaryTitle => 'Hareketsizlik uyarısı';
+
+  @override
   String get shareActivity => 'Aktivite ve adım';
 
   @override
