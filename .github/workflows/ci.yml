@@ -28,8 +28,8 @@ jobs:
           lines = open('test-output.txt', encoding='utf-8', errors='replace').read().splitlines()
           marks = [i for i, l in enumerate(lines) if '[E]' in l]
           for n, i in enumerate(marks[:8]):
-              start = max(0, i - 60)
-              chunk = '\n'.join(lines[start:i + 1])[-3800:]
+              # Raporcu önce "[E]" satırını, ardından hatayı yazar.
+              chunk = '\n'.join(lines[i:i + 80])[:3800]
               msg = chunk.replace('%', '%25').replace('\r', '').replace('\n', '%0A')
               print(f'::error title=fail{n}::{msg}')
           PY
