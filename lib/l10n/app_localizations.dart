@@ -2352,6 +2352,204 @@ abstract class AppLocalizations {
   /// **'Kilo'**
   String get profileWeight;
 
+  /// No description provided for @reminderAddMedication.
+  ///
+  /// In tr, this message translates to:
+  /// **'İlaç saati ekle'**
+  String get reminderAddMedication;
+
+  /// No description provided for @reminderAddWater.
+  ///
+  /// In tr, this message translates to:
+  /// **'Su saati ekle'**
+  String get reminderAddWater;
+
+  /// No description provided for @reminderAlarm.
+  ///
+  /// In tr, this message translates to:
+  /// **'Çalar saat'**
+  String get reminderAlarm;
+
+  /// No description provided for @reminderCount.
+  ///
+  /// In tr, this message translates to:
+  /// **'{count, plural, =0{Hatırlatıcı yok} =1{1 hatırlatıcı} other{{count} hatırlatıcı}}'**
+  String reminderCount(int count);
+
+  /// No description provided for @reminderCountSedentary.
+  ///
+  /// In tr, this message translates to:
+  /// **'{count, plural, =0{Yalnızca hareketsizlik uyarısı} =1{1 hatırlatıcı ve hareketsizlik uyarısı} other{{count} hatırlatıcı ve hareketsizlik uyarısı}}'**
+  String reminderCountSedentary(int count);
+
+  /// No description provided for @reminderDelete.
+  ///
+  /// In tr, this message translates to:
+  /// **'Sil'**
+  String get reminderDelete;
+
+  /// No description provided for @reminderDuplicate.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bu saatte aynı türde bir hatırlatıcı zaten var.'**
+  String get reminderDuplicate;
+
+  /// No description provided for @reminderEdit.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hatırlatıcıyı düzenle'**
+  String get reminderEdit;
+
+  /// No description provided for @reminderEmptyMedication.
+  ///
+  /// In tr, this message translates to:
+  /// **'İlaç saatlerinizi ekleyin; bileklik o saatte titrer.'**
+  String get reminderEmptyMedication;
+
+  /// No description provided for @reminderEmptyWater.
+  ///
+  /// In tr, this message translates to:
+  /// **'Gün içinde su içmeyi hatırlatması için saat ekleyin.'**
+  String get reminderEmptyWater;
+
+  /// No description provided for @reminderLabel.
+  ///
+  /// In tr, this message translates to:
+  /// **'İlaç adı (isteğe bağlı)'**
+  String get reminderLabel;
+
+  /// No description provided for @reminderLabelHint.
+  ///
+  /// In tr, this message translates to:
+  /// **'ör. Sabah ilacı'**
+  String get reminderLabelHint;
+
+  /// No description provided for @reminderMedication.
+  ///
+  /// In tr, this message translates to:
+  /// **'İlaç'**
+  String get reminderMedication;
+
+  /// No description provided for @reminderNewMedication.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yeni ilaç hatırlatıcısı'**
+  String get reminderNewMedication;
+
+  /// No description provided for @reminderNewWater.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yeni su hatırlatıcısı'**
+  String get reminderNewWater;
+
+  /// No description provided for @reminderSave.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kaydet'**
+  String get reminderSave;
+
+  /// No description provided for @reminderTime.
+  ///
+  /// In tr, this message translates to:
+  /// **'Saat'**
+  String get reminderTime;
+
+  /// No description provided for @reminderWater.
+  ///
+  /// In tr, this message translates to:
+  /// **'Su'**
+  String get reminderWater;
+
+  /// No description provided for @reminderWeekdays.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hafta içi'**
+  String get reminderWeekdays;
+
+  /// No description provided for @reminderWeekend.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hafta sonu'**
+  String get reminderWeekend;
+
+  /// No description provided for @remindersFull.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bileklik en fazla {max} hatırlatıcı tutabilir.'**
+  String remindersFull(int max);
+
+  /// No description provided for @remindersIntro.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hatırlatma saati gelince bileklik titrer; telefona bildirim gelmez.'**
+  String get remindersIntro;
+
+  /// No description provided for @remindersLoadFailed.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hatırlatıcılar bileklikten okunamadı.'**
+  String get remindersLoadFailed;
+
+  /// No description provided for @remindersNotConnected.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hatırlatıcıları görmek ve değiştirmek için bilekliği bağlayın.'**
+  String get remindersNotConnected;
+
+  /// No description provided for @remindersSaveFailed.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hatırlatıcı bilekliğe yazılamadı. Tekrar deneyin.'**
+  String get remindersSaveFailed;
+
+  /// No description provided for @remindersTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hatırlatıcılar'**
+  String get remindersTitle;
+
+  /// No description provided for @sedentaryHours.
+  ///
+  /// In tr, this message translates to:
+  /// **'{hours, plural, =1{1 saat} other{{hours} saat}}'**
+  String sedentaryHours(int hours);
+
+  /// No description provided for @sedentaryHoursMinutes.
+  ///
+  /// In tr, this message translates to:
+  /// **'{hours} sa {minutes} dk'**
+  String sedentaryHoursMinutes(int hours, int minutes);
+
+  /// No description provided for @sedentaryInterval.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hareketsiz kalma süresi'**
+  String get sedentaryInterval;
+
+  /// No description provided for @sedentaryMinutes.
+  ///
+  /// In tr, this message translates to:
+  /// **'{minutes} dakika'**
+  String sedentaryMinutes(int minutes);
+
+  /// No description provided for @sedentaryNote.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bu sürede {steps} adımdan az atarsanız uyarı gelir. Uykuda uyarı gelmez.'**
+  String sedentaryNote(int steps);
+
+  /// No description provided for @sedentarySubtitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'{time} boyunca kıpırdamazsanız bileklik titrer.'**
+  String sedentarySubtitle(String time);
+
+  /// No description provided for @sedentaryTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hareketsizlik uyarısı'**
+  String get sedentaryTitle;
+
   /// No description provided for @shareActivity.
   ///
   /// In tr, this message translates to:

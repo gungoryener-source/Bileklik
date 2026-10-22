@@ -1387,6 +1387,148 @@ class AppLocalizationsDe extends AppLocalizations {
   String get profileWeight => 'Gewicht';
 
   @override
+  String get reminderAddMedication => 'Medikamentenzeit hinzufügen';
+
+  @override
+  String get reminderAddWater => 'Trinkzeit hinzufügen';
+
+  @override
+  String get reminderAlarm => 'Wecker';
+
+  @override
+  String reminderCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count Erinnerungen',
+      one: '1 Erinnerung',
+      zero: 'Keine Erinnerungen',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String reminderCountSedentary(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count Erinnerungen und Bewegungsalarm',
+      one: '1 Erinnerung und Bewegungsalarm',
+      zero: 'Nur Bewegungsalarm',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get reminderDelete => 'Löschen';
+
+  @override
+  String get reminderDuplicate =>
+      'Zu dieser Uhrzeit gibt es bereits eine Erinnerung dieser Art.';
+
+  @override
+  String get reminderEdit => 'Erinnerung bearbeiten';
+
+  @override
+  String get reminderEmptyMedication =>
+      'Fügen Sie Ihre Medikamentenzeiten hinzu; das Armband vibriert zu jeder Zeit.';
+
+  @override
+  String get reminderEmptyWater =>
+      'Fügen Sie Zeiten hinzu, um tagsüber ans Trinken erinnert zu werden.';
+
+  @override
+  String get reminderLabel => 'Name des Medikaments (optional)';
+
+  @override
+  String get reminderLabelHint => 'z. B. Morgentablette';
+
+  @override
+  String get reminderMedication => 'Medikament';
+
+  @override
+  String get reminderNewMedication => 'Neue Medikamentenerinnerung';
+
+  @override
+  String get reminderNewWater => 'Neue Trinkerinnerung';
+
+  @override
+  String get reminderSave => 'Speichern';
+
+  @override
+  String get reminderTime => 'Uhrzeit';
+
+  @override
+  String get reminderWater => 'Wasser';
+
+  @override
+  String get reminderWeekdays => 'Werktags';
+
+  @override
+  String get reminderWeekend => 'Am Wochenende';
+
+  @override
+  String remindersFull(int max) {
+    return 'Das Armband speichert höchstens $max Erinnerungen.';
+  }
+
+  @override
+  String get remindersIntro =>
+      'Zur Erinnerungszeit vibriert das Armband; auf dem Handy erscheint keine Mitteilung.';
+
+  @override
+  String get remindersLoadFailed =>
+      'Erinnerungen konnten nicht vom Armband gelesen werden.';
+
+  @override
+  String get remindersNotConnected =>
+      'Verbinden Sie das Armband, um Erinnerungen zu sehen und zu ändern.';
+
+  @override
+  String get remindersSaveFailed =>
+      'Die Erinnerung konnte nicht auf dem Armband gespeichert werden. Versuchen Sie es erneut.';
+
+  @override
+  String get remindersTitle => 'Erinnerungen';
+
+  @override
+  String sedentaryHours(int hours) {
+    String _temp0 = intl.Intl.pluralLogic(
+      hours,
+      locale: localeName,
+      other: '$hours Stunden',
+      one: '1 Stunde',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String sedentaryHoursMinutes(int hours, int minutes) {
+    return '$hours Std. $minutes Min.';
+  }
+
+  @override
+  String get sedentaryInterval => 'Inaktiv seit';
+
+  @override
+  String sedentaryMinutes(int minutes) {
+    return '$minutes Minuten';
+  }
+
+  @override
+  String sedentaryNote(int steps) {
+    return 'Sie werden erinnert, wenn Sie in dieser Zeit weniger als $steps Schritte gehen. Im Schlaf gibt es keine Erinnerungen.';
+  }
+
+  @override
+  String sedentarySubtitle(String time) {
+    return 'Das Armband vibriert, wenn Sie sich $time lang nicht bewegen.';
+  }
+
+  @override
+  String get sedentaryTitle => 'Bewegungsalarm';
+
+  @override
   String get shareActivity => 'Aktivität und Schritte';
 
   @override

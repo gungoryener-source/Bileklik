@@ -575,6 +575,98 @@
   "profileUnitKg": "kg",
   "profileUnitYears": "yıl",
   "profileWeight": "Kilo",
+  "reminderAddMedication": "İlaç saati ekle",
+  "reminderAddWater": "Su saati ekle",
+  "reminderAlarm": "Çalar saat",
+  "reminderCount": "{count, plural, =0{Hatırlatıcı yok} =1{1 hatırlatıcı} other{{count} hatırlatıcı}}",
+  "@reminderCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "reminderCountSedentary": "{count, plural, =0{Yalnızca hareketsizlik uyarısı} =1{1 hatırlatıcı ve hareketsizlik uyarısı} other{{count} hatırlatıcı ve hareketsizlik uyarısı}}",
+  "@reminderCountSedentary": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "reminderDelete": "Sil",
+  "reminderDuplicate": "Bu saatte aynı türde bir hatırlatıcı zaten var.",
+  "reminderEdit": "Hatırlatıcıyı düzenle",
+  "reminderEmptyMedication": "İlaç saatlerinizi ekleyin; bileklik o saatte titrer.",
+  "reminderEmptyWater": "Gün içinde su içmeyi hatırlatması için saat ekleyin.",
+  "reminderLabel": "İlaç adı (isteğe bağlı)",
+  "reminderLabelHint": "ör. Sabah ilacı",
+  "reminderMedication": "İlaç",
+  "reminderNewMedication": "Yeni ilaç hatırlatıcısı",
+  "reminderNewWater": "Yeni su hatırlatıcısı",
+  "reminderSave": "Kaydet",
+  "reminderTime": "Saat",
+  "reminderWater": "Su",
+  "reminderWeekdays": "Hafta içi",
+  "reminderWeekend": "Hafta sonu",
+  "remindersFull": "Bileklik en fazla {max} hatırlatıcı tutabilir.",
+  "@remindersFull": {
+    "placeholders": {
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+  "remindersIntro": "Hatırlatma saati gelince bileklik titrer; telefona bildirim gelmez.",
+  "remindersLoadFailed": "Hatırlatıcılar bileklikten okunamadı.",
+  "remindersNotConnected": "Hatırlatıcıları görmek ve değiştirmek için bilekliği bağlayın.",
+  "remindersSaveFailed": "Hatırlatıcı bilekliğe yazılamadı. Tekrar deneyin.",
+  "remindersTitle": "Hatırlatıcılar",
+  "sedentaryHours": "{hours, plural, =1{1 saat} other{{hours} saat}}",
+  "@sedentaryHours": {
+    "placeholders": {
+      "hours": {
+        "type": "int"
+      }
+    }
+  },
+  "sedentaryHoursMinutes": "{hours} sa {minutes} dk",
+  "@sedentaryHoursMinutes": {
+    "placeholders": {
+      "hours": {
+        "type": "int"
+      },
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "sedentaryInterval": "Hareketsiz kalma süresi",
+  "sedentaryMinutes": "{minutes} dakika",
+  "@sedentaryMinutes": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "sedentaryNote": "Bu sürede {steps} adımdan az atarsanız uyarı gelir.",
+  "@sedentaryNote": {
+    "placeholders": {
+      "steps": {
+        "type": "int"
+      }
+    }
+  },
+  "sedentarySubtitle": "{time} boyunca kıpırdamazsanız bileklik titrer.",
+  "@sedentarySubtitle": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "sedentaryTitle": "Hareketsizlik uyarısı",
   "shareActivity": "Aktivite ve adım",
   "shareBloodPressure": "Tansiyon (tahmini)",
   "shareEcg": "EKG kayıtları",

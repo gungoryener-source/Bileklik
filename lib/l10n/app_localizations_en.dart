@@ -1385,6 +1385,148 @@ class AppLocalizationsEn extends AppLocalizations {
   String get profileWeight => 'Weight';
 
   @override
+  String get reminderAddMedication => 'Add medication time';
+
+  @override
+  String get reminderAddWater => 'Add water time';
+
+  @override
+  String get reminderAlarm => 'Alarm';
+
+  @override
+  String reminderCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count reminders',
+      one: '1 reminder',
+      zero: 'No reminders',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String reminderCountSedentary(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count reminders and inactivity alert',
+      one: '1 reminder and inactivity alert',
+      zero: 'Inactivity alert only',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get reminderDelete => 'Delete';
+
+  @override
+  String get reminderDuplicate =>
+      'There is already a reminder of this type at this time.';
+
+  @override
+  String get reminderEdit => 'Edit reminder';
+
+  @override
+  String get reminderEmptyMedication =>
+      'Add your medication times; the wristband vibrates at each one.';
+
+  @override
+  String get reminderEmptyWater =>
+      'Add times to be reminded to drink water during the day.';
+
+  @override
+  String get reminderLabel => 'Medication name (optional)';
+
+  @override
+  String get reminderLabelHint => 'e.g. Morning pill';
+
+  @override
+  String get reminderMedication => 'Medication';
+
+  @override
+  String get reminderNewMedication => 'New medication reminder';
+
+  @override
+  String get reminderNewWater => 'New water reminder';
+
+  @override
+  String get reminderSave => 'Save';
+
+  @override
+  String get reminderTime => 'Time';
+
+  @override
+  String get reminderWater => 'Water';
+
+  @override
+  String get reminderWeekdays => 'Weekdays';
+
+  @override
+  String get reminderWeekend => 'Weekends';
+
+  @override
+  String remindersFull(int max) {
+    return 'The wristband can hold up to $max reminders.';
+  }
+
+  @override
+  String get remindersIntro =>
+      'When a reminder is due, the wristband vibrates; your phone does not show a notification.';
+
+  @override
+  String get remindersLoadFailed =>
+      'Couldn\'t read reminders from the wristband.';
+
+  @override
+  String get remindersNotConnected =>
+      'Connect the wristband to see and change reminders.';
+
+  @override
+  String get remindersSaveFailed =>
+      'Couldn\'t save the reminder to the wristband. Try again.';
+
+  @override
+  String get remindersTitle => 'Reminders';
+
+  @override
+  String sedentaryHours(int hours) {
+    String _temp0 = intl.Intl.pluralLogic(
+      hours,
+      locale: localeName,
+      other: '$hours hours',
+      one: '1 hour',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String sedentaryHoursMinutes(int hours, int minutes) {
+    return '$hours h $minutes min';
+  }
+
+  @override
+  String get sedentaryInterval => 'Inactive for';
+
+  @override
+  String sedentaryMinutes(int minutes) {
+    return '$minutes minutes';
+  }
+
+  @override
+  String sedentaryNote(int steps) {
+    return 'You are alerted if you take fewer than $steps steps in that time. No alerts while you sleep.';
+  }
+
+  @override
+  String sedentarySubtitle(String time) {
+    return 'The wristband vibrates if you don\'t move for $time.';
+  }
+
+  @override
+  String get sedentaryTitle => 'Inactivity alert';
+
+  @override
   String get shareActivity => 'Activity and steps';
 
   @override

@@ -8,6 +8,7 @@ import 'protocol/ecg.dart';
 import 'protocol/exercise.dart';
 import 'protocol/history.dart';
 import 'protocol/packet.dart';
+import 'protocol/reminders.dart';
 import 'protocol/settings.dart';
 import 'transport.dart';
 
@@ -90,6 +91,12 @@ class FakeDevice implements DeviceTransport {
   /// Takma algılaması açık mı (0x86).
   bool wearDetection = false;
 
+  /// Bileklikte kayıtlı hatırlatıcılar (0x23/0x57); ilk açılışta boş.
+  final reminders = <Reminder>[];
+
+  /// Hareketsizlik uyarısı (0x25/0x26); ilk açılışta kapalı.
+  SedentaryConfig sedentary = const SedentaryConfig();
+
   static const mac = [0xA1, 0xB2, 0xC3, 0xD4, 0xE5, 0xF6];
 
   @override
@@ -138,6 +145,10 @@ class FakeDevice implements DeviceTransport {
   @override
   Future<void> send(List<int> bytes) async {
     if (!_connected) throw StateError('Cihaz bağlı değil');
+    if (bytes.length > Packet.length && bytes.first == ReminderCmd.set) {
+      scheduleMicrotask(() => _handleSetReminders(bytes));
+      return;
+    }
     final Packet cmd;
     try {
       cmd = Packet.parse(bytes);
@@ -182,6 +193,42 @@ class FakeDevice implements DeviceTransport {
             SettingsCmd.getAutoMeasure,
             autoMeasure[type]!.toBytes(),
           ).bytes,
+        );
+      case ReminderCmd.get:
+        if (d[0] == ReminderCmd.deleteAll) {
+          reminders.clear();
+          _reply(Packet.build(ReminderCmd.get, [ReminderCmd.deleteAll]).bytes);
+          return;
+        }
+        // Gerçek cihaz kayıtları birkaç bildirime bölebilir; sahte cihaz
+        // tek seferde gönderir.
+        _reply([
+          for (var i = 0; i < reminders.length; i++)
+            ...encodeReminder(
+              reminders[i],
+              index: i,
+              total: reminders.length,
+              command: ReminderCmd.get,
+            ),
+          ReminderCmd.get,
+          0xFF,
+        ]);
+      case ReminderCmd.setSedentary:
+        final next = SedentaryConfig.fromBytes(d);
+        final ok =
+            fromBcd(d[0]) < 24 &&
+            fromBcd(d[1]) < 60 &&
+            fromBcd(d[2]) < 24 &&
+            fromBcd(d[3]) < 60;
+        if (!ok) {
+          _reply(Packet.error(ReminderCmd.setSedentary).bytes);
+          return;
+        }
+        sedentary = next;
+        _reply(Packet.build(ReminderCmd.setSedentary).bytes);
+      case ReminderCmd.getSedentary:
+        _reply(
+          Packet.build(ReminderCmd.getSedentary, sedentary.toBytes()).bytes,
         );
       case Cmd.setTime:
         final deviceTime = DateTime(
@@ -253,6 +300,26 @@ class FakeDevice implements DeviceTransport {
           _reply(Packet.error(cmd.command).bytes);
         }
     }
+  }
+
+  /// 0x23 uzun yazma: kayıtlar uç uca, sonda `23 FF`. Bozuk kayıtta ya da
+  /// sınır aşılınca hiçbirini almaz ve hata döner.
+  void _handleSetReminders(List<int> bytes) {
+    final chunk = splitRecords(ReminderCmd.set, reminderRecordLength, bytes);
+    final List<Reminder> next;
+    try {
+      if (!chunk.ended || chunk.records.length > Reminder.maxCount) {
+        throw const FormatException('Eksik ya da fazla kayıt');
+      }
+      next = [for (final r in chunk.records) decodeReminder(r)];
+    } on FormatException {
+      _reply(Packet.error(ReminderCmd.set).bytes);
+      return;
+    }
+    reminders
+      ..clear()
+      ..addAll(next);
+    _reply(Packet.build(ReminderCmd.set).bytes);
   }
 
   void _startRealtimeTimer() {

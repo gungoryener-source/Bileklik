@@ -75,20 +75,25 @@ class HistoryChunk {
   const HistoryChunk(this.records, this.ended);
 }
 
-HistoryChunk splitHistory(HistoryKind kind, List<int> data) {
+HistoryChunk splitHistory(HistoryKind kind, List<int> data) =>
+    splitRecords(kind.command, kind.recordLength, data);
+
+/// [command] ile başlayan [recordLength] baytlık kayıtları ayırır; geçmiş
+/// türleri dışında hatırlatıcı listesi (0x57) de bu biçimde gelir.
+HistoryChunk splitRecords(int command, int recordLength, List<int> data) {
   final records = <List<int>>[];
   var ended = false;
   var i = 0;
   while (i < data.length) {
     final remaining = data.length - i;
-    if (data[i] != kind.command) break;
-    if (remaining < kind.recordLength) {
+    if (data[i] != command) break;
+    if (remaining < recordLength) {
       // Kayıttan kısa kalan kısım yalnızca bitiş işareti olabilir.
       if (remaining >= 2 && data[i + 1] == 0xFF) ended = true;
       break;
     }
-    records.add(data.sublist(i, i + kind.recordLength));
-    i += kind.recordLength;
+    records.add(data.sublist(i, i + recordLength));
+    i += recordLength;
   }
   return HistoryChunk(records, ended);
 }

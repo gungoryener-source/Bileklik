@@ -10,6 +10,7 @@ import '../data/models.dart';
 import '../device/protocol/commands.dart';
 import '../device/protocol/ecg.dart';
 import '../device/protocol/exercise.dart';
+import '../device/protocol/reminders.dart';
 import '../device/protocol/settings.dart';
 import '../device/transport.dart';
 import '../device/wristband_client.dart';
@@ -146,7 +147,59 @@ class DeviceController extends ChangeNotifier {
     } catch (_) {
       settingsFailed = true;
     }
+    remindersFailed = false;
+    try {
+      reminders = await _client.getReminders();
+      sedentary = await _client.getSedentary();
+    } catch (_) {
+      reminders = null;
+      sedentary = null;
+      remindersFailed = true;
+    }
     notifyListeners();
+  }
+
+  /// Bileklikteki hatırlatıcılar; bağlanınca okunur, okunamadıysa null.
+  List<Reminder>? reminders;
+
+  /// Hareketsizlik uyarısı; bağlanınca okunur.
+  SedentaryConfig? sedentary;
+
+  /// Hatırlatıcılar okunamadı.
+  bool remindersFailed = false;
+
+  /// Hatırlatıcı listesinin tamamını bilekliğe yazar (0x23 eskilerin yerine
+  /// geçer). Bileklik kabul etmezse eski liste kalır ve false döner.
+  Future<bool> saveReminders(List<Reminder> next) async {
+    final before = reminders;
+    if (!isConnected || before == null) return false;
+    if (next.length > Reminder.maxCount) return false;
+    reminders = List.unmodifiable(next);
+    notifyListeners();
+    try {
+      await _client.setReminders(next);
+      return true;
+    } catch (_) {
+      reminders = before;
+      notifyListeners();
+      return false;
+    }
+  }
+
+  /// Hareketsizlik uyarısını bilekliğe yazar; olmazsa eskisi kalır.
+  Future<bool> saveSedentary(SedentaryConfig next) async {
+    final before = sedentary;
+    if (!isConnected || before == null) return false;
+    sedentary = next;
+    notifyListeners();
+    try {
+      await _client.setSedentary(next);
+      return true;
+    } catch (_) {
+      sedentary = before;
+      notifyListeners();
+      return false;
+    }
   }
 
   /// Bağlantıyı bozmadan ayarları yeniden okur (ayar ekranındaki "Tekrar dene").
@@ -256,6 +309,8 @@ class DeviceController extends ChangeNotifier {
     await _transport.disconnect();
     live = null;
     autoMeasure = const {};
+    reminders = null;
+    sedentary = null;
     exercise = null;
     ecg = null;
     spot = null;

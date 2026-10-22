@@ -9,6 +9,7 @@ import '../../device/protocol/settings.dart';
 import '../widgets/menu_group.dart';
 import 'auto_measure_screen.dart';
 import 'pairing_screen.dart';
+import 'reminders_screen.dart';
 
 /// Cihaz: bağlıysa bilekliğin durumu, değilse eşleştirme.
 class DeviceScreen extends StatelessWidget {
@@ -85,6 +86,16 @@ class _Connected extends StatelessWidget {
               onTap: () => Navigator.of(context).push(
                 MaterialPageRoute<void>(
                   builder: (_) => const AutoMeasureScreen(),
+                ),
+              ),
+            ),
+            MenuTile(
+              icon: Icons.notifications_active_outlined,
+              title: l.remindersTitle,
+              subtitle: remindersSummary(context),
+              onTap: () => Navigator.of(context).push(
+                MaterialPageRoute<void>(
+                  builder: (_) => const RemindersScreen(),
                 ),
               ),
             ),
