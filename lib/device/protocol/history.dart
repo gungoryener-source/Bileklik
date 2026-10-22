@@ -13,6 +13,10 @@ enum HistoryKind {
   heartRateSingle(0x55, 10),
   hrv(0x56, 15),
   temperature(0x62, 11),
+
+  /// 0x63 atımdan atıma aralıklar (PPI). Kayıt biçimi PDF elde olmadığı için
+  /// tahmindir (bkz. `PpiRecord`); gerçek cihazda doğrulanacak.
+  ppi(0x63, 26),
   spo2(0x66, 10),
 
   /// 0x5C egzersiz kayıtları (bkz. `ExerciseRecord`).
@@ -232,6 +236,26 @@ class HrvRecord {
 
   static HrvRecord parse(List<int> r) =>
       HrvRecord(_bcdDateTime(r, 3), r[9], r[10], r[11], r[12], r[13], r[14]);
+}
+
+/// 0x63: atımdan atıma aralıklar (PPI, optik nabızda tepe-tepe aralığı).
+///
+/// Varsayılan biçim (gerçek cihazda doğrulanacak):
+/// `63 ID ID YY MM DD HH mm SS N P1L P1H … P8L P8H` — N geçerli aralık sayısı
+/// (en çok 8), her aralık milisaniye, küçük sonlu. Zaman ilk atımın anı.
+class PpiRecord {
+  final DateTime time;
+  final List<int> intervalsMs;
+  const PpiRecord(this.time, this.intervalsMs);
+
+  static const maxIntervals = 8;
+
+  static PpiRecord parse(List<int> r) {
+    final n = r[9].clamp(0, maxIntervals);
+    return PpiRecord(_bcdDateTime(r, 3), [
+      for (var i = 0; i < n; i++) readUintLE(r, 10 + i * 2, 2),
+    ]);
+  }
 }
 
 /// 0x62: bilek ısısı, 0,1 °C hassasiyetle.

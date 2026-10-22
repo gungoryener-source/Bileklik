@@ -185,7 +185,8 @@ class PluginHealthPlatform implements HealthPlatform {
       case MetricType.stress ||
           MetricType.systolic ||
           MetricType.diastolic ||
-          MetricType.muscleMass:
+          MetricType.muscleMass ||
+          MetricType.ppi:
         return;
     }
   }

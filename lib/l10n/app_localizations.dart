@@ -1998,6 +1998,60 @@ abstract class AppLocalizations {
   /// **'Egzersizler'**
   String get hpWorkouts;
 
+  /// No description provided for @hrvBeats.
+  ///
+  /// In tr, this message translates to:
+  /// **'Atım'**
+  String get hrvBeats;
+
+  /// No description provided for @hrvDetailEmpty.
+  ///
+  /// In tr, this message translates to:
+  /// **'Son bir haftada gece atım aralığı ölçümü yok. Bilekliği uyurken takın.'**
+  String get hrvDetailEmpty;
+
+  /// No description provided for @hrvDetailNight.
+  ///
+  /// In tr, this message translates to:
+  /// **'{date} sabahına kadarki gece'**
+  String hrvDetailNight(Object date);
+
+  /// No description provided for @hrvDetailNote.
+  ///
+  /// In tr, this message translates to:
+  /// **'Gece ölçülen atım aralıklarından hesaplanır. RMSSD kısa süreli, SDNN genel değişkenliği gösterir; kendi eğiliminizle karşılaştırın.'**
+  String get hrvDetailNote;
+
+  /// No description provided for @hrvDetailTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Gece HRV ayrıntısı'**
+  String get hrvDetailTitle;
+
+  /// No description provided for @hrvMeanHeartRate.
+  ///
+  /// In tr, this message translates to:
+  /// **'Ortalama nabız'**
+  String get hrvMeanHeartRate;
+
+  /// No description provided for @hrvPnn50.
+  ///
+  /// In tr, this message translates to:
+  /// **'pNN50'**
+  String get hrvPnn50;
+
+  /// No description provided for @hrvRmssd.
+  ///
+  /// In tr, this message translates to:
+  /// **'RMSSD'**
+  String get hrvRmssd;
+
+  /// No description provided for @hrvSdnn.
+  ///
+  /// In tr, this message translates to:
+  /// **'SDNN'**
+  String get hrvSdnn;
+
   /// No description provided for @issueBusy.
   ///
   /// In tr, this message translates to:
@@ -2243,6 +2297,12 @@ abstract class AppLocalizations {
   /// In tr, this message translates to:
   /// **'Kas kütlesi'**
   String get metricMuscleMass;
+
+  /// No description provided for @metricPpi.
+  ///
+  /// In tr, this message translates to:
+  /// **'Atım aralığı'**
+  String get metricPpi;
 
   /// No description provided for @metricRespiratoryRate.
   ///
@@ -3263,6 +3323,42 @@ abstract class AppLocalizations {
   /// In tr, this message translates to:
   /// **'Birimler'**
   String get unitsTitle;
+
+  /// No description provided for @vo2MaxBasis.
+  ///
+  /// In tr, this message translates to:
+  /// **'{age} yaş ve dinlenik nabız {resting} ile'**
+  String vo2MaxBasis(Object age, Object resting);
+
+  /// No description provided for @vo2MaxNeedsAge.
+  ///
+  /// In tr, this message translates to:
+  /// **'Tahmin için yaşınız gerekiyor. Bilekliği bağlayıp Profil > Kişisel bilgiler'den girin.'**
+  String get vo2MaxNeedsAge;
+
+  /// No description provided for @vo2MaxNeedsData.
+  ///
+  /// In tr, this message translates to:
+  /// **'Dinlenik nabzı hesaplamak için birkaç günlük nabız ya da gece ölçümü gerekiyor.'**
+  String get vo2MaxNeedsData;
+
+  /// No description provided for @vo2MaxNote.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yaştan beklenen en yüksek nabız ile dinlenik nabzın oranından tahmin edilir; laboratuvar ölçümü değildir. Kondisyonunuzun eğilimini izlemek için kullanın.'**
+  String get vo2MaxNote;
+
+  /// No description provided for @vo2MaxTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'VO2 Max tahmini'**
+  String get vo2MaxTitle;
+
+  /// No description provided for @vo2MaxValue.
+  ///
+  /// In tr, this message translates to:
+  /// **'{value} ml/kg/dk'**
+  String vo2MaxValue(Object value);
 
   /// No description provided for @wearDetectionFailed.
   ///

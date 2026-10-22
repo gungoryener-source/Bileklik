@@ -1194,6 +1194,35 @@ class AppLocalizationsAr extends AppLocalizations {
   String get hpWorkouts => 'التمارين';
 
   @override
+  String get hrvBeats => 'النبضات';
+
+  @override
+  String get hrvDetailEmpty => 'لا توجد قياسات ليلية للفاصل بين النبضات خلال الأسبوع الماضي. ارتدِ السوار أثناء النوم.';
+
+  @override
+  String hrvDetailNight(Object date) {
+    return 'الليلة المنتهية صباح $date';
+  }
+
+  @override
+  String get hrvDetailNote => 'يُحسب من الفواصل بين النبضات المقاسة ليلًا. يعكس RMSSD التقلب قصير المدى وSDNN التقلب العام؛ قارنه باتجاهك الخاص.';
+
+  @override
+  String get hrvDetailTitle => 'تفاصيل تقلب نبض القلب الليلي';
+
+  @override
+  String get hrvMeanHeartRate => 'متوسط النبض';
+
+  @override
+  String get hrvPnn50 => 'pNN50';
+
+  @override
+  String get hrvRmssd => 'RMSSD';
+
+  @override
+  String get hrvSdnn => 'SDNN';
+
+  @override
   String get issueBusy => 'السوار مشغول بتمرين أو قياس آخر.';
 
   @override
@@ -1338,6 +1367,9 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get metricMuscleMass => 'الكتلة العضلية';
+
+  @override
+  String get metricPpi => 'الفاصل بين النبضات';
 
   @override
   String get metricRespiratoryRate => 'معدل التنفس';
@@ -1924,6 +1956,28 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get unitsTitle => 'الوحدات';
+
+  @override
+  String vo2MaxBasis(Object age, Object resting) {
+    return 'بناءً على العمر $age ونبض الراحة $resting';
+  }
+
+  @override
+  String get vo2MaxNeedsAge => 'يلزم عمرك للتقدير. اربط السوار وأدخله من الملف الشخصي > المعلومات الشخصية.';
+
+  @override
+  String get vo2MaxNeedsData => 'يلزم بضعة أيام من قياسات النبض أو القياسات الليلية لحساب نبض الراحة.';
+
+  @override
+  String get vo2MaxNote => 'يُقدَّر من نسبة أقصى نبض متوقع حسب العمر إلى نبض الراحة؛ وليس قياسًا مخبريًا. استخدمه لمتابعة اتجاه لياقتك.';
+
+  @override
+  String get vo2MaxTitle => 'الحد الأقصى المقدر لاستهلاك الأكسجين';
+
+  @override
+  String vo2MaxValue(Object value) {
+    return '$value مل/كغ/دقيقة';
+  }
 
   @override
   String get wearDetectionFailed => 'تعذّر تغيير كشف الارتداء في السوار.';

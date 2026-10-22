@@ -1172,6 +1172,35 @@ class AppLocalizationsTr extends AppLocalizations {
   String get hpWorkouts => 'Egzersizler';
 
   @override
+  String get hrvBeats => 'Atım';
+
+  @override
+  String get hrvDetailEmpty => 'Son bir haftada gece atım aralığı ölçümü yok. Bilekliği uyurken takın.';
+
+  @override
+  String hrvDetailNight(Object date) {
+    return '$date sabahına kadarki gece';
+  }
+
+  @override
+  String get hrvDetailNote => 'Gece ölçülen atım aralıklarından hesaplanır. RMSSD kısa süreli, SDNN genel değişkenliği gösterir; kendi eğiliminizle karşılaştırın.';
+
+  @override
+  String get hrvDetailTitle => 'Gece HRV ayrıntısı';
+
+  @override
+  String get hrvMeanHeartRate => 'Ortalama nabız';
+
+  @override
+  String get hrvPnn50 => 'pNN50';
+
+  @override
+  String get hrvRmssd => 'RMSSD';
+
+  @override
+  String get hrvSdnn => 'SDNN';
+
+  @override
   String get issueBusy => 'Bileklik şu an başka bir egzersizde ya da ölçümde.';
 
   @override
@@ -1306,6 +1335,9 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get metricMuscleMass => 'Kas kütlesi';
+
+  @override
+  String get metricPpi => 'Atım aralığı';
 
   @override
   String get metricRespiratoryRate => 'Solunum Hızı';
@@ -1888,6 +1920,28 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get unitsTitle => 'Birimler';
+
+  @override
+  String vo2MaxBasis(Object age, Object resting) {
+    return '$age yaş ve dinlenik nabız $resting ile';
+  }
+
+  @override
+  String get vo2MaxNeedsAge => 'Tahmin için yaşınız gerekiyor. Bilekliği bağlayıp Profil > Kişisel bilgiler\'den girin.';
+
+  @override
+  String get vo2MaxNeedsData => 'Dinlenik nabzı hesaplamak için birkaç günlük nabız ya da gece ölçümü gerekiyor.';
+
+  @override
+  String get vo2MaxNote => 'Yaştan beklenen en yüksek nabız ile dinlenik nabzın oranından tahmin edilir; laboratuvar ölçümü değildir. Kondisyonunuzun eğilimini izlemek için kullanın.';
+
+  @override
+  String get vo2MaxTitle => 'VO2 Max tahmini';
+
+  @override
+  String vo2MaxValue(Object value) {
+    return '$value ml/kg/dk';
+  }
 
   @override
   String get wearDetectionFailed =>

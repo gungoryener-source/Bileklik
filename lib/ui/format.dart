@@ -124,6 +124,7 @@ extension MetricLook on MetricType {
       MetricType.bodyFat => l.metricBodyFat,
       MetricType.muscleMass => l.metricMuscleMass,
       MetricType.bmi => l.metricBmi,
+      MetricType.ppi => l.metricPpi,
     };
   }
 
@@ -145,7 +146,7 @@ extension MetricLook on MetricType {
     MetricType.calories => DataColors.temperature,
     MetricType.heartRate => DataColors.heart,
     MetricType.spo2 => DataColors.oxygen,
-    MetricType.hrv => DataColors.hrv,
+    MetricType.hrv || MetricType.ppi => DataColors.hrv,
     MetricType.stress => DataColors.stress,
     MetricType.temperature => DataColors.temperature,
     MetricType.respiratoryRate => DataColors.respiration,
@@ -171,6 +172,7 @@ extension MetricLook on MetricType {
     MetricType.bodyFat => Icons.pie_chart_outline,
     MetricType.muscleMass => Icons.fitness_center,
     MetricType.bmi => Icons.accessibility_new,
+    MetricType.ppi => Icons.timeline,
   };
 
   /// Değeri seçili birimde yazar; mesafe km, ısı °C olarak saklanır.

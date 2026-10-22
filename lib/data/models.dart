@@ -18,6 +18,10 @@ enum MetricType {
   systolic('mmHg'),
   diastolic('mmHg'),
 
+  /// Atımdan atıma aralık (0x63 PPI), ms. HRV ayrıntısı ve dinlenik nabız
+  /// bundan hesaplanır; kendi başına gösterilmez ve dışa aktarılmaz.
+  ppi('ms'),
+
   /// Kullanıcının elle girdiği vücut ölçüleri; akıllı tartı yok.
   weight('kg'),
   bodyFat('%'),

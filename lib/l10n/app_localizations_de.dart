@@ -1192,6 +1192,35 @@ class AppLocalizationsDe extends AppLocalizations {
   String get hpWorkouts => 'Trainings';
 
   @override
+  String get hrvBeats => 'Schläge';
+
+  @override
+  String get hrvDetailEmpty => 'In der letzten Woche gibt es keine nächtlichen Schlagintervall-Messungen. Tragen Sie das Armband im Schlaf.';
+
+  @override
+  String hrvDetailNight(Object date) {
+    return 'Nacht bis zum Morgen des $date';
+  }
+
+  @override
+  String get hrvDetailNote => 'Berechnet aus nachts gemessenen Schlagintervallen. RMSSD zeigt die kurzfristige, SDNN die gesamte Variabilität; vergleichen Sie mit Ihrem eigenen Verlauf.';
+
+  @override
+  String get hrvDetailTitle => 'Nächtliche HRV im Detail';
+
+  @override
+  String get hrvMeanHeartRate => 'Mittlerer Puls';
+
+  @override
+  String get hrvPnn50 => 'pNN50';
+
+  @override
+  String get hrvRmssd => 'RMSSD';
+
+  @override
+  String get hrvSdnn => 'SDNN';
+
+  @override
   String get issueBusy =>
       'Das Armband ist gerade mit einem anderen Training oder einer Messung beschäftigt.';
 
@@ -1335,6 +1364,9 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get metricMuscleMass => 'Muskelmasse';
+
+  @override
+  String get metricPpi => 'Schlagintervall';
 
   @override
   String get metricRespiratoryRate => 'Atemfrequenz';
@@ -1919,6 +1951,28 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get unitsTitle => 'Einheiten';
+
+  @override
+  String vo2MaxBasis(Object age, Object resting) {
+    return 'Basierend auf Alter $age und Ruhepuls $resting';
+  }
+
+  @override
+  String get vo2MaxNeedsAge => 'Für die Schätzung wird Ihr Alter benötigt. Verbinden Sie das Armband und tragen Sie es unter Profil > Persönliche Daten ein.';
+
+  @override
+  String get vo2MaxNeedsData => 'Für den Ruhepuls werden Puls- oder Nachtmessungen von einigen Tagen benötigt.';
+
+  @override
+  String get vo2MaxNote => 'Geschätzt aus dem Verhältnis von altersbasiertem Maximalpuls zu Ruhepuls; keine Labormessung. Nutzen Sie den Wert, um Ihren Fitnessverlauf zu verfolgen.';
+
+  @override
+  String get vo2MaxTitle => 'Geschätzte VO2max';
+
+  @override
+  String vo2MaxValue(Object value) {
+    return '$value ml/kg/min';
+  }
 
   @override
   String get wearDetectionFailed =>
