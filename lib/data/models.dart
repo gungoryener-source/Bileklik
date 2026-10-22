@@ -16,7 +16,15 @@ enum MetricType {
   temperature('°C'),
   respiratoryRate('/min'),
   systolic('mmHg'),
-  diastolic('mmHg');
+  diastolic('mmHg'),
+
+  /// Kullanıcının elle girdiği vücut ölçüleri; akıllı tartı yok.
+  weight('kg'),
+  bodyFat('%'),
+  muscleMass('kg'),
+
+  /// Vücut kitle indeksi: girişte kilo ve boydan hesaplanıp saklanır.
+  bmi('kg/m²');
 
   const MetricType(this.symbol);
 
@@ -25,6 +33,32 @@ enum MetricType {
 
   /// Dönem içinde toplanan türler (adım, kalori, mesafe); diğerlerinin ortalaması alınır.
   bool get isTotal => this == steps || this == calories || this == distance;
+
+  /// Bileklikten gelmeyen, kullanıcının girdiği türler.
+  bool get isManual =>
+      this == weight || this == bodyFat || this == muscleMass || this == bmi;
+}
+
+/// Boy (cm) ve kilodan (kg) vücut kitle indeksi.
+double bodyMassIndex(double weightKg, int heightCm) {
+  final m = heightCm / 100;
+  return weightKg / (m * m);
+}
+
+/// Yetişkinler için DSÖ VKİ sınıfları.
+enum BmiClass {
+  under,
+  normal,
+  over,
+  obese;
+
+  static BmiClass of(double bmi) => bmi < 18.5
+      ? under
+      : bmi < 25
+      ? normal
+      : bmi < 30
+      ? over
+      : obese;
 }
 
 class Measurement {

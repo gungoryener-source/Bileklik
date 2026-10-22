@@ -199,6 +199,23 @@ class SqliteHealthStore extends MemoryHealthStore {
       }, conflictAlgorithm: ConflictAlgorithm.ignore);
     }
     // Yazmalar sırayla gider; biri hata verirse sonrakiler yine denenir.
+    _write(b, 'ölçümler veritabanına yazılırken');
+  }
+
+  @override
+  void onRemoved(List<Measurement> measurements) {
+    final b = _db.batch();
+    for (final m in measurements) {
+      b.delete(
+        'measurements',
+        where: 'type = ? AND time = ? AND value = ?',
+        whereArgs: [m.type.name, _ms(m.time), m.value],
+      );
+    }
+    _write(b, 'ölçümler veritabanından silinirken');
+  }
+
+  void _write(Batch b, String what) {
     _queue = _queue
         .then((_) async {
           await b.commit(noResult: true);
@@ -209,7 +226,7 @@ class SqliteHealthStore extends MemoryHealthStore {
               exception: e,
               stack: s,
               library: 'bileklik',
-              context: ErrorDescription('ölçümler veritabanına yazılırken'),
+              context: ErrorDescription(what),
             ),
           ),
         );

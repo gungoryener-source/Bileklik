@@ -38,7 +38,8 @@ void main() {
 
     final week = now.subtract(const Duration(days: 7));
     int count(MetricType t) => store.measurements(t, week, now).length;
-    for (final t in MetricType.values) {
+    // Kilo gibi elle girilen türler bileklikten gelmez.
+    for (final t in MetricType.values.where((t) => !t.isManual)) {
       expect(count(t), greaterThan(0), reason: t.name);
     }
     expect(store.sleepBetween(week, now), isNotEmpty);

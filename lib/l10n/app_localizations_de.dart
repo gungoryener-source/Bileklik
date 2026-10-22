@@ -142,6 +142,103 @@ class AppLocalizationsDe extends AppLocalizations {
   String get bandTense => 'Angespannt';
 
   @override
+  String get bmiNormal => 'Normalgewicht';
+
+  @override
+  String get bmiObese => 'Adipositas';
+
+  @override
+  String get bmiOver => 'Übergewicht';
+
+  @override
+  String get bmiUnder => 'Untergewicht';
+
+  @override
+  String get bodyAdd => 'Eintrag hinzufügen';
+
+  @override
+  String get bodyBmiNeedsHeight =>
+      'Geben Sie Ihre Größe ein, um Ihren BMI zu sehen.';
+
+  @override
+  String get bodyBmiNote =>
+      'Der BMI ist ein grober Richtwert für Erwachsene; bei sehr muskulösen Menschen, in der Schwangerschaft und bei Kindern kann er täuschen.';
+
+  @override
+  String bodyChange(String change) {
+    return '$change seit dem letzten Eintrag';
+  }
+
+  @override
+  String get bodyChartEmpty => 'Keine Einträge in diesem Zeitraum.';
+
+  @override
+  String get bodyDate => 'Datum';
+
+  @override
+  String get bodyDelete => 'Löschen';
+
+  @override
+  String bodyDeleteBody(String date) {
+    return 'Der Eintrag vom $date wird von diesem Telefon gelöscht.';
+  }
+
+  @override
+  String get bodyDeleteTitle => 'Eintrag löschen?';
+
+  @override
+  String get bodyEmpty =>
+      'Tragen Sie Ihr Gewicht ein, wenn Sie sich wiegen, und verfolgen Sie den Verlauf im Diagramm.';
+
+  @override
+  String get bodyHeight => 'Größe';
+
+  @override
+  String get bodyHistory => 'Verlauf';
+
+  @override
+  String get bodyMuscleTooHigh =>
+      'Muskelmasse kann nicht größer als das Gewicht sein';
+
+  @override
+  String get bodyNoChange => 'Wie beim letzten Eintrag';
+
+  @override
+  String get bodyNote =>
+      'Einträge werden nur auf diesem Telefon gespeichert. Ist das Armband verbunden, erhält es Ihr Gewicht auch für die Kalorienberechnung.';
+
+  @override
+  String bodyOptional(String name) {
+    return '$name (optional)';
+  }
+
+  @override
+  String get bodyRange3Months => '3 Monate';
+
+  @override
+  String bodyRangeError(String min, String max) {
+    return 'Muss zwischen $min und $max liegen';
+  }
+
+  @override
+  String get bodyRangeMonth => '1 Monat';
+
+  @override
+  String get bodyRangeYear => '1 Jahr';
+
+  @override
+  String get bodySave => 'Speichern';
+
+  @override
+  String get bodySheetTitle => 'Neuer Eintrag';
+
+  @override
+  String get bodyTitle => 'Gewicht und Körper';
+
+  @override
+  String get bodyToday => 'Heute';
+
+  @override
   String get clock12 => '12 Stunden (AM/PM)';
 
   @override
@@ -654,6 +751,14 @@ class AppLocalizationsDe extends AppLocalizations {
   String get healthSyncing => 'Daten werden vom Armband geladen…';
 
   @override
+  String healthWeightBmi(String bmi, String when) {
+    return 'BMI $bmi · $when';
+  }
+
+  @override
+  String get healthWeightPrompt => 'Gewicht eintragen';
+
+  @override
   String homeActiveGoal(Object minutes) {
     return 'Ziel $minutes Min.';
   }
@@ -961,6 +1066,9 @@ class AppLocalizationsDe extends AppLocalizations {
       'Neue Daten werden nach jeder Armband-Synchronisierung automatisch gesendet.';
 
   @override
+  String get hpBody => 'Gewicht, Körperfett und BMI';
+
+  @override
   String get hpChooseTypes => 'Zu sendende Daten';
 
   @override
@@ -1130,6 +1238,12 @@ class AppLocalizationsDe extends AppLocalizations {
   }
 
   @override
+  String get metricBmi => 'BMI';
+
+  @override
+  String get metricBodyFat => 'Körperfett';
+
+  @override
   String get metricCalories => 'Kalorien';
 
   @override
@@ -1177,6 +1291,9 @@ class AppLocalizationsDe extends AppLocalizations {
   String get metricHrv => 'Herzfrequenzvariabilität';
 
   @override
+  String get metricMuscleMass => 'Muskelmasse';
+
+  @override
   String get metricRespiratoryRate => 'Atemfrequenz';
 
   @override
@@ -1193,6 +1310,9 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get metricTemperature => 'Körpertemperatur';
+
+  @override
+  String get metricWeight => 'Gewicht';
 
   @override
   String get navExercise => 'Training';
@@ -1517,7 +1637,7 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String sedentaryNote(int steps) {
-    return 'Sie werden erinnert, wenn Sie in dieser Zeit weniger als $steps Schritte gehen. Im Schlaf gibt es keine Erinnerungen.';
+    return 'Sie werden erinnert, wenn Sie in dieser Zeit weniger als $steps Schritte gehen.';
   }
 
   @override

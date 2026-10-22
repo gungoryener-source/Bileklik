@@ -141,6 +141,101 @@ class AppLocalizationsEn extends AppLocalizations {
   String get bandTense => 'Tense';
 
   @override
+  String get bmiNormal => 'Healthy weight';
+
+  @override
+  String get bmiObese => 'Obesity';
+
+  @override
+  String get bmiOver => 'Overweight';
+
+  @override
+  String get bmiUnder => 'Underweight';
+
+  @override
+  String get bodyAdd => 'Add entry';
+
+  @override
+  String get bodyBmiNeedsHeight => 'Enter your height to see your BMI.';
+
+  @override
+  String get bodyBmiNote =>
+      'BMI is a general guide for adults; it can be misleading for very muscular people, during pregnancy and for children.';
+
+  @override
+  String bodyChange(String change) {
+    return '$change since last entry';
+  }
+
+  @override
+  String get bodyChartEmpty => 'No entries in this period.';
+
+  @override
+  String get bodyDate => 'Date';
+
+  @override
+  String get bodyDelete => 'Delete';
+
+  @override
+  String bodyDeleteBody(String date) {
+    return 'The entry from $date will be removed from this phone.';
+  }
+
+  @override
+  String get bodyDeleteTitle => 'Delete entry?';
+
+  @override
+  String get bodyEmpty =>
+      'Enter your weight whenever you weigh yourself and follow the trend on the chart.';
+
+  @override
+  String get bodyHeight => 'Height';
+
+  @override
+  String get bodyHistory => 'History';
+
+  @override
+  String get bodyMuscleTooHigh => 'Muscle mass can\'t exceed weight';
+
+  @override
+  String get bodyNoChange => 'Same as last entry';
+
+  @override
+  String get bodyNote =>
+      'Entries are stored only on this phone. If the wristband is connected, your weight is also sent to it for calorie estimates.';
+
+  @override
+  String bodyOptional(String name) {
+    return '$name (optional)';
+  }
+
+  @override
+  String get bodyRange3Months => '3 months';
+
+  @override
+  String bodyRangeError(String min, String max) {
+    return 'Must be between $min and $max';
+  }
+
+  @override
+  String get bodyRangeMonth => '1 month';
+
+  @override
+  String get bodyRangeYear => '1 year';
+
+  @override
+  String get bodySave => 'Save';
+
+  @override
+  String get bodySheetTitle => 'New entry';
+
+  @override
+  String get bodyTitle => 'Weight and body';
+
+  @override
+  String get bodyToday => 'Today';
+
+  @override
   String get clock12 => '12-hour (AM/PM)';
 
   @override
@@ -651,6 +746,14 @@ class AppLocalizationsEn extends AppLocalizations {
   String get healthSyncing => 'Getting data from your wristband…';
 
   @override
+  String healthWeightBmi(String bmi, String when) {
+    return 'BMI $bmi · $when';
+  }
+
+  @override
+  String get healthWeightPrompt => 'Enter your weight';
+
+  @override
   String homeActiveGoal(Object minutes) {
     return 'Goal $minutes min';
   }
@@ -957,6 +1060,9 @@ class AppLocalizationsEn extends AppLocalizations {
       'New data is sent automatically after each wristband sync.';
 
   @override
+  String get hpBody => 'Weight, body fat and BMI';
+
+  @override
   String get hpChooseTypes => 'Data to send';
 
   @override
@@ -1127,6 +1233,12 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String get metricBmi => 'BMI';
+
+  @override
+  String get metricBodyFat => 'Body fat';
+
+  @override
   String get metricCalories => 'Calories';
 
   @override
@@ -1174,6 +1286,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get metricHrv => 'Heart Rate Variability';
 
   @override
+  String get metricMuscleMass => 'Muscle mass';
+
+  @override
   String get metricRespiratoryRate => 'Respiratory Rate';
 
   @override
@@ -1190,6 +1305,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get metricTemperature => 'Body Temperature';
+
+  @override
+  String get metricWeight => 'Weight';
 
   @override
   String get navExercise => 'Exercise';
@@ -1515,7 +1633,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String sedentaryNote(int steps) {
-    return 'You are alerted if you take fewer than $steps steps in that time. No alerts while you sleep.';
+    return 'You are alerted if you take fewer than $steps steps in that time.';
   }
 
   @override

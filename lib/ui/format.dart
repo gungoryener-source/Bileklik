@@ -67,6 +67,9 @@ String minuteOfDay(int minutes) =>
 /// 1 km = 0.621371 mil.
 const kmPerMile = 1.609344;
 
+/// 1 kg = 2.20462 libre.
+const lbPerKg = 2.2046226218;
+
 /// Mesafe değerini seçili birimde yazar (birim ayrı: [MetricLook.unit]).
 String distanceValue(double km) => MetricType.distance.format(km);
 
@@ -81,6 +84,7 @@ Duration? paceFor(int seconds, double km) {
 // (19 Ekim, October 19, 19. Oktober).
 String dayMonth(DateTime t) => _fmt(DateFormat.MONTH_DAY).format(t);
 String monthYear(DateTime t) => _fmt(DateFormat.YEAR_MONTH).format(t);
+String monthShort(DateTime t) => _fmt(DateFormat.ABBR_MONTH).format(t);
 String longDate(DateTime t) => _fmt(DateFormat.YEAR_MONTH_DAY).format(t);
 
 /// "1 sa 25 dk" biçiminde süre.
@@ -115,6 +119,10 @@ extension MetricLook on MetricType {
       MetricType.respiratoryRate => l.metricRespiratoryRate,
       MetricType.systolic => l.metricSystolic,
       MetricType.diastolic => l.metricDiastolic,
+      MetricType.weight => l.metricWeight,
+      MetricType.bodyFat => l.metricBodyFat,
+      MetricType.muscleMass => l.metricMuscleMass,
+      MetricType.bmi => l.metricBmi,
     };
   }
 
@@ -126,6 +134,8 @@ extension MetricLook on MetricType {
     MetricType.temperature =>
       DisplayPrefs.imperial ? '\u200E°F' : '\u200E$symbol',
     MetricType.distance => DisplayPrefs.imperial ? 'mi' : symbol,
+    MetricType.weight ||
+    MetricType.muscleMass => DisplayPrefs.imperial ? 'lb' : symbol,
     _ => symbol,
   };
 
@@ -139,6 +149,10 @@ extension MetricLook on MetricType {
     MetricType.temperature => DataColors.temperature,
     MetricType.respiratoryRate => DataColors.respiration,
     MetricType.systolic || MetricType.diastolic => DataColors.pressure,
+    MetricType.weight ||
+    MetricType.bodyFat ||
+    MetricType.muscleMass ||
+    MetricType.bmi => DataColors.body,
   };
 
   IconData get icon => switch (this) {
@@ -152,6 +166,10 @@ extension MetricLook on MetricType {
     MetricType.temperature => Icons.thermostat,
     MetricType.respiratoryRate => Icons.air,
     MetricType.systolic || MetricType.diastolic => Icons.bloodtype,
+    MetricType.weight => Icons.monitor_weight_outlined,
+    MetricType.bodyFat => Icons.pie_chart_outline,
+    MetricType.muscleMass => Icons.fitness_center,
+    MetricType.bmi => Icons.accessibility_new,
   };
 
   /// Değeri seçili birimde yazar; mesafe km, ısı °C olarak saklanır.
@@ -160,6 +178,9 @@ extension MetricLook on MetricType {
       (DisplayPrefs.imperial ? v * 9 / 5 + 32 : v).toStringAsFixed(1),
     MetricType.distance =>
       (DisplayPrefs.imperial ? v / kmPerMile : v).toStringAsFixed(2),
+    MetricType.weight || MetricType.muscleMass =>
+      (DisplayPrefs.imperial ? v * lbPerKg : v).toStringAsFixed(1),
+    MetricType.bodyFat || MetricType.bmi => v.toStringAsFixed(1),
     _ => v.round().toString(),
   };
 }

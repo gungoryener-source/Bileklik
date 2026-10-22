@@ -56,14 +56,18 @@ class _PersonalInfoScreenState extends State<PersonalInfoScreen> {
   Future<void> _save() async {
     if (!_form.currentState!.validate()) return;
     final c = DeviceScope.of(context);
+    final settings = SettingsScope.of(context);
+    final height = int.parse(_height.text);
     await c.saveProfile(
       PersonalInfo(
         isMale: _isMale,
         age: int.parse(_age.text),
-        heightCm: int.parse(_height.text),
+        heightCm: height,
         weightKg: int.parse(_weight.text),
       ),
     );
+    // Boy VKİ hesabında da kullanılır; bileklik bağlı değilken de bilinsin.
+    if (c.issue == null) await settings.setHeight(height);
     if (!mounted) return;
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(content: Text(issueText(c) ?? context.l10n.profileSaved)),

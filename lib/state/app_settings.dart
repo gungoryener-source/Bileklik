@@ -20,6 +20,7 @@ class AppSettings extends ChangeNotifier {
     this._clock = ClockFormat.system,
     this._units = UnitSystem.metric,
     this._wearDetection = true,
+    this._heightCm,
   });
 
   /// Kaydedilmiş tercihleri okur; yoksa telefonun dili.
@@ -36,6 +37,7 @@ class AppSettings extends ChangeNotifier {
           _byName(UnitSystem.values, prefs.getString(_unitsKey)) ??
           UnitSystem.metric,
       wearDetection: prefs.getBool(_wearKey) ?? true,
+      heightCm: prefs.getInt(_heightKey),
     );
   }
 
@@ -52,13 +54,22 @@ class AppSettings extends ChangeNotifier {
     bool languageChosen = true,
     ClockFormat clock = ClockFormat.system,
     UnitSystem units = UnitSystem.metric,
-  }) : this._(null, language, languageChosen, clock: clock, units: units);
+    int? heightCm,
+  }) : this._(
+         null,
+         language,
+         languageChosen,
+         clock: clock,
+         units: units,
+         heightCm: heightCm,
+       );
 
   static const _languageKey = 'language';
   static const _chosenKey = 'language_chosen';
   static const _clockKey = 'clock_format';
   static const _unitsKey = 'unit_system';
   static const _wearKey = 'wear_detection';
+  static const _heightKey = 'height_cm';
 
   final SharedPreferences? _prefs;
   String? _language;
@@ -66,6 +77,18 @@ class AppSettings extends ChangeNotifier {
   ClockFormat _clock;
   UnitSystem _units;
   bool _wearDetection;
+  int? _heightCm;
+
+  /// Boy (cm); VKİ hesabı için. Bileklik bağlı değilken de bilinsin diye
+  /// telefonda saklanır.
+  int? get heightCm => _heightCm;
+
+  Future<void> setHeight(int cm) async {
+    if (cm == _heightCm) return;
+    _heightCm = cm;
+    notifyListeners();
+    await _prefs?.setInt(_heightKey, cm);
+  }
 
   ClockFormat get clock => _clock;
   UnitSystem get units => _units;

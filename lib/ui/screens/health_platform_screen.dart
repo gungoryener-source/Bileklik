@@ -33,6 +33,7 @@ extension ExportTypeLook on ExportType {
       ExportType.hrv => l.hpHrv,
       ExportType.temperature => l.shareTemperature,
       ExportType.respiratoryRate => l.metricRespiratoryRate,
+      ExportType.body => l.hpBody,
       ExportType.sleep => l.shareSleep,
       ExportType.workouts => l.hpWorkouts,
     };
@@ -45,6 +46,7 @@ extension ExportTypeLook on ExportType {
     ExportType.hrv => Icons.monitor_heart,
     ExportType.temperature => Icons.thermostat,
     ExportType.respiratoryRate => Icons.air,
+    ExportType.body => Icons.monitor_weight_outlined,
     ExportType.sleep => Icons.bedtime,
     ExportType.workouts => Icons.fitness_center,
   };
@@ -56,6 +58,7 @@ extension ExportTypeLook on ExportType {
     ExportType.hrv => DataColors.hrv,
     ExportType.temperature => DataColors.temperature,
     ExportType.respiratoryRate => DataColors.respiration,
+    ExportType.body => DataColors.body,
     ExportType.sleep => DataColors.sleepLight,
     ExportType.workouts => DataColors.stress,
   };

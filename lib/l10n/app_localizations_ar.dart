@@ -140,6 +140,101 @@ class AppLocalizationsAr extends AppLocalizations {
   String get bandTense => 'متوتر';
 
   @override
+  String get bmiNormal => 'وزن طبيعي';
+
+  @override
+  String get bmiObese => 'سمنة';
+
+  @override
+  String get bmiOver => 'زيادة الوزن';
+
+  @override
+  String get bmiUnder => 'نقص الوزن';
+
+  @override
+  String get bodyAdd => 'إضافة قياس';
+
+  @override
+  String get bodyBmiNeedsHeight => 'أدخل طولك لمعرفة مؤشر كتلة الجسم.';
+
+  @override
+  String get bodyBmiNote =>
+      'مؤشر كتلة الجسم دليل عام للبالغين؛ وقد يكون مضللًا لذوي الكتلة العضلية العالية وأثناء الحمل وللأطفال.';
+
+  @override
+  String bodyChange(String change) {
+    return '$change منذ القياس السابق';
+  }
+
+  @override
+  String get bodyChartEmpty => 'لا قياسات في هذه الفترة.';
+
+  @override
+  String get bodyDate => 'التاريخ';
+
+  @override
+  String get bodyDelete => 'حذف';
+
+  @override
+  String bodyDeleteBody(String date) {
+    return 'سيُحذف قياس $date من هذا الهاتف.';
+  }
+
+  @override
+  String get bodyDeleteTitle => 'حذف القياس؟';
+
+  @override
+  String get bodyEmpty =>
+      'أدخل وزنك كلما وزنت نفسك وتابع التغيّر في الرسم البياني.';
+
+  @override
+  String get bodyHeight => 'الطول';
+
+  @override
+  String get bodyHistory => 'السجل';
+
+  @override
+  String get bodyMuscleTooHigh => 'لا يمكن أن تتجاوز الكتلة العضلية الوزن';
+
+  @override
+  String get bodyNoChange => 'مثل القياس السابق';
+
+  @override
+  String get bodyNote =>
+      'تُحفظ القياسات على هذا الهاتف فقط. إذا كان السوار متصلًا يُرسل وزنك إليه أيضًا لحساب السعرات.';
+
+  @override
+  String bodyOptional(String name) {
+    return '$name (اختياري)';
+  }
+
+  @override
+  String get bodyRange3Months => '3 أشهر';
+
+  @override
+  String bodyRangeError(String min, String max) {
+    return 'يجب أن يكون بين $min و$max';
+  }
+
+  @override
+  String get bodyRangeMonth => 'شهر';
+
+  @override
+  String get bodyRangeYear => 'سنة';
+
+  @override
+  String get bodySave => 'حفظ';
+
+  @override
+  String get bodySheetTitle => 'قياس جديد';
+
+  @override
+  String get bodyTitle => 'الوزن والجسم';
+
+  @override
+  String get bodyToday => 'اليوم';
+
+  @override
   String get clock12 => '12 ساعة (ص/م)';
 
   @override
@@ -656,6 +751,14 @@ class AppLocalizationsAr extends AppLocalizations {
   String get healthSyncing => 'جارٍ جلب البيانات من السوار…';
 
   @override
+  String healthWeightBmi(String bmi, String when) {
+    return 'مؤشر كتلة الجسم $bmi · $when';
+  }
+
+  @override
+  String get healthWeightPrompt => 'أدخل وزنك';
+
+  @override
   String homeActiveGoal(Object minutes) {
     return 'الهدف $minutes دقيقة';
   }
@@ -959,6 +1062,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get hpAuto => 'تُرسل البيانات الجديدة تلقائيًا بعد كل مزامنة للسوار.';
 
   @override
+  String get hpBody => 'الوزن ونسبة الدهون ومؤشر كتلة الجسم';
+
+  @override
   String get hpChooseTypes => 'البيانات المراد إرسالها';
 
   @override
@@ -1132,6 +1238,12 @@ class AppLocalizationsAr extends AppLocalizations {
   }
 
   @override
+  String get metricBmi => 'مؤشر كتلة الجسم';
+
+  @override
+  String get metricBodyFat => 'نسبة الدهون';
+
+  @override
   String get metricCalories => 'السعرات';
 
   @override
@@ -1179,6 +1291,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get metricHrv => 'تقلب معدل ضربات القلب';
 
   @override
+  String get metricMuscleMass => 'الكتلة العضلية';
+
+  @override
   String get metricRespiratoryRate => 'معدل التنفس';
 
   @override
@@ -1195,6 +1310,9 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get metricTemperature => 'حرارة الجسم';
+
+  @override
+  String get metricWeight => 'الوزن';
 
   @override
   String get navExercise => 'التمارين';
@@ -1523,7 +1641,7 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String sedentaryNote(int steps) {
-    return 'يصلك التنبيه إذا مشيت أقل من $steps خطوة خلال هذه المدة. لا تنبيهات أثناء النوم.';
+    return 'يصلك التنبيه إذا مشيت أقل من $steps خطوة خلال هذه المدة.';
   }
 
   @override

@@ -328,6 +328,31 @@ class DeviceController extends ChangeNotifier {
     notifyListeners();
   }
 
+  /// Elle girilen kilo ve boyu bilekliğin kişisel bilgilerine (0x02) yazar;
+  /// bileklik kalori ve mesafeyi bunlarla hesaplar. Bağlı değilse ya da
+  /// yazılamazsa sessizce false döner (ölçüm telefonda yine saklanır).
+  Future<bool> updateBodyInfo({double? weightKg, int? heightCm}) async {
+    final p = profile;
+    if (!isConnected || p == null) return false;
+    final next = PersonalInfo(
+      isMale: p.isMale,
+      age: p.age,
+      heightCm: heightCm ?? p.heightCm,
+      // Bileklik tam sayı kilogram tutar (tek bayt).
+      weightKg: (weightKg?.round() ?? p.weightKg).clamp(1, 255),
+      stepLengthCm: p.stepLengthCm,
+      mac: p.mac,
+    );
+    try {
+      await _client.setPersonalInfo(next);
+      profile = await _client.getPersonalInfo();
+      notifyListeners();
+      return true;
+    } catch (_) {
+      return false;
+    }
+  }
+
   /// Egzersizi başlatır. Bileklik başka bir modda ise false döner.
   Future<bool> startExercise(SportType type) async {
     error = null;
