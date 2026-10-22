@@ -438,10 +438,8 @@ class _AchievementGrid extends StatelessWidget {
                           value: a.progress,
                           minHeight: 6,
                           borderRadius: BorderRadius.circular(3),
+                          // Değer, ekran okuyucu için çubuğun kendi yüzdesi.
                           semanticsLabel: l.achievementProgress,
-                          semanticsValue: l.statPercent(
-                            (a.progress * 100).round().toString(),
-                          ),
                         ),
                     ],
                   ),
