@@ -330,6 +330,174 @@ abstract class AppLocalizations {
   /// **'Gergin'**
   String get bandTense;
 
+  /// No description provided for @bmiNormal.
+  ///
+  /// In tr, this message translates to:
+  /// **'Normal'**
+  String get bmiNormal;
+
+  /// No description provided for @bmiObese.
+  ///
+  /// In tr, this message translates to:
+  /// **'Obez'**
+  String get bmiObese;
+
+  /// No description provided for @bmiOver.
+  ///
+  /// In tr, this message translates to:
+  /// **'Fazla kilolu'**
+  String get bmiOver;
+
+  /// No description provided for @bmiUnder.
+  ///
+  /// In tr, this message translates to:
+  /// **'Zayıf'**
+  String get bmiUnder;
+
+  /// No description provided for @bodyAdd.
+  ///
+  /// In tr, this message translates to:
+  /// **'Ölçüm ekle'**
+  String get bodyAdd;
+
+  /// No description provided for @bodyBmiNeedsHeight.
+  ///
+  /// In tr, this message translates to:
+  /// **'VKİ için boyunuzu girin.'**
+  String get bodyBmiNeedsHeight;
+
+  /// No description provided for @bodyBmiNote.
+  ///
+  /// In tr, this message translates to:
+  /// **'VKİ yetişkinler için genel bir göstergedir; kas oranı yüksek kişilerde, gebelikte ve çocuklarda yanıltıcı olabilir.'**
+  String get bodyBmiNote;
+
+  /// No description provided for @bodyChange.
+  ///
+  /// In tr, this message translates to:
+  /// **'Önceki ölçüme göre {change}'**
+  String bodyChange(String change);
+
+  /// No description provided for @bodyChartEmpty.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bu dönemde ölçüm yok.'**
+  String get bodyChartEmpty;
+
+  /// No description provided for @bodyDate.
+  ///
+  /// In tr, this message translates to:
+  /// **'Tarih'**
+  String get bodyDate;
+
+  /// No description provided for @bodyDelete.
+  ///
+  /// In tr, this message translates to:
+  /// **'Sil'**
+  String get bodyDelete;
+
+  /// No description provided for @bodyDeleteBody.
+  ///
+  /// In tr, this message translates to:
+  /// **'{date} tarihli ölçüm bu telefondan silinir.'**
+  String bodyDeleteBody(String date);
+
+  /// No description provided for @bodyDeleteTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Ölçüm silinsin mi?'**
+  String get bodyDeleteTitle;
+
+  /// No description provided for @bodyEmpty.
+  ///
+  /// In tr, this message translates to:
+  /// **'Tartıldığınızda kilonuzu buraya girin; değişimi grafikte izleyin.'**
+  String get bodyEmpty;
+
+  /// No description provided for @bodyHeight.
+  ///
+  /// In tr, this message translates to:
+  /// **'Boy'**
+  String get bodyHeight;
+
+  /// No description provided for @bodyHistory.
+  ///
+  /// In tr, this message translates to:
+  /// **'Geçmiş'**
+  String get bodyHistory;
+
+  /// No description provided for @bodyMuscleTooHigh.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kas kütlesi kilodan büyük olamaz'**
+  String get bodyMuscleTooHigh;
+
+  /// No description provided for @bodyNoChange.
+  ///
+  /// In tr, this message translates to:
+  /// **'Önceki ölçümle aynı'**
+  String get bodyNoChange;
+
+  /// No description provided for @bodyNote.
+  ///
+  /// In tr, this message translates to:
+  /// **'Ölçümler yalnızca bu telefonda saklanır. Bileklik bağlıysa kilonuz kalori hesabı için bilekliğe de yazılır.'**
+  String get bodyNote;
+
+  /// No description provided for @bodyOptional.
+  ///
+  /// In tr, this message translates to:
+  /// **'{name} (isteğe bağlı)'**
+  String bodyOptional(String name);
+
+  /// No description provided for @bodyRange3Months.
+  ///
+  /// In tr, this message translates to:
+  /// **'3 ay'**
+  String get bodyRange3Months;
+
+  /// No description provided for @bodyRangeError.
+  ///
+  /// In tr, this message translates to:
+  /// **'{min} ile {max} arasında olmalı'**
+  String bodyRangeError(String min, String max);
+
+  /// No description provided for @bodyRangeMonth.
+  ///
+  /// In tr, this message translates to:
+  /// **'1 ay'**
+  String get bodyRangeMonth;
+
+  /// No description provided for @bodyRangeYear.
+  ///
+  /// In tr, this message translates to:
+  /// **'1 yıl'**
+  String get bodyRangeYear;
+
+  /// No description provided for @bodySave.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kaydet'**
+  String get bodySave;
+
+  /// No description provided for @bodySheetTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yeni ölçüm'**
+  String get bodySheetTitle;
+
+  /// No description provided for @bodyTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kilo ve vücut'**
+  String get bodyTitle;
+
+  /// No description provided for @bodyToday.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bugün'**
+  String get bodyToday;
+
   /// No description provided for @clock12.
   ///
   /// In tr, this message translates to:
@@ -1146,6 +1314,18 @@ abstract class AppLocalizations {
   /// **'Bileklikten veriler alınıyor…'**
   String get healthSyncing;
 
+  /// No description provided for @healthWeightBmi.
+  ///
+  /// In tr, this message translates to:
+  /// **'VKİ {bmi} · {when}'**
+  String healthWeightBmi(String bmi, String when);
+
+  /// No description provided for @healthWeightPrompt.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kilonuzu girin'**
+  String get healthWeightPrompt;
+
   /// No description provided for @homeActiveGoal.
   ///
   /// In tr, this message translates to:
@@ -1632,6 +1812,12 @@ abstract class AppLocalizations {
   /// **'Bileklik eşitlendikçe yeni veriler kendiliğinden aktarılır.'**
   String get hpAuto;
 
+  /// No description provided for @hpBody.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kilo, yağ oranı ve VKİ'**
+  String get hpBody;
+
   /// No description provided for @hpChooseTypes.
   ///
   /// In tr, this message translates to:
@@ -1884,6 +2070,18 @@ abstract class AppLocalizations {
   /// **'Yaklaşık {seconds} saniye sürer'**
   String measureTakes(Object seconds);
 
+  /// No description provided for @metricBmi.
+  ///
+  /// In tr, this message translates to:
+  /// **'VKİ'**
+  String get metricBmi;
+
+  /// No description provided for @metricBodyFat.
+  ///
+  /// In tr, this message translates to:
+  /// **'Vücut yağ oranı'**
+  String get metricBodyFat;
+
   /// No description provided for @metricCalories.
   ///
   /// In tr, this message translates to:
@@ -1968,6 +2166,12 @@ abstract class AppLocalizations {
   /// **'Kalp Atış Hızı Değişkenliği'**
   String get metricHrv;
 
+  /// No description provided for @metricMuscleMass.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kas kütlesi'**
+  String get metricMuscleMass;
+
   /// No description provided for @metricRespiratoryRate.
   ///
   /// In tr, this message translates to:
@@ -2003,6 +2207,12 @@ abstract class AppLocalizations {
   /// In tr, this message translates to:
   /// **'Vücut Isısı'**
   String get metricTemperature;
+
+  /// No description provided for @metricWeight.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kilo'**
+  String get metricWeight;
 
   /// No description provided for @navExercise.
   ///
@@ -2535,7 +2745,7 @@ abstract class AppLocalizations {
   /// No description provided for @sedentaryNote.
   ///
   /// In tr, this message translates to:
-  /// **'Bu sürede {steps} adımdan az atarsanız uyarı gelir. Uykuda uyarı gelmez.'**
+  /// **'Bu sürede {steps} adımdan az atarsanız uyarı gelir.'**
   String sedentaryNote(int steps);
 
   /// No description provided for @sedentarySubtitle.

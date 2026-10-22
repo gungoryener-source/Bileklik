@@ -16,6 +16,9 @@ abstract final class DataColors {
   static const sleepDeep = Color(0xFF5C6CFF);
   static const sleepLight = Color(0xFF8FA6FF);
   static const sleepRem = Color(0xFFD08CFF);
+
+  /// Kilo ve vücut ölçüleri.
+  static const body = Color(0xFFF2D45C);
 }
 
 /// "Cam" tasarım dilinin renkleri. Uygulama yalnızca koyu temada çalışır.

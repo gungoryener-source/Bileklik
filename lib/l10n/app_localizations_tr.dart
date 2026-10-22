@@ -141,6 +141,101 @@ class AppLocalizationsTr extends AppLocalizations {
   String get bandTense => 'Gergin';
 
   @override
+  String get bmiNormal => 'Normal';
+
+  @override
+  String get bmiObese => 'Obez';
+
+  @override
+  String get bmiOver => 'Fazla kilolu';
+
+  @override
+  String get bmiUnder => 'Zayıf';
+
+  @override
+  String get bodyAdd => 'Ölçüm ekle';
+
+  @override
+  String get bodyBmiNeedsHeight => 'VKİ için boyunuzu girin.';
+
+  @override
+  String get bodyBmiNote =>
+      'VKİ yetişkinler için genel bir göstergedir; kas oranı yüksek kişilerde, gebelikte ve çocuklarda yanıltıcı olabilir.';
+
+  @override
+  String bodyChange(String change) {
+    return 'Önceki ölçüme göre $change';
+  }
+
+  @override
+  String get bodyChartEmpty => 'Bu dönemde ölçüm yok.';
+
+  @override
+  String get bodyDate => 'Tarih';
+
+  @override
+  String get bodyDelete => 'Sil';
+
+  @override
+  String bodyDeleteBody(String date) {
+    return '$date tarihli ölçüm bu telefondan silinir.';
+  }
+
+  @override
+  String get bodyDeleteTitle => 'Ölçüm silinsin mi?';
+
+  @override
+  String get bodyEmpty =>
+      'Tartıldığınızda kilonuzu buraya girin; değişimi grafikte izleyin.';
+
+  @override
+  String get bodyHeight => 'Boy';
+
+  @override
+  String get bodyHistory => 'Geçmiş';
+
+  @override
+  String get bodyMuscleTooHigh => 'Kas kütlesi kilodan büyük olamaz';
+
+  @override
+  String get bodyNoChange => 'Önceki ölçümle aynı';
+
+  @override
+  String get bodyNote =>
+      'Ölçümler yalnızca bu telefonda saklanır. Bileklik bağlıysa kilonuz kalori hesabı için bilekliğe de yazılır.';
+
+  @override
+  String bodyOptional(String name) {
+    return '$name (isteğe bağlı)';
+  }
+
+  @override
+  String get bodyRange3Months => '3 ay';
+
+  @override
+  String bodyRangeError(String min, String max) {
+    return '$min ile $max arasında olmalı';
+  }
+
+  @override
+  String get bodyRangeMonth => '1 ay';
+
+  @override
+  String get bodyRangeYear => '1 yıl';
+
+  @override
+  String get bodySave => 'Kaydet';
+
+  @override
+  String get bodySheetTitle => 'Yeni ölçüm';
+
+  @override
+  String get bodyTitle => 'Kilo ve vücut';
+
+  @override
+  String get bodyToday => 'Bugün';
+
+  @override
   String get clock12 => '12 saat (ÖÖ/ÖS)';
 
   @override
@@ -644,6 +739,14 @@ class AppLocalizationsTr extends AppLocalizations {
   String get healthSyncing => 'Bileklikten veriler alınıyor…';
 
   @override
+  String healthWeightBmi(String bmi, String when) {
+    return 'VKİ $bmi · $when';
+  }
+
+  @override
+  String get healthWeightPrompt => 'Kilonuzu girin';
+
+  @override
   String homeActiveGoal(Object minutes) {
     return 'Hedef $minutes dk';
   }
@@ -950,6 +1053,9 @@ class AppLocalizationsTr extends AppLocalizations {
       'Bileklik eşitlendikçe yeni veriler kendiliğinden aktarılır.';
 
   @override
+  String get hpBody => 'Kilo, yağ oranı ve VKİ';
+
+  @override
   String get hpChooseTypes => 'Aktarılacak veriler';
 
   @override
@@ -1109,6 +1215,12 @@ class AppLocalizationsTr extends AppLocalizations {
   }
 
   @override
+  String get metricBmi => 'VKİ';
+
+  @override
+  String get metricBodyFat => 'Vücut yağ oranı';
+
+  @override
   String get metricCalories => 'Kalori';
 
   @override
@@ -1156,6 +1268,9 @@ class AppLocalizationsTr extends AppLocalizations {
   String get metricHrv => 'Kalp Atış Hızı Değişkenliği';
 
   @override
+  String get metricMuscleMass => 'Kas kütlesi';
+
+  @override
   String get metricRespiratoryRate => 'Solunum Hızı';
 
   @override
@@ -1172,6 +1287,9 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get metricTemperature => 'Vücut Isısı';
+
+  @override
+  String get metricWeight => 'Kilo';
 
   @override
   String get navExercise => 'Egzersiz';
@@ -1494,7 +1612,7 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String sedentaryNote(int steps) {
-    return 'Bu sürede $steps adımdan az atarsanız uyarı gelir. Uykuda uyarı gelmez.';
+    return 'Bu sürede $steps adımdan az atarsanız uyarı gelir.';
   }
 
   @override

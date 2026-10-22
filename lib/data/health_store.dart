@@ -26,6 +26,9 @@ abstract class HealthStore extends ChangeNotifier {
 
   void addEcg(EcgRecording r);
 
+  /// Elle girilen bir kaydı siler (yanlış girilen kilo gibi).
+  void removeMeasurements(Iterable<Measurement> items);
+
   /// En yenisi önce.
   List<EcgRecording> ecgRecordings();
 }
@@ -131,6 +134,19 @@ class MemoryHealthStore extends HealthStore {
   }
 
   @override
+  void removeMeasurements(Iterable<Measurement> items) {
+    final removed = <Measurement>[];
+    for (final m in items) {
+      if (!_seen.remove(m)) continue;
+      _data[m.type]?.remove(m);
+      removed.add(m);
+    }
+    if (removed.isEmpty) return;
+    onRemoved(removed);
+    notifyListeners();
+  }
+
+  @override
   List<EcgRecording> ecgRecordings() =>
       [..._ecg]..sort((a, b) => b.start.compareTo(a.start));
 
@@ -142,4 +158,8 @@ class MemoryHealthStore extends HealthStore {
     List<Workout> workouts = const [],
     List<EcgRecording> ecg = const [],
   }) {}
+
+  /// Bellekten silinen ölçümler; kalıcı depo diskten de siler.
+  @protected
+  void onRemoved(List<Measurement> measurements) {}
 }

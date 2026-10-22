@@ -24,6 +24,10 @@ enum ExportType {
   hrv,
   temperature,
   respiratoryRate,
+
+  /// Kilo, vücut yağ oranı ve VKİ (elle girilen). Kas kütlesinin iki
+  /// platformda da birebir karşılığı yok (yağsız kütle farklı ölçü).
+  body,
   sleep,
   workouts,
 }
@@ -41,6 +45,11 @@ extension ExportTypeMetrics on ExportType {
     ExportType.hrv => const [MetricType.hrv],
     ExportType.temperature => const [MetricType.temperature],
     ExportType.respiratoryRate => const [MetricType.respiratoryRate],
+    ExportType.body => const [
+      MetricType.weight,
+      MetricType.bodyFat,
+      MetricType.bmi,
+    ],
     ExportType.sleep || ExportType.workouts => const [],
   };
 }

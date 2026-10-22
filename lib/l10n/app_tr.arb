@@ -66,6 +66,65 @@
   "bandMild": "Hafif",
   "bandNormal": "Normal",
   "bandTense": "Gergin",
+  "bmiNormal": "Normal",
+  "bmiObese": "Obez",
+  "bmiOver": "Fazla kilolu",
+  "bmiUnder": "Zayıf",
+  "bodyAdd": "Ölçüm ekle",
+  "bodyBmiNeedsHeight": "VKİ için boyunuzu girin.",
+  "bodyBmiNote": "VKİ yetişkinler için genel bir göstergedir; kas oranı yüksek kişilerde, gebelikte ve çocuklarda yanıltıcı olabilir.",
+  "bodyChange": "Önceki ölçüme göre {change}",
+  "@bodyChange": {
+    "placeholders": {
+      "change": {
+        "type": "String"
+      }
+    }
+  },
+  "bodyChartEmpty": "Bu dönemde ölçüm yok.",
+  "bodyDate": "Tarih",
+  "bodyDelete": "Sil",
+  "bodyDeleteBody": "{date} tarihli ölçüm bu telefondan silinir.",
+  "@bodyDeleteBody": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "bodyDeleteTitle": "Ölçüm silinsin mi?",
+  "bodyEmpty": "Tartıldığınızda kilonuzu buraya girin; değişimi grafikte izleyin.",
+  "bodyHeight": "Boy",
+  "bodyHistory": "Geçmiş",
+  "bodyMuscleTooHigh": "Kas kütlesi kilodan büyük olamaz",
+  "bodyNoChange": "Önceki ölçümle aynı",
+  "bodyNote": "Ölçümler yalnızca bu telefonda saklanır. Bileklik bağlıysa kilonuz kalori hesabı için bilekliğe de yazılır.",
+  "bodyOptional": "{name} (isteğe bağlı)",
+  "@bodyOptional": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "bodyRange3Months": "3 ay",
+  "bodyRangeError": "{min} ile {max} arasında olmalı",
+  "@bodyRangeError": {
+    "placeholders": {
+      "min": {
+        "type": "String"
+      },
+      "max": {
+        "type": "String"
+      }
+    }
+  },
+  "bodyRangeMonth": "1 ay",
+  "bodyRangeYear": "1 yıl",
+  "bodySave": "Kaydet",
+  "bodySheetTitle": "Yeni ölçüm",
+  "bodyTitle": "Kilo ve vücut",
+  "bodyToday": "Bugün",
   "clock12": "12 saat (ÖÖ/ÖS)",
   "clock24": "24 saat",
   "clockSystem": "Dile göre",
@@ -266,6 +325,18 @@
   "healthStepsToday": "Bugün · hedef {goal}",
   "healthSyncTooltip": "Bileklikten güncelle",
   "healthSyncing": "Bileklikten veriler alınıyor…",
+  "healthWeightBmi": "VKİ {bmi} · {when}",
+  "@healthWeightBmi": {
+    "placeholders": {
+      "bmi": {
+        "type": "String"
+      },
+      "when": {
+        "type": "String"
+      }
+    }
+  },
+  "healthWeightPrompt": "Kilonuzu girin",
   "homeActiveGoal": "Hedef {minutes} dk",
   "homeActiveTime": "Aktif süre",
   "homeAverageStress": "Ortalama stres",
@@ -417,6 +488,7 @@
   "homeYesterday": "Dün",
   "hpActivity": "Adım, mesafe ve kalori",
   "hpAuto": "Bileklik eşitlendikçe yeni veriler kendiliğinden aktarılır.",
+  "hpBody": "Kilo, yağ oranı ve VKİ",
   "hpChooseTypes": "Aktarılacak veriler",
   "hpConnect": "{platform} ile bağlan",
   "hpConnected": "Bağlı",
@@ -475,6 +547,8 @@
   "measureSheetTitle": "Ne ölçmek istersiniz?",
   "measureSpo2": "Kan oksijeni (SpO2)",
   "measureTakes": "Yaklaşık {seconds} saniye sürer",
+  "metricBmi": "VKİ",
+  "metricBodyFat": "Vücut yağ oranı",
   "metricCalories": "Kalori",
   "metricDetailAbove": "> {value}",
   "metricDetailBands": "Aralıklar",
@@ -498,12 +572,14 @@
   "metricDistance": "Mesafe",
   "metricHeartRate": "Kalp Atış Hızı",
   "metricHrv": "Kalp Atış Hızı Değişkenliği",
+  "metricMuscleMass": "Kas kütlesi",
   "metricRespiratoryRate": "Solunum Hızı",
   "metricSpo2": "Kan Oksijen Doygunluğu",
   "metricSteps": "Adım",
   "metricStress": "Stres",
   "metricSystolic": "Tansiyon (büyük)",
   "metricTemperature": "Vücut Isısı",
+  "metricWeight": "Kilo",
   "navExercise": "Egzersiz",
   "navHealth": "Sağlık",
   "navHome": "Ana Sayfa",

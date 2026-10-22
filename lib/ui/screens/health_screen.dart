@@ -7,6 +7,7 @@ import '../app_shell.dart';
 import '../format.dart';
 import '../theme.dart';
 import '../widgets/cam/cam.dart';
+import 'body_screen.dart';
 import 'ecg_screen.dart';
 import 'metric_detail_screen.dart';
 import 'sleep_screen.dart';
@@ -86,6 +87,36 @@ class HealthScreen extends StatelessWidget {
                 title: title,
               ),
             ),
+          );
+        }
+
+        // Kilo elle girilir; kart vücut ekranını açar.
+        Widget weightCard() {
+          final w = store.latest(MetricType.weight);
+          final bmi = w == null
+              ? null
+              : store
+                    .measurements(
+                      MetricType.bmi,
+                      w.time,
+                      w.time.add(const Duration(milliseconds: 1)),
+                    )
+                    .firstOrNull;
+          return _HealthCard(
+            title: MetricType.weight.label,
+            icon: MetricType.weight.icon,
+            color: MetricType.weight.color,
+            value: w == null ? null : MetricType.weight.format(w.value),
+            unit: MetricType.weight.unit,
+            subtitle: w == null
+                ? l.healthWeightPrompt
+                : bmi == null
+                ? whenText(w.time, now)
+                : l.healthWeightBmi(
+                    MetricType.bmi.format(bmi.value),
+                    whenText(w.time, now),
+                  ),
+            onTap: () => open(const BodyScreen()),
           );
         }
 
@@ -174,6 +205,7 @@ class HealthScreen extends StatelessWidget {
                 title: l.healthBloodPressure,
                 estimated: true,
               ),
+              weightCard(),
             ],
           ),
         );
