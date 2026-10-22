@@ -24,7 +24,7 @@ bir öncekinin dalı üzerine kurulur. Durum: ✅ bitti (PR açık ya da birleş
 | 16 | Kilo ve vücut kompozisyonu: elle giriş, VKİ, grafik | ✅ | #19 |
 | 17 | Gerçek BLE katmanı (flutter_blue_plus), cihaz taramasının 8. maddedeki eşleştirme ekranına bağlanması, kamerayla QR okuma (şimdilik QR altındaki adres elle giriliyor) | ✅ | #20 (11. maddedeki health eklentisi ve izinler de burada; UUID'ler, yayın adı, iOS'ta adresle eşleştirme gerçek cihazda doğrulanacak; flutter_blue_plus `License.nonprofit`, ticari lisans satıştan önce yeniden değerlendirilecek) |
 | 18 | FHIR R4 dışa aktarma: Observation (LOINC), EKG için SampledData, Bundle JSON | ✅ | #21 (EKG SampledData çarpanı ve 10 dk'lık adım dönemi gerçek cihazda doğrulanacak; LOINC seçimi portalla gözden geçirilecek) |
-| 19 | Portal arka ucu iskeleti (ayrı klasör): FHIR kabul eden API, takipçi yetkisi, KVKK kayıtları | ⬜ | |
+| 19 | Portal arka ucu iskeleti (ayrı klasör): FHIR kabul eden API, takipçi yetkisi, KVKK kayıtları | ✅ | #22 (iskelet: bellekte depo, Bearer anahtar; kalıcı şifreli depo ve gerçek giriş sonra) |
 | 20 | PPI geçmişi (0x63) ve HRV ayrıntısı; VO2 Max tahmini | ⬜ | |
 | 21 | Rozetler, haftalık rapor, enerji skoru (referans uygulamadaki özellikler, kendi tasarımımızla) | ⬜ | |
 

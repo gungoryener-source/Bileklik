@@ -57,6 +57,13 @@ UI (lib/ui)  ->  DeviceController (lib/state)  ->  WristbandClient  ->  DeviceTr
   çevirir (Observation + LOINC/UCUM, EKG için SampledData). Hasta kaynağı takma
   kimliklidir (`AppSettings.patientId`), ad ya da TC kimlik yazılmaz.
 
+## Portal (`portal/`)
+
+Ayrı bir Dart paketi (shelf): FHIR Bundle alır, takipçilere yalnızca rızadaki
+türleri gösterir, her erişimi `AuditEvent` olarak kaydeder. Kökteki
+`flutter analyze` bu klasörü taramaz; CI'da ayrı işte `dart analyze
+--fatal-infos` ve `dart test` çalışır. Ayrıntılar `portal/README.md`.
+
 ## Protokol kuralları (V8 API PDF)
 
 - Paket 16 bayt: komut + 14 bayt veri + CRC (ilk 15 baytın toplamı & 0xFF).
