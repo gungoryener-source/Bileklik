@@ -13,6 +13,7 @@ import 'l10n/l10n.dart';
 import 'state/app_settings.dart';
 import 'state/device_controller.dart';
 import 'ui/app_shell.dart';
+import 'ui/format.dart';
 import 'ui/screens/language_screen.dart';
 import 'ui/theme.dart';
 
@@ -25,7 +26,11 @@ Future<void> main() async {
   final settings = await AppSettings.load();
   // Bileklik gelene kadar sahte cihaz kullanılır. Gerçek BLE katmanı
   // eklendiğinde yalnızca bu satır değişecek.
-  final controller = DeviceController(FakeDevice(), store: await _openStore());
+  final controller = DeviceController(
+    FakeDevice(),
+    store: await _openStore(),
+    wearDetection: settings.wearDetection,
+  );
   runApp(BileklikApp(controller: controller, settings: settings));
 }
 
@@ -112,7 +117,13 @@ class BileklikApp extends StatelessWidget {
                   ],
                   // null: telefonun dili.
                   locale: settings.locale,
-                  builder: (context, child) => LocaleSync(child: child!),
+                  builder: (context, child) => LocaleSync(
+                    child: DisplaySync(
+                      clock: settings.clock,
+                      units: settings.units,
+                      child: child!,
+                    ),
+                  ),
                   // Tek tema: koyu Cam.
                   theme: _theme,
                   // İlk açılışta dil seçilir; sonra Profil'den değişir.

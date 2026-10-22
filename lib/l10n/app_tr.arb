@@ -8,6 +8,56 @@
   "actionCancel": "Vazgeç",
   "actionClose": "Kapat",
   "appTitle": "Bileklik",
+  "autoMeasureAllDay": "Tüm gün",
+  "autoMeasureConnect": "Bağlan",
+  "autoMeasureDays": "Günler",
+  "autoMeasureEnd": "Bitiş",
+  "autoMeasureEveryDay": "Her gün",
+  "autoMeasureEveryHours": "{hours} saatte bir",
+  "@autoMeasureEveryHours": {
+    "placeholders": {
+      "hours": {
+        "type": "int"
+      }
+    }
+  },
+  "autoMeasureEveryMinutes": "{minutes} dakikada bir",
+  "@autoMeasureEveryMinutes": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "autoMeasureHours": "Ölçüm saatleri",
+  "autoMeasureInterval": "Ölçüm aralığı",
+  "autoMeasureIntro": "Bileklik seçtiğiniz saatlerde kendiliğinden ölçer. Her ölçüm 1 dakika sürer; aralık kısaldıkça pil daha çabuk biter.",
+  "autoMeasureLoadFailed": "Bileklik ayarları okunamadı.",
+  "autoMeasureNextDay": "{time} (ertesi gün)",
+  "@autoMeasureNextDay": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "autoMeasureNoDays": "En az bir gün seçili kalmalı.",
+  "autoMeasureNotConnected": "Ayarları görmek ve değiştirmek için bilekliği bağlayın.",
+  "autoMeasureOff": "Kapalı",
+  "autoMeasureRetry": "Tekrar dene",
+  "autoMeasureSameTime": "Başlangıç ve bitiş aynı olamaz.",
+  "autoMeasureSaveFailed": "Ayar bilekliğe yazılamadı. Tekrar deneyin.",
+  "autoMeasureSleepNote": "Uykudayken bileklik nabzı 5 dakikada bir ölçer.",
+  "autoMeasureStart": "Başlangıç",
+  "autoMeasureTitle": "Otomatik ölçüm",
+  "autoMeasureTurnOn": "{name} otomatik ölçümü",
+  "@autoMeasureTurnOn": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
   "bandAnxious": "Kaygılı",
   "bandCalm": "Sakin",
   "bandGood": "İyi",
@@ -16,6 +66,10 @@
   "bandMild": "Hafif",
   "bandNormal": "Normal",
   "bandTense": "Gergin",
+  "clock12": "12 saat (ÖÖ/ÖS)",
+  "clock24": "24 saat",
+  "clockSystem": "Dile göre",
+  "clockTitle": "Saat biçimi",
   "comingSoon": "Yakında",
   "comingSoonMessage": "Bu bölüm sonraki bir sürümde gelecek.",
   "communityAccept": "Katıl",
@@ -114,7 +168,7 @@
   "deviceDisconnected": "Bağlı değil",
   "deviceLastSync": "Son eşitleme",
   "devicePairNew": "Başka bileklik eşleştir",
-  "deviceSettingsNote": "Nabız ölçüm aralığı ve bildirim ayarları yakında burada olacak.",
+  "deviceSectionSettings": "Bileklik ayarları",
   "deviceStatus": "Durum",
   "durationHours": "{h} sa",
   "durationHoursMinutes": "{h} sa {m} dk",
@@ -489,7 +543,7 @@
   "profileMenuDeviceNone": "Bileklik bağlı değil",
   "profileMenuFeedback": "Geri bildirim",
   "profileMenuGeneral": "Genel ayarlar",
-  "profileMenuGeneralSubtitle": "Uygulama dili",
+  "profileMenuGeneralSubtitle": "Dil, saat biçimi, birimler",
   "profileMenuPersonalEmpty": "Yaş, boy ve kilonuzu girin",
   "profileMenuPersonalSummary": "{age} yaş · {height} cm · {weight} kg",
   "@profileMenuPersonalSummary": {
@@ -578,7 +632,9 @@
   "spotKeepStill": "Bilekliği bileğinize oturtun, kolunuzu bir yere dayayıp hareket etmeyin.",
   "spotLowSpo2": "Değer düşük. Dinlenip tekrar ölçün; düşük kalırsa hekiminize danışın.",
   "spotMeasuring": "Ölçülüyor…",
+  "spotMoving": "Hareket algılandı. Kolunuzu sabit tutun.",
   "spotNote": "Bileklik ölçümü tıbbi cihaz yerine geçmez.",
+  "spotOffWrist": "Bileklik bileğinizde görünmüyor. Takıp sıkıca oturtun.",
   "spotSaved": "{time} ölçümü kaydedildi",
   "statAverage": "Ortalama",
   "statAvgHeartRate": "Ortalama nabız",
@@ -592,6 +648,12 @@
   },
   "unitPerMinute": "/dk",
   "unitSteps": "adım",
+  "unitsImperial": "ABD (mil, °F)",
+  "unitsMetric": "Metrik (km, °C)",
+  "unitsTitle": "Birimler",
+  "wearDetectionFailed": "Takma algılama ayarı bilekliğe yazılamadı.",
+  "wearDetectionSubtitle": "Ölçüm sırasında bileklik çıkarılırsa ya da kolunuz hareket ederse uyarır.",
+  "wearDetectionTitle": "Takma algılama",
   "workoutCongrats": "Tebrikler, egzersiz kaydedildi",
   "workoutTimeRange": "{day} · {start} - {end}",
   "@workoutTimeRange": {

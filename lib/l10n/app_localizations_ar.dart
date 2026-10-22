@@ -39,6 +39,83 @@ class AppLocalizationsAr extends AppLocalizations {
   String get appTitle => 'Bileklik';
 
   @override
+  String get autoMeasureAllDay => 'طوال اليوم';
+
+  @override
+  String get autoMeasureConnect => 'اتصال';
+
+  @override
+  String get autoMeasureDays => 'الأيام';
+
+  @override
+  String get autoMeasureEnd => 'النهاية';
+
+  @override
+  String get autoMeasureEveryDay => 'كل يوم';
+
+  @override
+  String autoMeasureEveryHours(int hours) {
+    return 'كل $hours ساعة';
+  }
+
+  @override
+  String autoMeasureEveryMinutes(int minutes) {
+    return 'كل $minutes دقيقة';
+  }
+
+  @override
+  String get autoMeasureHours => 'ساعات القياس';
+
+  @override
+  String get autoMeasureInterval => 'الفاصل الزمني';
+
+  @override
+  String get autoMeasureIntro =>
+      'يقيس السوار تلقائيًا في الساعات التي تختارها. يستغرق كل قياس دقيقة واحدة؛ وكلما قصرت الفترة نفدت البطارية أسرع.';
+
+  @override
+  String get autoMeasureLoadFailed => 'تعذّرت قراءة إعدادات السوار.';
+
+  @override
+  String autoMeasureNextDay(String time) {
+    return '$time (اليوم التالي)';
+  }
+
+  @override
+  String get autoMeasureNoDays => 'يجب أن يبقى يوم واحد على الأقل محددًا.';
+
+  @override
+  String get autoMeasureNotConnected => 'وصّل السوار لعرض إعداداته وتغييرها.';
+
+  @override
+  String get autoMeasureOff => 'متوقف';
+
+  @override
+  String get autoMeasureRetry => 'حاول مرة أخرى';
+
+  @override
+  String get autoMeasureSameTime => 'لا يمكن أن تتطابق البداية والنهاية.';
+
+  @override
+  String get autoMeasureSaveFailed =>
+      'تعذّر حفظ الإعداد في السوار. حاول مرة أخرى.';
+
+  @override
+  String get autoMeasureSleepNote =>
+      'أثناء النوم يقيس السوار النبض كل 5 دقائق.';
+
+  @override
+  String get autoMeasureStart => 'البداية';
+
+  @override
+  String get autoMeasureTitle => 'القياس التلقائي';
+
+  @override
+  String autoMeasureTurnOn(String name) {
+    return 'القياس التلقائي: $name';
+  }
+
+  @override
   String get bandAnxious => 'قلق';
 
   @override
@@ -61,6 +138,18 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get bandTense => 'متوتر';
+
+  @override
+  String get clock12 => '12 ساعة (ص/م)';
+
+  @override
+  String get clock24 => '24 ساعة';
+
+  @override
+  String get clockSystem => 'حسب اللغة';
+
+  @override
+  String get clockTitle => 'تنسيق الوقت';
 
   @override
   String get comingSoon => 'قريبًا';
@@ -365,8 +454,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get devicePairNew => 'إقران سوار آخر';
 
   @override
-  String get deviceSettingsNote =>
-      'ستظهر هنا قريبًا إعدادات فاصل قياس النبض والتنبيهات.';
+  String get deviceSectionSettings => 'إعدادات السوار';
 
   @override
   String get deviceStatus => 'الحالة';
@@ -1236,7 +1324,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get profileMenuGeneral => 'الإعدادات العامة';
 
   @override
-  String get profileMenuGeneralSubtitle => 'لغة التطبيق';
+  String get profileMenuGeneralSubtitle => 'اللغة، تنسيق الوقت، الوحدات';
 
   @override
   String get profileMenuPersonalEmpty => 'أدخل عمرك وطولك ووزنك';
@@ -1440,7 +1528,13 @@ class AppLocalizationsAr extends AppLocalizations {
   String get spotMeasuring => 'جارٍ القياس…';
 
   @override
+  String get spotMoving => 'تم رصد حركة. أبقِ ذراعك ثابتة.';
+
+  @override
   String get spotNote => 'قراءات السوار لا تغني عن الجهاز الطبي.';
+
+  @override
+  String get spotOffWrist => 'يبدو أن السوار ليس على معصمك. ارتدِه بإحكام.';
 
   @override
   String spotSaved(Object time) {
@@ -1475,6 +1569,25 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get unitSteps => 'خطوة';
+
+  @override
+  String get unitsImperial => 'أمريكي (ميل، °ف)';
+
+  @override
+  String get unitsMetric => 'متري (كم، °م)';
+
+  @override
+  String get unitsTitle => 'الوحدات';
+
+  @override
+  String get wearDetectionFailed => 'تعذّر تغيير كشف الارتداء في السوار.';
+
+  @override
+  String get wearDetectionSubtitle =>
+      'ينبّهك أثناء القياس إذا نُزع السوار أو تحرّكت ذراعك.';
+
+  @override
+  String get wearDetectionTitle => 'كشف الارتداء';
 
   @override
   String get workoutCongrats => 'أحسنت! تم حفظ التمرين';

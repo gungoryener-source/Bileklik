@@ -5,6 +5,9 @@ import '../app_shell.dart';
 import '../format.dart';
 import '../theme.dart';
 import '../widgets/cam/cam.dart';
+import '../../device/protocol/settings.dart';
+import '../widgets/menu_group.dart';
+import 'auto_measure_screen.dart';
 import 'pairing_screen.dart';
 
 /// Cihaz: bağlıysa bilekliğin durumu, değilse eşleştirme.
@@ -72,8 +75,22 @@ class _Connected extends StatelessWidget {
             ],
           ),
         ),
-        const SizedBox(height: 16),
-        Text(l.deviceSettingsNote, style: TextStyle(color: colors.muted)),
+        MenuHeader(l.deviceSectionSettings),
+        MenuGroup(
+          children: [
+            MenuTile(
+              icon: Icons.schedule,
+              title: l.autoMeasureTitle,
+              subtitle: autoMeasureSummary(context),
+              onTap: () => Navigator.of(context).push(
+                MaterialPageRoute<void>(
+                  builder: (_) => const AutoMeasureScreen(),
+                ),
+              ),
+            ),
+            const _WearDetectionTile(),
+          ],
+        ),
         const SizedBox(height: 24),
         OutlinedButton.icon(
           onPressed: c.disconnect,
@@ -113,4 +130,71 @@ class _Row extends StatelessWidget {
       ),
     ),
   );
+}
+
+/// Açık otomatik ölçümlerin adları ("Nabız, HRV") ya da "Kapalı".
+String? autoMeasureSummary(BuildContext context) {
+  final c = DeviceScope.of(context);
+  final l = context.l10n;
+  if (c.autoMeasure.isEmpty) {
+    return c.settingsFailed ? l.autoMeasureLoadFailed : null;
+  }
+  final on = [
+    for (final t in AutoMeasureType.values)
+      if (c.autoMeasure[t]?.enabled ?? false)
+        switch (t) {
+          AutoMeasureType.heartRate => l.measureHeartRate,
+          AutoMeasureType.spo2 => 'SpO2',
+          AutoMeasureType.hrv => 'HRV',
+        },
+  ];
+  return on.isEmpty ? l.autoMeasureOff : on.join(', ');
+}
+
+/// Takma algılaması anahtarı. Tercih telefonda saklanır, bilekliğe her
+/// bağlantıda yeniden yazılır.
+class _WearDetectionTile extends StatelessWidget {
+  const _WearDetectionTile();
+
+  @override
+  Widget build(BuildContext context) {
+    final c = DeviceScope.of(context);
+    final settings = SettingsScope.of(context);
+    final l = context.l10n;
+    return SwitchListTile(
+      contentPadding: const EdgeInsetsDirectional.only(start: 16, end: 12),
+      secondary: Container(
+        width: 40,
+        height: 40,
+        decoration: BoxDecoration(
+          color: context.colors.surfaceHigh,
+          shape: BoxShape.circle,
+        ),
+        child: Icon(
+          Icons.back_hand_outlined,
+          size: 22,
+          color: context.colors.text,
+        ),
+      ),
+      title: Text(
+        l.wearDetectionTitle,
+        style: const TextStyle(fontWeight: FontWeight.w500, fontSize: 15),
+      ),
+      subtitle: Text(
+        l.wearDetectionSubtitle,
+        style: TextStyle(color: context.colors.muted),
+      ),
+      value: c.wearDetection,
+      onChanged: (v) async {
+        final messenger = ScaffoldMessenger.of(context);
+        if (await c.setWearDetection(v)) {
+          await settings.setWearDetection(v);
+        } else {
+          messenger
+            ..hideCurrentSnackBar()
+            ..showSnackBar(SnackBar(content: Text(l.wearDetectionFailed)));
+        }
+      },
+    );
+  }
 }

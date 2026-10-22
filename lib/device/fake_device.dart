@@ -8,6 +8,7 @@ import 'protocol/ecg.dart';
 import 'protocol/exercise.dart';
 import 'protocol/history.dart';
 import 'protocol/packet.dart';
+import 'protocol/settings.dart';
 import 'transport.dart';
 
 /// Bileklik elde yokken onun yerine geçen sahte cihaz.
@@ -79,6 +80,16 @@ class FakeDevice implements DeviceTransport {
   double _temperature = 34.6;
   int _spo2 = 97;
 
+  /// Otomatik ölçüm ayarları; bileklik ilk açılışta hepsini kapalı tutar
+  /// (gerçek cihazın fabrika ayarı gelince doğrulanacak).
+  final autoMeasure = {
+    for (final t in AutoMeasureType.values)
+      t: AutoMeasureConfig(type: t, enabled: false),
+  };
+
+  /// Takma algılaması açık mı (0x86).
+  bool wearDetection = false;
+
   static const mac = [0xA1, 0xB2, 0xC3, 0xD4, 0xE5, 0xF6];
 
   @override
@@ -140,7 +151,38 @@ class FakeDevice implements DeviceTransport {
 
   void _handle(Packet cmd) {
     final d = cmd.payload;
+    if (cmd.bytes[0] == SettingsCmd.wearDetection) {
+      wearDetection = d[0] == 1;
+      _replyWear(0, 0);
+      return;
+    }
     switch (cmd.command) {
+      case SettingsCmd.setAutoMeasure:
+        final type = AutoMeasureType.byCode(d[8]);
+        final ok =
+            type != null &&
+            fromBcd(d[1]) < 24 &&
+            fromBcd(d[2]) < 60 &&
+            fromBcd(d[3]) < 24 &&
+            fromBcd(d[4]) < 60;
+        if (!ok) {
+          _reply(Packet.error(SettingsCmd.setAutoMeasure).bytes);
+          return;
+        }
+        autoMeasure[type] = AutoMeasureConfig.fromBytes(d);
+        _reply(Packet.build(SettingsCmd.setAutoMeasure).bytes);
+      case SettingsCmd.getAutoMeasure:
+        final type = AutoMeasureType.byCode(d[0]);
+        if (type == null) {
+          _reply(Packet.error(SettingsCmd.getAutoMeasure).bytes);
+          return;
+        }
+        _reply(
+          Packet.build(
+            SettingsCmd.getAutoMeasure,
+            autoMeasure[type]!.toBytes(),
+          ).bytes,
+        );
       case Cmd.setTime:
         final deviceTime = DateTime(
           2000 + fromBcd(d[0]),
@@ -407,12 +449,36 @@ class FakeDevice implements DeviceTransport {
     _spotMode = d[0];
     _spotTicks = 0;
     _realtimeTimer?.cancel();
+    if (wearDetection) {
+      // Ölçüm başında "çıkarılmış" varsayımı, ardından takılı bilgisi.
+      _replyWear(1, 0);
+      _replyWear(2, 1);
+    }
     final seconds = max(30, d[3] | (d[4] << 8));
     _spotTimer = Timer.periodic(spotInterval, (t) {
       _spotTicks++;
       if (_realtimeOn) _emitRealtime();
       if (_spotTicks >= seconds) _endSpot();
     });
+  }
+
+  void _replyWear(int kind, int state) {
+    final bytes = List<int>.filled(Packet.length, 0);
+    bytes[0] = SettingsCmd.wearDetection;
+    bytes[1] = kind;
+    bytes[2] = state;
+    bytes[15] = Packet.crc(bytes);
+    _reply(bytes);
+  }
+
+  /// Ölçüm sırasında bilekliğin çıkarılması ya da yeniden takılması.
+  void simulateWorn(bool worn) {
+    if (wearDetection) _replyWear(2, worn ? 1 : 0);
+  }
+
+  /// Ölçüm sırasında hareket algılandı uyarısı (0x86 03).
+  void simulateMotion() {
+    if (wearDetection) _replyWear(3, 0);
   }
 
   void _endSpot() {

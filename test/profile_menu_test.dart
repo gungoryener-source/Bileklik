@@ -130,6 +130,8 @@ void main() {
     });
     await tester.pumpAndSettle();
     expect(c.isConnected, isTrue);
+    expect(find.text('Otomatik ölçüm'), findsOneWidget);
+    await tester.scrollUntilVisible(find.text('Bağlantıyı kes'), 200);
     expect(find.text('Bağlantıyı kes'), findsOneWidget);
     expect(find.text('A1:B2:C3:D4:E5:F6', findRichText: true), findsNothing);
   });

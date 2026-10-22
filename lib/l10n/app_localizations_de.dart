@@ -39,6 +39,85 @@ class AppLocalizationsDe extends AppLocalizations {
   String get appTitle => 'Bileklik';
 
   @override
+  String get autoMeasureAllDay => 'Ganztägig';
+
+  @override
+  String get autoMeasureConnect => 'Verbinden';
+
+  @override
+  String get autoMeasureDays => 'Tage';
+
+  @override
+  String get autoMeasureEnd => 'Ende';
+
+  @override
+  String get autoMeasureEveryDay => 'Täglich';
+
+  @override
+  String autoMeasureEveryHours(int hours) {
+    return 'Alle $hours Std.';
+  }
+
+  @override
+  String autoMeasureEveryMinutes(int minutes) {
+    return 'Alle $minutes Min.';
+  }
+
+  @override
+  String get autoMeasureHours => 'Messzeiten';
+
+  @override
+  String get autoMeasureInterval => 'Intervall';
+
+  @override
+  String get autoMeasureIntro =>
+      'Das Armband misst selbstständig zu den gewählten Zeiten. Jede Messung dauert 1 Minute; kürzere Abstände leeren den Akku schneller.';
+
+  @override
+  String get autoMeasureLoadFailed =>
+      'Einstellungen des Armbands konnten nicht gelesen werden.';
+
+  @override
+  String autoMeasureNextDay(String time) {
+    return '$time (Folgetag)';
+  }
+
+  @override
+  String get autoMeasureNoDays => 'Mindestens ein Tag muss ausgewählt bleiben.';
+
+  @override
+  String get autoMeasureNotConnected =>
+      'Verbinde das Armband, um seine Einstellungen zu sehen und zu ändern.';
+
+  @override
+  String get autoMeasureOff => 'Aus';
+
+  @override
+  String get autoMeasureRetry => 'Erneut versuchen';
+
+  @override
+  String get autoMeasureSameTime => 'Beginn und Ende dürfen nicht gleich sein.';
+
+  @override
+  String get autoMeasureSaveFailed =>
+      'Einstellung konnte nicht gespeichert werden. Erneut versuchen.';
+
+  @override
+  String get autoMeasureSleepNote =>
+      'Im Schlaf misst das Armband den Puls alle 5 Minuten.';
+
+  @override
+  String get autoMeasureStart => 'Beginn';
+
+  @override
+  String get autoMeasureTitle => 'Automatische Messung';
+
+  @override
+  String autoMeasureTurnOn(String name) {
+    return 'Automatische Messung: $name';
+  }
+
+  @override
   String get bandAnxious => 'Ängstlich';
 
   @override
@@ -61,6 +140,18 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get bandTense => 'Angespannt';
+
+  @override
+  String get clock12 => '12 Stunden (AM/PM)';
+
+  @override
+  String get clock24 => '24 Stunden';
+
+  @override
+  String get clockSystem => 'Wie Sprache';
+
+  @override
+  String get clockTitle => 'Zeitformat';
 
   @override
   String get comingSoon => 'Demnächst';
@@ -360,8 +451,7 @@ class AppLocalizationsDe extends AppLocalizations {
   String get devicePairNew => 'Anderes Armband koppeln';
 
   @override
-  String get deviceSettingsNote =>
-      'Einstellungen für Pulsintervall und Hinweise folgen hier bald.';
+  String get deviceSectionSettings => 'Armband-Einstellungen';
 
   @override
   String get deviceStatus => 'Status';
@@ -1235,7 +1325,7 @@ class AppLocalizationsDe extends AppLocalizations {
   String get profileMenuGeneral => 'Allgemeine Einstellungen';
 
   @override
-  String get profileMenuGeneralSubtitle => 'App-Sprache';
+  String get profileMenuGeneralSubtitle => 'Sprache, Zeitformat, Einheiten';
 
   @override
   String get profileMenuPersonalEmpty => 'Alter, Größe und Gewicht eingeben';
@@ -1440,7 +1530,14 @@ class AppLocalizationsDe extends AppLocalizations {
   String get spotMeasuring => 'Wird gemessen…';
 
   @override
+  String get spotMoving => 'Bewegung erkannt. Halte den Arm still.';
+
+  @override
   String get spotNote => 'Armbandmessungen ersetzen kein Medizinprodukt.';
+
+  @override
+  String get spotOffWrist =>
+      'Das Armband scheint nicht am Handgelenk zu sein. Lege es eng an.';
 
   @override
   String spotSaved(Object time) {
@@ -1475,6 +1572,26 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get unitSteps => 'Schritte';
+
+  @override
+  String get unitsImperial => 'US (mi, °F)';
+
+  @override
+  String get unitsMetric => 'Metrisch (km, °C)';
+
+  @override
+  String get unitsTitle => 'Einheiten';
+
+  @override
+  String get wearDetectionFailed =>
+      'Trageerkennung konnte nicht geändert werden.';
+
+  @override
+  String get wearDetectionSubtitle =>
+      'Warnt während einer Messung, wenn das Armband nicht getragen wird oder sich der Arm bewegt.';
+
+  @override
+  String get wearDetectionTitle => 'Trageerkennung';
 
   @override
   String get workoutCongrats => 'Gut gemacht! Training gespeichert';

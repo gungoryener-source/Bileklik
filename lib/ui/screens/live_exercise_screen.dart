@@ -187,7 +187,7 @@ class _LiveExerciseScreenState extends State<LiveExerciseScreen> {
               if (type.hasDistance) ...[
                 StatTile(
                   MetricType.distance.label,
-                  live?.distanceKm.toStringAsFixed(2),
+                  live == null ? null : distanceValue(live.distanceKm),
                   unit: MetricType.distance.unit,
                 ),
                 StatTile(
@@ -195,10 +195,7 @@ class _LiveExerciseScreenState extends State<LiveExerciseScreen> {
                   live == null || live.distanceKm < 0.01
                       ? null
                       : paceText(
-                          Duration(
-                            seconds: (live.durationSeconds / live.distanceKm)
-                                .round(),
-                          ),
+                          paceFor(live.durationSeconds, live.distanceKm),
                         ),
                   unit: '/${MetricType.distance.unit}',
                 ),

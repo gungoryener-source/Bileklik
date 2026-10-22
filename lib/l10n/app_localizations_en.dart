@@ -39,6 +39,84 @@ class AppLocalizationsEn extends AppLocalizations {
   String get appTitle => 'Bileklik';
 
   @override
+  String get autoMeasureAllDay => 'All day';
+
+  @override
+  String get autoMeasureConnect => 'Connect';
+
+  @override
+  String get autoMeasureDays => 'Days';
+
+  @override
+  String get autoMeasureEnd => 'End';
+
+  @override
+  String get autoMeasureEveryDay => 'Every day';
+
+  @override
+  String autoMeasureEveryHours(int hours) {
+    return 'Every $hours h';
+  }
+
+  @override
+  String autoMeasureEveryMinutes(int minutes) {
+    return 'Every $minutes min';
+  }
+
+  @override
+  String get autoMeasureHours => 'Hours';
+
+  @override
+  String get autoMeasureInterval => 'Interval';
+
+  @override
+  String get autoMeasureIntro =>
+      'The band measures on its own during the hours you choose. Each measurement takes 1 minute; shorter intervals drain the battery faster.';
+
+  @override
+  String get autoMeasureLoadFailed => 'Couldn\'t read the band\'s settings.';
+
+  @override
+  String autoMeasureNextDay(String time) {
+    return '$time (next day)';
+  }
+
+  @override
+  String get autoMeasureNoDays => 'Keep at least one day selected.';
+
+  @override
+  String get autoMeasureNotConnected =>
+      'Connect the band to see and change its settings.';
+
+  @override
+  String get autoMeasureOff => 'Off';
+
+  @override
+  String get autoMeasureRetry => 'Try again';
+
+  @override
+  String get autoMeasureSameTime => 'Start and end can\'t be the same.';
+
+  @override
+  String get autoMeasureSaveFailed =>
+      'Couldn\'t save the setting to the band. Try again.';
+
+  @override
+  String get autoMeasureSleepNote =>
+      'While you sleep, the band measures heart rate every 5 minutes.';
+
+  @override
+  String get autoMeasureStart => 'Start';
+
+  @override
+  String get autoMeasureTitle => 'Automatic measurement';
+
+  @override
+  String autoMeasureTurnOn(String name) {
+    return 'Automatic $name measurement';
+  }
+
+  @override
   String get bandAnxious => 'Anxious';
 
   @override
@@ -61,6 +139,18 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get bandTense => 'Tense';
+
+  @override
+  String get clock12 => '12-hour (AM/PM)';
+
+  @override
+  String get clock24 => '24-hour';
+
+  @override
+  String get clockSystem => 'Follow language';
+
+  @override
+  String get clockTitle => 'Time format';
 
   @override
   String get comingSoon => 'Coming soon';
@@ -359,8 +449,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get devicePairNew => 'Pair another wristband';
 
   @override
-  String get deviceSettingsNote =>
-      'Heart rate interval and alert settings will appear here soon.';
+  String get deviceSectionSettings => 'Band settings';
 
   @override
   String get deviceStatus => 'Status';
@@ -1233,7 +1322,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get profileMenuGeneral => 'General settings';
 
   @override
-  String get profileMenuGeneralSubtitle => 'App language';
+  String get profileMenuGeneralSubtitle => 'Language, time format, units';
 
   @override
   String get profileMenuPersonalEmpty => 'Enter your age, height and weight';
@@ -1439,7 +1528,14 @@ class AppLocalizationsEn extends AppLocalizations {
   String get spotMeasuring => 'Measuring…';
 
   @override
+  String get spotMoving => 'Movement detected. Keep your arm still.';
+
+  @override
   String get spotNote => 'Wristband readings do not replace a medical device.';
+
+  @override
+  String get spotOffWrist =>
+      'The band doesn\'t seem to be on your wrist. Put it on snugly.';
 
   @override
   String spotSaved(Object time) {
@@ -1474,6 +1570,26 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get unitSteps => 'steps';
+
+  @override
+  String get unitsImperial => 'US (mi, °F)';
+
+  @override
+  String get unitsMetric => 'Metric (km, °C)';
+
+  @override
+  String get unitsTitle => 'Units';
+
+  @override
+  String get wearDetectionFailed =>
+      'Couldn\'t change wear detection on the band.';
+
+  @override
+  String get wearDetectionSubtitle =>
+      'Warns you during a measurement if the band is off your wrist or your arm moves.';
+
+  @override
+  String get wearDetectionTitle => 'Wear detection';
 
   @override
   String get workoutCongrats => 'Nice work! Workout saved';
