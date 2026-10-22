@@ -1236,6 +1236,66 @@ abstract class AppLocalizations {
   /// **'Bu hafta'**
   String get exerciseThisWeek;
 
+  /// No description provided for @exportEmpty.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bu dönemde dışa aktarılacak kayıt yok.'**
+  String get exportEmpty;
+
+  /// No description provided for @exportFailed.
+  ///
+  /// In tr, this message translates to:
+  /// **'Dosya hazırlanamadı. Tekrar deneyin.'**
+  String get exportFailed;
+
+  /// No description provided for @exportIncludeEcg.
+  ///
+  /// In tr, this message translates to:
+  /// **'EKG kayıtlarını ekle'**
+  String get exportIncludeEcg;
+
+  /// No description provided for @exportIncludeEcgNote.
+  ///
+  /// In tr, this message translates to:
+  /// **'Ham EKG verisi dosyayı büyütür.'**
+  String get exportIncludeEcgNote;
+
+  /// No description provided for @exportIntro.
+  ///
+  /// In tr, this message translates to:
+  /// **'Ölçümleriniz sağlık sistemlerinin ortak biçimi olan FHIR R4 dosyası olarak hazırlanır. Dosyayı hekiminize gönderebilir ya da bu biçimi okuyan bir uygulamada açabilirsiniz.'**
+  String get exportIntro;
+
+  /// No description provided for @exportPeriod.
+  ///
+  /// In tr, this message translates to:
+  /// **'Dönem'**
+  String get exportPeriod;
+
+  /// No description provided for @exportPrivacy.
+  ///
+  /// In tr, this message translates to:
+  /// **'Dosya sağlık verisi içerir. Yalnızca güvendiğiniz kişi ve kurumlarla paylaşın. Dosyada adınız yok; yalnızca bu telefona özel bir takma kimlik var.'**
+  String get exportPrivacy;
+
+  /// No description provided for @exportRecordCount.
+  ///
+  /// In tr, this message translates to:
+  /// **'{count} kayıt'**
+  String exportRecordCount(int count);
+
+  /// No description provided for @exportShare.
+  ///
+  /// In tr, this message translates to:
+  /// **'Dosyayı paylaş'**
+  String get exportShare;
+
+  /// No description provided for @exportTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Verilerimi dışa aktar'**
+  String get exportTitle;
+
   /// No description provided for @healthBloodPressure.
   ///
   /// In tr, this message translates to:
@@ -2483,6 +2543,18 @@ abstract class AppLocalizations {
   /// In tr, this message translates to:
   /// **'Bileklik bağlı değil'**
   String get profileMenuDeviceNone;
+
+  /// No description provided for @profileMenuExport.
+  ///
+  /// In tr, this message translates to:
+  /// **'Verilerimi dışa aktar'**
+  String get profileMenuExport;
+
+  /// No description provided for @profileMenuExportSubtitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hekiminize ya da başka bir uygulamaya FHIR dosyası'**
+  String get profileMenuExportSubtitle;
 
   /// No description provided for @profileMenuFeedback.
   ///

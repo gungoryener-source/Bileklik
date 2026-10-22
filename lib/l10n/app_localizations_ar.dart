@@ -701,6 +701,47 @@ class AppLocalizationsAr extends AppLocalizations {
   String get exerciseThisWeek => 'هذا الأسبوع';
 
   @override
+  String get exportEmpty => 'لا توجد سجلات للتصدير في هذه الفترة.';
+
+  @override
+  String get exportFailed => 'تعذر تجهيز الملف. حاول مرة أخرى.';
+
+  @override
+  String get exportIncludeEcg => 'تضمين تسجيلات تخطيط القلب';
+
+  @override
+  String get exportIncludeEcgNote => 'بيانات تخطيط القلب الخام تزيد حجم الملف.';
+
+  @override
+  String get exportIntro => 'تُجهَّز قياساتك في ملف بصيغة FHIR R4، وهي الصيغة المشتركة للأنظمة الصحية. يمكنك إرساله إلى طبيبك أو فتحه في تطبيق يقرأ هذه الصيغة.';
+
+  @override
+  String get exportPeriod => 'الفترة';
+
+  @override
+  String get exportPrivacy => 'يحتوي الملف على بيانات صحية. شاركه فقط مع أشخاص ومؤسسات تثق بها. لا يتضمن الملف اسمك، بل معرّفًا مستعارًا خاصًا بهذا الهاتف فقط.';
+
+  @override
+  String exportRecordCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count سجل',
+      many: '$count سجلًا',
+      few: '$count سجلات',
+      two: 'سجلان',
+      one: 'سجل واحد',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get exportShare => 'مشاركة الملف';
+
+  @override
+  String get exportTitle => 'تصدير بياناتي';
+
+  @override
   String get healthBloodPressure => 'ضغط الدم';
 
   @override
@@ -1457,6 +1498,12 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get profileMenuDeviceNone => 'لا يوجد سوار متصل';
+
+  @override
+  String get profileMenuExport => 'تصدير بياناتي';
+
+  @override
+  String get profileMenuExportSubtitle => 'ملف FHIR لطبيبك أو لتطبيق آخر';
 
   @override
   String get profileMenuFeedback => 'الملاحظات';

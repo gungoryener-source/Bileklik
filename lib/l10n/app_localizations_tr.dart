@@ -688,6 +688,38 @@ class AppLocalizationsTr extends AppLocalizations {
   String get exerciseThisWeek => 'Bu hafta';
 
   @override
+  String get exportEmpty => 'Bu dönemde dışa aktarılacak kayıt yok.';
+
+  @override
+  String get exportFailed => 'Dosya hazırlanamadı. Tekrar deneyin.';
+
+  @override
+  String get exportIncludeEcg => 'EKG kayıtlarını ekle';
+
+  @override
+  String get exportIncludeEcgNote => 'Ham EKG verisi dosyayı büyütür.';
+
+  @override
+  String get exportIntro => 'Ölçümleriniz sağlık sistemlerinin ortak biçimi olan FHIR R4 dosyası olarak hazırlanır. Dosyayı hekiminize gönderebilir ya da bu biçimi okuyan bir uygulamada açabilirsiniz.';
+
+  @override
+  String get exportPeriod => 'Dönem';
+
+  @override
+  String get exportPrivacy => 'Dosya sağlık verisi içerir. Yalnızca güvendiğiniz kişi ve kurumlarla paylaşın. Dosyada adınız yok; yalnızca bu telefona özel bir takma kimlik var.';
+
+  @override
+  String exportRecordCount(int count) {
+    return '$count kayıt';
+  }
+
+  @override
+  String get exportShare => 'Dosyayı paylaş';
+
+  @override
+  String get exportTitle => 'Verilerimi dışa aktar';
+
+  @override
   String get healthBloodPressure => 'Tansiyon';
 
   @override
@@ -1436,6 +1468,12 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get profileMenuDeviceNone => 'Bileklik bağlı değil';
+
+  @override
+  String get profileMenuExport => 'Verilerimi dışa aktar';
+
+  @override
+  String get profileMenuExportSubtitle => 'Hekiminize ya da başka bir uygulamaya FHIR dosyası';
 
   @override
   String get profileMenuFeedback => 'Geri bildirim';

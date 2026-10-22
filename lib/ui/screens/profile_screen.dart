@@ -9,6 +9,7 @@ import 'about_screen.dart';
 import 'community_screen.dart';
 import 'connections_screen.dart';
 import 'device_screen.dart';
+import 'fhir_export_screen.dart';
 import 'general_settings_screen.dart';
 import 'health_platform_screen.dart';
 import 'personal_info_screen.dart';
@@ -99,6 +100,12 @@ class ProfileScreen extends StatelessWidget {
               title: l.profileMenuThirdParty,
               subtitle: l.profileMenuThirdPartySubtitle,
               onTap: () => open(const HealthPlatformScreen()),
+            ),
+            MenuTile(
+              icon: Icons.ios_share,
+              title: l.profileMenuExport,
+              subtitle: l.profileMenuExportSubtitle,
+              onTap: () => open(const FhirExportScreen()),
             ),
           ],
         ),

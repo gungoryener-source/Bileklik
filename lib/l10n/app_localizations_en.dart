@@ -695,6 +695,44 @@ class AppLocalizationsEn extends AppLocalizations {
   String get exerciseThisWeek => 'This week';
 
   @override
+  String get exportEmpty => 'No records to export in this period.';
+
+  @override
+  String get exportFailed => 'The file couldn\'t be prepared. Please try again.';
+
+  @override
+  String get exportIncludeEcg => 'Include ECG recordings';
+
+  @override
+  String get exportIncludeEcgNote => 'Raw ECG data makes the file larger.';
+
+  @override
+  String get exportIntro => 'Your measurements are prepared as a FHIR R4 file, the common format of health systems. You can send it to your doctor or open it in an app that reads this format.';
+
+  @override
+  String get exportPeriod => 'Period';
+
+  @override
+  String get exportPrivacy => 'The file contains health data. Share it only with people and institutions you trust. It doesn\'t contain your name, only a pseudonymous ID specific to this phone.';
+
+  @override
+  String exportRecordCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count records',
+      one: '1 record',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get exportShare => 'Share file';
+
+  @override
+  String get exportTitle => 'Export my data';
+
+  @override
   String get healthBloodPressure => 'Blood pressure';
 
   @override
@@ -1455,6 +1493,12 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get profileMenuDeviceNone => 'No wristband connected';
+
+  @override
+  String get profileMenuExport => 'Export my data';
+
+  @override
+  String get profileMenuExportSubtitle => 'FHIR file for your doctor or another app';
 
   @override
   String get profileMenuFeedback => 'Feedback';
