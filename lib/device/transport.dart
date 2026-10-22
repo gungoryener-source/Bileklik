@@ -94,8 +94,10 @@ String? normalizeAddress(String input) {
 String? addressFromQr(String raw) {
   final direct = normalizeAddress(raw.trim());
   if (direct != null) return direct;
+  // Adresten sonra başka bir onaltılık bayt gelmemeli; böylece "MAC:A1:…"
+  // gibi metinlerde önceki harfler ("AC") adresin parçası sanılmaz.
   final m = RegExp(
-    r'(?<![0-9A-Fa-f])([0-9A-Fa-f]{2}(?:[:\-]?[0-9A-Fa-f]{2}){5})(?![0-9A-Fa-f])',
+    r'(?<![0-9A-Fa-f])([0-9A-Fa-f]{2}(?:[:\-]?[0-9A-Fa-f]{2}){5})(?![:\-]?[0-9A-Fa-f])',
   ).firstMatch(raw);
   return m == null ? null : normalizeAddress(m.group(1)!);
 }

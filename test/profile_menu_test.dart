@@ -116,13 +116,16 @@ void main() {
     await tester.pump();
     expect(find.text('Bu QR kodunda bileklik adresi yok.'), findsOneWidget);
 
-    await tester.runAsync(() async {
-      await tester.tap(find.text('qr:JCV8 a1b2c3d4e5f6'));
-      await Future<void>.delayed(const Duration(seconds: 1));
-    });
+    // Eşleştirme ekranının arama ve bağlantısı sahte zamanda sürer.
+    await tester.tap(find.text('qr:JCV8 a1b2c3d4e5f6'));
+    await tester.pump();
+    await tester.pump(const Duration(seconds: 1));
     await tester.pumpAndSettle();
     expect(c.isConnected, isTrue);
     expect(find.byType(QrScanScreen<String>), findsNothing);
+    // Sahte bilekliğin anlık veri zamanlayıcısı test bitmeden kapansın.
+    await c.disconnect();
+    await tester.pumpAndSettle();
   });
 
   testWidgets('Profil menüsü bölümleri gösterir, yakında olanlar uyarır', (
