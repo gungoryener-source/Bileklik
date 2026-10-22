@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -21,6 +23,7 @@ class AppSettings extends ChangeNotifier {
     this._units = UnitSystem.metric,
     this._wearDetection = true,
     this._heightCm,
+    this._patientId,
   });
 
   /// Kaydedilmiş tercihleri okur; yoksa telefonun dili.
@@ -38,6 +41,7 @@ class AppSettings extends ChangeNotifier {
           UnitSystem.metric,
       wearDetection: prefs.getBool(_wearKey) ?? true,
       heightCm: prefs.getInt(_heightKey),
+      patientId: prefs.getString(_patientIdKey),
     );
   }
 
@@ -70,6 +74,7 @@ class AppSettings extends ChangeNotifier {
   static const _unitsKey = 'unit_system';
   static const _wearKey = 'wear_detection';
   static const _heightKey = 'height_cm';
+  static const _patientIdKey = 'fhir_patient_id';
 
   final SharedPreferences? _prefs;
   String? _language;
@@ -78,6 +83,26 @@ class AppSettings extends ChangeNotifier {
   UnitSystem _units;
   bool _wearDetection;
   int? _heightCm;
+  String? _patientId;
+
+  /// FHIR dışa aktarımındaki takma hasta kimliği (UUID). Kişisel bilgi
+  /// taşımaz; ilk istendiğinde üretilir ve telefonda saklanır, böylece aynı
+  /// kişinin dosyaları portalda birleşebilir.
+  String get patientId {
+    final existing = _patientId;
+    if (existing != null) return existing;
+    final r = Random.secure();
+    final b = List<int>.generate(16, (_) => r.nextInt(256));
+    b[6] = (b[6] & 0x0F) | 0x40;
+    b[8] = (b[8] & 0x3F) | 0x80;
+    final h = b.map((x) => x.toRadixString(16).padLeft(2, '0')).join();
+    final id =
+        '${h.substring(0, 8)}-${h.substring(8, 12)}-${h.substring(12, 16)}-'
+        '${h.substring(16, 20)}-${h.substring(20)}';
+    _patientId = id;
+    _prefs?.setString(_patientIdKey, id);
+    return id;
+  }
 
   /// Boy (cm); VKİ hesabı için. Bileklik bağlı değilken de bilinsin diye
   /// telefonda saklanır.

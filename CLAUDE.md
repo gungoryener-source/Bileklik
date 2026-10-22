@@ -53,6 +53,9 @@ UI (lib/ui)  ->  DeviceController (lib/state)  ->  WristbandClient  ->  DeviceTr
 - `HealthStore` arayüzdür: telefonda `SqliteHealthStore`, web ve testte
   `MemoryHealthStore`.
 - Ekranlar `DeviceScope.of(context)` ile denetleyiciye, `.store` ile ölçümlere erişir.
+- FHIR R4: `FhirExporter` (`lib/data/fhir.dart`) depodaki kayıtları Bundle'a
+  çevirir (Observation + LOINC/UCUM, EKG için SampledData). Hasta kaynağı takma
+  kimliklidir (`AppSettings.patientId`), ad ya da TC kimlik yazılmaz.
 
 ## Protokol kuralları (V8 API PDF)
 

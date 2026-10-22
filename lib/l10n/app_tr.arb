@@ -303,6 +303,23 @@
   "exercisePausedAt": "Duraklatıldı · {time}",
   "exerciseStart": "Egzersiz başlat",
   "exerciseThisWeek": "Bu hafta",
+  "exportEmpty": "Bu dönemde dışa aktarılacak kayıt yok.",
+  "exportFailed": "Dosya hazırlanamadı. Tekrar deneyin.",
+  "exportIncludeEcg": "EKG kayıtlarını ekle",
+  "exportIncludeEcgNote": "Ham EKG verisi dosyayı büyütür.",
+  "exportIntro": "Ölçümleriniz sağlık sistemlerinin ortak biçimi olan FHIR R4 dosyası olarak hazırlanır. Dosyayı hekiminize gönderebilir ya da bu biçimi okuyan bir uygulamada açabilirsiniz.",
+  "exportPeriod": "Dönem",
+  "exportPrivacy": "Dosya sağlık verisi içerir. Yalnızca güvendiğiniz kişi ve kurumlarla paylaşın. Dosyada adınız yok; yalnızca bu telefona özel bir takma kimlik var.",
+  "exportRecordCount": "{count} kayıt",
+  "@exportRecordCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "exportShare": "Dosyayı paylaş",
+  "exportTitle": "Verilerimi dışa aktar",
   "healthBloodPressure": "Tansiyon",
   "healthBloodPressureSubtitle": "Tahmini · {details}",
   "@healthBloodPressureSubtitle": {
@@ -625,6 +642,8 @@
   "profileMenuDevice": "Cihaz",
   "profileMenuDeviceConnected": "Bağlı · pil %{battery}",
   "profileMenuDeviceNone": "Bileklik bağlı değil",
+  "profileMenuExport": "Verilerimi dışa aktar",
+  "profileMenuExportSubtitle": "Hekiminize ya da başka bir uygulamaya FHIR dosyası",
   "profileMenuFeedback": "Geri bildirim",
   "profileMenuGeneral": "Genel ayarlar",
   "profileMenuGeneralSubtitle": "Dil, saat biçimi, birimler",

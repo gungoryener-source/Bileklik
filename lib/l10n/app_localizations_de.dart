@@ -700,6 +700,44 @@ class AppLocalizationsDe extends AppLocalizations {
   String get exerciseThisWeek => 'Diese Woche';
 
   @override
+  String get exportEmpty => 'In diesem Zeitraum gibt es keine Einträge zum Exportieren.';
+
+  @override
+  String get exportFailed => 'Die Datei konnte nicht erstellt werden. Bitte versuchen Sie es erneut.';
+
+  @override
+  String get exportIncludeEcg => 'EKG-Aufzeichnungen einschließen';
+
+  @override
+  String get exportIncludeEcgNote => 'Rohe EKG-Daten machen die Datei größer.';
+
+  @override
+  String get exportIntro => 'Ihre Messwerte werden als FHIR-R4-Datei erstellt, dem gemeinsamen Format von Gesundheitssystemen. Sie können sie Ihrer Ärztin oder Ihrem Arzt senden oder in einer App öffnen, die dieses Format liest.';
+
+  @override
+  String get exportPeriod => 'Zeitraum';
+
+  @override
+  String get exportPrivacy => 'Die Datei enthält Gesundheitsdaten. Teilen Sie sie nur mit Personen und Einrichtungen, denen Sie vertrauen. Sie enthält nicht Ihren Namen, sondern nur eine pseudonyme Kennung dieses Telefons.';
+
+  @override
+  String exportRecordCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count Einträge',
+      one: '1 Eintrag',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get exportShare => 'Datei teilen';
+
+  @override
+  String get exportTitle => 'Meine Daten exportieren';
+
+  @override
   String get healthBloodPressure => 'Blutdruck';
 
   @override
@@ -1460,6 +1498,12 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get profileMenuDeviceNone => 'Kein Armband verbunden';
+
+  @override
+  String get profileMenuExport => 'Meine Daten exportieren';
+
+  @override
+  String get profileMenuExportSubtitle => 'FHIR-Datei für Ihre Ärztin, Ihren Arzt oder eine andere App';
 
   @override
   String get profileMenuFeedback => 'Feedback';
