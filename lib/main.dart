@@ -2,13 +2,17 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'data/community.dart';
 import 'data/connections.dart';
 import 'data/health_platform.dart';
 import 'data/health_store.dart';
+import 'data/plugin_health_platform.dart';
 import 'data/sqlite_health_store.dart';
+import 'device/ble_transport.dart';
 import 'device/fake_device.dart';
+import 'device/transport.dart';
 import 'l10n/l10n.dart';
 import 'state/app_settings.dart';
 import 'state/device_controller.dart';
@@ -24,15 +28,41 @@ Future<void> main() async {
   SystemChrome.setSystemUIOverlayStyle(camSystemOverlay);
   LicenseRegistry.addLicense(_fontLicense);
   final settings = await AppSettings.load();
-  // Bileklik gelene kadar sahte cihaz kullanılır. Gerçek BLE katmanı
-  // eklendiğinde yalnızca bu satır değişecek.
   final controller = DeviceController(
-    FakeDevice(),
+    await _transport(),
     store: await _openStore(),
     wearDetection: settings.wearDetection,
   );
-  runApp(BileklikApp(controller: controller, settings: settings));
+  runApp(
+    BileklikApp(
+      controller: controller,
+      settings: settings,
+      healthExport: _healthExport(controller),
+    ),
+  );
 }
+
+/// Demo kipi: `flutter run --dart-define=DEMO=true` sahte bileklik ve sahte
+/// sağlık platformuyla çalışır (bileklik elde yokken). Web'de her zaman demo.
+const _demo = bool.fromEnvironment('DEMO');
+
+bool get _usesRealDevices =>
+    !_demo &&
+    !kIsWeb &&
+    (defaultTargetPlatform == TargetPlatform.android ||
+        defaultTargetPlatform == TargetPlatform.iOS);
+
+/// Telefonda gerçek BLE, demoda ve web'de sahte cihaz.
+Future<DeviceTransport> _transport() async => _usesRealDevices
+    ? BleTransport(prefs: await SharedPreferences.getInstance())
+    : FakeDevice();
+
+/// Telefonda Health Connect / Apple Health'e gerçekten yazar; demoda null
+/// (BileklikApp sahte platformu kullanır).
+HealthExportService? _healthExport(DeviceController controller) =>
+    _usesRealDevices
+    ? HealthExportService(PluginHealthPlatform(), controller.store)
+    : null;
 
 /// Manrope yazı tipinin lisansı "Lisanslar" sayfasında görünsün.
 Stream<LicenseEntry> _fontLicense() async* {

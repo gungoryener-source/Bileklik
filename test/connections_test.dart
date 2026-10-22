@@ -11,12 +11,25 @@ import 'package:bileklik/ui/screens/connection_detail_screen.dart';
 import 'package:bileklik/ui/screens/connections_screen.dart';
 import 'package:bileklik/ui/screens/consent_screen.dart';
 import 'package:bileklik/ui/screens/profile_screen.dart';
+import 'package:bileklik/ui/screens/qr_scan_screen.dart';
 import 'package:bileklik/ui/widgets/cam/cam.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 /// Kurum ve hekim adları kendi yönünde yalıtılarak yazılır.
 const _dr = '\u2068Dr. Ayşe Kaya\u2069';
+
+/// Kamera yerine: her kod için bir düğme; dokununca o kod okunmuş olur.
+Widget _fakeScanner(BuildContext context, ValueChanged<String> onCode) =>
+    ListView(
+      children: [
+        for (final code in const [
+          'merhaba dünya',
+          'https://portal.example/davet/drk482',
+        ])
+          TextButton(onPressed: () => onCode(code), child: Text('qr:$code')),
+      ],
+    );
 
 /// Uygulamayı açar ve Profil > Hekim ve araştırma kurumu sayfasına gider.
 Future<void> _openConnections(
@@ -187,14 +200,53 @@ void main() {
     expect(tester.takeException(), isNull);
   });
 
-  testWidgets('QR tara şimdilik kod girişine yönlendirir', (tester) async {
+  test('QR kodundan davet kodu', () {
+    expect(inviteCodeFromQr('drk482'), 'DRK482');
+    expect(inviteCodeFromQr(' RTM2026 '), 'RTM2026');
+    expect(inviteCodeFromQr('https://portal.example/davet/drk482'), 'DRK482');
+    expect(inviteCodeFromQr('https://portal.example/d?code=RTM2026'), 'RTM2026');
+    expect(inviteCodeFromQr('https://portal.example/'), isNull);
+    expect(inviteCodeFromQr('merhaba dünya'), isNull);
+    expect(inviteCodeFromQr('AB'), isNull);
+  });
+
+  testWidgets('QR okununca açık rıza ekranı açılır, geçersiz QR uyarılır', (
+    tester,
+  ) async {
+    QrScanScreen.scannerOverride = _fakeScanner;
+    addTearDown(() => QrScanScreen.scannerOverride = null);
     await _openConnections(
       tester,
       FakeConnectionServer(latency: Duration.zero),
     );
     await _tap(tester, find.text('QR kodu tara'));
     await tester.pumpAndSettle();
-    expect(find.textContaining('QR kodun altındaki kodu'), findsOneWidget);
+    expect(find.byType(QrScanScreen<String>), findsOneWidget);
+
+    await tester.tap(find.text('qr:merhaba dünya'));
+    await tester.pump();
+    expect(find.text('Bu QR kodu bir davet kodu içermiyor.'), findsOneWidget);
+    expect(find.byType(QrScanScreen<String>), findsOneWidget);
+
+    await tester.tap(find.text('qr:https://portal.example/davet/drk482'));
+    await tester.pumpAndSettle();
+    expect(find.byType(QrScanScreen<String>), findsNothing);
+    expect(find.byType(ConsentScreen), findsOneWidget);
+    expect(_inConsent(find.text(_dr)), findsOneWidget);
+  });
+
+  testWidgets('QR ekranından elle girişe geçilir', (tester) async {
+    QrScanScreen.scannerOverride = _fakeScanner;
+    addTearDown(() => QrScanScreen.scannerOverride = null);
+    await _openConnections(
+      tester,
+      FakeConnectionServer(latency: Duration.zero),
+    );
+    await _tap(tester, find.text('QR kodu tara'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Kodu elle gir'));
+    await tester.pumpAndSettle();
+    expect(find.byType(QrScanScreen<String>), findsNothing);
     expect(find.byType(TextField), findsOneWidget);
   });
 

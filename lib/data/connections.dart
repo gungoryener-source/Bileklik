@@ -40,6 +40,22 @@ class ConnectionOffer {
   final Duration duration;
 }
 
+/// QR kodundan davet kodunu çıkarır. QR'da kodun kendisi ("DRK482") ya da
+/// portal bağlantısı ("https://…/davet/DRK482", "…?code=DRK482") olabilir.
+/// Kod 4–10 harf/rakamdır; değilse null. Portalın QR biçimi arka uçla
+/// (ROADMAP 19) kesinleşecek.
+String? inviteCodeFromQr(String raw) {
+  var text = raw.trim();
+  final uri = Uri.tryParse(text);
+  if (uri != null && uri.hasScheme && uri.host.isNotEmpty) {
+    final segments = uri.pathSegments.where((s) => s.isNotEmpty);
+    text = uri.queryParameters['code'] ?? (segments.isEmpty ? '' : segments.last);
+  }
+  final code = text.toUpperCase();
+  if (!RegExp(r'^[A-Z0-9]{4,10}$').hasMatch(code)) return null;
+  return code;
+}
+
 /// Kullanıcının onayladığı, süren bir paylaşım.
 @immutable
 class DataConnection {

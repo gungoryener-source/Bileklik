@@ -470,6 +470,9 @@ class AppLocalizationsTr extends AppLocalizations {
   String get connPurpose => 'Amaç';
 
   @override
+  String get connQrInvalid => 'Bu QR kodu bir davet kodu içermiyor.';
+
+  @override
   String get connRequested => 'İstenen veriler';
 
   @override
@@ -484,8 +487,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get connScan => 'QR kodu tara';
 
   @override
-  String get connScanSoon =>
-      'Kamerayla tarama yakında. Şimdilik QR kodun altındaki kodu girin.';
+  String get connScanHint => 'Hekiminizin ya da araştırma kurumunun verdiği QR kodunu çerçevenin içine getirin.';
 
   @override
   String get connSelectAll => 'Tümünü seç';
@@ -1153,6 +1155,9 @@ class AppLocalizationsTr extends AppLocalizations {
       'Ölçüm alınamadı. Bilekliği biraz sıkılaştırıp tekrar deneyin.';
 
   @override
+  String get issueNotPaired => 'Önce Profil > Cihaz bölümünden bilekliğinizi eşleştirin.';
+
+  @override
   String get languagePickHint =>
       'Daha sonra Profil ekranından değiştirebilirsiniz.';
 
@@ -1310,6 +1315,15 @@ class AppLocalizationsTr extends AppLocalizations {
   String get noValue => '--';
 
   @override
+  String get pairBluetoothDenied => 'Bileklik aramak için Bluetooth izni gerekiyor. Telefonun ayarlarından bu uygulamaya izin verip tekrar deneyin.';
+
+  @override
+  String get pairBluetoothOff => 'Bluetooth kapalı. Telefonun Bluetooth\'unu açıp tekrar deneyin.';
+
+  @override
+  String get pairBluetoothUnsupported => 'Bu cihaz bilekliğin kullandığı Bluetooth Low Energy\'yi desteklemiyor.';
+
+  @override
   String get pairCode => 'Adresle eşleştir';
 
   @override
@@ -1341,6 +1355,15 @@ class AppLocalizationsTr extends AppLocalizations {
   @override
   String get pairNote =>
       'Bilekliği şarj edin ve telefonun yakınında tutun. Bluetooth açık olmalı.';
+
+  @override
+  String get pairQr => 'QR kodu tara';
+
+  @override
+  String get pairQrHint => 'Kutudaki ya da bilekliğin arkasındaki QR kodunu çerçevenin içine getirin.';
+
+  @override
+  String get pairQrInvalid => 'Bu QR kodunda bileklik adresi yok.';
 
   @override
   String get pairScan => 'Aramayı başlat';
@@ -1481,6 +1504,15 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get profileWeight => 'Kilo';
+
+  @override
+  String get qrCameraDenied => 'Kamera izni verilmedi. Telefonun ayarlarından izin verin ya da kodu elle girin.';
+
+  @override
+  String get qrCameraUnavailable => 'Kamera açılamadı. Kodu elle girebilirsiniz.';
+
+  @override
+  String get qrManual => 'Kodu elle gir';
 
   @override
   String get reminderAddMedication => 'İlaç saati ekle';

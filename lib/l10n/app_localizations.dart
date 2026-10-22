@@ -888,6 +888,12 @@ abstract class AppLocalizations {
   /// **'Amaç'**
   String get connPurpose;
 
+  /// No description provided for @connQrInvalid.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bu QR kodu bir davet kodu içermiyor.'**
+  String get connQrInvalid;
+
   /// No description provided for @connRequested.
   ///
   /// In tr, this message translates to:
@@ -912,11 +918,11 @@ abstract class AppLocalizations {
   /// **'QR kodu tara'**
   String get connScan;
 
-  /// No description provided for @connScanSoon.
+  /// No description provided for @connScanHint.
   ///
   /// In tr, this message translates to:
-  /// **'Kamerayla tarama yakında. Şimdilik QR kodun altındaki kodu girin.'**
-  String get connScanSoon;
+  /// **'Hekiminizin ya da araştırma kurumunun verdiği QR kodunu çerçevenin içine getirin.'**
+  String get connScanHint;
 
   /// No description provided for @connSelectAll.
   ///
@@ -1956,6 +1962,12 @@ abstract class AppLocalizations {
   /// **'Ölçüm alınamadı. Bilekliği biraz sıkılaştırıp tekrar deneyin.'**
   String get issueNoSpotSignal;
 
+  /// No description provided for @issueNotPaired.
+  ///
+  /// In tr, this message translates to:
+  /// **'Önce Profil > Cihaz bölümünden bilekliğinizi eşleştirin.'**
+  String get issueNotPaired;
+
   /// No description provided for @languagePickHint.
   ///
   /// In tr, this message translates to:
@@ -2250,6 +2262,24 @@ abstract class AppLocalizations {
   /// **'--'**
   String get noValue;
 
+  /// No description provided for @pairBluetoothDenied.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bileklik aramak için Bluetooth izni gerekiyor. Telefonun ayarlarından bu uygulamaya izin verip tekrar deneyin.'**
+  String get pairBluetoothDenied;
+
+  /// No description provided for @pairBluetoothOff.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bluetooth kapalı. Telefonun Bluetooth'unu açıp tekrar deneyin.'**
+  String get pairBluetoothOff;
+
+  /// No description provided for @pairBluetoothUnsupported.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bu cihaz bilekliğin kullandığı Bluetooth Low Energy'yi desteklemiyor.'**
+  String get pairBluetoothUnsupported;
+
   /// No description provided for @pairCode.
   ///
   /// In tr, this message translates to:
@@ -2309,6 +2339,24 @@ abstract class AppLocalizations {
   /// In tr, this message translates to:
   /// **'Bilekliği şarj edin ve telefonun yakınında tutun. Bluetooth açık olmalı.'**
   String get pairNote;
+
+  /// No description provided for @pairQr.
+  ///
+  /// In tr, this message translates to:
+  /// **'QR kodu tara'**
+  String get pairQr;
+
+  /// No description provided for @pairQrHint.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kutudaki ya da bilekliğin arkasındaki QR kodunu çerçevenin içine getirin.'**
+  String get pairQrHint;
+
+  /// No description provided for @pairQrInvalid.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bu QR kodunda bileklik adresi yok.'**
+  String get pairQrInvalid;
 
   /// No description provided for @pairScan.
   ///
@@ -2561,6 +2609,24 @@ abstract class AppLocalizations {
   /// In tr, this message translates to:
   /// **'Kilo'**
   String get profileWeight;
+
+  /// No description provided for @qrCameraDenied.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kamera izni verilmedi. Telefonun ayarlarından izin verin ya da kodu elle girin.'**
+  String get qrCameraDenied;
+
+  /// No description provided for @qrCameraUnavailable.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kamera açılamadı. Kodu elle girebilirsiniz.'**
+  String get qrCameraUnavailable;
+
+  /// No description provided for @qrManual.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kodu elle gir'**
+  String get qrManual;
 
   /// No description provided for @reminderAddMedication.
   ///

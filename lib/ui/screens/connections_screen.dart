@@ -10,10 +10,10 @@ import '../widgets/cam/cam.dart';
 import 'community_dialogs.dart';
 import 'connection_detail_screen.dart';
 import 'consent_screen.dart';
+import 'qr_scan_screen.dart';
 
-/// Hekim ve araştırma kurumu bağlantıları: davet kodu girme, süren
-/// paylaşımlar. Kamerayla QR okuma ROADMAP 17'de; şimdilik QR'ın altındaki
-/// kod elle girilir.
+/// Hekim ve araştırma kurumu bağlantıları: davet kodunu QR'dan okuma ya da
+/// elle girme, süren paylaşımlar.
 class ConnectionsScreen extends StatelessWidget {
   const ConnectionsScreen({super.key});
 
@@ -23,6 +23,20 @@ class ConnectionsScreen extends StatelessWidget {
     final l = context.l10n;
     final colors = context.colors;
     final list = service.connections;
+
+    Future<void> openOffer(ConnectionOffer offer) async {
+      final connected = await Navigator.of(context).push<DataConnection>(
+        MaterialPageRoute(builder: (_) => ConsentScreen(offer: offer)),
+      );
+      if (connected == null || !context.mounted) return;
+      ScaffoldMessenger.of(context)
+        ..hideCurrentSnackBar()
+        ..showSnackBar(
+          SnackBar(
+            content: Text(l.connConnected(isolate(connected.offer.name))),
+          ),
+        );
+    }
 
     Future<void> enterCode() async {
       final offer = await showCamDialog<ConnectionOffer>(
@@ -40,24 +54,35 @@ class ConnectionsScreen extends StatelessWidget {
         ),
       );
       if (offer == null || !context.mounted) return;
-      final connected = await Navigator.of(context).push<DataConnection>(
-        MaterialPageRoute(builder: (_) => ConsentScreen(offer: offer)),
-      );
-      if (connected == null || !context.mounted) return;
-      ScaffoldMessenger.of(context)
-        ..hideCurrentSnackBar()
-        ..showSnackBar(
-          SnackBar(
-            content: Text(l.connConnected(isolate(connected.offer.name))),
-          ),
-        );
+      await openOffer(offer);
     }
 
     Future<void> scan() async {
-      ScaffoldMessenger.of(context)
-        ..hideCurrentSnackBar()
-        ..showSnackBar(SnackBar(content: Text(l.connScanSoon)));
-      await enterCode();
+      final result = await Navigator.of(context).push<QrScanResult<String>>(
+        MaterialPageRoute(
+          builder: (_) => QrScanScreen<String>(
+            title: l.connScan,
+            hint: l.connScanHint,
+            parse: inviteCodeFromQr,
+            invalidText: l.connQrInvalid,
+          ),
+        ),
+      );
+      if (result == null || !context.mounted) return;
+      final code = result.value;
+      if (result.manual || code == null) {
+        await enterCode();
+        return;
+      }
+      final offer = await service.lookup(code);
+      if (!context.mounted) return;
+      if (offer == null) {
+        ScaffoldMessenger.of(context)
+          ..hideCurrentSnackBar()
+          ..showSnackBar(SnackBar(content: Text(l.connCodeInvalid)));
+        return;
+      }
+      await openOffer(offer);
     }
 
     return CamScaffold(

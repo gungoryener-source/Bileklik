@@ -10,6 +10,7 @@ import 'package:bileklik/state/app_settings.dart';
 import 'package:bileklik/state/device_controller.dart';
 import 'package:bileklik/ui/screens/pairing_screen.dart';
 import 'package:bileklik/ui/screens/profile_screen.dart';
+import 'package:bileklik/ui/screens/qr_scan_screen.dart';
 import 'package:bileklik/ui/widgets/cam/cam.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -24,11 +25,15 @@ Future<DeviceController> _openProfile(
   WidgetTester tester, {
   String language = 'tr',
   Size size = const Size(1080, 2340),
+  FakeDevice? device,
 }) async {
   tester.view.physicalSize = size;
   tester.view.devicePixelRatio = 3;
   addTearDown(tester.view.reset);
-  final controller = DeviceController(_device(), store: MemoryHealthStore());
+  final controller = DeviceController(
+    device ?? _device(),
+    store: MemoryHealthStore(),
+  );
   await tester.pumpWidget(
     BileklikApp(
       controller: controller,
@@ -62,6 +67,65 @@ void main() {
     expect(normalizeAddress('A1-B2-C3 D4:E5:F6'), 'A1:B2:C3:D4:E5:F6');
     expect(normalizeAddress('A1:B2:C3'), isNull);
     expect(normalizeAddress('G1:B2:C3:D4:E5:F6'), isNull);
+  });
+
+  test('QR kodundan bileklik adresi', () {
+    expect(addressFromQr('A1B2C3D4E5F6'), 'A1:B2:C3:D4:E5:F6');
+    expect(addressFromQr('JCV8 MAC:a1:b2:c3:d4:e5:f6'), 'A1:B2:C3:D4:E5:F6');
+    expect(addressFromQr('id=a1-b2-c3-d4-e5-f6&v=2'), 'A1:B2:C3:D4:E5:F6');
+    expect(addressFromQr('https://example.com/urun'), isNull);
+    // 12'den uzun onaltılık dizi adres sayılmaz.
+    expect(addressFromQr('A1B2C3D4E5F6A7'), isNull);
+  });
+
+  testWidgets('Bluetooth kapalıyken arama nedenini söyler', (tester) async {
+    final device = _device()..scanProblem = ScanProblem.bluetoothOff;
+    await _openProfile(tester, device: device);
+    await tester.tap(find.text('Cihaz'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Aramayı başlat'));
+    await tester.pump(const Duration(milliseconds: 300));
+    await tester.pumpAndSettle();
+    expect(find.textContaining('Bluetooth kapalı'), findsOneWidget);
+    expect(find.text('JCV8'), findsNothing);
+
+    device.scanProblem = ScanProblem.permissionDenied;
+    await tester.tap(find.text('Aramayı başlat'));
+    await tester.pump(const Duration(milliseconds: 300));
+    await tester.pumpAndSettle();
+    expect(find.textContaining('Bluetooth izni'), findsOneWidget);
+  });
+
+  testWidgets('QR okununca bileklik bulunup bağlanılır', (tester) async {
+    QrScanScreen.scannerOverride = (context, onCode) => ListView(
+      children: [
+        for (final code in const ['https://example.com', 'JCV8 a1b2c3d4e5f6'])
+          TextButton(onPressed: () => onCode(code), child: Text('qr:$code')),
+      ],
+    );
+    addTearDown(() => QrScanScreen.scannerOverride = null);
+    final c = await _openProfile(tester);
+    await tester.tap(find.text('Cihaz'));
+    await tester.pumpAndSettle();
+    await tester.ensureVisible(find.text('QR kodu tara'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('QR kodu tara'));
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.text('qr:https://example.com'));
+    await tester.pump();
+    expect(find.text('Bu QR kodunda bileklik adresi yok.'), findsOneWidget);
+
+    // Eşleştirme ekranının arama ve bağlantısı sahte zamanda sürer.
+    await tester.tap(find.text('qr:JCV8 a1b2c3d4e5f6'));
+    await tester.pump();
+    await tester.pump(const Duration(seconds: 1));
+    await tester.pumpAndSettle();
+    expect(c.isConnected, isTrue);
+    expect(find.byType(QrScanScreen<String>), findsNothing);
+    // Sahte bilekliğin anlık veri zamanlayıcısı test bitmeden kapansın.
+    await c.disconnect();
+    await tester.pumpAndSettle();
   });
 
   testWidgets('Profil menüsü bölümleri gösterir, yakında olanlar uyarır', (

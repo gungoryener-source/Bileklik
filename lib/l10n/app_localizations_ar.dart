@@ -472,6 +472,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get connPurpose => 'الغرض';
 
   @override
+  String get connQrInvalid => 'لا يحتوي رمز QR هذا على رمز دعوة.';
+
+  @override
   String get connRequested => 'البيانات المطلوبة';
 
   @override
@@ -486,8 +489,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get connScan => 'مسح رمز QR';
 
   @override
-  String get connScanSoon =>
-      'المسح بالكاميرا قريبًا. أدخل الآن الرمز المكتوب أسفل رمز QR.';
+  String get connScanHint => 'ضع رمز QR الذي حصلت عليه من طبيبك أو من مؤسسة البحث داخل الإطار.';
 
   @override
   String get connSelectAll => 'تحديد الكل';
@@ -1166,6 +1168,9 @@ class AppLocalizationsAr extends AppLocalizations {
       'تعذّر الحصول على قراءة. شدّ السوار قليلًا وحاول مرة أخرى.';
 
   @override
+  String get issueNotPaired => 'أقرِن سوارك أولًا من الملف الشخصي > الجهاز.';
+
+  @override
   String get languagePickHint => 'يمكنك تغييرها لاحقًا من شاشة الملف الشخصي.';
 
   @override
@@ -1333,6 +1338,15 @@ class AppLocalizationsAr extends AppLocalizations {
   String get noValue => '--';
 
   @override
+  String get pairBluetoothDenied => 'يلزم إذن البلوتوث للبحث عن السوار. اسمح به لهذا التطبيق من إعدادات الهاتف ثم حاول مرة أخرى.';
+
+  @override
+  String get pairBluetoothOff => 'البلوتوث متوقف. شغّل البلوتوث في هاتفك ثم حاول مرة أخرى.';
+
+  @override
+  String get pairBluetoothUnsupported => 'هذا الجهاز لا يدعم البلوتوث منخفض الطاقة الذي يستخدمه السوار.';
+
+  @override
   String get pairCode => 'الإقران بالعنوان';
 
   @override
@@ -1365,6 +1379,15 @@ class AppLocalizationsAr extends AppLocalizations {
   @override
   String get pairNote =>
       'اشحن السوار وأبقه قريبًا من هاتفك. يجب أن يكون البلوتوث مفعّلًا.';
+
+  @override
+  String get pairQr => 'مسح رمز QR';
+
+  @override
+  String get pairQrHint => 'ضع رمز QR الموجود على العلبة أو خلف السوار داخل الإطار.';
+
+  @override
+  String get pairQrInvalid => 'لا يحتوي رمز QR هذا على عنوان سوار.';
 
   @override
   String get pairScan => 'بدء البحث';
@@ -1502,6 +1525,15 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get profileWeight => 'الوزن';
+
+  @override
+  String get qrCameraDenied => 'لم يُمنح إذن الكاميرا. اسمح به من إعدادات الهاتف أو أدخل الرمز يدويًا.';
+
+  @override
+  String get qrCameraUnavailable => 'تعذر فتح الكاميرا. يمكنك إدخال الرمز يدويًا.';
+
+  @override
+  String get qrManual => 'إدخال الرمز يدويًا';
 
   @override
   String get reminderAddMedication => 'إضافة موعد دواء';

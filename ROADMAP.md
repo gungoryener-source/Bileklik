@@ -22,7 +22,7 @@ bir öncekinin dalı üzerine kurulur. Durum: ✅ bitti (PR açık ya da birleş
 | 14 | Ayarlar: otomatik ölçüm aralığı (0x2A/0x2B), takma algılama (0x86), saat/birim tercihleri | ✅ | #17 (0x2A aralık baytlarının sırası ve 0x86 onay paketi gerçek cihazda doğrulanacak) |
 | 15 | Hatırlatıcılar: ilaç, su, hareketsizlik (0x23/0x57) | ✅ | #18 (PDF elde değildi; 0x23/0x57 bayt düzeni, tür kodları ve hareketsizlik için 0x25/0x26 gerçek cihazda doğrulanacak) |
 | 16 | Kilo ve vücut kompozisyonu: elle giriş, VKİ, grafik | ✅ | #19 |
-| 17 | Gerçek BLE katmanı (flutter_blue_plus), cihaz taramasının 8. maddedeki eşleştirme ekranına bağlanması, kamerayla QR okuma (şimdilik QR altındaki adres elle giriliyor) | ⬜ | |
+| 17 | Gerçek BLE katmanı (flutter_blue_plus), cihaz taramasının 8. maddedeki eşleştirme ekranına bağlanması, kamerayla QR okuma (şimdilik QR altındaki adres elle giriliyor) | ✅ | #20 (11. maddedeki health eklentisi ve izinler de burada; UUID'ler, yayın adı, iOS'ta adresle eşleştirme gerçek cihazda doğrulanacak; flutter_blue_plus `License.nonprofit`, ticari lisans satıştan önce yeniden değerlendirilecek) |
 | 18 | FHIR R4 dışa aktarma: Observation (LOINC), EKG için SampledData, Bundle JSON | ⬜ | |
 | 19 | Portal arka ucu iskeleti (ayrı klasör): FHIR kabul eden API, takipçi yetkisi, KVKK kayıtları | ⬜ | |
 | 20 | PPI geçmişi (0x63) ve HRV ayrıntısı; VO2 Max tahmini | ⬜ | |
