@@ -5,6 +5,32 @@
   "aboutMedical": "Bu uygulama tıbbi cihaz değildir; teşhis ve tedavi için hekiminize danışın. Tansiyon değerleri tahminidir.",
   "aboutPrivacy": "Ölçümleriniz yalnızca bu telefonda tutulur. Paylaşım geldiğinde kimin neyi göreceğine siz karar vereceksiniz (KVKK).",
   "aboutVersion": "Sürüm {version}",
+  "achFirstEcg": "İlk EKG",
+  "achFirstEcgText": "İlk EKG kaydınızı aldınız.",
+  "achFirstSync": "İlk adım",
+  "achFirstSyncText": "Bileklikten ilk ölçümler geldi.",
+  "achGoalStreak7": "Bir hafta durmadan",
+  "achGoalStreak7Text": "7 gün art arda adım hedefi.",
+  "achMarathonWeek": "Maraton haftası",
+  "achMarathonWeekText": "Bir haftada 42,2 km.",
+  "achSleepStreak7": "Düzenli uyku",
+  "achSleepStreak7Text": "7 gece art arda en az 7 saat uyku.",
+  "achSteps10k": "10.000 adım",
+  "achSteps10kText": "Bir günde 10.000 adım.",
+  "achSteps20k": "20.000 adım",
+  "achSteps20kText": "Bir günde 20.000 adım.",
+  "achWear30": "Sadık bileklik",
+  "achWear30Text": "30 farklı günde bilekliği taktınız.",
+  "achWorkouts10": "10 egzersiz",
+  "achWorkouts10Text": "Toplam 10 egzersiz kaydı.",
+  "achievementEarned": "{date} tarihinde kazanıldı",
+  "@achievementEarned": {
+    "placeholders": {
+      "date": {}
+    }
+  },
+  "achievementProgress": "İlerleme",
+  "achievementsTitle": "Rozetler",
   "actionCancel": "Vazgeç",
   "actionClose": "Kapat",
   "appTitle": "Bileklik",
@@ -287,6 +313,28 @@
   "ecgSecondsLeft": "{seconds} sn",
   "ecgStartButton": "30 saniyelik ölçüm başlat",
   "ecgTitle": "EKG",
+  "energyDayTitle": "{date} enerjisi",
+  "@energyDayTitle": {
+    "placeholders": {
+      "date": {}
+    }
+  },
+  "energyDrain": "Gün içi harcama",
+  "energyEmpty": "Enerji için gece uykusu ya da HRV ölçümü gerekiyor.",
+  "energyHigh": "Enerjiniz yüksek",
+  "energyLow": "Enerjiniz düşük; dinlenmeye zaman ayırın",
+  "energyMedium": "Enerjiniz orta düzeyde",
+  "energyNote": "Gece uykusunun süresi ve derinliği ile HRV'nin son iki haftaya göre durumu enerjiyi doldurur; adım ve stres gün içinde azaltır. Uygulamanın kendi tahminidir, tıbbi bir ölçüm değildir.",
+  "energyRecovery": "Toparlanma",
+  "energySemantics": "Enerji {score}/100, {level}",
+  "@energySemantics": {
+    "placeholders": {
+      "score": {},
+      "level": {}
+    }
+  },
+  "energySleep": "Uyku",
+  "energyTitle": "Enerji",
   "exerciseConnectFirst": "Önce Ana Sayfa'dan bilekliği bağlayın.",
   "exerciseConnectHint": "Geçmiş egzersizleri görmek için bilekliği bağlayın.",
   "exerciseCount": "{count} egzersiz",
@@ -693,6 +741,7 @@
   "profileUnitKg": "kg",
   "profileUnitYears": "yıl",
   "profileWeight": "Kilo",
+  "progressTitle": "İlerleme",
   "qrCameraDenied": "Kamera izni verilmedi. Telefonun ayarlarından izin verin ya da kodu elle girin.",
   "qrCameraUnavailable": "Kamera açılamadı. Kodu elle girebilirsiniz.",
   "qrManual": "Kodu elle gir",
@@ -743,6 +792,24 @@
   "remindersNotConnected": "Hatırlatıcıları görmek ve değiştirmek için bilekliği bağlayın.",
   "remindersSaveFailed": "Hatırlatıcı bilekliğe yazılamadı. Tekrar deneyin.",
   "remindersTitle": "Hatırlatıcılar",
+  "reportAverageSteps": "Günlük ortalama adım",
+  "reportDown": "Azaldı",
+  "reportEmpty": "Bu hafta için veri yok.",
+  "reportGoalDays": "Hedefe ulaşılan gün",
+  "reportHrv": "Ortalama HRV",
+  "reportSleep": "Ortalama uyku",
+  "reportSteps": "Toplam adım",
+  "reportStress": "Ortalama stres",
+  "reportUp": "Arttı",
+  "reportVsPrevious": "Oklar önceki haftaya göre değişimi gösterir.",
+  "reportWorkouts": "Egzersiz",
+  "reportWorkoutsValue": "{count} kez · {time}",
+  "@reportWorkoutsValue": {
+    "placeholders": {
+      "count": {},
+      "time": {}
+    }
+  },
   "sedentaryHours": "{hours, plural, =1{1 saat} other{{hours} saat}}",
   "@sedentaryHours": {
     "placeholders": {
@@ -884,6 +951,7 @@
   "wearDetectionFailed": "Takma algılama ayarı bilekliğe yazılamadı.",
   "wearDetectionSubtitle": "Ölçüm sırasında bileklik çıkarılırsa ya da kolunuz hareket ederse uyarır.",
   "wearDetectionTitle": "Takma algılama",
+  "weeklyReportTitle": "Haftalık rapor",
   "workoutCongrats": "Tebrikler, egzersiz kaydedildi",
   "workoutTimeRange": "{day} · {start} - {end}",
   "@workoutTimeRange": {

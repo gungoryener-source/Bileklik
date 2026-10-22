@@ -57,6 +57,10 @@ UI (lib/ui)  ->  DeviceController (lib/state)  ->  WristbandClient  ->  DeviceTr
   çevirir (Observation + LOINC/UCUM, EKG için SampledData). Hasta kaynağı takma
   kimliklidir (`AppSettings.patientId`), ad ya da TC kimlik yazılmaz.
 
+- HRV ayrıntısı ve VO2 Max `lib/data/hrv_analysis.dart` (0x63 PPI'dan);
+  enerji skoru, haftalık rapor ve rozetler `lib/data/progress.dart`. Rozetler
+  saklanmaz, her açılışta geçmişten hesaplanır. Adım hedefi `dailyStepGoal`.
+
 ## Portal (`portal/`)
 
 Ayrı bir Dart paketi (shelf): FHIR Bundle alır, takipçilere yalnızca rızadaki
