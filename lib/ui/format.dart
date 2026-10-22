@@ -8,6 +8,7 @@ import '../data/aggregate.dart';
 import '../device/protocol/exercise.dart';
 import '../device/protocol/history.dart';
 import '../l10n/l10n.dart';
+import '../state/app_settings.dart';
 import '../state/device_controller.dart';
 import 'theme.dart';
 
@@ -41,7 +42,41 @@ String ltr(String s) => '\u2066$s\u2069';
 String isolate(String s) => '\u2068$s\u2069';
 
 String two(int v) => v.toString().padLeft(2, '0');
-String hhmm(DateTime t) => '${two(t.hour)}:${two(t.minute)}';
+
+/// Saat ve birim tercihleri; BuildContext olmayan biçimlendiriciler okur.
+/// [DisplaySync] her tercih değişiminde günceller; testlerde 24 saat ve
+/// metrik başlar.
+abstract final class DisplayPrefs {
+  /// null: dilin alışkanlığı (Türkçe ve Almanca 24 saat, İngilizce 12 saat).
+  static bool? use24h;
+  static bool imperial = false;
+}
+
+/// Saat:dakika; 12 saat seçiliyse "9:05 ÖS" gibi, dile göre.
+String hhmm(DateTime t) {
+  final h24 = DisplayPrefs.use24h;
+  if (h24 == true) return '${two(t.hour)}:${two(t.minute)}';
+  if (h24 == false) return _fmt('h:mm a').format(t);
+  return _fmt(DateFormat.HOUR_MINUTE).format(t);
+}
+
+/// Gece yarısından itibaren dakikayı saat olarak yazar (ayarlarda).
+String minuteOfDay(int minutes) =>
+    hhmm(DateTime(2024, 1, 1, minutes ~/ 60, minutes % 60));
+
+/// 1 km = 0.621371 mil.
+const kmPerMile = 1.609344;
+
+/// Mesafe değerini seçili birimde yazar (birim ayrı: [MetricLook.unit]).
+String distanceValue(double km) => MetricType.distance.format(km);
+
+/// Seçili birimde 1 km ya da 1 mil için tempo.
+Duration? paceFor(int seconds, double km) {
+  final d = DisplayPrefs.imperial ? km / kmPerMile : km;
+  if (d < 0.01) return null;
+  return Duration(seconds: (seconds / d).round());
+}
+
 // Kalıp yerine iskelet: her dil kendi sırasını ve noktalamasını kullanır
 // (19 Ekim, October 19, 19. Oktober).
 String dayMonth(DateTime t) => _fmt(DateFormat.MONTH_DAY).format(t);
@@ -88,7 +123,9 @@ extension MetricLook on MetricType {
     MetricType.steps => currentL10n.unitSteps,
     MetricType.respiratoryRate => currentL10n.unitPerMinute,
     // Soldan sağa işareti: Arapçada "°C" ters dönüp "C°" görünmesin.
-    MetricType.temperature => '\u200E$symbol',
+    MetricType.temperature =>
+      DisplayPrefs.imperial ? '\u200E°F' : '\u200E$symbol',
+    MetricType.distance => DisplayPrefs.imperial ? 'mi' : symbol,
     _ => symbol,
   };
 
@@ -117,9 +154,12 @@ extension MetricLook on MetricType {
     MetricType.systolic || MetricType.diastolic => Icons.bloodtype,
   };
 
+  /// Değeri seçili birimde yazar; mesafe km, ısı °C olarak saklanır.
   String format(double v) => switch (this) {
-    MetricType.temperature => v.toStringAsFixed(1),
-    MetricType.distance => v.toStringAsFixed(2),
+    MetricType.temperature =>
+      (DisplayPrefs.imperial ? v * 9 / 5 + 32 : v).toStringAsFixed(1),
+    MetricType.distance =>
+      (DisplayPrefs.imperial ? v / kmPerMile : v).toStringAsFixed(2),
     _ => v.round().toString(),
   };
 }
@@ -185,7 +225,7 @@ String clock(Duration d) {
   return h > 0 ? '$h:${two(m)}:${two(s)}' : '${two(m)}:${two(s)}';
 }
 
-/// Tempo: 1 km için dakika ve saniye, örneğin 6'12".
+/// Tempo: 1 km (ya da mil) için dakika ve saniye, örneğin 6'12".
 String paceText(Duration? pace) {
   if (pace == null || pace == Duration.zero) return '--';
   return "${pace.inMinutes}'${two(pace.inSeconds % 60)}\"";
@@ -277,3 +317,59 @@ String shareList(Set<ShareScope> scopes) => ShareScope.values
     .where(scopes.contains)
     .map((s) => s.label)
     .join(currentL10n.localeName == 'ar' ? '، ' : ', ');
+
+/// MaterialApp altında saat ve birim tercihlerini [DisplayPrefs]'e yazar;
+/// saat seçicisi de aynı biçimi kullansın diye `alwaysUse24HourFormat`
+/// değerini ayarlar. Tercih değişince açık ekranlar da yeniden çizilir
+/// (biçimlendiriciler BuildContext'e bağlı olmadığı için kendiliğinden
+/// yenilenmezler).
+class DisplaySync extends StatefulWidget {
+  const DisplaySync({
+    super.key,
+    required this.clock,
+    required this.units,
+    required this.child,
+  });
+
+  final ClockFormat clock;
+  final UnitSystem units;
+  final Widget child;
+
+  @override
+  State<DisplaySync> createState() => _DisplaySyncState();
+}
+
+class _DisplaySyncState extends State<DisplaySync> {
+  @override
+  void didUpdateWidget(DisplaySync old) {
+    super.didUpdateWidget(old);
+    if (old.clock != widget.clock || old.units != widget.units) {
+      void mark(Element e) {
+        e.markNeedsBuild();
+        e.visitChildren(mark);
+      }
+
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted) (context as Element).visitChildren(mark);
+      });
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final mq = MediaQuery.of(context);
+    DisplayPrefs.imperial = widget.units == UnitSystem.imperial;
+    DisplayPrefs.use24h = switch (widget.clock) {
+      ClockFormat.h24 => true,
+      ClockFormat.h12 => false,
+      ClockFormat.system => mq.alwaysUse24HourFormat ? true : null,
+    };
+    final use24 =
+        DisplayPrefs.use24h ??
+        !_fmt(DateFormat.HOUR_MINUTE).pattern!.contains('a');
+    return MediaQuery(
+      data: mq.copyWith(alwaysUse24HourFormat: use24),
+      child: widget.child,
+    );
+  }
+}

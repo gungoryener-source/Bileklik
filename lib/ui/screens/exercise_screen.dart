@@ -247,7 +247,7 @@ class _WorkoutTile extends StatelessWidget {
     final details = [
       clock(w.duration),
       if (w.distanceKm > 0)
-        '${w.distanceKm.toStringAsFixed(2)} ${MetricType.distance.unit}',
+        '${distanceValue(w.distanceKm)} ${MetricType.distance.unit}',
       '${w.calories.round()} ${MetricType.calories.unit}',
     ].map(ltr).join(' · ');
     return Padding(

@@ -150,6 +150,138 @@ abstract class AppLocalizations {
   /// **'Bileklik'**
   String get appTitle;
 
+  /// No description provided for @autoMeasureAllDay.
+  ///
+  /// In tr, this message translates to:
+  /// **'Tüm gün'**
+  String get autoMeasureAllDay;
+
+  /// No description provided for @autoMeasureConnect.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bağlan'**
+  String get autoMeasureConnect;
+
+  /// No description provided for @autoMeasureDays.
+  ///
+  /// In tr, this message translates to:
+  /// **'Günler'**
+  String get autoMeasureDays;
+
+  /// No description provided for @autoMeasureEnd.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bitiş'**
+  String get autoMeasureEnd;
+
+  /// No description provided for @autoMeasureEveryDay.
+  ///
+  /// In tr, this message translates to:
+  /// **'Her gün'**
+  String get autoMeasureEveryDay;
+
+  /// No description provided for @autoMeasureEveryHours.
+  ///
+  /// In tr, this message translates to:
+  /// **'{hours} saatte bir'**
+  String autoMeasureEveryHours(int hours);
+
+  /// No description provided for @autoMeasureEveryMinutes.
+  ///
+  /// In tr, this message translates to:
+  /// **'{minutes} dakikada bir'**
+  String autoMeasureEveryMinutes(int minutes);
+
+  /// No description provided for @autoMeasureHours.
+  ///
+  /// In tr, this message translates to:
+  /// **'Ölçüm saatleri'**
+  String get autoMeasureHours;
+
+  /// No description provided for @autoMeasureInterval.
+  ///
+  /// In tr, this message translates to:
+  /// **'Ölçüm aralığı'**
+  String get autoMeasureInterval;
+
+  /// No description provided for @autoMeasureIntro.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bileklik seçtiğiniz saatlerde kendiliğinden ölçer. Her ölçüm 1 dakika sürer; aralık kısaldıkça pil daha çabuk biter.'**
+  String get autoMeasureIntro;
+
+  /// No description provided for @autoMeasureLoadFailed.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bileklik ayarları okunamadı.'**
+  String get autoMeasureLoadFailed;
+
+  /// No description provided for @autoMeasureNextDay.
+  ///
+  /// In tr, this message translates to:
+  /// **'{time} (ertesi gün)'**
+  String autoMeasureNextDay(String time);
+
+  /// No description provided for @autoMeasureNoDays.
+  ///
+  /// In tr, this message translates to:
+  /// **'En az bir gün seçili kalmalı.'**
+  String get autoMeasureNoDays;
+
+  /// No description provided for @autoMeasureNotConnected.
+  ///
+  /// In tr, this message translates to:
+  /// **'Ayarları görmek ve değiştirmek için bilekliği bağlayın.'**
+  String get autoMeasureNotConnected;
+
+  /// No description provided for @autoMeasureOff.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kapalı'**
+  String get autoMeasureOff;
+
+  /// No description provided for @autoMeasureRetry.
+  ///
+  /// In tr, this message translates to:
+  /// **'Tekrar dene'**
+  String get autoMeasureRetry;
+
+  /// No description provided for @autoMeasureSameTime.
+  ///
+  /// In tr, this message translates to:
+  /// **'Başlangıç ve bitiş aynı olamaz.'**
+  String get autoMeasureSameTime;
+
+  /// No description provided for @autoMeasureSaveFailed.
+  ///
+  /// In tr, this message translates to:
+  /// **'Ayar bilekliğe yazılamadı. Tekrar deneyin.'**
+  String get autoMeasureSaveFailed;
+
+  /// No description provided for @autoMeasureSleepNote.
+  ///
+  /// In tr, this message translates to:
+  /// **'Uykudayken bileklik nabzı 5 dakikada bir ölçer.'**
+  String get autoMeasureSleepNote;
+
+  /// No description provided for @autoMeasureStart.
+  ///
+  /// In tr, this message translates to:
+  /// **'Başlangıç'**
+  String get autoMeasureStart;
+
+  /// No description provided for @autoMeasureTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Otomatik ölçüm'**
+  String get autoMeasureTitle;
+
+  /// No description provided for @autoMeasureTurnOn.
+  ///
+  /// In tr, this message translates to:
+  /// **'{name} otomatik ölçümü'**
+  String autoMeasureTurnOn(String name);
+
   /// No description provided for @bandAnxious.
   ///
   /// In tr, this message translates to:
@@ -197,6 +329,30 @@ abstract class AppLocalizations {
   /// In tr, this message translates to:
   /// **'Gergin'**
   String get bandTense;
+
+  /// No description provided for @clock12.
+  ///
+  /// In tr, this message translates to:
+  /// **'12 saat (ÖÖ/ÖS)'**
+  String get clock12;
+
+  /// No description provided for @clock24.
+  ///
+  /// In tr, this message translates to:
+  /// **'24 saat'**
+  String get clock24;
+
+  /// No description provided for @clockSystem.
+  ///
+  /// In tr, this message translates to:
+  /// **'Dile göre'**
+  String get clockSystem;
+
+  /// No description provided for @clockTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Saat biçimi'**
+  String get clockTitle;
 
   /// No description provided for @comingSoon.
   ///
@@ -678,11 +834,11 @@ abstract class AppLocalizations {
   /// **'Başka bileklik eşleştir'**
   String get devicePairNew;
 
-  /// No description provided for @deviceSettingsNote.
+  /// No description provided for @deviceSectionSettings.
   ///
   /// In tr, this message translates to:
-  /// **'Nabız ölçüm aralığı ve bildirim ayarları yakında burada olacak.'**
-  String get deviceSettingsNote;
+  /// **'Bileklik ayarları'**
+  String get deviceSectionSettings;
 
   /// No description provided for @deviceStatus.
   ///
@@ -2085,7 +2241,7 @@ abstract class AppLocalizations {
   /// No description provided for @profileMenuGeneralSubtitle.
   ///
   /// In tr, this message translates to:
-  /// **'Uygulama dili'**
+  /// **'Dil, saat biçimi, birimler'**
   String get profileMenuGeneralSubtitle;
 
   /// No description provided for @profileMenuPersonalEmpty.
@@ -2466,11 +2622,23 @@ abstract class AppLocalizations {
   /// **'Ölçülüyor…'**
   String get spotMeasuring;
 
+  /// No description provided for @spotMoving.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hareket algılandı. Kolunuzu sabit tutun.'**
+  String get spotMoving;
+
   /// No description provided for @spotNote.
   ///
   /// In tr, this message translates to:
   /// **'Bileklik ölçümü tıbbi cihaz yerine geçmez.'**
   String get spotNote;
+
+  /// No description provided for @spotOffWrist.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bileklik bileğinizde görünmüyor. Takıp sıkıca oturtun.'**
+  String get spotOffWrist;
 
   /// No description provided for @spotSaved.
   ///
@@ -2531,6 +2699,42 @@ abstract class AppLocalizations {
   /// In tr, this message translates to:
   /// **'adım'**
   String get unitSteps;
+
+  /// No description provided for @unitsImperial.
+  ///
+  /// In tr, this message translates to:
+  /// **'ABD (mil, °F)'**
+  String get unitsImperial;
+
+  /// No description provided for @unitsMetric.
+  ///
+  /// In tr, this message translates to:
+  /// **'Metrik (km, °C)'**
+  String get unitsMetric;
+
+  /// No description provided for @unitsTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Birimler'**
+  String get unitsTitle;
+
+  /// No description provided for @wearDetectionFailed.
+  ///
+  /// In tr, this message translates to:
+  /// **'Takma algılama ayarı bilekliğe yazılamadı.'**
+  String get wearDetectionFailed;
+
+  /// No description provided for @wearDetectionSubtitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Ölçüm sırasında bileklik çıkarılırsa ya da kolunuz hareket ederse uyarır.'**
+  String get wearDetectionSubtitle;
+
+  /// No description provided for @wearDetectionTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Takma algılama'**
+  String get wearDetectionTitle;
 
   /// No description provided for @workoutCongrats.
   ///

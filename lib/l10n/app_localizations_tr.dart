@@ -39,6 +39,84 @@ class AppLocalizationsTr extends AppLocalizations {
   String get appTitle => 'Bileklik';
 
   @override
+  String get autoMeasureAllDay => 'Tüm gün';
+
+  @override
+  String get autoMeasureConnect => 'Bağlan';
+
+  @override
+  String get autoMeasureDays => 'Günler';
+
+  @override
+  String get autoMeasureEnd => 'Bitiş';
+
+  @override
+  String get autoMeasureEveryDay => 'Her gün';
+
+  @override
+  String autoMeasureEveryHours(int hours) {
+    return '$hours saatte bir';
+  }
+
+  @override
+  String autoMeasureEveryMinutes(int minutes) {
+    return '$minutes dakikada bir';
+  }
+
+  @override
+  String get autoMeasureHours => 'Ölçüm saatleri';
+
+  @override
+  String get autoMeasureInterval => 'Ölçüm aralığı';
+
+  @override
+  String get autoMeasureIntro =>
+      'Bileklik seçtiğiniz saatlerde kendiliğinden ölçer. Her ölçüm 1 dakika sürer; aralık kısaldıkça pil daha çabuk biter.';
+
+  @override
+  String get autoMeasureLoadFailed => 'Bileklik ayarları okunamadı.';
+
+  @override
+  String autoMeasureNextDay(String time) {
+    return '$time (ertesi gün)';
+  }
+
+  @override
+  String get autoMeasureNoDays => 'En az bir gün seçili kalmalı.';
+
+  @override
+  String get autoMeasureNotConnected =>
+      'Ayarları görmek ve değiştirmek için bilekliği bağlayın.';
+
+  @override
+  String get autoMeasureOff => 'Kapalı';
+
+  @override
+  String get autoMeasureRetry => 'Tekrar dene';
+
+  @override
+  String get autoMeasureSameTime => 'Başlangıç ve bitiş aynı olamaz.';
+
+  @override
+  String get autoMeasureSaveFailed =>
+      'Ayar bilekliğe yazılamadı. Tekrar deneyin.';
+
+  @override
+  String get autoMeasureSleepNote =>
+      'Uykudayken bileklik nabzı 5 dakikada bir ölçer.';
+
+  @override
+  String get autoMeasureStart => 'Başlangıç';
+
+  @override
+  String get autoMeasureTitle => 'Otomatik ölçüm';
+
+  @override
+  String autoMeasureTurnOn(String name) {
+    return '$name otomatik ölçümü';
+  }
+
+  @override
   String get bandAnxious => 'Kaygılı';
 
   @override
@@ -61,6 +139,18 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get bandTense => 'Gergin';
+
+  @override
+  String get clock12 => '12 saat (ÖÖ/ÖS)';
+
+  @override
+  String get clock24 => '24 saat';
+
+  @override
+  String get clockSystem => 'Dile göre';
+
+  @override
+  String get clockTitle => 'Saat biçimi';
 
   @override
   String get comingSoon => 'Yakında';
@@ -359,8 +449,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get devicePairNew => 'Başka bileklik eşleştir';
 
   @override
-  String get deviceSettingsNote =>
-      'Nabız ölçüm aralığı ve bildirim ayarları yakında burada olacak.';
+  String get deviceSectionSettings => 'Bileklik ayarları';
 
   @override
   String get deviceStatus => 'Durum';
@@ -1214,7 +1303,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get profileMenuGeneral => 'Genel ayarlar';
 
   @override
-  String get profileMenuGeneralSubtitle => 'Uygulama dili';
+  String get profileMenuGeneralSubtitle => 'Dil, saat biçimi, birimler';
 
   @override
   String get profileMenuPersonalEmpty => 'Yaş, boy ve kilonuzu girin';
@@ -1419,7 +1508,14 @@ class AppLocalizationsTr extends AppLocalizations {
   String get spotMeasuring => 'Ölçülüyor…';
 
   @override
+  String get spotMoving => 'Hareket algılandı. Kolunuzu sabit tutun.';
+
+  @override
   String get spotNote => 'Bileklik ölçümü tıbbi cihaz yerine geçmez.';
+
+  @override
+  String get spotOffWrist =>
+      'Bileklik bileğinizde görünmüyor. Takıp sıkıca oturtun.';
 
   @override
   String spotSaved(Object time) {
@@ -1454,6 +1550,26 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get unitSteps => 'adım';
+
+  @override
+  String get unitsImperial => 'ABD (mil, °F)';
+
+  @override
+  String get unitsMetric => 'Metrik (km, °C)';
+
+  @override
+  String get unitsTitle => 'Birimler';
+
+  @override
+  String get wearDetectionFailed =>
+      'Takma algılama ayarı bilekliğe yazılamadı.';
+
+  @override
+  String get wearDetectionSubtitle =>
+      'Ölçüm sırasında bileklik çıkarılırsa ya da kolunuz hareket ederse uyarır.';
+
+  @override
+  String get wearDetectionTitle => 'Takma algılama';
 
   @override
   String get workoutCongrats => 'Tebrikler, egzersiz kaydedildi';

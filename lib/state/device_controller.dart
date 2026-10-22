@@ -10,6 +10,7 @@ import '../data/models.dart';
 import '../device/protocol/commands.dart';
 import '../device/protocol/ecg.dart';
 import '../device/protocol/exercise.dart';
+import '../device/protocol/settings.dart';
 import '../device/transport.dart';
 import '../device/wristband_client.dart';
 
@@ -32,9 +33,12 @@ enum DeviceIssue {
 ///
 /// Hangi cihaz katmanının (sahte ya da gerçek) kullanılacağı dışarıdan verilir.
 class DeviceController extends ChangeNotifier {
-  DeviceController(this._transport, {HealthStore? store})
-    : _client = WristbandClient(_transport),
-      store = store ?? MemoryHealthStore() {
+  DeviceController(
+    this._transport, {
+    HealthStore? store,
+    this.wearDetection = true,
+  }) : _client = WristbandClient(_transport),
+       store = store ?? MemoryHealthStore() {
     _sync = SyncService(_client, this.store);
     _stateSub = _transport.state.listen((s) {
       connection = s;
@@ -51,6 +55,7 @@ class DeviceController extends ChangeNotifier {
     });
     _exerciseSub = _client.exerciseEvents.listen(_onExercise);
     _ecgSub = _client.ecg.listen(_onEcg);
+    _wearSub = _client.wearEvents.listen(_onWear);
   }
 
   final DeviceTransport _transport;
@@ -63,6 +68,7 @@ class DeviceController extends ChangeNotifier {
   late final StreamSubscription<RealtimeData> _realtimeSub;
   late final StreamSubscription<ExerciseEvent> _exerciseSub;
   late final StreamSubscription<EcgPacket> _ecgSub;
+  late final StreamSubscription<WearEvent> _wearSub;
 
   DeviceConnectionState connection = DeviceConnectionState.disconnected;
   RealtimeData? live;
@@ -110,7 +116,90 @@ class DeviceController extends ChangeNotifier {
       error = e.toString();
     }
     notifyListeners();
+    if (isConnected) await _loadDeviceSettings();
     if (isConnected) await sync();
+  }
+
+  /// Bileklikteki otomatik ölçüm ayarları; bağlanınca okunur.
+  Map<AutoMeasureType, AutoMeasureConfig> autoMeasure = const {};
+
+  /// Otomatik ölçüm ayarları okunamadı ya da yazılamadı.
+  bool settingsFailed = false;
+
+  /// Takma algılaması (0x86). Bileklik bu ayarı okuma komutu sunmadığı
+  /// için tercih uygulamada saklanır ve her bağlantıda yeniden yazılır.
+  bool wearDetection;
+
+  Future<void> _loadDeviceSettings() async {
+    settingsFailed = false;
+    try {
+      autoMeasure = {
+        for (final t in AutoMeasureType.values)
+          t: await _client.getAutoMeasure(t),
+      };
+    } catch (_) {
+      autoMeasure = const {};
+      settingsFailed = true;
+    }
+    try {
+      await _client.setWearDetection(wearDetection);
+    } catch (_) {
+      settingsFailed = true;
+    }
+    notifyListeners();
+  }
+
+  /// Bağlantıyı bozmadan ayarları yeniden okur (ayar ekranındaki "Tekrar dene").
+  Future<void> reloadDeviceSettings() async {
+    if (isConnected) await _loadDeviceSettings();
+  }
+
+  /// Bir türün otomatik ölçüm ayarını bilekliğe yazar. Bileklik kabul
+  /// etmezse eski ayar kalır ve false döner.
+  Future<bool> saveAutoMeasure(AutoMeasureConfig config) async {
+    if (!isConnected) return false;
+    final before = autoMeasure;
+    autoMeasure = {...autoMeasure, config.type: config};
+    notifyListeners();
+    try {
+      await _client.setAutoMeasure(config);
+      settingsFailed = false;
+      return true;
+    } catch (_) {
+      autoMeasure = before;
+      notifyListeners();
+      return false;
+    }
+  }
+
+  /// Takma algılamasını açar ya da kapatır; bağlı değilse bir sonraki
+  /// bağlantıda yazılır.
+  Future<bool> setWearDetection(bool enabled) async {
+    wearDetection = enabled;
+    notifyListeners();
+    if (!isConnected) return true;
+    try {
+      await _client.setWearDetection(enabled);
+      return true;
+    } catch (_) {
+      wearDetection = !enabled;
+      notifyListeners();
+      return false;
+    }
+  }
+
+  void _onWear(WearEvent e) {
+    final s = spot;
+    if (s == null) return;
+    switch (e) {
+      case WearChanged(:final worn):
+        s.offWrist = !worn;
+      case WearMotion():
+        s.motionTick = s.ticks;
+      case WearMeasureStarted() || WearAck():
+        return;
+    }
+    notifyListeners();
   }
 
   /// Bileklikteki geçmiş verileri depoya çeker (yalnızca yeni kayıtlar).
@@ -166,6 +255,7 @@ class DeviceController extends ChangeNotifier {
     spot?.watchdog?.cancel();
     await _transport.disconnect();
     live = null;
+    autoMeasure = const {};
     exercise = null;
     ecg = null;
     spot = null;
@@ -425,6 +515,7 @@ class DeviceController extends ChangeNotifier {
     spot?.watchdog?.cancel();
     ecg?.watchdog?.cancel();
     _ecgSub.cancel();
+    _wearSub.cancel();
     _stateSub.cancel();
     _realtimeSub.cancel();
     _exerciseSub.cancel();
@@ -488,6 +579,13 @@ class SpotSession {
 
   double get progress => (ticks / seconds).clamp(0, 1);
   Duration get remaining => Duration(seconds: max(0, seconds - ticks));
+
+  /// Bileklik çıkarılmış görünüyor (0x86 02 00).
+  bool offWrist = false;
+
+  /// Hareket uyarısının geldiği saniye; birkaç saniye ekranda kalır.
+  int? motionTick;
+  bool get moving => motionTick != null && ticks - motionTick! < 5;
 
   /// En son okunan değer; ekranda canlı gösterilir.
   int? get latest => readings.isEmpty ? null : readings.last;

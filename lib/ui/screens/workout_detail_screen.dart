@@ -42,11 +42,19 @@ class WorkoutDetailScreen extends StatelessWidget {
       if (hasDistance)
         (
           MetricType.distance.label,
-          w.distanceKm.toStringAsFixed(2),
+          distanceValue(w.distanceKm),
           MetricType.distance.unit,
         ),
       if (hasDistance)
-        (l.statPace, paceText(w.pace), '/${MetricType.distance.unit}'),
+        (
+          l.statPace,
+          paceText(
+            DisplayPrefs.imperial
+                ? paceFor(w.duration.inSeconds, w.distanceKm)
+                : w.pace,
+          ),
+          '/${MetricType.distance.unit}',
+        ),
     ];
     return CamScaffold(
       appBar: AppBar(title: Text(sportLabel(w.type))),

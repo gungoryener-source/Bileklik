@@ -5,6 +5,7 @@ import 'protocol/ecg.dart';
 import 'protocol/exercise.dart';
 import 'protocol/history.dart';
 import 'protocol/packet.dart';
+import 'protocol/settings.dart';
 import 'transport.dart';
 
 class DeviceCommandException implements Exception {
@@ -44,8 +45,25 @@ class WristbandClient {
   /// Egzersiz sürerken gelen 0x18 verileri ve uyarıları.
   Stream<ExerciseEvent> get exerciseEvents => _exercise.stream;
 
+  final _wear = StreamController<WearEvent>.broadcast();
+
+  /// Ölçüm sırasında gelen takma algılama bildirimleri (0x86).
+  Stream<WearEvent> get wearEvents => _wear.stream;
+  Completer<void>? _wearAck;
+
   void _onData(List<int> raw) {
     if (raw.isEmpty) return;
+    // 0x86'nın 7. biti zaten 1; hata yanıtı sanılmasın diye önce bakılır.
+    if (raw[0] == SettingsCmd.wearDetection) {
+      final ack = _wearAck;
+      if (ack != null && !ack.isCompleted) {
+        _wearAck = null;
+        ack.complete();
+        return;
+      }
+      if (WearEvent.parse(raw) case final e?) _wear.add(e);
+      return;
+    }
     final command = raw[0] & 0x7F;
     if (command == Cmd.realtime && raw.length > Packet.length) {
       _realtime.add(Decoders.realtime(raw));
@@ -141,6 +159,33 @@ class WristbandClient {
   Future<void> stopSpot(MeasureMode mode) =>
       _request(measurement(mode, start: false));
 
+  /// 0x2A: bir türün otomatik ölçüm ayarını yazar.
+  Future<void> setAutoMeasure(AutoMeasureConfig config) =>
+      _request(setAutoMeasureCommand(config));
+
+  /// 0x2B: bir türün otomatik ölçüm ayarını okur.
+  Future<AutoMeasureConfig> getAutoMeasure(AutoMeasureType type) async =>
+      decodeAutoMeasure(await _request(getAutoMeasureCommand(type)), type);
+
+  /// 0x86: takma algılamasını açar ya da kapatır. Onay paketinin gövdesi
+  /// PDF'te yok; gelen ilk 0x86 paketi onay sayılır (gerçek cihazda
+  /// doğrulanacak).
+  Future<void> setWearDetection(bool enabled) async {
+    final ack = Completer<void>();
+    _wearAck = ack;
+    await transport.send(wearDetectionCommand(enabled));
+    await ack.future.timeout(
+      timeout,
+      onTimeout: () {
+        if (_wearAck == ack) _wearAck = null;
+        throw DeviceCommandException(
+          SettingsCmd.wearDetection,
+          'yanıt gelmedi',
+        );
+      },
+    );
+  }
+
   _HistoryCollector? _history;
 
   /// Bir geçmiş türünün [since] sonrasındaki tüm kayıtlarını çeker.
@@ -183,6 +228,7 @@ class WristbandClient {
     await _realtime.close();
     await _exercise.close();
     await _ecg.close();
+    await _wear.close();
   }
 }
 

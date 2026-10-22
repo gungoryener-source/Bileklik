@@ -1,12 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-/// Kullanıcının uygulama tercihleri (dil). Telefonda saklanır.
+/// Saat gösterimi: telefonun/dilin alışkanlığı, 24 saat ya da 12 saat (ÖÖ/ÖS).
+enum ClockFormat { system, h24, h12 }
+
+/// Ölçü birimleri: metrik (km, °C) ya da ABD (mil, °F).
+enum UnitSystem { metric, imperial }
+
+/// Kullanıcının uygulama tercihleri (dil, saat biçimi, birimler, takma
+/// algılaması). Telefonda saklanır.
 ///
 /// Uygulama yalnızca koyu Cam temasında çalışır. Eski sürümlerin kaydettiği
 /// `theme_mode` değeri okunmaz; olduğu yerde kalması bir şeyi bozmaz.
 class AppSettings extends ChangeNotifier {
-  AppSettings._(this._prefs, this._language, this._chosen);
+  AppSettings._(
+    this._prefs,
+    this._language,
+    this._chosen, {
+    this._clock = ClockFormat.system,
+    this._units = UnitSystem.metric,
+    this._wearDetection = true,
+  });
 
   /// Kaydedilmiş tercihleri okur; yoksa telefonun dili.
   static Future<AppSettings> load() async {
@@ -15,19 +29,70 @@ class AppSettings extends ChangeNotifier {
       prefs,
       prefs.getString(_languageKey),
       prefs.getBool(_chosenKey) ?? false,
+      clock:
+          _byName(ClockFormat.values, prefs.getString(_clockKey)) ??
+          ClockFormat.system,
+      units:
+          _byName(UnitSystem.values, prefs.getString(_unitsKey)) ??
+          UnitSystem.metric,
+      wearDetection: prefs.getBool(_wearKey) ?? true,
     );
   }
 
+  static T? _byName<T extends Enum>(List<T> values, String? name) {
+    for (final v in values) {
+      if (v.name == name) return v;
+    }
+    return null;
+  }
+
   /// Testler ve önizleme için saklamasız tercihler: Türkçe, dil seçilmiş.
-  AppSettings.memory({String? language = 'tr', bool languageChosen = true})
-    : this._(null, language, languageChosen);
+  AppSettings.memory({
+    String? language = 'tr',
+    bool languageChosen = true,
+    ClockFormat clock = ClockFormat.system,
+    UnitSystem units = UnitSystem.metric,
+  }) : this._(null, language, languageChosen, clock: clock, units: units);
 
   static const _languageKey = 'language';
   static const _chosenKey = 'language_chosen';
+  static const _clockKey = 'clock_format';
+  static const _unitsKey = 'unit_system';
+  static const _wearKey = 'wear_detection';
 
   final SharedPreferences? _prefs;
   String? _language;
   bool _chosen;
+  ClockFormat _clock;
+  UnitSystem _units;
+  bool _wearDetection;
+
+  ClockFormat get clock => _clock;
+  UnitSystem get units => _units;
+
+  /// Takma algılaması açık mı; bileklik her bağlantıda bu değeri alır.
+  bool get wearDetection => _wearDetection;
+
+  Future<void> setClock(ClockFormat v) async {
+    if (v == _clock) return;
+    _clock = v;
+    notifyListeners();
+    await _prefs?.setString(_clockKey, v.name);
+  }
+
+  Future<void> setUnits(UnitSystem v) async {
+    if (v == _units) return;
+    _units = v;
+    notifyListeners();
+    await _prefs?.setString(_unitsKey, v.name);
+  }
+
+  Future<void> setWearDetection(bool v) async {
+    if (v == _wearDetection) return;
+    _wearDetection = v;
+    notifyListeners();
+    await _prefs?.setBool(_wearKey, v);
+  }
 
   /// Seçilen dil kodu (tr, en, ar, de); null ise telefonun dili.
   String? get language => _language;

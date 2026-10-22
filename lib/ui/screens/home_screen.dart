@@ -891,7 +891,7 @@ class _StepsTile extends StatelessWidget {
           : l.homeStepGoal(dailyStepGoal),
       footer: hasData
           ? Text(
-              l.homeKm(a.km.toStringAsFixed(2)),
+              ltr('${distanceValue(a.km)} ${MetricType.distance.unit}'),
               style: TextStyle(
                 color: context.colors.muted,
                 fontSize: 12,

@@ -233,11 +233,16 @@ class _SpotMeasureScreenState extends State<SpotMeasureScreen> {
                       ),
                       const SizedBox(height: 12),
                     ],
-                    Text(
-                      result == null ? l.spotKeepStill : l.spotNote,
-                      textAlign: TextAlign.center,
-                      style: TextStyle(color: context.colors.muted),
-                    ),
+                    if (result == null && s != null && s.offWrist)
+                      _Warning(l.spotOffWrist)
+                    else if (result == null && s != null && s.moving)
+                      _Warning(l.spotMoving)
+                    else
+                      Text(
+                        result == null ? l.spotKeepStill : l.spotNote,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(color: context.colors.muted),
+                      ),
                   ],
                 ),
               ),
@@ -372,4 +377,33 @@ class _Dial extends StatelessWidget {
       ],
     );
   }
+}
+
+/// Takma algılamasından gelen uyarı (bileklik çıkarıldı, hareket var).
+/// Ekran okuyucu da duysun diye canlı bölge.
+class _Warning extends StatelessWidget {
+  const _Warning(this.text);
+  final String text;
+
+  @override
+  Widget build(BuildContext context) => Semantics(
+    liveRegion: true,
+    child: Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Icon(Icons.warning_amber_rounded, color: context.colors.danger),
+        const SizedBox(width: 8),
+        Flexible(
+          child: Text(
+            text,
+            style: TextStyle(
+              color: context.colors.danger,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+        ),
+      ],
+    ),
+  );
 }
