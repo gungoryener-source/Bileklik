@@ -30,6 +30,71 @@ class AppLocalizationsAr extends AppLocalizations {
   }
 
   @override
+  String get achFirstEcg => 'أول تخطيط للقلب';
+
+  @override
+  String get achFirstEcgText => 'سجلت أول تخطيط للقلب.';
+
+  @override
+  String get achFirstSync => 'الخطوة الأولى';
+
+  @override
+  String get achFirstSyncText => 'وصلت أولى القياسات من السوار.';
+
+  @override
+  String get achGoalStreak7 => 'أسبوع بلا انقطاع';
+
+  @override
+  String get achGoalStreak7Text => 'بلوغ هدف الخطوات 7 أيام متتالية.';
+
+  @override
+  String get achMarathonWeek => 'أسبوع الماراثون';
+
+  @override
+  String get achMarathonWeekText => '42.2 كم في أسبوع واحد.';
+
+  @override
+  String get achSleepStreak7 => 'نوم منتظم';
+
+  @override
+  String get achSleepStreak7Text => '7 ساعات نوم على الأقل لـ7 ليالٍ متتالية.';
+
+  @override
+  String get achSteps10k => '10,000 خطوة';
+
+  @override
+  String get achSteps10kText => '10,000 خطوة في يوم واحد.';
+
+  @override
+  String get achSteps20k => '20,000 خطوة';
+
+  @override
+  String get achSteps20kText => '20,000 خطوة في يوم واحد.';
+
+  @override
+  String get achWear30 => 'مرتدٍ وفيّ';
+
+  @override
+  String get achWear30Text => 'ارتديت السوار في 30 يومًا مختلفًا.';
+
+  @override
+  String get achWorkouts10 => '10 تمارين';
+
+  @override
+  String get achWorkouts10Text => 'تسجيل 10 تمارين إجمالًا.';
+
+  @override
+  String achievementEarned(Object date) {
+    return 'حُصل عليها في $date';
+  }
+
+  @override
+  String get achievementProgress => 'التقدم';
+
+  @override
+  String get achievementsTitle => 'الشارات';
+
+  @override
   String get actionCancel => 'إلغاء';
 
   @override
@@ -656,6 +721,43 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get ecgTitle => 'تخطيط القلب';
+
+  @override
+  String energyDayTitle(Object date) {
+    return 'الطاقة في $date';
+  }
+
+  @override
+  String get energyDrain => 'المستهلك خلال اليوم';
+
+  @override
+  String get energyEmpty => 'تحتاج الطاقة إلى نوم الليلة الماضية أو قياس لتقلب نبض القلب.';
+
+  @override
+  String get energyHigh => 'طاقتك مرتفعة';
+
+  @override
+  String get energyLow => 'طاقتك منخفضة؛ خصص وقتًا للراحة';
+
+  @override
+  String get energyMedium => 'طاقتك متوسطة';
+
+  @override
+  String get energyNote => 'تملأ مدة النوم وعمقه وتقلب نبض القلب مقارنةً بالأسبوعين الماضيين طاقتك، وتستهلكها الخطوات والتوتر خلال اليوم. هذا تقدير التطبيق وليس قياسًا طبيًا.';
+
+  @override
+  String get energyRecovery => 'التعافي';
+
+  @override
+  String energySemantics(Object score, Object level) {
+    return 'الطاقة $score/100، $level';
+  }
+
+  @override
+  String get energySleep => 'النوم';
+
+  @override
+  String get energyTitle => 'الطاقة';
 
   @override
   String get exerciseConnectFirst => 'صِل السوار من الصفحة الرئيسية أولًا.';
@@ -1606,6 +1708,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get profileWeight => 'الوزن';
 
   @override
+  String get progressTitle => 'التقدم';
+
+  @override
   String get qrCameraDenied => 'لم يُمنح إذن الكاميرا. اسمح به من إعدادات الهاتف أو أدخل الرمز يدويًا.';
 
   @override
@@ -1722,6 +1827,44 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get remindersTitle => 'التذكيرات';
+
+  @override
+  String get reportAverageSteps => 'متوسط الخطوات اليومي';
+
+  @override
+  String get reportDown => 'انخفض';
+
+  @override
+  String get reportEmpty => 'لا توجد بيانات لهذا الأسبوع.';
+
+  @override
+  String get reportGoalDays => 'أيام بلوغ الهدف';
+
+  @override
+  String get reportHrv => 'متوسط تقلب نبض القلب';
+
+  @override
+  String get reportSleep => 'متوسط النوم';
+
+  @override
+  String get reportSteps => 'إجمالي الخطوات';
+
+  @override
+  String get reportStress => 'متوسط التوتر';
+
+  @override
+  String get reportUp => 'ارتفع';
+
+  @override
+  String get reportVsPrevious => 'تُظهر الأسهم التغير مقارنةً بالأسبوع السابق.';
+
+  @override
+  String get reportWorkouts => 'التمارين';
+
+  @override
+  String reportWorkoutsValue(Object count, Object time) {
+    return '$count مرات · $time';
+  }
 
   @override
   String sedentaryHours(int hours) {
@@ -1988,6 +2131,9 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get wearDetectionTitle => 'كشف الارتداء';
+
+  @override
+  String get weeklyReportTitle => 'التقرير الأسبوعي';
 
   @override
   String get workoutCongrats => 'أحسنت! تم حفظ التمرين';

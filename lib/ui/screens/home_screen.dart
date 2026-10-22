@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 
 import '../../data/aggregate.dart';
 import '../../data/day_summary.dart';
+import '../../data/progress.dart';
 import '../../data/models.dart';
 import '../../device/protocol/history.dart';
 import '../../device/transport.dart';
@@ -15,12 +16,10 @@ import '../widgets/home/day_chart.dart';
 import '../widgets/home/home_card.dart';
 import 'ecg_screen.dart';
 import 'metric_detail_screen.dart';
+import 'progress_screen.dart';
 import 'sleep_screen.dart';
 import 'spot_measure_screen.dart';
 import 'workout_detail_screen.dart';
-
-/// Günlük adım hedefi. Ayarlar ekranı gelince kullanıcı değiştirebilecek.
-const dailyStepGoal = 10000;
 
 /// Günlük aktif süre hedefi (dakika); haftada 150 dakikanın günlük payı.
 const dailyActiveGoalMinutes = 30;
@@ -134,6 +133,11 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               gap,
               _Summary(s: s, isToday: isToday),
+              gap,
+              EnergyCard(
+                day: s.day,
+                onTap: () => _open(ProgressScreen(day: s.day)),
+              ),
               gap,
               _BalanceCard(
                 s: s,

@@ -132,6 +132,132 @@ abstract class AppLocalizations {
   /// **'Sürüm {version}'**
   String aboutVersion(Object version);
 
+  /// No description provided for @achFirstEcg.
+  ///
+  /// In tr, this message translates to:
+  /// **'İlk EKG'**
+  String get achFirstEcg;
+
+  /// No description provided for @achFirstEcgText.
+  ///
+  /// In tr, this message translates to:
+  /// **'İlk EKG kaydınızı aldınız.'**
+  String get achFirstEcgText;
+
+  /// No description provided for @achFirstSync.
+  ///
+  /// In tr, this message translates to:
+  /// **'İlk adım'**
+  String get achFirstSync;
+
+  /// No description provided for @achFirstSyncText.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bileklikten ilk ölçümler geldi.'**
+  String get achFirstSyncText;
+
+  /// No description provided for @achGoalStreak7.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bir hafta durmadan'**
+  String get achGoalStreak7;
+
+  /// No description provided for @achGoalStreak7Text.
+  ///
+  /// In tr, this message translates to:
+  /// **'7 gün art arda adım hedefi.'**
+  String get achGoalStreak7Text;
+
+  /// No description provided for @achMarathonWeek.
+  ///
+  /// In tr, this message translates to:
+  /// **'Maraton haftası'**
+  String get achMarathonWeek;
+
+  /// No description provided for @achMarathonWeekText.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bir haftada 42,2 km.'**
+  String get achMarathonWeekText;
+
+  /// No description provided for @achSleepStreak7.
+  ///
+  /// In tr, this message translates to:
+  /// **'Düzenli uyku'**
+  String get achSleepStreak7;
+
+  /// No description provided for @achSleepStreak7Text.
+  ///
+  /// In tr, this message translates to:
+  /// **'7 gece art arda en az 7 saat uyku.'**
+  String get achSleepStreak7Text;
+
+  /// No description provided for @achSteps10k.
+  ///
+  /// In tr, this message translates to:
+  /// **'10.000 adım'**
+  String get achSteps10k;
+
+  /// No description provided for @achSteps10kText.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bir günde 10.000 adım.'**
+  String get achSteps10kText;
+
+  /// No description provided for @achSteps20k.
+  ///
+  /// In tr, this message translates to:
+  /// **'20.000 adım'**
+  String get achSteps20k;
+
+  /// No description provided for @achSteps20kText.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bir günde 20.000 adım.'**
+  String get achSteps20kText;
+
+  /// No description provided for @achWear30.
+  ///
+  /// In tr, this message translates to:
+  /// **'Sadık bileklik'**
+  String get achWear30;
+
+  /// No description provided for @achWear30Text.
+  ///
+  /// In tr, this message translates to:
+  /// **'30 farklı günde bilekliği taktınız.'**
+  String get achWear30Text;
+
+  /// No description provided for @achWorkouts10.
+  ///
+  /// In tr, this message translates to:
+  /// **'10 egzersiz'**
+  String get achWorkouts10;
+
+  /// No description provided for @achWorkouts10Text.
+  ///
+  /// In tr, this message translates to:
+  /// **'Toplam 10 egzersiz kaydı.'**
+  String get achWorkouts10Text;
+
+  /// No description provided for @achievementEarned.
+  ///
+  /// In tr, this message translates to:
+  /// **'{date} tarihinde kazanıldı'**
+  String achievementEarned(Object date);
+
+  /// No description provided for @achievementProgress.
+  ///
+  /// In tr, this message translates to:
+  /// **'İlerleme'**
+  String get achievementProgress;
+
+  /// No description provided for @achievementsTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Rozetler'**
+  String get achievementsTitle;
+
   /// No description provided for @actionCancel.
   ///
   /// In tr, this message translates to:
@@ -1181,6 +1307,72 @@ abstract class AppLocalizations {
   /// In tr, this message translates to:
   /// **'EKG'**
   String get ecgTitle;
+
+  /// No description provided for @energyDayTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'{date} enerjisi'**
+  String energyDayTitle(Object date);
+
+  /// No description provided for @energyDrain.
+  ///
+  /// In tr, this message translates to:
+  /// **'Gün içi harcama'**
+  String get energyDrain;
+
+  /// No description provided for @energyEmpty.
+  ///
+  /// In tr, this message translates to:
+  /// **'Enerji için gece uykusu ya da HRV ölçümü gerekiyor.'**
+  String get energyEmpty;
+
+  /// No description provided for @energyHigh.
+  ///
+  /// In tr, this message translates to:
+  /// **'Enerjiniz yüksek'**
+  String get energyHigh;
+
+  /// No description provided for @energyLow.
+  ///
+  /// In tr, this message translates to:
+  /// **'Enerjiniz düşük; dinlenmeye zaman ayırın'**
+  String get energyLow;
+
+  /// No description provided for @energyMedium.
+  ///
+  /// In tr, this message translates to:
+  /// **'Enerjiniz orta düzeyde'**
+  String get energyMedium;
+
+  /// No description provided for @energyNote.
+  ///
+  /// In tr, this message translates to:
+  /// **'Gece uykusunun süresi ve derinliği ile HRV'nin son iki haftaya göre durumu enerjiyi doldurur; adım ve stres gün içinde azaltır. Uygulamanın kendi tahminidir, tıbbi bir ölçüm değildir.'**
+  String get energyNote;
+
+  /// No description provided for @energyRecovery.
+  ///
+  /// In tr, this message translates to:
+  /// **'Toparlanma'**
+  String get energyRecovery;
+
+  /// No description provided for @energySemantics.
+  ///
+  /// In tr, this message translates to:
+  /// **'Enerji {score}/100, {level}'**
+  String energySemantics(Object score, Object level);
+
+  /// No description provided for @energySleep.
+  ///
+  /// In tr, this message translates to:
+  /// **'Uyku'**
+  String get energySleep;
+
+  /// No description provided for @energyTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Enerji'**
+  String get energyTitle;
 
   /// No description provided for @exerciseConnectFirst.
   ///
@@ -2742,6 +2934,12 @@ abstract class AppLocalizations {
   /// **'Kilo'**
   String get profileWeight;
 
+  /// No description provided for @progressTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'İlerleme'**
+  String get progressTitle;
+
   /// No description provided for @qrCameraDenied.
   ///
   /// In tr, this message translates to:
@@ -2915,6 +3113,78 @@ abstract class AppLocalizations {
   /// In tr, this message translates to:
   /// **'Hatırlatıcılar'**
   String get remindersTitle;
+
+  /// No description provided for @reportAverageSteps.
+  ///
+  /// In tr, this message translates to:
+  /// **'Günlük ortalama adım'**
+  String get reportAverageSteps;
+
+  /// No description provided for @reportDown.
+  ///
+  /// In tr, this message translates to:
+  /// **'Azaldı'**
+  String get reportDown;
+
+  /// No description provided for @reportEmpty.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bu hafta için veri yok.'**
+  String get reportEmpty;
+
+  /// No description provided for @reportGoalDays.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hedefe ulaşılan gün'**
+  String get reportGoalDays;
+
+  /// No description provided for @reportHrv.
+  ///
+  /// In tr, this message translates to:
+  /// **'Ortalama HRV'**
+  String get reportHrv;
+
+  /// No description provided for @reportSleep.
+  ///
+  /// In tr, this message translates to:
+  /// **'Ortalama uyku'**
+  String get reportSleep;
+
+  /// No description provided for @reportSteps.
+  ///
+  /// In tr, this message translates to:
+  /// **'Toplam adım'**
+  String get reportSteps;
+
+  /// No description provided for @reportStress.
+  ///
+  /// In tr, this message translates to:
+  /// **'Ortalama stres'**
+  String get reportStress;
+
+  /// No description provided for @reportUp.
+  ///
+  /// In tr, this message translates to:
+  /// **'Arttı'**
+  String get reportUp;
+
+  /// No description provided for @reportVsPrevious.
+  ///
+  /// In tr, this message translates to:
+  /// **'Oklar önceki haftaya göre değişimi gösterir.'**
+  String get reportVsPrevious;
+
+  /// No description provided for @reportWorkouts.
+  ///
+  /// In tr, this message translates to:
+  /// **'Egzersiz'**
+  String get reportWorkouts;
+
+  /// No description provided for @reportWorkoutsValue.
+  ///
+  /// In tr, this message translates to:
+  /// **'{count} kez · {time}'**
+  String reportWorkoutsValue(Object count, Object time);
 
   /// No description provided for @sedentaryHours.
   ///
@@ -3377,6 +3647,12 @@ abstract class AppLocalizations {
   /// In tr, this message translates to:
   /// **'Takma algılama'**
   String get wearDetectionTitle;
+
+  /// No description provided for @weeklyReportTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Haftalık rapor'**
+  String get weeklyReportTitle;
 
   /// No description provided for @workoutCongrats.
   ///

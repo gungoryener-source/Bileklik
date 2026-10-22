@@ -30,6 +30,71 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String get achFirstEcg => 'First ECG';
+
+  @override
+  String get achFirstEcgText => 'You recorded your first ECG.';
+
+  @override
+  String get achFirstSync => 'First step';
+
+  @override
+  String get achFirstSyncText => 'Your first readings arrived from the wristband.';
+
+  @override
+  String get achGoalStreak7 => 'A week without a break';
+
+  @override
+  String get achGoalStreak7Text => 'Step goal 7 days in a row.';
+
+  @override
+  String get achMarathonWeek => 'Marathon week';
+
+  @override
+  String get achMarathonWeekText => '42.2 km in one week.';
+
+  @override
+  String get achSleepStreak7 => 'Regular sleep';
+
+  @override
+  String get achSleepStreak7Text => 'At least 7 hours of sleep 7 nights in a row.';
+
+  @override
+  String get achSteps10k => '10,000 steps';
+
+  @override
+  String get achSteps10kText => '10,000 steps in one day.';
+
+  @override
+  String get achSteps20k => '20,000 steps';
+
+  @override
+  String get achSteps20kText => '20,000 steps in one day.';
+
+  @override
+  String get achWear30 => 'Faithful wearer';
+
+  @override
+  String get achWear30Text => 'You wore the wristband on 30 different days.';
+
+  @override
+  String get achWorkouts10 => '10 workouts';
+
+  @override
+  String get achWorkouts10Text => '10 workouts recorded in total.';
+
+  @override
+  String achievementEarned(Object date) {
+    return 'Earned on $date';
+  }
+
+  @override
+  String get achievementProgress => 'Progress';
+
+  @override
+  String get achievementsTitle => 'Badges';
+
+  @override
   String get actionCancel => 'Cancel';
 
   @override
@@ -652,6 +717,43 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get ecgTitle => 'ECG';
+
+  @override
+  String energyDayTitle(Object date) {
+    return 'Energy on $date';
+  }
+
+  @override
+  String get energyDrain => 'Used during the day';
+
+  @override
+  String get energyEmpty => 'Energy needs last night\'s sleep or an HRV reading.';
+
+  @override
+  String get energyHigh => 'Your energy is high';
+
+  @override
+  String get energyLow => 'Your energy is low; make time to rest';
+
+  @override
+  String get energyMedium => 'Your energy is moderate';
+
+  @override
+  String get energyNote => 'Sleep duration and depth, and HRV compared with the past two weeks, fill your energy; steps and stress use it up during the day. This is the app\'s own estimate, not a medical measurement.';
+
+  @override
+  String get energyRecovery => 'Recovery';
+
+  @override
+  String energySemantics(Object score, Object level) {
+    return 'Energy $score/100, $level';
+  }
+
+  @override
+  String get energySleep => 'Sleep';
+
+  @override
+  String get energyTitle => 'Energy';
 
   @override
   String get exerciseConnectFirst =>
@@ -1602,6 +1704,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get profileWeight => 'Weight';
 
   @override
+  String get progressTitle => 'Progress';
+
+  @override
   String get qrCameraDenied => 'Camera access was not allowed. Allow it in your phone\'s settings or enter the code manually.';
 
   @override
@@ -1714,6 +1819,44 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get remindersTitle => 'Reminders';
+
+  @override
+  String get reportAverageSteps => 'Average steps per day';
+
+  @override
+  String get reportDown => 'Down';
+
+  @override
+  String get reportEmpty => 'No data for this week.';
+
+  @override
+  String get reportGoalDays => 'Days at step goal';
+
+  @override
+  String get reportHrv => 'Average HRV';
+
+  @override
+  String get reportSleep => 'Average sleep';
+
+  @override
+  String get reportSteps => 'Total steps';
+
+  @override
+  String get reportStress => 'Average stress';
+
+  @override
+  String get reportUp => 'Up';
+
+  @override
+  String get reportVsPrevious => 'Arrows show the change from the previous week.';
+
+  @override
+  String get reportWorkouts => 'Workouts';
+
+  @override
+  String reportWorkoutsValue(Object count, Object time) {
+    return '$count× · $time';
+  }
 
   @override
   String sedentaryHours(int hours) {
@@ -1980,6 +2123,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get wearDetectionTitle => 'Wear detection';
+
+  @override
+  String get weeklyReportTitle => 'Weekly report';
 
   @override
   String get workoutCongrats => 'Nice work! Workout saved';
