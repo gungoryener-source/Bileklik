@@ -474,6 +474,9 @@ class AppLocalizationsDe extends AppLocalizations {
   String get connPurpose => 'Zweck';
 
   @override
+  String get connQrInvalid => 'Dieser QR-Code enthält keinen Einladungscode.';
+
+  @override
   String get connRequested => 'Angeforderte Daten';
 
   @override
@@ -488,8 +491,7 @@ class AppLocalizationsDe extends AppLocalizations {
   String get connScan => 'QR-Code scannen';
 
   @override
-  String get connScanSoon =>
-      'Scannen mit der Kamera folgt bald. Geben Sie vorerst den Code unter dem QR-Code ein.';
+  String get connScanHint => 'Halten Sie den QR-Code Ihrer Ärztin, Ihres Arztes oder der Forschungseinrichtung in den Rahmen.';
 
   @override
   String get connSelectAll => 'Alle auswählen';
@@ -1168,6 +1170,9 @@ class AppLocalizationsDe extends AppLocalizations {
       'Keine Messung möglich. Ziehen Sie das Armband etwas enger und versuchen Sie es erneut.';
 
   @override
+  String get issueNotPaired => 'Koppeln Sie zuerst Ihr Armband unter Profil > Gerät.';
+
+  @override
   String get languagePickHint => 'Sie können dies später im Profil ändern.';
 
   @override
@@ -1333,6 +1338,15 @@ class AppLocalizationsDe extends AppLocalizations {
   String get noValue => '--';
 
   @override
+  String get pairBluetoothDenied => 'Für die Suche nach dem Armband ist die Bluetooth-Berechtigung nötig. Erlauben Sie sie dieser App in den Telefoneinstellungen und versuchen Sie es erneut.';
+
+  @override
+  String get pairBluetoothOff => 'Bluetooth ist ausgeschaltet. Schalten Sie Bluetooth am Telefon ein und versuchen Sie es erneut.';
+
+  @override
+  String get pairBluetoothUnsupported => 'Dieses Gerät unterstützt Bluetooth Low Energy nicht, das das Armband verwendet.';
+
+  @override
   String get pairCode => 'Mit Adresse koppeln';
 
   @override
@@ -1366,6 +1380,15 @@ class AppLocalizationsDe extends AppLocalizations {
   @override
   String get pairNote =>
       'Laden Sie das Armband und halten Sie es in der Nähe des Telefons. Bluetooth muss eingeschaltet sein.';
+
+  @override
+  String get pairQr => 'QR-Code scannen';
+
+  @override
+  String get pairQrHint => 'Halten Sie den QR-Code auf der Verpackung oder der Rückseite des Armbands in den Rahmen.';
+
+  @override
+  String get pairQrInvalid => 'Dieser QR-Code enthält keine Armbandadresse.';
 
   @override
   String get pairScan => 'Suche starten';
@@ -1505,6 +1528,15 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get profileWeight => 'Gewicht';
+
+  @override
+  String get qrCameraDenied => 'Der Kamerazugriff wurde nicht erlaubt. Erlauben Sie ihn in den Telefoneinstellungen oder geben Sie den Code manuell ein.';
+
+  @override
+  String get qrCameraUnavailable => 'Die Kamera konnte nicht geöffnet werden. Sie können den Code manuell eingeben.';
+
+  @override
+  String get qrManual => 'Code manuell eingeben';
 
   @override
   String get reminderAddMedication => 'Medikamentenzeit hinzufügen';

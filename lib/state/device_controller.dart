@@ -28,6 +28,9 @@ enum DeviceIssue {
 
   /// Bağlantı ya da komut hatası; ayrıntı `error` içinde.
   failed,
+
+  /// Henüz bir bileklik eşleştirilmedi; önce aranmalı.
+  notPaired,
 }
 
 /// Ekranların bileklik durumunu dinlediği tek nokta.
@@ -113,8 +116,17 @@ class DeviceController extends ChangeNotifier {
       battery = await _client.getBattery();
       profile = await _client.getPersonalInfo();
       await _client.startRealtime();
+    } on DeviceNotPairedException catch (e) {
+      error = e.toString();
+      issue = DeviceIssue.notPaired;
     } catch (e) {
       error = e.toString();
+      // Bağlandıktan sonra bir komut başarısız olduysa yarım bağlantı kalmasın.
+      if (isConnected) {
+        try {
+          await _transport.disconnect();
+        } catch (_) {}
+      }
     }
     notifyListeners();
     if (isConnected) await _loadDeviceSettings();
@@ -277,14 +289,22 @@ class DeviceController extends ChangeNotifier {
   /// Son aramada bulunan bileklikler.
   List<DiscoveredDevice> found = const [];
 
+  /// Son aramanın yapılamama nedeni (Bluetooth kapalı, izin yok…); arama
+  /// yapıldıysa null.
+  ScanProblem? scanProblem;
+
   /// Yakındaki bileklikleri arar.
   Future<List<DiscoveredDevice>> scan() async {
     if (scanning) return found;
     scanning = true;
     error = null;
+    scanProblem = null;
     notifyListeners();
     try {
       found = await _transport.scan();
+    } on ScanException catch (e) {
+      scanProblem = e.problem;
+      found = const [];
     } catch (e) {
       error = e.toString();
       found = const [];
@@ -294,9 +314,11 @@ class DeviceController extends ChangeNotifier {
     return found;
   }
 
-  /// Aramada seçilen bilekliğe bağlanır. Sahte cihazda tek bileklik var;
-  /// gerçek BLE katmanı adresi kullanacak (bileklik gelince).
-  Future<void> connectTo(DiscoveredDevice device) => connect();
+  /// Aramada seçilen bilekliğe bağlanır.
+  Future<void> connectTo(DiscoveredDevice device) {
+    _transport.select(device);
+    return connect();
+  }
 
   /// Süren elle nabız/SpO2 ölçümü; yoksa null.
   SpotSession? spot;

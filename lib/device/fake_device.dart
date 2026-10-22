@@ -26,6 +26,7 @@ class FakeDevice implements DeviceTransport {
     this.ecgPacketInterval = const Duration(milliseconds: 60),
     this.spotInterval = const Duration(seconds: 1),
     this.scanDelay = const Duration(milliseconds: 1500),
+    this.scanProblem,
     DateTime Function()? clock,
   }) : _random = random ?? Random(),
        _clock = clock ?? DateTime.now;
@@ -36,6 +37,10 @@ class FakeDevice implements DeviceTransport {
 
   /// Aramanın süresi; gerçek BLE taraması da birkaç saniye sürer.
   final Duration scanDelay;
+
+  /// Verilirse arama bu nedenle yapılamaz (Bluetooth kapalı, izin yok…);
+  /// ekranların bu durumları testte göstermesi için. Değiştirilebilir.
+  ScanProblem? scanProblem;
 
   /// Egzersizde 0x18 paketlerinin aralığı; her paket 1 saniyelik ilerleme sayılır.
   final Duration exerciseInterval;
@@ -111,6 +116,7 @@ class FakeDevice implements DeviceTransport {
   @override
   Future<List<DiscoveredDevice>> scan() async {
     await Future<void>.delayed(scanDelay);
+    if (scanProblem case final p?) throw ScanException(p);
     return [
       DiscoveredDevice(
         name: 'JCV8',
@@ -121,6 +127,10 @@ class FakeDevice implements DeviceTransport {
       ),
     ];
   }
+
+  /// Sahte cihazda tek bileklik var; seçim bağlantıyı etkilemez.
+  @override
+  void select(DiscoveredDevice device) {}
 
   @override
   Future<void> connect() async {

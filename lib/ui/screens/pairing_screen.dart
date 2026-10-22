@@ -7,6 +7,7 @@ import '../app_shell.dart';
 import '../format.dart';
 import '../theme.dart';
 import '../widgets/cam/cam.dart';
+import 'qr_scan_screen.dart';
 
 /// Ayrı sayfa olarak eşleştirme ("Başka bileklik eşleştir").
 /// Bağlanınca kendini kapatır.
@@ -23,10 +24,8 @@ class PairingScreen extends StatelessWidget {
   );
 }
 
-/// Bileklik arama ve adresle (QR kodunun altındaki) eşleştirme.
-///
-/// Kamerayla QR okuma gerçek bileklik geldiğinde eklenecek (ROADMAP 17);
-/// şimdilik QR'ın altında yazan adres elle girilir.
+/// Bileklik arama, kamerayla QR okuma ya da QR'ın altındaki adresi elle
+/// girerek eşleştirme.
 class PairingView extends StatefulWidget {
   const PairingView({super.key, this.onConnected});
 
@@ -68,11 +67,42 @@ class _PairingViewState extends State<PairingView> {
       builder: (_) => const _AddressDialog(),
     );
     if (address == null || !mounted) return;
+    await _connectAddress(address);
+  }
+
+  Future<void> _scanQr() async {
+    final l = context.l10n;
+    final result = await Navigator.of(context).push<QrScanResult<String>>(
+      MaterialPageRoute(
+        builder: (_) => QrScanScreen<String>(
+          title: l.pairQr,
+          hint: l.pairQrHint,
+          parse: addressFromQr,
+          invalidText: l.pairQrInvalid,
+        ),
+      ),
+    );
+    if (result == null || !mounted) return;
+    final address = result.value;
+    if (result.manual || address == null) {
+      await _pairWithAddress();
+    } else {
+      await _connectAddress(address);
+    }
+  }
+
+  /// QR'daki ya da elle girilen adresteki bilekliği aramada bulup bağlanır.
+  Future<void> _connectAddress(String address) async {
     final c = DeviceScope.of(context);
     final l = context.l10n;
     final messenger = ScaffoldMessenger.of(context);
     final found = c.found.isEmpty ? await c.scan() : c.found;
     if (!mounted) return;
+    setState(() => _searched = true);
+    if (scanProblemText(c.scanProblem) case final problem?) {
+      messenger.showSnackBar(SnackBar(content: Text(problem)));
+      return;
+    }
     final match = found.where((d) => d.address == address).firstOrNull;
     if (match == null) {
       messenger.showSnackBar(SnackBar(content: Text(l.pairCodeNotFound)));
@@ -97,7 +127,9 @@ class _PairingViewState extends State<PairingView> {
         Center(child: _Radar(active: c.scanning)),
         const SizedBox(height: 24),
         if (_searched && !c.scanning) ...[
-          if (c.found.isEmpty)
+          if (scanProblemText(c.scanProblem) case final problem?)
+            Text(problem, style: TextStyle(color: colors.danger))
+          else if (c.found.isEmpty)
             Text(l.pairNoneFound, style: TextStyle(color: colors.danger))
           else ...[
             Text(l.pairFound, style: Theme.of(context).textTheme.titleMedium),
@@ -148,12 +180,19 @@ class _PairingViewState extends State<PairingView> {
         ),
         const SizedBox(height: 12),
         OutlinedButton.icon(
-          onPressed: busy ? null : _pairWithAddress,
-          icon: const Icon(Icons.qr_code_2),
-          label: Text(l.pairCode),
+          onPressed: busy ? null : _scanQr,
+          icon: const Icon(Icons.qr_code_scanner),
+          label: Text(l.pairQr),
           style: OutlinedButton.styleFrom(
             minimumSize: const Size.fromHeight(52),
           ),
+        ),
+        const SizedBox(height: 4),
+        TextButton.icon(
+          onPressed: busy ? null : _pairWithAddress,
+          icon: const Icon(Icons.qr_code_2),
+          label: Text(l.pairCode),
+          style: TextButton.styleFrom(minimumSize: const Size.fromHeight(48)),
         ),
       ],
     );

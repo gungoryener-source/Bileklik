@@ -1,7 +1,10 @@
 # Bileklik: Claude için proje notları
 
 JCV8 ekransız ECG bileklik için Flutter ile iOS ve Android sağlık uygulaması.
-Bileklik henüz elde yok; uygulama `FakeDevice` ile çalışır. Ayrıntılı plan ve
+Telefonda gerçek BLE (`BleTransport`) ve gerçek Health Connect / Apple Health
+kullanılır. Bileklik elde değilken `flutter run --dart-define=DEMO=true` ile
+sahte bileklik (`FakeDevice`) ve sahte sağlık platformu açılır; web ve testler
+her zaman sahte olanları kullanır. Ayrıntılı plan ve
 ekran analizi: https://claude.ai/code/artifact/dc42487d-5b8e-412b-8e67-b0ae96220721
 
 ## Dil
@@ -32,17 +35,23 @@ biçimlendirmek ilgisiz farklar üretir.
 
 ```
 UI (lib/ui)  ->  DeviceController (lib/state)  ->  WristbandClient  ->  DeviceTransport
-                         |                                                 |-- FakeDevice (şimdilik)
-                         v                                                 |-- BLE (bileklik gelince)
+                         |                                                 |-- BleTransport (telefon)
+                         v                                                 |-- FakeDevice (demo, web, test)
                  HealthStore + SyncService (lib/data)
 ```
 
-- `DeviceTransport` ham baytları taşır. Gerçek BLE katmanı aynı arayüzü uygulayacak;
-  üst katmanlar değişmeyecek.
+- `DeviceTransport` ham baytları taşır. `BleTransport` (flutter_blue_plus,
+  `License.nonprofit`; ticari kullanımda ücretli lisans gerekir) ve `FakeDevice`
+  aynı arayüzü uygular. Arama hataları `ScanException(ScanProblem)` olarak gelir;
+  eşleştirilen bileklik telefonda saklanır.
+- Sağlık platformu: `PluginHealthPlatform` (`health` eklentisi) gerçek,
+  `FakeHealthPlatform` sahte. Uygulama yalnızca yazar.
+- Kamerayla QR okuma `QrScanScreen` (mobile_scanner); testlerde
+  `QrScanScreen.scannerOverride` ile kameranın yerine sahte okuyucu verilir.
 - `WristbandClient` komutu gönderir, aynı komut koduyla gelen yanıtı bekler.
   Geçmiş komutları `fetchHistory` ile sayfa sayfa çekilir.
-- `HealthStore` arayüzdür; şimdilik `MemoryHealthStore`. SQLite bu arayüzün
-  arkasına eklenecek.
+- `HealthStore` arayüzdür: telefonda `SqliteHealthStore`, web ve testte
+  `MemoryHealthStore`.
 - Ekranlar `DeviceScope.of(context)` ile denetleyiciye, `.store` ile ölçümlere erişir.
 
 ## Protokol kuralları (V8 API PDF)

@@ -470,6 +470,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get connPurpose => 'Purpose';
 
   @override
+  String get connQrInvalid => 'This QR code doesn\'t contain an invite code.';
+
+  @override
   String get connRequested => 'Requested data';
 
   @override
@@ -484,8 +487,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get connScan => 'Scan QR code';
 
   @override
-  String get connScanSoon =>
-      'Camera scanning is coming soon. For now, enter the code printed under the QR code.';
+  String get connScanHint => 'Hold the QR code from your doctor or research institution inside the frame.';
 
   @override
   String get connSelectAll => 'Select all';
@@ -1162,6 +1164,9 @@ class AppLocalizationsEn extends AppLocalizations {
       'Couldn\'t get a reading. Tighten the band a little and try again.';
 
   @override
+  String get issueNotPaired => 'First pair your wristband under Profile > Device.';
+
+  @override
   String get languagePickHint =>
       'You can change this later on the Profile screen.';
 
@@ -1328,6 +1333,15 @@ class AppLocalizationsEn extends AppLocalizations {
   String get noValue => '--';
 
   @override
+  String get pairBluetoothDenied => 'Bluetooth permission is needed to search for the wristband. Allow it for this app in your phone\'s settings and try again.';
+
+  @override
+  String get pairBluetoothOff => 'Bluetooth is off. Turn on Bluetooth on your phone and try again.';
+
+  @override
+  String get pairBluetoothUnsupported => 'This device doesn\'t support Bluetooth Low Energy, which the wristband uses.';
+
+  @override
   String get pairCode => 'Pair with address';
 
   @override
@@ -1360,6 +1374,15 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get pairNote =>
       'Charge the wristband and keep it near your phone. Bluetooth must be on.';
+
+  @override
+  String get pairQr => 'Scan QR code';
+
+  @override
+  String get pairQrHint => 'Hold the QR code on the box or on the back of the wristband inside the frame.';
+
+  @override
+  String get pairQrInvalid => 'This QR code doesn\'t contain a wristband address.';
 
   @override
   String get pairScan => 'Start search';
@@ -1501,6 +1524,15 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get profileWeight => 'Weight';
+
+  @override
+  String get qrCameraDenied => 'Camera access was not allowed. Allow it in your phone\'s settings or enter the code manually.';
+
+  @override
+  String get qrCameraUnavailable => 'The camera couldn\'t be opened. You can enter the code manually.';
+
+  @override
+  String get qrManual => 'Enter code manually';
 
   @override
   String get reminderAddMedication => 'Add medication time';

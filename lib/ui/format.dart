@@ -7,6 +7,7 @@ import '../data/models.dart';
 import '../data/aggregate.dart';
 import '../device/protocol/exercise.dart';
 import '../device/protocol/history.dart';
+import '../device/transport.dart';
 import '../l10n/l10n.dart';
 import '../state/app_settings.dart';
 import '../state/device_controller.dart';
@@ -294,6 +295,15 @@ String? issueText(DeviceController c) => switch (c.issue) {
   DeviceIssue.noEcgSignal => currentL10n.issueNoEcgSignal,
   DeviceIssue.noSpotSignal => currentL10n.issueNoSpotSignal,
   DeviceIssue.failed => currentL10n.issueFailed,
+  DeviceIssue.notPaired => currentL10n.issueNotPaired,
+};
+
+/// Aramanın yapılamama nedeni, etkin dilde; sorun yoksa null.
+String? scanProblemText(ScanProblem? p) => switch (p) {
+  null => null,
+  ScanProblem.bluetoothOff => currentL10n.pairBluetoothOff,
+  ScanProblem.permissionDenied => currentL10n.pairBluetoothDenied,
+  ScanProblem.unsupported => currentL10n.pairBluetoothUnsupported,
 };
 
 extension ShareScopeLook on ShareScope {

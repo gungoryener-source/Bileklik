@@ -10,9 +10,14 @@ dependencies:
   fl_chart: ^1.2.0
   flutter:
     sdk: flutter
+  # Ticari kullanım ücretli lisans ister; şimdilik License.nonprofit
+  # (lib/device/ble_transport.dart).
+  flutter_blue_plus: ^2.3.14
   flutter_localizations:
     sdk: flutter
+  health: ^13.3.2
   intl: ^0.20.2
+  mobile_scanner: ^7.4.2
   path: ^1.9.1
   shared_preferences: ^2.5.6
   sqflite: ^2.4.4+2

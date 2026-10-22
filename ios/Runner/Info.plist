@@ -26,6 +26,14 @@
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSBluetoothAlwaysUsageDescription</key>
+	<string>Bileklik ölçümlerinizi telefona aktarmak için Bluetooth ile bilekliğe bağlanır.</string>
+	<key>NSCameraUsageDescription</key>
+	<string>Bilekliği eşleştirmek ve hekim ya da araştırma davetlerini okumak için QR kodu taranır.</string>
+	<key>NSHealthShareUsageDescription</key>
+	<string>Bileklik verileriniz Apple Sağlık'a aktarılır; uygulama Apple Sağlık'taki verileri okumaz.</string>
+	<key>NSHealthUpdateUsageDescription</key>
+	<string>Seçtiğiniz bileklik verileri (adım, nabız, uyku ve diğerleri) Apple Sağlık'a yazılır.</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>
