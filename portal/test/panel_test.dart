@@ -41,7 +41,7 @@ class _Portal {
     Map<String, Object>? form,
     String? bearer,
     Object? json,
-  }) => api.handler(
+  }) async => await api.handler(
     Request(
       method,
       Uri.parse('http://portal.test$path'),
@@ -249,8 +249,12 @@ void main() {
         'doctor',
       );
     final api = PortalApi(store, clock: () => now, random: Random(4));
-    Future<Response> send(String m, String path, {String? cookie, String? body}) =>
-        api.handler(
+    Future<Response> send(
+      String m,
+      String path, {
+      String? cookie,
+      String? body,
+    }) async => await api.handler(
           Request(
             m,
             Uri.parse('http://portal.test$path'),
