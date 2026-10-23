@@ -466,7 +466,7 @@ void main() {
     );
     expect((await p.call('POST', '/patients/recovery', token: 'doctor')).$1, 403);
     expect(
-      p.store.auditForPatient(id).where((e) => e.description.contains('kurtarma')),
+      p.store.auditForPatient(id).where((e) => e.description.contains('yeni telefona')),
       hasLength(2),
     );
   });
