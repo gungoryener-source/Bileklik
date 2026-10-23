@@ -25,6 +25,7 @@ import 'state/device_controller.dart';
 import 'ui/app_shell.dart';
 import 'ui/format.dart';
 import 'ui/screens/language_screen.dart';
+import 'ui/screens/privacy_screen.dart';
 import 'ui/theme.dart';
 
 Future<void> main() async {
@@ -237,6 +238,11 @@ class BileklikApp extends StatelessWidget {
                   ),
                   // Tek tema: koyu Cam.
                   theme: _theme,
+                  // Android'de Health Connect "neden" bağlantısı bu sayfayı
+                  // açar (MainActivity.getInitialRoute).
+                  routes: {
+                    PrivacyScreen.routeName: (_) => const PrivacyScreen(),
+                  },
                   // İlk açılışta dil seçilir; sonra Profil'den değişir.
                   home: settings.languageChosen
                       ? const AppShell()

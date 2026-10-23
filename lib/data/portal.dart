@@ -123,7 +123,8 @@ class PortalAccountService {
 
   final PortalClient client;
 
-  /// Hesap değişince (ör. bağlantıları yenilemek için) çağrılır.
+  /// Hesap değişince ya da veri silinince (ör. bağlantıları yenilemek
+  /// için) çağrılır.
   final Future<void> Function()? onRecovered;
 
   PortalCredentials get _c => client.credentials;
@@ -141,6 +142,22 @@ class PortalAccountService {
     final code = (jsonDecode(r.body) as Map)['recoveryCode'] as String;
     await _c.setRecoveryCode(code);
     return code;
+  }
+
+  /// Unutulma hakkı: portaldaki tüm ölçümler silinir, rızalar ve grup
+  /// paylaşımları biter. Silinen ölçüm sayısını döner. Sonraki yüklemeler
+  /// baştan (son 30 gün) değil, yalnızca yeni rıza verilirse yapılır.
+  Future<int> eraseData() async {
+    final r = await client.request(
+      'DELETE',
+      '/patients/${Uri.encodeComponent(_c.patientId)}/data',
+    );
+    await onRecovered?.call();
+    final text = r.body;
+    return int.tryParse(
+          RegExp(r'deleted=(\d+)').firstMatch(text)?.group(1) ?? '',
+        ) ??
+        0;
   }
 
   /// Kodla eski hesabı bu telefona alır. Kod geçersizse false.

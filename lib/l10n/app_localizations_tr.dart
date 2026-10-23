@@ -36,6 +36,23 @@ class AppLocalizationsTr extends AppLocalizations {
   String get accountCopy => 'Kopyala';
 
   @override
+  String get accountEraseButton => 'Sil';
+
+  @override
+  String get accountEraseConfirmTitle => 'Portaldaki veriler silinsin mi?';
+
+  @override
+  String get accountEraseInfo => 'Portala yüklenen tüm ölçümleriniz silinir ve tüm paylaşımlarınız biter. Telefondaki veriler kalır. Erişim kayıtları yasal yükümlülük nedeniyle tutulur.';
+
+  @override
+  String get accountEraseTitle => 'Portaldaki verilerimi sil';
+
+  @override
+  String accountErased(int count) {
+    return 'Portaldaki $count ölçüm silindi.';
+  }
+
+  @override
   String get accountMenuSubtitle => 'Kurtarma kodu, hesabı geri yükleme';
 
   @override
@@ -1658,6 +1675,69 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get personalInfoTitle => 'Kişisel bilgiler';
+
+  @override
+  String get privacyAuditBody => 'Portalda verinize yapılan her erişim, reddedilen denemeler dahil, kaydedilir. Kimin ne zaman baktığını uygulamadan görebilirsiniz.';
+
+  @override
+  String get privacyAuditTitle => 'Erişim kayıtları';
+
+  @override
+  String get privacyContactBody => 'Veri sorumlusunun unvanı, adresi ve başvuru yolu yayından önce burada yer alacak. Uygulama içinden Profil > Geri bildirim ile de bize yazabilirsiniz.';
+
+  @override
+  String get privacyContactTitle => 'İletişim';
+
+  @override
+  String get privacyDataBody => 'Bilekliğin ölçtükleri: nabız, kalp atış hızı değişkenliği (HRV), kandaki oksijen (SpO2), EKG, uyku, adım, egzersiz, vücut ısısı, stres ve tahmini tansiyon. Sizin girdikleriniz: yaş, boy, kilo, cinsiyet, vücut kompozisyonu ve hatırlatıcılar. Bilekliğin Bluetooth adresi. Adınız, TC kimlik numaranız, telefonunuz ya da e-postanız istenmez; portalda yalnızca rastgele bir takma kimlikle tanınırsınız.';
+
+  @override
+  String get privacyDataTitle => 'Hangi verileri işliyoruz?';
+
+  @override
+  String get privacyDraft => 'Taslak: Bu metin hukuk incelemesinden geçmedi. Veri sorumlusunun unvanı, adresi ve saklama süreleri yayından önce eklenecek.';
+
+  @override
+  String get privacyIntro => 'Bu metin, Bileklik uygulamasının ve portalının kişisel verilerinizi nasıl işlediğini 6698 sayılı Kişisel Verilerin Korunması Kanunu (KVKK) kapsamında anlatır.';
+
+  @override
+  String get privacyLegalBody => 'Sağlık verileri özel nitelikli kişisel veridir ve açık rızanızla işlenir (KVKK madde 6). Her paylaşım için ayrı rıza alınır: kiminle, hangi türlerin, ne kadar süreyle paylaşılacağını siz seçersiniz ve rızanızı istediğiniz an geri alırsınız.';
+
+  @override
+  String get privacyLegalTitle => 'Hukuki sebep';
+
+  @override
+  String get privacyPurposeBody => 'Ölçümlerinizi size göstermek; sizin seçtiğiniz hekim, araştırma kurumu ve aile üyeleriyle paylaşmak; isterseniz Apple Sağlık ya da Health Connect\'e yazmak. Verileriniz reklam için kullanılmaz ve satılmaz.';
+
+  @override
+  String get privacyPurposeTitle => 'Neden işliyoruz?';
+
+  @override
+  String get privacyRetentionBody => 'Telefondaki veriler uygulamayı silene kadar kalır. Portaldaki ölçümler siz silene kadar kalır; paylaşım rızası bitince takipçi artık göremez. Erişim kayıtları yasal saklama yükümlülüğü nedeniyle silmeden sonra da tutulur.';
+
+  @override
+  String get privacyRetentionTitle => 'Ne kadar süre saklanır?';
+
+  @override
+  String get privacyRightsBody => 'KVKK madde 11 kapsamında verilerinizin işlenip işlenmediğini öğrenebilir, düzeltilmesini ya da silinmesini isteyebilir, rızanızı geri alabilirsiniz. Uygulamadan: paylaşımları Profil > Hekim ve araştırma kurumu ile Profil > Sağlık topluluğu bölümlerinden kaldırabilir, portaldaki verilerinizi Profil > Portal hesabı\'ndan silebilir, tüm verinizi Profil > Verilerimi dışa aktar ile FHIR dosyası olarak alabilirsiniz.';
+
+  @override
+  String get privacyRightsTitle => 'Haklarınız';
+
+  @override
+  String get privacySharingBody => 'Yalnızca rıza verdiğiniz hekim, araştırma kurumu ya da aile grubu üyeleri, yalnızca seçtiğiniz türleri ve rıza süresince görür. Kilo ve vücut kompozisyonu gibi elle girdiğiniz değerler kimseyle paylaşılmaz. Apple Sağlık ya da Health Connect\'e yalnızca seçtiğiniz türler yazılır; uygulama oradan veri okumaz. Geri bildirimler kimliğinize bağlanmaz.';
+
+  @override
+  String get privacySharingTitle => 'Kimlerle paylaşılır?';
+
+  @override
+  String get privacyStorageBody => 'Ölçümler telefonunuzda şifreli bir veritabanında durur; anahtarı telefonun güvenli bölgesindedir (iOS Keychain, Android Keystore). Bu veriler telefon yedeğine girmez. Portala yalnızca paylaşmayı seçtiğiniz türler gider ve orada da şifreli saklanır.';
+
+  @override
+  String get privacyStorageTitle => 'Veriler nerede durur?';
+
+  @override
+  String get privacyTitle => 'Gizlilik politikası';
 
   @override
   String get profileAge => 'Yaş';

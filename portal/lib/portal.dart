@@ -9,4 +9,5 @@ export 'src/ingest.dart';
 export 'src/model.dart';
 export 'src/panel.dart';
 export 'src/panel_text.dart';
+export 'src/privacy_page.dart';
 export 'src/store.dart';
