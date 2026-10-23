@@ -375,8 +375,7 @@ class PortalApi {
     final me = _me(request);
     if (_patientOnly(me) case final r?) return r;
     final groups = [
-      for (final m in store.membershipsOf(me.id))
-        if (store.group(m.groupId) case final g?) g,
+      for (final m in store.membershipsOf(me.id)) ?store.group(m.groupId),
     ]..sort((a, b) => a.created.compareTo(b.created));
     // Sahibi olunan gruplara katılanlar bildirim olarak gelir.
     final messages = [

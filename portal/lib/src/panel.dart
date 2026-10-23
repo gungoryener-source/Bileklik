@@ -267,7 +267,7 @@ ${consents.isEmpty ? '<p class="muted">${_h(t.noPatients)}</p>' : '''
         t.inviteCode,
         '''
 <h1>${_h(t.inviteCode)}</h1>
-<p class="code" dir="ltr">${_h(code)}</p>
+<p dir="ltr" class="code">${_h(code)}</p>
 <p>${_h(t.inviteCodeBody)}</p>
 <p class="muted">${_h(t.requested)}: ${_h(_scopes(t, scopes))} · $days ${_h(t.days)}</p>
 <p><a href="/panel">${_h(t.myPatients)}</a></p>
