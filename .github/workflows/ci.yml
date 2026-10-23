@@ -15,6 +15,15 @@ jobs:
           channel: stable
           cache: true
       - run: flutter pub get
+      # GEÇİCİ: güncel pubspec.lock dosyasını açıklama olarak yazar.
+      - name: Kilit dosyası
+        run: |
+          python3 - <<'PY'
+          import base64, gzip
+          data = base64.b64encode(gzip.compress(open('pubspec.lock', 'rb').read())).decode()
+          for i in range(0, len(data), 3000):
+              print(f'::warning title=lock-app-{i // 3000}::{data[i:i + 3000]}')
+          PY
       - run: flutter analyze
       - run: flutter test
 
@@ -27,5 +36,13 @@ jobs:
       - uses: actions/checkout@v4
       - uses: dart-lang/setup-dart@v1
       - run: dart pub get
+      - name: Kilit dosyası
+        run: |
+          python3 - <<'PY'
+          import base64, gzip
+          data = base64.b64encode(gzip.compress(open('pubspec.lock', 'rb').read())).decode()
+          for i in range(0, len(data), 3000):
+              print(f'::warning title=lock-portal-{i // 3000}::{data[i:i + 3000]}')
+          PY
       - run: dart analyze --fatal-infos
       - run: dart test
