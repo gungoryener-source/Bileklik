@@ -30,6 +30,54 @@ class AppLocalizationsAr extends AppLocalizations {
   }
 
   @override
+  String get accountCodeCopied => 'تم نسخ رمز الاسترداد';
+
+  @override
+  String get accountCopy => 'نسخ';
+
+  @override
+  String get accountMenuSubtitle => 'رمز الاسترداد، استعادة الحساب';
+
+  @override
+  String get accountRecoveryInfo => 'إذا غيّرت هاتفك أو حذفت التطبيق، يعيد لك هذا الرمز اتصالاتك بالأطباء والمؤسسات. اكتبه في مكان آمن ولا تشاركه مع أحد.';
+
+  @override
+  String get accountRecoveryTitle => 'رمز الاسترداد';
+
+  @override
+  String get accountRenew => 'إنشاء رمز جديد';
+
+  @override
+  String get accountRenewConfirmBody => 'لن يعمل الرمز القديم بعد الآن.';
+
+  @override
+  String get accountRenewConfirmTitle => 'هل تريد إنشاء رمز جديد؟';
+
+  @override
+  String get accountRestoreButton => 'استعادة';
+
+  @override
+  String get accountRestoreConfirm => 'هل تريد استعادة الحساب؟';
+
+  @override
+  String get accountRestoreField => 'رمز الاسترداد';
+
+  @override
+  String get accountRestoreInfo => 'أدخل رمز الاسترداد من هاتفك القديم. سيحل حسابك القديم محل حساب البوابة على هذا الهاتف.';
+
+  @override
+  String get accountRestoreInvalid => 'الرمز غير صالح أو تم استخدامه من قبل.';
+
+  @override
+  String get accountRestoreTitle => 'استعادة حسابي';
+
+  @override
+  String get accountRestored => 'تمت استعادة حسابك.';
+
+  @override
+  String get accountTitle => 'حساب البوابة';
+
+  @override
   String get achFirstEcg => 'أول تخطيط للقلب';
 
   @override

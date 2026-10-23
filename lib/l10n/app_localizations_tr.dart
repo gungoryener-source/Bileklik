@@ -30,6 +30,54 @@ class AppLocalizationsTr extends AppLocalizations {
   }
 
   @override
+  String get accountCodeCopied => 'Kurtarma kodu kopyalandı';
+
+  @override
+  String get accountCopy => 'Kopyala';
+
+  @override
+  String get accountMenuSubtitle => 'Kurtarma kodu, hesabı geri yükleme';
+
+  @override
+  String get accountRecoveryInfo => 'Telefonu değiştirirseniz ya da uygulamayı silerseniz hekim ve kurum bağlantılarınızı bu kodla geri alırsınız. Kodu güvenli bir yere yazın, kimseyle paylaşmayın.';
+
+  @override
+  String get accountRecoveryTitle => 'Kurtarma kodu';
+
+  @override
+  String get accountRenew => 'Yeni kod oluştur';
+
+  @override
+  String get accountRenewConfirmBody => 'Eski kod artık çalışmaz.';
+
+  @override
+  String get accountRenewConfirmTitle => 'Yeni kod oluşturulsun mu?';
+
+  @override
+  String get accountRestoreButton => 'Geri yükle';
+
+  @override
+  String get accountRestoreConfirm => 'Hesap geri yüklensin mi?';
+
+  @override
+  String get accountRestoreField => 'Kurtarma kodu';
+
+  @override
+  String get accountRestoreInfo => 'Eski telefonunuzdaki kurtarma kodunu girin. Bu telefondaki portal hesabının yerine eski hesabınız gelir.';
+
+  @override
+  String get accountRestoreInvalid => 'Kod geçersiz ya da daha önce kullanılmış.';
+
+  @override
+  String get accountRestoreTitle => 'Hesabımı geri yükle';
+
+  @override
+  String get accountRestored => 'Hesabınız geri yüklendi.';
+
+  @override
+  String get accountTitle => 'Portal hesabı';
+
+  @override
   String get achFirstEcg => 'İlk EKG';
 
   @override

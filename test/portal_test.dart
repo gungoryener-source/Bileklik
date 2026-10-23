@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:math';
 
 import 'package:bileklik/data/community.dart';
@@ -13,6 +14,7 @@ import 'package:bileklik/main.dart';
 import 'package:bileklik/state/app_settings.dart';
 import 'package:bileklik/state/device_controller.dart';
 import 'package:bileklik/ui/screens/connections_screen.dart';
+import 'package:bileklik/ui/screens/portal_account_screen.dart';
 import 'package:bileklik_portal/portal.dart' as portal;
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -239,5 +241,106 @@ void main() {
     await tester.pumpAndSettle();
     expect(find.textContaining('Sunucuya ulaşılamadı'), findsOneWidget);
     expect(find.text('Bu kod geçersiz ya da süresi dolmuş.'), findsNothing);
+  });
+
+  test('kurtarma koduyla hesap yeni telefona geçer', () async {
+    final b = _Backend();
+    final oldPhone = AppSettings.memory();
+    final oldService = PortalConnectionService(_client(b, oldPhone));
+    final code = await PortalAccountService(_client(b, oldPhone)).recoveryCode();
+    expect(code, oldPhone.recoveryCode);
+    final offer = (await oldService.lookup(await b.invite(['heartRate'])))!;
+    await oldService.connect(offer, {ShareScope.heartRate});
+
+    // Yeni telefon önce kendi (boş) hesabını açmış olsun.
+    final newPhone = AppSettings.memory();
+    final newService = PortalConnectionService(_client(b, newPhone));
+    await newService.refresh();
+    final emptyId = newPhone.patientId;
+    var refreshed = false;
+    final account = PortalAccountService(
+      _client(b, newPhone),
+      onRecovered: () async {
+        refreshed = true;
+        await newService.refresh();
+      },
+    );
+
+    expect(await account.recover('AAAA-BBBB-CCCC-DDDD'), isFalse);
+    expect(newPhone.patientId, emptyId);
+
+    expect(await account.recover(code.toLowerCase()), isTrue);
+    expect(newPhone.patientId, oldPhone.patientId);
+    expect(newPhone.portalToken, isNot(oldPhone.portalToken));
+    expect(newPhone.recoveryCode, isNot(code));
+    expect(refreshed, isTrue);
+    expect(newService.connections.single.offer.name, 'Dr. Ayşe Kaya');
+
+    // Eski telefonun anahtarı artık geçmez.
+    await expectLater(oldService.refresh(), throwsA(isA<ConnectionUnavailable>()));
+  });
+
+  test('kodu olmayan eski hesap ilk istekte yeni kod alır', () async {
+    final b = _Backend();
+    final settings = AppSettings.memory();
+    final client = _client(b, settings);
+    await PortalConnectionService(client).refresh();
+    await settings.setRecoveryCode(null);
+    final code = await PortalAccountService(client).recoveryCode();
+    expect(code, matches(RegExp(r'^[A-Z2-9]{4}(-[A-Z2-9]{4}){3}$')));
+    expect(settings.recoveryCode, code);
+  });
+
+  testWidgets('portal hesabı ekranı kodu gösterir, geçersiz kodu bildirir', (
+    tester,
+  ) async {
+    tester.view.physicalSize = const Size(1080, 2340);
+    tester.view.devicePixelRatio = 3;
+    addTearDown(tester.view.reset);
+    final b = _Backend();
+    final settings = AppSettings.memory();
+    final client = _client(b, settings);
+    await tester.pumpWidget(
+      BileklikApp(
+        controller: DeviceController(
+          FakeDevice(random: Random(5)),
+          store: MemoryHealthStore(),
+        ),
+        settings: settings,
+        connections: PortalConnectionService(client),
+        account: PortalAccountService(client),
+      ),
+    );
+    await tester.pumpAndSettle();
+    await tester.runAsync(() async {
+      unawaited(
+        tester
+            .state<NavigatorState>(find.byType(Navigator).first)
+            .push(
+              MaterialPageRoute<void>(
+                builder: (_) => const PortalAccountScreen(),
+              ),
+            ),
+      );
+      await Future<void>.delayed(const Duration(milliseconds: 100));
+    });
+    await tester.pumpAndSettle();
+    final code = settings.recoveryCode!;
+    expect(find.text(code), findsOneWidget);
+
+    await tester.enterText(find.byType(TextField), 'AAAA-BBBB-CCCC-DDDD');
+    await tester.pump();
+    final restore = find.text('Geri yükle').last;
+    await tester.ensureVisible(restore);
+    await tester.tap(restore);
+    await tester.pumpAndSettle();
+    // Onay penceresi.
+    await tester.runAsync(() async {
+      await tester.tap(find.widgetWithText(FilledButton, 'Geri yükle'));
+      await Future<void>.delayed(const Duration(milliseconds: 100));
+    });
+    await tester.pumpAndSettle();
+    expect(find.text('Kod geçersiz ya da daha önce kullanılmış.'), findsOneWidget);
+    expect(settings.recoveryCode, code);
   });
 }

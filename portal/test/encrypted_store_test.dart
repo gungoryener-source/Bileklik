@@ -222,6 +222,19 @@ void main() {
     expect(again.eventCount, store.eventCount);
   });
 
+  test('anahtar değişimi ve kurtarma kodu kalıcıdır', () async {
+    final (store, token) = await seeded();
+    store
+      ..replaceToken(_patientId, 'yeni-anahtar')
+      ..setRecovery(_patientId, 'ozet-1');
+    await store.flush();
+    final again = await EncryptedPortalStore.open(file, _key);
+    expect(again.accountByToken(token), isNull);
+    expect(again.accountByToken('yeni-anahtar')!.id, _patientId);
+    expect(again.accountByRecovery('ozet-1')!.id, _patientId);
+    expect(await file.readAsString(), isNot(contains('yeni-anahtar')));
+  });
+
   test('kimlikler yeniden başlatmada çakışmaz', () async {
     final a = await EncryptedPortalStore.open(file, _key);
     final b = await EncryptedPortalStore.open(file, _key);

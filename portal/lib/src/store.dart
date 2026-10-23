@@ -9,6 +9,16 @@ abstract class PortalStore {
   Account? accountByToken(String token);
   Account? account(String id);
 
+  /// Hesabın tüm eski oturum anahtarlarını geçersiz kılar, [token]'ı ekler.
+  void replaceToken(String accountId, String token);
+
+  /// Kurtarma kodunun özetini ([recoveryHash]) hesaba bağlar; eskisi geçersiz
+  /// olur.
+  void setRecovery(String accountId, String recoveryHash);
+
+  /// Özeti verilen kurtarma kodunun hesabı.
+  Account? accountByRecovery(String recoveryHash);
+
   /// Kayıt yeniyse ekler ve true döner; aynı kimlikle daha önce geldiyse false.
   bool addObservation(StoredObservation o);
 
@@ -60,6 +70,7 @@ class MemoryPortalStore implements PortalStore {
   final _invites = <String, Invite>{};
   final _audit = <AuditEntry>[];
   final _feedback = <FeedbackEntry>[];
+  final _recovery = <String, String>{}; // özet -> hesap
   var _seq = 0;
 
   @override
@@ -70,6 +81,29 @@ class MemoryPortalStore implements PortalStore {
 
   @override
   Account? accountByToken(String token) => _tokens[token];
+
+  @override
+  void replaceToken(String accountId, String token) {
+    final a = _accounts[accountId];
+    if (a == null) return;
+    _tokens
+      ..removeWhere((_, v) => v.id == accountId)
+      ..[token] = a;
+  }
+
+  @override
+  void setRecovery(String accountId, String recoveryHash) {
+    _recovery
+      ..removeWhere((_, id) => id == accountId)
+      ..[recoveryHash] = accountId;
+  }
+
+  @override
+  Account? accountByRecovery(String recoveryHash) =>
+      switch (_recovery[recoveryHash]) {
+        null => null,
+        final id => _accounts[id],
+      };
 
   @override
   Account? account(String id) => _accounts[id];

@@ -4,6 +4,7 @@ import '../data/community.dart';
 import '../data/connections.dart';
 import '../data/feedback.dart';
 import '../data/health_platform.dart';
+import '../data/portal.dart';
 import '../l10n/l10n.dart';
 
 import '../state/app_settings.dart';
@@ -77,6 +78,19 @@ class FeedbackScope extends InheritedWidget {
 
   @override
   bool updateShouldNotify(FeedbackScope old) => service != old.service;
+}
+
+/// Portal hesabı servisi; portal adresi verilmediyse null.
+class AccountScope extends InheritedWidget {
+  const AccountScope({super.key, required this.service, required super.child});
+
+  final PortalAccountService? service;
+
+  static PortalAccountService? of(BuildContext context) =>
+      context.dependOnInheritedWidgetOfExactType<AccountScope>()?.service;
+
+  @override
+  bool updateShouldNotify(AccountScope old) => service != old.service;
 }
 
 /// Telefonun sağlık platformuna (Health Connect / Apple Health) aktarımı

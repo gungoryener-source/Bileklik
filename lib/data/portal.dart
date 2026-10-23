@@ -13,8 +13,11 @@ import 'health_store.dart';
 /// (`AppSettings` uygular).
 abstract class PortalCredentials {
   String get patientId;
+  Future<void> setPatientId(String id);
   String? get portalToken;
   Future<void> setPortalToken(String? token);
+  String? get recoveryCode;
+  Future<void> setRecoveryCode(String? code);
   DateTime? get lastPortalUpload;
   Future<void> setLastPortalUpload(DateTime t);
 }
@@ -54,14 +57,19 @@ class PortalClient {
       auth: false,
     );
     if (r.statusCode != 201) {
-      // 409: bu kimlikle hesap var ama anahtar telefonda yok (ör. uygulama
-      // verisi silindi). Yeni kimlik gerekir; şimdilik bağlantı kurulamaz.
+      // 409: bu kimlikle hesap var ama anahtar telefonda yok. Kullanıcı
+      // kurtarma koduyla hesabını geri alır (PortalAccountService.recover).
       throw ConnectionUnavailable('kayıt ${r.statusCode}');
     }
-    final token = (jsonDecode(r.body) as Map)['token'] as String;
+    final json = jsonDecode(r.body) as Map;
+    final token = json['token'] as String;
     await credentials.setPortalToken(token);
+    await credentials.setRecoveryCode(json['recoveryCode'] as String?);
     return token;
   }
+
+  /// İlk istekte hesap açılmadıysa açar.
+  Future<void> ensureAccount() => _token();
 
   Future<http.Response> _send(
     String method,
@@ -101,6 +109,66 @@ class PortalClient {
       throw ConnectionUnavailable('$method $path → ${r.statusCode}');
     }
     return r;
+  }
+}
+
+/// Portal hesabı: kurtarma kodunu gösterme, yenileme ve başka telefondaki
+/// hesabı kodla geri alma.
+class PortalAccountService {
+  PortalAccountService(this.client, {this.onRecovered});
+
+  final PortalClient client;
+
+  /// Hesap değişince (ör. bağlantıları yenilemek için) çağrılır.
+  final Future<void> Function()? onRecovered;
+
+  PortalCredentials get _c => client.credentials;
+
+  /// Kurtarma kodu; hesap henüz açılmadıysa açılır, eski bir hesapta kod
+  /// yoksa yenisi istenir.
+  Future<String> recoveryCode() async {
+    await client.ensureAccount();
+    return _c.recoveryCode ?? await renewRecoveryCode();
+  }
+
+  /// Yeni kod üretir; eskisi geçersiz olur.
+  Future<String> renewRecoveryCode() async {
+    final r = await client.request('POST', '/patients/recovery');
+    final code = (jsonDecode(r.body) as Map)['recoveryCode'] as String;
+    await _c.setRecoveryCode(code);
+    return code;
+  }
+
+  /// Kodla eski hesabı bu telefona alır. Kod geçersizse false.
+  ///
+  /// Bu telefonda açılmış (boş) hesap varsa önce verisi silinir; sonra
+  /// takma kimlik, oturum anahtarı ve yeni kurtarma kodu bu telefona geçer.
+  Future<bool> recover(String code) async {
+    final r = await client.request(
+      'POST',
+      '/recover',
+      auth: false,
+      body: {'recoveryCode': code.trim()},
+      ok: const {200, 404},
+    );
+    if (r.statusCode == 404) return false;
+    final json = jsonDecode(r.body) as Map;
+    final id = json['patientId'] as String;
+    if (_c.portalToken != null && _c.patientId != id) {
+      try {
+        await client.request(
+          'DELETE',
+          '/patients/${Uri.encodeComponent(_c.patientId)}/data',
+        );
+      } on ConnectionUnavailable {
+        // Boş hesabın silinememesi kurtarmayı durdurmaz.
+      }
+    }
+    await _c.setPatientId(id);
+    await _c.setPortalToken(json['token'] as String);
+    await _c.setRecoveryCode(json['recoveryCode'] as String);
+    await onRecovered?.call();
+    return true;
   }
 }
 

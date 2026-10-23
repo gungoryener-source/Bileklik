@@ -30,7 +30,8 @@ dart run bin/server.dart
   bellekte yeniden kurulur.
 - Anahtar dosyada değil, `PORTAL_KEY` ortam değişkenindedir. Anahtar
   kaybedilirse veri geri alınamaz; yanlış anahtarla sunucu açılmaz.
-- Oturum anahtarlarının yalnızca SHA-256 özeti saklanır.
+- Oturum anahtarlarının ve kurtarma kodlarının yalnızca SHA-256 özeti
+  saklanır. Kurtarma kodu 16 karakter (80 bit), bir kez kullanılır.
 - Hasta verisini silince (`DELETE /patients/<id>/data`) dosya, o hastanın
   ölçümleri olmadan baştan yazılır (geçici dosya + yeniden ad). Silinen veri
   şifreli halde bile diskte kalmaz. Erişim kayıtları kalır.
@@ -52,7 +53,9 @@ curl -H 'Authorization: Bearer demo-doctor' -H 'content-type: application/json' 
 
 | Yol | Kim | Ne yapar |
 | --- | --- | --- |
-| `POST /patients` | herkes | Uygulamanın takma kimliğiyle (UUID v4) hasta hesabı açar; oturum anahtarı yalnızca bir kez verilir. |
+| `POST /patients` | herkes | Uygulamanın takma kimliğiyle (UUID v4) hasta hesabı açar; oturum anahtarı ve kurtarma kodu yalnızca bir kez verilir. |
+| `POST /patients/recovery` | hasta | Yeni kurtarma kodu üretir; eskisi geçersiz olur. |
+| `POST /recover` | herkes | Kurtarma koduyla hesabı yeni telefona alır: kimlik, yeni oturum anahtarı ve yeni kod döner; eski anahtarlar ve kod geçersiz olur. Dakikada en çok 10 hatalı deneme. |
 | `GET /connections` | hasta | Süren rızaları, karşı tarafın adı ve kurumuyla birlikte uygulamanın göstereceği biçimde listeler. |
 | `POST /fhir` | hasta | Uygulamanın Bundle'ını alır. Aynı `identifier` ikinci kez yazılmaz, bozuk kayıtlar uyarıyla döner. |
 | `GET /fhir/Observation?patient=&code=&date=ge…&date=le…` | hasta, rızalı takipçi | Ölçümleri `searchset` Bundle olarak döner. |

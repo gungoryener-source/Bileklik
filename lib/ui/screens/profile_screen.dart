@@ -16,6 +16,7 @@ import 'fhir_export_screen.dart';
 import 'general_settings_screen.dart';
 import 'health_platform_screen.dart';
 import 'personal_info_screen.dart';
+import 'portal_account_screen.dart';
 
 /// Profil sekmesi: kişisel bilgiler, cihaz, ayarlar ve uygulama menüsü.
 class ProfileScreen extends StatelessWidget {
@@ -110,6 +111,13 @@ class ProfileScreen extends StatelessWidget {
               subtitle: l.profileMenuExportSubtitle,
               onTap: () => open(const FhirExportScreen()),
             ),
+            if (AccountScope.of(context) != null)
+              MenuTile(
+                icon: Icons.key_outlined,
+                title: l.accountTitle,
+                subtitle: l.accountMenuSubtitle,
+                onTap: () => open(const PortalAccountScreen()),
+              ),
           ],
         ),
         MenuHeader(l.profileSectionApp),

@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'dart:math';
 
+import 'package:crypto/crypto.dart' as crypto;
+
 import 'package:shelf/shelf.dart';
 import 'package:shelf_router/shelf_router.dart';
 
@@ -13,7 +15,9 @@ import 'store.dart';
 ///
 /// | Yol | Kim | Ne yapar |
 /// | --- | --- | --- |
-/// | `POST /patients` | herkes | Uygulamanın takma kimliğiyle hasta hesabı açar, oturum anahtarı döner |
+/// | `POST /patients` | herkes | Uygulamanın takma kimliğiyle hasta hesabı açar, oturum anahtarı ve kurtarma kodu döner |
+/// | `POST /patients/recovery` | hasta | Yeni kurtarma kodu üretir; eskisi geçersiz olur |
+/// | `POST /recover` | herkes | Kurtarma koduyla hesabı yeni telefona alır |
 /// | `GET /connections` | hasta | Süren rızaları uygulamanın göstereceği biçimde listeler |
 /// | `POST /fhir` | hasta | Uygulamanın FHIR Bundle'ını alır |
 /// | `GET /fhir/Observation?patient=&code=&date=` | hasta, rızalı takipçi | Ölçümleri arar |
@@ -67,6 +71,8 @@ class PortalApi {
   late final Router _router = Router()
     ..get('/health', (Request _) => Response.ok('ok'))
     ..post('/patients', _registerPatient)
+    ..post('/patients/recovery', _newRecovery)
+    ..post('/recover', _recover)
     ..get('/connections', _connections)
     ..post('/fhir', _ingest)
     ..get('/fhir/Observation', _searchObservations)
@@ -82,7 +88,7 @@ class PortalApi {
   Handler _authenticate(Handler inner) => (request) {
     if (request.url.path == 'health') return inner(request);
     if (request.method == 'POST' &&
-        (request.url.path == 'patients' || request.url.path == 'feedback')) {
+        const {'patients', 'feedback', 'recover'}.contains(request.url.path)) {
       return inner(request);
     }
     final header = request.headers['authorization'] ?? '';
@@ -113,13 +119,81 @@ class PortalApi {
     if (store.account(id) != null) {
       return _outcome(409, 'error', 'duplicate', 'Bu kimlikle hesap var');
     }
-    final token = List.generate(
-      32,
-      (_) => _random.nextInt(256).toRadixString(16).padLeft(2, '0'),
-    ).join();
+    final token = _newToken();
     store.addAccount(Account(id: id, role: Role.patient, name: '-'), token);
+    final recovery = _issueRecovery(id);
     _audit(id, id, AuditAction.create, true, 'Hesap açıldı');
-    return _json(201, {'token': token});
+    return _json(201, {'token': token, 'recoveryCode': recovery});
+  }
+
+  String _newToken() => List.generate(
+    32,
+    (_) => _random.nextInt(256).toRadixString(16).padLeft(2, '0'),
+  ).join();
+
+  // --------------------------------------------------------------- kurtarma
+
+  /// Kurtarma kodu: karışmayan alfabeden 16 karakter (80 bit), dörderli
+  /// gruplar halinde. Yalnızca SHA-256 özeti saklanır.
+  String _issueRecovery(String accountId) {
+    final raw = List.generate(
+      16,
+      (_) => _codeAlphabet[_random.nextInt(_codeAlphabet.length)],
+    ).join();
+    store.setRecovery(accountId, _recoveryHash(raw));
+    return [
+      for (var i = 0; i < 16; i += 4) raw.substring(i, i + 4),
+    ].join('-');
+  }
+
+  /// Boşluk, tire ve küçük harf fark etmez.
+  static String _recoveryHash(String code) => crypto.sha256
+      .convert(utf8.encode(code.toUpperCase().replaceAll(RegExp('[^A-Z0-9]'), '')))
+      .toString();
+
+  /// Kurtarmada dakikada en çok bu kadar hatalı deneme kabul edilir.
+  static const recoveryFailuresPerMinute = 10;
+  final _recoveryFailures = <DateTime>[];
+
+  /// Hasta yeni kurtarma kodu ister (ör. eskisini kaybetti ya da kodu
+  /// olmayan eski bir hesap).
+  Response _newRecovery(Request request) {
+    final me = _me(request);
+    if (me.role != Role.patient) {
+      return _outcome(403, 'error', 'forbidden', 'Yalnızca hasta');
+    }
+    final code = _issueRecovery(me.id);
+    _audit(me.id, me.id, AuditAction.update, true, 'Yeni kurtarma kodu');
+    return _json(201, {'recoveryCode': code});
+  }
+
+  /// Kurtarma koduyla hesabı yeni telefona alır: eski oturum anahtarları ve
+  /// kod geçersiz olur, yenileri verilir.
+  Future<Response> _recover(Request request) async {
+    final now = _now();
+    _recoveryFailures.removeWhere(
+      (t) => now.difference(t) >= const Duration(minutes: 1),
+    );
+    if (_recoveryFailures.length >= recoveryFailuresPerMinute) {
+      return _outcome(429, 'error', 'throttled', 'Çok fazla deneme; sonra deneyin');
+    }
+    final code = (await _body(request))?['recoveryCode'];
+    final account = code is String && code.length <= 64
+        ? store.accountByRecovery(_recoveryHash(code))
+        : null;
+    if (account == null || account.role != Role.patient) {
+      _recoveryFailures.add(now);
+      return _outcome(404, 'error', 'not-found', 'Kurtarma kodu geçersiz');
+    }
+    final token = _newToken();
+    store.replaceToken(account.id, token);
+    final next = _issueRecovery(account.id);
+    _audit(account.id, account.id, AuditAction.update, true, 'Hesap kurtarma koduyla yeni telefona alındı');
+    return _json(200, {
+      'patientId': account.id,
+      'token': token,
+      'recoveryCode': next,
+    });
   }
 
   /// Uygulamanın "Bağlantılarım" listesi: süren rızalar ve karşı taraf.

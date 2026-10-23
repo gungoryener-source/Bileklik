@@ -30,6 +30,54 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String get accountCodeCopied => 'Recovery code copied';
+
+  @override
+  String get accountCopy => 'Copy';
+
+  @override
+  String get accountMenuSubtitle => 'Recovery code, restore account';
+
+  @override
+  String get accountRecoveryInfo => 'If you change phones or delete the app, this code brings back your doctor and institution connections. Write it down somewhere safe and don\'t share it.';
+
+  @override
+  String get accountRecoveryTitle => 'Recovery code';
+
+  @override
+  String get accountRenew => 'Create new code';
+
+  @override
+  String get accountRenewConfirmBody => 'The old code will stop working.';
+
+  @override
+  String get accountRenewConfirmTitle => 'Create a new code?';
+
+  @override
+  String get accountRestoreButton => 'Restore';
+
+  @override
+  String get accountRestoreConfirm => 'Restore account?';
+
+  @override
+  String get accountRestoreField => 'Recovery code';
+
+  @override
+  String get accountRestoreInfo => 'Enter the recovery code from your old phone. Your old account replaces the portal account on this phone.';
+
+  @override
+  String get accountRestoreInvalid => 'The code is invalid or has already been used.';
+
+  @override
+  String get accountRestoreTitle => 'Restore my account';
+
+  @override
+  String get accountRestored => 'Your account has been restored.';
+
+  @override
+  String get accountTitle => 'Portal account';
+
+  @override
   String get achFirstEcg => 'First ECG';
 
   @override
