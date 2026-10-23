@@ -109,7 +109,7 @@ void main() {
         .push(MaterialPageRoute<void>(builder: (_) => const DeviceScreen()));
     await tester.pumpAndSettle();
     expect(find.text('Yazılım sürümü'), findsOneWidget);
-    expect(find.text('⁦1.0.2.5⁩'), findsOneWidget);
+    expect(find.text('\u20661.0.2.5\u2069'), findsOneWidget);
 
     final tile = find.widgetWithText(SwitchListTile, 'Tüm gün nabız takibi');
     await tester.scrollUntilVisible(tile, 200);
