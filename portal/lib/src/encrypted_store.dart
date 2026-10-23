@@ -116,11 +116,7 @@ class EncryptedPortalStore implements PortalStore {
     _pending = _pending.then((_) async {
       final line = await _encrypt(event);
       await _file.parent.create(recursive: true);
-      await _file.writeAsString(
-        '$line\n',
-        mode: FileMode.append,
-        flush: true,
-      );
+      await _file.writeAsString('$line\n', mode: FileMode.append, flush: true);
     });
   }
 
@@ -147,17 +143,55 @@ class EncryptedPortalStore implements PortalStore {
     for (final s in raw! as List) ?ShareScope.byName(s as String),
   };
 
+  static Account _account(Map<String, Object?> e) => Account(
+    id: e['id']! as String,
+    role: Role.values.byName(e['role']! as String),
+    name: e['name']! as String,
+    organization: e['org'] as String?,
+    email: e['email'] as String?,
+    specialty: e['specialty'] as String?,
+    licenseNo: e['licenseNo'] as String?,
+    // Eski kayıtlarda alan yok: yöneticinin açtığı hesap, doğrulanmış.
+    verified: e['verified'] as bool? ?? true,
+  );
+
+  static Map<String, Object?> _accountJson(Account a) => {
+    'id': a.id,
+    'role': a.role.name,
+    'name': a.name,
+    'org': a.organization,
+    'email': a.email,
+    'specialty': a.specialty,
+    'licenseNo': a.licenseNo,
+    'verified': a.verified,
+  };
+
   void _apply(Map<String, Object?> e) {
     switch (e['t']) {
       case 'account':
-        _mem.addAccount(
-          Account(
+        _mem.addAccount(_account(e), e['tokenHash']! as String);
+      case 'accountUpd':
+        _mem.updateAccount(_account(e));
+      case 'password':
+        _mem.setPassword(e['id']! as String, e['hash']! as String);
+      case 'record':
+        _mem.putRecord(
+          PatientRecord(
             id: e['id']! as String,
-            role: Role.values.byName(e['role']! as String),
+            ownerId: e['ownerId']! as String,
             name: e['name']! as String,
-            organization: e['org'] as String?,
+            created: _parse(e['created']),
+            birthDate: e['birthDate'] == null ? null : _parse(e['birthDate']),
+            sex: switch (e['sex']) {
+              final String s => Sex.values.asNameMap()[s],
+              _ => null,
+            },
+            fileNo: e['fileNo'] as String?,
+            phone: e['phone'] as String?,
+            notes: e['notes'] as String?,
+            patientId: e['patientId'] as String?,
+            inviteCode: e['inviteCode'] as String?,
           ),
-          e['tokenHash']! as String,
         );
       case 'obs':
         _mem.addObservation(
@@ -259,12 +293,74 @@ class EncryptedPortalStore implements PortalStore {
   @override
   void addAccount(Account a, String token) => _record({
     't': 'account',
-    'id': a.id,
-    'role': a.role.name,
-    'name': a.name,
-    'org': a.organization,
+    ..._accountJson(a),
     'tokenHash': tokenHash(token),
   });
+
+  @override
+  Account? accountByEmail(String email) => _mem.accountByEmail(email);
+
+  @override
+  List<Account> clinicians() => _mem.clinicians();
+
+  @override
+  void updateAccount(Account a) {
+    if (_mem.account(a.id) == null) return;
+    _record({'t': 'accountUpd', ..._accountJson(a)});
+  }
+
+  /// [passwordHash] zaten tuzlu PBKDF2 özetidir; olduğu gibi yazılır.
+  @override
+  void setPassword(String accountId, String passwordHash) =>
+      _record({'t': 'password', 'id': accountId, 'hash': passwordHash});
+
+  @override
+  String? passwordOf(String accountId) => _mem.passwordOf(accountId);
+
+  /// Kaydın önceki halleri dosyadan çıkarılır; düzeltilen ya da silinen
+  /// kimlik bilgisi şifreli halde bile kalmaz.
+  @override
+  void putRecord(PatientRecord r) {
+    final existed = _mem.record(r.id) != null;
+    if (existed) {
+      _events.removeWhere((e) => e['t'] == 'record' && e['id'] == r.id);
+    }
+    final event = {
+      't': 'record',
+      'id': r.id,
+      'ownerId': r.ownerId,
+      'name': r.name,
+      'created': _time(r.created),
+      'birthDate': r.birthDate == null ? null : _time(r.birthDate!),
+      'sex': r.sex?.name,
+      'fileNo': r.fileNo,
+      'phone': r.phone,
+      'notes': r.notes,
+      'patientId': r.patientId,
+      'inviteCode': r.inviteCode,
+    };
+    if (existed) {
+      _apply(event);
+      _events.add(event);
+      _rewrite();
+    } else {
+      _record(event);
+    }
+  }
+
+  @override
+  PatientRecord? record(String id) => _mem.record(id);
+
+  @override
+  List<PatientRecord> recordsOf(String ownerId) => _mem.recordsOf(ownerId);
+
+  @override
+  void deleteRecord(String id) {
+    if (_mem.record(id) == null) return;
+    _mem.deleteRecord(id);
+    _events.removeWhere((e) => e['t'] == 'record' && e['id'] == id);
+    _rewrite();
+  }
 
   @override
   Account? accountByToken(String token) =>
@@ -450,7 +546,8 @@ class EncryptedPortalStore implements PortalStore {
       _mem.membershipsOf(accountId);
 
   @override
-  void addFeedback(FeedbackEntry f) => _record({'t': 'feedback', ...f.toJson()});
+  void addFeedback(FeedbackEntry f) =>
+      _record({'t': 'feedback', ...f.toJson()});
 
   @override
   List<FeedbackEntry> feedback() => _mem.feedback();

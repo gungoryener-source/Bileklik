@@ -42,7 +42,8 @@ class AppLocalizationsTr extends AppLocalizations {
   String get accountEraseConfirmTitle => 'Portaldaki veriler silinsin mi?';
 
   @override
-  String get accountEraseInfo => 'Portala yüklenen tüm ölçümleriniz silinir ve tüm paylaşımlarınız biter. Telefondaki veriler kalır. Erişim kayıtları yasal yükümlülük nedeniyle tutulur.';
+  String get accountEraseInfo =>
+      'Portala yüklenen tüm ölçümleriniz silinir ve tüm paylaşımlarınız biter. Telefondaki veriler kalır. Erişim kayıtları yasal yükümlülük nedeniyle tutulur.';
 
   @override
   String get accountEraseTitle => 'Portaldaki verilerimi sil';
@@ -56,7 +57,8 @@ class AppLocalizationsTr extends AppLocalizations {
   String get accountMenuSubtitle => 'Kurtarma kodu, hesabı geri yükleme';
 
   @override
-  String get accountRecoveryInfo => 'Telefonu değiştirirseniz ya da uygulamayı silerseniz hekim ve kurum bağlantılarınızı bu kodla geri alırsınız. Kodu güvenli bir yere yazın, kimseyle paylaşmayın.';
+  String get accountRecoveryInfo =>
+      'Telefonu değiştirirseniz ya da uygulamayı silerseniz hekim ve kurum bağlantılarınızı bu kodla geri alırsınız. Kodu güvenli bir yere yazın, kimseyle paylaşmayın.';
 
   @override
   String get accountRecoveryTitle => 'Kurtarma kodu';
@@ -80,10 +82,12 @@ class AppLocalizationsTr extends AppLocalizations {
   String get accountRestoreField => 'Kurtarma kodu';
 
   @override
-  String get accountRestoreInfo => 'Eski telefonunuzdaki kurtarma kodunu girin. Bu telefondaki portal hesabının yerine eski hesabınız gelir.';
+  String get accountRestoreInfo =>
+      'Eski telefonunuzdaki kurtarma kodunu girin. Bu telefondaki portal hesabının yerine eski hesabınız gelir.';
 
   @override
-  String get accountRestoreInvalid => 'Kod geçersiz ya da daha önce kullanılmış.';
+  String get accountRestoreInvalid =>
+      'Kod geçersiz ya da daha önce kullanılmış.';
 
   @override
   String get accountRestoreTitle => 'Hesabımı geri yükle';
@@ -166,10 +170,12 @@ class AppLocalizationsTr extends AppLocalizations {
   String get actionClose => 'Kapat';
 
   @override
-  String get allDayHeartRateFailed => 'Ayar bilekliğe yazılamadı. Tekrar deneyin.';
+  String get allDayHeartRateFailed =>
+      'Ayar bilekliğe yazılamadı. Tekrar deneyin.';
 
   @override
-  String get allDayHeartRateSubtitle => 'Kapalıyken bileklik gün boyu nabız kaydetmez.';
+  String get allDayHeartRateSubtitle =>
+      'Kapalıyken bileklik gün boyu nabız kaydetmez.';
 
   @override
   String get allDayHeartRateTitle => 'Tüm gün nabız takibi';
@@ -626,13 +632,15 @@ class AppLocalizationsTr extends AppLocalizations {
   String get connScan => 'QR kodu tara';
 
   @override
-  String get connScanHint => 'Hekiminizin ya da araştırma kurumunun verdiği QR kodunu çerçevenin içine getirin.';
+  String get connScanHint =>
+      'Hekiminizin ya da araştırma kurumunun verdiği QR kodunu çerçevenin içine getirin.';
 
   @override
   String get connSelectAll => 'Tümünü seç';
 
   @override
-  String get connServerError => 'Sunucuya ulaşılamadı. İnternet bağlantınızı kontrol edip tekrar deneyin.';
+  String get connServerError =>
+      'Sunucuya ulaşılamadı. İnternet bağlantınızı kontrol edip tekrar deneyin.';
 
   @override
   String get connShared => 'Paylaşılan veriler';
@@ -807,7 +815,8 @@ class AppLocalizationsTr extends AppLocalizations {
   String get energyDrain => 'Gün içi harcama';
 
   @override
-  String get energyEmpty => 'Enerji için gece uykusu ya da HRV ölçümü gerekiyor.';
+  String get energyEmpty =>
+      'Enerji için gece uykusu ya da HRV ölçümü gerekiyor.';
 
   @override
   String get energyHigh => 'Enerjiniz yüksek';
@@ -819,7 +828,8 @@ class AppLocalizationsTr extends AppLocalizations {
   String get energyMedium => 'Enerjiniz orta düzeyde';
 
   @override
-  String get energyNote => 'Gece uykusunun süresi ve derinliği ile HRV\'nin son iki haftaya göre durumu enerjiyi doldurur; adım ve stres gün içinde azaltır. Uygulamanın kendi tahminidir, tıbbi bir ölçüm değildir.';
+  String get energyNote =>
+      'Gece uykusunun süresi ve derinliği ile HRV\'nin son iki haftaya göre durumu enerjiyi doldurur; adım ve stres gün içinde azaltır. Uygulamanın kendi tahminidir, tıbbi bir ölçüm değildir.';
 
   @override
   String get energyRecovery => 'Toparlanma';
@@ -882,13 +892,15 @@ class AppLocalizationsTr extends AppLocalizations {
   String get exportIncludeEcgNote => 'Ham EKG verisi dosyayı büyütür.';
 
   @override
-  String get exportIntro => 'Ölçümleriniz sağlık sistemlerinin ortak biçimi olan FHIR R4 dosyası olarak hazırlanır. Dosyayı hekiminize gönderebilir ya da bu biçimi okuyan bir uygulamada açabilirsiniz.';
+  String get exportIntro =>
+      'Ölçümleriniz sağlık sistemlerinin ortak biçimi olan FHIR R4 dosyası olarak hazırlanır. Dosyayı hekiminize gönderebilir ya da bu biçimi okuyan bir uygulamada açabilirsiniz.';
 
   @override
   String get exportPeriod => 'Dönem';
 
   @override
-  String get exportPrivacy => 'Dosya sağlık verisi içerir. Yalnızca güvendiğiniz kişi ve kurumlarla paylaşın. Dosyada adınız yok; yalnızca bu telefona özel bir takma kimlik var.';
+  String get exportPrivacy =>
+      'Dosya sağlık verisi içerir. Yalnızca güvendiğiniz kişi ve kurumlarla paylaşın. Dosyada adınız yok; yalnızca bu telefona özel bir takma kimlik var.';
 
   @override
   String exportRecordCount(int count) {
@@ -910,7 +922,8 @@ class AppLocalizationsTr extends AppLocalizations {
   String get feedbackIncludeDetails => 'Sürüm ve cihaz bilgisini ekle';
 
   @override
-  String get feedbackIntro => 'Bir hata mı buldunuz, bir öneriniz mi var? Yazın, ekibe iletelim.';
+  String get feedbackIntro =>
+      'Bir hata mı buldunuz, bir öneriniz mi var? Yazın, ekibe iletelim.';
 
   @override
   String get feedbackMessageHint => 'Ne oldu, ne bekliyordunuz?';
@@ -919,7 +932,8 @@ class AppLocalizationsTr extends AppLocalizations {
   String get feedbackMessageLabel => 'Mesajınız';
 
   @override
-  String get feedbackPrivacy => 'Adınız, kimliğiniz ve sağlık verileriniz gönderilmez. Kişisel bilgi yazmayın.';
+  String get feedbackPrivacy =>
+      'Adınız, kimliğiniz ve sağlık verileriniz gönderilmez. Kişisel bilgi yazmayın.';
 
   @override
   String get feedbackSend => 'Gönder';
@@ -1392,7 +1406,8 @@ class AppLocalizationsTr extends AppLocalizations {
   String get hrvBeats => 'Atım';
 
   @override
-  String get hrvDetailEmpty => 'Son bir haftada gece atım aralığı ölçümü yok. Bilekliği uyurken takın.';
+  String get hrvDetailEmpty =>
+      'Son bir haftada gece atım aralığı ölçümü yok. Bilekliği uyurken takın.';
 
   @override
   String hrvDetailNight(Object date) {
@@ -1400,7 +1415,8 @@ class AppLocalizationsTr extends AppLocalizations {
   }
 
   @override
-  String get hrvDetailNote => 'Gece ölçülen atım aralıklarından hesaplanır. RMSSD kısa süreli, SDNN genel değişkenliği gösterir; kendi eğiliminizle karşılaştırın.';
+  String get hrvDetailNote =>
+      'Gece ölçülen atım aralıklarından hesaplanır. RMSSD kısa süreli, SDNN genel değişkenliği gösterir; kendi eğiliminizle karşılaştırın.';
 
   @override
   String get hrvDetailTitle => 'Gece HRV ayrıntısı';
@@ -1433,7 +1449,8 @@ class AppLocalizationsTr extends AppLocalizations {
       'Ölçüm alınamadı. Bilekliği biraz sıkılaştırıp tekrar deneyin.';
 
   @override
-  String get issueNotPaired => 'Önce Profil > Cihaz bölümünden bilekliğinizi eşleştirin.';
+  String get issueNotPaired =>
+      'Önce Profil > Cihaz bölümünden bilekliğinizi eşleştirin.';
 
   @override
   String get languagePickHint =>
@@ -1596,13 +1613,16 @@ class AppLocalizationsTr extends AppLocalizations {
   String get noValue => '--';
 
   @override
-  String get pairBluetoothDenied => 'Bileklik aramak için Bluetooth izni gerekiyor. Telefonun ayarlarından bu uygulamaya izin verip tekrar deneyin.';
+  String get pairBluetoothDenied =>
+      'Bileklik aramak için Bluetooth izni gerekiyor. Telefonun ayarlarından bu uygulamaya izin verip tekrar deneyin.';
 
   @override
-  String get pairBluetoothOff => 'Bluetooth kapalı. Telefonun Bluetooth\'unu açıp tekrar deneyin.';
+  String get pairBluetoothOff =>
+      'Bluetooth kapalı. Telefonun Bluetooth\'unu açıp tekrar deneyin.';
 
   @override
-  String get pairBluetoothUnsupported => 'Bu cihaz bilekliğin kullandığı Bluetooth Low Energy\'yi desteklemiyor.';
+  String get pairBluetoothUnsupported =>
+      'Bu cihaz bilekliğin kullandığı Bluetooth Low Energy\'yi desteklemiyor.';
 
   @override
   String get pairCode => 'Adresle eşleştir';
@@ -1641,7 +1661,8 @@ class AppLocalizationsTr extends AppLocalizations {
   String get pairQr => 'QR kodu tara';
 
   @override
-  String get pairQrHint => 'Kutudaki ya da bilekliğin arkasındaki QR kodunu çerçevenin içine getirin.';
+  String get pairQrHint =>
+      'Kutudaki ya da bilekliğin arkasındaki QR kodunu çerçevenin içine getirin.';
 
   @override
   String get pairQrInvalid => 'Bu QR kodunda bileklik adresi yok.';
@@ -1677,61 +1698,72 @@ class AppLocalizationsTr extends AppLocalizations {
   String get personalInfoTitle => 'Kişisel bilgiler';
 
   @override
-  String get privacyAuditBody => 'Portalda verinize yapılan her erişim, reddedilen denemeler dahil, kaydedilir. Kimin ne zaman baktığını uygulamadan görebilirsiniz.';
+  String get privacyAuditBody =>
+      'Portalda verinize yapılan her erişim, reddedilen denemeler dahil, kaydedilir. Kimin ne zaman baktığını uygulamadan görebilirsiniz.';
 
   @override
   String get privacyAuditTitle => 'Erişim kayıtları';
 
   @override
-  String get privacyContactBody => 'Veri sorumlusunun unvanı, adresi ve başvuru yolu yayından önce burada yer alacak. Uygulama içinden Profil > Geri bildirim ile de bize yazabilirsiniz.';
+  String get privacyContactBody =>
+      'Veri sorumlusunun unvanı, adresi ve başvuru yolu yayından önce burada yer alacak. Uygulama içinden Profil > Geri bildirim ile de bize yazabilirsiniz.';
 
   @override
   String get privacyContactTitle => 'İletişim';
 
   @override
-  String get privacyDataBody => 'Bilekliğin ölçtükleri: nabız, kalp atış hızı değişkenliği (HRV), kandaki oksijen (SpO2), EKG, uyku, adım, egzersiz, vücut ısısı, stres ve tahmini tansiyon. Sizin girdikleriniz: yaş, boy, kilo, cinsiyet, vücut kompozisyonu ve hatırlatıcılar. Bilekliğin Bluetooth adresi. Adınız, TC kimlik numaranız, telefonunuz ya da e-postanız istenmez; portalda yalnızca rastgele bir takma kimlikle tanınırsınız.';
+  String get privacyDataBody =>
+      'Bilekliğin ölçtükleri: nabız, kalp atış hızı değişkenliği (HRV), kandaki oksijen (SpO2), EKG, uyku, adım, egzersiz, vücut ısısı, stres ve tahmini tansiyon. Sizin girdikleriniz: yaş, boy, kilo, cinsiyet, vücut kompozisyonu ve hatırlatıcılar. Bilekliğin Bluetooth adresi. Adınız, TC kimlik numaranız, telefonunuz ya da e-postanız istenmez; portalda yalnızca rastgele bir takma kimlikle tanınırsınız.';
 
   @override
   String get privacyDataTitle => 'Hangi verileri işliyoruz?';
 
   @override
-  String get privacyDraft => 'Taslak: Bu metin hukuk incelemesinden geçmedi. Veri sorumlusunun unvanı, adresi ve saklama süreleri yayından önce eklenecek.';
+  String get privacyDraft =>
+      'Taslak: Bu metin hukuk incelemesinden geçmedi. Veri sorumlusunun unvanı, adresi ve saklama süreleri yayından önce eklenecek.';
 
   @override
-  String get privacyIntro => 'Bu metin, Bileklik uygulamasının ve portalının kişisel verilerinizi nasıl işlediğini 6698 sayılı Kişisel Verilerin Korunması Kanunu (KVKK) kapsamında anlatır.';
+  String get privacyIntro =>
+      'Bu metin, Bileklik uygulamasının ve portalının kişisel verilerinizi nasıl işlediğini 6698 sayılı Kişisel Verilerin Korunması Kanunu (KVKK) kapsamında anlatır.';
 
   @override
-  String get privacyLegalBody => 'Sağlık verileri özel nitelikli kişisel veridir ve açık rızanızla işlenir (KVKK madde 6). Her paylaşım için ayrı rıza alınır: kiminle, hangi türlerin, ne kadar süreyle paylaşılacağını siz seçersiniz ve rızanızı istediğiniz an geri alırsınız.';
+  String get privacyLegalBody =>
+      'Sağlık verileri özel nitelikli kişisel veridir ve açık rızanızla işlenir (KVKK madde 6). Her paylaşım için ayrı rıza alınır: kiminle, hangi türlerin, ne kadar süreyle paylaşılacağını siz seçersiniz ve rızanızı istediğiniz an geri alırsınız.';
 
   @override
   String get privacyLegalTitle => 'Hukuki sebep';
 
   @override
-  String get privacyPurposeBody => 'Ölçümlerinizi size göstermek; sizin seçtiğiniz hekim, araştırma kurumu ve aile üyeleriyle paylaşmak; isterseniz Apple Sağlık ya da Health Connect\'e yazmak. Verileriniz reklam için kullanılmaz ve satılmaz.';
+  String get privacyPurposeBody =>
+      'Ölçümlerinizi size göstermek; sizin seçtiğiniz hekim, araştırma kurumu ve aile üyeleriyle paylaşmak; isterseniz Apple Sağlık ya da Health Connect\'e yazmak. Verileriniz reklam için kullanılmaz ve satılmaz.';
 
   @override
   String get privacyPurposeTitle => 'Neden işliyoruz?';
 
   @override
-  String get privacyRetentionBody => 'Telefondaki veriler uygulamayı silene kadar kalır. Portaldaki ölçümler siz silene kadar kalır; paylaşım rızası bitince takipçi artık göremez. Erişim kayıtları yasal saklama yükümlülüğü nedeniyle silmeden sonra da tutulur.';
+  String get privacyRetentionBody =>
+      'Telefondaki veriler uygulamayı silene kadar kalır. Portaldaki ölçümler siz silene kadar kalır; paylaşım rızası bitince takipçi artık göremez. Erişim kayıtları yasal saklama yükümlülüğü nedeniyle silmeden sonra da tutulur.';
 
   @override
   String get privacyRetentionTitle => 'Ne kadar süre saklanır?';
 
   @override
-  String get privacyRightsBody => 'KVKK madde 11 kapsamında verilerinizin işlenip işlenmediğini öğrenebilir, düzeltilmesini ya da silinmesini isteyebilir, rızanızı geri alabilirsiniz. Uygulamadan: paylaşımları Profil > Hekim ve araştırma kurumu ile Profil > Sağlık topluluğu bölümlerinden kaldırabilir, portaldaki verilerinizi Profil > Portal hesabı\'ndan silebilir, tüm verinizi Profil > Verilerimi dışa aktar ile FHIR dosyası olarak alabilirsiniz.';
+  String get privacyRightsBody =>
+      'KVKK madde 11 kapsamında verilerinizin işlenip işlenmediğini öğrenebilir, düzeltilmesini ya da silinmesini isteyebilir, rızanızı geri alabilirsiniz. Uygulamadan: paylaşımları Profil > Hekim ve araştırma kurumu ile Profil > Sağlık topluluğu bölümlerinden kaldırabilir, portaldaki verilerinizi Profil > Portal hesabı\'ndan silebilir, tüm verinizi Profil > Verilerimi dışa aktar ile FHIR dosyası olarak alabilirsiniz.';
 
   @override
   String get privacyRightsTitle => 'Haklarınız';
 
   @override
-  String get privacySharingBody => 'Yalnızca rıza verdiğiniz hekim, araştırma kurumu ya da aile grubu üyeleri, yalnızca seçtiğiniz türleri ve rıza süresince görür. Kilo ve vücut kompozisyonu gibi elle girdiğiniz değerler kimseyle paylaşılmaz. Apple Sağlık ya da Health Connect\'e yalnızca seçtiğiniz türler yazılır; uygulama oradan veri okumaz. Geri bildirimler kimliğinize bağlanmaz.';
+  String get privacySharingBody =>
+      'Yalnızca rıza verdiğiniz hekim, araştırma kurumu ya da aile grubu üyeleri, yalnızca seçtiğiniz türleri ve rıza süresince görür. Kilo ve vücut kompozisyonu gibi elle girdiğiniz değerler yalnızca “Vücut ölçüleri”ni ayrıca seçerseniz paylaşılır. Apple Sağlık ya da Health Connect\'e yalnızca seçtiğiniz türler yazılır; uygulama oradan veri okumaz. Geri bildirimler kimliğinize bağlanmaz.';
 
   @override
   String get privacySharingTitle => 'Kimlerle paylaşılır?';
 
   @override
-  String get privacyStorageBody => 'Ölçümler telefonunuzda şifreli bir veritabanında durur; anahtarı telefonun güvenli bölgesindedir (iOS Keychain, Android Keystore). Bu veriler telefon yedeğine girmez. Portala yalnızca paylaşmayı seçtiğiniz türler gider ve orada da şifreli saklanır.';
+  String get privacyStorageBody =>
+      'Ölçümler telefonunuzda şifreli bir veritabanında durur; anahtarı telefonun güvenli bölgesindedir (iOS Keychain, Android Keystore). Bu veriler telefon yedeğine girmez. Portala yalnızca paylaşmayı seçtiğiniz türler gider ve orada da şifreli saklanır.';
 
   @override
   String get privacyStorageTitle => 'Veriler nerede durur?';
@@ -1785,7 +1817,8 @@ class AppLocalizationsTr extends AppLocalizations {
   String get profileMenuExport => 'Verilerimi dışa aktar';
 
   @override
-  String get profileMenuExportSubtitle => 'Hekiminize ya da başka bir uygulamaya FHIR dosyası';
+  String get profileMenuExportSubtitle =>
+      'Hekiminize ya da başka bir uygulamaya FHIR dosyası';
 
   @override
   String get profileMenuFeedback => 'Geri bildirim';
@@ -1859,10 +1892,12 @@ class AppLocalizationsTr extends AppLocalizations {
   String get progressTitle => 'İlerleme';
 
   @override
-  String get qrCameraDenied => 'Kamera izni verilmedi. Telefonun ayarlarından izin verin ya da kodu elle girin.';
+  String get qrCameraDenied =>
+      'Kamera izni verilmedi. Telefonun ayarlarından izin verin ya da kodu elle girin.';
 
   @override
-  String get qrCameraUnavailable => 'Kamera açılamadı. Kodu elle girebilirsiniz.';
+  String get qrCameraUnavailable =>
+      'Kamera açılamadı. Kodu elle girebilirsiniz.';
 
   @override
   String get qrManual => 'Kodu elle gir';
@@ -1913,7 +1948,8 @@ class AppLocalizationsTr extends AppLocalizations {
   String get reminderLabelHint => 'ör. Sabah ilacı';
 
   @override
-  String get reminderLabelNote => 'Bileklikte Latin harfleriyle saklanır (ş → s gibi).';
+  String get reminderLabelNote =>
+      'Bileklikte Latin harfleriyle saklanır (ş → s gibi).';
 
   @override
   String get reminderMedication => 'İlaç';
@@ -2023,6 +2059,16 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get shareTemperature => 'Vücut ısısı';
+
+  @override
+  String get shareRespiration => 'Solunum hızı';
+
+  @override
+  String get shareBody => 'Vücut ölçüleri (kilo, VKİ)';
+
+  @override
+  String get connUnverified =>
+      'Bu hekim hesabı henüz portal tarafından doğrulanmadı. Kişiyi tanıyorsanız ve kodu kendisinden aldıysanız devam edin.';
 
   @override
   String get sleepAwake => 'Uyanık';
@@ -2202,13 +2248,16 @@ class AppLocalizationsTr extends AppLocalizations {
   }
 
   @override
-  String get vo2MaxNeedsAge => 'Tahmin için yaşınız gerekiyor. Bilekliği bağlayıp Profil > Kişisel bilgiler\'den girin.';
+  String get vo2MaxNeedsAge =>
+      'Tahmin için yaşınız gerekiyor. Bilekliği bağlayıp Profil > Kişisel bilgiler\'den girin.';
 
   @override
-  String get vo2MaxNeedsData => 'Dinlenik nabzı hesaplamak için birkaç günlük nabız ya da gece ölçümü gerekiyor.';
+  String get vo2MaxNeedsData =>
+      'Dinlenik nabzı hesaplamak için birkaç günlük nabız ya da gece ölçümü gerekiyor.';
 
   @override
-  String get vo2MaxNote => 'Yaştan beklenen en yüksek nabız ile dinlenik nabzın oranından tahmin edilir; laboratuvar ölçümü değildir. Kondisyonunuzun eğilimini izlemek için kullanın.';
+  String get vo2MaxNote =>
+      'Yaştan beklenen en yüksek nabız ile dinlenik nabzın oranından tahmin edilir; laboratuvar ölçümü değildir. Kondisyonunuzun eğilimini izlemek için kullanın.';
 
   @override
   String get vo2MaxTitle => 'VO2 Max tahmini';

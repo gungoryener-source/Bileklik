@@ -42,7 +42,8 @@ class AppLocalizationsAr extends AppLocalizations {
   String get accountEraseConfirmTitle => 'هل تريد حذف بيانات البوابة؟';
 
   @override
-  String get accountEraseInfo => 'تُحذف جميع القياسات المرفوعة إلى البوابة وتنتهي جميع مشاركاتك. تبقى البيانات على هاتفك. تُحفظ سجلات الوصول بسبب التزامات قانونية.';
+  String get accountEraseInfo =>
+      'تُحذف جميع القياسات المرفوعة إلى البوابة وتنتهي جميع مشاركاتك. تبقى البيانات على هاتفك. تُحفظ سجلات الوصول بسبب التزامات قانونية.';
 
   @override
   String get accountEraseTitle => 'حذف بياناتي في البوابة';
@@ -56,7 +57,8 @@ class AppLocalizationsAr extends AppLocalizations {
   String get accountMenuSubtitle => 'رمز الاسترداد، استعادة الحساب';
 
   @override
-  String get accountRecoveryInfo => 'إذا غيّرت هاتفك أو حذفت التطبيق، يعيد لك هذا الرمز اتصالاتك بالأطباء والمؤسسات. اكتبه في مكان آمن ولا تشاركه مع أحد.';
+  String get accountRecoveryInfo =>
+      'إذا غيّرت هاتفك أو حذفت التطبيق، يعيد لك هذا الرمز اتصالاتك بالأطباء والمؤسسات. اكتبه في مكان آمن ولا تشاركه مع أحد.';
 
   @override
   String get accountRecoveryTitle => 'رمز الاسترداد';
@@ -80,7 +82,8 @@ class AppLocalizationsAr extends AppLocalizations {
   String get accountRestoreField => 'رمز الاسترداد';
 
   @override
-  String get accountRestoreInfo => 'أدخل رمز الاسترداد من هاتفك القديم. سيحل حسابك القديم محل حساب البوابة على هذا الهاتف.';
+  String get accountRestoreInfo =>
+      'أدخل رمز الاسترداد من هاتفك القديم. سيحل حسابك القديم محل حساب البوابة على هذا الهاتف.';
 
   @override
   String get accountRestoreInvalid => 'الرمز غير صالح أو تم استخدامه من قبل.';
@@ -166,10 +169,12 @@ class AppLocalizationsAr extends AppLocalizations {
   String get actionClose => 'إغلاق';
 
   @override
-  String get allDayHeartRateFailed => 'تعذر حفظ الإعداد على السوار. حاول مرة أخرى.';
+  String get allDayHeartRateFailed =>
+      'تعذر حفظ الإعداد على السوار. حاول مرة أخرى.';
 
   @override
-  String get allDayHeartRateSubtitle => 'عند إيقافها لا يسجّل السوار نبضك خلال اليوم.';
+  String get allDayHeartRateSubtitle =>
+      'عند إيقافها لا يسجّل السوار نبضك خلال اليوم.';
 
   @override
   String get allDayHeartRateTitle => 'متابعة النبض طوال اليوم';
@@ -628,13 +633,15 @@ class AppLocalizationsAr extends AppLocalizations {
   String get connScan => 'مسح رمز QR';
 
   @override
-  String get connScanHint => 'ضع رمز QR الذي حصلت عليه من طبيبك أو من مؤسسة البحث داخل الإطار.';
+  String get connScanHint =>
+      'ضع رمز QR الذي حصلت عليه من طبيبك أو من مؤسسة البحث داخل الإطار.';
 
   @override
   String get connSelectAll => 'تحديد الكل';
 
   @override
-  String get connServerError => 'تعذر الوصول إلى الخادم. تحقق من اتصالك بالإنترنت وحاول مرة أخرى.';
+  String get connServerError =>
+      'تعذر الوصول إلى الخادم. تحقق من اتصالك بالإنترنت وحاول مرة أخرى.';
 
   @override
   String get connShared => 'البيانات المشتركة';
@@ -811,7 +818,8 @@ class AppLocalizationsAr extends AppLocalizations {
   String get energyDrain => 'المستهلك خلال اليوم';
 
   @override
-  String get energyEmpty => 'تحتاج الطاقة إلى نوم الليلة الماضية أو قياس لتقلب نبض القلب.';
+  String get energyEmpty =>
+      'تحتاج الطاقة إلى نوم الليلة الماضية أو قياس لتقلب نبض القلب.';
 
   @override
   String get energyHigh => 'طاقتك مرتفعة';
@@ -823,7 +831,8 @@ class AppLocalizationsAr extends AppLocalizations {
   String get energyMedium => 'طاقتك متوسطة';
 
   @override
-  String get energyNote => 'تملأ مدة النوم وعمقه وتقلب نبض القلب مقارنةً بالأسبوعين الماضيين طاقتك، وتستهلكها الخطوات والتوتر خلال اليوم. هذا تقدير التطبيق وليس قياسًا طبيًا.';
+  String get energyNote =>
+      'تملأ مدة النوم وعمقه وتقلب نبض القلب مقارنةً بالأسبوعين الماضيين طاقتك، وتستهلكها الخطوات والتوتر خلال اليوم. هذا تقدير التطبيق وليس قياسًا طبيًا.';
 
   @override
   String get energyRecovery => 'التعافي';
@@ -895,13 +904,15 @@ class AppLocalizationsAr extends AppLocalizations {
   String get exportIncludeEcgNote => 'بيانات تخطيط القلب الخام تزيد حجم الملف.';
 
   @override
-  String get exportIntro => 'تُجهَّز قياساتك في ملف بصيغة FHIR R4، وهي الصيغة المشتركة للأنظمة الصحية. يمكنك إرساله إلى طبيبك أو فتحه في تطبيق يقرأ هذه الصيغة.';
+  String get exportIntro =>
+      'تُجهَّز قياساتك في ملف بصيغة FHIR R4، وهي الصيغة المشتركة للأنظمة الصحية. يمكنك إرساله إلى طبيبك أو فتحه في تطبيق يقرأ هذه الصيغة.';
 
   @override
   String get exportPeriod => 'الفترة';
 
   @override
-  String get exportPrivacy => 'يحتوي الملف على بيانات صحية. شاركه فقط مع أشخاص ومؤسسات تثق بها. لا يتضمن الملف اسمك، بل معرّفًا مستعارًا خاصًا بهذا الهاتف فقط.';
+  String get exportPrivacy =>
+      'يحتوي الملف على بيانات صحية. شاركه فقط مع أشخاص ومؤسسات تثق بها. لا يتضمن الملف اسمك، بل معرّفًا مستعارًا خاصًا بهذا الهاتف فقط.';
 
   @override
   String exportRecordCount(int count) {
@@ -932,7 +943,8 @@ class AppLocalizationsAr extends AppLocalizations {
   String get feedbackIncludeDetails => 'إرفاق معلومات الإصدار والجهاز';
 
   @override
-  String get feedbackIntro => 'هل وجدت خطأ أو لديك اقتراح؟ اكتب لنا وسننقله إلى الفريق.';
+  String get feedbackIntro =>
+      'هل وجدت خطأ أو لديك اقتراح؟ اكتب لنا وسننقله إلى الفريق.';
 
   @override
   String get feedbackMessageHint => 'ماذا حدث، وماذا كنت تتوقع؟';
@@ -941,7 +953,8 @@ class AppLocalizationsAr extends AppLocalizations {
   String get feedbackMessageLabel => 'رسالتك';
 
   @override
-  String get feedbackPrivacy => 'لا يتم إرسال اسمك أو هويتك أو بياناتك الصحية. يُرجى عدم كتابة معلومات شخصية.';
+  String get feedbackPrivacy =>
+      'لا يتم إرسال اسمك أو هويتك أو بياناتك الصحية. يُرجى عدم كتابة معلومات شخصية.';
 
   @override
   String get feedbackSend => 'إرسال';
@@ -1414,7 +1427,8 @@ class AppLocalizationsAr extends AppLocalizations {
   String get hrvBeats => 'النبضات';
 
   @override
-  String get hrvDetailEmpty => 'لا توجد قياسات ليلية للفاصل بين النبضات خلال الأسبوع الماضي. ارتدِ السوار أثناء النوم.';
+  String get hrvDetailEmpty =>
+      'لا توجد قياسات ليلية للفاصل بين النبضات خلال الأسبوع الماضي. ارتدِ السوار أثناء النوم.';
 
   @override
   String hrvDetailNight(Object date) {
@@ -1422,7 +1436,8 @@ class AppLocalizationsAr extends AppLocalizations {
   }
 
   @override
-  String get hrvDetailNote => 'يُحسب من الفواصل بين النبضات المقاسة ليلًا. يعكس RMSSD التقلب قصير المدى وSDNN التقلب العام؛ قارنه باتجاهك الخاص.';
+  String get hrvDetailNote =>
+      'يُحسب من الفواصل بين النبضات المقاسة ليلًا. يعكس RMSSD التقلب قصير المدى وSDNN التقلب العام؛ قارنه باتجاهك الخاص.';
 
   @override
   String get hrvDetailTitle => 'تفاصيل تقلب نبض القلب الليلي';
@@ -1628,13 +1643,16 @@ class AppLocalizationsAr extends AppLocalizations {
   String get noValue => '--';
 
   @override
-  String get pairBluetoothDenied => 'يلزم إذن البلوتوث للبحث عن السوار. اسمح به لهذا التطبيق من إعدادات الهاتف ثم حاول مرة أخرى.';
+  String get pairBluetoothDenied =>
+      'يلزم إذن البلوتوث للبحث عن السوار. اسمح به لهذا التطبيق من إعدادات الهاتف ثم حاول مرة أخرى.';
 
   @override
-  String get pairBluetoothOff => 'البلوتوث متوقف. شغّل البلوتوث في هاتفك ثم حاول مرة أخرى.';
+  String get pairBluetoothOff =>
+      'البلوتوث متوقف. شغّل البلوتوث في هاتفك ثم حاول مرة أخرى.';
 
   @override
-  String get pairBluetoothUnsupported => 'هذا الجهاز لا يدعم البلوتوث منخفض الطاقة الذي يستخدمه السوار.';
+  String get pairBluetoothUnsupported =>
+      'هذا الجهاز لا يدعم البلوتوث منخفض الطاقة الذي يستخدمه السوار.';
 
   @override
   String get pairCode => 'الإقران بالعنوان';
@@ -1674,7 +1692,8 @@ class AppLocalizationsAr extends AppLocalizations {
   String get pairQr => 'مسح رمز QR';
 
   @override
-  String get pairQrHint => 'ضع رمز QR الموجود على العلبة أو خلف السوار داخل الإطار.';
+  String get pairQrHint =>
+      'ضع رمز QR الموجود على العلبة أو خلف السوار داخل الإطار.';
 
   @override
   String get pairQrInvalid => 'لا يحتوي رمز QR هذا على عنوان سوار.';
@@ -1709,61 +1728,72 @@ class AppLocalizationsAr extends AppLocalizations {
   String get personalInfoTitle => 'المعلومات الشخصية';
 
   @override
-  String get privacyAuditBody => 'يُسجَّل كل وصول إلى بياناتك في البوابة، بما في ذلك المحاولات المرفوضة. يمكنك أن ترى في التطبيق من اطلع ومتى.';
+  String get privacyAuditBody =>
+      'يُسجَّل كل وصول إلى بياناتك في البوابة، بما في ذلك المحاولات المرفوضة. يمكنك أن ترى في التطبيق من اطلع ومتى.';
 
   @override
   String get privacyAuditTitle => 'سجل الوصول';
 
   @override
-  String get privacyContactBody => 'سيظهر هنا قبل النشر اسم المسؤول عن البيانات وعنوانه وطريقة تقديم الطلب. يمكنك أيضًا مراسلتنا من التطبيق عبر الملف الشخصي > الملاحظات.';
+  String get privacyContactBody =>
+      'سيظهر هنا قبل النشر اسم المسؤول عن البيانات وعنوانه وطريقة تقديم الطلب. يمكنك أيضًا مراسلتنا من التطبيق عبر الملف الشخصي > الملاحظات.';
 
   @override
   String get privacyContactTitle => 'التواصل';
 
   @override
-  String get privacyDataBody => 'ما يقيسه السوار: نبض القلب وتقلبه (HRV) وأكسجين الدم (SpO2) وتخطيط القلب والنوم والخطوات والتمارين وحرارة الجسم والتوتر وضغط الدم التقديري. ما تدخله أنت: العمر والطول والوزن والجنس وتكوين الجسم والتذكيرات. عنوان البلوتوث للسوار. لا نطلب اسمك أو رقم هويتك أو هاتفك أو بريدك الإلكتروني؛ تُعرف في البوابة باسم مستعار عشوائي فقط.';
+  String get privacyDataBody =>
+      'ما يقيسه السوار: نبض القلب وتقلبه (HRV) وأكسجين الدم (SpO2) وتخطيط القلب والنوم والخطوات والتمارين وحرارة الجسم والتوتر وضغط الدم التقديري. ما تدخله أنت: العمر والطول والوزن والجنس وتكوين الجسم والتذكيرات. عنوان البلوتوث للسوار. لا نطلب اسمك أو رقم هويتك أو هاتفك أو بريدك الإلكتروني؛ تُعرف في البوابة باسم مستعار عشوائي فقط.';
 
   @override
   String get privacyDataTitle => 'ما البيانات التي نعالجها؟';
 
   @override
-  String get privacyDraft => 'مسودة: لم تتم مراجعة هذا النص قانونيًا. سيُضاف اسم المسؤول عن البيانات وعنوانه ومدد الاحتفاظ قبل النشر.';
+  String get privacyDraft =>
+      'مسودة: لم تتم مراجعة هذا النص قانونيًا. سيُضاف اسم المسؤول عن البيانات وعنوانه ومدد الاحتفاظ قبل النشر.';
 
   @override
-  String get privacyIntro => 'يوضح هذا النص كيف يعالج تطبيق Bileklik وبوابته بياناتك الشخصية وفق قانون حماية البيانات الشخصية التركي رقم 6698 (KVKK).';
+  String get privacyIntro =>
+      'يوضح هذا النص كيف يعالج تطبيق Bileklik وبوابته بياناتك الشخصية وفق قانون حماية البيانات الشخصية التركي رقم 6698 (KVKK).';
 
   @override
-  String get privacyLegalBody => 'البيانات الصحية فئة خاصة من البيانات الشخصية وتُعالج بموافقتك الصريحة (المادة 6 من KVKK). كل مشاركة تحتاج إلى موافقة مستقلة: تختار من يرى أي الأنواع ولأي مدة، ويمكنك سحب موافقتك في أي وقت.';
+  String get privacyLegalBody =>
+      'البيانات الصحية فئة خاصة من البيانات الشخصية وتُعالج بموافقتك الصريحة (المادة 6 من KVKK). كل مشاركة تحتاج إلى موافقة مستقلة: تختار من يرى أي الأنواع ولأي مدة، ويمكنك سحب موافقتك في أي وقت.';
 
   @override
   String get privacyLegalTitle => 'الأساس القانوني';
 
   @override
-  String get privacyPurposeBody => 'لعرض قياساتك عليك، ومشاركتها مع الأطباء ومؤسسات البحث وأفراد العائلة الذين تختارهم، وكتابتها في Apple Health أو Health Connect إن رغبت. لا تُستخدم بياناتك للإعلانات ولا تُباع.';
+  String get privacyPurposeBody =>
+      'لعرض قياساتك عليك، ومشاركتها مع الأطباء ومؤسسات البحث وأفراد العائلة الذين تختارهم، وكتابتها في Apple Health أو Health Connect إن رغبت. لا تُستخدم بياناتك للإعلانات ولا تُباع.';
 
   @override
   String get privacyPurposeTitle => 'لماذا نعالجها؟';
 
   @override
-  String get privacyRetentionBody => 'تبقى البيانات على هاتفك حتى تحذف التطبيق. تبقى القياسات في البوابة حتى تحذفها؛ وعند انتهاء الموافقة لا يعود المتابع يراها. تُحفظ سجلات الوصول بعد الحذف بسبب التزامات الاحتفاظ القانونية.';
+  String get privacyRetentionBody =>
+      'تبقى البيانات على هاتفك حتى تحذف التطبيق. تبقى القياسات في البوابة حتى تحذفها؛ وعند انتهاء الموافقة لا يعود المتابع يراها. تُحفظ سجلات الوصول بعد الحذف بسبب التزامات الاحتفاظ القانونية.';
 
   @override
   String get privacyRetentionTitle => 'كم مدة الاحتفاظ؟';
 
   @override
-  String get privacyRightsBody => 'بموجب المادة 11 من KVKK يمكنك أن تسأل إن كانت بياناتك تُعالج، وأن تطلب تصحيحها أو حذفها، وأن تسحب موافقتك. في التطبيق يمكنك إزالة المشاركة من الملف الشخصي > الأطباء ومؤسسات البحث والملف الشخصي > مجتمع الصحة، وحذف بياناتك في البوابة من الملف الشخصي > حساب البوابة، والحصول على جميع بياناتك كملف FHIR من الملف الشخصي > تصدير بياناتي.';
+  String get privacyRightsBody =>
+      'بموجب المادة 11 من KVKK يمكنك أن تسأل إن كانت بياناتك تُعالج، وأن تطلب تصحيحها أو حذفها، وأن تسحب موافقتك. في التطبيق يمكنك إزالة المشاركة من الملف الشخصي > الأطباء ومؤسسات البحث والملف الشخصي > مجتمع الصحة، وحذف بياناتك في البوابة من الملف الشخصي > حساب البوابة، والحصول على جميع بياناتك كملف FHIR من الملف الشخصي > تصدير بياناتي.';
 
   @override
   String get privacyRightsTitle => 'حقوقك';
 
   @override
-  String get privacySharingBody => 'فقط مع الأطباء أو مؤسسات البحث أو أفراد مجموعة العائلة الذين توافق عليهم، وللأنواع التي تختارها فقط وطوال مدة الموافقة. القيم التي تدخلها بنفسك مثل الوزن وتكوين الجسم لا تُشارك أبدًا. لا يُكتب في Apple Health أو Health Connect إلا ما تختاره، ولا يقرأ التطبيق منهما. الملاحظات لا ترتبط بهويتك.';
+  String get privacySharingBody =>
+      'فقط مع الأطباء أو مؤسسات البحث أو أفراد مجموعة العائلة الذين توافق عليهم، وللأنواع التي تختارها فقط وطوال مدة الموافقة. القيم التي تدخلها بنفسك مثل الوزن وتكوين الجسم لا تُشارك إلا إذا اخترت «قياسات الجسم» صراحةً. لا يُكتب في Apple Health أو Health Connect إلا ما تختاره، ولا يقرأ التطبيق منهما. الملاحظات لا ترتبط بهويتك.';
 
   @override
   String get privacySharingTitle => 'مع من تُشارك؟';
 
   @override
-  String get privacyStorageBody => 'تُحفظ القياسات على هاتفك في قاعدة بيانات مشفرة، ومفتاحها في المنطقة الآمنة للهاتف (iOS Keychain وAndroid Keystore). لا تدخل هذه البيانات في نسخ الهاتف الاحتياطية. لا يُرسل إلى البوابة إلا الأنواع التي تختار مشاركتها، وتُحفظ هناك مشفرة أيضًا.';
+  String get privacyStorageBody =>
+      'تُحفظ القياسات على هاتفك في قاعدة بيانات مشفرة، ومفتاحها في المنطقة الآمنة للهاتف (iOS Keychain وAndroid Keystore). لا تدخل هذه البيانات في نسخ الهاتف الاحتياطية. لا يُرسل إلى البوابة إلا الأنواع التي تختار مشاركتها، وتُحفظ هناك مشفرة أيضًا.';
 
   @override
   String get privacyStorageTitle => 'أين تُحفظ البيانات؟';
@@ -1889,10 +1919,12 @@ class AppLocalizationsAr extends AppLocalizations {
   String get progressTitle => 'التقدم';
 
   @override
-  String get qrCameraDenied => 'لم يُمنح إذن الكاميرا. اسمح به من إعدادات الهاتف أو أدخل الرمز يدويًا.';
+  String get qrCameraDenied =>
+      'لم يُمنح إذن الكاميرا. اسمح به من إعدادات الهاتف أو أدخل الرمز يدويًا.';
 
   @override
-  String get qrCameraUnavailable => 'تعذر فتح الكاميرا. يمكنك إدخال الرمز يدويًا.';
+  String get qrCameraUnavailable =>
+      'تعذر فتح الكاميرا. يمكنك إدخال الرمز يدويًا.';
 
   @override
   String get qrManual => 'إدخال الرمز يدويًا';
@@ -2055,6 +2087,16 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get shareTemperature => 'حرارة الجسم';
+
+  @override
+  String get shareRespiration => 'معدل التنفس';
+
+  @override
+  String get shareBody => 'قياسات الجسم (الوزن، مؤشر الكتلة)';
+
+  @override
+  String get connUnverified =>
+      'لم تتحقق البوابة من حساب هذا الطبيب بعد. تابع فقط إذا كنت تعرف هذا الشخص وحصلت على الرمز منه.';
 
   @override
   String get sleepAwake => 'مستيقظ';
@@ -2232,13 +2274,16 @@ class AppLocalizationsAr extends AppLocalizations {
   }
 
   @override
-  String get vo2MaxNeedsAge => 'يلزم عمرك للتقدير. اربط السوار وأدخله من الملف الشخصي > المعلومات الشخصية.';
+  String get vo2MaxNeedsAge =>
+      'يلزم عمرك للتقدير. اربط السوار وأدخله من الملف الشخصي > المعلومات الشخصية.';
 
   @override
-  String get vo2MaxNeedsData => 'يلزم بضعة أيام من قياسات النبض أو القياسات الليلية لحساب نبض الراحة.';
+  String get vo2MaxNeedsData =>
+      'يلزم بضعة أيام من قياسات النبض أو القياسات الليلية لحساب نبض الراحة.';
 
   @override
-  String get vo2MaxNote => 'يُقدَّر من نسبة أقصى نبض متوقع حسب العمر إلى نبض الراحة؛ وليس قياسًا مخبريًا. استخدمه لمتابعة اتجاه لياقتك.';
+  String get vo2MaxNote =>
+      'يُقدَّر من نسبة أقصى نبض متوقع حسب العمر إلى نبض الراحة؛ وليس قياسًا مخبريًا. استخدمه لمتابعة اتجاه لياقتك.';
 
   @override
   String get vo2MaxTitle => 'الحد الأقصى المقدر لاستهلاك الأكسجين';

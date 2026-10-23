@@ -224,6 +224,7 @@ class PortalConnectionService extends ConnectionService {
         purpose: j['purpose'] as String? ?? '',
         requested: _scopes(j['requested']),
         duration: Duration(days: j['durationDays'] as int? ?? 0),
+        verified: j['verified'] as bool? ?? true,
       );
 
   @override

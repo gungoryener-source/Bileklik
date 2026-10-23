@@ -150,7 +150,8 @@ class PanelText {
     error: 'Hata',
     formExpired: 'Form süresi dolmuş. Sayfayı yenileyin.',
     missingInfo: 'Eksik bilgi',
-    missingInfoBody: 'Amaç, en az bir veri türü ve 1-730 gün arası süre gerekli.',
+    missingInfoBody:
+        'Amaç, en az bir veri türü ve 1-730 gün arası süre gerekli.',
     back: 'Geri dön',
     inviteCode: 'Davet kodu',
     inviteCodeBody:
@@ -187,6 +188,11 @@ class PanelText {
       'workout': 'Egzersiz',
       '8310-5': 'Vücut ısısı',
       'stress': 'Stres',
+      '9279-1': 'Solunum hızı',
+      '29463-7': 'Kilo',
+      '39156-5': 'VKİ',
+      '41982-0': 'Vücut yağ oranı',
+      'muscle-mass': 'Kas kütlesi',
     },
     scopeLabels: {
       ShareScope.heartRate: 'Nabız ve HRV',
@@ -197,6 +203,8 @@ class PanelText {
       ShareScope.bloodPressure: 'Tansiyon (tahmini)',
       ShareScope.stress: 'Stres',
       ShareScope.temperature: 'Vücut ısısı',
+      ShareScope.respiration: 'Solunum hızı',
+      ShareScope.body: 'Vücut ölçüleri (kilo, VKİ)',
     },
     units: {
       'beats/minute': 'atım/dk',
@@ -271,6 +279,11 @@ class PanelText {
       'workout': 'Workouts',
       '8310-5': 'Body temperature',
       'stress': 'Stress',
+      '9279-1': 'Respiratory rate',
+      '29463-7': 'Weight',
+      '39156-5': 'BMI',
+      '41982-0': 'Body fat',
+      'muscle-mass': 'Muscle mass',
     },
     scopeLabels: {
       ShareScope.heartRate: 'Heart rate and HRV',
@@ -281,6 +294,8 @@ class PanelText {
       ShareScope.bloodPressure: 'Blood pressure (estimated)',
       ShareScope.stress: 'Stress',
       ShareScope.temperature: 'Body temperature',
+      ShareScope.respiration: 'Respiratory rate',
+      ShareScope.body: 'Body measurements (weight, BMI)',
     },
     units: {
       'beats/minute': 'bpm',
@@ -317,7 +332,8 @@ class PanelText {
     error: 'خطأ',
     formExpired: 'انتهت صلاحية النموذج. أعد تحميل الصفحة.',
     missingInfo: 'معلومات ناقصة',
-    missingInfoBody: 'يلزم غرض ونوع بيانات واحد على الأقل ومدة من 1 إلى 730 يومًا.',
+    missingInfoBody:
+        'يلزم غرض ونوع بيانات واحد على الأقل ومدة من 1 إلى 730 يومًا.',
     back: 'رجوع',
     inviteCode: 'رمز الدعوة',
     inviteCodeBody:
@@ -354,6 +370,11 @@ class PanelText {
       'workout': 'التمارين',
       '8310-5': 'حرارة الجسم',
       'stress': 'التوتر',
+      '9279-1': 'معدل التنفس',
+      '29463-7': 'الوزن',
+      '39156-5': 'مؤشر كتلة الجسم',
+      '41982-0': 'نسبة الدهون',
+      'muscle-mass': 'الكتلة العضلية',
     },
     scopeLabels: {
       ShareScope.heartRate: 'نبض القلب وتقلبه',
@@ -364,6 +385,8 @@ class PanelText {
       ShareScope.bloodPressure: 'ضغط الدم (تقديري)',
       ShareScope.stress: 'التوتر',
       ShareScope.temperature: 'حرارة الجسم',
+      ShareScope.respiration: 'معدل التنفس',
+      ShareScope.body: 'قياسات الجسم (الوزن، مؤشر الكتلة)',
     },
     units: {
       'beats/minute': 'نبضة/د',
@@ -380,7 +403,8 @@ class PanelText {
     dateOrder: 'dmy',
     language: 'Deutsch',
     signInTitle: 'Bileklik-Ärztepanel',
-    signInIntro: 'Melden Sie sich mit dem Sitzungsschlüssel an, den Ihnen das Portal gegeben hat.',
+    signInIntro:
+        'Melden Sie sich mit dem Sitzungsschlüssel an, den Ihnen das Portal gegeben hat.',
     tokenLabel: 'Sitzungsschlüssel',
     signIn: 'Anmelden',
     signOut: 'Abmelden',
@@ -409,7 +433,8 @@ class PanelText {
     requested: 'Angefragt',
     days: 'Tage',
     noAccess: 'Kein Zugriff',
-    noAccessBody: 'Dieser Patient hat Ihnen keine laufende Einwilligung erteilt.',
+    noAccessBody:
+        'Dieser Patient hat Ihnen keine laufende Einwilligung erteilt.',
     patient: 'Patient',
     shared: 'Geteilt',
     consentEnd: 'Einwilligung bis',
@@ -438,6 +463,11 @@ class PanelText {
       'workout': 'Training',
       '8310-5': 'Körpertemperatur',
       'stress': 'Stress',
+      '9279-1': 'Atemfrequenz',
+      '29463-7': 'Gewicht',
+      '39156-5': 'BMI',
+      '41982-0': 'Körperfett',
+      'muscle-mass': 'Muskelmasse',
     },
     scopeLabels: {
       ShareScope.heartRate: 'Herzfrequenz und HRV',
@@ -448,6 +478,8 @@ class PanelText {
       ShareScope.bloodPressure: 'Blutdruck (geschätzt)',
       ShareScope.stress: 'Stress',
       ShareScope.temperature: 'Körpertemperatur',
+      ShareScope.respiration: 'Atemfrequenz',
+      ShareScope.body: 'Körpermaße (Gewicht, BMI)',
     },
     units: {
       'beats/minute': 'Schläge/min',

@@ -177,6 +177,8 @@ void main() {
     await tester.pumpAndSettle();
     await tester.tap(_inGroup(find.text('Nabız')));
     await tester.pumpAndSettle();
+    // Paylaşım türleri arttıkça izin tarihi listenin altına kayar.
+    await _scrollTo(tester, _inGroup(find.textContaining('İzin tarihi:')));
     expect(_inGroup(find.textContaining('İzin tarihi:')), findsOneWidget);
     await _scrollTo(tester, _inGroup(find.text('Paylaşıyor: Nabız')));
     expect(_inGroup(find.text('Paylaşıyor: Nabız')), findsOneWidget);

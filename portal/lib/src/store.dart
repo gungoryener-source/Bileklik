@@ -9,6 +9,19 @@ abstract class PortalStore {
   Account? accountByToken(String token);
   Account? account(String id);
 
+  /// E-postası verilen hesap (küçük harfle karşılaştırılır).
+  Account? accountByEmail(String email);
+
+  /// Hekim ve araştırma kurumu hesapları.
+  List<Account> clinicians();
+
+  /// Hesabın bilgilerini değiştirir (ör. doğrulama); oturum anahtarları kalır.
+  void updateAccount(Account a);
+
+  /// Şifre özetini ([passwordHash] biçimi) hesaba bağlar.
+  void setPassword(String accountId, String passwordHash);
+  String? passwordOf(String accountId);
+
   /// Hesabın tüm eski oturum anahtarlarını geçersiz kılar, [token]'ı ekler.
   void replaceToken(String accountId, String token);
 
@@ -66,14 +79,23 @@ abstract class PortalStore {
   void addFeedback(FeedbackEntry f);
   List<FeedbackEntry> feedback();
 
+  /// Hasta kaydını ekler ya da aynı kimlikliyi değiştirir.
+  void putRecord(PatientRecord r);
+  PatientRecord? record(String id);
+
+  /// Hekimin kayıtları, yeniden eskiye.
+  List<PatientRecord> recordsOf(String ownerId);
+
+  /// Kaydı siler (bileklik verisine dokunmaz).
+  void deleteRecord(String id);
+
   /// Yeni kayıtlar için benzersiz kimlik.
   String nextId(String prefix);
 }
 
 class MemoryPortalStore implements PortalStore {
-  MemoryPortalStore({
-    Map<String, Account> tokens = const {},
-  }) : _tokens = {...tokens} {
+  MemoryPortalStore({Map<String, Account> tokens = const {}})
+    : _tokens = {...tokens} {
     for (final a in tokens.values) {
       _accounts[a.id] = a;
     }
@@ -89,7 +111,53 @@ class MemoryPortalStore implements PortalStore {
   final _recovery = <String, String>{}; // özet -> hesap
   final _groups = <String, CareGroupRecord>{};
   final _members = <String, GroupMember>{};
+  final _passwords = <String, String>{};
+  final _records = <String, PatientRecord>{};
   var _seq = 0;
+
+  @override
+  Account? accountByEmail(String email) {
+    final e = email.trim().toLowerCase();
+    if (e.isEmpty) return null;
+    return _accounts.values.where((a) => a.email == e).firstOrNull;
+  }
+
+  @override
+  List<Account> clinicians() => [
+    for (final a in _accounts.values)
+      if (a.role == Role.clinician || a.role == Role.researcher) a,
+  ];
+
+  @override
+  void updateAccount(Account a) {
+    if (!_accounts.containsKey(a.id)) return;
+    _accounts[a.id] = a;
+    for (final e in _tokens.entries.toList()) {
+      if (e.value.id == a.id) _tokens[e.key] = a;
+    }
+  }
+
+  @override
+  void setPassword(String accountId, String passwordHash) =>
+      _passwords[accountId] = passwordHash;
+
+  @override
+  String? passwordOf(String accountId) => _passwords[accountId];
+
+  @override
+  void putRecord(PatientRecord r) => _records[r.id] = r;
+
+  @override
+  PatientRecord? record(String id) => _records[id];
+
+  @override
+  List<PatientRecord> recordsOf(String ownerId) => [
+    for (final r in _records.values)
+      if (r.ownerId == ownerId) r,
+  ]..sort((a, b) => b.created.compareTo(a.created));
+
+  @override
+  void deleteRecord(String id) => _records.remove(id);
 
   @override
   void addAccount(Account a, String token) {

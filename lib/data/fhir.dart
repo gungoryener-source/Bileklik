@@ -454,7 +454,8 @@ String fhirDateTime(DateTime t) {
 
 /// Bir paylaşım türünün kapsadığı Observation kodları. Portaldaki
 /// `ShareScope.codes` ile aynı olmalı (testte karşılaştırılır). Kilo, VKİ ve
-/// yağ oranı gibi elle girilenler hiçbir türde yok; paylaşılmaz.
+/// yağ oranı gibi elle girilenler yalnızca [ShareScope.body] seçilirse
+/// paylaşılır.
 Set<String> fhirCodesFor(ShareScope s) => switch (s) {
   // HRV nabız verisiyle birlikte paylaşılır.
   ShareScope.heartRate => const {'8867-4', '80404-7'},
@@ -465,6 +466,8 @@ Set<String> fhirCodesFor(ShareScope s) => switch (s) {
   ShareScope.bloodPressure => const {'85354-9'},
   ShareScope.stress => const {'stress'},
   ShareScope.temperature => const {'8310-5'},
+  ShareScope.respiration => const {'9279-1'},
+  ShareScope.body => const {'29463-7', '39156-5', '41982-0', 'muscle-mass'},
 };
 
 /// Bundle'dan yalnızca [codes] içindeki Observation'ları (ve hasta

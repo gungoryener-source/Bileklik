@@ -20,8 +20,11 @@ import 'package:shelf/shelf_io.dart' as io;
 /// `demo-research` (araştırma), `demo-patient` (hasta) anahtarları; veriler
 /// sunucu kapanınca silinir.
 /// `--feedback` uygulamadan gelen geri bildirimleri yazar.
-/// `--add-clinician` (araştırma kurumu için ayrıca `--researcher`) hesabı
-/// açar, oturum anahtarını bir kez yazar ve çıkar.
+/// `--add-clinician` (araştırma kurumu için ayrıca `--researcher`; isteğe
+/// bağlı `--email`, `--specialty`) hesabı açar, oturum anahtarını bir kez
+/// yazar ve çıkar. Hekim panelde `/panel/register` ile kendisi de kaydolabilir.
+/// `--list-clinicians` hekim hesaplarını, `--verify-clinician=<e-posta>`
+/// kimliği doğrulanan hekimi onaylar.
 Future<void> main(List<String> args) async {
   if (args.contains('--new-key')) {
     stdout.writeln(EncryptedPortalStore.newKey());
@@ -52,6 +55,30 @@ Future<void> main(List<String> args) async {
     return;
   }
 
+  // Kendi kaydolan hekimler: listeleme ve kimlik doğrulandıktan sonra onay.
+  if (args.contains('--list-clinicians')) {
+    for (final a in store.clinicians()) {
+      stdout.writeln(
+        [a.id, a.role.name, a.email ?? '-', a.name, a.licenseNo ?? '-',
+          a.verified ? 'doğrulandı' : 'DOĞRULANMADI'].join('\t'),
+      );
+    }
+    return;
+  }
+  final verify = _arg(args, '--verify-clinician');
+  if (verify != null) {
+    final a = store.accountByEmail(verify) ?? store.account(verify);
+    if (a == null || (a.role != Role.clinician && a.role != Role.researcher)) {
+      stderr.writeln('Hesap bulunamadı: $verify');
+      exitCode = 1;
+      return;
+    }
+    store.updateAccount(a.copyWith(verified: true));
+    if (store is EncryptedPortalStore) await store.flush();
+    stdout.writeln('Doğrulandı: ${a.name} (${a.email ?? a.id})');
+    return;
+  }
+
   final name = _arg(args, '--add-clinician');
   if (name != null) {
     final r = Random.secure();
@@ -65,6 +92,8 @@ Future<void> main(List<String> args) async {
         role: args.contains('--researcher') ? Role.researcher : Role.clinician,
         name: name,
         organization: _arg(args, '--org'),
+        email: _arg(args, '--email')?.trim().toLowerCase(),
+        specialty: _arg(args, '--specialty'),
       ),
       token,
     );

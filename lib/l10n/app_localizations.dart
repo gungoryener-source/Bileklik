@@ -1503,7 +1503,7 @@ abstract class AppLocalizations {
   /// No description provided for @energyNote.
   ///
   /// In tr, this message translates to:
-  /// **'Gece uykusunun süresi ve derinliği ile HRV'nin son iki haftaya göre durumu enerjiyi doldurur; adım ve stres gün içinde azaltır. Uygulamanın kendi tahminidir, tıbbi bir ölçüm değildir.'**
+  /// **'Gece uykusunun süresi ve derinliği ile HRV\'nin son iki haftaya göre durumu enerjiyi doldurur; adım ve stres gün içinde azaltır. Uygulamanın kendi tahminidir, tıbbi bir ölçüm değildir.'**
   String get energyNote;
 
   /// No description provided for @energyRecovery.
@@ -2805,13 +2805,13 @@ abstract class AppLocalizations {
   /// No description provided for @pairBluetoothOff.
   ///
   /// In tr, this message translates to:
-  /// **'Bluetooth kapalı. Telefonun Bluetooth'unu açıp tekrar deneyin.'**
+  /// **'Bluetooth kapalı. Telefonun Bluetooth\'unu açıp tekrar deneyin.'**
   String get pairBluetoothOff;
 
   /// No description provided for @pairBluetoothUnsupported.
   ///
   /// In tr, this message translates to:
-  /// **'Bu cihaz bilekliğin kullandığı Bluetooth Low Energy'yi desteklemiyor.'**
+  /// **'Bu cihaz bilekliğin kullandığı Bluetooth Low Energy\'yi desteklemiyor.'**
   String get pairBluetoothUnsupported;
 
   /// No description provided for @pairCode.
@@ -3009,7 +3009,7 @@ abstract class AppLocalizations {
   /// No description provided for @privacyPurposeBody.
   ///
   /// In tr, this message translates to:
-  /// **'Ölçümlerinizi size göstermek; sizin seçtiğiniz hekim, araştırma kurumu ve aile üyeleriyle paylaşmak; isterseniz Apple Sağlık ya da Health Connect'e yazmak. Verileriniz reklam için kullanılmaz ve satılmaz.'**
+  /// **'Ölçümlerinizi size göstermek; sizin seçtiğiniz hekim, araştırma kurumu ve aile üyeleriyle paylaşmak; isterseniz Apple Sağlık ya da Health Connect\'e yazmak. Verileriniz reklam için kullanılmaz ve satılmaz.'**
   String get privacyPurposeBody;
 
   /// No description provided for @privacyPurposeTitle.
@@ -3033,7 +3033,7 @@ abstract class AppLocalizations {
   /// No description provided for @privacyRightsBody.
   ///
   /// In tr, this message translates to:
-  /// **'KVKK madde 11 kapsamında verilerinizin işlenip işlenmediğini öğrenebilir, düzeltilmesini ya da silinmesini isteyebilir, rızanızı geri alabilirsiniz. Uygulamadan: paylaşımları Profil > Hekim ve araştırma kurumu ile Profil > Sağlık topluluğu bölümlerinden kaldırabilir, portaldaki verilerinizi Profil > Portal hesabı'ndan silebilir, tüm verinizi Profil > Verilerimi dışa aktar ile FHIR dosyası olarak alabilirsiniz.'**
+  /// **'KVKK madde 11 kapsamında verilerinizin işlenip işlenmediğini öğrenebilir, düzeltilmesini ya da silinmesini isteyebilir, rızanızı geri alabilirsiniz. Uygulamadan: paylaşımları Profil > Hekim ve araştırma kurumu ile Profil > Sağlık topluluğu bölümlerinden kaldırabilir, portaldaki verilerinizi Profil > Portal hesabı\'ndan silebilir, tüm verinizi Profil > Verilerimi dışa aktar ile FHIR dosyası olarak alabilirsiniz.'**
   String get privacyRightsBody;
 
   /// No description provided for @privacyRightsTitle.
@@ -3045,7 +3045,7 @@ abstract class AppLocalizations {
   /// No description provided for @privacySharingBody.
   ///
   /// In tr, this message translates to:
-  /// **'Yalnızca rıza verdiğiniz hekim, araştırma kurumu ya da aile grubu üyeleri, yalnızca seçtiğiniz türleri ve rıza süresince görür. Kilo ve vücut kompozisyonu gibi elle girdiğiniz değerler kimseyle paylaşılmaz. Apple Sağlık ya da Health Connect'e yalnızca seçtiğiniz türler yazılır; uygulama oradan veri okumaz. Geri bildirimler kimliğinize bağlanmaz.'**
+  /// **'Yalnızca rıza verdiğiniz hekim, araştırma kurumu ya da aile grubu üyeleri, yalnızca seçtiğiniz türleri ve rıza süresince görür. Kilo ve vücut kompozisyonu gibi elle girdiğiniz değerler yalnızca “Vücut ölçüleri”ni ayrıca seçerseniz paylaşılır. Apple Sağlık ya da Health Connect\'e yalnızca seçtiğiniz türler yazılır; uygulama oradan veri okumaz. Geri bildirimler kimliğinize bağlanmaz.'**
   String get privacySharingBody;
 
   /// No description provided for @privacySharingTitle.
@@ -3582,6 +3582,24 @@ abstract class AppLocalizations {
   /// **'Vücut ısısı'**
   String get shareTemperature;
 
+  /// No description provided for @shareRespiration.
+  ///
+  /// In tr, this message translates to:
+  /// **'Solunum hızı'**
+  String get shareRespiration;
+
+  /// No description provided for @shareBody.
+  ///
+  /// In tr, this message translates to:
+  /// **'Vücut ölçüleri (kilo, VKİ)'**
+  String get shareBody;
+
+  /// No description provided for @connUnverified.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bu hekim hesabı henüz portal tarafından doğrulanmadı. Kişiyi tanıyorsanız ve kodu kendisinden aldıysanız devam edin.'**
+  String get connUnverified;
+
   /// No description provided for @sleepAwake.
   ///
   /// In tr, this message translates to:
@@ -3909,7 +3927,7 @@ abstract class AppLocalizations {
   /// No description provided for @vo2MaxNeedsAge.
   ///
   /// In tr, this message translates to:
-  /// **'Tahmin için yaşınız gerekiyor. Bilekliği bağlayıp Profil > Kişisel bilgiler'den girin.'**
+  /// **'Tahmin için yaşınız gerekiyor. Bilekliği bağlayıp Profil > Kişisel bilgiler\'den girin.'**
   String get vo2MaxNeedsAge;
 
   /// No description provided for @vo2MaxNeedsData.

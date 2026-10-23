@@ -9,6 +9,7 @@ import 'package:shelf_router/shelf_router.dart';
 import 'ingest.dart';
 import 'model.dart';
 import 'panel.dart';
+import 'passwords.dart';
 import 'privacy_page.dart';
 import 'store.dart';
 
@@ -48,6 +49,7 @@ class PortalApi {
     DateTime Function()? clock,
     Random? random,
     bool secureCookie = false,
+    PasswordHasher passwords = const PasswordHasher(),
   }) : _now = clock ?? DateTime.now,
        _random = random ?? Random.secure(),
        panel = PanelApi(
@@ -55,6 +57,7 @@ class PortalApi {
          clock: clock,
          random: random,
          secureCookie: secureCookie,
+         passwords: passwords,
        );
 
   final PortalStore store;
@@ -237,6 +240,7 @@ class PortalApi {
             'kind': actor.role.name,
             'name': actor.name,
             'organization': actor.organization,
+            'verified': actor.verified,
             'purpose': c.purpose,
             'requested': [for (final s in c.requested) s.name],
             'scopes': [for (final s in c.scopes) s.name],
@@ -736,6 +740,17 @@ class PortalApi {
       requested: invite.requested,
     );
     store.addConsent(consent);
+    // Hekim bu daveti bir hasta kaydı için ürettiyse kayıt bilekliğe bağlanır.
+    final owned = store.recordsOf(invite.actorId);
+    if (owned.where((r) => r.inviteCode == invite.code).firstOrNull
+        case final rec?) {
+      for (final other in owned) {
+        if (other.id != rec.id && other.patientId == me.id) {
+          store.putRecord(other.copyWith(clearPatient: true));
+        }
+      }
+      store.putRecord(rec.copyWith(patientId: me.id, clearInvite: true));
+    }
     _audit(
       me.id,
       me.id,
@@ -786,6 +801,9 @@ class PortalApi {
     'kind': actor.role.name,
     'name': actor.name,
     'organization': actor.organization,
+    'specialty': actor.specialty,
+    // Kendi kaydolan ve henüz doğrulanmamış hesapta false; uygulama uyarır.
+    'verified': actor.verified,
     'purpose': i.purpose,
     'requested': [for (final s in i.requested) s.name],
     'durationDays': i.duration.inDays,

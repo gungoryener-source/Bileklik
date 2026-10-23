@@ -320,6 +320,8 @@ extension ShareScopeLook on ShareScope {
       ShareScope.bloodPressure => l.shareBloodPressure,
       ShareScope.stress => l.shareStress,
       ShareScope.temperature => l.shareTemperature,
+      ShareScope.respiration => l.shareRespiration,
+      ShareScope.body => l.shareBody,
     };
   }
 
@@ -332,6 +334,8 @@ extension ShareScopeLook on ShareScope {
     ShareScope.bloodPressure => Icons.bloodtype,
     ShareScope.stress => Icons.self_improvement,
     ShareScope.temperature => Icons.thermostat,
+    ShareScope.respiration => Icons.air,
+    ShareScope.body => Icons.monitor_weight,
   };
 
   Color get color => switch (this) {
@@ -342,6 +346,8 @@ extension ShareScopeLook on ShareScope {
     ShareScope.bloodPressure => DataColors.pressure,
     ShareScope.stress => DataColors.stress,
     ShareScope.temperature => DataColors.temperature,
+    ShareScope.respiration => DataColors.oxygen,
+    ShareScope.body => DataColors.steps,
   };
 }
 
