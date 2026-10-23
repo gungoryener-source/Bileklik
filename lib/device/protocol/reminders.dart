@@ -200,13 +200,15 @@ class StoredReminder {
   /// Uygulamadaki hatırlatıcı. Kapalı kaydın türü ve etiketin tam hali
   /// (ASCII'ye çevrilmeden önceki) [known] varsa ondan alınır.
   Reminder toReminder({Reminder? known}) {
-    final sameLabel = known != null && asciiLabel(known.label) == label;
+    final fullLabel = known != null && asciiLabel(known.label) == label
+        ? known.label
+        : label;
     return Reminder(
       kind: kind ?? known?.kind ?? ReminderKind.medication,
       enabled: enabled,
       minuteOfDay: minuteOfDay,
       weekdays: weekdays,
-      label: sameLabel ? known.label : label,
+      label: fullLabel,
     );
   }
 }
