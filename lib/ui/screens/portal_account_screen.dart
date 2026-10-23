@@ -149,13 +149,20 @@ class _PortalAccountScreenState extends State<PortalAccountScreen> {
                   return Row(
                     children: [
                       Expanded(
-                        // Kod her dilde soldan sağa okunur.
-                        child: Text(
-                          code,
-                          textDirection: TextDirection.ltr,
-                          style: text.titleLarge?.copyWith(
-                            fontFamily: 'monospace',
-                            letterSpacing: 1.5,
+                        // Kod her dilde soldan sağa ve tek satırda okunur.
+                        child: FittedBox(
+                          fit: BoxFit.scaleDown,
+                          alignment: AlignmentDirectional.centerStart,
+                          child: Text(
+                            code,
+                            textDirection: TextDirection.ltr,
+                            style: text.titleLarge?.copyWith(
+                              fontWeight: FontWeight.w700,
+                              letterSpacing: 2,
+                              fontFeatures: const [
+                                FontFeature.tabularFigures(),
+                              ],
+                            ),
                           ),
                         ),
                       ),
