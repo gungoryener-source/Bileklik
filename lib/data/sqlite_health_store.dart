@@ -2,21 +2,22 @@ import 'dart:async';
 
 import 'package:flutter/foundation.dart';
 import 'package:path/path.dart' as p;
-import 'package:sqflite/sqflite.dart';
+import 'package:sqflite_sqlcipher/sqflite.dart';
 
 import '../device/protocol/exercise.dart';
 import '../device/protocol/history.dart';
 import 'health_store.dart';
 import 'models.dart';
+import 'secrets.dart';
 
 /// Ölçümleri telefondaki SQLite veritabanında saklar; uygulama kapanınca
 /// veri kaybolmaz, artan senkron kaldığı yerden devam eder.
 ///
 /// Ekranlar depoyu eşzamanlı okuduğu için kayıtlar açılışta belleğe
 /// yüklenir. Yeni kayıtlar önce belleğe girer, sonra sırayla diske yazılır.
-/// Veritabanı uygulamanın kendi alanındadır (iOS dosya koruması, Android
-/// uygulama alanı). Ek şifreleme (SQLCipher) KVKK değerlendirmesiyle
-/// birlikte ele alınacak.
+/// Telefonda veritabanı SQLCipher ile şifrelidir ([openEncrypted]); anahtar
+/// güvenli depodadır (iOS Keychain, Android Keystore). Dosya kopyalansa bile
+/// anahtar olmadan okunamaz. Veritabanı ayrıca uygulamanın kendi alanındadır.
 class SqliteHealthStore extends MemoryHealthStore {
   SqliteHealthStore._(this._db);
 
@@ -24,11 +25,88 @@ class SqliteHealthStore extends MemoryHealthStore {
   Future<void> _queue = Future.value();
   var _loading = false;
 
+  /// Şifresiz eski dosya (bu sürümden önce); açılışta şifreliye taşınır.
   static const fileName = 'bileklik.db';
+  static const encryptedFileName = 'bileklik_enc.db';
   static const schemaVersion = 1;
 
-  /// Veritabanını açar (yoksa oluşturur) ve kayıtları belleğe yükler.
-  /// Testler [factory] olarak FFI fabrikasını verir.
+  /// Güvenli depoda veritabanı anahtarının adı.
+  static const keySecret = 'db_key';
+
+  static const _tables = ['measurements', 'sleep', 'workouts', 'ecg'];
+
+  /// Şifreli veritabanını açar.
+  ///
+  /// - Anahtar yoksa üretilir ve güvenli depoya yazılır.
+  /// - Anahtar yokken şifreli dosya varsa (ör. Keystore sıfırlandı) dosya
+  ///   açılamaz; silinir ve [onKeyLost] çağrılır. Veri bileklikten ve
+  ///   portaldan yeniden gelebilir.
+  /// - Şifresiz eski dosya varsa kayıtları şifreliye kopyalanır, eski dosya
+  ///   silinir.
+  ///
+  /// Testler [factory] olarak FFI fabrikasını verir; FFI şifrelemez, anahtar
+  /// akışı yine aynıdır.
+  static Future<SqliteHealthStore> openEncrypted(
+    SecretStore secrets, {
+    DatabaseFactory? factory,
+    String? directory,
+    void Function()? onKeyLost,
+  }) async {
+    final f = factory ?? databaseFactory;
+    final dir = directory ?? await f.getDatabasesPath();
+    final path = p.join(dir, encryptedFileName);
+    final legacy = p.join(dir, fileName);
+    var key = await secrets.read(keySecret);
+    if (key == null) {
+      if (await f.databaseExists(path)) {
+        await f.deleteDatabase(path);
+        onKeyLost?.call();
+      }
+      key = SecretStore.newKey();
+      await secrets.write(keySecret, key);
+    }
+    final db = await f.openDatabase(
+      path,
+      options: SqlCipherOpenDatabaseOptions(
+        version: schemaVersion,
+        onCreate: _create,
+        password: key,
+      ),
+    );
+    if (await f.databaseExists(legacy)) {
+      await _copyLegacy(f, legacy, db);
+      await f.deleteDatabase(legacy);
+    }
+    final store = SqliteHealthStore._(db);
+    await store._load();
+    return store;
+  }
+
+  /// Şifresiz eski veritabanındaki kayıtları yenisine kopyalar.
+  static Future<void> _copyLegacy(
+    DatabaseFactory f,
+    String legacy,
+    Database into,
+  ) async {
+    final old = await f.openDatabase(
+      legacy,
+      options: OpenDatabaseOptions(singleInstance: false),
+    );
+    try {
+      final b = into.batch();
+      for (final table in _tables) {
+        for (final row in await old.query(table)) {
+          b.insert(table, row, conflictAlgorithm: ConflictAlgorithm.ignore);
+        }
+      }
+      await b.commit(noResult: true);
+    } finally {
+      await old.close();
+    }
+  }
+
+  /// Şifresiz veritabanını açar (yoksa oluşturur) ve kayıtları belleğe
+  /// yükler. Telefonda [openEncrypted] kullanılır; bu testler içindir.
   static Future<SqliteHealthStore> open({
     DatabaseFactory? factory,
     String? path,

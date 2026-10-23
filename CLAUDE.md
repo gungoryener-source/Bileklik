@@ -50,8 +50,12 @@ UI (lib/ui)  ->  DeviceController (lib/state)  ->  WristbandClient  ->  DeviceTr
   `QrScanScreen.scannerOverride` ile kameranın yerine sahte okuyucu verilir.
 - `WristbandClient` komutu gönderir, aynı komut koduyla gelen yanıtı bekler.
   Geçmiş komutları `fetchHistory` ile sayfa sayfa çekilir.
-- `HealthStore` arayüzdür: telefonda `SqliteHealthStore`, web ve testte
-  `MemoryHealthStore`.
+- `HealthStore` arayüzdür: telefonda `SqliteHealthStore.openEncrypted`
+  (SQLCipher; anahtar `SecretStore`'da, yani Keychain/Keystore), web ve testte
+  `MemoryHealthStore`. Testlerde FFI fabrikası şifrelemez, anahtar akışı aynıdır.
+- Gizli değerler (veritabanı anahtarı, portal oturum anahtarı) yalnızca
+  `SecretStore` içinde; `SharedPreferences`'a yazılmaz. Android yedeklemesi
+  kapalıdır, sağlık verisi telefondan yedekle çıkmaz.
 - Ekranlar `DeviceScope.of(context)` ile denetleyiciye, `.store` ile ölçümlere erişir.
 - FHIR R4: `FhirExporter` (`lib/data/fhir.dart`) depodaki kayıtları Bundle'a
   çevirir (Observation + LOINC/UCUM, EKG için SampledData). Hasta kaynağı takma

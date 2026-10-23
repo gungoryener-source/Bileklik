@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../data/portal.dart';
+import '../data/secrets.dart';
 
 /// Saat gösterimi: telefonun/dilin alışkanlığı, 24 saat ya da 12 saat (ÖÖ/ÖS).
 enum ClockFormat { system, h24, h12 }
@@ -19,6 +20,7 @@ enum UnitSystem { metric, imperial }
 class AppSettings extends ChangeNotifier implements PortalCredentials {
   AppSettings._(
     this._prefs,
+    this._secrets,
     this._language,
     this._chosen, {
     this._clock = ClockFormat.system,
@@ -31,10 +33,22 @@ class AppSettings extends ChangeNotifier implements PortalCredentials {
   });
 
   /// Kaydedilmiş tercihleri okur; yoksa telefonun dili.
-  static Future<AppSettings> load() async {
+  ///
+  /// Portal oturum anahtarı [secrets] içinde durur. Eski sürümlerin düz
+  /// tercihlere yazdığı anahtar oraya taşınır ve tercihlerden silinir.
+  static Future<AppSettings> load({SecretStore? secrets}) async {
     final prefs = await SharedPreferences.getInstance();
+    final s = secrets ?? MemorySecretStore();
+    var token = await s.read(_portalTokenKey);
+    final legacyToken = prefs.getString(_portalTokenKey);
+    if (legacyToken != null) {
+      token ??= legacyToken;
+      await s.write(_portalTokenKey, token);
+      await prefs.remove(_portalTokenKey);
+    }
     return AppSettings._(
       prefs,
+      s,
       prefs.getString(_languageKey),
       prefs.getBool(_chosenKey) ?? false,
       clock:
@@ -46,7 +60,7 @@ class AppSettings extends ChangeNotifier implements PortalCredentials {
       wearDetection: prefs.getBool(_wearKey) ?? true,
       heightCm: prefs.getInt(_heightKey),
       patientId: prefs.getString(_patientIdKey),
-      portalToken: prefs.getString(_portalTokenKey),
+      portalToken: token,
       lastPortalUpload: switch (prefs.getInt(_portalUploadKey)) {
         null => null,
         final ms => DateTime.fromMillisecondsSinceEpoch(ms),
@@ -70,6 +84,7 @@ class AppSettings extends ChangeNotifier implements PortalCredentials {
     int? heightCm,
   }) : this._(
          null,
+         null,
          language,
          languageChosen,
          clock: clock,
@@ -88,6 +103,7 @@ class AppSettings extends ChangeNotifier implements PortalCredentials {
   static const _portalUploadKey = 'portal_last_upload';
 
   final SharedPreferences? _prefs;
+  final SecretStore? _secrets;
   String? _language;
   bool _chosen;
   ClockFormat _clock;
@@ -105,13 +121,7 @@ class AppSettings extends ChangeNotifier implements PortalCredentials {
   @override
   Future<void> setPortalToken(String? token) async {
     _portalToken = token;
-    final p = _prefs;
-    if (p == null) return;
-    if (token == null) {
-      await p.remove(_portalTokenKey);
-    } else {
-      await p.setString(_portalTokenKey, token);
-    }
+    await _secrets?.write(_portalTokenKey, token);
   }
 
   /// Portala son başarılı yüklemenin anı.
