@@ -862,6 +862,7 @@ thead th { font-size: .75rem; font-weight: 700; letter-spacing: .06em; text-tran
 tbody tr:hover td { background: var(--soft); }
 tbody tr:last-child td { border-bottom: 0; }
 td a { font-weight: 700; text-decoration: none; }
+tbody td:first-child { white-space: nowrap; }
 td a:hover { text-decoration: underline; }
 .table-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 18px; background: var(--card); box-shadow: var(--shadow); }
 label { display: block; margin: 10px 0; font-weight: 600; font-size: .92rem; }
@@ -891,7 +892,7 @@ button.danger { background: var(--danger); box-shadow: none; }
 .nowrap { white-space: nowrap; }
 .row { display: flex; flex-wrap: wrap; gap: 10px 16px; align-items: flex-end; }
 .row > label { flex: 1 1 200px; }
-.row > button, .row > a.button { flex: 0 0 auto; }
+.row > button, .row > a.button { flex: 0 0 auto; margin-bottom: 10px; }
 .row > h1 { margin-bottom: 0; }
 .badge { display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; border-radius: 999px; font-size: .78rem; font-weight: 700; white-space: nowrap; background: var(--bg); color: var(--muted); border: 1px solid var(--line); }
 .badge::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: currentColor; opacity: .8; }
@@ -936,12 +937,12 @@ details.daily > summary { font-weight: 700; }
 @media (max-width: 900px) {
   .shell { flex-direction: column; }
   .side { position: static; height: auto; flex: 0 0 auto; flex-direction: row; flex-wrap: wrap; align-items: center; gap: 12px; padding: 12px 16px; border-inline-end: 0; border-bottom: 1px solid var(--line); }
-  .side-top { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 16px; flex: 1 1 100%; }
-  .menu { display: flex; margin-top: 0; overflow-x: auto; gap: 4px; flex: 1 1 100%; }
+  .side-top { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 16px; flex: 1 1 100%; min-width: 0; }
+  .menu { display: flex; margin-top: 0; overflow-x: auto; gap: 4px; flex: 1 1 100%; min-width: 0; }
   .menu a { white-space: nowrap; }
   .side-bottom { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; flex: 1 1 100%; }
   .who { padding: 6px 10px; }
-  main { padding-top: 20px; }
+  main { width: 100%; max-width: none; margin: 0; padding-top: 20px; }
   .auth-hero { padding: 28px 20px; }
   .auth-hero ul, .auth-hero .ecg { display: none; }
 }
