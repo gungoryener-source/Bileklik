@@ -353,7 +353,7 @@ class PortalApi {
             'isOwner': m.accountId == g.ownerId,
             'pending': m.pending,
             // Bekleyen üyenin kişiye özel kodu yalnızca sahibine gider.
-            if (owner && m.inviteCode != null) 'inviteCode': m.inviteCode,
+            if (owner) 'inviteCode': ?m.inviteCode,
             'shares': [for (final s in m.scopes) s.name],
           },
       ],

@@ -150,18 +150,19 @@ class AppSettings extends ChangeNotifier implements PortalCredentials {
     notifyListeners();
   }
 
+  /// Mikrosaniyeyle saklanır: bildirimin zamanıyla birebir karşılaştırılır.
   @override
   DateTime? get communityReadUntil {
-    final ms = _prefs?.getInt(_communityReadKey) ?? _communityRead;
-    return ms == null ? null : DateTime.fromMillisecondsSinceEpoch(ms);
+    final us = _prefs?.getInt(_communityReadKey) ?? _communityRead;
+    return us == null ? null : DateTime.fromMicrosecondsSinceEpoch(us);
   }
 
   int? _communityRead;
 
   @override
   Future<void> setCommunityReadUntil(DateTime t) async {
-    _communityRead = t.millisecondsSinceEpoch;
-    await _prefs?.setInt(_communityReadKey, t.millisecondsSinceEpoch);
+    _communityRead = t.microsecondsSinceEpoch;
+    await _prefs?.setInt(_communityReadKey, t.microsecondsSinceEpoch);
   }
 
   /// Portala son başarılı yüklemenin anı.
