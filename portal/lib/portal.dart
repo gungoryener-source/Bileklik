@@ -7,4 +7,5 @@ export 'src/api.dart';
 export 'src/encrypted_store.dart';
 export 'src/ingest.dart';
 export 'src/model.dart';
+export 'src/panel.dart';
 export 'src/store.dart';
