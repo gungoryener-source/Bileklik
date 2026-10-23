@@ -64,6 +64,30 @@ curl -H 'Authorization: Bearer demo-doctor' -H 'content-type: application/json' 
 | `DELETE /consents/<id>` | hasta | Rızayı geri alır; erişim hemen biter. |
 | `DELETE /patients/<id>/data` | hasta | Ölçümleri siler ve rızaları bitirir (unutulma hakkı). |
 
+## Hekim paneli
+
+Sunucu çalışırken `http://…/panel` adresinden açılır. Hekim ya da araştırmacı,
+kendisine verilen oturum anahtarıyla giriş yapar (`--add-clinician` ile
+açılan hesap).
+
+- **Ana sayfa:** rıza vermiş hastalar takma kimliğin ilk 8 karakteriyle
+  listelenir; paylaşılan türler, rıza bitişi ve son veri zamanı görünür.
+  Aynı sayfadan amaç, istenen veriler ve süre seçilerek davet kodu
+  oluşturulur.
+- **Hasta sayfası:** yalnızca süren rızadaki türlerin son 7 günü görünür:
+  son değer, kayıt sayısı, ortalama ve son 20 kayıt; nabız için günlük
+  ortalama çizgisi. Her görüntüleme ve rızasız her deneme erişim kaydına geçer.
+- **Güvenlik:**
+  - Oturum sunucu tarafında tutulur. Çerez `HttpOnly`, `SameSite=Strict` ve
+    `Path=/panel`; 8 saat geçerli. HTTPS arkasında `PORTAL_HTTPS=1` ile
+    `Secure` olur.
+  - Formlar oturuma bağlı CSRF jetonu taşır.
+  - Sayfalar harici kaynak yüklemez; `Content-Security-Policy` kısıtlayıcı.
+    Tüm değerler kaçışlanarak yazılır.
+  - Oturumlar bellekte tutulur; sunucu yeniden başlayınca hekim yeniden
+    giriş yapar.
+- Panel şimdilik yalnızca Türkçe.
+
 ## Yetki kuralları
 
 - Hasta kendi verisinin tamamını görür.
@@ -77,7 +101,7 @@ curl -H 'Authorization: Bearer demo-doctor' -H 'content-type: application/json' 
 ## Sonraki adımlar
 
 - Çok kullanıcılı üretim için PostgreSQL deposu ve yedekleme.
-- Gerçek giriş: hekim ve kurum doğrulaması, hasta için uygulamadan cihaz
-  anahtarı.
+- Gerçek giriş: hekim ve kurum doğrulaması (ör. e-Devlet, kurum SSO); panel
+  şu an portalın verdiği anahtarla açılıyor.
 - Topluluk (aile grupları) sunucusunun sahte uygulamasının yerine bu API.
 - Saklama süreleri, VERBİS kaydı ve aydınlatma metni hukukla birlikte.

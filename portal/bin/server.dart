@@ -82,10 +82,17 @@ Future<void> main(List<String> args) async {
 
   final handler = const Pipeline()
       .addMiddleware(logRequests())
-      .addHandler(PortalApi(store).handler);
+      .addHandler(
+        PortalApi(
+          store,
+          // HTTPS arkasında: panel çerezi yalnızca şifreli bağlantıda gider.
+          secureCookie: Platform.environment['PORTAL_HTTPS'] == '1',
+        ).handler,
+      );
   final port = int.tryParse(Platform.environment['PORT'] ?? '') ?? 8080;
   final server = await io.serve(handler, InternetAddress.anyIPv4, port);
   stdout.writeln('Portal http://${server.address.host}:${server.port}');
+  stdout.writeln('Hekim paneli http://${server.address.host}:${server.port}/panel');
 }
 
 String? _arg(List<String> args, String name) {

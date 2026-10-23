@@ -6,6 +6,7 @@ import 'package:shelf_router/shelf_router.dart';
 
 import 'ingest.dart';
 import 'model.dart';
+import 'panel.dart';
 import 'store.dart';
 
 /// Portalın HTTP API'si.
@@ -23,13 +24,24 @@ import 'store.dart';
 /// | `POST /invites/<code>/accept` | hasta | Açık rızayla bağlanır |
 /// | `DELETE /consents/<id>` | hasta | Rızayı geri alır |
 /// | `DELETE /patients/<id>/data` | hasta | Ölçümlerini siler (unutulma hakkı) |
+/// | `/panel` | hekim, araştırmacı | Tarayıcı paneli ([PanelApi]) |
 ///
 /// Kimlik doğrulama iskelette `Authorization: Bearer <anahtar>` ile; gerçek
 /// giriş akışı (e-Devlet/OAuth) sonra eklenecek.
 class PortalApi {
-  PortalApi(this.store, {DateTime Function()? clock, Random? random})
-    : _now = clock ?? DateTime.now,
-      _random = random ?? Random.secure();
+  PortalApi(
+    this.store, {
+    DateTime Function()? clock,
+    Random? random,
+    bool secureCookie = false,
+  }) : _now = clock ?? DateTime.now,
+       _random = random ?? Random.secure(),
+       panel = PanelApi(
+         store,
+         clock: clock,
+         random: random,
+         secureCookie: secureCookie,
+       );
 
   final PortalStore store;
   final DateTime Function() _now;
@@ -40,8 +52,16 @@ class PortalApi {
   /// Davet kodunda karışmayan harf ve rakamlar (0/O, 1/I yok).
   static const _codeAlphabet = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
 
-  Handler get handler =>
-      const Pipeline().addMiddleware(_authenticate).addHandler(_router.call);
+  /// Hekim paneli (`/panel`); tarayıcı oturumuyla çalışır.
+  final PanelApi panel;
+
+  /// Önce panel, panel yolu değilse anahtarla korunan API.
+  Handler get handler => Cascade()
+      .add(panel.handler)
+      .add(
+        const Pipeline().addMiddleware(_authenticate).addHandler(_router.call),
+      )
+      .handler;
 
   late final Router _router = Router()
     ..get('/health', (Request _) => Response.ok('ok'))
