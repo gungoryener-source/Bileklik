@@ -30,8 +30,8 @@ class AppSettings extends ChangeNotifier implements PortalCredentials {
     this._patientId,
     this._portalToken,
     this._lastPortalUpload,
-    String? recoveryCode,
-  }) : _recoveryCode = recoveryCode;
+    this._recoveryCode,
+  });
 
   /// Kaydedilmiş tercihleri okur; yoksa telefonun dili.
   ///
