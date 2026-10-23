@@ -162,6 +162,7 @@
   "connScan": "QR-Code scannen",
   "connScanHint": "Halten Sie den QR-Code Ihrer Ärztin, Ihres Arztes oder der Forschungseinrichtung in den Rahmen.",
   "connSelectAll": "Alle auswählen",
+  "connServerError": "Der Server ist nicht erreichbar. Prüfen Sie Ihre Internetverbindung und versuchen Sie es erneut.",
   "connShared": "Geteilte Daten",
   "connSharedCount": "{count, plural, =1{1 Datentyp} other{{count} Datentypen}}",
   "connSince": "Seit {date}",

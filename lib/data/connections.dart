@@ -91,6 +91,19 @@ abstract class ConnectionService extends ChangeNotifier {
 
   /// Rızayı geri alır; paylaşım hemen durur.
   Future<void> disconnect(String id);
+
+  /// Listeyi sunucudan yeniler (sahte sunucuda bir şey yapmaz).
+  Future<void> refresh() async {}
+}
+
+/// Sunucuya ulaşılamadı ya da sunucu beklenmeyen bir yanıt verdi. Ekran
+/// kullanıcıya "kod geçersiz" yerine bunu söyler.
+class ConnectionUnavailable implements Exception {
+  const ConnectionUnavailable([this.detail]);
+  final String? detail;
+
+  @override
+  String toString() => 'ConnectionUnavailable(${detail ?? ''})';
 }
 
 /// Bellekte çalışan sahte sunucu. Demoda iki kod çalışır:

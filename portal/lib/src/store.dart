@@ -3,6 +3,9 @@ import 'model.dart';
 /// Portalın kalıcı deposu. İskelette bellekte çalışır ([MemoryPortalStore]);
 /// üretimde aynı arayüzün arkasına şifreli bir veritabanı gelecek.
 abstract class PortalStore {
+  /// Hesap ve oturum anahtarı ekler.
+  void addAccount(Account a, String token);
+
   Account? accountByToken(String token);
   Account? account(String id);
 
@@ -52,7 +55,7 @@ class MemoryPortalStore implements PortalStore {
   final _audit = <AuditEntry>[];
   var _seq = 0;
 
-  /// Hesap ve oturum anahtarı ekler (iskelette giriş akışı yok).
+  @override
   void addAccount(Account a, String token) {
     _accounts[a.id] = a;
     _tokens[token] = a;

@@ -1,7 +1,10 @@
+import 'dart:async';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'data/community.dart';
@@ -9,6 +12,7 @@ import 'data/connections.dart';
 import 'data/health_platform.dart';
 import 'data/health_store.dart';
 import 'data/plugin_health_platform.dart';
+import 'data/portal.dart';
 import 'data/sqlite_health_store.dart';
 import 'device/ble_transport.dart';
 import 'device/fake_device.dart';
@@ -38,8 +42,29 @@ Future<void> main() async {
       controller: controller,
       settings: settings,
       healthExport: _healthExport(controller),
+      connections: _portal(settings, controller),
     ),
   );
+}
+
+/// Portal adresi: `--dart-define=PORTAL_URL=https://portal.example/`.
+/// Verilmezse hekim bağlantıları sahte sunucuyla çalışır.
+const _portalUrl = String.fromEnvironment('PORTAL_URL');
+
+/// Portal adresi varsa gerçek bağlantı servisi ve yükleyici; yoksa null.
+ConnectionService? _portal(AppSettings settings, DeviceController controller) {
+  if (_portalUrl.isEmpty) return null;
+  final base = Uri.parse(_portalUrl.endsWith('/') ? _portalUrl : '$_portalUrl/');
+  final client = PortalClient(
+    baseUrl: base,
+    httpClient: http.Client(),
+    credentials: settings,
+  );
+  final service = PortalConnectionService(client);
+  // Uygulama açık kaldıkça yeni ölçümleri yükler.
+  PortalUploader(client: client, connections: service, store: controller.store);
+  unawaited(service.refresh().catchError((Object _) {}));
+  return service;
 }
 
 /// Demo kipi: `flutter run --dart-define=DEMO=true` sahte bileklik ve sahte

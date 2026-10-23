@@ -12,6 +12,8 @@ import 'store.dart';
 ///
 /// | Yol | Kim | Ne yapar |
 /// | --- | --- | --- |
+/// | `POST /patients` | herkes | Uygulamanın takma kimliğiyle hasta hesabı açar, oturum anahtarı döner |
+/// | `GET /connections` | hasta | Süren rızaları uygulamanın göstereceği biçimde listeler |
 /// | `POST /fhir` | hasta | Uygulamanın FHIR Bundle'ını alır |
 /// | `GET /fhir/Observation?patient=&code=&date=` | hasta, rızalı takipçi | Ölçümleri arar |
 /// | `GET /fhir/Consent` | hasta, takipçi | Rızaları listeler |
@@ -43,6 +45,8 @@ class PortalApi {
 
   late final Router _router = Router()
     ..get('/health', (Request _) => Response.ok('ok'))
+    ..post('/patients', _registerPatient)
+    ..get('/connections', _connections)
     ..post('/fhir', _ingest)
     ..get('/fhir/Observation', _searchObservations)
     ..get('/fhir/Consent', _searchConsents)
@@ -55,6 +59,9 @@ class PortalApi {
 
   Handler _authenticate(Handler inner) => (request) {
     if (request.url.path == 'health') return inner(request);
+    if (request.url.path == 'patients' && request.method == 'POST') {
+      return inner(request);
+    }
     final header = request.headers['authorization'] ?? '';
     final token = header.startsWith('Bearer ') ? header.substring(7) : '';
     final account = store.accountByToken(token);
@@ -65,6 +72,61 @@ class PortalApi {
   };
 
   static Account _me(Request r) => r.context['account']! as Account;
+
+  // ------------------------------------------------------------------ kayıt
+
+  static final _uuid = RegExp(
+    r'^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$',
+  );
+
+  /// Uygulama ilk açıldığında kendi takma kimliğiyle hesap açar. Kişisel
+  /// bilgi alınmaz. Kimlik zaten varsa 409 döner; anahtar yalnızca bir kez
+  /// verilir (uygulama telefonda saklar).
+  Future<Response> _registerPatient(Request request) async {
+    final id = (await _body(request))?['patientId'];
+    if (id is! String || !_uuid.hasMatch(id)) {
+      return _outcome(400, 'error', 'invalid', 'patientId UUID (v4) olmalı');
+    }
+    if (store.account(id) != null) {
+      return _outcome(409, 'error', 'duplicate', 'Bu kimlikle hesap var');
+    }
+    final token = List.generate(
+      32,
+      (_) => _random.nextInt(256).toRadixString(16).padLeft(2, '0'),
+    ).join();
+    store.addAccount(Account(id: id, role: Role.patient, name: '-'), token);
+    _audit(id, id, AuditAction.create, true, 'Hesap açıldı');
+    return _json(201, {'token': token});
+  }
+
+  /// Uygulamanın "Bağlantılarım" listesi: süren rızalar ve karşı taraf.
+  Response _connections(Request request) {
+    final me = _me(request);
+    if (me.role != Role.patient) {
+      return _outcome(403, 'error', 'forbidden', 'Yalnızca hasta');
+    }
+    final now = _now();
+    final list = [
+      for (final c in store.consentsForPatient(me.id))
+        if (c.activeAt(now)) c,
+    ]..sort((a, b) => b.start.compareTo(a.start));
+    return _json(200, [
+      for (final c in list)
+        if (store.account(c.actorId) case final actor?)
+          {
+            'id': c.id,
+            'code': c.inviteCode,
+            'kind': actor.role.name,
+            'name': actor.name,
+            'organization': actor.organization,
+            'purpose': c.purpose,
+            'requested': [for (final s in c.requested) s.name],
+            'scopes': [for (final s in c.scopes) s.name],
+            'since': c.start.toUtc().toIso8601String(),
+            'until': c.end.toUtc().toIso8601String(),
+          },
+    ]);
+  }
 
   // ---------------------------------------------------------------- yükleme
 
@@ -251,6 +313,8 @@ class PortalApi {
       start: now,
       end: now.add(invite.duration),
       purpose: invite.purpose,
+      inviteCode: invite.code,
+      requested: invite.requested,
     );
     store.addConsent(consent);
     _audit(
@@ -297,6 +361,7 @@ class PortalApi {
     'code': i.code,
     'kind': actor.role.name,
     'name': actor.name,
+    'organization': actor.organization,
     'purpose': i.purpose,
     'requested': [for (final s in i.requested) s.name],
     'durationDays': i.duration.inDays,

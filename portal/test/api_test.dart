@@ -321,4 +321,61 @@ void main() {
     final (_, audit) = await p.call('GET', '/fhir/AuditEvent', token: 'patient');
     expect(_entries(audit).where((e) => e['action'] == 'D'), hasLength(1));
   });
+
+  test('uygulama takma kimlikle hesap açar; anahtar bir kez verilir', () async {
+    final p = _Portal();
+    const id = '0f0e0d0c-1111-4222-8333-444455556666';
+    expect((await p.call('POST', '/patients', body: {'patientId': 'yok'})).$1, 400);
+    final (s1, created) = await p.call(
+      'POST',
+      '/patients',
+      body: {'patientId': id},
+    );
+    expect(s1, 201);
+    final token = created['token']! as String;
+    expect(token, hasLength(64));
+    expect((await p.call('POST', '/patients', body: {'patientId': id})).$1, 409);
+    final (s2, own) = await p.call(
+      'GET',
+      '/fhir/Observation?patient=$id',
+      token: token,
+    );
+    expect(s2, 200);
+    expect(own['total'], 0);
+  });
+
+  test('bağlantı listesi karşı tarafı ve seçilen türleri gösterir', () async {
+    final p = _Portal();
+    final response = await p.api.handler(
+      Request(
+        'GET',
+        Uri.parse('http://portal.test/connections'),
+        headers: {'authorization': 'Bearer patient'},
+      ),
+    );
+    expect(response.statusCode, 200);
+    expect(jsonDecode(await response.readAsString()), isEmpty);
+
+    final consentId = await p.connectDoctor(['heartRate']);
+    final list = jsonDecode(
+      await (await p.api.handler(
+        Request(
+          'GET',
+          Uri.parse('http://portal.test/connections'),
+          headers: {'authorization': 'Bearer patient'},
+        ),
+      )).readAsString(),
+    ) as List;
+    expect(list, hasLength(1));
+    final c = list.single as Map;
+    expect(c['id'], consentId);
+    expect(c['kind'], 'clinician');
+    expect(c['name'], 'Dr. Ayşe Kaya');
+    expect(c['scopes'], ['heartRate']);
+    expect(c['requested'], ['heartRate', 'ecg']);
+    expect(c['code'], matches(RegExp(r'^[A-Z2-9]{7}$')));
+
+    // Hekim bu listeyi göremez.
+    expect((await p.call('GET', '/connections', token: 'doctor')).$1, 403);
+  });
 }

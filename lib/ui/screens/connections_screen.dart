@@ -48,8 +48,12 @@ class ConnectionsScreen extends StatelessWidget {
           maxLength: 10,
           code: true,
           submit: (code) async {
-            final o = await service.lookup(code);
-            return (o, o == null ? l.connCodeInvalid : null);
+            try {
+              final o = await service.lookup(code);
+              return (o, o == null ? l.connCodeInvalid : null);
+            } on ConnectionUnavailable {
+              return (null, l.connServerError);
+            }
           },
         ),
       );
@@ -74,12 +78,19 @@ class ConnectionsScreen extends StatelessWidget {
         await enterCode();
         return;
       }
-      final offer = await service.lookup(code);
+      ConnectionOffer? offer;
+      String? problem;
+      try {
+        offer = await service.lookup(code);
+        if (offer == null) problem = l.connCodeInvalid;
+      } on ConnectionUnavailable {
+        problem = l.connServerError;
+      }
       if (!context.mounted) return;
       if (offer == null) {
         ScaffoldMessenger.of(context)
           ..hideCurrentSnackBar()
-          ..showSnackBar(SnackBar(content: Text(l.connCodeInvalid)));
+          ..showSnackBar(SnackBar(content: Text(problem ?? l.connCodeInvalid)));
         return;
       }
       await openOffer(offer);
