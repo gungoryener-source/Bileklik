@@ -15,7 +15,19 @@ jobs:
           channel: stable
           cache: true
       - run: flutter pub get
-      - run: flutter analyze
+      - name: flutter analyze
+        run: |
+          set -o pipefail
+          flutter analyze 2>&1 | tee analyze-output.txt
+      # GEÇİCİ: analiz bulgularını açıklama olarak yazar.
+      - name: Analiz bulguları
+        if: failure()
+        run: |
+          python3 - <<'PY'
+          for l in open('analyze-output.txt', encoding='utf-8', errors='replace'):
+              if ' • ' in l or 'rror' in l:
+                  print('::error title=analyze::' + l.strip().replace('%', '%25'))
+          PY
       - run: flutter test
 
   portal:
