@@ -157,7 +157,7 @@ void main() {
     await tester.tap(find.text(_feedback));
     await tester.pumpAndSettle();
     expect(find.byType(FeedbackScreen), findsOneWidget);
-    await tester.pageBack();
+    tester.state<NavigatorState>(find.byType(Navigator).first).pop();
     await tester.pumpAndSettle();
 
     await tester.scrollUntilVisible(
