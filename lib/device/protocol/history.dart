@@ -14,9 +14,8 @@ enum HistoryKind {
   hrv(0x56, 15),
   temperature(0x62, 11),
 
-  /// 0x63 atımdan atıma aralıklar (PPI). Kayıt biçimi PDF elde olmadığı için
-  /// tahmindir (bkz. `PpiRecord`); gerçek cihazda doğrulanacak.
-  ppi(0x63, 26),
+  /// 0x63 atımdan atıma aralıklar (PPI), V8 API V1.2 madde 32.
+  ppi(0x63, 123),
   spo2(0x66, 10),
 
   /// 0x5C egzersiz kayıtları (bkz. `ExerciseRecord`).
@@ -240,21 +239,54 @@ class HrvRecord {
 
 /// 0x63: atımdan atıma aralıklar (PPI, optik nabızda tepe-tepe aralığı).
 ///
-/// Varsayılan biçim (gerçek cihazda doğrulanacak):
-/// `63 ID ID YY MM DD HH mm SS N P1L P1H … P8L P8H` — N geçerli aralık sayısı
-/// (en çok 8), her aralık milisaniye, küçük sonlu. Zaman ilk atımın anı.
+/// V8 API V1.2: `63 ID1 ID2 YY MM DD HH mm SS CC ID P1 … P112`. Bir ölçüm
+/// (grup) birden fazla kayda bölünür: CC gruptaki kayıt sayısı, ID kaydın
+/// gruptaki sırası. P1…P112 iki baytlık, küçük sonlu, işaretli (SDK: short)
+/// aralıklardır (ms); ilk 0 grubun bittiğini gösterir. Zaman damgası ölçümün
+/// başlangıcı değil, kaydedildiği andır.
 class PpiRecord {
-  final DateTime time;
+  final DateTime savedAt;
+  final int groupCount;
+  final int index;
   final List<int> intervalsMs;
-  const PpiRecord(this.time, this.intervalsMs);
+  const PpiRecord(this.savedAt, this.groupCount, this.index, this.intervalsMs);
 
-  static const maxIntervals = 8;
+  static const maxIntervals = 56;
 
   static PpiRecord parse(List<int> r) {
-    final n = r[9].clamp(0, maxIntervals);
-    return PpiRecord(_bcdDateTime(r, 3), [
-      for (var i = 0; i < n; i++) readUintLE(r, 10 + i * 2, 2),
-    ]);
+    final values = <int>[];
+    for (var i = 0; i < maxIntervals; i++) {
+      final raw = readUintLE(r, 11 + i * 2, 2);
+      if (raw == 0) break;
+      // İşaretli 16 bit; eksi değer geçersiz aralıktır, atlanır.
+      final v = raw >= 0x8000 ? raw - 0x10000 : raw;
+      if (v > 0) values.add(v);
+    }
+    return PpiRecord(_bcdDateTime(r, 3), r[9], r[10], values);
+  }
+}
+
+/// Bir PPI ölçümü: grubun kayıtları sırasıyla birleştirilmiş aralıklar.
+class PpiGroup {
+  final DateTime savedAt;
+  final List<int> intervalsMs;
+  const PpiGroup(this.savedAt, this.intervalsMs);
+
+  /// Kayıtları gruplara toplar: aynı kayıt anına sahip ardışık kayıtlar bir
+  /// gruptur ve gruptaki sıralarına (ID) göre birleştirilir.
+  static List<PpiGroup> assemble(Iterable<PpiRecord> records) {
+    final groups = <DateTime, List<PpiRecord>>{};
+    for (final r in records) {
+      groups.putIfAbsent(r.savedAt, () => []).add(r);
+    }
+    final out = [
+      for (final e in groups.entries)
+        PpiGroup(e.key, [
+          for (final r in e.value..sort((a, b) => a.index.compareTo(b.index)))
+            ...r.intervalsMs,
+        ]),
+    ]..sort((a, b) => a.savedAt.compareTo(b.savedAt));
+    return out;
   }
 }
 

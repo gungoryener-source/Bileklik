@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math';
 
 import 'protocol/commands.dart';
 import 'protocol/ecg.dart';
@@ -66,6 +67,18 @@ class WristbandClient {
       return;
     }
     final command = raw[0] & 0x7F;
+    if (command == ReminderCmd.set) {
+      final ack = _remindersAck;
+      if (ack == null || ack.isCompleted) return;
+      if (raw[0] & Packet.errorBit != 0) {
+        ack.completeError(
+          DeviceCommandException(ReminderCmd.set, 'cihaz hata döndü'),
+        );
+      } else if (remindersSavedIn(raw)) {
+        ack.complete();
+      }
+      return;
+    }
     if (command == Cmd.realtime && raw.length > Packet.length) {
       _realtime.add(Decoders.realtime(raw));
       return;
@@ -115,7 +128,13 @@ class WristbandClient {
     );
   }
 
-  Future<void> syncTime(DateTime now) => _request(Commands.setTime(now));
+  /// 0x01: saati yazar. Yanıtın ilk baytı bilekliğin bir seferde aldığı en
+  /// büyük paket boyudur (ör. F4 = 244).
+  Future<void> syncTime(DateTime now) async {
+    final p = await _request(Commands.setTime(now));
+    final max = p.payload.isEmpty ? 0 : p.payload[0];
+    if (max >= Packet.length) _deviceMaxPacket = max;
+  }
 
   Future<DateTime> getTime() async =>
       Decoders.time(await _request(Commands.getTime()));
@@ -187,9 +206,21 @@ class WristbandClient {
     );
   }
 
+  /// 0x04: tüm gün nabız takibi açık mı.
+  Future<bool> getAllDayHeartRate() async =>
+      decodeAllDayHeartRate(await _request(getBasicSettingsCommand()));
+
+  /// 0x03: tüm gün nabız takibini açar ya da kapatır.
+  Future<void> setAllDayHeartRate(bool enabled) =>
+      _request(setAllDayHeartRateCommand(enabled));
+
+  /// 0x27: bilekliğin yazılım sürümü.
+  Future<FirmwareInfo> getFirmware() async =>
+      FirmwareInfo.parse(await _request(Commands.firmwareVersion()));
+
   /// 0x57: bileklikteki hatırlatıcıları okur. Kayıtlar geçmiş verisi gibi
-  /// uç uca gelir ve `57 FF` ile biter (gerçek cihazda doğrulanacak).
-  Future<List<Reminder>> getReminders() async {
+  /// uç uca gelir ve `57 FF` ile biter.
+  Future<List<StoredReminder>> getReminders() async {
     if (_history != null) {
       throw DeviceCommandException(
         ReminderCmd.get,
@@ -206,43 +237,49 @@ class WristbandClient {
           throw DeviceCommandException(ReminderCmd.get, 'yanıt gelmedi');
         },
       );
-      return [for (final r in records) decodeReminder(r)];
+      return [for (final r in records) decodeStoredReminder(r)];
     } finally {
       _history = null;
     }
   }
 
+  /// Bilekliğin bir seferde aldığı en büyük paket; 0x01 yanıtı söyler
+  /// (belgede varsayılan F4 = 244).
+  int _deviceMaxPacket = 244;
+
+  Completer<void>? _remindersAck;
+
   /// 0x23: hatırlatıcı listesini bilekliğe yazar; boş listede 0x57 99 ile
-  /// hepsini siler. Bileklik 16 baytlık `23` onayı döner (gerçek cihazda
-  /// doğrulanacak).
+  /// hepsini siler. Liste bilekliğin ve telefonun paket boyuna göre bölünür;
+  /// bileklik `23 R1 23 R2 … 23 EE` ile onaylar.
   Future<void> setReminders(List<Reminder> reminders) async {
     if (reminders.isEmpty) {
       await _request(deleteRemindersCommand());
       return;
     }
-    final completer = Completer<Packet>();
-    _pending[ReminderCmd.set]?.completeError(
-      DeviceCommandException(ReminderCmd.set, 'yeni istekle değiştirildi'),
-    );
-    _pending[ReminderCmd.set] = completer;
-    await transport.send(setRemindersCommand(reminders));
-    await completer.future.timeout(
-      timeout,
-      onTimeout: () {
-        _pending.remove(ReminderCmd.set);
-        throw DeviceCommandException(ReminderCmd.set, 'yanıt gelmedi');
-      },
-    );
+    final maxPacket = min(_deviceMaxPacket, transport.maxWriteLength);
+    final ack = Completer<void>();
+    final previous = _remindersAck;
+    if (previous != null && !previous.isCompleted) {
+      previous.completeError(
+        DeviceCommandException(ReminderCmd.set, 'yeni istekle değiştirildi'),
+      );
+    }
+    _remindersAck = ack;
+    for (final part in setRemindersCommand(reminders, maxPacket: maxPacket)) {
+      await transport.send(part);
+    }
+    try {
+      await ack.future.timeout(
+        timeout,
+        onTimeout: () {
+          throw DeviceCommandException(ReminderCmd.set, 'yanıt gelmedi');
+        },
+      );
+    } finally {
+      if (_remindersAck == ack) _remindersAck = null;
+    }
   }
-
-  /// 0x25: hareketsizlik uyarısını yazar.
-  Future<void> setSedentary(SedentaryConfig config) =>
-      _request(setSedentaryCommand(config));
-
-  /// 0x26: hareketsizlik uyarısını okur.
-  Future<SedentaryConfig> getSedentary() async => SedentaryConfig.fromBytes(
-    (await _request(getSedentaryCommand())).payload,
-  );
 
   _HistoryCollector? _history;
 

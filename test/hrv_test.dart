@@ -26,19 +26,50 @@ List<Measurement> _beats(DateTime start, List<int> intervals) {
   ];
 }
 
+/// Senkronla aynı yerleşim: son atım kayıt anında, öncekiler geriye doğru.
+List<Measurement> _beatsEndingAt(PpiGroup g) {
+  var t = g.savedAt;
+  final out = <Measurement>[];
+  for (final ms in g.intervalsMs.reversed) {
+    out.add(Measurement(MetricType.ppi, t, ms.toDouble()));
+    t = t.subtract(Duration(milliseconds: ms));
+  }
+  return out.reversed.toList();
+}
+
 void main() {
-  test('0x63 PPI kaydı çözülür (varsayılan biçim)', () {
-    final r = [
-      0x63, 0x01, 0x00, // komut, sıra
-      0x26, 0x10, 0x20, 0x02, 0x15, 0x30, // 2026-10-20 02:15:30 (BCD)
-      0x03, // 3 aralık
-      0xE8, 0x03, 0xD4, 0x03, 0x00, 0x04, // 1000, 980, 1024 ms
-      ...List.filled(10, 0),
-    ];
-    expect(r, hasLength(HistoryKind.ppi.recordLength));
-    final p = PpiRecord.parse(r);
-    expect(p.time, DateTime(2026, 10, 20, 2, 15, 30));
+  /// V8 API V1.2 biçiminde 123 baytlık bir 0x63 kaydı.
+  List<int> ppiRecord(int count, int index, List<int> intervals) {
+    final r = List<int>.filled(HistoryKind.ppi.recordLength, 0);
+    r.setAll(0, [0x63, index, 0x00, 0x26, 0x10, 0x20, 0x02, 0x15, 0x30]);
+    r[9] = count;
+    r[10] = index;
+    for (var i = 0; i < intervals.length; i++) {
+      r[11 + i * 2] = intervals[i] & 0xFF;
+      r[12 + i * 2] = (intervals[i] >> 8) & 0xFF;
+    }
+    return r;
+  }
+
+  test('0x63 PPI kaydı çözülür (V8 API V1.2)', () {
+    expect(HistoryKind.ppi.recordLength, 123);
+    // 1000, 980, 1024 ms; ardından bir eksi (geçersiz) değer ve bitiş sıfırı.
+    final p = PpiRecord.parse(ppiRecord(2, 1, [1000, 980, 1024, 0xFFF6]));
+    expect(p.savedAt, DateTime(2026, 10, 20, 2, 15, 30));
+    expect(p.groupCount, 2);
+    expect(p.index, 1);
     expect(p.intervalsMs, [1000, 980, 1024]);
+    // 56 değerin tamamı doluysa hepsi okunur.
+    final full = PpiRecord.parse(ppiRecord(1, 1, List.filled(56, 900)));
+    expect(full.intervalsMs, hasLength(56));
+  });
+
+  test('PPI grubu sırasına göre birleşir', () {
+    final second = PpiRecord.parse(ppiRecord(2, 2, [700, 710]));
+    final first = PpiRecord.parse(ppiRecord(2, 1, [600, 610]));
+    final groups = PpiGroup.assemble([second, first]);
+    expect(groups, hasLength(1));
+    expect(groups.single.intervalsMs, [600, 610, 700, 710]);
   });
 
   test('RMSSD, SDNN ve pNN50', () {
@@ -111,8 +142,13 @@ void main() {
     for (final r in records) {
       final hour = r.time.hour;
       expect(hour < 7 || hour >= 23, isTrue, reason: '${r.time}');
-      expect(PpiRecord.parse(r.bytes).intervalsMs, hasLength(8));
+      expect(r.bytes, hasLength(HistoryKind.ppi.recordLength));
     }
+    final groups = PpiGroup.assemble(
+      records.map((r) => PpiRecord.parse(r.bytes)),
+    );
+    expect(groups.first.intervalsMs, hasLength(90));
+    expect(analyzePpi(_beatsEndingAt(groups.first)), isNotNull);
   });
 
   testWidgets('HRV ekranı gece ayrıntısını ve VO2 Max notunu gösterir', (

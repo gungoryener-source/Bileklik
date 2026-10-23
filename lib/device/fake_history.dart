@@ -106,14 +106,7 @@ class FakeHistory {
       case HistoryKind.temperature:
         each(const Duration(minutes: 30), _temperatureRecord);
       case HistoryKind.ppi:
-        // Bileklik PPI'ı gece kısa pencerelerde ölçer: 10 dakikada bir, art
-        // arda dört kayıt (yaklaşık 30 atım).
-        each(
-          const Duration(minutes: 10),
-          _ppiRecord,
-          when: (t) => t.hour < 7 || t.hour >= 23,
-        );
-        _ppiBursts(out, now);
+        _ppiRecords(now, out);
       case HistoryKind.spo2:
         each(
           const Duration(hours: 1),
@@ -330,38 +323,37 @@ class FakeHistory {
     ]);
   }
 
-  /// Bir PPI kaydı: 8 aralık, ~60 atım/dk çevresinde solunumla dalgalanan.
-  List<int> _ppiRecord(DateTime t, int id) {
-    final rng = _rng(t, 0x63);
-    final r = _header(HistoryKind.ppi.command, id, t, 26)..[9] = 8;
-    final base = 60000 ~/ _baseHeartRate(t, rng);
-    for (var i = 0; i < 8; i++) {
-      // Solunumla gelen dalgalanma ve küçük gürültü.
-      final ms = base + ((i % 4) - 1.5).round() * 18 + rng.nextInt(21) - 10;
-      r[10 + i * 2] = ms & 0xFF;
-      r[11 + i * 2] = ms >> 8;
-    }
-    return r;
-  }
-
-  /// Her pencerenin ilk kaydından sonra, kaydın süresince art arda gelen üç
-  /// kayıt daha ekler; böylece pencere ~30 atım olur.
-  void _ppiBursts(List<({DateTime time, List<int> bytes})> out, DateTime now) {
-    final firsts = [...out.where((e) => e.bytes[0] == HistoryKind.ppi.command)];
-    for (final first in firsts) {
-      var t = first.time;
-      var bytes = first.bytes;
-      for (var k = 1; k < 4; k++) {
-        final span = PpiRecord.parse(bytes).intervalsMs.fold(0, (a, b) => a + b);
-        t = t.add(Duration(milliseconds: span));
-        // Saniye hassasiyeti: kayıt zamanı BCD saniyeyle yazılır.
-        t = DateTime(t.year, t.month, t.day, t.hour, t.minute, t.second);
-        if (t.isAfter(now)) break;
-        bytes = _ppiRecord(t, (bytes[1] | bytes[2] << 8) + 1);
-        out.add((time: t, bytes: bytes));
+  /// Gece 30 dakikada bir ~90 atımlık PPI ölçümü. V8 API V1.2 biçiminde
+  /// iki kayda bölünür (56 + 34 aralık); kayıt zamanı ölçümün bittiği an.
+  void _ppiRecords(
+    DateTime now,
+    List<({DateTime time, List<int> bytes})> out,
+  ) {
+    var t = _firstDay(now);
+    var id = 0;
+    while (!t.isAfter(now)) {
+      if (t.hour < 7 || t.hour >= 23) {
+        final rng = _rng(t, 0x63);
+        final base = 60000 ~/ _baseHeartRate(t, rng);
+        final beats = [
+          // Solunumla gelen dalgalanma ve küçük gürültü.
+          for (var i = 0; i < 90; i++)
+            base + ((i % 4) - 1.5).round() * 18 + rng.nextInt(21) - 10,
+        ];
+        final parts = [beats.sublist(0, 56), beats.sublist(56)];
+        for (var k = 0; k < parts.length; k++) {
+          final r = _header(HistoryKind.ppi.command, id++, t, 123)
+            ..[9] = parts.length
+            ..[10] = k + 1;
+          for (var i = 0; i < parts[k].length; i++) {
+            r[11 + i * 2] = parts[k][i] & 0xFF;
+            r[12 + i * 2] = parts[k][i] >> 8;
+          }
+          out.add((time: t, bytes: r));
+        }
       }
+      t = t.add(const Duration(minutes: 30));
     }
-    out.sort((a, b) => a.time.compareTo(b.time));
   }
 
   List<int> _temperatureRecord(DateTime t, int id) {

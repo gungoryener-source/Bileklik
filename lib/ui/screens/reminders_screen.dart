@@ -6,12 +6,11 @@ import '../app_shell.dart';
 import '../format.dart';
 import '../theme.dart';
 import '../widgets/cam/cam.dart';
-import '../widgets/choice_sheet.dart';
 import '../widgets/settings_rows.dart';
 
-/// Hatırlatıcılar: ilaç ve su saatleri (0x23/0x57) ile hareketsizlik
-/// uyarısı (0x25/0x26). Bileklik ekransız olduğu için hatırlatma titreşimle
-/// gelir. Her değişiklik hemen bilekliğe yazılır; olmazsa eski hal kalır.
+/// Hatırlatıcılar: ilaç ve su saatleri (0x23/0x57). Bileklik ekransız
+/// olduğu için hatırlatma titreşimle gelir. Her değişiklik hemen bilekliğe
+/// yazılır; olmazsa eski hal kalır.
 class RemindersScreen extends StatelessWidget {
   const RemindersScreen({super.key});
 
@@ -20,7 +19,6 @@ class RemindersScreen extends StatelessWidget {
     final c = DeviceScope.of(context);
     final l = context.l10n;
     final reminders = c.reminders;
-    final sedentary = c.sedentary;
 
     final List<Widget> body;
     if (!c.isConnected) {
@@ -65,10 +63,6 @@ class RemindersScreen extends StatelessWidget {
               style: TextStyle(color: context.colors.muted),
             ),
           ),
-        if (sedentary != null) ...[
-          const SizedBox(height: 12),
-          _SedentaryCard(sedentary),
-        ],
       ];
     }
 
@@ -125,13 +119,6 @@ String weekdaysText(AppLocalizations l, int mask) {
     for (var d = 1; d <= 7; d++)
       if (m & (1 << (d % 7)) != 0) weekdayShort(d),
   ].join(', ');
-}
-
-/// "45 dakika", "1 saat", "1 sa 30 dk".
-String durationText(AppLocalizations l, int minutes) {
-  if (minutes < 60) return l.sedentaryMinutes(minutes);
-  if (minutes % 60 == 0) return l.sedentaryHours(minutes ~/ 60);
-  return l.sedentaryHoursMinutes(minutes ~/ 60, minutes % 60);
 }
 
 void _say(BuildContext context, String text) {
@@ -414,6 +401,8 @@ class _ReminderSheetState extends State<_ReminderSheet> {
               decoration: InputDecoration(
                 labelText: l.reminderLabel,
                 hintText: l.reminderLabelHint,
+                helperText: l.reminderLabelNote,
+                helperMaxLines: 2,
               ),
             ),
           ],
@@ -448,192 +437,11 @@ class _ReminderSheetState extends State<_ReminderSheet> {
   }
 }
 
-/// Hareketsizlik uyarısı: anahtar, süre, saat dilimi ve günler.
-class _SedentaryCard extends StatelessWidget {
-  const _SedentaryCard(this.config);
-  final SedentaryConfig config;
-
-  Future<void> _save(BuildContext context, SedentaryConfig next) async {
-    final l = context.l10n;
-    final messenger = ScaffoldMessenger.of(context);
-    final ok = await DeviceScope.of(context).saveSedentary(next);
-    if (!ok) {
-      messenger
-        ..hideCurrentSnackBar()
-        ..showSnackBar(SnackBar(content: Text(l.remindersSaveFailed)));
-    }
-  }
-
-  Future<void> _pickInterval(BuildContext context) async {
-    final l = context.l10n;
-    final picked = await showChoiceSheet<int>(
-      context: context,
-      title: l.sedentaryInterval,
-      current: config.intervalMinutes,
-      options: [
-        for (final m in SedentaryConfig.intervalChoices)
-          (m, durationText(l, m)),
-      ],
-    );
-    if (picked == null || picked == config.intervalMinutes) return;
-    if (!context.mounted) return;
-    await _save(context, config.copyWith(intervalMinutes: picked));
-  }
-
-  Future<void> _pickTime(BuildContext context, {required bool start}) async {
-    final l = context.l10n;
-    final current = start ? config.startMinute : config.endMinute;
-    final picked = await showTimePicker(
-      context: context,
-      initialTime: TimeOfDay(hour: current ~/ 60, minute: current % 60),
-      helpText: start ? l.autoMeasureStart : l.autoMeasureEnd,
-    );
-    if (picked == null || !context.mounted) return;
-    final minute = picked.hour * 60 + picked.minute;
-    final other = start ? config.endMinute : config.startMinute;
-    if (minute == other) {
-      _say(context, l.autoMeasureSameTime);
-      return;
-    }
-    if (minute == current) return;
-    await _save(
-      context,
-      start
-          ? config.copyWith(startMinute: minute)
-          : config.copyWith(endMinute: minute),
-    );
-  }
-
-  Future<void> _toggleDay(BuildContext context, int day, bool on) async {
-    final next = config.withDay(day, on);
-    if (next.weekdays == 0) {
-      _say(context, context.l10n.autoMeasureNoDays);
-      return;
-    }
-    await _save(context, next);
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final l = context.l10n;
-    final colors = context.colors;
-    final on = config.enabled;
-    final reduce = MediaQuery.of(context).disableAnimations;
-    // Bitiş başlangıçtan önceyse gece yarısını geçen dilim; bileklikte
-    // desteklendiği gerçek cihazda doğrulanacak.
-    final end = ltr(minuteOfDay(config.endMinute));
-    return GlassCard(
-      padding: const EdgeInsets.symmetric(vertical: 4),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          SwitchListTile(
-            contentPadding: const EdgeInsetsDirectional.only(
-              start: 16,
-              end: 12,
-            ),
-            secondary: const ExcludeSemantics(
-              child: Orb(
-                palette: CamArt.orbLime,
-                size: 40,
-                icon: Icons.directions_walk,
-              ),
-            ),
-            title: Text(
-              l.sedentaryTitle,
-              style: const TextStyle(fontWeight: FontWeight.w600),
-            ),
-            subtitle: Text(
-              on
-                  ? l.sedentarySubtitle(durationText(l, config.intervalMinutes))
-                  : l.autoMeasureOff,
-              style: TextStyle(color: colors.muted),
-            ),
-            value: on,
-            onChanged: (v) => _save(context, config.copyWith(enabled: v)),
-          ),
-          AnimatedSize(
-            duration: reduce
-                ? Duration.zero
-                : const Duration(milliseconds: 250),
-            curve: Curves.easeOutCubic,
-            alignment: AlignmentDirectional.topStart,
-            child: !on
-                ? const SizedBox(width: double.infinity)
-                : Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      Divider(height: 1, color: colors.grid),
-                      SettingsValueRow(
-                        label: l.sedentaryInterval,
-                        value: durationText(l, config.intervalMinutes),
-                        onTap: () => _pickInterval(context),
-                      ),
-                      SettingsValueRow(
-                        label: l.autoMeasureStart,
-                        value: ltr(minuteOfDay(config.startMinute)),
-                        onTap: () => _pickTime(context, start: true),
-                      ),
-                      SettingsValueRow(
-                        label: l.autoMeasureEnd,
-                        value: config.endMinute < config.startMinute
-                            ? l.autoMeasureNextDay(end)
-                            : end,
-                        onTap: () => _pickTime(context, start: false),
-                      ),
-                      Padding(
-                        padding: const EdgeInsetsDirectional.fromSTEB(
-                          16,
-                          8,
-                          16,
-                          4,
-                        ),
-                        child: Text(
-                          l.autoMeasureDays,
-                          style: TextStyle(color: colors.muted),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsetsDirectional.fromSTEB(
-                          12,
-                          0,
-                          12,
-                          8,
-                        ),
-                        child: WeekdayPicker(
-                          isSelected: config.hasDay,
-                          onChanged: (d, v) => _toggleDay(context, d, v),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsetsDirectional.fromSTEB(
-                          16,
-                          0,
-                          16,
-                          12,
-                        ),
-                        child: Text(
-                          l.sedentaryNote(config.minSteps),
-                          style: TextStyle(color: colors.muted, fontSize: 13),
-                        ),
-                      ),
-                    ],
-                  ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
 /// Cihaz ekranındaki satırın alt yazısı: "3 hatırlatıcı" gibi.
 String? remindersSummary(BuildContext context) {
   final c = DeviceScope.of(context);
   final l = context.l10n;
   final list = c.reminders;
   if (list == null) return c.remindersFailed ? l.remindersLoadFailed : null;
-  final on = list.where((r) => r.enabled).length;
-  return c.sedentary?.enabled ?? false
-      ? l.reminderCountSedentary(on)
-      : l.reminderCount(on);
+  return l.reminderCount(list.where((r) => r.enabled).length);
 }

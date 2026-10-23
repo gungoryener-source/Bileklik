@@ -22,6 +22,10 @@ abstract class DeviceTransport {
   Future<void> connect();
   Future<void> disconnect();
   Future<void> send(List<int> bytes);
+
+  /// Tek yazımda gönderilebilecek en fazla bayt (BLE'de MTU − 3). Uzun
+  /// komutlar (0x23 hatırlatıcı listesi) buna göre bölünür.
+  int get maxWriteLength;
 }
 
 /// Aramanın neden yapılamadığı; ekran kullanıcının dilinde gösterir.

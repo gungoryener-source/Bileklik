@@ -20,13 +20,14 @@ bir öncekinin dalı üzerine kurulur. Durum: ✅ bitti (PR açık ya da birleş
 | 13 | Elle nabız ve SpO2 ölçümü (0x28 02/03), Ana Sayfa'dan "Şimdi ölç" | ✅ | #15 (ölçüm bitişi PDF'te yok; süre dolunca uygulama bitiriyor, gerçek cihazda doğrulanacak) |
 | 13b | Cam tasarım dili, yalnızca koyu tema: aurora zemin, cam kartlar, parlayan ana düğme, cam alt menü, 3D çizimler (kalp, ay, alev, halka), Manrope yazı tipi; tema seçimi kaldırıldı. Kurallar `docs/flutter-mobile-design.md` | ✅ | #16 |
 | 14 | Ayarlar: otomatik ölçüm aralığı (0x2A/0x2B), takma algılama (0x86), saat/birim tercihleri | ✅ | #17 (0x2A aralık baytlarının sırası ve 0x86 onay paketi gerçek cihazda doğrulanacak) |
-| 15 | Hatırlatıcılar: ilaç, su, hareketsizlik (0x23/0x57) | ✅ | #18 (PDF elde değildi; 0x23/0x57 bayt düzeni, tür kodları ve hareketsizlik için 0x25/0x26 gerçek cihazda doğrulanacak) |
+| 15 | Hatırlatıcılar: ilaç, su, hareketsizlik (0x23/0x57) | ✅ | #18, V1.2'ye göre #25'te düzeltildi (en çok 5 kayıt, ASCII etiket; hareketsizlik uyarısı belgede olmadığı için kaldırıldı) |
 | 16 | Kilo ve vücut kompozisyonu: elle giriş, VKİ, grafik | ✅ | #19 |
 | 17 | Gerçek BLE katmanı (flutter_blue_plus), cihaz taramasının 8. maddedeki eşleştirme ekranına bağlanması, kamerayla QR okuma (şimdilik QR altındaki adres elle giriliyor) | ✅ | #20 (11. maddedeki health eklentisi ve izinler de burada; UUID'ler, yayın adı, iOS'ta adresle eşleştirme gerçek cihazda doğrulanacak; flutter_blue_plus `License.nonprofit`, ticari lisans satıştan önce yeniden değerlendirilecek) |
 | 18 | FHIR R4 dışa aktarma: Observation (LOINC), EKG için SampledData, Bundle JSON | ✅ | #21 (EKG SampledData çarpanı ve 10 dk'lık adım dönemi gerçek cihazda doğrulanacak; LOINC seçimi portalla gözden geçirilecek) |
 | 19 | Portal arka ucu iskeleti (ayrı klasör): FHIR kabul eden API, takipçi yetkisi, KVKK kayıtları | ✅ | #22 (iskelet: bellekte depo, Bearer anahtar; kalıcı şifreli depo ve gerçek giriş sonra) |
-| 20 | PPI geçmişi (0x63) ve HRV ayrıntısı; VO2 Max tahmini | ✅ | #23 (0x63 kayıt biçimi PDF elde olmadığı için tahmini, gerçek cihazda doğrulanacak; VO2 Max tahminidir) |
+| 20 | PPI geçmişi (0x63) ve HRV ayrıntısı; VO2 Max tahmini | ✅ | #23, 0x63 biçimi V1.2'ye göre #25'te düzeltildi (VO2 Max tahminidir) |
 | 21 | Rozetler, haftalık rapor, enerji skoru (referans uygulamadaki özellikler, kendi tasarımımızla) | ✅ | #24 (enerji skoru uygulamanın kendi tahmini; rozetler saklanmaz, geçmişten hesaplanır) |
+| 22 | V8 API V1.2 ve SDK belgeleriyle protokol doğrulaması: 0x63 PPI, 0x23/0x57 hatırlatıcılar, 0x03/0x04 tüm gün nabız, 0x27 yazılım sürümü. Ayrıntı `docs/protokol-dogrulama.md` | ✅ | #25 (açık kalanlar notta listeli, gerçek cihazda denenecek) |
 
 ## Her madde için
 

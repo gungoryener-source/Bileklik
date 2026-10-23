@@ -101,6 +101,15 @@ class AppLocalizationsTr extends AppLocalizations {
   String get actionClose => 'Kapat';
 
   @override
+  String get allDayHeartRateFailed => 'Ayar bilekliğe yazılamadı. Tekrar deneyin.';
+
+  @override
+  String get allDayHeartRateSubtitle => 'Kapalıyken bileklik gün boyu nabız kaydetmez.';
+
+  @override
+  String get allDayHeartRateTitle => 'Tüm gün nabız takibi';
+
+  @override
   String get appTitle => 'Bileklik';
 
   @override
@@ -603,6 +612,9 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get deviceDisconnected => 'Bağlı değil';
+
+  @override
+  String get deviceFirmware => 'Yazılım sürümü';
 
   @override
   String get deviceLastSync => 'Son eşitleme';
@@ -1711,18 +1723,6 @@ class AppLocalizationsTr extends AppLocalizations {
   }
 
   @override
-  String reminderCountSedentary(int count) {
-    String _temp0 = intl.Intl.pluralLogic(
-      count,
-      locale: localeName,
-      other: '$count hatırlatıcı ve hareketsizlik uyarısı',
-      one: '1 hatırlatıcı ve hareketsizlik uyarısı',
-      zero: 'Yalnızca hareketsizlik uyarısı',
-    );
-    return '$_temp0';
-  }
-
-  @override
   String get reminderDelete => 'Sil';
 
   @override
@@ -1745,6 +1745,9 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get reminderLabelHint => 'ör. Sabah ilacı';
+
+  @override
+  String get reminderLabelNote => 'Bileklikte Latin harfleriyle saklanır (ş → s gibi).';
 
   @override
   String get reminderMedication => 'İlaç';
@@ -1830,43 +1833,6 @@ class AppLocalizationsTr extends AppLocalizations {
   String reportWorkoutsValue(Object count, Object time) {
     return '$count kez · $time';
   }
-
-  @override
-  String sedentaryHours(int hours) {
-    String _temp0 = intl.Intl.pluralLogic(
-      hours,
-      locale: localeName,
-      other: '$hours saat',
-      one: '1 saat',
-    );
-    return '$_temp0';
-  }
-
-  @override
-  String sedentaryHoursMinutes(int hours, int minutes) {
-    return '$hours sa $minutes dk';
-  }
-
-  @override
-  String get sedentaryInterval => 'Hareketsiz kalma süresi';
-
-  @override
-  String sedentaryMinutes(int minutes) {
-    return '$minutes dakika';
-  }
-
-  @override
-  String sedentaryNote(int steps) {
-    return 'Bu sürede $steps adımdan az atarsanız uyarı gelir.';
-  }
-
-  @override
-  String sedentarySubtitle(String time) {
-    return '$time boyunca kıpırdamazsanız bileklik titrer.';
-  }
-
-  @override
-  String get sedentaryTitle => 'Hareketsizlik uyarısı';
 
   @override
   String get shareActivity => 'Aktivite ve adım';

@@ -101,6 +101,15 @@ class AppLocalizationsAr extends AppLocalizations {
   String get actionClose => 'إغلاق';
 
   @override
+  String get allDayHeartRateFailed => 'تعذر حفظ الإعداد على السوار. حاول مرة أخرى.';
+
+  @override
+  String get allDayHeartRateSubtitle => 'عند إيقافها لا يسجّل السوار نبضك خلال اليوم.';
+
+  @override
+  String get allDayHeartRateTitle => 'متابعة النبض طوال اليوم';
+
+  @override
   String get appTitle => 'Bileklik';
 
   @override
@@ -608,6 +617,9 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get deviceDisconnected => 'غير متصل';
+
+  @override
+  String get deviceFirmware => 'إصدار البرنامج الثابت';
 
   @override
   String get deviceLastSync => 'آخر مزامنة';
@@ -1744,21 +1756,6 @@ class AppLocalizationsAr extends AppLocalizations {
   }
 
   @override
-  String reminderCountSedentary(int count) {
-    String _temp0 = intl.Intl.pluralLogic(
-      count,
-      locale: localeName,
-      other: '$count تذكير وتنبيه قلة الحركة',
-      many: '$count تذكيرًا وتنبيه قلة الحركة',
-      few: '$count تذكيرات وتنبيه قلة الحركة',
-      two: 'تذكيران وتنبيه قلة الحركة',
-      one: 'تذكير واحد وتنبيه قلة الحركة',
-      zero: 'تنبيه قلة الحركة فقط',
-    );
-    return '$_temp0';
-  }
-
-  @override
   String get reminderDelete => 'حذف';
 
   @override
@@ -1781,6 +1778,9 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get reminderLabelHint => 'مثال: دواء الصباح';
+
+  @override
+  String get reminderLabelNote => 'يُحفظ على السوار بالأحرف اللاتينية فقط.';
 
   @override
   String get reminderMedication => 'الدواء';
@@ -1865,46 +1865,6 @@ class AppLocalizationsAr extends AppLocalizations {
   String reportWorkoutsValue(Object count, Object time) {
     return '$count مرات · $time';
   }
-
-  @override
-  String sedentaryHours(int hours) {
-    String _temp0 = intl.Intl.pluralLogic(
-      hours,
-      locale: localeName,
-      other: '$hours ساعة',
-      many: '$hours ساعة',
-      few: '$hours ساعات',
-      two: 'ساعتان',
-      one: 'ساعة واحدة',
-    );
-    return '$_temp0';
-  }
-
-  @override
-  String sedentaryHoursMinutes(int hours, int minutes) {
-    return '$hours س $minutes د';
-  }
-
-  @override
-  String get sedentaryInterval => 'مدة عدم الحركة';
-
-  @override
-  String sedentaryMinutes(int minutes) {
-    return '$minutes دقيقة';
-  }
-
-  @override
-  String sedentaryNote(int steps) {
-    return 'يصلك التنبيه إذا مشيت أقل من $steps خطوة خلال هذه المدة.';
-  }
-
-  @override
-  String sedentarySubtitle(String time) {
-    return 'يهتز السوار إذا لم تتحرك لمدة $time.';
-  }
-
-  @override
-  String get sedentaryTitle => 'تنبيه قلة الحركة';
 
   @override
   String get shareActivity => 'النشاط والخطوات';
