@@ -25,7 +25,12 @@ Future<void> main() async {
   await seedDemo(_api);
   web.document.addEventListener('click', _onClick.toJS);
   web.document.addEventListener('submit', _onSubmit.toJS);
-  web.window.addEventListener('hashchange', ((web.Event _) => _fromHash()).toJS);
+  web.window.addEventListener(
+    'hashchange',
+    ((web.Event _) {
+      _fromHash();
+    }).toJS,
+  );
   await _fromHash();
 }
 
