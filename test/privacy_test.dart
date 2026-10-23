@@ -34,7 +34,14 @@ void main() {
         .push(MaterialPageRoute<void>(builder: (_) => const AboutScreen()));
     await tester.pumpAndSettle();
     final button = find.text('Gizlilik politikası');
-    await tester.ensureVisible(button);
+    await tester.scrollUntilVisible(
+      button,
+      200,
+      scrollable: find.descendant(
+        of: find.byType(AboutScreen),
+        matching: find.byType(Scrollable),
+      ),
+    );
     await tester.tap(button);
     await tester.pumpAndSettle();
     expect(find.byType(PrivacyScreen), findsOneWidget);
