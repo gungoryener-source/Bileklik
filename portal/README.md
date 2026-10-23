@@ -63,6 +63,7 @@ curl -H 'Authorization: Bearer demo-doctor' -H 'content-type: application/json' 
 | `POST /invites/<kod>/accept` | hasta | Seçilen türlerle Consent oluşturur. Aynı takipçiye verilmiş eski rıza biter. |
 | `DELETE /consents/<id>` | hasta | Rızayı geri alır; erişim hemen biter. |
 | `DELETE /patients/<id>/data` | hasta | Ölçümleri siler ve rızaları bitirir (unutulma hakkı). |
+| `POST /feedback` | herkes | Uygulama içi geri bildirim. Anahtar istenmez, kimliğe bağlanmaz; dakikada en çok 30, mesaj en çok 2000 karakter. Okumak için `dart run bin/server.dart --feedback`. |
 
 ## Hekim paneli
 

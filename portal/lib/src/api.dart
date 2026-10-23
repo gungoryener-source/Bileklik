@@ -24,6 +24,7 @@ import 'store.dart';
 /// | `POST /invites/<code>/accept` | hasta | Açık rızayla bağlanır |
 /// | `DELETE /consents/<id>` | hasta | Rızayı geri alır |
 /// | `DELETE /patients/<id>/data` | hasta | Ölçümlerini siler (unutulma hakkı) |
+/// | `POST /feedback` | herkes | Uygulama içi geri bildirim (kimliksiz) |
 /// | `/panel` | hekim, araştırmacı | Tarayıcı paneli ([PanelApi]) |
 ///
 /// Kimlik doğrulama iskelette `Authorization: Bearer <anahtar>` ile; gerçek
@@ -75,11 +76,13 @@ class PortalApi {
     ..get('/invites/<code>', _getInvite)
     ..post('/invites/<code>/accept', _acceptInvite)
     ..delete('/consents/<id>', _revokeConsent)
-    ..delete('/patients/<id>/data', _erase);
+    ..delete('/patients/<id>/data', _erase)
+    ..post('/feedback', _feedback);
 
   Handler _authenticate(Handler inner) => (request) {
     if (request.url.path == 'health') return inner(request);
-    if (request.url.path == 'patients' && request.method == 'POST') {
+    if (request.method == 'POST' &&
+        (request.url.path == 'patients' || request.url.path == 'feedback')) {
       return inner(request);
     }
     final header = request.headers['authorization'] ?? '';
@@ -146,6 +149,58 @@ class PortalApi {
             'until': c.end.toUtc().toIso8601String(),
           },
     ]);
+  }
+
+  // ---------------------------------------------------------- geri bildirim
+
+  /// Geri bildirimde en çok bu kadar karakter.
+  static const feedbackMaxLength = 2000;
+
+  /// Anahtarsız uç olduğu için dakikada en çok bu kadar geri bildirim alınır.
+  static const feedbackPerMinute = 30;
+  final _feedbackTimes = <DateTime>[];
+
+  /// Geri bildirim hesaba bağlanmaz; anahtar istenmez, kimlik saklanmaz.
+  Future<Response> _feedback(Request request) async {
+    final now = _now();
+    _feedbackTimes.removeWhere(
+      (t) => now.difference(t) >= const Duration(minutes: 1),
+    );
+    if (_feedbackTimes.length >= feedbackPerMinute) {
+      return _outcome(429, 'error', 'throttled', 'Çok fazla istek; sonra deneyin');
+    }
+    final body = await _body(request);
+    final category = switch (body?['category']) {
+      final String c => FeedbackCategory.values.asNameMap()[c],
+      _ => null,
+    };
+    final message = body?['message'];
+    if (category == null ||
+        message is! String ||
+        message.trim().isEmpty ||
+        message.length > feedbackMaxLength) {
+      return _outcome(
+        400,
+        'error',
+        'invalid',
+        'category (bug, idea, other) ve message (1-$feedbackMaxLength) gerekli',
+      );
+    }
+    String? short(Object? v) =>
+        v is String && v.isNotEmpty ? (v.length > 40 ? v.substring(0, 40) : v) : null;
+    _feedbackTimes.add(now);
+    store.addFeedback(
+      FeedbackEntry(
+        id: store.nextId('feedback'),
+        time: now,
+        category: category,
+        message: message.trim(),
+        appVersion: short(body?['appVersion']),
+        platform: short(body?['platform']),
+        locale: short(body?['locale']),
+      ),
+    );
+    return _outcome(201, 'information', 'informational', 'received');
   }
 
   // ---------------------------------------------------------------- yükleme

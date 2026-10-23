@@ -378,4 +378,48 @@ void main() {
     // Hekim bu listeyi göremez.
     expect((await p.call('GET', '/connections', token: 'doctor')).$1, 403);
   });
+
+  test('geri bildirim anahtarsız alınır, kimliğe bağlanmaz ve sınırlanır', () async {
+    final p = _Portal();
+    final (status, _) = await p.call(
+      'POST',
+      '/feedback',
+      body: {
+        'category': 'bug',
+        'message': '  Senkron takılıyor  ',
+        'appVersion': '0.1.0',
+        'platform': 'android',
+        'locale': 'tr',
+      },
+    );
+    expect(status, 201);
+    final saved = p.store.feedback().single;
+    expect(saved.category, FeedbackCategory.bug);
+    expect(saved.message, 'Senkron takılıyor');
+    expect(saved.platform, 'android');
+    expect(jsonEncode(saved.toJson()), isNot(contains(_patientId)));
+
+    for (final bad in [
+      {'category': 'bug', 'message': ''},
+      {'category': 'yanlis', 'message': 'x'},
+      {'category': 'idea', 'message': 'x' * (PortalApi.feedbackMaxLength + 1)},
+    ]) {
+      expect((await p.call('POST', '/feedback', body: bad)).$1, 400);
+    }
+
+    for (var i = 1; i < PortalApi.feedbackPerMinute; i++) {
+      await p.call('POST', '/feedback', body: {'category': 'idea', 'message': '$i'});
+    }
+    final (limited, _) = await p.call(
+      'POST',
+      '/feedback',
+      body: {'category': 'idea', 'message': 'fazla'},
+    );
+    expect(limited, 429);
+    p.now = p.now.add(const Duration(minutes: 1));
+    expect(
+      (await p.call('POST', '/feedback', body: {'category': 'other', 'message': 'tekrar'})).$1,
+      201,
+    );
+  });
 }

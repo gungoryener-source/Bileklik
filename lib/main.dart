@@ -9,6 +9,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'data/community.dart';
 import 'data/connections.dart';
+import 'data/feedback.dart';
 import 'data/health_platform.dart';
 import 'data/health_store.dart';
 import 'data/plugin_health_platform.dart';
@@ -37,12 +38,14 @@ Future<void> main() async {
     store: await _openStore(),
     wearDetection: settings.wearDetection,
   );
+  final portal = _portal(settings, controller);
   runApp(
     BileklikApp(
       controller: controller,
       settings: settings,
       healthExport: _healthExport(controller),
-      connections: _portal(settings, controller),
+      connections: portal?.connections,
+      feedback: portal?.feedback,
     ),
   );
 }
@@ -51,8 +54,11 @@ Future<void> main() async {
 /// Verilmezse hekim bağlantıları sahte sunucuyla çalışır.
 const _portalUrl = String.fromEnvironment('PORTAL_URL');
 
-/// Portal adresi varsa gerçek bağlantı servisi ve yükleyici; yoksa null.
-ConnectionService? _portal(AppSettings settings, DeviceController controller) {
+/// Portal adresi varsa gerçek servisler ve yükleyici; yoksa null.
+({ConnectionService connections, FeedbackService feedback})? _portal(
+  AppSettings settings,
+  DeviceController controller,
+) {
   if (_portalUrl.isEmpty) return null;
   final base = Uri.parse(_portalUrl.endsWith('/') ? _portalUrl : '$_portalUrl/');
   final client = PortalClient(
@@ -64,7 +70,7 @@ ConnectionService? _portal(AppSettings settings, DeviceController controller) {
   // Uygulama açık kaldıkça yeni ölçümleri yükler.
   PortalUploader(client: client, connections: service, store: controller.store);
   unawaited(service.refresh().catchError((Object _) {}));
-  return service;
+  return (connections: service, feedback: PortalFeedbackService(client));
 }
 
 /// Demo kipi: `flutter run --dart-define=DEMO=true` sahte bileklik ve sahte
@@ -117,7 +123,9 @@ class BileklikApp extends StatelessWidget {
     CommunityService? community,
     ConnectionService? connections,
     HealthExportService? healthExport,
+    FeedbackService? feedback,
   }) : settings = settings ?? AppSettings.memory(),
+       feedback = feedback ?? FakeFeedbackService(),
        // Portal arka ucu gelene kadar sahte sunucular.
        community = community ?? FakeCommunityServer(),
        connections = connections ?? FakeConnectionServer(),
@@ -137,6 +145,7 @@ class BileklikApp extends StatelessWidget {
   final CommunityService community;
   final ConnectionService connections;
   final HealthExportService healthExport;
+  final FeedbackService feedback;
 
   static final _theme = buildTheme();
 
@@ -152,7 +161,9 @@ class BileklikApp extends StatelessWidget {
             service: connections,
             child: HealthExportScope(
               service: healthExport,
-              child: ListenableBuilder(
+              child: FeedbackScope(
+                service: feedback,
+                child: ListenableBuilder(
                 listenable: settings,
                 builder: (context, _) => MaterialApp(
                   onGenerateTitle: (context) => context.l10n.appTitle,
@@ -186,6 +197,7 @@ class BileklikApp extends StatelessWidget {
                       ? const AppShell()
                       : const LanguageScreen(firstRun: true),
                 ),
+              ),
               ),
             ),
           ),

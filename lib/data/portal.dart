@@ -87,14 +87,16 @@ class PortalClient {
     }
   }
 
-  /// Yanıt [ok] değilse [ConnectionUnavailable] fırlatır.
+  /// Yanıt [ok] değilse [ConnectionUnavailable] fırlatır. [auth] false ise
+  /// oturum anahtarı gönderilmez (ör. kimliksiz geri bildirim).
   Future<http.Response> request(
     String method,
     String path, {
     Object? body,
     Set<int> ok = const {200, 201},
+    bool auth = true,
   }) async {
-    final r = await _send(method, path, body: body);
+    final r = await _send(method, path, body: body, auth: auth);
     if (!ok.contains(r.statusCode)) {
       throw ConnectionUnavailable('$method $path → ${r.statusCode}');
     }

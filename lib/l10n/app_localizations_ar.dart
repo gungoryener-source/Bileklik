@@ -324,9 +324,6 @@ class AppLocalizationsAr extends AppLocalizations {
   String get comingSoon => 'قريبًا';
 
   @override
-  String get comingSoonMessage => 'سيتوفر هذا القسم في إصدار قادم.';
-
-  @override
   String get communityAccept => 'انضمام';
 
   @override
@@ -857,6 +854,41 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get exportTitle => 'تصدير بياناتي';
+
+  @override
+  String feedbackDetailsValue(String version, String platform) {
+    return 'الإصدار $version · $platform';
+  }
+
+  @override
+  String get feedbackIncludeDetails => 'إرفاق معلومات الإصدار والجهاز';
+
+  @override
+  String get feedbackIntro => 'هل وجدت خطأ أو لديك اقتراح؟ اكتب لنا وسننقله إلى الفريق.';
+
+  @override
+  String get feedbackMessageHint => 'ماذا حدث، وماذا كنت تتوقع؟';
+
+  @override
+  String get feedbackMessageLabel => 'رسالتك';
+
+  @override
+  String get feedbackPrivacy => 'لا يتم إرسال اسمك أو هويتك أو بياناتك الصحية. يُرجى عدم كتابة معلومات شخصية.';
+
+  @override
+  String get feedbackSend => 'إرسال';
+
+  @override
+  String get feedbackThanks => 'شكرًا، تم استلام ملاحظاتك.';
+
+  @override
+  String get feedbackTopicBug => 'خطأ';
+
+  @override
+  String get feedbackTopicIdea => 'اقتراح';
+
+  @override
+  String get feedbackTopicOther => 'أخرى';
 
   @override
   String get healthBloodPressure => 'ضغط الدم';

@@ -159,7 +159,6 @@
   "clockSystem": "Dile göre",
   "clockTitle": "Saat biçimi",
   "comingSoon": "Yakında",
-  "comingSoonMessage": "Bu bölüm sonraki bir sürümde gelecek.",
   "communityAccept": "Katıl",
   "communityAnswered": "Yanıtlandı",
   "communityCodeCopied": "Kod kopyalandı",
@@ -373,6 +372,27 @@
   },
   "exportShare": "Dosyayı paylaş",
   "exportTitle": "Verilerimi dışa aktar",
+  "feedbackDetailsValue": "Sürüm {version} · {platform}",
+  "@feedbackDetailsValue": {
+    "placeholders": {
+      "version": {
+        "type": "String"
+      },
+      "platform": {
+        "type": "String"
+      }
+    }
+  },
+  "feedbackIncludeDetails": "Sürüm ve cihaz bilgisini ekle",
+  "feedbackIntro": "Bir hata mı buldunuz, bir öneriniz mi var? Yazın, ekibe iletelim.",
+  "feedbackMessageHint": "Ne oldu, ne bekliyordunuz?",
+  "feedbackMessageLabel": "Mesajınız",
+  "feedbackPrivacy": "Adınız, kimliğiniz ve sağlık verileriniz gönderilmez. Kişisel bilgi yazmayın.",
+  "feedbackSend": "Gönder",
+  "feedbackThanks": "Teşekkürler, geri bildiriminiz alındı.",
+  "feedbackTopicBug": "Hata",
+  "feedbackTopicIdea": "Öneri",
+  "feedbackTopicOther": "Diğer",
   "healthBloodPressure": "Tansiyon",
   "healthBloodPressureSubtitle": "Tahmini · {details}",
   "@healthBloodPressureSubtitle": {

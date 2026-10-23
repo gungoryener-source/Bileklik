@@ -11,14 +11,13 @@ import 'about_screen.dart';
 import 'community_screen.dart';
 import 'connections_screen.dart';
 import 'device_screen.dart';
+import 'feedback_screen.dart';
 import 'fhir_export_screen.dart';
 import 'general_settings_screen.dart';
 import 'health_platform_screen.dart';
 import 'personal_info_screen.dart';
 
 /// Profil sekmesi: kişisel bilgiler, cihaz, ayarlar ve uygulama menüsü.
-///
-/// Geri bildirim henüz yok; "Yakında" olarak görünür.
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
 
@@ -32,12 +31,6 @@ class ProfileScreen extends StatelessWidget {
     void open(Widget screen) =>
         Navigator.of(context)
             .push(MaterialPageRoute<void>(builder: (_) => screen));
-
-    void soon() {
-      ScaffoldMessenger.of(context)
-        ..hideCurrentSnackBar()
-        ..showSnackBar(SnackBar(content: Text(l.comingSoonMessage)));
-    }
 
     return ListView(
       padding: EdgeInsets.fromLTRB(16, 20, 16, GlassNavBar.clearance(context)),
@@ -130,8 +123,7 @@ class ProfileScreen extends StatelessWidget {
             MenuTile(
               icon: Icons.chat_bubble_outline,
               title: l.profileMenuFeedback,
-              soon: true,
-              onTap: soon,
+              onTap: () => open(const FeedbackScreen()),
             ),
             MenuTile(
               icon: Icons.verified_outlined,

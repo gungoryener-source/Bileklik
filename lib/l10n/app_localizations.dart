@@ -672,12 +672,6 @@ abstract class AppLocalizations {
   /// **'Yakında'**
   String get comingSoon;
 
-  /// No description provided for @comingSoonMessage.
-  ///
-  /// In tr, this message translates to:
-  /// **'Bu bölüm sonraki bir sürümde gelecek.'**
-  String get comingSoonMessage;
-
   /// No description provided for @communityAccept.
   ///
   /// In tr, this message translates to:
@@ -1517,6 +1511,72 @@ abstract class AppLocalizations {
   /// In tr, this message translates to:
   /// **'Verilerimi dışa aktar'**
   String get exportTitle;
+
+  /// No description provided for @feedbackDetailsValue.
+  ///
+  /// In tr, this message translates to:
+  /// **'Sürüm {version} · {platform}'**
+  String feedbackDetailsValue(String version, String platform);
+
+  /// No description provided for @feedbackIncludeDetails.
+  ///
+  /// In tr, this message translates to:
+  /// **'Sürüm ve cihaz bilgisini ekle'**
+  String get feedbackIncludeDetails;
+
+  /// No description provided for @feedbackIntro.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bir hata mı buldunuz, bir öneriniz mi var? Yazın, ekibe iletelim.'**
+  String get feedbackIntro;
+
+  /// No description provided for @feedbackMessageHint.
+  ///
+  /// In tr, this message translates to:
+  /// **'Ne oldu, ne bekliyordunuz?'**
+  String get feedbackMessageHint;
+
+  /// No description provided for @feedbackMessageLabel.
+  ///
+  /// In tr, this message translates to:
+  /// **'Mesajınız'**
+  String get feedbackMessageLabel;
+
+  /// No description provided for @feedbackPrivacy.
+  ///
+  /// In tr, this message translates to:
+  /// **'Adınız, kimliğiniz ve sağlık verileriniz gönderilmez. Kişisel bilgi yazmayın.'**
+  String get feedbackPrivacy;
+
+  /// No description provided for @feedbackSend.
+  ///
+  /// In tr, this message translates to:
+  /// **'Gönder'**
+  String get feedbackSend;
+
+  /// No description provided for @feedbackThanks.
+  ///
+  /// In tr, this message translates to:
+  /// **'Teşekkürler, geri bildiriminiz alındı.'**
+  String get feedbackThanks;
+
+  /// No description provided for @feedbackTopicBug.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hata'**
+  String get feedbackTopicBug;
+
+  /// No description provided for @feedbackTopicIdea.
+  ///
+  /// In tr, this message translates to:
+  /// **'Öneri'**
+  String get feedbackTopicIdea;
+
+  /// No description provided for @feedbackTopicOther.
+  ///
+  /// In tr, this message translates to:
+  /// **'Diğer'**
+  String get feedbackTopicOther;
 
   /// No description provided for @healthBloodPressure.
   ///

@@ -37,6 +37,9 @@ abstract class PortalStore {
   void addAudit(AuditEntry e);
   List<AuditEntry> auditForPatient(String patientId);
 
+  void addFeedback(FeedbackEntry f);
+  List<FeedbackEntry> feedback();
+
   /// Yeni kayıtlar için benzersiz kimlik.
   String nextId(String prefix);
 }
@@ -56,6 +59,7 @@ class MemoryPortalStore implements PortalStore {
   final _consents = <String, Consent>{};
   final _invites = <String, Invite>{};
   final _audit = <AuditEntry>[];
+  final _feedback = <FeedbackEntry>[];
   var _seq = 0;
 
   @override
@@ -137,6 +141,12 @@ class MemoryPortalStore implements PortalStore {
     for (final e in _audit.reversed)
       if (e.patientId == patientId) e,
   ];
+
+  @override
+  void addFeedback(FeedbackEntry f) => _feedback.add(f);
+
+  @override
+  List<FeedbackEntry> feedback() => List.unmodifiable(_feedback);
 
   @override
   String nextId(String prefix) => '$prefix-${++_seq}';

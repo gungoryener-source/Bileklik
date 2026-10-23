@@ -18,6 +18,7 @@ import 'package:shelf/shelf_io.dart' as io;
 ///
 /// `--demo` iki deneme hesabı açar: `demo-patient` (hasta) ve `demo-doctor`
 /// (hekim) oturum anahtarlarıyla; veriler sunucu kapanınca silinir.
+/// `--feedback` uygulamadan gelen geri bildirimleri yazar.
 /// `--add-clinician` (araştırma kurumu için ayrıca `--researcher`) hesabı
 /// açar, oturum anahtarını bir kez yazar ve çıkar.
 Future<void> main(List<String> args) async {
@@ -57,6 +58,14 @@ Future<void> main(List<String> args) async {
       return;
     }
     store = await EncryptedPortalStore.open(File(path), base64.decode(key));
+  }
+
+  // Geri bildirimleri JSON satırları olarak yazar ve çıkar.
+  if (args.contains('--feedback')) {
+    for (final f in store.feedback()) {
+      stdout.writeln(jsonEncode(f.toJson()));
+    }
+    return;
   }
 
   final name = _arg(args, '--add-clinician');

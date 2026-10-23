@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../data/community.dart';
 import '../data/connections.dart';
+import '../data/feedback.dart';
 import '../data/health_platform.dart';
 import '../l10n/l10n.dart';
 
@@ -59,6 +60,23 @@ class ConnectionScope extends InheritedNotifier<ConnectionService> {
 
   static ConnectionService of(BuildContext context) =>
       context.dependOnInheritedWidgetOfExactType<ConnectionScope>()!.notifier!;
+}
+
+/// Geri bildirim gönderen servisi ekranlara taşır.
+class FeedbackScope extends InheritedWidget {
+  const FeedbackScope({
+    super.key,
+    required this.service,
+    required super.child,
+  });
+
+  final FeedbackService service;
+
+  static FeedbackService of(BuildContext context) =>
+      context.dependOnInheritedWidgetOfExactType<FeedbackScope>()!.service;
+
+  @override
+  bool updateShouldNotify(FeedbackScope old) => service != old.service;
 }
 
 /// Telefonun sağlık platformuna (Health Connect / Apple Health) aktarımı
