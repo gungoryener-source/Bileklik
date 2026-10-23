@@ -183,3 +183,23 @@ seçilir ve çerezde kalır, Arapçada sayfa sağdan sola.
   hesap açar.
 - İki adımlı doğrulama (TOTP).
 - Saklama süreleri, VERBİS kaydı ve aydınlatma metni hukukla birlikte.
+
+## Test portalı (Render)
+
+`Test portalı` iş akışı (`.github/workflows/deploy.yml`) çalışır paketi
+`portal-deploy` dalına yazar: derlenmiş sunucu, portala bağlı uygulamanın web
+sürümü (`/uygulama/`), açılış sayfası, `Dockerfile` ve `render.yaml`.
+
+1. render.com'da GitHub hesabıyla oturum açın.
+2. New > Blueprint > `gungoryener-source/Bileklik`, dal `portal-deploy`
+   (ya da New > Web Service > aynı depo ve dal, Docker, Free).
+3. Yayına girince adres `https://bileklik-test.onrender.com` gibi olur:
+   - `/`: açılış sayfası
+   - `/uygulama/`: uygulama (sahte bileklik, portala bağlı)
+   - `/panel`: hekim paneli (`demo@bileklik.app` / `demo-sifre-2026`)
+
+Ücretsiz planda servis 15 dakika boş kalınca uyur; ilk istek yaklaşık bir
+dakika sürer. Veriler bellekte tutulur, yeniden başlayınca deneme verisiyle
+sıfırlanır. Kalıcı veri için diskli bir planda `PORTAL_KEY` ve `PORTAL_DATA`
+verin (`--new-key` ile anahtar üretilir).
+
