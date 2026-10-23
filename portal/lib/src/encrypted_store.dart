@@ -210,6 +210,18 @@ class EncryptedPortalStore implements PortalStore {
             description: e['description']! as String,
           ),
         );
+      case 'feedback':
+        _mem.addFeedback(
+          FeedbackEntry(
+            id: e['id']! as String,
+            time: _parse(e['time']),
+            category: FeedbackCategory.values.byName(e['category']! as String),
+            message: e['message']! as String,
+            appVersion: e['appVersion'] as String?,
+            platform: e['platform'] as String?,
+            locale: e['locale'] as String?,
+          ),
+        );
       default:
         throw FormatException('Bilinmeyen olay: ${e['t']}');
     }
@@ -336,6 +348,12 @@ class EncryptedPortalStore implements PortalStore {
   @override
   List<AuditEntry> auditForPatient(String patientId) =>
       _mem.auditForPatient(patientId);
+
+  @override
+  void addFeedback(FeedbackEntry f) => _record({'t': 'feedback', ...f.toJson()});
+
+  @override
+  List<FeedbackEntry> feedback() => _mem.feedback();
 
   /// Yeniden başlatmada çakışmasın diye sıra numarası yerine rastgele.
   @override

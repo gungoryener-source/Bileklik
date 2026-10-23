@@ -325,9 +325,6 @@ class AppLocalizationsTr extends AppLocalizations {
   String get comingSoon => 'Yakında';
 
   @override
-  String get comingSoonMessage => 'Bu bölüm sonraki bir sürümde gelecek.';
-
-  @override
   String get communityAccept => 'Katıl';
 
   @override
@@ -835,6 +832,41 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get exportTitle => 'Verilerimi dışa aktar';
+
+  @override
+  String feedbackDetailsValue(String version, String platform) {
+    return 'Sürüm $version · $platform';
+  }
+
+  @override
+  String get feedbackIncludeDetails => 'Sürüm ve cihaz bilgisini ekle';
+
+  @override
+  String get feedbackIntro => 'Bir hata mı buldunuz, bir öneriniz mi var? Yazın, ekibe iletelim.';
+
+  @override
+  String get feedbackMessageHint => 'Ne oldu, ne bekliyordunuz?';
+
+  @override
+  String get feedbackMessageLabel => 'Mesajınız';
+
+  @override
+  String get feedbackPrivacy => 'Adınız, kimliğiniz ve sağlık verileriniz gönderilmez. Kişisel bilgi yazmayın.';
+
+  @override
+  String get feedbackSend => 'Gönder';
+
+  @override
+  String get feedbackThanks => 'Teşekkürler, geri bildiriminiz alındı.';
+
+  @override
+  String get feedbackTopicBug => 'Hata';
+
+  @override
+  String get feedbackTopicIdea => 'Öneri';
+
+  @override
+  String get feedbackTopicOther => 'Diğer';
 
   @override
   String get healthBloodPressure => 'Tansiyon';

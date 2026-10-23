@@ -325,9 +325,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get comingSoon => 'Coming soon';
 
   @override
-  String get comingSoonMessage => 'This section is coming in a future version.';
-
-  @override
   String get communityAccept => 'Join';
 
   @override
@@ -848,6 +845,41 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get exportTitle => 'Export my data';
+
+  @override
+  String feedbackDetailsValue(String version, String platform) {
+    return 'Version $version · $platform';
+  }
+
+  @override
+  String get feedbackIncludeDetails => 'Include version and device info';
+
+  @override
+  String get feedbackIntro => 'Found a bug or have an idea? Tell us and we\'ll pass it to the team.';
+
+  @override
+  String get feedbackMessageHint => 'What happened, and what did you expect?';
+
+  @override
+  String get feedbackMessageLabel => 'Your message';
+
+  @override
+  String get feedbackPrivacy => 'Your name, ID and health data are not sent. Please don\'t include personal details.';
+
+  @override
+  String get feedbackSend => 'Send';
+
+  @override
+  String get feedbackThanks => 'Thanks, we got your feedback.';
+
+  @override
+  String get feedbackTopicBug => 'Bug';
+
+  @override
+  String get feedbackTopicIdea => 'Idea';
+
+  @override
+  String get feedbackTopicOther => 'Other';
 
   @override
   String get healthBloodPressure => 'Blood pressure';

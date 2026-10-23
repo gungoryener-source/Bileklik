@@ -328,10 +328,6 @@ class AppLocalizationsDe extends AppLocalizations {
   String get comingSoon => 'Demnächst';
 
   @override
-  String get comingSoonMessage =>
-      'Dieser Bereich folgt in einer späteren Version.';
-
-  @override
   String get communityAccept => 'Beitreten';
 
   @override
@@ -853,6 +849,41 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get exportTitle => 'Meine Daten exportieren';
+
+  @override
+  String feedbackDetailsValue(String version, String platform) {
+    return 'Version $version · $platform';
+  }
+
+  @override
+  String get feedbackIncludeDetails => 'Version und Geräteinfo anhängen';
+
+  @override
+  String get feedbackIntro => 'Einen Fehler gefunden oder eine Idee? Schreiben Sie uns, wir geben es an das Team weiter.';
+
+  @override
+  String get feedbackMessageHint => 'Was ist passiert und was haben Sie erwartet?';
+
+  @override
+  String get feedbackMessageLabel => 'Ihre Nachricht';
+
+  @override
+  String get feedbackPrivacy => 'Name, Kennung und Gesundheitsdaten werden nicht gesendet. Bitte keine persönlichen Angaben eintragen.';
+
+  @override
+  String get feedbackSend => 'Senden';
+
+  @override
+  String get feedbackThanks => 'Danke, Ihr Feedback ist angekommen.';
+
+  @override
+  String get feedbackTopicBug => 'Fehler';
+
+  @override
+  String get feedbackTopicIdea => 'Idee';
+
+  @override
+  String get feedbackTopicOther => 'Sonstiges';
 
   @override
   String get healthBloodPressure => 'Blutdruck';

@@ -269,3 +269,38 @@ class AuditEntry {
     ],
   };
 }
+
+/// Uygulama içi geri bildirimin türü.
+enum FeedbackCategory { bug, idea, other }
+
+/// Uygulamadan gelen geri bildirim. Kimseye bağlanmaz: hasta kimliği ya da
+/// sağlık verisi tutulmaz; yalnızca isteğe bağlı sürüm ve platform bilgisi.
+class FeedbackEntry {
+  const FeedbackEntry({
+    required this.id,
+    required this.time,
+    required this.category,
+    required this.message,
+    this.appVersion,
+    this.platform,
+    this.locale,
+  });
+
+  final String id;
+  final DateTime time;
+  final FeedbackCategory category;
+  final String message;
+  final String? appVersion;
+  final String? platform;
+  final String? locale;
+
+  Map<String, Object?> toJson() => {
+    'id': id,
+    'time': time.toUtc().toIso8601String(),
+    'category': category.name,
+    'message': message,
+    'appVersion': appVersion,
+    'platform': platform,
+    'locale': locale,
+  };
+}

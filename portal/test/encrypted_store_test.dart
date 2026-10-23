@@ -116,6 +116,14 @@ void main() {
       )).$1,
       201,
     );
+    store.addFeedback(
+      FeedbackEntry(
+        id: 'feedback-1',
+        time: _t0,
+        category: FeedbackCategory.idea,
+        message: 'Grafik güzel',
+      ),
+    );
     await store.flush();
     return (store, token);
   }
@@ -130,6 +138,7 @@ void main() {
     expect(consent.scopes, {ShareScope.heartRate});
     expect(consent.activeAt(_t0), isTrue);
     expect(again.auditForPatient(_patientId), isNotEmpty);
+    expect(again.feedback().single.message, 'Grafik güzel');
 
     // Yeniden açılan depo üzerinden hekim okuyabilir; aynı kayıt tekrar
     // yazılmaz.
@@ -157,7 +166,7 @@ void main() {
   test('dosyada açık metin ve oturum anahtarı yok', () async {
     final (store, token) = await seeded();
     final raw = await file.readAsString();
-    for (final secret in [_patientId, '8867-4', 'Ayşe', 'Ritim', token, 'doctor-token']) {
+    for (final secret in [_patientId, '8867-4', 'Ayşe', 'Ritim', token, 'doctor-token', 'Grafik']) {
       expect(raw, isNot(contains(secret)), reason: secret);
     }
     // Çözülmüş olaylarda bile anahtarın kendisi değil özeti var.

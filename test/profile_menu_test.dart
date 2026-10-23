@@ -8,6 +8,7 @@ import 'package:bileklik/device/transport.dart';
 import 'package:bileklik/main.dart';
 import 'package:bileklik/state/app_settings.dart';
 import 'package:bileklik/state/device_controller.dart';
+import 'package:bileklik/ui/screens/feedback_screen.dart';
 import 'package:bileklik/ui/screens/pairing_screen.dart';
 import 'package:bileklik/ui/screens/profile_screen.dart';
 import 'package:bileklik/ui/screens/qr_scan_screen.dart';
@@ -154,10 +155,9 @@ void main() {
     await tester.ensureVisible(find.text(_feedback));
     await tester.pumpAndSettle();
     await tester.tap(find.text(_feedback));
-    await tester.pump();
-    expect(find.text('Bu bölüm sonraki bir sürümde gelecek.'), findsOneWidget);
-    // Bildirim kapanana kadar bekle; alttaki satırların üstünü örtüyor.
-    await tester.pump(const Duration(seconds: 5));
+    await tester.pumpAndSettle();
+    expect(find.byType(FeedbackScreen), findsOneWidget);
+    await tester.pageBack();
     await tester.pumpAndSettle();
 
     await tester.scrollUntilVisible(
