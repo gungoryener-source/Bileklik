@@ -851,7 +851,7 @@ h3 { font-size: 1rem; margin: 16px 0 8px; }
 .error { color: var(--danger); font-weight: 600; }
 .big { font-size: 2rem; font-weight: 800; letter-spacing: -.02em; margin: 4px 0; font-variant-numeric: tabular-nums; }
 .code { font: 800 2.6rem/1.2 ui-monospace, "SF Mono", Menlo, monospace; letter-spacing: .22em; color: var(--accent-ink); background: var(--soft); border-radius: 16px; padding: 16px 20px; display: inline-block; }
-.stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 14px; margin: 8px 0; }
+.stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 14px; margin: 8px 0; }
 .stat { background: var(--card); border: 1px solid var(--line); border-radius: 18px; padding: 16px 18px; box-shadow: var(--shadow); display: grid; gap: 2px; }
 .stat b { font-size: 2rem; line-height: 1.1; font-weight: 800; letter-spacing: -.02em; font-variant-numeric: tabular-nums; }
 .stat span { color: var(--muted); font-size: .9rem; font-weight: 600; }
