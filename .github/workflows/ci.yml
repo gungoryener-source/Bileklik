@@ -8,6 +8,9 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+    # GEÇİCİ: ekran görüntülerini ekran-goruntuleri dalına yazar.
+    permissions:
+      contents: write
     steps:
       - uses: actions/checkout@v4
       - uses: subosito/flutter-action@v2
@@ -15,63 +18,37 @@ jobs:
           channel: stable
           cache: true
       - run: flutter pub get
-      # GEÇİCİ: analiz ve test çıktısını açıklama olarak yazar.
-      - name: flutter analyze
+      - name: Arapça yazı tipi
+        run: |
+          mkdir -p build
+          curl -fsSL -o build/NotoSansArabic.ttf https://github.com/notofonts/notofonts.github.io/raw/main/fonts/NotoSansArabic/hinted/ttf/NotoSansArabic-Regular.ttf || true
+      - name: Ekran görüntüleri
         run: |
           set -o pipefail
-          flutter analyze 2>&1 | tee analyze.txt || true
-      - name: flutter test
-        run: |
-          set -o pipefail
-          flutter test --reporter expanded 2>&1 | tee test-output.txt
-      - name: Hatalar
-        if: always()
-        run: |
-          python3 - <<'PY'
-          import os
-          def emit(title, chunk):
-              msg = chunk[-3800:].replace('%', '%25').replace('\r', '').replace('\n', '%0A')
-              print(f'::error title={title}::{msg}')
-          if os.path.exists('analyze.txt'):
-              a = [l for l in open('analyze.txt', errors='replace').read().splitlines() if ' • ' in l]
-              if a: emit('analyze', '\n'.join(a[:40]))
-          if os.path.exists('test-output.txt'):
-              lines = open('test-output.txt', encoding='utf-8', errors='replace').read().splitlines()
-              marks = [i for i, l in enumerate(lines) if '[E]' in l]
-              for n, i in enumerate(marks[:8]):
-                  emit(f'fail{n}', '\n'.join(lines[max(0, i - 70):i + 12]))
-          PY
-
-  portal:
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: portal
-    steps:
-      - uses: actions/checkout@v4
-      - uses: dart-lang/setup-dart@v1
-      - run: dart pub get
-      - name: dart analyze
-        run: |
-          dart analyze --fatal-infos 2>&1 | tee analyze.txt || true
-          python3 -c "
-          import sys
-          a=[l for l in open('analyze.txt',errors='replace').read().splitlines() if ' - ' in l or ' • ' in l]
-          m='%0A'.join(a[:40]).replace('%','%25') if a else ''
-          print('::error title=panalyze::'+'%0A'.join(a[:40])) if a else None
-          "
-      - name: dart test
-        run: |
-          set -o pipefail
-          dart test --reporter expanded 2>&1 | tee test-output.txt
+          export FLUTTER_ROOT="$(dirname "$(dirname "$(which flutter)")")"
+          EKRAN=1 flutter test --update-goldens --reporter expanded test/ekran_goruntusu_test.dart 2>&1 | tee shot.txt
       - name: Hatalar
         if: failure()
         run: |
           python3 - <<'PY'
-          lines = open('test-output.txt', encoding='utf-8', errors='replace').read().splitlines()
+          lines = open('shot.txt', encoding='utf-8', errors='replace').read().splitlines()
           marks = [i for i, l in enumerate(lines) if '[E]' in l]
           for n, i in enumerate(marks[:8]):
               chunk = '\n'.join(lines[max(0, i - 60):i + 12])[-3800:]
               msg = chunk.replace('%', '%25').replace('\r', '').replace('\n', '%0A')
-              print(f'::error title=pfail{n}::{msg}')
+              print(f'::error title=shot{n}::{msg}')
           PY
+      - name: Görüntüleri dala yaz
+        if: always()
+        run: |
+          ls -la test/ekran || exit 0
+          mkdir -p /tmp/ekran && cp -r test/ekran/. /tmp/ekran/
+          git config user.name "github-actions"
+          git config user.email "github-actions@users.noreply.github.com"
+          git checkout --orphan ekran-goruntuleri
+          git rm -rfq --cached .
+          find . -mindepth 1 -maxdepth 1 ! -name .git -exec rm -rf {} +
+          cp -r /tmp/ekran/. .
+          git add -A
+          git commit -qm "Ekran görüntüleri"
+          git push -f origin HEAD:ekran-goruntuleri
