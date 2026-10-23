@@ -121,7 +121,7 @@ class PortalConnectionService extends ConnectionService {
 
   static Set<ShareScope> _scopes(Object? raw) => {
     for (final s in raw as List? ?? const [])
-      if (ShareScope.values.asNameMap()[s] case final v?) v,
+      ?ShareScope.values.asNameMap()[s],
   };
 
   static ConnectionOffer _offer(Map j, {required String code}) =>

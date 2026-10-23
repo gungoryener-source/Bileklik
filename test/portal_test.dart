@@ -56,14 +56,14 @@ class _Backend {
 
   /// Hekim davet kodu üretir (portalın kendi API'siyle).
   Future<String> invite(List<String> scopes) async {
-    final c = PortalClientForDoctor(this);
+    final c = _DoctorClient(this);
     return c.invite(scopes);
   }
 }
 
 /// Testte hekim tarafını oynayan küçük istemci.
-class PortalClientForDoctor {
-  PortalClientForDoctor(this.backend);
+class _DoctorClient {
+  _DoctorClient(this.backend);
   final _Backend backend;
 
   Future<String> invite(List<String> scopes) async {
