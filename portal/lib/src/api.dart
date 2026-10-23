@@ -303,7 +303,9 @@ class PortalApi {
     final now = _now();
     // Aynı takipçiye verilmiş eski rıza yenisiyle değişir.
     for (final old in store.consentsForPatient(me.id)) {
-      if (old.actorId == invite.actorId && old.activeAt(now)) old.revokedAt = now;
+      if (old.actorId == invite.actorId && old.activeAt(now)) {
+        store.revokeConsent(old.id, now);
+      }
     }
     final consent = Consent(
       id: store.nextId('consent'),
@@ -334,7 +336,7 @@ class PortalApi {
       return _outcome(404, 'error', 'not-found', 'Rıza bulunamadı');
     }
     final now = _now();
-    consent.revokedAt ??= now;
+    store.revokeConsent(consent.id, now);
     _audit(me.id, me.id, AuditAction.update, true, 'Rıza geri alındı: ${consent.actorId}');
     return _json(200, consent.toFhir(now));
   }
@@ -349,7 +351,7 @@ class PortalApi {
     final now = _now();
     final count = store.deleteObservations(id);
     for (final c in store.consentsForPatient(id)) {
-      c.revokedAt ??= now;
+      store.revokeConsent(c.id, now);
     }
     _audit(me.id, id, AuditAction.delete, true, '$count ölçüm silindi');
     return _outcome(200, 'information', 'informational', 'deleted=$count');

@@ -8,8 +8,36 @@ erişimi KVKK için kaydeden arka uç. Dart ile yazıldı (shelf).
 cd portal
 dart pub get
 dart test
-dart run bin/server.dart --demo   # http://localhost:8080
+dart run bin/server.dart --demo   # bellekte, http://localhost:8080
 ```
+
+Kalıcı kip: veriler şifreli bir dosyada tutulur.
+
+```sh
+export PORTAL_KEY=$(dart run bin/server.dart --new-key)   # bir kez üretip saklayın
+export PORTAL_DATA=data/portal.log
+dart run bin/server.dart --add-clinician="Dr. Ayşe Kaya" --org="Kardiyoloji Polikliniği"
+# yazdırılan oturum anahtarını hekime verin
+dart run bin/server.dart
+```
+
+## Depolama ve şifreleme
+
+`EncryptedPortalStore` her değişikliği bir olay olarak dosyaya ekler.
+
+- Her satır AES-256-GCM ile ayrı şifrelenir: rastgele nonce, doğrulama
+  etiketi ve sabit bir ek veri. Açılışta tüm satırlar çözülür ve durum
+  bellekte yeniden kurulur.
+- Anahtar dosyada değil, `PORTAL_KEY` ortam değişkenindedir. Anahtar
+  kaybedilirse veri geri alınamaz; yanlış anahtarla sunucu açılmaz.
+- Oturum anahtarlarının yalnızca SHA-256 özeti saklanır.
+- Hasta verisini silince (`DELETE /patients/<id>/data`) dosya, o hastanın
+  ölçümleri olmadan baştan yazılır (geçici dosya + yeniden ad). Silinen veri
+  şifreli halde bile diskte kalmaz. Erişim kayıtları kalır.
+- Kimlikler rastgeledir; yeniden başlatmada çakışmaz.
+
+Tek dosya pilot için yeterlidir. Çok kullanıcılı üretimde aynı `PortalStore`
+arayüzünün arkasına PostgreSQL gelebilir.
 
 `--demo` iki deneme hesabı açar. Oturum anahtarları `demo-patient` (hasta) ve
 `demo-doctor` (hekim):
@@ -48,7 +76,7 @@ curl -H 'Authorization: Bearer demo-doctor' -H 'content-type: application/json' 
 
 ## Sonraki adımlar
 
-- Kalıcı ve şifreli depo (`PortalStore` arayüzünün arkasına PostgreSQL).
+- Çok kullanıcılı üretim için PostgreSQL deposu ve yedekleme.
 - Gerçek giriş: hekim ve kurum doğrulaması, hasta için uygulamadan cihaz
   anahtarı.
 - Topluluk (aile grupları) sunucusunun sahte uygulamasının yerine bu API.
