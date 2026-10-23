@@ -132,6 +132,102 @@ abstract class AppLocalizations {
   /// **'Sürüm {version}'**
   String aboutVersion(Object version);
 
+  /// No description provided for @accountCodeCopied.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kurtarma kodu kopyalandı'**
+  String get accountCodeCopied;
+
+  /// No description provided for @accountCopy.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kopyala'**
+  String get accountCopy;
+
+  /// No description provided for @accountMenuSubtitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kurtarma kodu, hesabı geri yükleme'**
+  String get accountMenuSubtitle;
+
+  /// No description provided for @accountRecoveryInfo.
+  ///
+  /// In tr, this message translates to:
+  /// **'Telefonu değiştirirseniz ya da uygulamayı silerseniz hekim ve kurum bağlantılarınızı bu kodla geri alırsınız. Kodu güvenli bir yere yazın, kimseyle paylaşmayın.'**
+  String get accountRecoveryInfo;
+
+  /// No description provided for @accountRecoveryTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kurtarma kodu'**
+  String get accountRecoveryTitle;
+
+  /// No description provided for @accountRenew.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yeni kod oluştur'**
+  String get accountRenew;
+
+  /// No description provided for @accountRenewConfirmBody.
+  ///
+  /// In tr, this message translates to:
+  /// **'Eski kod artık çalışmaz.'**
+  String get accountRenewConfirmBody;
+
+  /// No description provided for @accountRenewConfirmTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yeni kod oluşturulsun mu?'**
+  String get accountRenewConfirmTitle;
+
+  /// No description provided for @accountRestoreButton.
+  ///
+  /// In tr, this message translates to:
+  /// **'Geri yükle'**
+  String get accountRestoreButton;
+
+  /// No description provided for @accountRestoreConfirm.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hesap geri yüklensin mi?'**
+  String get accountRestoreConfirm;
+
+  /// No description provided for @accountRestoreField.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kurtarma kodu'**
+  String get accountRestoreField;
+
+  /// No description provided for @accountRestoreInfo.
+  ///
+  /// In tr, this message translates to:
+  /// **'Eski telefonunuzdaki kurtarma kodunu girin. Bu telefondaki portal hesabının yerine eski hesabınız gelir.'**
+  String get accountRestoreInfo;
+
+  /// No description provided for @accountRestoreInvalid.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kod geçersiz ya da daha önce kullanılmış.'**
+  String get accountRestoreInvalid;
+
+  /// No description provided for @accountRestoreTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hesabımı geri yükle'**
+  String get accountRestoreTitle;
+
+  /// No description provided for @accountRestored.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hesabınız geri yüklendi.'**
+  String get accountRestored;
+
+  /// No description provided for @accountTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Portal hesabı'**
+  String get accountTitle;
+
   /// No description provided for @achFirstEcg.
   ///
   /// In tr, this message translates to:

@@ -30,6 +30,7 @@ class AppSettings extends ChangeNotifier implements PortalCredentials {
     this._patientId,
     this._portalToken,
     this._lastPortalUpload,
+    this._recoveryCode,
   });
 
   /// Kaydedilmiş tercihleri okur; yoksa telefonun dili.
@@ -40,6 +41,7 @@ class AppSettings extends ChangeNotifier implements PortalCredentials {
     final prefs = await SharedPreferences.getInstance();
     final s = secrets ?? MemorySecretStore();
     var token = await s.read(_portalTokenKey);
+    final recovery = await s.read(_recoveryKey);
     final legacyToken = prefs.getString(_portalTokenKey);
     if (legacyToken != null) {
       token ??= legacyToken;
@@ -61,6 +63,7 @@ class AppSettings extends ChangeNotifier implements PortalCredentials {
       heightCm: prefs.getInt(_heightKey),
       patientId: prefs.getString(_patientIdKey),
       portalToken: token,
+      recoveryCode: recovery,
       lastPortalUpload: switch (prefs.getInt(_portalUploadKey)) {
         null => null,
         final ms => DateTime.fromMillisecondsSinceEpoch(ms),
@@ -100,10 +103,12 @@ class AppSettings extends ChangeNotifier implements PortalCredentials {
   static const _heightKey = 'height_cm';
   static const _patientIdKey = 'fhir_patient_id';
   static const _portalTokenKey = 'portal_token';
+  static const _recoveryKey = 'portal_recovery_code';
   static const _portalUploadKey = 'portal_last_upload';
 
   final SharedPreferences? _prefs;
   final SecretStore? _secrets;
+  String? _recoveryCode;
   String? _language;
   bool _chosen;
   ClockFormat _clock;
@@ -122,6 +127,26 @@ class AppSettings extends ChangeNotifier implements PortalCredentials {
   Future<void> setPortalToken(String? token) async {
     _portalToken = token;
     await _secrets?.write(_portalTokenKey, token);
+  }
+
+  /// Portal hesabının kurtarma kodu; kullanıcı görsün ve yazsın diye
+  /// güvenli depoda tutulur.
+  @override
+  String? get recoveryCode => _recoveryCode;
+
+  @override
+  Future<void> setRecoveryCode(String? code) async {
+    _recoveryCode = code;
+    await _secrets?.write(_recoveryKey, code);
+    notifyListeners();
+  }
+
+  /// Kurtarılan hesabın kimliği bu telefona geçer.
+  @override
+  Future<void> setPatientId(String id) async {
+    _patientId = id;
+    await _prefs?.setString(_patientIdKey, id);
+    notifyListeners();
   }
 
   /// Portala son başarılı yüklemenin anı.

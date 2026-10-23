@@ -422,4 +422,62 @@ void main() {
       201,
     );
   });
+
+  test('kurtarma kodu hesabı yeni telefona alır; eski anahtar ve kod biter', () async {
+    final p = _Portal();
+    const id = '0f0e0d0c-1111-4222-8333-444455556666';
+    final (_, created) = await p.call('POST', '/patients', body: {'patientId': id});
+    final oldToken = created['token']! as String;
+    final code = created['recoveryCode']! as String;
+    expect(code, matches(RegExp(r'^[A-Z2-9]{4}(-[A-Z2-9]{4}){3}$')));
+
+    expect(
+      (await p.call('POST', '/recover', body: {'recoveryCode': 'AAAA-BBBB-CCCC-DDDD'})).$1,
+      404,
+    );
+    // Küçük harf ve boşluk fark etmez.
+    final typed = code.toLowerCase().replaceAll('-', ' ');
+    final (s, recovered) = await p.call(
+      'POST',
+      '/recover',
+      body: {'recoveryCode': typed},
+    );
+    expect(s, 200);
+    expect(recovered['patientId'], id);
+    final newToken = recovered['token']! as String;
+    expect(newToken, isNot(oldToken));
+    expect(recovered['recoveryCode'], isNot(code));
+
+    expect((await p.call('GET', '/connections', token: oldToken)).$1, 401);
+    expect((await p.call('GET', '/connections', token: newToken)).$1, 200);
+    // Kod bir kez kullanılır.
+    expect((await p.call('POST', '/recover', body: {'recoveryCode': code})).$1, 404);
+
+    // Hasta yeni kod isteyebilir; bir öncekisi geçersiz olur.
+    final (s3, again) = await p.call('POST', '/patients/recovery', token: newToken);
+    expect(s3, 201);
+    expect(
+      (await p.call('POST', '/recover', body: {'recoveryCode': recovered['recoveryCode']})).$1,
+      404,
+    );
+    expect(
+      (await p.call('POST', '/recover', body: {'recoveryCode': again['recoveryCode']})).$1,
+      200,
+    );
+    expect((await p.call('POST', '/patients/recovery', token: 'doctor')).$1, 403);
+    expect(
+      p.store.auditForPatient(id).where((e) => e.description.contains('yeni telefona')),
+      hasLength(2),
+    );
+  });
+
+  test('kurtarmada hatalı denemeler sınırlanır', () async {
+    final p = _Portal();
+    for (var i = 0; i < PortalApi.recoveryFailuresPerMinute; i++) {
+      expect((await p.call('POST', '/recover', body: {'recoveryCode': 'X$i'})).$1, 404);
+    }
+    expect((await p.call('POST', '/recover', body: {'recoveryCode': 'X'})).$1, 429);
+    p.now = p.now.add(const Duration(minutes: 1));
+    expect((await p.call('POST', '/recover', body: {'recoveryCode': 'X'})).$1, 404);
+  });
 }

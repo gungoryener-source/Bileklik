@@ -33,6 +33,7 @@ bir öncekinin dalı üzerine kurulur. Durum: ✅ bitti (PR açık ya da birleş
 | 25 | Portalda hekim paneli (`/panel`): oturum anahtarıyla giriş, rızalı hastalar (takma kimlik), davet kodu oluşturma, rızadaki türlerin son 7 günü; her görüntüleme erişim kaydına geçer | ✅ | #28 (yalnızca Türkçe; hekim ve kurum doğrulaması sonra) |
 | 26 | Geri bildirim ekranı (Profil > Geri bildirim): konu, mesaj, isteğe bağlı sürüm/platform; portalda kimliksiz `POST /feedback`, dakikalık sınır, `--feedback` ile okuma | 🔄 | |
 | 27 | Telefonda şifreli veritabanı: SQLCipher (`sqflite_sqlcipher`), anahtar Keychain/Keystore'da (`flutter_secure_storage`); eski şifresiz dosyanın taşınması; portal oturum anahtarının da güvenli depoya alınması; Android yedeklemesinin kapatılması | 🔄 | |
+| 28 | Portal hesabını kurtarma: kayıtta 80 bitlik kurtarma kodu (yalnızca özeti saklanır), `POST /recover` ile yeni telefona alma (eski anahtar ve kod geçersiz), `POST /patients/recovery` ile yeni kod; Profil > Portal hesabı ekranı | 🔄 | |
 
 ## Her madde için
 

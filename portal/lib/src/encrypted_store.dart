@@ -210,6 +210,10 @@ class EncryptedPortalStore implements PortalStore {
             description: e['description']! as String,
           ),
         );
+      case 'token':
+        _mem.replaceToken(e['id']! as String, e['tokenHash']! as String);
+      case 'recovery':
+        _mem.setRecovery(e['id']! as String, e['hash']! as String);
       case 'feedback':
         _mem.addFeedback(
           FeedbackEntry(
@@ -245,6 +249,21 @@ class EncryptedPortalStore implements PortalStore {
 
   @override
   Account? account(String id) => _mem.account(id);
+
+  @override
+  void replaceToken(String accountId, String token) {
+    if (_mem.account(accountId) == null) return;
+    _record({'t': 'token', 'id': accountId, 'tokenHash': tokenHash(token)});
+  }
+
+  /// [recoveryHash] zaten özettir; olduğu gibi yazılır.
+  @override
+  void setRecovery(String accountId, String recoveryHash) =>
+      _record({'t': 'recovery', 'id': accountId, 'hash': recoveryHash});
+
+  @override
+  Account? accountByRecovery(String recoveryHash) =>
+      _mem.accountByRecovery(recoveryHash);
 
   @override
   bool addObservation(StoredObservation o) {

@@ -49,6 +49,7 @@ Future<void> main() async {
       healthExport: _healthExport(controller),
       connections: portal?.connections,
       feedback: portal?.feedback,
+      account: portal?.account,
     ),
   );
 }
@@ -58,7 +59,12 @@ Future<void> main() async {
 const _portalUrl = String.fromEnvironment('PORTAL_URL');
 
 /// Portal adresi varsa gerçek servisler ve yükleyici; yoksa null.
-({ConnectionService connections, FeedbackService feedback})? _portal(
+({
+  ConnectionService connections,
+  FeedbackService feedback,
+  PortalAccountService account,
+})?
+_portal(
   AppSettings settings,
   DeviceController controller,
 ) {
@@ -73,7 +79,12 @@ const _portalUrl = String.fromEnvironment('PORTAL_URL');
   // Uygulama açık kaldıkça yeni ölçümleri yükler.
   PortalUploader(client: client, connections: service, store: controller.store);
   unawaited(service.refresh().catchError((Object _) {}));
-  return (connections: service, feedback: PortalFeedbackService(client));
+  return (
+    connections: service,
+    feedback: PortalFeedbackService(client),
+    // Hesap geri yüklenince bağlantılar yeni hesaptan gelir.
+    account: PortalAccountService(client, onRecovered: service.refresh),
+  );
 }
 
 /// Demo kipi: `flutter run --dart-define=DEMO=true` sahte bileklik ve sahte
@@ -136,6 +147,7 @@ class BileklikApp extends StatelessWidget {
     ConnectionService? connections,
     HealthExportService? healthExport,
     FeedbackService? feedback,
+    this.account,
   }) : settings = settings ?? AppSettings.memory(),
        feedback = feedback ?? FakeFeedbackService(),
        // Portal arka ucu gelene kadar sahte sunucular.
@@ -159,6 +171,9 @@ class BileklikApp extends StatelessWidget {
   final HealthExportService healthExport;
   final FeedbackService feedback;
 
+  /// Portal hesabı (kurtarma kodu); yalnızca portal adresi verildiyse.
+  final PortalAccountService? account;
+
   static final _theme = buildTheme();
 
   @override
@@ -175,6 +190,8 @@ class BileklikApp extends StatelessWidget {
               service: healthExport,
               child: FeedbackScope(
                 service: feedback,
+                child: AccountScope(
+                service: account,
                 child: ListenableBuilder(
                 listenable: settings,
                 builder: (context, _) => MaterialApp(
@@ -209,6 +226,7 @@ class BileklikApp extends StatelessWidget {
                       ? const AppShell()
                       : const LanguageScreen(firstRun: true),
                 ),
+              ),
               ),
               ),
             ),

@@ -30,6 +30,54 @@ class AppLocalizationsDe extends AppLocalizations {
   }
 
   @override
+  String get accountCodeCopied => 'Wiederherstellungscode kopiert';
+
+  @override
+  String get accountCopy => 'Kopieren';
+
+  @override
+  String get accountMenuSubtitle => 'Wiederherstellungscode, Konto wiederherstellen';
+
+  @override
+  String get accountRecoveryInfo => 'Wenn Sie das Telefon wechseln oder die App löschen, stellen Sie mit diesem Code Ihre Verbindungen zu Ärzten und Einrichtungen wieder her. Notieren Sie ihn sicher und geben Sie ihn nicht weiter.';
+
+  @override
+  String get accountRecoveryTitle => 'Wiederherstellungscode';
+
+  @override
+  String get accountRenew => 'Neuen Code erstellen';
+
+  @override
+  String get accountRenewConfirmBody => 'Der alte Code funktioniert dann nicht mehr.';
+
+  @override
+  String get accountRenewConfirmTitle => 'Neuen Code erstellen?';
+
+  @override
+  String get accountRestoreButton => 'Wiederherstellen';
+
+  @override
+  String get accountRestoreConfirm => 'Konto wiederherstellen?';
+
+  @override
+  String get accountRestoreField => 'Wiederherstellungscode';
+
+  @override
+  String get accountRestoreInfo => 'Geben Sie den Wiederherstellungscode Ihres alten Telefons ein. Ihr altes Konto ersetzt das Portal-Konto auf diesem Telefon.';
+
+  @override
+  String get accountRestoreInvalid => 'Der Code ist ungültig oder wurde bereits verwendet.';
+
+  @override
+  String get accountRestoreTitle => 'Mein Konto wiederherstellen';
+
+  @override
+  String get accountRestored => 'Ihr Konto wurde wiederhergestellt.';
+
+  @override
+  String get accountTitle => 'Portal-Konto';
+
+  @override
   String get achFirstEcg => 'Erstes EKG';
 
   @override
