@@ -144,8 +144,7 @@ class EncryptedPortalStore implements PortalStore {
   static String _time(DateTime t) => t.toUtc().toIso8601String();
   static DateTime _parse(Object? t) => DateTime.parse(t! as String);
   static Set<ShareScope> _scopes(Object? raw) => {
-    for (final s in raw! as List)
-      if (ShareScope.byName(s as String) case final v?) v,
+    for (final s in raw! as List) ?ShareScope.byName(s as String),
   };
 
   void _apply(Map<String, Object?> e) {
