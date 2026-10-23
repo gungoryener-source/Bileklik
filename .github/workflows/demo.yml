@@ -28,7 +28,11 @@ jobs:
         working-directory: demo/portal_web
         run: |
           dart pub get
-          dart compile js -O2 -o build/main.dart.js web/main.dart
+          set -o pipefail
+          dart compile js -O2 -o build/main.dart.js web/main.dart 2>&1 | tee compile.txt || {
+            python3 -c "import sys; t=open('compile.txt').read()[-3800:]; print('::error title=dart2js::'+t.replace('%','%25').replace('\n','%0A'))"
+            exit 1
+          }
       - name: Siteyi birleştir
         run: |
           mkdir -p site/portal
