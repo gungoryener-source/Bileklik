@@ -1,7 +1,7 @@
 import 'model.dart';
 
-/// Portalın kalıcı deposu. İskelette bellekte çalışır ([MemoryPortalStore]);
-/// üretimde aynı arayüzün arkasına şifreli bir veritabanı gelecek.
+/// Portalın deposu: bellekte ([MemoryPortalStore], demo ve testler) ya da
+/// şifreli dosyada (`EncryptedPortalStore`).
 abstract class PortalStore {
   /// Hesap ve oturum anahtarı ekler.
   void addAccount(Account a, String token);
@@ -23,6 +23,9 @@ abstract class PortalStore {
   int deleteObservations(String patientId);
 
   void addConsent(Consent c);
+
+  /// Rızayı [at] anında sona erdirir; zaten bittiyse değiştirmez.
+  void revokeConsent(String id, DateTime at);
   Consent? consent(String id);
   List<Consent> consentsForPatient(String patientId);
   List<Consent> consentsForActor(String actorId);
@@ -98,6 +101,9 @@ class MemoryPortalStore implements PortalStore {
 
   @override
   void addConsent(Consent c) => _consents[c.id] = c;
+
+  @override
+  void revokeConsent(String id, DateTime at) => _consents[id]?.revokedAt ??= at;
 
   @override
   Consent? consent(String id) => _consents[id];
