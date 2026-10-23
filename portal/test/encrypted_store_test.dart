@@ -150,6 +150,8 @@ void main() {
       body: _bundle(),
     );
     expect(jsonEncode(outcome), contains('created=0 duplicates=2'));
+    // Erişim kayıtları yazılmadan test klasörü silinmesin.
+    await again.flush();
   });
 
   test('dosyada açık metin ve oturum anahtarı yok', () async {
