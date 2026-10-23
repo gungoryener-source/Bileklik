@@ -46,3 +46,6 @@ app.*.map.json
 
 # Widget Preview related
 .widget_preview/
+
+# Ekran görüntüsü testinin çıktısı (EKRAN=1 flutter test --update-goldens …)
+test/ekran/
