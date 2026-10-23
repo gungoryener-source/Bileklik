@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="tr" dir="ltr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hastalarım · Bileklik</title>
+<style>
+:root { color-scheme: light dark; --bg: #f6f7fb; --fg: #16181d; --muted: #5d6472; --card: #fff; --line: #dfe3ea; --accent: #2457d6; --danger: #b42318; }
+@media (prefers-color-scheme: dark) { :root { --bg: #111318; --fg: #e9ebf0; --muted: #9aa3b2; --card: #1b1e25; --line: #2c313b; --accent: #7aa2ff; --danger: #ff8a80; } }
+* { box-sizing: border-box; }
+body { margin: 0; font: 16px/1.5 system-ui, sans-serif; background: var(--bg); color: var(--fg); }
+header { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 12px 16px; border-bottom: 1px solid var(--line); background: var(--card); }
+header form { margin: 0; }
+main { max-width: 960px; margin: 0 auto; padding: 16px; }
+main.narrow { max-width: 420px; }
+h1 { font-size: 1.6rem; margin: 8px 0 12px; }
+h2 { font-size: 1.15rem; margin: 24px 0 8px; }
+a { color: var(--accent); }
+.card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 16px; margin: 12px 0; }
+.muted { color: var(--muted); }
+.small { font-size: .875rem; }
+.error { color: var(--danger); }
+.big { font-size: 1.6rem; font-weight: 700; margin: 4px 0; }
+.code { font: 700 2.4rem/1.2 ui-monospace, monospace; letter-spacing: .2em; }
+table { width: 100%; border-collapse: collapse; background: var(--card); }
+th, td { text-align: start; padding: 8px; border-bottom: 1px solid var(--line); }
+label { display: block; margin: 8px 0; }
+label.check { display: inline-flex; gap: 6px; margin-inline-end: 16px; }
+input, textarea { display: block; width: 100%; margin-top: 4px; padding: 10px; font: inherit; border: 1px solid var(--line); border-radius: 8px; background: var(--bg); color: var(--fg); }
+label.check input { display: inline; width: auto; margin: 0; }
+fieldset { border: 1px solid var(--line); border-radius: 8px; margin: 12px 0; }
+button { min-height: 44px; padding: 8px 18px; font: inherit; font-weight: 600; border: 0; border-radius: 8px; background: var(--accent); color: #fff; cursor: pointer; }
+button.link { background: none; color: var(--accent); padding: 8px; }
+.langs { margin-bottom: 8px; }
+.spark { width: 100%; max-width: 320px; height: 72px; color: var(--accent); }
+@media (max-width: 600px) { table { font-size: .9rem; } th, td { padding: 6px 4px; } }
+</style>
+</head>
+<body>
+<header>
+<span><strong>Bileklik</strong> · Dr. Ayşe Kaya · Kardiyoloji Polikliniği</span>
+<span class="small"><strong lang="tr">Türkçe</strong> · <a href="?lang=en" lang="en" hreflang="en">English</a> · <a href="?lang=ar" lang="ar" hreflang="ar">العربية</a> · <a href="?lang=de" lang="de" hreflang="de">Deutsch</a></span>
+<form method="post" action="/panel/logout"><input type="hidden" name="csrf" value="0a7c479de252ac0077b7f8e5f536a53c"><button class="link" type="submit">Çıkış</button></form>
+</header>
+<main>
+<h1>Hastalarım</h1>
+<table>
+<thead><tr><th>Hasta (takma kimlik)</th><th>Paylaşılan</th><th>Rıza bitişi</th><th>Son veri</th></tr></thead>
+<tbody><tr><td><a href="/panel/patients/6f1c2a3e-1111-4222-8333-944455556666">6f1c2a3e</a></td><td>Nabız ve HRV, SpO2</td><td>21.01.2027</td><td>23.10.2026 05:59</td></tr></tbody>
+</table>
+<h2>Davet oluştur</h2>
+<form method="post" action="/panel/invites" class="card">
+<input type="hidden" name="csrf" value="0a7c479de252ac0077b7f8e5f536a53c">
+<label>Amaç<textarea name="purpose" required maxlength="500" rows="3"></textarea></label>
+<fieldset><legend>İstenen veriler</legend><label class="check"><input type="checkbox" name="scope" value="heartRate"> Nabız ve HRV</label><label class="check"><input type="checkbox" name="scope" value="spo2"> SpO2</label><label class="check"><input type="checkbox" name="scope" value="sleep"> Uyku</label><label class="check"><input type="checkbox" name="scope" value="activity"> Aktivite</label><label class="check"><input type="checkbox" name="scope" value="ecg"> EKG</label><label class="check"><input type="checkbox" name="scope" value="bloodPressure"> Tansiyon (tahmini)</label><label class="check"><input type="checkbox" name="scope" value="stress"> Stres</label><label class="check"><input type="checkbox" name="scope" value="temperature"> Vücut ısısı</label></fieldset>
+<label>Süre (gün)<input type="number" name="days" value="90" min="1" max="730" required></label>
+<button type="submit">Davet kodu oluştur</button>
+</form>
+
+</main>
+
+</body>
+</html>
