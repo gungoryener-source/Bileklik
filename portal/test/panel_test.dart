@@ -293,4 +293,47 @@ void main() {
     expect((await p.send('GET', '/fhir/Consent')).statusCode, 401);
     expect((await p.send('GET', '/health')).statusCode, 200);
   });
+
+  test('panel dört dilde: ?lang çerezde kalır, yoksa tarayıcının dili', () async {
+    final p = _Portal();
+    Future<Response> get(String path, {Map<String, String> headers = const {}}) async =>
+        await p.api.handler(
+          Request('GET', Uri.parse('http://portal.test$path'), headers: headers),
+        );
+
+    final de = await get('/panel', headers: {'accept-language': 'fr-FR, de;q=0.8, en;q=0.5'});
+    final deHtml = await de.readAsString();
+    expect(deHtml, contains('<html lang="de" dir="ltr">'));
+    expect(deHtml, contains('Sitzungsschlüssel'));
+    expect(de.headers['set-cookie'], isNull);
+
+    final ar = await get('/panel?lang=ar');
+    expect(await ar.readAsString(), contains('<html lang="ar" dir="rtl">'));
+    final langCookie = ar.headers['set-cookie']!;
+    expect(langCookie, startsWith('bk_lang=ar;'));
+
+    // Seçim çerezde kalır; tarayıcı dili ezmez.
+    final again = await get(
+      '/panel',
+      headers: {'cookie': langCookie.split(';').first, 'accept-language': 'en'},
+    );
+    expect(await again.readAsString(), contains('مفتاح الجلسة'));
+
+    // Girişten sonra sayfa da seçilen dilde; değerler dile göre biçimlenir.
+    final cookie = await p.login('doctor');
+    final home = await p.page('/panel?lang=en', cookie);
+    expect(home, contains('My patients'));
+    expect(home, contains('Heart rate and HRV'));
+    expect(home, contains('Sign out'));
+
+    expect(PanelText.fromAcceptLanguage(null), 'tr');
+    expect(PanelText.fromAcceptLanguage('ja, ar;q=0'), 'tr');
+    expect(PanelText.de.number(36.6), '36,6');
+    expect(PanelText.en.number(36.6), '36.6');
+    expect(PanelText.en.duration(452), '7 h 32 min');
+    for (final lang in PanelText.supported) {
+      final t = PanelText.of(lang);
+      expect(t.scopeLabels.keys.toSet(), ShareScope.values.toSet(), reason: lang);
+    }
+  });
 }

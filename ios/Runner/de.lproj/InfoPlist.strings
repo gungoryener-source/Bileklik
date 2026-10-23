@@ -1,0 +1,5 @@
+/* iOS izin metinleri (de). Info.plist'teki Türkçe metinlerle aynı anlamda tutun. */
+"NSBluetoothAlwaysUsageDescription" = "Verbindet sich per Bluetooth mit dem Armband, um Ihre Messwerte auf das Telefon zu übertragen.";
+"NSCameraUsageDescription" = "Scannt QR-Codes, um das Armband zu koppeln und Einladungen von Ärzten oder Forschungseinrichtungen zu lesen.";
+"NSHealthShareUsageDescription" = "Ihre Armbanddaten werden an Apple Health übertragen; die App liest keine Daten aus Apple Health.";
+"NSHealthUpdateUsageDescription" = "Die von Ihnen gewählten Armbanddaten (Schritte, Herzfrequenz, Schlaf und mehr) werden in Apple Health geschrieben.";

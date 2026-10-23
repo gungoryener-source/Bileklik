@@ -8,4 +8,5 @@ export 'src/encrypted_store.dart';
 export 'src/ingest.dart';
 export 'src/model.dart';
 export 'src/panel.dart';
+export 'src/panel_text.dart';
 export 'src/store.dart';

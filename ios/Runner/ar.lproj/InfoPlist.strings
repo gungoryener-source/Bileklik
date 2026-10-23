@@ -1,0 +1,5 @@
+/* iOS izin metinleri (ar). Info.plist'teki Türkçe metinlerle aynı anlamda tutun. */
+"NSBluetoothAlwaysUsageDescription" = "يتصل بالسوار عبر البلوتوث لنقل قياساتك إلى الهاتف.";
+"NSCameraUsageDescription" = "يمسح رموز QR لإقران السوار وقراءة دعوات الأطباء أو مؤسسات البحث.";
+"NSHealthShareUsageDescription" = "تُنقل بيانات السوار إلى Apple Health، ولا يقرأ التطبيق البيانات الموجودة في Apple Health.";
+"NSHealthUpdateUsageDescription" = "تُكتب بيانات السوار التي تختارها (الخطوات ونبض القلب والنوم وغيرها) في Apple Health.";

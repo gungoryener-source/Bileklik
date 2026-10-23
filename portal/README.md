@@ -97,7 +97,9 @@ açılan hesap).
     Tüm değerler kaçışlanarak yazılır.
   - Oturumlar bellekte tutulur; sunucu yeniden başlayınca hekim yeniden
     giriş yapar.
-- Panel şimdilik yalnızca Türkçe.
+- Panel dört dilde (Türkçe, İngilizce, Arapça, Almanca; `PanelText`). Dil
+  `?lang=` ile seçilir ve çerezde kalır; seçilmediyse tarayıcının dili.
+  Arapçada sayfa sağdan sola. Erişim kaydı açıklamaları Türkçe kalır.
 
 ## Yetki kuralları
 

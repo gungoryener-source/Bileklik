@@ -1,0 +1,5 @@
+/* iOS izin metinleri (en). Info.plist'teki Türkçe metinlerle aynı anlamda tutun. */
+"NSBluetoothAlwaysUsageDescription" = "Connects to your wristband over Bluetooth to transfer its measurements to your phone.";
+"NSCameraUsageDescription" = "Scans QR codes to pair the wristband and to read invitations from doctors or research institutions.";
+"NSHealthShareUsageDescription" = "Your wristband data is sent to Apple Health; the app does not read data from Apple Health.";
+"NSHealthUpdateUsageDescription" = "The wristband data you choose (steps, heart rate, sleep and more) is written to Apple Health.";

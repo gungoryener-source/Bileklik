@@ -1,0 +1,5 @@
+/* iOS izin metinleri (tr). Info.plist'teki Türkçe metinlerle aynı anlamda tutun. */
+"NSBluetoothAlwaysUsageDescription" = "Bileklik ölçümlerinizi telefona aktarmak için Bluetooth ile bilekliğe bağlanır.";
+"NSCameraUsageDescription" = "Bilekliği eşleştirmek ve hekim ya da araştırma davetlerini okumak için QR kodu taranır.";
+"NSHealthShareUsageDescription" = "Bileklik verileriniz Apple Sağlık'a aktarılır; uygulama Apple Sağlık'taki verileri okumaz.";
+"NSHealthUpdateUsageDescription" = "Seçtiğiniz bileklik verileri (adım, nabız, uyku ve diğerleri) Apple Sağlık'a yazılır.";
