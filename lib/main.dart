@@ -42,6 +42,9 @@ Future<void> main() async {
     store: await _openStore(secrets),
     wearDetection: settings.wearDetection,
   );
+  // Tarayıcı demosunda sahte bileklik hemen bağlanır; veriler ilk ekranda
+  // görünsün. Telefonda kullanıcı eşleştirir.
+  if (kIsWeb) unawaited(controller.connect());
   final portal = _portal(settings, controller);
   runApp(
     BileklikApp(

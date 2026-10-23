@@ -38,6 +38,7 @@ bir öncekinin dalı üzerine kurulur. Durum: ✅ bitti (PR açık ya da birleş
 | 30 | iOS izin metinleri dört dilde (`InfoPlist.strings`, `CFBundleLocalizations`) ve hekim paneli dört dilde (`?lang=`, çerez, `Accept-Language`, Arapçada sağdan sola) | ✅ | #33 (Xcode derlemesi gerçek ortamda denenecek) |
 | 31 | Gizlilik politikası taslağı (KVKK aydınlatma): uygulamada ekran (Hakkında'dan ve Health Connect "neden" bağlantısından), portalda herkese açık `/gizlilik`, `docs/gizlilik-politikasi.md`; Profil > Portal hesabı'ndan portal verilerini silme; çeviri inceleme tablosu (`docs/ceviri-inceleme.csv`) | ✅ | #34 (hukuk ve çeviri incelemesi bekliyor) |
 | 32 | Kilit dosyaları (`pubspec.lock`, `portal/pubspec.lock` artık depoda) ve ekran görüntüsü testi (`EKRAN=1 flutter test --update-goldens test/ekran_goruntusu_test.dart`) | ✅ | #35 |
+| 33 | Tarayıcıda deneme: uygulamanın web demosu (sahte bileklik) ve sunucusuz çalışan portal (hekim paneli, gizlilik sayfası) örnek veriyle (`seedDemo`); `Demo` iş akışı `demo-site` dalına ve main'de GitHub Pages'e yayımlar | ✅ | #36 |
 
 ## Her madde için
 

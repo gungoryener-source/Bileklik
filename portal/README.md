@@ -40,8 +40,10 @@ dart run bin/server.dart
 Tek dosya pilot için yeterlidir. Çok kullanıcılı üretimde aynı `PortalStore`
 arayüzünün arkasına PostgreSQL gelebilir.
 
-`--demo` iki deneme hesabı açar. Oturum anahtarları `demo-patient` (hasta) ve
-`demo-doctor` (hekim):
+`--demo` deneme verisiyle açılır (`seedDemo`): bir hekim, bir araştırma
+kurumu ve son 7 günün ölçümleriyle üç takma kimlikli hasta. Oturum
+anahtarları `demo-doctor` (hekim, panel girişi), `demo-research` (araştırma),
+`demo-patient`, `demo-patient-2`, `demo-patient-3` (hasta):
 
 ```sh
 curl -H 'Authorization: Bearer demo-doctor' -H 'content-type: application/json' \

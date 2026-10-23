@@ -4,6 +4,7 @@
 library;
 
 export 'src/api.dart';
+export 'src/demo.dart';
 export 'src/encrypted_store.dart';
 export 'src/ingest.dart';
 export 'src/model.dart';

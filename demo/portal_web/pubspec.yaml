@@ -1,0 +1,16 @@
+name: bileklik_portal_web
+description: "Portalın tarayıcıda çalışan denemesi: hekim paneli ve gizlilik sayfası, sunucusuz."
+publish_to: 'none'
+version: 0.1.0
+
+environment:
+  sdk: ^3.9.0
+
+dependencies:
+  bileklik_portal:
+    path: ../../portal
+  shelf: ^1.4.2
+  web: ^1.1.1
+
+dev_dependencies:
+  lints: ^6.0.0
