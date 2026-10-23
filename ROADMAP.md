@@ -39,6 +39,7 @@ bir öncekinin dalı üzerine kurulur. Durum: ✅ bitti (PR açık ya da birleş
 | 31 | Gizlilik politikası taslağı (KVKK aydınlatma): uygulamada ekran (Hakkında'dan ve Health Connect "neden" bağlantısından), portalda herkese açık `/gizlilik`, `docs/gizlilik-politikasi.md`; Profil > Portal hesabı'ndan portal verilerini silme; çeviri inceleme tablosu (`docs/ceviri-inceleme.csv`) | ✅ | #34 (hukuk ve çeviri incelemesi bekliyor) |
 | 32 | Kilit dosyaları (`pubspec.lock`, `portal/pubspec.lock` artık depoda) ve ekran görüntüsü testi (`EKRAN=1 flutter test --update-goldens test/ekran_goruntusu_test.dart`) | ✅ | #35 |
 | 33 | Tarayıcıda deneme: uygulamanın web demosu (sahte bileklik) ve sunucusuz çalışan portal (hekim paneli, gizlilik sayfası) örnek veriyle (`seedDemo`); `Demo` iş akışı `demo-site` dalına ve main'de GitHub Pages'e yayımlar | ✅ | #36 |
+| 34 | Gelişmiş hekim portalı: hekimin kendi kaydı (e-posta + PBKDF2 şifre, yönetici doğrulaması, doğrulanmamış hekim uygulamada uyarılır), hasta kayıtları ve kayda özel davetle bilekliğe bağlama, tüm türleri kapsayan tarih aralıklı rapor (özet, günlük grafikler, ESC/ESH tansiyon sınıfları, uyku evreleri, egzersiz, EKG, VO2 Max, eşiğe dayalı bulgular), yazdırma/PDF, CSV ve FHIR dışa aktarma; yeni paylaşım türleri solunum ve vücut ölçüleri | ✅ | (bu PR; bulgu eşikleri ve hekim doğrulama süreci klinik/hukuk ile gözden geçirilecek) |
 
 ## Her madde için
 
@@ -55,5 +56,5 @@ Kod tarafı hazır olsa da karar, insan ya da donanım gerektiren işler:
 - **Gerçek bileklikle deneme:** `docs/protokol-dogrulama.md` içindeki "Açık kalanlar".
 - **Lisans:** flutter_blue_plus ticari lisansı ya da başka paket, satıştan önce.
 - **Hukuk:** `docs/gizlilik-politikasi.md` taslağının son hali (veri sorumlusu, başvuru yolu, saklama süreleri), VERBİS kaydı, sunucunun yeri.
-- **Hekim ve kurum doğrulaması:** e-Devlet ya da kurum SSO; panel şimdilik portalın verdiği anahtarla açılıyor.
+- **Hekim ve kurum doğrulaması:** hekim kendisi kaydoluyor, yönetici `--verify-clinician` ile elle onaylıyor; e-Devlet, kurum SSO ya da sicil sorgusu sonra.
 - **Üretim altyapısı:** çok kullanıcılı portal için PostgreSQL ve yedekleme.

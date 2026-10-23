@@ -20,7 +20,14 @@ enum ShareScope {
   ecg,
   bloodPressure,
   stress,
-  temperature;
+  temperature,
+
+  /// Solunum hızı (bilekten tahmin).
+  respiration,
+
+  /// Elle girilen vücut ölçüleri: kilo, VKİ, yağ oranı, kas kütlesi. Hasta
+  /// ayrıca açmadıkça paylaşılmaz.
+  body;
 
   static ShareScope? byName(String name) {
     for (final s in values) {
@@ -31,7 +38,7 @@ enum ShareScope {
 
   /// Bu türün kapsadığı Observation kodları (uygulamanın `FhirExporter`
   /// ile ürettiği LOINC ve yerel kodlar). Kilo, VKİ gibi elle girilenler
-  /// hiçbir türde yok; takipçilere hiç gösterilmez.
+  /// yalnızca [body] türünde; hasta bunu ayrıca seçmedikçe gösterilmez.
   Set<String> get codes => switch (this) {
     // HRV nabız verisiyle birlikte paylaşılır.
     ShareScope.heartRate => const {'8867-4', '80404-7'},
@@ -42,6 +49,8 @@ enum ShareScope {
     ShareScope.bloodPressure => const {'85354-9'},
     ShareScope.stress => const {'stress'},
     ShareScope.temperature => const {'8310-5'},
+    ShareScope.respiration => const {'9279-1'},
+    ShareScope.body => const {'29463-7', '39156-5', '41982-0', 'muscle-mass'},
   };
 }
 
@@ -51,6 +60,10 @@ class Account {
     required this.role,
     required this.name,
     this.organization,
+    this.email,
+    this.specialty,
+    this.licenseNo,
+    this.verified = true,
   });
 
   /// Hastada uygulamanın takma kimliği (FHIR Patient id); diğerlerinde
@@ -64,6 +77,116 @@ class Account {
 
   /// Hastane, klinik ya da kurum.
   final String? organization;
+
+  /// Panelde e-posta ve şifreyle giriş yapan hekimin e-postası (küçük harf).
+  final String? email;
+
+  /// Uzmanlık ya da unvan (ör. "Kardiyoloji uzmanı").
+  final String? specialty;
+
+  /// Diploma tescil ya da sicil numarası; doğrulamada kullanılır.
+  final String? licenseNo;
+
+  /// Kendi kaydolan hekim, portal yöneticisi kimliğini doğrulayana kadar
+  /// false. Hasta davet ekranında bunu görür. Yöneticinin açtığı hesaplar
+  /// doğrulanmış sayılır.
+  final bool verified;
+
+  Account copyWith({bool? verified}) => Account(
+    id: id,
+    role: role,
+    name: name,
+    organization: organization,
+    email: email,
+    specialty: specialty,
+    licenseNo: licenseNo,
+    verified: verified ?? this.verified,
+  );
+}
+
+enum Sex { female, male, other }
+
+/// Hekimin kendi tuttuğu hasta kaydı (dosya). Gerçek ad ve doğum tarihi
+/// gibi kimlik bilgileri yalnızca burada, yalnızca kaydı açan hekime
+/// görünür; bileklik verisi ise takma kimlikle gelir.
+///
+/// Kayıt, hastanın rıza verdiği bir bileklik kullanıcısına [patientId] ile
+/// bağlanır. Bağ, hekimin bu kayıt için ürettiği davet kodunun ([inviteCode])
+/// hasta tarafından kabul edilmesiyle ya da hekimin rızası süren bir
+/// bağlantıyı kayda elle bağlamasıyla kurulur. Kayıt bağlansa da veri
+/// yalnızca süren rızadaki türlerle görülür.
+class PatientRecord {
+  const PatientRecord({
+    required this.id,
+    required this.ownerId,
+    required this.name,
+    required this.created,
+    this.birthDate,
+    this.sex,
+    this.fileNo,
+    this.phone,
+    this.notes,
+    this.patientId,
+    this.inviteCode,
+  });
+
+  final String id;
+
+  /// Kaydı açan hekim.
+  final String ownerId;
+  final String name;
+  final DateTime created;
+  final DateTime? birthDate;
+  final Sex? sex;
+
+  /// Hastane dosya ya da protokol numarası.
+  final String? fileNo;
+  final String? phone;
+  final String? notes;
+
+  /// Bağlı bileklik kullanıcısının takma kimliği.
+  final String? patientId;
+
+  /// Bu kayıt için üretilen son davet kodu.
+  final String? inviteCode;
+
+  /// [now] anındaki tam yaş.
+  int? ageAt(DateTime now) {
+    final b = birthDate;
+    if (b == null) return null;
+    var age = now.year - b.year;
+    if (now.month < b.month || (now.month == b.month && now.day < b.day)) {
+      age--;
+    }
+    return age;
+  }
+
+  PatientRecord copyWith({
+    String? name,
+    DateTime? birthDate,
+    Sex? sex,
+    String? fileNo,
+    String? phone,
+    String? notes,
+    String? patientId,
+    String? inviteCode,
+    bool clearBirthDate = false,
+    bool clearSex = false,
+    bool clearPatient = false,
+    bool clearInvite = false,
+  }) => PatientRecord(
+    id: id,
+    ownerId: ownerId,
+    created: created,
+    name: name ?? this.name,
+    birthDate: clearBirthDate ? null : birthDate ?? this.birthDate,
+    sex: clearSex ? null : sex ?? this.sex,
+    fileNo: fileNo ?? this.fileNo,
+    phone: phone ?? this.phone,
+    notes: notes ?? this.notes,
+    patientId: clearPatient ? null : patientId ?? this.patientId,
+    inviteCode: clearInvite ? null : inviteCode ?? this.inviteCode,
+  );
 }
 
 /// Hastanın bir takipçiye verdiği açık rıza (FHIR R4 Consent).

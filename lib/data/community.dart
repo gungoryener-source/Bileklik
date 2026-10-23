@@ -16,6 +16,13 @@ enum ShareScope {
   bloodPressure,
   stress,
   temperature,
+
+  /// Solunum hızı.
+  respiration,
+
+  /// Elle girilen kilo, VKİ, yağ oranı ve kas kütlesi; yalnızca ayrıca
+  /// seçilirse paylaşılır.
+  body,
 }
 
 /// Kullanıcının bir gruba verdiği paylaşım izni (açık rıza).

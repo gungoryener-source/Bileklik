@@ -41,8 +41,10 @@ Tek dosya pilot için yeterlidir. Çok kullanıcılı üretimde aynı `PortalSto
 arayüzünün arkasına PostgreSQL gelebilir.
 
 `--demo` deneme verisiyle açılır (`seedDemo`): bir hekim, bir araştırma
-kurumu ve son 7 günün ölçümleriyle üç takma kimlikli hasta. Oturum
-anahtarları `demo-doctor` (hekim, panel girişi), `demo-research` (araştırma),
+kurumu, son 30 günün tüm türlerdeki ölçümleriyle üç takma kimlikli hasta ve
+hekimin üç hasta kaydı (ikisi bağlı, biri davet bekliyor; adlar uydurma). Oturum
+anahtarları `demo-doctor` (hekim, panel girişi; ya da e-posta `demo@bileklik.app`,
+şifre `demo-sifre-2026`), `demo-research` (araştırma),
 `demo-patient`, `demo-patient-2`, `demo-patient-3` (hasta):
 
 ```sh
@@ -79,29 +81,84 @@ curl -H 'Authorization: Bearer demo-doctor' -H 'content-type: application/json' 
 
 ## Hekim paneli
 
-Sunucu çalışırken `http://…/panel` adresinden açılır. Hekim ya da araştırmacı,
-kendisine verilen oturum anahtarıyla giriş yapar (`--add-clinician` ile
-açılan hesap).
+Sunucu çalışırken `http://…/panel` adresinden açılır. Dört dilde (Türkçe,
+İngilizce, Arapça, Almanca; `PanelText`, `ClinicText`); dil `?lang=` ile
+seçilir ve çerezde kalır, Arapçada sayfa sağdan sola.
 
-- **Ana sayfa:** rıza vermiş hastalar takma kimliğin ilk 8 karakteriyle
-  listelenir; paylaşılan türler, rıza bitişi ve son veri zamanı görünür.
-  Aynı sayfadan amaç, istenen veriler ve süre seçilerek davet kodu
-  oluşturulur.
-- **Hasta sayfası:** yalnızca süren rızadaki türlerin son 7 günü görünür:
-  son değer, kayıt sayısı, ortalama ve son 20 kayıt; nabız için günlük
-  ortalama çizgisi. Her görüntüleme ve rızasız her deneme erişim kaydına geçer.
-- **Güvenlik:**
-  - Oturum sunucu tarafında tutulur. Çerez `HttpOnly`, `SameSite=Strict` ve
-    `Path=/panel`; 8 saat geçerli. HTTPS arkasında `PORTAL_HTTPS=1` ile
-    `Secure` olur.
-  - Formlar oturuma bağlı CSRF jetonu taşır.
-  - Sayfalar harici kaynak yüklemez; `Content-Security-Policy` kısıtlayıcı.
-    Tüm değerler kaçışlanarak yazılır.
-  - Oturumlar bellekte tutulur; sunucu yeniden başlayınca hekim yeniden
-    giriş yapar.
-- Panel dört dilde (Türkçe, İngilizce, Arapça, Almanca; `PanelText`). Dil
-  `?lang=` ile seçilir ve çerezde kalır; seçilmediyse tarayıcının dili.
-  Arapçada sayfa sağdan sola. Erişim kaydı açıklamaları Türkçe kalır.
+### Hekim hesabı
+
+- **Kayıt:** `/panel/register`. Ad, uzmanlık, kurum, diploma tescil/sicil
+  no, e-posta ve şifre (en az 10 karakter) ile hekim ya da araştırma kurumu
+  hesabı açılır. Şifrenin yalnızca tuzlu PBKDF2-SHA256 özeti saklanır
+  (`PasswordHasher`, 120 000 tur).
+- **Doğrulama:** Kendi kaydolan hesap "doğrulanmadı" başlar. Panelde uyarı
+  görünür; hasta davet ekranında da uyarılır (`GET /invites/<kod>` yanıtında
+  `verified: false`). Yönetici kimliği kontrol edince onaylar:
+
+  ```sh
+  dart run bin/server.dart --list-clinicians
+  dart run bin/server.dart --verify-clinician=ayse@klinik.test
+  ```
+
+- **Giriş:** e-posta ve şifreyle. Aynı e-postaya 15 dakikada 5 hatalı
+  denemeden sonra giriş geçici olarak kapanır. Eski oturum anahtarıyla giriş
+  de sürer; anahtarla açılan hesap "Hesabım" sayfasından e-posta ve şifre
+  belirleyebilir.
+
+### Hasta kayıtları
+
+- Hekim "Yeni hasta" ile kendi kaydını açar: ad soyad, doğum tarihi,
+  cinsiyet, dosya/protokol no, telefon, notlar. Bu bilgiler yalnızca kaydı
+  açan hekime görünür; bileklik verisi her zaman takma kimlikle gelir.
+- **Bilekliğe bağlama:** kayıt sayfasından kayda özel davet kodu üretilir.
+  Hasta kodu uygulamada girip türleri seçince portal kaydı o takma kimliğe
+  bağlar. Hekim, kendisine zaten rıza vermiş bir bağlantıyı da kayda
+  bağlayabilir. Bağ kaldırılınca rıza sürer.
+- Hasta listesi: kayıtlar (ad, dosya no, yaş, bağlantı durumu, paylaşılan
+  türler, son veri) ve ad/dosya no araması; ayrıca kayda bağlanmamış
+  rızalı bağlantılar.
+- Düzeltilen ya da silinen kaydın eski hali şifreli dosyadan da çıkar
+  (dosya baştan yazılır).
+
+### Raporlar
+
+`/panel/patients/<takma kimlik>/report?from=yyyy-aa-gg&to=yyyy-aa-gg&s=<tür>`
+
+- Yalnızca süren rızadaki türler; en çok 2 yıllık dönem, varsayılan son 30
+  gün. Bölümler tür tür seçilebilir.
+- Başlık: hasta kaydı (ad, doğum tarihi/yaş, cinsiyet, dosya no), takma
+  kimlik, dönem, hazırlayan hekim, paylaşılan türler.
+- **Özet tablosu:** her ölçüm için kayıt sayısı, en düşük, en yüksek,
+  ortalama, son değer ve dönemin iki yarısı arasındaki değişim. Veri bulunan
+  gün sayısı.
+- **Bölümler:** nabız (dinlenik nabız ve yaşla VO2 Max tahmini), HRV, SpO2,
+  solunum hızı, vücut ısısı, stres, tansiyon (ESC/ESH 2018 sınıfları), uyku
+  (gece gece süre ve derin/hafif/REM/uyanık evreleri), adım, mesafe, kalori,
+  egzersiz listesi, EKG kayıtları (süre, ortalama nabız, SDNN), kilo, VKİ
+  (sınıfıyla), yağ oranı, kas kütlesi. Her biri için günlük grafik (satır
+  içi SVG) ve açılır günlük tablo.
+- **Dikkat çeken bulgular:** eşiklerle otomatik (nabız >100 / <50, SpO2
+  <%90, tansiyon ≥140/90, ateş ≥38 °C, solunum >20/dk, uyku <6 sa, günlük
+  adım <5000, kilo değişimi ≥2 kg, eksik veri). Tanı değildir; eşikler
+  raporda yazılıdır (`PatientReport`).
+- **Çıktılar:** "Yazdır / PDF" (tarayıcının "PDF olarak kaydet"i; A4 baskı
+  stili, panel öğeleri gizlenir), CSV (Excel için UTF-8 BOM, formül
+  enjeksiyonuna karşı korumalı) ve FHIR Bundle (JSON; EKG ham örnekleri
+  dahil). Her rapor ve dışa aktarma erişim kaydına geçer.
+
+### Güvenlik
+
+- Oturum sunucu tarafında tutulur. Çerez `HttpOnly`, `SameSite=Strict` ve
+  `Path=/panel`; 8 saat geçerli. HTTPS arkasında `PORTAL_HTTPS=1` ile
+  `Secure` olur.
+- Tüm formlar oturuma bağlı CSRF jetonu taşır.
+- Sayfalar harici kaynak yüklemez; `Content-Security-Policy` kısıtlayıcı.
+  Rapor sayfasında yalnızca özeti CSP'de yazılı yazdırma betiği çalışır.
+  Tüm değerler kaçışlanarak yazılır.
+- Başka hekimin hasta kaydı "bulunamadı" döner; rızasız her deneme erişim
+  kaydına geçer.
+- Oturumlar bellekte tutulur; sunucu yeniden başlayınca hekim yeniden
+  giriş yapar.
 
 ## Yetki kuralları
 
@@ -110,8 +167,9 @@ açılan hesap).
 - Aile grubu üyesi, aynı gruptaki bir hastanın o grupla paylaştığı türleri
   görür; okuması hastanın erişim kayıtlarına geçer. Gruptan ayrılınca ya da
   çıkarılınca erişim biter.
-  Türlerin kodlara karşılığı `ShareScope.codes` içinde. Kilo, VKİ ve yağ oranı
-  gibi elle girilen değerler hiçbir türde yer almaz, takipçiye hiç gösterilmez.
+  Türlerin kodlara karşılığı `ShareScope.codes` içinde. Kilo, VKİ, yağ oranı
+  ve kas kütlesi gibi elle girilen değerler yalnızca hasta "Vücut ölçüleri"
+  (`body`) türünü ayrıca seçerse paylaşılır; solunum hızı `respiration`.
 - Hekimin her okuması ve her reddedilen deneme `AuditEvent` olarak kaydedilir.
   Hastanın kendi okumaları kaydedilmez.
 - Veri silinse de erişim kayıtları yasal saklama yükümlülüğü nedeniyle kalır.
@@ -119,6 +177,9 @@ açılan hesap).
 ## Sonraki adımlar
 
 - Çok kullanıcılı üretim için PostgreSQL deposu ve yedekleme.
-- Gerçek giriş: hekim ve kurum doğrulaması (ör. e-Devlet, kurum SSO); panel
-  şu an portalın verdiği anahtarla açılıyor.
+- Hekim doğrulamasının otomatikleşmesi (ör. e-Devlet, kurum SSO, TTB
+  sicil sorgusu); şimdilik yönetici `--verify-clinician` ile onaylıyor.
+- Şifre sıfırlama e-postası (e-posta gönderimi yok); şimdilik yönetici yeni
+  hesap açar.
+- İki adımlı doğrulama (TOTP).
 - Saklama süreleri, VERBİS kaydı ve aydınlatma metni hukukla birlikte.

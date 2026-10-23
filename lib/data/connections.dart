@@ -21,6 +21,7 @@ class ConnectionOffer {
     required this.purpose,
     required this.requested,
     required this.duration,
+    this.verified = true,
   });
 
   final String code;
@@ -38,6 +39,10 @@ class ConnectionOffer {
 
   /// Paylaşımın en uzun süresi; bitince kendiliğinden sona erer.
   final Duration duration;
+
+  /// Hekim hesabı portal tarafından doğrulandı mı? Kendi kaydolan hekimde
+  /// doğrulanana kadar false; açık rıza ekranı uyarır.
+  final bool verified;
 }
 
 /// QR kodundan davet kodunu çıkarır. QR'da kodun kendisi ("DRK482") ya da

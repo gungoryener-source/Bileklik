@@ -94,6 +94,26 @@ class _ConsentScreenState extends State<ConsentScreen> {
                       ),
                     ],
                   ),
+                  if (!offer.verified) ...[
+                    const SizedBox(height: 12),
+                    Container(
+                      width: double.infinity,
+                      padding: const EdgeInsets.all(14),
+                      decoration: BoxDecoration(
+                        color: colors.danger.withValues(alpha: 0.12),
+                        borderRadius: BorderRadius.circular(16),
+                        border: Border.all(color: colors.danger),
+                      ),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Icon(Icons.warning_amber_rounded, color: colors.danger),
+                          const SizedBox(width: 10),
+                          Expanded(child: Text(l.connUnverified)),
+                        ],
+                      ),
+                    ),
+                  ],
                   MenuHeader(l.connPurpose),
                   _Box(child: Text(isolate(offer.purpose))),
                   Row(

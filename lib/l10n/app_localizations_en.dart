@@ -42,7 +42,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get accountEraseConfirmTitle => 'Delete portal data?';
 
   @override
-  String get accountEraseInfo => 'All measurements uploaded to the portal are deleted and all your sharing ends. Data on your phone stays. Access logs are kept because of legal duties.';
+  String get accountEraseInfo =>
+      'All measurements uploaded to the portal are deleted and all your sharing ends. Data on your phone stays. Access logs are kept because of legal duties.';
 
   @override
   String get accountEraseTitle => 'Delete my portal data';
@@ -56,7 +57,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get accountMenuSubtitle => 'Recovery code, restore account';
 
   @override
-  String get accountRecoveryInfo => 'If you change phones or delete the app, this code brings back your doctor and institution connections. Write it down somewhere safe and don\'t share it.';
+  String get accountRecoveryInfo =>
+      'If you change phones or delete the app, this code brings back your doctor and institution connections. Write it down somewhere safe and don\'t share it.';
 
   @override
   String get accountRecoveryTitle => 'Recovery code';
@@ -80,10 +82,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get accountRestoreField => 'Recovery code';
 
   @override
-  String get accountRestoreInfo => 'Enter the recovery code from your old phone. Your old account replaces the portal account on this phone.';
+  String get accountRestoreInfo =>
+      'Enter the recovery code from your old phone. Your old account replaces the portal account on this phone.';
 
   @override
-  String get accountRestoreInvalid => 'The code is invalid or has already been used.';
+  String get accountRestoreInvalid =>
+      'The code is invalid or has already been used.';
 
   @override
   String get accountRestoreTitle => 'Restore my account';
@@ -104,7 +108,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get achFirstSync => 'First step';
 
   @override
-  String get achFirstSyncText => 'Your first readings arrived from the wristband.';
+  String get achFirstSyncText =>
+      'Your first readings arrived from the wristband.';
 
   @override
   String get achGoalStreak7 => 'A week without a break';
@@ -122,7 +127,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get achSleepStreak7 => 'Regular sleep';
 
   @override
-  String get achSleepStreak7Text => 'At least 7 hours of sleep 7 nights in a row.';
+  String get achSleepStreak7Text =>
+      'At least 7 hours of sleep 7 nights in a row.';
 
   @override
   String get achSteps10k => '10,000 steps';
@@ -166,10 +172,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get actionClose => 'Close';
 
   @override
-  String get allDayHeartRateFailed => 'The setting couldn\'t be saved to the wristband. Please try again.';
+  String get allDayHeartRateFailed =>
+      'The setting couldn\'t be saved to the wristband. Please try again.';
 
   @override
-  String get allDayHeartRateSubtitle => 'When off, the wristband doesn\'t record your heart rate during the day.';
+  String get allDayHeartRateSubtitle =>
+      'When off, the wristband doesn\'t record your heart rate during the day.';
 
   @override
   String get allDayHeartRateTitle => 'All-day heart rate';
@@ -626,13 +634,15 @@ class AppLocalizationsEn extends AppLocalizations {
   String get connScan => 'Scan QR code';
 
   @override
-  String get connScanHint => 'Hold the QR code from your doctor or research institution inside the frame.';
+  String get connScanHint =>
+      'Hold the QR code from your doctor or research institution inside the frame.';
 
   @override
   String get connSelectAll => 'Select all';
 
   @override
-  String get connServerError => 'Couldn\'t reach the server. Check your internet connection and try again.';
+  String get connServerError =>
+      'Couldn\'t reach the server. Check your internet connection and try again.';
 
   @override
   String get connShared => 'Shared data';
@@ -807,7 +817,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get energyDrain => 'Used during the day';
 
   @override
-  String get energyEmpty => 'Energy needs last night\'s sleep or an HRV reading.';
+  String get energyEmpty =>
+      'Energy needs last night\'s sleep or an HRV reading.';
 
   @override
   String get energyHigh => 'Your energy is high';
@@ -819,7 +830,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get energyMedium => 'Your energy is moderate';
 
   @override
-  String get energyNote => 'Sleep duration and depth, and HRV compared with the past two weeks, fill your energy; steps and stress use it up during the day. This is the app\'s own estimate, not a medical measurement.';
+  String get energyNote =>
+      'Sleep duration and depth, and HRV compared with the past two weeks, fill your energy; steps and stress use it up during the day. This is the app\'s own estimate, not a medical measurement.';
 
   @override
   String get energyRecovery => 'Recovery';
@@ -880,7 +892,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get exportEmpty => 'No records to export in this period.';
 
   @override
-  String get exportFailed => 'The file couldn\'t be prepared. Please try again.';
+  String get exportFailed =>
+      'The file couldn\'t be prepared. Please try again.';
 
   @override
   String get exportIncludeEcg => 'Include ECG recordings';
@@ -889,13 +902,15 @@ class AppLocalizationsEn extends AppLocalizations {
   String get exportIncludeEcgNote => 'Raw ECG data makes the file larger.';
 
   @override
-  String get exportIntro => 'Your measurements are prepared as a FHIR R4 file, the common format of health systems. You can send it to your doctor or open it in an app that reads this format.';
+  String get exportIntro =>
+      'Your measurements are prepared as a FHIR R4 file, the common format of health systems. You can send it to your doctor or open it in an app that reads this format.';
 
   @override
   String get exportPeriod => 'Period';
 
   @override
-  String get exportPrivacy => 'The file contains health data. Share it only with people and institutions you trust. It doesn\'t contain your name, only a pseudonymous ID specific to this phone.';
+  String get exportPrivacy =>
+      'The file contains health data. Share it only with people and institutions you trust. It doesn\'t contain your name, only a pseudonymous ID specific to this phone.';
 
   @override
   String exportRecordCount(int count) {
@@ -923,7 +938,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get feedbackIncludeDetails => 'Include version and device info';
 
   @override
-  String get feedbackIntro => 'Found a bug or have an idea? Tell us and we\'ll pass it to the team.';
+  String get feedbackIntro =>
+      'Found a bug or have an idea? Tell us and we\'ll pass it to the team.';
 
   @override
   String get feedbackMessageHint => 'What happened, and what did you expect?';
@@ -932,7 +948,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get feedbackMessageLabel => 'Your message';
 
   @override
-  String get feedbackPrivacy => 'Your name, ID and health data are not sent. Please don\'t include personal details.';
+  String get feedbackPrivacy =>
+      'Your name, ID and health data are not sent. Please don\'t include personal details.';
 
   @override
   String get feedbackSend => 'Send';
@@ -1406,7 +1423,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get hrvBeats => 'Beats';
 
   @override
-  String get hrvDetailEmpty => 'No overnight beat-interval readings in the past week. Wear the wristband while you sleep.';
+  String get hrvDetailEmpty =>
+      'No overnight beat-interval readings in the past week. Wear the wristband while you sleep.';
 
   @override
   String hrvDetailNight(Object date) {
@@ -1414,7 +1432,8 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get hrvDetailNote => 'Calculated from beat intervals measured overnight. RMSSD reflects short-term and SDNN overall variability; compare with your own trend.';
+  String get hrvDetailNote =>
+      'Calculated from beat intervals measured overnight. RMSSD reflects short-term and SDNN overall variability; compare with your own trend.';
 
   @override
   String get hrvDetailTitle => 'Overnight HRV details';
@@ -1448,7 +1467,8 @@ class AppLocalizationsEn extends AppLocalizations {
       'Couldn\'t get a reading. Tighten the band a little and try again.';
 
   @override
-  String get issueNotPaired => 'First pair your wristband under Profile > Device.';
+  String get issueNotPaired =>
+      'First pair your wristband under Profile > Device.';
 
   @override
   String get languagePickHint =>
@@ -1620,13 +1640,16 @@ class AppLocalizationsEn extends AppLocalizations {
   String get noValue => '--';
 
   @override
-  String get pairBluetoothDenied => 'Bluetooth permission is needed to search for the wristband. Allow it for this app in your phone\'s settings and try again.';
+  String get pairBluetoothDenied =>
+      'Bluetooth permission is needed to search for the wristband. Allow it for this app in your phone\'s settings and try again.';
 
   @override
-  String get pairBluetoothOff => 'Bluetooth is off. Turn on Bluetooth on your phone and try again.';
+  String get pairBluetoothOff =>
+      'Bluetooth is off. Turn on Bluetooth on your phone and try again.';
 
   @override
-  String get pairBluetoothUnsupported => 'This device doesn\'t support Bluetooth Low Energy, which the wristband uses.';
+  String get pairBluetoothUnsupported =>
+      'This device doesn\'t support Bluetooth Low Energy, which the wristband uses.';
 
   @override
   String get pairCode => 'Pair with address';
@@ -1666,10 +1689,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get pairQr => 'Scan QR code';
 
   @override
-  String get pairQrHint => 'Hold the QR code on the box or on the back of the wristband inside the frame.';
+  String get pairQrHint =>
+      'Hold the QR code on the box or on the back of the wristband inside the frame.';
 
   @override
-  String get pairQrInvalid => 'This QR code doesn\'t contain a wristband address.';
+  String get pairQrInvalid =>
+      'This QR code doesn\'t contain a wristband address.';
 
   @override
   String get pairScan => 'Start search';
@@ -1702,61 +1727,72 @@ class AppLocalizationsEn extends AppLocalizations {
   String get personalInfoTitle => 'Personal info';
 
   @override
-  String get privacyAuditBody => 'Every access to your data on the portal, including refused attempts, is logged. You can see in the app who looked and when.';
+  String get privacyAuditBody =>
+      'Every access to your data on the portal, including refused attempts, is logged. You can see in the app who looked and when.';
 
   @override
   String get privacyAuditTitle => 'Access log';
 
   @override
-  String get privacyContactBody => 'The data controller\'s name, address and how to make a request will appear here before release. You can also write to us in the app under Profile > Feedback.';
+  String get privacyContactBody =>
+      'The data controller\'s name, address and how to make a request will appear here before release. You can also write to us in the app under Profile > Feedback.';
 
   @override
   String get privacyContactTitle => 'Contact';
 
   @override
-  String get privacyDataBody => 'What the wristband measures: heart rate, heart rate variability (HRV), blood oxygen (SpO2), ECG, sleep, steps, workouts, body temperature, stress and estimated blood pressure. What you enter: age, height, weight, sex, body composition and reminders. The wristband\'s Bluetooth address. We don\'t ask for your name, national ID number, phone or email; on the portal you are known only by a random pseudonym.';
+  String get privacyDataBody =>
+      'What the wristband measures: heart rate, heart rate variability (HRV), blood oxygen (SpO2), ECG, sleep, steps, workouts, body temperature, stress and estimated blood pressure. What you enter: age, height, weight, sex, body composition and reminders. The wristband\'s Bluetooth address. We don\'t ask for your name, national ID number, phone or email; on the portal you are known only by a random pseudonym.';
 
   @override
   String get privacyDataTitle => 'What data do we process?';
 
   @override
-  String get privacyDraft => 'Draft: this text has not been reviewed by a lawyer. The data controller\'s name, address and retention periods will be added before release.';
+  String get privacyDraft =>
+      'Draft: this text has not been reviewed by a lawyer. The data controller\'s name, address and retention periods will be added before release.';
 
   @override
-  String get privacyIntro => 'This text explains how the Bileklik app and portal process your personal data under the Turkish Personal Data Protection Law No. 6698 (KVKK).';
+  String get privacyIntro =>
+      'This text explains how the Bileklik app and portal process your personal data under the Turkish Personal Data Protection Law No. 6698 (KVKK).';
 
   @override
-  String get privacyLegalBody => 'Health data is a special category of personal data and is processed with your explicit consent (KVKK Article 6). Each sharing needs its own consent: you choose who sees which types and for how long, and you can withdraw consent at any time.';
+  String get privacyLegalBody =>
+      'Health data is a special category of personal data and is processed with your explicit consent (KVKK Article 6). Each sharing needs its own consent: you choose who sees which types and for how long, and you can withdraw consent at any time.';
 
   @override
   String get privacyLegalTitle => 'Legal basis';
 
   @override
-  String get privacyPurposeBody => 'To show you your measurements; to share them with the doctors, research institutions and family members you choose; and, if you want, to write them to Apple Health or Health Connect. Your data is not used for advertising and is not sold.';
+  String get privacyPurposeBody =>
+      'To show you your measurements; to share them with the doctors, research institutions and family members you choose; and, if you want, to write them to Apple Health or Health Connect. Your data is not used for advertising and is not sold.';
 
   @override
   String get privacyPurposeTitle => 'Why do we process it?';
 
   @override
-  String get privacyRetentionBody => 'Data on your phone stays until you delete the app. Measurements on the portal stay until you delete them; when a consent ends, that follower can no longer see them. Access logs are kept after deletion because of legal retention duties.';
+  String get privacyRetentionBody =>
+      'Data on your phone stays until you delete the app. Measurements on the portal stay until you delete them; when a consent ends, that follower can no longer see them. Access logs are kept after deletion because of legal retention duties.';
 
   @override
   String get privacyRetentionTitle => 'How long is it kept?';
 
   @override
-  String get privacyRightsBody => 'Under KVKK Article 11 you can ask whether your data is processed, ask for it to be corrected or deleted, and withdraw consent. In the app you can remove sharing under Profile > Doctors and research and Profile > Health community, delete your portal data under Profile > Portal account, and get all your data as a FHIR file under Profile > Export my data.';
+  String get privacyRightsBody =>
+      'Under KVKK Article 11 you can ask whether your data is processed, ask for it to be corrected or deleted, and withdraw consent. In the app you can remove sharing under Profile > Doctors and research and Profile > Health community, delete your portal data under Profile > Portal account, and get all your data as a FHIR file under Profile > Export my data.';
 
   @override
   String get privacyRightsTitle => 'Your rights';
 
   @override
-  String get privacySharingBody => 'Only the doctors, research institutions or family group members you consent to, only the types you choose and only for the consent period. Values you enter yourself, such as weight and body composition, are never shared. Only the types you choose are written to Apple Health or Health Connect; the app does not read data from them. Feedback is not linked to your identity.';
+  String get privacySharingBody =>
+      'Only the doctors, research institutions or family group members you consent to, only the types you choose and only for the consent period. Values you enter yourself, such as weight and body composition, are shared only if you separately choose “Body measurements”. Only the types you choose are written to Apple Health or Health Connect; the app does not read data from them. Feedback is not linked to your identity.';
 
   @override
   String get privacySharingTitle => 'Who is it shared with?';
 
   @override
-  String get privacyStorageBody => 'Measurements are kept on your phone in an encrypted database whose key lives in the phone\'s secure area (iOS Keychain, Android Keystore). This data is not included in phone backups. Only the types you choose to share go to the portal, where they are also stored encrypted.';
+  String get privacyStorageBody =>
+      'Measurements are kept on your phone in an encrypted database whose key lives in the phone\'s secure area (iOS Keychain, Android Keystore). This data is not included in phone backups. Only the types you choose to share go to the portal, where they are also stored encrypted.';
 
   @override
   String get privacyStorageTitle => 'Where is the data kept?';
@@ -1810,7 +1846,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get profileMenuExport => 'Export my data';
 
   @override
-  String get profileMenuExportSubtitle => 'FHIR file for your doctor or another app';
+  String get profileMenuExportSubtitle =>
+      'FHIR file for your doctor or another app';
 
   @override
   String get profileMenuFeedback => 'Feedback';
@@ -1885,10 +1922,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get progressTitle => 'Progress';
 
   @override
-  String get qrCameraDenied => 'Camera access was not allowed. Allow it in your phone\'s settings or enter the code manually.';
+  String get qrCameraDenied =>
+      'Camera access was not allowed. Allow it in your phone\'s settings or enter the code manually.';
 
   @override
-  String get qrCameraUnavailable => 'The camera couldn\'t be opened. You can enter the code manually.';
+  String get qrCameraUnavailable =>
+      'The camera couldn\'t be opened. You can enter the code manually.';
 
   @override
   String get qrManual => 'Enter code manually';
@@ -1939,7 +1978,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get reminderLabelHint => 'e.g. Morning pill';
 
   @override
-  String get reminderLabelNote => 'Stored on the wristband in Latin letters only.';
+  String get reminderLabelNote =>
+      'Stored on the wristband in Latin letters only.';
 
   @override
   String get reminderMedication => 'Medication';
@@ -2017,7 +2057,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get reportUp => 'Up';
 
   @override
-  String get reportVsPrevious => 'Arrows show the change from the previous week.';
+  String get reportVsPrevious =>
+      'Arrows show the change from the previous week.';
 
   @override
   String get reportWorkouts => 'Workouts';
@@ -2050,6 +2091,16 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get shareTemperature => 'Body temperature';
+
+  @override
+  String get shareRespiration => 'Respiratory rate';
+
+  @override
+  String get shareBody => 'Body measurements (weight, BMI)';
+
+  @override
+  String get connUnverified =>
+      'This clinician account has not been verified by the portal yet. Continue only if you know this person and got the code from them.';
 
   @override
   String get sleepAwake => 'Awake';
@@ -2229,13 +2280,16 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get vo2MaxNeedsAge => 'Your age is needed for the estimate. Connect the wristband and enter it under Profile > Personal info.';
+  String get vo2MaxNeedsAge =>
+      'Your age is needed for the estimate. Connect the wristband and enter it under Profile > Personal info.';
 
   @override
-  String get vo2MaxNeedsData => 'A few days of heart-rate or overnight readings are needed to work out your resting heart rate.';
+  String get vo2MaxNeedsData =>
+      'A few days of heart-rate or overnight readings are needed to work out your resting heart rate.';
 
   @override
-  String get vo2MaxNote => 'Estimated from the ratio of age-predicted maximum heart rate to resting heart rate; this is not a lab measurement. Use it to follow your fitness trend.';
+  String get vo2MaxNote =>
+      'Estimated from the ratio of age-predicted maximum heart rate to resting heart rate; this is not a lab measurement. Use it to follow your fitness trend.';
 
   @override
   String get vo2MaxTitle => 'Estimated VO2 max';

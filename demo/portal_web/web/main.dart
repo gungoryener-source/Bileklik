@@ -12,6 +12,7 @@ import 'dart:js_interop';
 
 import 'package:bileklik_portal/src/api.dart';
 import 'package:bileklik_portal/src/demo.dart';
+import 'package:bileklik_portal/src/passwords.dart';
 import 'package:bileklik_portal/src/store.dart';
 import 'package:shelf/shelf.dart';
 import 'package:web/web.dart' as web;
@@ -21,7 +22,11 @@ final _cookies = <String, String>{};
 var _path = '/panel';
 
 Future<void> main() async {
-  _api = PortalApi(MemoryPortalStore());
+  // Şifre özeti tarayıcıda yavaş olmasın diye az turla (deneme verisi).
+  _api = PortalApi(
+    MemoryPortalStore(),
+    passwords: const PasswordHasher(iterations: 2000),
+  );
   await seedDemo(_api);
   web.document.addEventListener('click', _onClick.toJS);
   web.document.addEventListener('submit', _onSubmit.toJS);
@@ -69,6 +74,22 @@ Future<void> _go(String method, String path, {String? form}) async {
   if (res.statusCode == 303 && location != null) {
     return _go('GET', location);
   }
+  // CSV ve FHIR dışa aktarma: sayfaya yazılmaz, dosya olarak indirilir.
+  final disposition = res.headers['content-disposition'];
+  if (disposition != null && disposition.startsWith('attachment')) {
+    final name = RegExp('filename="([^"]+)"').firstMatch(disposition)?.group(1) ?? 'bileklik';
+    final blob = web.Blob(
+      [(await res.readAsString()).toJS].toJS,
+      web.BlobPropertyBag(type: res.headers['content-type'] ?? 'text/plain'),
+    );
+    final url = web.URL.createObjectURL(blob);
+    (web.document.createElement('a') as web.HTMLAnchorElement)
+      ..href = url
+      ..download = name
+      ..click();
+    web.URL.revokeObjectURL(url);
+    return;
+  }
   _path = path;
   if (web.window.location.hash != '#$path') {
     web.window.history.pushState(null, '', '#$path');
@@ -104,7 +125,11 @@ web.Element _banner(web.Document doc) {
               '<span>Tarayıcıda çalışır, veriler örnektir ve yenileyince '
               'sıfırlanır.</span>'
               '<span>Hekim girişi: <code style="background:#ffffff1a;'
-              'padding:1px 6px;border-radius:4px">demo-doctor</code> · '
+              'padding:1px 6px;border-radius:4px">demo@bileklik.app</code> / '
+              '<code style="background:#ffffff1a;padding:1px 6px;'
+              'border-radius:4px">demo-sifre-2026</code> (ya da anahtar '
+              '<code style="background:#ffffff1a;padding:1px 6px;'
+              'border-radius:4px">demo-doctor</code>) · '
               'Araştırma: <code style="background:#ffffff1a;padding:1px 6px;'
               'border-radius:4px">demo-research</code></span>'
               '<span><a style="color:#b9a7ff" href="/panel">Panel</a> · '
@@ -117,7 +142,13 @@ web.Element _banner(web.Document doc) {
 void _onClick(web.Event e) {
   final target = e.target;
   if (target == null) return;
-  final link = (target as web.Element).closest('a');
+  // Rapordaki "Yazdır / PDF" düğmesi (DOMParser ile gelen betik çalışmaz).
+  if ((target as web.Element).closest('#print') != null) {
+    e.preventDefault();
+    web.window.print();
+    return;
+  }
+  final link = target.closest('a');
   final href = link?.getAttribute('href');
   if (link == null || href == null || href.startsWith('http')) return;
   e.preventDefault();
