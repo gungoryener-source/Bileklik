@@ -532,6 +532,9 @@ class AppLocalizationsDe extends AppLocalizations {
   String get communitySharesNothing => 'Teilt noch nichts';
 
   @override
+  String get communityUnnamedMember => 'Ein Mitglied';
+
+  @override
   String get communityYou => 'Sie';
 
   @override

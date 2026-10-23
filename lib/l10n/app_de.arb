@@ -153,6 +153,7 @@
   "communityRemoveMember": "Aus Gruppe entfernen",
   "communityShares": "Teilt: {types}",
   "communitySharesNothing": "Teilt noch nichts",
+  "communityUnnamedMember": "Ein Mitglied",
   "communityYou": "Sie",
   "connActive": "Meine Verbindungen",
   "connAgree": "Ich habe diese Informationen gelesen und willige ausdrücklich ein, die ausgewählten Daten für den genannten Zweck mit {name} zu teilen.",

@@ -28,10 +28,24 @@ class GroupScreen extends StatelessWidget {
 
     final consent = g.myConsent;
 
-    Future<void> toggle(ShareScope s, bool on) => service.setConsent(g.id, {
-      ...consent.scopes.where((x) => x != s),
-      if (on) s,
-    });
+    // Portala ulaşılamazsa değişiklik olmaz; bildirim gösterilir.
+    Future<void> guarded(Future<void> Function() action) async {
+      final messenger = ScaffoldMessenger.of(context);
+      final message = l.connServerError;
+      try {
+        await action();
+      } on Exception {
+        messenger
+          ..hideCurrentSnackBar()
+          ..showSnackBar(SnackBar(content: Text(message)));
+      }
+    }
+
+    Future<void> toggle(ShareScope s, bool on) =>
+        guarded(() => service.setConsent(g.id, {
+          ...consent.scopes.where((x) => x != s),
+          if (on) s,
+        }));
 
     Future<void> leave() async {
       final ok = await showCamDialog<bool>(
@@ -61,8 +75,12 @@ class GroupScreen extends StatelessWidget {
       );
       if (ok != true || !context.mounted) return;
       final navigator = Navigator.of(context);
-      await service.leave(g.id);
-      navigator.pop();
+      var left = false;
+      await guarded(() async {
+        await service.leave(g.id);
+        left = true;
+      });
+      if (left) navigator.pop();
     }
 
     return CamScaffold(
@@ -127,7 +145,7 @@ class GroupScreen extends StatelessWidget {
                   _MemberTile(
                     member: m,
                     onRemove: g.ownedByMe && !m.isMe
-                        ? () => service.removeMember(g.id, m.id)
+                        ? () => guarded(() => service.removeMember(g.id, m.id))
                         : null,
                   ),
                 if (g.ownedByMe) ...[
@@ -136,6 +154,8 @@ class GroupScreen extends StatelessWidget {
                     title: l.communityInvite,
                     onTap: () => showInviteDialog(context, g),
                   ),
+                  // Grup kodu bilinmiyorsa satır gizlenir.
+                  if (g.inviteCode.isNotEmpty)
                   MenuTile(
                     icon: Icons.pin_outlined,
                     title: l.communityCodeLabel,
@@ -176,7 +196,11 @@ class _MemberTile extends StatelessWidget {
     final l = context.l10n;
     final colors = context.colors;
     final m = member;
-    final name = m.isMe ? l.communityYou : m.name;
+    final name = m.isMe
+        ? l.communityYou
+        : m.name.isEmpty
+        ? l.communityUnnamedMember
+        : m.name;
     final role = [
       if (m.isOwner) l.communityOwner,
       if (m.pending) l.communityPending,

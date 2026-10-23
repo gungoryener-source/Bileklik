@@ -47,6 +47,22 @@ abstract class PortalStore {
   void addAudit(AuditEntry e);
   List<AuditEntry> auditForPatient(String patientId);
 
+  void addGroup(CareGroupRecord g);
+  CareGroupRecord? group(String id);
+  CareGroupRecord? groupByCode(String code);
+
+  /// Grubu ve tüm üyeliklerini siler.
+  void deleteGroup(String id);
+
+  /// Üyeliği ekler ya da aynı kimlikliyi değiştirir.
+  void putMember(GroupMember m);
+  void removeMember(String memberId);
+  List<GroupMember> members(String groupId);
+  GroupMember? memberByInvite(String code);
+
+  /// Hesabın katıldığı (ya da sahibi olduğu) grupların üyelikleri.
+  List<GroupMember> membershipsOf(String accountId);
+
   void addFeedback(FeedbackEntry f);
   List<FeedbackEntry> feedback();
 
@@ -71,6 +87,8 @@ class MemoryPortalStore implements PortalStore {
   final _audit = <AuditEntry>[];
   final _feedback = <FeedbackEntry>[];
   final _recovery = <String, String>{}; // özet -> hesap
+  final _groups = <String, CareGroupRecord>{};
+  final _members = <String, GroupMember>{};
   var _seq = 0;
 
   @override
@@ -174,6 +192,44 @@ class MemoryPortalStore implements PortalStore {
   List<AuditEntry> auditForPatient(String patientId) => [
     for (final e in _audit.reversed)
       if (e.patientId == patientId) e,
+  ];
+
+  @override
+  void addGroup(CareGroupRecord g) => _groups[g.id] = g;
+
+  @override
+  CareGroupRecord? group(String id) => _groups[id];
+
+  @override
+  CareGroupRecord? groupByCode(String code) =>
+      _groups.values.where((g) => g.code == code).firstOrNull;
+
+  @override
+  void deleteGroup(String id) {
+    _groups.remove(id);
+    _members.removeWhere((_, m) => m.groupId == id);
+  }
+
+  @override
+  void putMember(GroupMember m) => _members[m.id] = m;
+
+  @override
+  void removeMember(String memberId) => _members.remove(memberId);
+
+  @override
+  List<GroupMember> members(String groupId) => [
+    for (final m in _members.values)
+      if (m.groupId == groupId) m,
+  ];
+
+  @override
+  GroupMember? memberByInvite(String code) =>
+      _members.values.where((m) => m.inviteCode == code).firstOrNull;
+
+  @override
+  List<GroupMember> membershipsOf(String accountId) => [
+    for (final m in _members.values)
+      if (m.accountId == accountId) m,
   ];
 
   @override

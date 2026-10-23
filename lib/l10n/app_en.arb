@@ -153,6 +153,7 @@
   "communityRemoveMember": "Remove from group",
   "communityShares": "Shares: {types}",
   "communitySharesNothing": "Not sharing anything yet",
+  "communityUnnamedMember": "A member",
   "communityYou": "You",
   "connActive": "My connections",
   "connAgree": "I have read this information and explicitly consent to sharing the data I selected with {name} for the purpose above.",

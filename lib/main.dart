@@ -48,6 +48,7 @@ Future<void> main() async {
       settings: settings,
       healthExport: _healthExport(controller),
       connections: portal?.connections,
+      community: portal?.community,
       feedback: portal?.feedback,
       account: portal?.account,
     ),
@@ -61,6 +62,7 @@ const _portalUrl = String.fromEnvironment('PORTAL_URL');
 /// Portal adresi varsa gerçek servisler ve yükleyici; yoksa null.
 ({
   ConnectionService connections,
+  CommunityService community,
   FeedbackService feedback,
   PortalAccountService account,
 })?
@@ -76,14 +78,28 @@ _portal(
     credentials: settings,
   );
   final service = PortalConnectionService(client);
+  final community = PortalCommunityService(client);
   // Uygulama açık kaldıkça yeni ölçümleri yükler.
-  PortalUploader(client: client, connections: service, store: controller.store);
+  PortalUploader(
+    client: client,
+    connections: service,
+    community: community,
+    store: controller.store,
+  );
   unawaited(service.refresh().catchError((Object _) {}));
+  unawaited(community.refresh().catchError((Object _) {}));
   return (
+    community: community,
     connections: service,
     feedback: PortalFeedbackService(client),
     // Hesap geri yüklenince bağlantılar yeni hesaptan gelir.
-    account: PortalAccountService(client, onRecovered: service.refresh),
+    account: PortalAccountService(
+      client,
+      onRecovered: () async {
+        await service.refresh();
+        await community.refresh();
+      },
+    ),
   );
 }
 
@@ -150,7 +166,7 @@ class BileklikApp extends StatelessWidget {
     this.account,
   }) : settings = settings ?? AppSettings.memory(),
        feedback = feedback ?? FakeFeedbackService(),
-       // Portal arka ucu gelene kadar sahte sunucular.
+       // Portal adresi verilmezse sahte sunucular.
        community = community ?? FakeCommunityServer(),
        connections = connections ?? FakeConnectionServer(),
        healthExport =

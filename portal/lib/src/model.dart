@@ -304,3 +304,70 @@ class FeedbackEntry {
     'locale': locale,
   };
 }
+
+/// Aile ya da bakım grubu. Üyeler hastadır (takma kimlikli hesaplar); her
+/// üye grupla neyi paylaşacağını kendisi seçer ([GroupMember.scopes]).
+class CareGroupRecord {
+  const CareGroupRecord({
+    required this.id,
+    required this.name,
+    required this.ownerId,
+    required this.code,
+    required this.created,
+  });
+
+  final String id;
+  final String name;
+  final String ownerId;
+
+  /// Herkese açık grup kodu (6 karakter); bununla katılan üyenin adı boştur.
+  final String code;
+  final DateTime created;
+}
+
+/// Grup üyeliği. Davet edilip henüz katılmamış üyede [accountId] yoktur ve
+/// kişiye özel [inviteCode] vardır; katılınca kod silinir.
+class GroupMember {
+  const GroupMember({
+    required this.id,
+    required this.groupId,
+    required this.name,
+    this.accountId,
+    this.inviteCode,
+    this.joined,
+    this.scopes = const {},
+    this.consentAt,
+  });
+
+  final String id;
+  final String groupId;
+
+  /// Grup sahibinin verdiği görünen ad (ör. "Annem"); boş olabilir.
+  final String name;
+  final String? accountId;
+  final String? inviteCode;
+  final DateTime? joined;
+
+  /// Bu üyenin grupla paylaştığı türler (açık rıza). Varsayılan boş.
+  final Set<ShareScope> scopes;
+  final DateTime? consentAt;
+
+  bool get pending => accountId == null;
+
+  GroupMember copyWith({
+    String? accountId,
+    DateTime? joined,
+    Set<ShareScope>? scopes,
+    DateTime? consentAt,
+    bool clearInvite = false,
+  }) => GroupMember(
+    id: id,
+    groupId: groupId,
+    name: name,
+    accountId: accountId ?? this.accountId,
+    inviteCode: clearInvite ? null : inviteCode,
+    joined: joined ?? this.joined,
+    scopes: scopes ?? this.scopes,
+    consentAt: consentAt ?? this.consentAt,
+  );
+}

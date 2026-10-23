@@ -66,6 +66,13 @@ curl -H 'Authorization: Bearer demo-doctor' -H 'content-type: application/json' 
 | `POST /invites/<kod>/accept` | hasta | Seçilen türlerle Consent oluşturur. Aynı takipçiye verilmiş eski rıza biter. |
 | `DELETE /consents/<id>` | hasta | Rızayı geri alır; erişim hemen biter. |
 | `DELETE /patients/<id>/data` | hasta | Ölçümleri siler ve rızaları bitirir (unutulma hakkı). |
+| `GET /groups` | hasta | Aile grupları, üyeler, her üyenin paylaştığı türler ve "katıldı" bildirimleri. Grup kodu ve bekleyen davet kodları yalnızca sahibine gösterilir. |
+| `POST /groups` | hasta | Grup açar (ad 1-40 karakter). |
+| `POST /groups/<id>/members` | grup sahibi | Davet edilenin adıyla kişiye özel 6 karakterlik kod üretir. |
+| `POST /groups/join` | hasta | Kişiye özel kodla (verilen adla) ya da grup koduyla (adsız) katılır. |
+| `PUT /groups/<id>/consent` | üye | Grupla paylaşılan türleri değiştirir; erişim kaydına geçer. |
+| `DELETE /groups/<id>/members/<mid>` | grup sahibi | Üyeyi ya da bekleyen daveti çıkarır; paylaşımı biter. |
+| `DELETE /groups/<id>` | üye | Sahipse grubu siler (dosyadan da çıkar), değilse ayrılır. |
 | `POST /feedback` | herkes | Uygulama içi geri bildirim. Anahtar istenmez, kimliğe bağlanmaz; dakikada en çok 30, mesaj en çok 2000 karakter. Okumak için `dart run bin/server.dart --feedback`. |
 
 ## Hekim paneli
@@ -96,6 +103,9 @@ açılan hesap).
 
 - Hasta kendi verisinin tamamını görür.
 - Takipçi yalnızca süresi dolmamış ve geri alınmamış rızasındaki türleri görür.
+- Aile grubu üyesi, aynı gruptaki bir hastanın o grupla paylaştığı türleri
+  görür; okuması hastanın erişim kayıtlarına geçer. Gruptan ayrılınca ya da
+  çıkarılınca erişim biter.
   Türlerin kodlara karşılığı `ShareScope.codes` içinde. Kilo, VKİ ve yağ oranı
   gibi elle girilen değerler hiçbir türde yer almaz, takipçiye hiç gösterilmez.
 - Hekimin her okuması ve her reddedilen deneme `AuditEvent` olarak kaydedilir.
@@ -107,5 +117,4 @@ açılan hesap).
 - Çok kullanıcılı üretim için PostgreSQL deposu ve yedekleme.
 - Gerçek giriş: hekim ve kurum doğrulaması (ör. e-Devlet, kurum SSO); panel
   şu an portalın verdiği anahtarla açılıyor.
-- Topluluk (aile grupları) sunucusunun sahte uygulamasının yerine bu API.
 - Saklama süreleri, VERBİS kaydı ve aydınlatma metni hukukla birlikte.

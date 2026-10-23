@@ -83,7 +83,15 @@ class ProfileScreen extends StatelessWidget {
               title: l.profileMenuCommunity,
               subtitle: l.profileMenuCommunitySubtitle,
               badge: CommunityScope.of(context).unreadCount,
-              onTap: () => open(const CommunityScreen()),
+              onTap: () {
+                // Portaldaysa liste açılırken yenilenir; hata ekranı bozmaz.
+                unawaited(
+                  CommunityScope.of(
+                    context,
+                  ).refresh().catchError((Object _) {}),
+                );
+                open(const CommunityScreen());
+              },
             ),
             MenuTile(
               icon: Icons.biotech,

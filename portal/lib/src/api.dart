@@ -29,6 +29,13 @@ import 'store.dart';
 /// | `DELETE /consents/<id>` | hasta | Rızayı geri alır |
 /// | `DELETE /patients/<id>/data` | hasta | Ölçümlerini siler (unutulma hakkı) |
 /// | `POST /feedback` | herkes | Uygulama içi geri bildirim (kimliksiz) |
+/// | `GET /groups` | hasta | Aile grupları, üyeler, paylaşımlar ve bildirimler |
+/// | `POST /groups` | hasta | Grup açar |
+/// | `POST /groups/join` | hasta | Grup ya da kişiye özel kodla katılır |
+/// | `POST /groups/<id>/members` | grup sahibi | Kişiye özel davet kodu üretir |
+/// | `DELETE /groups/<id>/members/<mid>` | grup sahibi | Üyeyi çıkarır |
+/// | `PUT /groups/<id>/consent` | üye | Grupla paylaşılan türleri değiştirir |
+/// | `DELETE /groups/<id>` | üye | Sahipse grubu siler, değilse ayrılır |
 /// | `/panel` | hekim, araştırmacı | Tarayıcı paneli ([PanelApi]) |
 ///
 /// Kimlik doğrulama iskelette `Authorization: Bearer <anahtar>` ile; gerçek
@@ -83,7 +90,14 @@ class PortalApi {
     ..post('/invites/<code>/accept', _acceptInvite)
     ..delete('/consents/<id>', _revokeConsent)
     ..delete('/patients/<id>/data', _erase)
-    ..post('/feedback', _feedback);
+    ..post('/feedback', _feedback)
+    ..get('/groups', _listGroups)
+    ..post('/groups', _createGroup)
+    ..post('/groups/join', _joinGroup)
+    ..post('/groups/<id>/members', _inviteMember)
+    ..delete('/groups/<id>/members/<mid>', _removeMember)
+    ..put('/groups/<id>/consent', _groupConsent)
+    ..delete('/groups/<id>', _leaveGroup);
 
   Handler _authenticate(Handler inner) => (request) {
     if (request.url.path == 'health') return inner(request);
@@ -277,6 +291,251 @@ class PortalApi {
     return _outcome(201, 'information', 'informational', 'received');
   }
 
+  // ------------------------------------------------------------ aile grupları
+
+  /// [patientId]'nin, [viewerId] ile ortak gruplarda paylaştığı türler.
+  Set<ShareScope> _groupScopes(String patientId, String viewerId) {
+    final viewerGroups = {
+      for (final m in store.membershipsOf(viewerId)) m.groupId,
+    };
+    return {
+      for (final m in store.membershipsOf(patientId))
+        if (viewerGroups.contains(m.groupId)) ...m.scopes,
+    };
+  }
+
+  String _shortCode() => List.generate(
+    6,
+    (_) => _codeAlphabet[_random.nextInt(_codeAlphabet.length)],
+  ).join();
+
+  /// Grup ya da kişiye özel davetle çakışmayan yeni kod.
+  String _freeCode() {
+    while (true) {
+      final c = _shortCode();
+      if (store.groupByCode(c) == null && store.memberByInvite(c) == null) {
+        return c;
+      }
+    }
+  }
+
+  Response? _patientOnly(Account me) => me.role == Role.patient
+      ? null
+      : _outcome(403, 'error', 'forbidden', 'Yalnızca hasta');
+
+  /// Hesabın bu gruptaki üyeliği; yoksa null.
+  GroupMember? _membership(String groupId, String accountId) => store
+      .members(groupId)
+      .where((m) => m.accountId == accountId)
+      .firstOrNull;
+
+  Map<String, Object?> _groupJson(CareGroupRecord g, String meId) {
+    final owner = g.ownerId == meId;
+    final members = store.members(g.id)
+      ..sort((a, b) {
+        if (a.accountId == g.ownerId) return -1;
+        if (b.accountId == g.ownerId) return 1;
+        return (a.joined ?? g.created).compareTo(b.joined ?? g.created);
+      });
+    final mine = _membership(g.id, meId);
+    return {
+      'id': g.id,
+      'name': g.name,
+      'ownedByMe': owner,
+      // Grup kodu yalnızca sahibine gösterilir.
+      'inviteCode': owner ? g.code : '',
+      'members': [
+        for (final m in members)
+          {
+            'id': m.id,
+            'name': m.name,
+            'isMe': m.accountId == meId,
+            'isOwner': m.accountId == g.ownerId,
+            'pending': m.pending,
+            // Bekleyen üyenin kişiye özel kodu yalnızca sahibine gider.
+            if (owner) 'inviteCode': ?m.inviteCode,
+            'shares': [for (final s in m.scopes) s.name],
+          },
+      ],
+      'myConsent': {
+        'scopes': [for (final s in mine?.scopes ?? const <ShareScope>{}) s.name],
+        'grantedAt': mine?.consentAt?.toUtc().toIso8601String(),
+      },
+    };
+  }
+
+  Response _listGroups(Request request) {
+    final me = _me(request);
+    if (_patientOnly(me) case final r?) return r;
+    final groups = [
+      for (final m in store.membershipsOf(me.id)) ?store.group(m.groupId),
+    ]..sort((a, b) => a.created.compareTo(b.created));
+    // Sahibi olunan gruplara katılanlar bildirim olarak gelir.
+    final messages = [
+      for (final g in groups)
+        if (g.ownerId == me.id)
+          for (final m in store.members(g.id))
+            if (m.joined != null && m.accountId != me.id)
+              {
+                'id': 'joined-${m.id}',
+                'kind': 'memberJoined',
+                'from': m.name,
+                'groupId': g.id,
+                'groupName': g.name,
+                'time': m.joined!.toUtc().toIso8601String(),
+              },
+    ];
+    return _json(200, {
+      'groups': [for (final g in groups) _groupJson(g, me.id)],
+      'messages': messages,
+    });
+  }
+
+  Future<Response> _createGroup(Request request) async {
+    final me = _me(request);
+    if (_patientOnly(me) case final r?) return r;
+    final name = (await _body(request))?['name'];
+    if (name is! String || name.trim().isEmpty || name.trim().length > 40) {
+      return _outcome(400, 'error', 'invalid', 'name (1-40) gerekli');
+    }
+    final now = _now();
+    final g = CareGroupRecord(
+      id: store.nextId('group'),
+      name: name.trim(),
+      ownerId: me.id,
+      code: _freeCode(),
+      created: now,
+    );
+    store
+      ..addGroup(g)
+      ..putMember(
+        GroupMember(
+          id: store.nextId('member'),
+          groupId: g.id,
+          name: '',
+          accountId: me.id,
+          joined: now,
+        ),
+      );
+    return _json(201, _groupJson(g, me.id));
+  }
+
+  Future<Response> _inviteMember(Request request, String id) async {
+    final me = _me(request);
+    final g = store.group(id);
+    if (g == null || g.ownerId != me.id) {
+      return _outcome(404, 'error', 'not-found', 'Grup bulunamadı');
+    }
+    final name = (await _body(request))?['name'];
+    if (name is! String || name.trim().isEmpty || name.trim().length > 40) {
+      return _outcome(400, 'error', 'invalid', 'name (1-40) gerekli');
+    }
+    final code = _freeCode();
+    store.putMember(
+      GroupMember(
+        id: store.nextId('member'),
+        groupId: g.id,
+        name: name.trim(),
+        inviteCode: code,
+      ),
+    );
+    return _json(201, {'code': code});
+  }
+
+  Future<Response> _joinGroup(Request request) async {
+    final me = _me(request);
+    if (_patientOnly(me) case final r?) return r;
+    final raw = (await _body(request))?['code'];
+    final code = raw is String ? raw.trim().toUpperCase() : '';
+    final invited = code.isEmpty ? null : store.memberByInvite(code);
+    final g = invited != null
+        ? store.group(invited.groupId)
+        : code.isEmpty
+        ? null
+        : store.groupByCode(code);
+    if (g == null) {
+      return _outcome(404, 'error', 'not-found', 'Kod geçersiz');
+    }
+    if (_membership(g.id, me.id) == null) {
+      final now = _now();
+      store.putMember(
+        invited?.copyWith(accountId: me.id, joined: now, clearInvite: true) ??
+            GroupMember(
+              id: store.nextId('member'),
+              groupId: g.id,
+              name: '',
+              accountId: me.id,
+              joined: now,
+            ),
+      );
+    }
+    return _json(200, _groupJson(g, me.id));
+  }
+
+  Response _removeMember(Request request, String id, String mid) {
+    final me = _me(request);
+    final g = store.group(id);
+    final member = store.members(id).where((m) => m.id == mid).firstOrNull;
+    if (g == null || g.ownerId != me.id || member == null) {
+      return _outcome(404, 'error', 'not-found', 'Üye bulunamadı');
+    }
+    if (member.accountId == me.id) {
+      return _outcome(400, 'error', 'invalid', 'Sahip kendini çıkaramaz; grubu siler');
+    }
+    store.removeMember(member.id);
+    if (member.accountId case final a? when member.scopes.isNotEmpty) {
+      _audit(me.id, a, AuditAction.update, true, 'Gruptan çıkarıldı, paylaşım bitti: ${g.id}');
+    }
+    return _json(200, _groupJson(g, me.id));
+  }
+
+  Future<Response> _groupConsent(Request request, String id) async {
+    final me = _me(request);
+    final g = store.group(id);
+    final mine = g == null ? null : _membership(g.id, me.id);
+    if (g == null || mine == null) {
+      return _outcome(404, 'error', 'not-found', 'Grup bulunamadı');
+    }
+    final scopes = _scopes((await _body(request))?['scopes']);
+    if (scopes == null) {
+      return _outcome(400, 'error', 'invalid', 'scopes listesi gerekli');
+    }
+    store.putMember(mine.copyWith(scopes: scopes, consentAt: _now()));
+    _audit(
+      me.id,
+      me.id,
+      AuditAction.update,
+      true,
+      scopes.isEmpty
+          ? 'Grup paylaşımı kapatıldı: ${g.id}'
+          : 'Grup paylaşımı: ${g.id} (${scopes.map((s) => s.name).join(', ')})',
+    );
+    return _json(200, _groupJson(g, me.id));
+  }
+
+  Response _leaveGroup(Request request, String id) {
+    final me = _me(request);
+    final g = store.group(id);
+    final mine = g == null ? null : _membership(g.id, me.id);
+    if (g == null || mine == null) {
+      return _outcome(404, 'error', 'not-found', 'Grup bulunamadı');
+    }
+    if (g.ownerId == me.id) {
+      for (final m in store.members(g.id)) {
+        if (m.accountId case final a? when m.scopes.isNotEmpty) {
+          _audit(me.id, a, AuditAction.update, true, 'Grup silindi, paylaşım bitti: ${g.id}');
+        }
+      }
+      store.deleteGroup(g.id);
+    } else {
+      store.removeMember(mine.id);
+      if (mine.scopes.isNotEmpty) {
+        _audit(me.id, me.id, AuditAction.update, true, 'Gruptan ayrıldı, paylaşım bitti: ${g.id}');
+      }
+    }
+    return _json(200, {'left': g.id});
+  }
+
   // ---------------------------------------------------------------- yükleme
 
   Future<Response> _ingest(Request request) async {
@@ -331,6 +590,8 @@ class PortalApi {
       allowed = {
         for (final c in store.consentsForPatient(patientId))
           if (c.actorId == me.id && c.activeAt(now)) ...c.codes,
+        // Aynı aile grubundaki üye, hastanın o grupla paylaştığı türleri görür.
+        for (final s in _groupScopes(patientId, me.id)) ...s.codes,
       };
       if (allowed.isEmpty) {
         _audit(me.id, patientId, AuditAction.read, false, 'Rıza olmadan erişim denemesi');
@@ -501,6 +762,11 @@ class PortalApi {
     final count = store.deleteObservations(id);
     for (final c in store.consentsForPatient(id)) {
       store.revokeConsent(c.id, now);
+    }
+    for (final m in store.membershipsOf(id)) {
+      if (m.scopes.isNotEmpty) {
+        store.putMember(m.copyWith(scopes: const {}, consentAt: now));
+      }
     }
     _audit(me.id, id, AuditAction.delete, true, '$count ölçüm silindi');
     return _outcome(200, 'information', 'informational', 'deleted=$count');

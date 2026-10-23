@@ -194,7 +194,7 @@ class _GroupTile extends StatelessWidget {
         style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
       ),
       subtitle: Text(
-        group.ownedByMe || owner == null
+        group.ownedByMe || owner == null || owner.name.isEmpty
             ? count
             : '${l.communityOwnerName(owner.name)} · $count',
         maxLines: 2,

@@ -45,27 +45,29 @@ Future<CareGroup?> showJoinWithCodeDialog(BuildContext context) {
   );
 }
 
-/// Davet edilecek kişinin adını sorar, daveti gönderir ve grup kodunu gösterir.
+/// Davet edilecek kişinin adını sorar, daveti gönderir ve katılma kodunu
+/// gösterir.
 Future<void> showInviteDialog(BuildContext context, CareGroup group) async {
   final service = CommunityScope.of(context);
   final l = context.l10n;
-  final name = await showCamDialog<String>(
+  final sent = await showCamDialog<(String, String)>(
     context: context,
-    builder: (_) => TextEntryDialog<String>(
+    builder: (_) => TextEntryDialog<(String, String)>(
       title: l.communityInvite,
       label: l.communityInviteName,
       action: l.communityInviteSend,
       maxLength: 40,
       submit: (name) async {
-        await service.invite(group.id, name);
-        return (name.trim(), null);
+        // Portalda kişiye özel kod döner; sahte sunucuda grup kodu.
+        final code = await service.invite(group.id, name);
+        return ((name.trim(), code), null);
       },
     ),
   );
-  if (name == null || !context.mounted) return;
+  if (sent == null || !context.mounted) return;
   await showCamDialog<void>(
     context: context,
-    builder: (_) => InviteCodeDialog(code: group.inviteCode, name: name),
+    builder: (_) => InviteCodeDialog(code: sent.$2, name: sent.$1),
   );
 }
 
@@ -187,7 +189,15 @@ class _TextEntryDialogState<T> extends State<TextEntryDialog<T>> {
   Future<void> _go() async {
     if (!_valid || _busy) return;
     setState(() => _busy = true);
-    final (result, error) = await widget.submit(_text.text);
+    final l = context.l10n;
+    T? result;
+    String? error;
+    try {
+      (result, error) = await widget.submit(_text.text);
+    } on Exception {
+      // Portala ulaşılamadı; pencere açık kalır, yeniden denenebilir.
+      error = l.connServerError;
+    }
     if (!mounted) return;
     if (error != null) {
       setState(() {
