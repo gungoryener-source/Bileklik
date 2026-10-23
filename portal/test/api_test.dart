@@ -619,4 +619,20 @@ void main() {
       expect(PrivacyPage.of(lang).sections, hasLength(PrivacyPage.of('tr').sections.length));
     }
   });
+
+  test('deneme verisi gerçek akışla kurulur; hekim yalnızca rızadakini görür', () async {
+    final store = MemoryPortalStore();
+    final api = PortalApi(store, random: Random(1));
+    final now = DateTime.utc(2026, 10, 20, 12);
+    await seedDemo(api, now: now);
+    final doctor = store.accountByToken(DemoTokens.doctor)!;
+    final consents = store.consentsForActor(doctor.id);
+    expect(consents, hasLength(3));
+    const first = '00000000-0000-4000-8000-000000000001';
+    expect(store.observations(first), hasLength(greaterThan(80)));
+    final seen = store.observations(first, codes: consents.firstWhere((c) => c.patientId == first).codes);
+    expect(seen.map((o) => o.code).toSet(), containsAll(['8867-4', '85354-9', '11524-6']));
+    expect(store.observations(first).every((o) => !o.effective.isAfter(now)), isTrue);
+    expect(store.consentsForActor('research-demo'), hasLength(1));
+  });
 }

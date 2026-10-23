@@ -41,3 +41,13 @@ flutter test       # protokol, sahte cihaz ve ekran testleri
   `02` sonraki 50 kayıt, `99` sil). Kayıtlar uç uca gelir, veri `[komut, FF]` ile biter.
 
 Plan ve ekran analizi: [V8 Bileklik Uygulaması: Mimari ve Ekran Analizi](https://claude.ai/code/artifact/dc42487d-5b8e-412b-8e67-b0ae96220721)
+
+## Tarayıcıda deneme
+
+`Demo` iş akışı (`.github/workflows/demo.yml`) her PR'da ve main'de şunları üretir:
+
+- `uygulama/`: uygulamanın web sürümü, sahte bileklikle (`flutter build web`).
+- `portal/`: portalın tarayıcıda, sunucusuz çalışan hâli (`demo/portal_web`). Hekim paneline `demo-doctor` anahtarıyla girilir; örnek veriler `seedDemo` ile kurulur.
+
+Çıktı `demo-site` dalına yazılır. main'de ayrıca GitHub Pages'e yayımlanır; bunun için depo ayarlarında Pages kaynağı "GitHub Actions" seçilmelidir.
+

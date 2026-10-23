@@ -16,8 +16,9 @@ import 'package:shelf/shelf_io.dart' as io;
 ///   --add-clinician="Dr. Ayşe Kaya" --org="Kardiyoloji Polikliniği"
 /// ```
 ///
-/// `--demo` iki deneme hesabı açar: `demo-patient` (hasta) ve `demo-doctor`
-/// (hekim) oturum anahtarlarıyla; veriler sunucu kapanınca silinir.
+/// `--demo` deneme verisiyle açılır ([seedDemo]): `demo-doctor` (hekim),
+/// `demo-research` (araştırma), `demo-patient` (hasta) anahtarları; veriler
+/// sunucu kapanınca silinir.
 /// `--feedback` uygulamadan gelen geri bildirimleri yazar.
 /// `--add-clinician` (araştırma kurumu için ayrıca `--researcher`) hesabı
 /// açar, oturum anahtarını bir kez yazar ve çıkar.
@@ -28,24 +29,7 @@ Future<void> main(List<String> args) async {
   }
   final PortalStore store;
   if (args.contains('--demo')) {
-    store = MemoryPortalStore()
-      ..addAccount(
-        const Account(
-          id: '00000000-0000-4000-8000-000000000001',
-          role: Role.patient,
-          name: 'Demo hasta',
-        ),
-        'demo-patient',
-      )
-      ..addAccount(
-        const Account(
-          id: 'dr-demo',
-          role: Role.clinician,
-          name: 'Dr. Demo',
-          organization: 'Demo Kliniği',
-        ),
-        'demo-doctor',
-      );
+    store = MemoryPortalStore();
   } else {
     final key = Platform.environment['PORTAL_KEY'];
     final path = Platform.environment['PORTAL_DATA'];
@@ -89,15 +73,15 @@ Future<void> main(List<String> args) async {
     return;
   }
 
+  final api = PortalApi(
+    store,
+    // HTTPS arkasında: panel çerezi yalnızca şifreli bağlantıda gider.
+    secureCookie: Platform.environment['PORTAL_HTTPS'] == '1',
+  );
+  if (args.contains('--demo')) await seedDemo(api);
   final handler = const Pipeline()
       .addMiddleware(logRequests())
-      .addHandler(
-        PortalApi(
-          store,
-          // HTTPS arkasında: panel çerezi yalnızca şifreli bağlantıda gider.
-          secureCookie: Platform.environment['PORTAL_HTTPS'] == '1',
-        ).handler,
-      );
+      .addHandler(api.handler);
   final port = int.tryParse(Platform.environment['PORT'] ?? '') ?? 8080;
   final server = await io.serve(handler, InternetAddress.anyIPv4, port);
   stdout.writeln('Portal http://${server.address.host}:${server.port}');

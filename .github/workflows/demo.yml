@@ -1,0 +1,69 @@
+name: Demo
+
+# Tarayıcıda denenebilir sürüm: uygulama (web, sahte bileklik) ve portal
+# (hekim paneli, sunucusuz). Çıktı demo-site dalına yazılır; main'de ayrıca
+# GitHub Pages'e yayımlanır (Pages ayarında kaynak "GitHub Actions" seçiliyse).
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+      - name: Uygulama (web)
+        run: |
+          flutter pub get
+          flutter build web --release --no-web-resources-cdn --pwa-strategy=none
+      - name: Portal (tarayıcıda)
+        working-directory: demo/portal_web
+        run: |
+          dart pub get
+          dart compile js -O2 -o build/main.dart.js web/main.dart
+      - name: Siteyi birleştir
+        run: |
+          mkdir -p site/portal
+          cp demo/site/index.html site/
+          cp -r build/web site/uygulama
+          cp demo/portal_web/web/index.html demo/portal_web/build/main.dart.js site/portal/
+          touch site/.nojekyll
+          du -sh site
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+      - name: demo-site dalına yaz
+        run: |
+          cp -r site /tmp/site
+          git config user.name "github-actions"
+          git config user.email "github-actions@users.noreply.github.com"
+          git checkout --orphan demo-site
+          git rm -rfq --cached .
+          find . -mindepth 1 -maxdepth 1 ! -name .git -exec rm -rf {} +
+          cp -r /tmp/site/. .
+          git add -A
+          git commit -qm "Demo: ${GITHUB_SHA::7}"
+          git push -f origin HEAD:demo-site
+
+  pages:
+    if: github.event_name != 'pull_request'
+    needs: build
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - id: deploy
+        uses: actions/deploy-pages@v4
