@@ -5,6 +5,7 @@ import 'package:shelf/shelf.dart';
 import 'package:shelf_router/shelf_router.dart';
 
 import 'model.dart';
+import 'panel_text.dart';
 import 'store.dart';
 
 /// Hekim ve araştırmacı için tarayıcı paneli (`/panel`).
@@ -16,6 +17,8 @@ import 'store.dart';
 /// - Hasta sayfası: yalnızca süren rızadaki türler; her görüntüleme ve
 ///   rızasız deneme erişim kaydına (AuditEvent) geçer.
 /// - Sayfalar harici kaynak yüklemez; tüm değerler HTML'e kaçışlanarak yazılır.
+/// - Dört dil ([PanelText]): `?lang=` ile seçilir, çerezde kalır; yoksa
+///   tarayıcının dili.
 class PanelApi {
   PanelApi(
     this.store, {
@@ -33,11 +36,36 @@ class PanelApi {
   final bool secureCookie;
 
   static const cookieName = 'bk_panel';
+  static const langCookie = 'bk_lang';
   static const sessionLength = Duration(hours: 8);
 
   final _sessions = <String, _Session>{};
 
-  Handler get handler => _router.call;
+  /// `?lang=` verilirse seçim çerezde saklanır.
+  Handler get handler => (r) async {
+    final res = await _router.call(r);
+    final lang = r.url.queryParameters['lang'];
+    if (lang == null || !PanelText.supported.contains(lang)) return res;
+    return res.change(
+      headers: {
+        'set-cookie': [
+          ...?res.headersAll['set-cookie'],
+          '$langCookie=$lang; Path=/panel; SameSite=Strict; Max-Age=31536000',
+        ],
+      },
+    );
+  };
+
+  /// Sayfanın dili: `?lang=`, sonra çerez, sonra `Accept-Language`.
+  static PanelText _t(Request r) {
+    final q = r.url.queryParameters['lang'];
+    if (q != null && PanelText.supported.contains(q)) return PanelText.of(q);
+    final c = _cookies(r)[langCookie];
+    if (c != null && PanelText.supported.contains(c)) return PanelText.of(c);
+    return PanelText.of(
+      PanelText.fromAcceptLanguage(r.headers['accept-language']),
+    );
+  }
 
   late final Router _router = Router()
     ..get('/panel', _home)
@@ -95,12 +123,13 @@ class PanelApi {
   }
 
   Future<Response> _login(Request r) async {
+    final t = _t(r);
     final form = await _form(r);
     final token = form['token']?.firstOrNull?.trim() ?? '';
     final account = token.isEmpty ? null : store.accountByToken(token);
     if (account == null ||
         (account.role != Role.clinician && account.role != Role.researcher)) {
-      return _html(401, _loginPage(error: 'Anahtar geçersiz.'));
+      return _html(401, _loginPage(t, error: t.badToken));
     }
     final id = _randomHex(32);
     _sessions[id] = _Session(
@@ -132,9 +161,10 @@ class PanelApi {
   // ------------------------------------------------------------- sayfalar
 
   Response _home(Request r) {
+    final t = _t(r);
     final s = _session(r);
     final me = s == null ? null : store.account(s.accountId);
-    if (s == null || me == null) return _html(200, _loginPage());
+    if (s == null || me == null) return _html(200, _loginPage(t));
     final now = _now();
     final consents = [
       for (final c in store.consentsForActor(me.id))
@@ -149,36 +179,37 @@ class PanelApi {
       rows.write(
         '<tr><td><a href="/panel/patients/${_h(Uri.encodeComponent(c.patientId))}">'
         '${_h(_shortId(c.patientId))}</a></td>'
-        '<td>${_h(c.scopes.map(_scopeLabel).join(', '))}</td>'
-        '<td>${_h(_date(c.end))}</td>'
-        '<td>${last == null ? '—' : _h(_dateTime(last))}</td></tr>',
+        '<td>${_h(_scopes(t, c.scopes))}</td>'
+        '<td>${_h(_date(t, c.end))}</td>'
+        '<td>${last == null ? '—' : _h(_dateTime(t, last))}</td></tr>',
       );
     }
     final scopeBoxes = [
       for (final sc in ShareScope.values)
         '<label class="check"><input type="checkbox" name="scope" '
-            'value="${sc.name}"> ${_h(_scopeLabel(sc))}</label>',
+            'value="${sc.name}"> ${_h(t.scopeLabels[sc]!)}</label>',
     ].join();
     return _html(
       200,
       _page(
+        t,
         me,
         s,
-        'Hastalarım',
+        t.myPatients,
         '''
-<h1>Hastalarım</h1>
-${consents.isEmpty ? '<p class="muted">Henüz rıza vermiş hasta yok. Aşağıdan davet kodu oluşturup hastanıza verin.</p>' : '''
+<h1>${_h(t.myPatients)}</h1>
+${consents.isEmpty ? '<p class="muted">${_h(t.noPatients)}</p>' : '''
 <table>
-<thead><tr><th>Hasta (takma kimlik)</th><th>Paylaşılan</th><th>Rıza bitişi</th><th>Son veri</th></tr></thead>
+<thead><tr><th>${_h(t.colPatient)}</th><th>${_h(t.colShared)}</th><th>${_h(t.colConsentEnd)}</th><th>${_h(t.colLastData)}</th></tr></thead>
 <tbody>$rows</tbody>
 </table>'''}
-<h2>Davet oluştur</h2>
+<h2>${_h(t.createInvite)}</h2>
 <form method="post" action="/panel/invites" class="card">
 <input type="hidden" name="csrf" value="${_h(s.csrf)}">
-<label>Amaç<textarea name="purpose" required maxlength="500" rows="3"></textarea></label>
-<fieldset><legend>İstenen veriler</legend>$scopeBoxes</fieldset>
-<label>Süre (gün)<input type="number" name="days" value="90" min="1" max="730" required></label>
-<button type="submit">Davet kodu oluştur</button>
+<label>${_h(t.purpose)}<textarea name="purpose" required maxlength="500" rows="3"></textarea></label>
+<fieldset><legend>${_h(t.requestedData)}</legend>$scopeBoxes</fieldset>
+<label>${_h(t.durationDays)}<input type="number" name="days" value="90" min="1" max="730" required></label>
+<button type="submit">${_h(t.createCode)}</button>
 </form>
 ''',
       ),
@@ -186,12 +217,13 @@ ${consents.isEmpty ? '<p class="muted">Henüz rıza vermiş hasta yok. Aşağıd
   }
 
   Future<Response> _createInvite(Request r) async {
+    final t = _t(r);
     final s = _session(r);
     final me = s == null ? null : store.account(s.accountId);
-    if (s == null || me == null) return _html(401, _loginPage());
+    if (s == null || me == null) return _html(401, _loginPage(t));
     final form = await _form(r);
     if (form['csrf']?.firstOrNull != s.csrf) {
-      return _html(403, _page(me, s, 'Hata', '<p>Form süresi dolmuş. Sayfayı yenileyin.</p>'));
+      return _html(403, _page(t, me, s, t.error, '<p>${_h(t.formExpired)}</p>'));
     }
     final purpose = form['purpose']?.firstOrNull?.trim() ?? '';
     final scopes = {
@@ -202,11 +234,12 @@ ${consents.isEmpty ? '<p class="muted">Henüz rıza vermiş hasta yok. Aşağıd
       return _html(
         400,
         _page(
+          t,
           me,
           s,
-          'Eksik bilgi',
-          '<p>Amaç, en az bir veri türü ve 1-730 gün arası süre gerekli.</p>'
-              '<p><a href="/panel">Geri dön</a></p>',
+          t.missingInfo,
+          '<p>${_h(t.missingInfoBody)}</p>'
+              '<p><a href="/panel">${_h(t.back)}</a></p>',
         ),
       );
     }
@@ -228,24 +261,26 @@ ${consents.isEmpty ? '<p class="muted">Henüz rıza vermiş hasta yok. Aşağıd
     return _html(
       201,
       _page(
+        t,
         me,
         s,
-        'Davet kodu',
+        t.inviteCode,
         '''
-<h1>Davet kodu</h1>
-<p class="code">${_h(code)}</p>
-<p>Bu kodu hastanıza verin. Hasta Bileklik uygulamasında Profil &gt; Hekim ve araştırma kurumu bölümünden kodu girer, istenen verileri görür ve kendisi seçer. Kod 30 gün geçerlidir.</p>
-<p class="muted">İstenen: ${_h(scopes.map(_scopeLabel).join(', '))} · $days gün</p>
-<p><a href="/panel">Hastalarım</a></p>
+<h1>${_h(t.inviteCode)}</h1>
+<p dir="ltr" class="code">${_h(code)}</p>
+<p>${_h(t.inviteCodeBody)}</p>
+<p class="muted">${_h(t.requested)}: ${_h(_scopes(t, scopes))} · $days ${_h(t.days)}</p>
+<p><a href="/panel">${_h(t.myPatients)}</a></p>
 ''',
       ),
     );
   }
 
   Response _patient(Request r, String id) {
+    final t = _t(r);
     final s = _session(r);
     final me = s == null ? null : store.account(s.accountId);
-    if (s == null || me == null) return _html(401, _loginPage());
+    if (s == null || me == null) return _html(401, _loginPage(t));
     final now = _now();
     final consent = store
         .consentsForPatient(id)
@@ -255,7 +290,7 @@ ${consents.isEmpty ? '<p class="muted">Henüz rıza vermiş hasta yok. Aşağıd
       _audit(me.id, id, false, 'Panel: rıza olmadan erişim denemesi');
       return _html(
         403,
-        _page(me, s, 'Erişim yok', '<p>Bu hastanın size verdiği süren bir rıza yok.</p>'),
+        _page(t, me, s, t.noAccess, '<p>${_h(t.noAccessBody)}</p>'),
       );
     }
     final from = now.subtract(const Duration(days: 7));
@@ -274,20 +309,24 @@ ${consents.isEmpty ? '<p class="muted">Henüz rıza vermiş hasta yok. Aşağıd
       final avg = values.isEmpty
           ? null
           : values.reduce((a, b) => a + b) / values.length;
-      final unit = _unit(latest.resource);
-      sections.write('<section class="card"><h2>${_h(_codeLabel(code))}</h2>');
+      final unit = _unit(t, latest.resource);
       sections.write(
-        '<p class="big">${_h(_summary(latest.resource))}</p>'
-        '<p class="muted">Son: ${_h(_dateTime(latest.effective))} · '
-        '7 günde ${list.length} kayıt'
-        '${avg == null ? '' : ' · ortalama ${_h(_fmt(avg))} ${_h(unit)}'}</p>',
+        '<section class="card"><h2>${_h(t.codeLabels[code] ?? code)}</h2>',
       );
-      if (code == '8867-4') sections.write(_sparkline(list, from, now));
-      sections.write('<table><thead><tr><th>Zaman</th><th>Değer</th></tr></thead><tbody>');
+      sections.write(
+        '<p class="big">${_h(_summary(t, latest.resource))}</p>'
+        '<p class="muted">${_h(t.last)}: ${_h(_dateTime(t, latest.effective))} · '
+        '${_h(t.recordsIn7Days.replaceAll('{n}', '${list.length}'))}'
+        '${avg == null ? '' : ' · ${_h(t.average)} ${_h(t.number(avg))} ${_h(unit)}'}</p>',
+      );
+      if (code == '8867-4') sections.write(_sparkline(t, list, from, now));
+      sections.write(
+        '<table><thead><tr><th>${_h(t.colTime)}</th><th>${_h(t.colValue)}</th></tr></thead><tbody>',
+      );
       for (final o in list.reversed.take(20)) {
         sections.write(
-          '<tr><td>${_h(_dateTime(o.effective))}</td>'
-          '<td>${_h(_summary(o.resource))}</td></tr>',
+          '<tr><td>${_h(_dateTime(t, o.effective))}</td>'
+          '<td>${_h(_summary(t, o.resource))}</td></tr>',
         );
       }
       sections.write('</tbody></table></section>');
@@ -295,15 +334,16 @@ ${consents.isEmpty ? '<p class="muted">Henüz rıza vermiş hasta yok. Aşağıd
     return _html(
       200,
       _page(
+        t,
         me,
         s,
-        'Hasta ${_shortId(id)}',
+        '${t.patient} ${_shortId(id)}',
         '''
-<p><a href="/panel">← Hastalarım</a></p>
-<h1>Hasta ${_h(_shortId(id))}</h1>
-<p class="muted">Paylaşılan: ${_h(consent.scopes.map(_scopeLabel).join(', '))} · rıza bitişi ${_h(_date(consent.end))}</p>
-${sections.isEmpty ? '<p class="muted">Son 7 günde paylaşılan veri yok.</p>' : sections}
-<p class="muted small">Değerler giyilebilir cihazdan gelir; tıbbi cihaz ölçümü değildir. Tansiyon tahminidir.</p>
+<p><a href="/panel">${t.rtl ? '→' : '←'} ${_h(t.myPatients)}</a></p>
+<h1>${_h(t.patient)} <span dir="ltr">${_h(_shortId(id))}</span></h1>
+<p class="muted">${_h(t.shared)}: ${_h(_scopes(t, consent.scopes))} · ${_h(t.consentEnd)} ${_h(_date(t, consent.end))}</p>
+${sections.isEmpty ? '<p class="muted">${_h(t.noRecentData)}</p>' : sections}
+<p class="muted small">${_h(t.disclaimer)}</p>
 ''',
       ),
     );
@@ -311,6 +351,7 @@ ${sections.isEmpty ? '<p class="muted">Son 7 günde paylaşılan veri yok.</p>' 
 
   /// Son 7 günün günlük nabız ortalamaları, satır içi SVG.
   static String _sparkline(
+    PanelText t,
     List<StoredObservation> list,
     DateTime from,
     DateTime to,
@@ -336,7 +377,7 @@ ${sections.isEmpty ? '<p class="muted">Son 7 günde paylaşılan veri yok.</p>' 
             '${(60 - (avgs[k]! - lo) / (hi - lo) * 60).toStringAsFixed(1)}',
     ].join(' ');
     return '<svg class="spark" viewBox="-4 -4 308 68" role="img" '
-        'aria-label="Son 7 günün günlük ortalama nabzı">'
+        'aria-label="${_h(t.sparkLabel)}">'
         '<polyline fill="none" stroke="currentColor" stroke-width="2" '
         'points="$pts"/></svg>';
   }
@@ -360,19 +401,22 @@ ${sections.isEmpty ? '<p class="muted">Son 7 günde paylaşılan veri yok.</p>' 
       id.length > 8 ? id.substring(0, 8) : id;
 
   static String _two(int v) => v.toString().padLeft(2, '0');
-  static String _date(DateTime t) {
-    final l = t.toLocal();
-    return '${_two(l.day)}.${_two(l.month)}.${l.year}';
+
+  /// Tarih: gün.ay.yıl ya da yıl-ay-gün; Arapçada da Batı rakamları.
+  static String _date(PanelText t, DateTime d) {
+    final l = d.toLocal();
+    return t.dateOrder == 'ymd'
+        ? '${l.year}-${_two(l.month)}-${_two(l.day)}'
+        : '${_two(l.day)}.${_two(l.month)}.${l.year}';
   }
 
-  static String _dateTime(DateTime t) {
-    final l = t.toLocal();
-    return '${_date(l)} ${_two(l.hour)}:${_two(l.minute)}';
+  static String _dateTime(PanelText t, DateTime d) {
+    final l = d.toLocal();
+    return '${_date(t, l)} ${_two(l.hour)}:${_two(l.minute)}';
   }
 
-  static String _fmt(double v) => v == v.roundToDouble()
-      ? v.round().toString()
-      : v.toStringAsFixed(1).replaceAll('.', ',');
+  static String _scopes(PanelText t, Iterable<ShareScope> scopes) =>
+      scopes.map((s) => t.scopeLabels[s]!).join(t.rtl ? '، ' : ', ');
 
   static const _codeOrder = [
     '8867-4',
@@ -389,51 +433,19 @@ ${sections.isEmpty ? '<p class="muted">Son 7 günde paylaşılan veri yok.</p>' 
     'stress',
   ];
 
-  static String _codeLabel(String code) => switch (code) {
-    '8867-4' => 'Nabız',
-    '80404-7' => 'HRV (SDNN)',
-    '59408-5' => 'SpO2',
-    '85354-9' => 'Tansiyon (tahmini)',
-    '11524-6' => 'EKG kayıtları',
-    '93832-4' => 'Uyku',
-    '55423-8' => 'Adım',
-    '55430-3' => 'Mesafe',
-    '41981-2' => 'Kalori',
-    'workout' => 'Egzersiz',
-    '8310-5' => 'Vücut ısısı',
-    'stress' => 'Stres',
-    _ => code,
-  };
-
-  static String _scopeLabel(ShareScope s) => switch (s) {
-    ShareScope.heartRate => 'Nabız ve HRV',
-    ShareScope.spo2 => 'SpO2',
-    ShareScope.sleep => 'Uyku',
-    ShareScope.activity => 'Aktivite',
-    ShareScope.ecg => 'EKG',
-    ShareScope.bloodPressure => 'Tansiyon (tahmini)',
-    ShareScope.stress => 'Stres',
-    ShareScope.temperature => 'Vücut ısısı',
-  };
-
   static Map? _quantity(Map<String, Object?> r) => r['valueQuantity'] as Map?;
 
   static double? _number(Map<String, Object?> r) =>
       (_quantity(r)?['value'] as num?)?.toDouble();
 
-  static String _unit(Map<String, Object?> r) =>
+  static String _unit(PanelText t, Map<String, Object?> r) =>
       switch (_quantity(r)?['unit']) {
-        'beats/minute' => 'atım/dk',
-        'breaths/minute' => 'nefes/dk',
-        'Cel' => '°C',
-        'min' => 'dk',
-        'steps' => 'adım',
-        final String u => u,
+        final String u => t.units[u] ?? u,
         _ => '',
       };
 
   /// Bir kaydın tek satırlık özeti.
-  static String _summary(Map<String, Object?> r) {
+  static String _summary(PanelText t, Map<String, Object?> r) {
     final components = (r['component'] as List?)?.cast<Map>() ?? const [];
     double? component(String code) {
       for (final c in components) {
@@ -450,22 +462,24 @@ ${sections.isEmpty ? '<p class="muted">Son 7 günde paylaşılan veri yok.</p>' 
     switch (code) {
       case '85354-9':
         final sys = component('8480-6'), dia = component('8462-4');
-        return '${_fmt(sys ?? 0)}/${_fmt(dia ?? 0)} mmHg';
+        return '${t.number(sys ?? 0)}/${t.number(dia ?? 0)} mmHg';
       case '11524-6':
         final hr = component('8867-4');
-        return hr == null ? 'EKG kaydı' : 'EKG kaydı · ortalama ${_fmt(hr)} atım/dk';
+        return hr == null
+            ? t.ecgRecording
+            : '${t.ecgRecording} · ${t.average} ${t.number(hr)} '
+                  '${t.units['beats/minute']}';
       case 'workout':
         final minutes = component('workout-duration');
-        return minutes == null ? 'Egzersiz' : 'Egzersiz · ${_fmt(minutes)} dk';
+        return minutes == null
+            ? t.workout
+            : '${t.workout} · ${t.number(minutes)} ${t.units['min']}';
     }
     final v = _number(r);
     if (v == null) return '—';
-    if (code == '93832-4') {
-      final m = v.round();
-      return '${m ~/ 60} sa ${m % 60} dk';
-    }
-    final unit = _unit(r);
-    return unit.isEmpty ? _fmt(v) : '${_fmt(v)} $unit';
+    if (code == '93832-4') return t.duration(v.round());
+    final unit = _unit(t, r);
+    return unit.isEmpty ? t.number(v) : '${t.number(v)} $unit';
   }
 
   /// HTML kaçışı: metin ve öznitelik değerleri için.
@@ -488,24 +502,42 @@ ${sections.isEmpty ? '<p class="muted">Son 7 günde paylaşılan veri yok.</p>' 
     },
   );
 
-  String _loginPage({String? error}) => _document('Giriş', '''
+  /// Dil seçici: aynı sayfayı başka dilde açar.
+  static String _languages(PanelText t) => [
+    for (final l in PanelText.supported)
+      l == t.lang
+          ? '<strong lang="$l">${_h(PanelText.of(l).language)}</strong>'
+          : '<a href="?lang=$l" lang="$l" hreflang="$l">'
+                '${_h(PanelText.of(l).language)}</a>',
+  ].join(' · ');
+
+  String _loginPage(PanelText t, {String? error}) => _document(t, t.signIn, '''
 <main class="narrow">
-<h1>Bileklik hekim paneli</h1>
-<p class="muted">Portalın size verdiği oturum anahtarıyla giriş yapın.</p>
+<nav class="langs small">${_languages(t)}</nav>
+<h1>${_h(t.signInTitle)}</h1>
+<p class="muted">${_h(t.signInIntro)}</p>
 ${error == null ? '' : '<p class="error" role="alert">${_h(error)}</p>'}
 <form method="post" action="/panel/login" class="card">
-<label>Oturum anahtarı<input type="password" name="token" autocomplete="off" required></label>
-<button type="submit">Giriş</button>
+<label>${_h(t.tokenLabel)}<input type="password" name="token" autocomplete="off" required></label>
+<button type="submit">${_h(t.signIn)}</button>
 </form>
 </main>
 ''');
 
-  String _page(Account me, _Session s, String title, String body) => _document(
+  String _page(
+    PanelText t,
+    Account me,
+    _Session s,
+    String title,
+    String body,
+  ) => _document(
+    t,
     title,
     '''
 <header>
 <span><strong>Bileklik</strong> · ${_h(me.name)}${me.organization == null ? '' : ' · ${_h(me.organization!)}'}</span>
-<form method="post" action="/panel/logout"><input type="hidden" name="csrf" value="${_h(s.csrf)}"><button class="link" type="submit">Çıkış</button></form>
+<span class="small">${_languages(t)}</span>
+<form method="post" action="/panel/logout"><input type="hidden" name="csrf" value="${_h(s.csrf)}"><button class="link" type="submit">${_h(t.signOut)}</button></form>
 </header>
 <main>
 $body
@@ -513,9 +545,9 @@ $body
 ''',
   );
 
-  static String _document(String title, String body) =>
+  static String _document(PanelText t, String title, String body) =>
       '''<!doctype html>
-<html lang="tr">
+<html lang="${t.lang}" dir="${t.rtl ? 'rtl' : 'ltr'}">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -547,6 +579,7 @@ label.check input { display: inline; width: auto; margin: 0; }
 fieldset { border: 1px solid var(--line); border-radius: 8px; margin: 12px 0; }
 button { min-height: 44px; padding: 8px 18px; font: inherit; font-weight: 600; border: 0; border-radius: 8px; background: var(--accent); color: #fff; cursor: pointer; }
 button.link { background: none; color: var(--accent); padding: 8px; }
+.langs { margin-bottom: 8px; }
 .spark { width: 100%; max-width: 320px; height: 72px; color: var(--accent); }
 @media (max-width: 600px) { table { font-size: .9rem; } th, td { padding: 6px 4px; } }
 </style>
