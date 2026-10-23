@@ -20,6 +20,19 @@ jobs:
         with:
           channel: stable
           cache: true
+      # Telefonda Arapça sistem yazı tipiyle çizilir; tarayıcıda dış kaynaktan
+      # yazı tipi indirilemeyebilir (önizleme bağlantıları), bu yüzden demoya
+      # Noto Sans Arabic gömülür.
+      - name: Arapça yazı tipi (yalnızca demo)
+        run: |
+          curl -fsSL -o assets/fonts/NotoSansArabic-Regular.ttf https://github.com/notofonts/notofonts.github.io/raw/main/fonts/NotoSansArabic/hinted/ttf/NotoSansArabic-Regular.ttf
+          curl -fsSL -o assets/fonts/NotoSansArabic-Bold.ttf https://github.com/notofonts/notofonts.github.io/raw/main/fonts/NotoSansArabic/hinted/ttf/NotoSansArabic-Bold.ttf
+          python3 - <<'PY'
+          p = 'pubspec.yaml'
+          s = open(p, encoding='utf-8').read()
+          s = s.replace('  fonts:\n', '  fonts:\n    - family: Noto Sans Arabic\n      fonts:\n        - asset: assets/fonts/NotoSansArabic-Regular.ttf\n        - asset: assets/fonts/NotoSansArabic-Bold.ttf\n          weight: 700\n', 1)
+          open(p, 'w', encoding='utf-8').write(s)
+          PY
       - name: Uygulama (web)
         run: |
           flutter pub get
@@ -38,6 +51,9 @@ jobs:
           mkdir -p site/portal
           cp demo/site/index.html site/
           cp -r build/web site/uygulama
+          # Hata ayıklama sembolleri ve kullanılmayan wasm çeşitleri gerekmez.
+          find site/uygulama -name '*.symbols' -delete
+          rm -f site/uygulama/canvaskit/skwasm* site/uygulama/canvaskit/wimp*
           cp demo/portal_web/web/index.html demo/portal_web/build/main.dart.js site/portal/
           touch site/.nojekyll
           du -sh site
