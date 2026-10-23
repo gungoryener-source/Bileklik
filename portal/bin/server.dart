@@ -30,13 +30,16 @@ Future<void> main(List<String> args) async {
     stdout.writeln(EncryptedPortalStore.newKey());
     return;
   }
+  final demo = args.contains('--demo') ||
+      Platform.environment['PORTAL_DEMO'] == '1';
+  final key = Platform.environment['PORTAL_KEY'];
+  final path = Platform.environment['PORTAL_DATA'];
   final PortalStore store;
-  if (args.contains('--demo')) {
-    store = MemoryPortalStore();
-  } else {
-    final key = Platform.environment['PORTAL_KEY'];
-    final path = Platform.environment['PORTAL_DATA'];
-    if (key == null || path == null) {
+  if (key == null || path == null) {
+    // Anahtar ve dosya verilmediyse yalnızca deneme kipinde, bellekte açılır.
+    if (demo) {
+      store = MemoryPortalStore();
+    } else {
       stderr.writeln(
         'PORTAL_KEY ve PORTAL_DATA gerekli (ya da --demo). Anahtar için: '
         'dart run bin/server.dart --new-key',
@@ -44,6 +47,7 @@ Future<void> main(List<String> args) async {
       exitCode = 64;
       return;
     }
+  } else {
     store = await EncryptedPortalStore.open(File(path), base64.decode(key));
   }
 
@@ -107,10 +111,21 @@ Future<void> main(List<String> args) async {
     // HTTPS arkasında: panel çerezi yalnızca şifreli bağlantıda gider.
     secureCookie: Platform.environment['PORTAL_HTTPS'] == '1',
   );
-  if (args.contains('--demo')) await seedDemo(api);
+  // Deneme verisi bir kez kurulur; kalıcı depoda yeniden başlatınca
+  // tekrarlanmaz.
+  if (demo && store.accountByToken(DemoTokens.doctor) == null) {
+    await seedDemo(api);
+    if (store is EncryptedPortalStore) await store.flush();
+  }
+  // `--site=<klasör>`: test portalında uygulamanın web sürümü ve açılış
+  // sayfası aynı adresten sunulur (önce panel ve API, sonra dosyalar).
+  final site = _arg(args, '--site') ?? Platform.environment['PORTAL_SITE'];
+  final Handler app = site == null
+      ? api.handler
+      : Cascade().add(_static(Directory(site))).add(api.handler).handler;
   final handler = const Pipeline()
       .addMiddleware(logRequests())
-      .addHandler(api.handler);
+      .addHandler(app);
   final port = int.tryParse(Platform.environment['PORT'] ?? '') ?? 8080;
   final server = await io.serve(handler, InternetAddress.anyIPv4, port);
   stdout.writeln('Portal http://${server.address.host}:${server.port}');
@@ -122,4 +137,57 @@ String? _arg(List<String> args, String name) {
     if (a.startsWith('$name=')) return a.substring(name.length + 1);
   }
   return null;
+}
+
+const _types = {
+  'html': 'text/html; charset=utf-8',
+  'js': 'text/javascript; charset=utf-8',
+  'mjs': 'text/javascript; charset=utf-8',
+  'css': 'text/css; charset=utf-8',
+  'json': 'application/json',
+  'wasm': 'application/wasm',
+  'png': 'image/png',
+  'jpg': 'image/jpeg',
+  'svg': 'image/svg+xml',
+  'ico': 'image/x-icon',
+  'webp': 'image/webp',
+  'ttf': 'font/ttf',
+  'otf': 'font/otf',
+  'woff2': 'font/woff2',
+  'txt': 'text/plain; charset=utf-8',
+  'bin': 'application/octet-stream',
+  'frag': 'application/octet-stream',
+};
+
+/// Klasördeki dosyaları sunar; bulunamazsa 404 (zincirde sıradaki dener).
+/// Klasör dışına çıkan yollar (`..`) reddedilir; klasör adresinde
+/// `index.html` verilir.
+Handler _static(Directory root) {
+  final base = root.absolute.path;
+  return (Request r) async {
+    if (r.method != 'GET' && r.method != 'HEAD') return Response.notFound('');
+    final segments = r.url.pathSegments;
+    if (segments.any((s) => s == '..' || s.contains('\\'))) {
+      return Response.notFound('');
+    }
+    var file = File([base, ...segments].join(Platform.pathSeparator));
+    if (r.url.path.isEmpty || r.url.path.endsWith('/') ||
+        await Directory(file.path).exists()) {
+      if (r.url.path.isNotEmpty && !r.url.path.endsWith('/')) {
+        return Response.movedPermanently('/${r.url.path}/');
+      }
+      file = File('${file.path}${Platform.pathSeparator}index.html');
+    }
+    if (!await file.exists()) return Response.notFound('');
+    final ext = file.path.split('.').last.toLowerCase();
+    return Response.ok(
+      r.method == 'HEAD' ? null : file.openRead(),
+      headers: {
+        'content-type': _types[ext] ?? 'application/octet-stream',
+        // Uygulama dosyaları her sürümde değişir; önbellek kısa tutulur.
+        'cache-control': ext == 'html' ? 'no-cache' : 'public, max-age=300',
+        'x-content-type-options': 'nosniff',
+      },
+    );
+  };
 }

@@ -34,8 +34,12 @@ Future<void> main() async {
   SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
   SystemChrome.setSystemUIOverlayStyle(camSystemOverlay);
   LicenseRegistry.addLicense(_fontLicense);
-  // Web'de güvenli depo yok; demo zaten saklamaz.
-  final SecretStore secrets = kIsWeb ? MemorySecretStore() : DeviceSecretStore();
+  // Web demosu portala bağlı değilse saklanacak gizli değer yok. Portala
+  // bağlıysa oturum anahtarı sayfa yenilenince kaybolmasın diye tarayıcının
+  // deposunda (flutter_secure_storage web, WebCrypto ile) tutulur.
+  final SecretStore secrets = kIsWeb && _portalUrl.isEmpty
+      ? MemorySecretStore()
+      : DeviceSecretStore();
   final settings = await AppSettings.load(secrets: secrets);
   final controller = DeviceController(
     await _transport(),
@@ -59,7 +63,8 @@ Future<void> main() async {
   );
 }
 
-/// Portal adresi: `--dart-define=PORTAL_URL=https://portal.example/`.
+/// Portal adresi: `--dart-define=PORTAL_URL=https://portal.example/`; web
+/// sürümü portalın kendisinden sunuluyorsa `PORTAL_URL=same-origin`.
 /// Verilmezse hekim bağlantıları sahte sunucuyla çalışır.
 const _portalUrl = String.fromEnvironment('PORTAL_URL');
 
@@ -75,7 +80,11 @@ _portal(
   DeviceController controller,
 ) {
   if (_portalUrl.isEmpty) return null;
-  final base = Uri.parse(_portalUrl.endsWith('/') ? _portalUrl : '$_portalUrl/');
+  // `same-origin`: uygulama portalın kendi adresinden sunuluyor (test
+  // portalı); istekler aynı sunucuya gider.
+  final base = _portalUrl == 'same-origin'
+      ? Uri.base.resolve('/')
+      : Uri.parse(_portalUrl.endsWith('/') ? _portalUrl : '$_portalUrl/');
   final client = PortalClient(
     baseUrl: base,
     httpClient: http.Client(),
