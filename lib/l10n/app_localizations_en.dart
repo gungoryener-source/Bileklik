@@ -36,6 +36,23 @@ class AppLocalizationsEn extends AppLocalizations {
   String get accountCopy => 'Copy';
 
   @override
+  String get accountEraseButton => 'Delete';
+
+  @override
+  String get accountEraseConfirmTitle => 'Delete portal data?';
+
+  @override
+  String get accountEraseInfo => 'All measurements uploaded to the portal are deleted and all your sharing ends. Data on your phone stays. Access logs are kept because of legal duties.';
+
+  @override
+  String get accountEraseTitle => 'Delete my portal data';
+
+  @override
+  String accountErased(int count) {
+    return '$count measurements deleted from the portal.';
+  }
+
+  @override
   String get accountMenuSubtitle => 'Recovery code, restore account';
 
   @override
@@ -1683,6 +1700,69 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get personalInfoTitle => 'Personal info';
+
+  @override
+  String get privacyAuditBody => 'Every access to your data on the portal, including refused attempts, is logged. You can see in the app who looked and when.';
+
+  @override
+  String get privacyAuditTitle => 'Access log';
+
+  @override
+  String get privacyContactBody => 'The data controller\'s name, address and how to make a request will appear here before release. You can also write to us in the app under Profile > Feedback.';
+
+  @override
+  String get privacyContactTitle => 'Contact';
+
+  @override
+  String get privacyDataBody => 'What the wristband measures: heart rate, heart rate variability (HRV), blood oxygen (SpO2), ECG, sleep, steps, workouts, body temperature, stress and estimated blood pressure. What you enter: age, height, weight, sex, body composition and reminders. The wristband\'s Bluetooth address. We don\'t ask for your name, national ID number, phone or email; on the portal you are known only by a random pseudonym.';
+
+  @override
+  String get privacyDataTitle => 'What data do we process?';
+
+  @override
+  String get privacyDraft => 'Draft: this text has not been reviewed by a lawyer. The data controller\'s name, address and retention periods will be added before release.';
+
+  @override
+  String get privacyIntro => 'This text explains how the Bileklik app and portal process your personal data under the Turkish Personal Data Protection Law No. 6698 (KVKK).';
+
+  @override
+  String get privacyLegalBody => 'Health data is a special category of personal data and is processed with your explicit consent (KVKK Article 6). Each sharing needs its own consent: you choose who sees which types and for how long, and you can withdraw consent at any time.';
+
+  @override
+  String get privacyLegalTitle => 'Legal basis';
+
+  @override
+  String get privacyPurposeBody => 'To show you your measurements; to share them with the doctors, research institutions and family members you choose; and, if you want, to write them to Apple Health or Health Connect. Your data is not used for advertising and is not sold.';
+
+  @override
+  String get privacyPurposeTitle => 'Why do we process it?';
+
+  @override
+  String get privacyRetentionBody => 'Data on your phone stays until you delete the app. Measurements on the portal stay until you delete them; when a consent ends, that follower can no longer see them. Access logs are kept after deletion because of legal retention duties.';
+
+  @override
+  String get privacyRetentionTitle => 'How long is it kept?';
+
+  @override
+  String get privacyRightsBody => 'Under KVKK Article 11 you can ask whether your data is processed, ask for it to be corrected or deleted, and withdraw consent. In the app you can remove sharing under Profile > Doctors and research and Profile > Health community, delete your portal data under Profile > Portal account, and get all your data as a FHIR file under Profile > Export my data.';
+
+  @override
+  String get privacyRightsTitle => 'Your rights';
+
+  @override
+  String get privacySharingBody => 'Only the doctors, research institutions or family group members you consent to, only the types you choose and only for the consent period. Values you enter yourself, such as weight and body composition, are never shared. Only the types you choose are written to Apple Health or Health Connect; the app does not read data from them. Feedback is not linked to your identity.';
+
+  @override
+  String get privacySharingTitle => 'Who is it shared with?';
+
+  @override
+  String get privacyStorageBody => 'Measurements are kept on your phone in an encrypted database whose key lives in the phone\'s secure area (iOS Keychain, Android Keystore). This data is not included in phone backups. Only the types you choose to share go to the portal, where they are also stored encrypted.';
+
+  @override
+  String get privacyStorageTitle => 'Where is the data kept?';
+
+  @override
+  String get privacyTitle => 'Privacy policy';
 
   @override
   String get profileAge => 'Age';

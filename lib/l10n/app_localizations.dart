@@ -144,6 +144,36 @@ abstract class AppLocalizations {
   /// **'Kopyala'**
   String get accountCopy;
 
+  /// No description provided for @accountEraseButton.
+  ///
+  /// In tr, this message translates to:
+  /// **'Sil'**
+  String get accountEraseButton;
+
+  /// No description provided for @accountEraseConfirmTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Portaldaki veriler silinsin mi?'**
+  String get accountEraseConfirmTitle;
+
+  /// No description provided for @accountEraseInfo.
+  ///
+  /// In tr, this message translates to:
+  /// **'Portala yüklenen tüm ölçümleriniz silinir ve tüm paylaşımlarınız biter. Telefondaki veriler kalır. Erişim kayıtları yasal yükümlülük nedeniyle tutulur.'**
+  String get accountEraseInfo;
+
+  /// No description provided for @accountEraseTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Portaldaki verilerimi sil'**
+  String get accountEraseTitle;
+
+  /// No description provided for @accountErased.
+  ///
+  /// In tr, this message translates to:
+  /// **'Portaldaki {count} ölçüm silindi.'**
+  String accountErased(int count);
+
   /// No description provided for @accountMenuSubtitle.
   ///
   /// In tr, this message translates to:
@@ -2915,6 +2945,132 @@ abstract class AppLocalizations {
   /// In tr, this message translates to:
   /// **'Kişisel bilgiler'**
   String get personalInfoTitle;
+
+  /// No description provided for @privacyAuditBody.
+  ///
+  /// In tr, this message translates to:
+  /// **'Portalda verinize yapılan her erişim, reddedilen denemeler dahil, kaydedilir. Kimin ne zaman baktığını uygulamadan görebilirsiniz.'**
+  String get privacyAuditBody;
+
+  /// No description provided for @privacyAuditTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Erişim kayıtları'**
+  String get privacyAuditTitle;
+
+  /// No description provided for @privacyContactBody.
+  ///
+  /// In tr, this message translates to:
+  /// **'Veri sorumlusunun unvanı, adresi ve başvuru yolu yayından önce burada yer alacak. Uygulama içinden Profil > Geri bildirim ile de bize yazabilirsiniz.'**
+  String get privacyContactBody;
+
+  /// No description provided for @privacyContactTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'İletişim'**
+  String get privacyContactTitle;
+
+  /// No description provided for @privacyDataBody.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bilekliğin ölçtükleri: nabız, kalp atış hızı değişkenliği (HRV), kandaki oksijen (SpO2), EKG, uyku, adım, egzersiz, vücut ısısı, stres ve tahmini tansiyon. Sizin girdikleriniz: yaş, boy, kilo, cinsiyet, vücut kompozisyonu ve hatırlatıcılar. Bilekliğin Bluetooth adresi. Adınız, TC kimlik numaranız, telefonunuz ya da e-postanız istenmez; portalda yalnızca rastgele bir takma kimlikle tanınırsınız.'**
+  String get privacyDataBody;
+
+  /// No description provided for @privacyDataTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hangi verileri işliyoruz?'**
+  String get privacyDataTitle;
+
+  /// No description provided for @privacyDraft.
+  ///
+  /// In tr, this message translates to:
+  /// **'Taslak: Bu metin hukuk incelemesinden geçmedi. Veri sorumlusunun unvanı, adresi ve saklama süreleri yayından önce eklenecek.'**
+  String get privacyDraft;
+
+  /// No description provided for @privacyIntro.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bu metin, Bileklik uygulamasının ve portalının kişisel verilerinizi nasıl işlediğini 6698 sayılı Kişisel Verilerin Korunması Kanunu (KVKK) kapsamında anlatır.'**
+  String get privacyIntro;
+
+  /// No description provided for @privacyLegalBody.
+  ///
+  /// In tr, this message translates to:
+  /// **'Sağlık verileri özel nitelikli kişisel veridir ve açık rızanızla işlenir (KVKK madde 6). Her paylaşım için ayrı rıza alınır: kiminle, hangi türlerin, ne kadar süreyle paylaşılacağını siz seçersiniz ve rızanızı istediğiniz an geri alırsınız.'**
+  String get privacyLegalBody;
+
+  /// No description provided for @privacyLegalTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hukuki sebep'**
+  String get privacyLegalTitle;
+
+  /// No description provided for @privacyPurposeBody.
+  ///
+  /// In tr, this message translates to:
+  /// **'Ölçümlerinizi size göstermek; sizin seçtiğiniz hekim, araştırma kurumu ve aile üyeleriyle paylaşmak; isterseniz Apple Sağlık ya da Health Connect'e yazmak. Verileriniz reklam için kullanılmaz ve satılmaz.'**
+  String get privacyPurposeBody;
+
+  /// No description provided for @privacyPurposeTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Neden işliyoruz?'**
+  String get privacyPurposeTitle;
+
+  /// No description provided for @privacyRetentionBody.
+  ///
+  /// In tr, this message translates to:
+  /// **'Telefondaki veriler uygulamayı silene kadar kalır. Portaldaki ölçümler siz silene kadar kalır; paylaşım rızası bitince takipçi artık göremez. Erişim kayıtları yasal saklama yükümlülüğü nedeniyle silmeden sonra da tutulur.'**
+  String get privacyRetentionBody;
+
+  /// No description provided for @privacyRetentionTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Ne kadar süre saklanır?'**
+  String get privacyRetentionTitle;
+
+  /// No description provided for @privacyRightsBody.
+  ///
+  /// In tr, this message translates to:
+  /// **'KVKK madde 11 kapsamında verilerinizin işlenip işlenmediğini öğrenebilir, düzeltilmesini ya da silinmesini isteyebilir, rızanızı geri alabilirsiniz. Uygulamadan: paylaşımları Profil > Hekim ve araştırma kurumu ile Profil > Sağlık topluluğu bölümlerinden kaldırabilir, portaldaki verilerinizi Profil > Portal hesabı'ndan silebilir, tüm verinizi Profil > Verilerimi dışa aktar ile FHIR dosyası olarak alabilirsiniz.'**
+  String get privacyRightsBody;
+
+  /// No description provided for @privacyRightsTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Haklarınız'**
+  String get privacyRightsTitle;
+
+  /// No description provided for @privacySharingBody.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yalnızca rıza verdiğiniz hekim, araştırma kurumu ya da aile grubu üyeleri, yalnızca seçtiğiniz türleri ve rıza süresince görür. Kilo ve vücut kompozisyonu gibi elle girdiğiniz değerler kimseyle paylaşılmaz. Apple Sağlık ya da Health Connect'e yalnızca seçtiğiniz türler yazılır; uygulama oradan veri okumaz. Geri bildirimler kimliğinize bağlanmaz.'**
+  String get privacySharingBody;
+
+  /// No description provided for @privacySharingTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kimlerle paylaşılır?'**
+  String get privacySharingTitle;
+
+  /// No description provided for @privacyStorageBody.
+  ///
+  /// In tr, this message translates to:
+  /// **'Ölçümler telefonunuzda şifreli bir veritabanında durur; anahtarı telefonun güvenli bölgesindedir (iOS Keychain, Android Keystore). Bu veriler telefon yedeğine girmez. Portala yalnızca paylaşmayı seçtiğiniz türler gider ve orada da şifreli saklanır.'**
+  String get privacyStorageBody;
+
+  /// No description provided for @privacyStorageTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Veriler nerede durur?'**
+  String get privacyStorageTitle;
+
+  /// No description provided for @privacyTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Gizlilik politikası'**
+  String get privacyTitle;
 
   /// No description provided for @profileAge.
   ///

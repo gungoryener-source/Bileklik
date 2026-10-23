@@ -9,6 +9,7 @@ import 'package:shelf_router/shelf_router.dart';
 import 'ingest.dart';
 import 'model.dart';
 import 'panel.dart';
+import 'privacy_page.dart';
 import 'store.dart';
 
 /// Portalın HTTP API'si.
@@ -37,6 +38,7 @@ import 'store.dart';
 /// | `PUT /groups/<id>/consent` | üye | Grupla paylaşılan türleri değiştirir |
 /// | `DELETE /groups/<id>` | üye | Sahipse grubu siler, değilse ayrılır |
 /// | `/panel` | hekim, araştırmacı | Tarayıcı paneli ([PanelApi]) |
+/// | `GET /gizlilik`, `GET /privacy` | herkes | Gizlilik politikası ([PrivacyPage]) |
 ///
 /// Kimlik doğrulama iskelette `Authorization: Bearer <anahtar>` ile; gerçek
 /// giriş akışı (e-Devlet/OAuth) sonra eklenecek.
@@ -77,6 +79,8 @@ class PortalApi {
 
   late final Router _router = Router()
     ..get('/health', (Request _) => Response.ok('ok'))
+    ..get('/gizlilik', PrivacyPage.handle)
+    ..get('/privacy', PrivacyPage.handle)
     ..post('/patients', _registerPatient)
     ..post('/patients/recovery', _newRecovery)
     ..post('/recover', _recover)
@@ -100,7 +104,10 @@ class PortalApi {
     ..delete('/groups/<id>', _leaveGroup);
 
   Handler _authenticate(Handler inner) => (request) {
-    if (request.url.path == 'health') return inner(request);
+    if (request.method == 'GET' &&
+        const {'health', 'gizlilik', 'privacy'}.contains(request.url.path)) {
+      return inner(request);
+    }
     if (request.method == 'POST' &&
         const {'patients', 'feedback', 'recover'}.contains(request.url.path)) {
       return inner(request);

@@ -4,6 +4,7 @@ import '../../app_info.dart';
 import '../../l10n/l10n.dart';
 import '../theme.dart';
 import '../widgets/cam/cam.dart';
+import 'privacy_screen.dart';
 
 /// Uygulama hakkında: amaç, tıbbi uyarı, gizlilik ve lisanslar.
 class AboutScreen extends StatelessWidget {
@@ -57,6 +58,16 @@ class AboutScreen extends StatelessWidget {
             const SizedBox(height: 12),
             _Note(icon: Icons.lock_outline, text: l.aboutPrivacy),
             const SizedBox(height: 24),
+            OutlinedButton(
+              onPressed: () => Navigator.of(context).push(
+                MaterialPageRoute<void>(builder: (_) => const PrivacyScreen()),
+              ),
+              style: OutlinedButton.styleFrom(
+                minimumSize: const Size.fromHeight(52),
+              ),
+              child: Text(l.privacyTitle),
+            ),
+            const SizedBox(height: 12),
             OutlinedButton(
               onPressed: () => showLicensePage(
                 context: context,

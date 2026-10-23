@@ -36,6 +36,23 @@ class AppLocalizationsDe extends AppLocalizations {
   String get accountCopy => 'Kopieren';
 
   @override
+  String get accountEraseButton => 'Löschen';
+
+  @override
+  String get accountEraseConfirmTitle => 'Portaldaten löschen?';
+
+  @override
+  String get accountEraseInfo => 'Alle ins Portal hochgeladenen Messwerte werden gelöscht und alle Freigaben enden. Die Daten auf dem Telefon bleiben. Zugriffsprotokolle werden wegen gesetzlicher Pflichten aufbewahrt.';
+
+  @override
+  String get accountEraseTitle => 'Meine Portaldaten löschen';
+
+  @override
+  String accountErased(int count) {
+    return '$count Messwerte im Portal gelöscht.';
+  }
+
+  @override
   String get accountMenuSubtitle => 'Wiederherstellungscode, Konto wiederherstellen';
 
   @override
@@ -1688,6 +1705,69 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get personalInfoTitle => 'Persönliche Daten';
+
+  @override
+  String get privacyAuditBody => 'Jeder Zugriff auf Ihre Daten im Portal wird protokolliert, auch abgelehnte Versuche. In der App sehen Sie, wer wann zugegriffen hat.';
+
+  @override
+  String get privacyAuditTitle => 'Zugriffsprotokoll';
+
+  @override
+  String get privacyContactBody => 'Name und Anschrift des Verantwortlichen und der Weg für Anfragen werden vor der Veröffentlichung hier ergänzt. Sie können uns auch in der App unter Profil > Feedback schreiben.';
+
+  @override
+  String get privacyContactTitle => 'Kontakt';
+
+  @override
+  String get privacyDataBody => 'Was das Armband misst: Herzfrequenz, Herzfrequenzvariabilität (HRV), Blutsauerstoff (SpO2), EKG, Schlaf, Schritte, Training, Körpertemperatur, Stress und geschätzter Blutdruck. Was Sie eingeben: Alter, Größe, Gewicht, Geschlecht, Körperzusammensetzung und Erinnerungen. Die Bluetooth-Adresse des Armbands. Name, Ausweisnummer, Telefon oder E-Mail werden nicht abgefragt; im Portal sind Sie nur unter einem zufälligen Pseudonym bekannt.';
+
+  @override
+  String get privacyDataTitle => 'Welche Daten verarbeiten wir?';
+
+  @override
+  String get privacyDraft => 'Entwurf: Dieser Text wurde noch nicht juristisch geprüft. Name und Anschrift des Verantwortlichen sowie Speicherfristen werden vor der Veröffentlichung ergänzt.';
+
+  @override
+  String get privacyIntro => 'Dieser Text erklärt, wie die Bileklik-App und das Portal Ihre personenbezogenen Daten nach dem türkischen Datenschutzgesetz Nr. 6698 (KVKK) verarbeiten.';
+
+  @override
+  String get privacyLegalBody => 'Gesundheitsdaten sind besondere personenbezogene Daten und werden mit Ihrer ausdrücklichen Einwilligung verarbeitet (KVKK Art. 6). Jede Freigabe braucht eine eigene Einwilligung: Sie wählen, wer welche Datentypen wie lange sieht, und können die Einwilligung jederzeit widerrufen.';
+
+  @override
+  String get privacyLegalTitle => 'Rechtsgrundlage';
+
+  @override
+  String get privacyPurposeBody => 'Um Ihnen Ihre Messwerte anzuzeigen, sie mit den von Ihnen gewählten Ärzten, Forschungseinrichtungen und Familienmitgliedern zu teilen und sie auf Wunsch in Apple Health oder Health Connect zu schreiben. Ihre Daten werden weder für Werbung genutzt noch verkauft.';
+
+  @override
+  String get privacyPurposeTitle => 'Wozu verarbeiten wir sie?';
+
+  @override
+  String get privacyRetentionBody => 'Daten auf dem Telefon bleiben, bis Sie die App löschen. Messwerte im Portal bleiben, bis Sie sie löschen; endet eine Einwilligung, sieht die betreffende Person sie nicht mehr. Zugriffsprotokolle werden wegen gesetzlicher Aufbewahrungspflichten auch nach dem Löschen aufbewahrt.';
+
+  @override
+  String get privacyRetentionTitle => 'Wie lange wird gespeichert?';
+
+  @override
+  String get privacyRightsBody => 'Nach KVKK Art. 11 können Sie Auskunft verlangen, ob Ihre Daten verarbeitet werden, deren Berichtigung oder Löschung verlangen und Ihre Einwilligung widerrufen. In der App können Sie Freigaben unter Profil > Ärzte und Forschung sowie Profil > Gesundheitsgemeinschaft entfernen, Ihre Portaldaten unter Profil > Portal-Konto löschen und alle Daten unter Profil > Meine Daten exportieren als FHIR-Datei erhalten.';
+
+  @override
+  String get privacyRightsTitle => 'Ihre Rechte';
+
+  @override
+  String get privacySharingBody => 'Nur mit den Ärzten, Forschungseinrichtungen oder Mitgliedern einer Familiengruppe, denen Sie zustimmen, nur die gewählten Datentypen und nur für die Dauer der Einwilligung. Selbst eingegebene Werte wie Gewicht und Körperzusammensetzung werden nie geteilt. In Apple Health oder Health Connect werden nur die gewählten Datentypen geschrieben; die App liest dort nichts. Feedback wird nicht mit Ihrer Identität verknüpft.';
+
+  @override
+  String get privacySharingTitle => 'Mit wem wird geteilt?';
+
+  @override
+  String get privacyStorageBody => 'Die Messwerte liegen auf Ihrem Telefon in einer verschlüsselten Datenbank; der Schlüssel liegt im geschützten Bereich des Telefons (iOS Keychain, Android Keystore). Diese Daten sind nicht Teil von Telefon-Backups. Ins Portal gehen nur die Datentypen, die Sie teilen möchten; auch dort werden sie verschlüsselt gespeichert.';
+
+  @override
+  String get privacyStorageTitle => 'Wo werden die Daten gespeichert?';
+
+  @override
+  String get privacyTitle => 'Datenschutzerklärung';
 
   @override
   String get profileAge => 'Alter';

@@ -65,8 +65,8 @@
                 <action android:name="androidx.health.ACTION_SHOW_PERMISSIONS_RATIONALE" />
             </intent-filter>
         </activity>
-        <!-- Android 14+: Health Connect izin kullanımı ekranı. Gizlilik
-             politikası sayfası gelene kadar uygulama açılır. -->
+        <!-- Android 14+: Health Connect izin kullanımı ekranı. Uygulama
+             gizlilik politikası sayfasıyla açılır (MainActivity). -->
         <activity-alias
             android:name="ViewPermissionUsageActivity"
             android:exported="true"

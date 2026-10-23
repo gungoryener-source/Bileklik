@@ -587,4 +587,36 @@ void main() {
       expect((await p.call('GET', '/groups', token: 'doctor')).$1, 403);
     });
   });
+
+  test('gizlilik politikası anahtarsız ve dört dilde', () async {
+    final p = _Portal();
+    Future<(int, String, Map<String, String>)> get(String path, [String? lang]) async {
+      final r = await p.api.handler(
+        Request(
+          'GET',
+          Uri.parse('http://portal.test$path'),
+          headers: {'accept-language': ?lang},
+        ),
+      );
+      return (r.statusCode, await r.readAsString(), r.headers);
+    }
+
+    final (s, tr, headers) = await get('/gizlilik');
+    expect(s, 200);
+    expect(headers['content-type'], startsWith('text/html'));
+    expect(headers['content-security-policy'], contains("default-src 'none'"));
+    expect(tr, contains('<html lang="tr"'));
+    expect(tr, contains('KVKK'));
+    expect(tr, contains('Hukuki sebep'));
+
+    final (_, en, _) = await get('/privacy', 'en-GB,en;q=0.9');
+    expect(en, contains('Privacy policy'));
+    final (_, ar, _) = await get('/privacy?lang=ar');
+    expect(ar, contains('dir="rtl"'));
+    final (_, de, _) = await get('/gizlilik', 'de');
+    expect(de, contains('Datenschutzerklärung'));
+    for (final lang in PanelText.supported) {
+      expect(PrivacyPage.of(lang).sections, hasLength(PrivacyPage.of('tr').sections.length));
+    }
+  });
 }

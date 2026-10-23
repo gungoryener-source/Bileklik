@@ -36,6 +36,23 @@ class AppLocalizationsAr extends AppLocalizations {
   String get accountCopy => 'نسخ';
 
   @override
+  String get accountEraseButton => 'حذف';
+
+  @override
+  String get accountEraseConfirmTitle => 'هل تريد حذف بيانات البوابة؟';
+
+  @override
+  String get accountEraseInfo => 'تُحذف جميع القياسات المرفوعة إلى البوابة وتنتهي جميع مشاركاتك. تبقى البيانات على هاتفك. تُحفظ سجلات الوصول بسبب التزامات قانونية.';
+
+  @override
+  String get accountEraseTitle => 'حذف بياناتي في البوابة';
+
+  @override
+  String accountErased(int count) {
+    return 'تم حذف $count من القياسات من البوابة.';
+  }
+
+  @override
   String get accountMenuSubtitle => 'رمز الاسترداد، استعادة الحساب';
 
   @override
@@ -1690,6 +1707,69 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get personalInfoTitle => 'المعلومات الشخصية';
+
+  @override
+  String get privacyAuditBody => 'يُسجَّل كل وصول إلى بياناتك في البوابة، بما في ذلك المحاولات المرفوضة. يمكنك أن ترى في التطبيق من اطلع ومتى.';
+
+  @override
+  String get privacyAuditTitle => 'سجل الوصول';
+
+  @override
+  String get privacyContactBody => 'سيظهر هنا قبل النشر اسم المسؤول عن البيانات وعنوانه وطريقة تقديم الطلب. يمكنك أيضًا مراسلتنا من التطبيق عبر الملف الشخصي > الملاحظات.';
+
+  @override
+  String get privacyContactTitle => 'التواصل';
+
+  @override
+  String get privacyDataBody => 'ما يقيسه السوار: نبض القلب وتقلبه (HRV) وأكسجين الدم (SpO2) وتخطيط القلب والنوم والخطوات والتمارين وحرارة الجسم والتوتر وضغط الدم التقديري. ما تدخله أنت: العمر والطول والوزن والجنس وتكوين الجسم والتذكيرات. عنوان البلوتوث للسوار. لا نطلب اسمك أو رقم هويتك أو هاتفك أو بريدك الإلكتروني؛ تُعرف في البوابة باسم مستعار عشوائي فقط.';
+
+  @override
+  String get privacyDataTitle => 'ما البيانات التي نعالجها؟';
+
+  @override
+  String get privacyDraft => 'مسودة: لم تتم مراجعة هذا النص قانونيًا. سيُضاف اسم المسؤول عن البيانات وعنوانه ومدد الاحتفاظ قبل النشر.';
+
+  @override
+  String get privacyIntro => 'يوضح هذا النص كيف يعالج تطبيق Bileklik وبوابته بياناتك الشخصية وفق قانون حماية البيانات الشخصية التركي رقم 6698 (KVKK).';
+
+  @override
+  String get privacyLegalBody => 'البيانات الصحية فئة خاصة من البيانات الشخصية وتُعالج بموافقتك الصريحة (المادة 6 من KVKK). كل مشاركة تحتاج إلى موافقة مستقلة: تختار من يرى أي الأنواع ولأي مدة، ويمكنك سحب موافقتك في أي وقت.';
+
+  @override
+  String get privacyLegalTitle => 'الأساس القانوني';
+
+  @override
+  String get privacyPurposeBody => 'لعرض قياساتك عليك، ومشاركتها مع الأطباء ومؤسسات البحث وأفراد العائلة الذين تختارهم، وكتابتها في Apple Health أو Health Connect إن رغبت. لا تُستخدم بياناتك للإعلانات ولا تُباع.';
+
+  @override
+  String get privacyPurposeTitle => 'لماذا نعالجها؟';
+
+  @override
+  String get privacyRetentionBody => 'تبقى البيانات على هاتفك حتى تحذف التطبيق. تبقى القياسات في البوابة حتى تحذفها؛ وعند انتهاء الموافقة لا يعود المتابع يراها. تُحفظ سجلات الوصول بعد الحذف بسبب التزامات الاحتفاظ القانونية.';
+
+  @override
+  String get privacyRetentionTitle => 'كم مدة الاحتفاظ؟';
+
+  @override
+  String get privacyRightsBody => 'بموجب المادة 11 من KVKK يمكنك أن تسأل إن كانت بياناتك تُعالج، وأن تطلب تصحيحها أو حذفها، وأن تسحب موافقتك. في التطبيق يمكنك إزالة المشاركة من الملف الشخصي > الأطباء ومؤسسات البحث والملف الشخصي > مجتمع الصحة، وحذف بياناتك في البوابة من الملف الشخصي > حساب البوابة، والحصول على جميع بياناتك كملف FHIR من الملف الشخصي > تصدير بياناتي.';
+
+  @override
+  String get privacyRightsTitle => 'حقوقك';
+
+  @override
+  String get privacySharingBody => 'فقط مع الأطباء أو مؤسسات البحث أو أفراد مجموعة العائلة الذين توافق عليهم، وللأنواع التي تختارها فقط وطوال مدة الموافقة. القيم التي تدخلها بنفسك مثل الوزن وتكوين الجسم لا تُشارك أبدًا. لا يُكتب في Apple Health أو Health Connect إلا ما تختاره، ولا يقرأ التطبيق منهما. الملاحظات لا ترتبط بهويتك.';
+
+  @override
+  String get privacySharingTitle => 'مع من تُشارك؟';
+
+  @override
+  String get privacyStorageBody => 'تُحفظ القياسات على هاتفك في قاعدة بيانات مشفرة، ومفتاحها في المنطقة الآمنة للهاتف (iOS Keychain وAndroid Keystore). لا تدخل هذه البيانات في نسخ الهاتف الاحتياطية. لا يُرسل إلى البوابة إلا الأنواع التي تختار مشاركتها، وتُحفظ هناك مشفرة أيضًا.';
+
+  @override
+  String get privacyStorageTitle => 'أين تُحفظ البيانات؟';
+
+  @override
+  String get privacyTitle => 'سياسة الخصوصية';
 
   @override
   String get profileAge => 'العمر';

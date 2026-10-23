@@ -415,4 +415,46 @@ void main() {
     await mine.leave(g.id);
     expect(mine.myGroups, isEmpty);
   });
+
+  test('portaldaki veriler silinir; rızalar ve grup paylaşımları biter', () async {
+    final b = _Backend();
+    final settings = AppSettings.memory();
+    final client = _client(b, settings);
+    final service = PortalConnectionService(client);
+    final community = PortalCommunityService(client);
+    final now = DateTime(2026, 10, 20, 12);
+    final uploader = PortalUploader(
+      client: client,
+      connections: service,
+      store: MemoryHealthStore()
+        ..addMeasurements([
+          Measurement(MetricType.heartRate, now.subtract(const Duration(hours: 1)), 70),
+          Measurement(MetricType.heartRate, now.subtract(const Duration(hours: 2)), 72),
+        ]),
+      clock: () => now,
+    );
+    addTearDown(uploader.dispose);
+    await service.connect(
+      (await service.lookup(await b.invite(['heartRate'])))!,
+      {ShareScope.heartRate},
+    );
+    final g = await community.createGroup('Ev');
+    await community.setConsent(g.id, {ShareScope.sleep});
+    expect(await uploader.uploadNow(), 2);
+
+    var refreshed = 0;
+    final account = PortalAccountService(
+      client,
+      onRecovered: () async {
+        refreshed++;
+        await service.refresh();
+        await community.refresh();
+      },
+    );
+    expect(await account.eraseData(), 2);
+    expect(b.store.observations(settings.patientId), isEmpty);
+    expect(refreshed, 1);
+    expect(service.connections, isEmpty);
+    expect(community.sharedScopes, isEmpty);
+  });
 }

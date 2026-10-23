@@ -7,8 +7,9 @@ import '../app_shell.dart';
 import '../theme.dart';
 import '../widgets/cam/cam.dart';
 
-/// Profil > Portal hesabı: kurtarma kodu ve başka telefondaki hesabı geri
-/// yükleme. Yalnızca portal adresi verildiyse görünür.
+/// Profil > Portal hesabı: kurtarma kodu, başka telefondaki hesabı geri
+/// yükleme ve portaldaki verileri silme (unutulma hakkı). Yalnızca portal
+/// adresi verildiyse görünür.
 class PortalAccountScreen extends StatefulWidget {
   const PortalAccountScreen({super.key});
 
@@ -99,6 +100,26 @@ class _PortalAccountScreenState extends State<PortalAccountScreen> {
       } else {
         _snack(l.accountRestoreInvalid);
       }
+    } on Exception {
+      if (mounted) _snack(l.connServerError);
+    } finally {
+      if (mounted) setState(() => _restoring = false);
+    }
+  }
+
+  Future<void> _erase() async {
+    final l = context.l10n;
+    if (!await _confirm(
+      l.accountEraseConfirmTitle,
+      l.accountEraseInfo,
+      l.accountEraseButton,
+    )) {
+      return;
+    }
+    setState(() => _restoring = true);
+    try {
+      final count = await _service.eraseData();
+      if (mounted) _snack(l.accountErased(count));
     } on Exception {
       if (mounted) _snack(l.connServerError);
     } finally {
@@ -203,6 +224,21 @@ class _PortalAccountScreenState extends State<PortalAccountScreen> {
               icon: Icons.restore,
               loading: _restoring,
               onTap: _input.text.trim().length >= 16 ? _restore : null,
+            ),
+            const SizedBox(height: 32),
+            Text(l.accountEraseTitle, style: text.titleMedium),
+            const SizedBox(height: 8),
+            Text(l.accountEraseInfo, style: TextStyle(color: colors.muted)),
+            const SizedBox(height: 16),
+            OutlinedButton.icon(
+              style: OutlinedButton.styleFrom(
+                foregroundColor: colors.danger,
+                side: BorderSide(color: colors.outline),
+                minimumSize: const Size.fromHeight(52),
+              ),
+              onPressed: _restoring ? null : _erase,
+              icon: const Icon(Icons.delete_outline),
+              label: Text(l.accountEraseTitle),
             ),
           ],
         ),

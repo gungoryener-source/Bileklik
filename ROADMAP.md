@@ -36,6 +36,7 @@ bir öncekinin dalı üzerine kurulur. Durum: ✅ bitti (PR açık ya da birleş
 | 28 | Portal hesabını kurtarma: kayıtta 80 bitlik kurtarma kodu (yalnızca özeti saklanır), `POST /recover` ile yeni telefona alma (eski anahtar ve kod geçersiz), `POST /patients/recovery` ile yeni kod; Profil > Portal hesabı ekranı | 🔄 | |
 | 29 | Aile gruplarını portala bağla: `/groups` uçları, kişiye özel davet kodu (davet edilen verilen adla görünür), grup koduyla adsız katılım, üye başına paylaşım rızası, aynı gruptaki üyenin yalnızca rızadaki türleri okuyabilmesi, gruplarla paylaşılan türlerin de yüklenmesi | 🔄 | |
 | 30 | iOS izin metinleri dört dilde (`InfoPlist.strings`, `CFBundleLocalizations`) ve hekim paneli dört dilde (`?lang=`, çerez, `Accept-Language`, Arapçada sağdan sola) | 🔄 | |
+| 31 | Gizlilik politikası taslağı (KVKK aydınlatma): uygulamada ekran (Hakkında'dan ve Health Connect "neden" bağlantısından), portalda herkese açık `/gizlilik`, `docs/gizlilik-politikasi.md`; Profil > Portal hesabı'ndan portal verilerini silme; çeviri inceleme tablosu (`docs/ceviri-inceleme.csv`) | 🔄 | |
 
 ## Her madde için
 
@@ -48,9 +49,9 @@ bir öncekinin dalı üzerine kurulur. Durum: ✅ bitti (PR açık ya da birleş
 
 Kod tarafı hazır olsa da karar, insan ya da donanım gerektiren işler:
 
-- **Çeviri incelemesi:** Arapça ve Almanca metinler ana dili konuşan biri tarafından gözden geçirilecek (7. madde).
+- **Çeviri incelemesi:** Arapça ve Almanca metinler ana dili konuşan biri tarafından gözden geçirilecek (7. madde). Tablo ve yönerge: `docs/ceviri-inceleme.md`.
 - **Gerçek bileklikle deneme:** `docs/protokol-dogrulama.md` içindeki "Açık kalanlar".
 - **Lisans:** flutter_blue_plus ticari lisansı ya da başka paket, satıştan önce.
-- **Hukuk:** gizlilik politikası ve aydınlatma metninin son hali, VERBİS kaydı, saklama süreleri.
+- **Hukuk:** `docs/gizlilik-politikasi.md` taslağının son hali (veri sorumlusu, başvuru yolu, saklama süreleri), VERBİS kaydı, sunucunun yeri.
 - **Hekim ve kurum doğrulaması:** e-Devlet ya da kurum SSO; panel şimdilik portalın verdiği anahtarla açılıyor.
 - **Üretim altyapısı:** çok kullanıcılı portal için PostgreSQL ve yedekleme.

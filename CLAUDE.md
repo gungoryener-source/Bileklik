@@ -105,6 +105,14 @@ için depoya eklenmez. Belgeyle karşılaştırma ve açık kalanlar:
    Tasarım bize ait; referans uygulamanın görselleri kopyalanmaz.
 5. Ekran için `test/` altına widget testi ekleyin.
 
+## Gizlilik metni
+
+Gizlilik politikası üç yerde aynı tutulur: uygulama (`privacy…` ARB
+anahtarları, `PrivacyScreen`), portal (`portal/lib/src/privacy_page.dart`,
+`/gizlilik`) ve `docs/gizlilik-politikasi.md`. Veri işleyişini değiştiren bir
+iş (yeni veri türü, yeni paylaşım) bu metni de günceller. Yeni ARB anahtarı
+eklenince çeviri tablosu `dart run tool/ceviri_tablosu.dart` ile yenilenir.
+
 ## Kararlar
 
 - Kilo ve vücut kompozisyonu kullanıcıdan alınır, akıllı tartı yok.
