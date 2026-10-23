@@ -24,6 +24,8 @@ curl -H 'Authorization: Bearer demo-doctor' -H 'content-type: application/json' 
 
 | Yol | Kim | Ne yapar |
 | --- | --- | --- |
+| `POST /patients` | herkes | Uygulamanın takma kimliğiyle (UUID v4) hasta hesabı açar; oturum anahtarı yalnızca bir kez verilir. |
+| `GET /connections` | hasta | Süren rızaları, karşı tarafın adı ve kurumuyla birlikte uygulamanın göstereceği biçimde listeler. |
 | `POST /fhir` | hasta | Uygulamanın Bundle'ını alır. Aynı `identifier` ikinci kez yazılmaz, bozuk kayıtlar uyarıyla döner. |
 | `GET /fhir/Observation?patient=&code=&date=ge…&date=le…` | hasta, rızalı takipçi | Ölçümleri `searchset` Bundle olarak döner. |
 | `GET /fhir/Consent` | hasta, takipçi | Hasta kendi rızalarını, takipçi kendisine verilenleri görür. |
@@ -49,6 +51,5 @@ curl -H 'Authorization: Bearer demo-doctor' -H 'content-type: application/json' 
 - Kalıcı ve şifreli depo (`PortalStore` arayüzünün arkasına PostgreSQL).
 - Gerçek giriş: hekim ve kurum doğrulaması, hasta için uygulamadan cihaz
   anahtarı.
-- Uygulamada `ConnectionService` ve topluluk sunucusunun sahte
-  uygulamalarının yerine bu API'nin istemcisi.
+- Topluluk (aile grupları) sunucusunun sahte uygulamasının yerine bu API.
 - Saklama süreleri, VERBİS kaydı ve aydınlatma metni hukukla birlikte.

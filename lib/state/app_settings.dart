@@ -3,6 +3,8 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../data/portal.dart';
+
 /// Saat gösterimi: telefonun/dilin alışkanlığı, 24 saat ya da 12 saat (ÖÖ/ÖS).
 enum ClockFormat { system, h24, h12 }
 
@@ -14,7 +16,7 @@ enum UnitSystem { metric, imperial }
 ///
 /// Uygulama yalnızca koyu Cam temasında çalışır. Eski sürümlerin kaydettiği
 /// `theme_mode` değeri okunmaz; olduğu yerde kalması bir şeyi bozmaz.
-class AppSettings extends ChangeNotifier {
+class AppSettings extends ChangeNotifier implements PortalCredentials {
   AppSettings._(
     this._prefs,
     this._language,
@@ -24,6 +26,8 @@ class AppSettings extends ChangeNotifier {
     this._wearDetection = true,
     this._heightCm,
     this._patientId,
+    this._portalToken,
+    this._lastPortalUpload,
   });
 
   /// Kaydedilmiş tercihleri okur; yoksa telefonun dili.
@@ -42,6 +46,11 @@ class AppSettings extends ChangeNotifier {
       wearDetection: prefs.getBool(_wearKey) ?? true,
       heightCm: prefs.getInt(_heightKey),
       patientId: prefs.getString(_patientIdKey),
+      portalToken: prefs.getString(_portalTokenKey),
+      lastPortalUpload: switch (prefs.getInt(_portalUploadKey)) {
+        null => null,
+        final ms => DateTime.fromMillisecondsSinceEpoch(ms),
+      },
     );
   }
 
@@ -75,6 +84,8 @@ class AppSettings extends ChangeNotifier {
   static const _wearKey = 'wear_detection';
   static const _heightKey = 'height_cm';
   static const _patientIdKey = 'fhir_patient_id';
+  static const _portalTokenKey = 'portal_token';
+  static const _portalUploadKey = 'portal_last_upload';
 
   final SharedPreferences? _prefs;
   String? _language;
@@ -84,10 +95,39 @@ class AppSettings extends ChangeNotifier {
   bool _wearDetection;
   int? _heightCm;
   String? _patientId;
+  String? _portalToken;
+  DateTime? _lastPortalUpload;
+
+  /// Portalın verdiği oturum anahtarı; hesap açılınca saklanır.
+  @override
+  String? get portalToken => _portalToken;
+
+  @override
+  Future<void> setPortalToken(String? token) async {
+    _portalToken = token;
+    final p = _prefs;
+    if (p == null) return;
+    if (token == null) {
+      await p.remove(_portalTokenKey);
+    } else {
+      await p.setString(_portalTokenKey, token);
+    }
+  }
+
+  /// Portala son başarılı yüklemenin anı.
+  @override
+  DateTime? get lastPortalUpload => _lastPortalUpload;
+
+  @override
+  Future<void> setLastPortalUpload(DateTime t) async {
+    _lastPortalUpload = t;
+    await _prefs?.setInt(_portalUploadKey, t.millisecondsSinceEpoch);
+  }
 
   /// FHIR dışa aktarımındaki takma hasta kimliği (UUID). Kişisel bilgi
   /// taşımaz; ilk istendiğinde üretilir ve telefonda saklanır, böylece aynı
   /// kişinin dosyaları portalda birleşebilir.
+  @override
   String get patientId {
     final existing = _patientId;
     if (existing != null) return existing;

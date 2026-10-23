@@ -244,6 +244,7 @@
   "connScan": "QR kodu tara",
   "connScanHint": "Hekiminizin ya da araştırma kurumunun verdiği QR kodunu çerçevenin içine getirin.",
   "connSelectAll": "Tümünü seç",
+  "connServerError": "Sunucuya ulaşılamadı. İnternet bağlantınızı kontrol edip tekrar deneyin.",
   "connShared": "Paylaşılan veriler",
   "connSharedCount": "{count, plural, =1{1 veri türü} other{{count} veri türü}}",
   "connSince": "Başlangıç: {date}",

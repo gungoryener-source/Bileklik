@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 
 import '../../app_info.dart';
@@ -93,7 +95,15 @@ class ProfileScreen extends StatelessWidget {
               icon: Icons.biotech,
               title: l.profileMenuResearch,
               subtitle: l.profileMenuResearchSubtitle,
-              onTap: () => open(const ConnectionsScreen()),
+              onTap: () {
+                // Portaldaysa liste açılırken yenilenir; hata ekranı bozmaz.
+                unawaited(
+                  ConnectionScope.of(
+                    context,
+                  ).refresh().catchError((Object _) {}),
+                );
+                open(const ConnectionsScreen());
+              },
             ),
             MenuTile(
               icon: Icons.sync_alt,

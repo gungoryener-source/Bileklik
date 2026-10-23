@@ -162,6 +162,7 @@
   "connScan": "مسح رمز QR",
   "connScanHint": "ضع رمز QR الذي حصلت عليه من طبيبك أو من مؤسسة البحث داخل الإطار.",
   "connSelectAll": "تحديد الكل",
+  "connServerError": "تعذر الوصول إلى الخادم. تحقق من اتصالك بالإنترنت وحاول مرة أخرى.",
   "connShared": "البيانات المشتركة",
   "connSharedCount": "{count, plural, =1{نوع بيانات واحد} =2{نوعا بيانات} few{{count} أنواع بيانات} many{{count} نوعًا من البيانات} other{{count} نوع بيانات}}",
   "connSince": "منذ {date}",

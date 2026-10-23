@@ -28,6 +28,7 @@ bir öncekinin dalı üzerine kurulur. Durum: ✅ bitti (PR açık ya da birleş
 | 20 | PPI geçmişi (0x63) ve HRV ayrıntısı; VO2 Max tahmini | ✅ | #23, 0x63 biçimi V1.2'ye göre #25'te düzeltildi (VO2 Max tahminidir) |
 | 21 | Rozetler, haftalık rapor, enerji skoru (referans uygulamadaki özellikler, kendi tasarımımızla) | ✅ | #24 (enerji skoru uygulamanın kendi tahmini; rozetler saklanmaz, geçmişten hesaplanır) |
 | 22 | V8 API V1.2 ve SDK belgeleriyle protokol doğrulaması: 0x63 PPI, 0x23/0x57 hatırlatıcılar, 0x03/0x04 tüm gün nabız, 0x27 yazılım sürümü. Ayrıntı `docs/protokol-dogrulama.md` | ✅ | #25 (açık kalanlar notta listeli, gerçek cihazda denenecek) |
+| 23 | Uygulamayı portala bağla: takma kimlikle hesap, davet/rıza portal üzerinden, yalnızca rızadaki türlerin FHIR olarak yüklenmesi (`--dart-define=PORTAL_URL`) | ✅ | #26 |
 
 ## Her madde için
 

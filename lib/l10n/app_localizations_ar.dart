@@ -569,6 +569,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get connSelectAll => 'تحديد الكل';
 
   @override
+  String get connServerError => 'تعذر الوصول إلى الخادم. تحقق من اتصالك بالإنترنت وحاول مرة أخرى.';
+
+  @override
   String get connShared => 'البيانات المشتركة';
 
   @override

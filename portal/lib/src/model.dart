@@ -46,7 +46,12 @@ enum ShareScope {
 }
 
 class Account {
-  const Account({required this.id, required this.role, required this.name});
+  const Account({
+    required this.id,
+    required this.role,
+    required this.name,
+    this.organization,
+  });
 
   /// Hastada uygulamanın takma kimliği (FHIR Patient id); diğerlerinde
   /// portalın verdiği kimlik.
@@ -56,6 +61,9 @@ class Account {
   /// Hekimin adı, çalışmanın adı ya da aile üyesinin görünen adı. Hastanın
   /// adı tutulmaz.
   final String name;
+
+  /// Hastane, klinik ya da kurum.
+  final String? organization;
 }
 
 /// Hastanın bir takipçiye verdiği açık rıza (FHIR R4 Consent).
@@ -68,7 +76,9 @@ class Consent {
     required this.start,
     required this.end,
     this.purpose,
-  });
+    this.inviteCode,
+    Set<ShareScope>? requested,
+  }) : requested = requested ?? scopes;
 
   final String id;
   final String patientId;
@@ -77,6 +87,12 @@ class Consent {
   final DateTime start;
   final DateTime end;
   final String? purpose;
+
+  /// Rızanın verildiği davet kodu.
+  final String? inviteCode;
+
+  /// Davette istenen türler (hasta bunlardan seçti).
+  final Set<ShareScope> requested;
   DateTime? revokedAt;
 
   bool activeAt(DateTime now) =>

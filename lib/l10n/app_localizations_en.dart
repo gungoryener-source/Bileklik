@@ -567,6 +567,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get connSelectAll => 'Select all';
 
   @override
+  String get connServerError => 'Couldn\'t reach the server. Check your internet connection and try again.';
+
+  @override
   String get connShared => 'Shared data';
 
   @override

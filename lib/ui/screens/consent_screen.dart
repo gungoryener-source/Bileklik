@@ -35,8 +35,20 @@ class _ConsentScreenState extends State<ConsentScreen> {
   Future<void> _connect() async {
     setState(() => _busy = true);
     final navigator = Navigator.of(context);
-    final c = await ConnectionScope.of(context).connect(offer, {..._selected});
-    if (mounted) navigator.pop(c);
+    final messenger = ScaffoldMessenger.of(context);
+    final l = context.l10n;
+    try {
+      final c = await ConnectionScope.of(
+        context,
+      ).connect(offer, {..._selected});
+      if (mounted) navigator.pop(c);
+    } on ConnectionUnavailable {
+      if (!mounted) return;
+      setState(() => _busy = false);
+      messenger
+        ..hideCurrentSnackBar()
+        ..showSnackBar(SnackBar(content: Text(l.connServerError)));
+    }
   }
 
   @override

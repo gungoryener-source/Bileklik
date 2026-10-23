@@ -63,6 +63,12 @@ UI (lib/ui)  ->  DeviceController (lib/state)  ->  WristbandClient  ->  DeviceTr
 
 ## Portal (`portal/`)
 
+Uygulama `--dart-define=PORTAL_URL=https://…/` verilirse portala bağlanır
+(`lib/data/portal.dart`): ilk istekte takma kimlikle hesap açar, davet ve
+rızaları portaldan alır, yalnızca süren rızalardaki türleri yükler. Adres
+verilmezse `FakeConnectionServer` kullanılır. Uygulama testleri gerçek portal
+API'sini bellekte, `MockClient` üzerinden çalıştırır (`test/portal_test.dart`).
+
 Ayrı bir Dart paketi (shelf): FHIR Bundle alır, takipçilere yalnızca rızadaki
 türleri gösterir, her erişimi `AuditEvent` olarak kaydeder. Kökteki
 `flutter analyze` bu klasörü taramaz; CI'da ayrı işte `dart analyze

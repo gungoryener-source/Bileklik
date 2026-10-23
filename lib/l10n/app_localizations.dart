@@ -1074,6 +1074,12 @@ abstract class AppLocalizations {
   /// **'Tümünü seç'**
   String get connSelectAll;
 
+  /// No description provided for @connServerError.
+  ///
+  /// In tr, this message translates to:
+  /// **'Sunucuya ulaşılamadı. İnternet bağlantınızı kontrol edip tekrar deneyin.'**
+  String get connServerError;
+
   /// No description provided for @connShared.
   ///
   /// In tr, this message translates to:

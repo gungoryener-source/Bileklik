@@ -567,6 +567,9 @@ class AppLocalizationsTr extends AppLocalizations {
   String get connSelectAll => 'Tümünü seç';
 
   @override
+  String get connServerError => 'Sunucuya ulaşılamadı. İnternet bağlantınızı kontrol edip tekrar deneyin.';
+
+  @override
   String get connShared => 'Paylaşılan veriler';
 
   @override

@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:math';
 
 import '../device/protocol/history.dart';
+import 'community.dart';
 import 'health_store.dart';
 import 'models.dart';
 
@@ -449,4 +450,41 @@ String fhirDateTime(DateTime t) {
   final sign = o.isNegative ? '-' : '+';
   final m = o.inMinutes.abs();
   return '$date$sign${two(m ~/ 60)}:${two(m % 60)}';
+}
+
+/// Bir paylaşım türünün kapsadığı Observation kodları. Portaldaki
+/// `ShareScope.codes` ile aynı olmalı (testte karşılaştırılır). Kilo, VKİ ve
+/// yağ oranı gibi elle girilenler hiçbir türde yok; paylaşılmaz.
+Set<String> fhirCodesFor(ShareScope s) => switch (s) {
+  // HRV nabız verisiyle birlikte paylaşılır.
+  ShareScope.heartRate => const {'8867-4', '80404-7'},
+  ShareScope.spo2 => const {'59408-5'},
+  ShareScope.sleep => const {'93832-4'},
+  ShareScope.activity => const {'55423-8', '55430-3', '41981-2', 'workout'},
+  ShareScope.ecg => const {'11524-6'},
+  ShareScope.bloodPressure => const {'85354-9'},
+  ShareScope.stress => const {'stress'},
+  ShareScope.temperature => const {'8310-5'},
+};
+
+/// Bundle'dan yalnızca [codes] içindeki Observation'ları (ve hasta
+/// kaynağını) bırakır. Portala yalnızca paylaşılan türler gönderilir.
+Map<String, Object?> filterBundle(
+  Map<String, Object?> bundle,
+  Set<String> codes,
+) {
+  bool keep(Object? entry) {
+    final r = (entry as Map)['resource'] as Map;
+    if (r['resourceType'] != 'Observation') return true;
+    final coding = ((r['code'] as Map)['coding'] as List).first as Map;
+    return codes.contains(coding['code']);
+  }
+
+  return {
+    ...bundle,
+    'entry': [
+      for (final e in bundle['entry']! as List)
+        if (keep(e)) e,
+    ],
+  };
 }

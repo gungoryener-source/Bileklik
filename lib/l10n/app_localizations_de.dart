@@ -571,6 +571,9 @@ class AppLocalizationsDe extends AppLocalizations {
   String get connSelectAll => 'Alle auswählen';
 
   @override
+  String get connServerError => 'Der Server ist nicht erreichbar. Prüfen Sie Ihre Internetverbindung und versuchen Sie es erneut.';
+
+  @override
   String get connShared => 'Geteilte Daten';
 
   @override

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../data/community.dart';
+import '../../data/connections.dart';
 import '../../l10n/l10n.dart';
 import '../app_shell.dart';
 import '../format.dart';
@@ -51,7 +52,15 @@ class ConnectionDetailScreen extends StatelessWidget {
       );
       if (ok != true || !context.mounted) return;
       final navigator = Navigator.of(context);
-      await service.disconnect(c.id);
+      final messenger = ScaffoldMessenger.of(context);
+      try {
+        await service.disconnect(c.id);
+      } on ConnectionUnavailable {
+        messenger
+          ..hideCurrentSnackBar()
+          ..showSnackBar(SnackBar(content: Text(l.connServerError)));
+        return;
+      }
       navigator.pop();
     }
 

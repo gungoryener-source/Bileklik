@@ -162,6 +162,7 @@
   "connScan": "Scan QR code",
   "connScanHint": "Hold the QR code from your doctor or research institution inside the frame.",
   "connSelectAll": "Select all",
+  "connServerError": "Couldn't reach the server. Check your internet connection and try again.",
   "connShared": "Shared data",
   "connSharedCount": "{count, plural, =1{1 data type} other{{count} data types}}",
   "connSince": "Since {date}",
