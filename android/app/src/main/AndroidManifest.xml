@@ -31,7 +31,11 @@
     <uses-permission android:name="android.permission.health.WRITE_SLEEP" />
     <uses-permission android:name="android.permission.health.WRITE_EXERCISE" />
 
+    <!-- Yedekleme kapalı: sağlık verisi ve anahtarlar telefondan çıkmaz. -->
     <application
+        android:allowBackup="false"
+        android:fullBackupContent="false"
+        android:dataExtractionRules="@xml/data_extraction_rules"
         android:label="bileklik"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">

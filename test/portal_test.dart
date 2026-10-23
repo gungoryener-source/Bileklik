@@ -2,10 +2,12 @@ import 'dart:math';
 
 import 'package:bileklik/data/community.dart';
 import 'package:bileklik/data/connections.dart';
+import 'package:bileklik/data/feedback.dart';
 import 'package:bileklik/data/fhir.dart';
 import 'package:bileklik/data/health_store.dart';
 import 'package:bileklik/data/models.dart';
 import 'package:bileklik/data/portal.dart';
+import 'package:bileklik/data/secrets.dart';
 import 'package:bileklik/device/fake_device.dart';
 import 'package:bileklik/main.dart';
 import 'package:bileklik/state/app_settings.dart';
@@ -17,6 +19,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/testing.dart';
 import 'package:shelf/shelf.dart' as shelf;
+import 'package:shared_preferences/shared_preferences.dart';
 
 /// Bellekte çalışan gerçek portal ve ona bağlı HTTP istemcisi.
 class _Backend {
@@ -122,6 +125,39 @@ void main() {
 
     await service.disconnect(c.id);
     expect(service.connections, isEmpty);
+  });
+
+  test('oturum anahtarı güvenli depoda; eski sürümünkü taşınır', () async {
+    SharedPreferences.setMockInitialValues({'portal_token': 'eski'});
+    final secrets = MemorySecretStore();
+    final settings = await AppSettings.load(secrets: secrets);
+    expect(settings.portalToken, 'eski');
+    expect(secrets.values['portal_token'], 'eski');
+    final prefs = await SharedPreferences.getInstance();
+    expect(prefs.getString('portal_token'), isNull);
+
+    await settings.setPortalToken('yeni');
+    expect(secrets.values['portal_token'], 'yeni');
+    expect((await AppSettings.load(secrets: secrets)).portalToken, 'yeni');
+  });
+
+  test('geri bildirim anahtarsız gider; hesap açılmaz', () async {
+    final b = _Backend();
+    final settings = AppSettings.memory();
+    await PortalFeedbackService(_client(b, settings)).send(
+      FeedbackTopic.bug,
+      ' Senkron takılıyor ',
+      context: const FeedbackContext(
+        appVersion: '0.1.0',
+        platform: 'android',
+        locale: 'tr',
+      ),
+    );
+    final saved = b.store.feedback().single;
+    expect(saved.category, portal.FeedbackCategory.bug);
+    expect(saved.message, 'Senkron takılıyor');
+    expect(saved.platform, 'android');
+    expect(settings.portalToken, isNull, reason: 'kimliğe bağlanmadı');
   });
 
   test('yalnızca paylaşılan türler yüklenir; bağlantı yoksa hiçbiri', () async {

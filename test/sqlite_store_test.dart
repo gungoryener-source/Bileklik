@@ -2,6 +2,7 @@ import 'dart:io';
 import 'dart:math';
 
 import 'package:bileklik/data/models.dart';
+import 'package:bileklik/data/secrets.dart';
 import 'package:bileklik/data/sqlite_health_store.dart';
 import 'package:bileklik/device/fake_device.dart';
 import 'package:bileklik/device/protocol/exercise.dart';
@@ -152,5 +153,69 @@ void main() {
     );
     await again.close();
     device.dispose();
+  });
+
+  group('şifreli açılış', () {
+    Future<SqliteHealthStore> openEnc(
+      SecretStore secrets, {
+      void Function()? onKeyLost,
+    }) => SqliteHealthStore.openEncrypted(
+      secrets,
+      factory: databaseFactoryFfi,
+      directory: dir.path,
+      onKeyLost: onKeyLost,
+    );
+
+    test('anahtar bir kez üretilir ve güvenli depoda kalır', () async {
+      final secrets = MemorySecretStore();
+      final a = await openEnc(secrets);
+      final key = secrets.values[SqliteHealthStore.keySecret];
+      expect(key, matches(RegExp(r'^[0-9a-f]{64}$')));
+      a.addMeasurements([Measurement(MetricType.heartRate, t, 70)]);
+      await a.close();
+
+      final b = await openEnc(secrets);
+      expect(secrets.values[SqliteHealthStore.keySecret], key);
+      expect(b.measurements(MetricType.heartRate, from, to), hasLength(1));
+      await b.close();
+    });
+
+    test('şifresiz eski veritabanı taşınır ve silinir', () async {
+      final legacyPath = '${dir.path}/${SqliteHealthStore.fileName}';
+      final legacy = await SqliteHealthStore.open(
+        factory: databaseFactoryFfi,
+        path: legacyPath,
+      );
+      legacy
+        ..addMeasurements([
+          Measurement(MetricType.heartRate, t, 72),
+          Measurement(MetricType.spo2, t, 97),
+        ])
+        ..addSleep([
+          SleepSession(t, const [SleepStage.light, SleepStage.deep]),
+        ]);
+      await legacy.close();
+
+      final store = await openEnc(MemorySecretStore());
+      expect(store.measurements(MetricType.heartRate, from, to).single.value, 72);
+      expect(store.measurements(MetricType.spo2, from, to), hasLength(1));
+      expect(File(legacyPath).existsSync(), isFalse);
+      await store.close();
+    });
+
+    test('anahtar kaybolursa okunamayan dosya yeniden kurulur', () async {
+      final secrets = MemorySecretStore();
+      final a = await openEnc(secrets);
+      a.addMeasurements([Measurement(MetricType.heartRate, t, 70)]);
+      await a.close();
+
+      secrets.values.clear();
+      var lost = false;
+      final b = await openEnc(secrets, onKeyLost: () => lost = true);
+      expect(lost, isTrue);
+      expect(b.measurements(MetricType.heartRate, from, to), isEmpty);
+      expect(secrets.values[SqliteHealthStore.keySecret], isNotNull);
+      await b.close();
+    });
   });
 }

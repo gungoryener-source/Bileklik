@@ -14,6 +14,7 @@ import 'data/health_platform.dart';
 import 'data/health_store.dart';
 import 'data/plugin_health_platform.dart';
 import 'data/portal.dart';
+import 'data/secrets.dart';
 import 'data/sqlite_health_store.dart';
 import 'device/ble_transport.dart';
 import 'device/fake_device.dart';
@@ -32,10 +33,12 @@ Future<void> main() async {
   SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
   SystemChrome.setSystemUIOverlayStyle(camSystemOverlay);
   LicenseRegistry.addLicense(_fontLicense);
-  final settings = await AppSettings.load();
+  // Web'de güvenli depo yok; demo zaten saklamaz.
+  final SecretStore secrets = kIsWeb ? MemorySecretStore() : DeviceSecretStore();
+  final settings = await AppSettings.load(secrets: secrets);
   final controller = DeviceController(
     await _transport(),
-    store: await _openStore(),
+    store: await _openStore(secrets),
     wearDetection: settings.wearDetection,
   );
   final portal = _portal(settings, controller);
@@ -101,12 +104,21 @@ Stream<LicenseEntry> _fontLicense() async* {
   yield LicenseEntryWithLineBreaks(const ['Manrope'], text);
 }
 
-/// Telefonda SQLite; web demosunda (sqflite web'de yok) ya da veritabanı
-/// açılamazsa bellek. Açılamama durumu raporlanır, uygulama yine açılır.
-Future<HealthStore> _openStore() async {
+/// Telefonda şifreli SQLite (SQLCipher); web demosunda (sqflite web'de yok)
+/// ya da veritabanı açılamazsa bellek. Açılamama durumu raporlanır, uygulama
+/// yine açılır.
+Future<HealthStore> _openStore(SecretStore secrets) async {
   if (kIsWeb) return MemoryHealthStore();
   try {
-    return await SqliteHealthStore.open();
+    return await SqliteHealthStore.openEncrypted(
+      secrets,
+      onKeyLost: () => FlutterError.reportError(
+        FlutterErrorDetails(
+          exception: StateError('veritabanı anahtarı yok; dosya yeniden kuruldu'),
+          library: 'bileklik',
+        ),
+      ),
+    );
   } catch (e, s) {
     FlutterError.reportError(
       FlutterErrorDetails(exception: e, stack: s, library: 'bileklik'),

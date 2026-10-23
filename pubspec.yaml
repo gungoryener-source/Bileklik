@@ -15,6 +15,8 @@ dependencies:
   flutter_blue_plus: ^2.3.14
   flutter_localizations:
     sdk: flutter
+  # Veritabanı anahtarı ve portal oturum anahtarı (Keychain / Keystore).
+  flutter_secure_storage: ^11.2.0
   health: ^13.3.2
   http: ^1.5.0
   intl: ^0.20.2
@@ -22,7 +24,9 @@ dependencies:
   path: ^1.9.1
   share_plus: ^13.3.1
   shared_preferences: ^2.5.6
-  sqflite: ^2.4.4+2
+  # sqflite ile aynı API, SQLCipher ile şifreli. sqflite ayrıca eklenmez:
+  # iOS'ta ikisi birlikte bağlanamaz.
+  sqflite_sqlcipher: ^3.4.1
 
 dev_dependencies:
   # Testlerde uygulama gerçek portal API'siyle (bellekte) konuşur.
