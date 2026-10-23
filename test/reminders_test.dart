@@ -16,6 +16,14 @@ import 'package:flutter_test/flutter_test.dart';
 List<int> hex(String s) =>
     s.split(' ').map((b) => int.parse(b, radix: 16)).toList();
 
+/// Cihaz ekranında "Hatırlatıcılar" satırını görünür yapıp açar.
+Future<void> _openReminders(WidgetTester tester) async {
+  final row = find.text('Hatırlatıcılar');
+  await tester.ensureVisible(row);
+  await tester.pumpAndSettle();
+  await tester.tap(row);
+}
+
 FakeDevice _device() => FakeDevice(
   random: Random(3),
   realtimeInterval: const Duration(seconds: 30),
@@ -251,7 +259,7 @@ void main() {
   testWidgets('ilaç saati eklenir, kapatılır ve silinir', (tester) async {
     final (c, device) = await openScreen(tester);
     expect(find.text('Hatırlatıcı yok'), findsOneWidget);
-    await tester.tap(find.text('Hatırlatıcılar'));
+    await _openReminders(tester);
     await tester.pumpAndSettle();
     expect(find.byType(RemindersScreen), findsOneWidget);
     expect(
@@ -308,7 +316,7 @@ void main() {
         Reminder(kind: ReminderKind.water, minuteOfDay: 10 * 60),
       ]),
     );
-    await tester.tap(find.text('Hatırlatıcılar'));
+    await _openReminders(tester);
     await tester.pumpAndSettle();
     await tester.tap(find.text('Su saati ekle'));
     await tester.pumpAndSettle();
@@ -332,7 +340,7 @@ void main() {
           Reminder(kind: ReminderKind.water, minuteOfDay: 8 * 60 + i * 60),
       ]),
     );
-    await tester.tap(find.text('Hatırlatıcılar'));
+    await _openReminders(tester);
     await tester.pumpAndSettle();
     final add = tester.widget<TextButton>(
       find.ancestor(

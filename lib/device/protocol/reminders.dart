@@ -117,7 +117,8 @@ const reminderRecordLength = 9 + Reminder.maxLabelBytes;
 const _ascii = {
   'ç': 'c', 'Ç': 'C', 'ğ': 'g', 'Ğ': 'G', 'ı': 'i', 'İ': 'I', 'ö': 'o',
   'Ö': 'O', 'ş': 's', 'Ş': 'S', 'ü': 'u', 'Ü': 'U', 'ä': 'a', 'Ä': 'A',
-  'ß': 'ss', 'â': 'a', 'î': 'i', 'û': 'u', 'é': 'e', 'è': 'e',
+  'ß': 'ss', 'â': 'a', 'Â': 'A', 'î': 'i', 'Î': 'I', 'û': 'u', 'Û': 'U',
+  'é': 'e', 'É': 'E', 'è': 'e', 'È': 'E',
 };
 
 /// Etiketin bilekliğe yazılan ASCII hali, en fazla
