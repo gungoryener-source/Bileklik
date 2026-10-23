@@ -531,6 +531,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get communitySharesNothing => 'لا يشارك أي شيء بعد';
 
   @override
+  String get communityUnnamedMember => 'عضو';
+
+  @override
   String get communityYou => 'أنت';
 
   @override

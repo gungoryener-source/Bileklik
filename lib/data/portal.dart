@@ -20,6 +20,10 @@ abstract class PortalCredentials {
   Future<void> setRecoveryCode(String? code);
   DateTime? get lastPortalUpload;
   Future<void> setLastPortalUpload(DateTime t);
+
+  /// Topluluk bildirimlerinin okunduğu son an (rozet sayısı için).
+  DateTime? get communityReadUntil;
+  Future<void> setCommunityReadUntil(DateTime t);
 }
 
 /// Portal API'sinin HTTP istemcisi (`portal/` paketi).
@@ -268,10 +272,197 @@ class PortalConnectionService extends ConnectionService {
   }
 }
 
+/// Aile grupları, portal üzerinden (`/groups`).
+///
+/// Davet kişiye özel kodla yapılır: sahip davet edilenin adını yazar, portal
+/// bir kod verir; davet edilen bu kodla katılınca o adla görünür. Grup
+/// koduyla katılanın adı boştur. Portal kişiler arası rehber tutmadığı için
+/// "biri sizi davet etti" bildirimi yoktur; yalnızca "katıldı" bildirimleri
+/// gelir.
+class PortalCommunityService extends CommunityService {
+  PortalCommunityService(this.client);
+
+  final PortalClient client;
+  var _groups = const <CareGroup>[];
+  var _messages = const <CommunityMessage>[];
+
+  @override
+  List<CareGroup> get myGroups => [
+    for (final g in _groups)
+      if (g.ownedByMe) g,
+  ];
+
+  @override
+  List<CareGroup> get joinedGroups => [
+    for (final g in _groups)
+      if (!g.ownedByMe) g,
+  ];
+
+  @override
+  List<CommunityMessage> get messages => _messages;
+
+  @override
+  int get unreadCount {
+    final since = client.credentials.communityReadUntil;
+    return since == null
+        ? _messages.length
+        : _messages.where((m) => m.time.isAfter(since)).length;
+  }
+
+  /// Gruplarla paylaşılan türlerin birleşimi; portala bunlar da yüklenir.
+  Set<ShareScope> get sharedScopes => {
+    for (final g in _groups) ...g.myConsent.scopes,
+  };
+
+  @override
+  CareGroup? group(String id) =>
+      _groups.where((g) => g.id == id).firstOrNull;
+
+  static Set<ShareScope> _scopes(Object? raw) => {
+    for (final s in raw as List? ?? const [])
+      ?ShareScope.values.asNameMap()[s],
+  };
+
+  static CareGroup _group(Map j) {
+    final consent = j['myConsent'] as Map? ?? const {};
+    final scopes = _scopes(consent['scopes']);
+    final granted = consent['grantedAt'] as String?;
+    return CareGroup(
+      id: j['id'] as String,
+      name: j['name'] as String? ?? '',
+      ownedByMe: j['ownedByMe'] == true,
+      inviteCode: j['inviteCode'] as String? ?? '',
+      members: [
+        for (final m in j['members'] as List? ?? const [])
+          if (m is Map)
+            GroupMember(
+              id: m['id'] as String,
+              name: m['name'] as String? ?? '',
+              isMe: m['isMe'] == true,
+              isOwner: m['isOwner'] == true,
+              pending: m['pending'] == true,
+              shares: _scopes(m['shares']),
+            ),
+      ],
+      myConsent: ShareConsent(
+        scopes: scopes,
+        grantedAt: scopes.isEmpty || granted == null
+            ? null
+            : DateTime.parse(granted).toLocal(),
+      ),
+    );
+  }
+
+  /// Grupları ve bildirimleri portaldan yeniden okur.
+  @override
+  Future<void> refresh() async {
+    final r = await client.request('GET', '/groups');
+    final j = jsonDecode(r.body) as Map;
+    _groups = List.unmodifiable([
+      for (final g in j['groups'] as List? ?? const [])
+        if (g is Map) _group(g),
+    ]);
+    _messages = List.unmodifiable(
+      [
+        for (final m in j['messages'] as List? ?? const [])
+          if (m is Map)
+            CommunityMessage(
+              id: m['id'] as String,
+              kind: CommunityMessageKind.memberJoined,
+              from: m['from'] as String? ?? '',
+              groupName: m['groupName'] as String? ?? '',
+              groupId: m['groupId'] as String?,
+              time: DateTime.parse(m['time'] as String).toLocal(),
+            ),
+      ]..sort((a, b) => b.time.compareTo(a.time)),
+    );
+    notifyListeners();
+  }
+
+  String _path(String groupId, [String rest = '']) =>
+      '/groups/${Uri.encodeComponent(groupId)}$rest';
+
+  @override
+  Future<CareGroup> createGroup(String name) async {
+    final r = await client.request(
+      'POST',
+      '/groups',
+      body: {'name': name.trim()},
+    );
+    final id = (jsonDecode(r.body) as Map)['id'] as String;
+    await refresh();
+    return group(id) ?? _group(jsonDecode(r.body) as Map);
+  }
+
+  @override
+  Future<String> invite(String groupId, String name) async {
+    final r = await client.request(
+      'POST',
+      _path(groupId, '/members'),
+      body: {'name': name.trim()},
+    );
+    await refresh();
+    return (jsonDecode(r.body) as Map)['code'] as String;
+  }
+
+  @override
+  Future<void> removeMember(String groupId, String memberId) async {
+    await client.request(
+      'DELETE',
+      _path(groupId, '/members/${Uri.encodeComponent(memberId)}'),
+    );
+    await refresh();
+  }
+
+  @override
+  Future<void> setConsent(String groupId, Set<ShareScope> scopes) async {
+    await client.request(
+      'PUT',
+      _path(groupId, '/consent'),
+      body: {'scopes': [for (final s in scopes) s.name]},
+    );
+    await refresh();
+  }
+
+  @override
+  Future<CareGroup?> joinWithCode(String code) async {
+    final c = code.trim().toUpperCase();
+    if (c.isEmpty) return null;
+    final r = await client.request(
+      'POST',
+      '/groups/join',
+      body: {'code': c},
+      ok: const {200, 404},
+    );
+    if (r.statusCode == 404) return null;
+    final id = (jsonDecode(r.body) as Map)['id'] as String;
+    await refresh();
+    return group(id);
+  }
+
+  /// Portalda davet bildirimi yok; çağrılmaz.
+  @override
+  Future<void> answerInvite(String messageId, {required bool accept}) async {}
+
+  @override
+  Future<void> leave(String groupId) async {
+    await client.request('DELETE', _path(groupId));
+    await refresh();
+  }
+
+  @override
+  void markAllRead() {
+    if (_messages.isEmpty || unreadCount == 0) return;
+    unawaited(client.credentials.setCommunityReadUntil(_messages.first.time));
+    notifyListeners();
+  }
+}
+
 /// Paylaşılan türlerdeki ölçümleri portala FHIR Bundle olarak yükler.
 ///
-/// - Hiç bağlantı yoksa hiçbir şey yüklenmez (veri en aza indirme).
-/// - Yalnızca süren rızalardaki türler gider.
+/// - Hiç bağlantı ya da grup paylaşımı yoksa hiçbir şey yüklenmez (veri en
+///   aza indirme).
+/// - Yalnızca süren rızalardaki ve gruplarla paylaşılan türler gider.
 /// - Senkron eski kayıtları sonradan getirebildiği için son yüklemeden 7 gün
 ///   öncesinden başlanır; portal aynı kaydı kimliğinden tanır, tekrar yazmaz.
 ///   İlk yüklemede son 30 gün gider.
@@ -280,15 +471,25 @@ class PortalUploader extends ChangeNotifier {
     required this.client,
     required this.connections,
     required this.store,
+    this.community,
     this.debounce = const Duration(seconds: 5),
     DateTime Function()? clock,
   }) : _now = clock ?? DateTime.now {
     store.addListener(_schedule);
     connections.addListener(_schedule);
+    community?.addListener(_schedule);
   }
 
   final PortalClient client;
   final PortalConnectionService connections;
+
+  /// Aile gruplarıyla paylaşılan türler de yüklenir.
+  final PortalCommunityService? community;
+
+  Set<ShareScope> get _scopes => {
+    ...connections.sharedScopes,
+    ...?community?.sharedScopes,
+  };
   final HealthStore store;
   final Duration debounce;
   final DateTime Function() _now;
@@ -297,14 +498,14 @@ class PortalUploader extends ChangeNotifier {
   Object? lastError;
 
   void _schedule() {
-    if (connections.sharedScopes.isEmpty) return;
+    if (_scopes.isEmpty) return;
     _timer?.cancel();
     _timer = Timer(debounce, () => unawaited(uploadNow()));
   }
 
   /// Yüklenen kayıt sayısını döndürür (hasta kaydı hariç).
   Future<int> uploadNow() async {
-    final scopes = connections.sharedScopes;
+    final scopes = _scopes;
     if (scopes.isEmpty || _busy) return 0;
     _busy = true;
     try {
@@ -344,6 +545,7 @@ class PortalUploader extends ChangeNotifier {
     _timer?.cancel();
     store.removeListener(_schedule);
     connections.removeListener(_schedule);
+    community?.removeListener(_schedule);
     super.dispose();
   }
 }

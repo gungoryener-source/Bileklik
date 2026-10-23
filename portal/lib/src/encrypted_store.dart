@@ -214,6 +214,29 @@ class EncryptedPortalStore implements PortalStore {
         _mem.replaceToken(e['id']! as String, e['tokenHash']! as String);
       case 'recovery':
         _mem.setRecovery(e['id']! as String, e['hash']! as String);
+      case 'group':
+        _mem.addGroup(
+          CareGroupRecord(
+            id: e['id']! as String,
+            name: e['name']! as String,
+            ownerId: e['ownerId']! as String,
+            code: e['code']! as String,
+            created: _parse(e['created']),
+          ),
+        );
+      case 'member':
+        _mem.putMember(
+          GroupMember(
+            id: e['id']! as String,
+            groupId: e['groupId']! as String,
+            name: e['name']! as String,
+            accountId: e['accountId'] as String?,
+            inviteCode: e['inviteCode'] as String?,
+            joined: e['joined'] == null ? null : _parse(e['joined']),
+            scopes: _scopes(e['scopes']),
+            consentAt: e['consentAt'] == null ? null : _parse(e['consentAt']),
+          ),
+        );
       case 'feedback':
         _mem.addFeedback(
           FeedbackEntry(
@@ -367,6 +390,64 @@ class EncryptedPortalStore implements PortalStore {
   @override
   List<AuditEntry> auditForPatient(String patientId) =>
       _mem.auditForPatient(patientId);
+
+  @override
+  void addGroup(CareGroupRecord g) => _record({
+    't': 'group',
+    'id': g.id,
+    'name': g.name,
+    'ownerId': g.ownerId,
+    'code': g.code,
+    'created': _time(g.created),
+  });
+
+  @override
+  CareGroupRecord? group(String id) => _mem.group(id);
+
+  @override
+  CareGroupRecord? groupByCode(String code) => _mem.groupByCode(code);
+
+  /// Grup silinince adı ve üyelikleri dosyadan da çıkar (baştan yazılır).
+  @override
+  void deleteGroup(String id) {
+    _mem.deleteGroup(id);
+    _events.removeWhere(
+      (e) =>
+          (e['t'] == 'group' && e['id'] == id) ||
+          (e['t'] == 'member' && e['groupId'] == id),
+    );
+    _rewrite();
+  }
+
+  @override
+  void putMember(GroupMember m) => _record({
+    't': 'member',
+    'id': m.id,
+    'groupId': m.groupId,
+    'name': m.name,
+    'accountId': m.accountId,
+    'inviteCode': m.inviteCode,
+    'joined': m.joined == null ? null : _time(m.joined!),
+    'scopes': [for (final s in m.scopes) s.name],
+    'consentAt': m.consentAt == null ? null : _time(m.consentAt!),
+  });
+
+  @override
+  void removeMember(String memberId) {
+    _mem.removeMember(memberId);
+    _events.removeWhere((e) => e['t'] == 'member' && e['id'] == memberId);
+    _rewrite();
+  }
+
+  @override
+  List<GroupMember> members(String groupId) => _mem.members(groupId);
+
+  @override
+  GroupMember? memberByInvite(String code) => _mem.memberByInvite(code);
+
+  @override
+  List<GroupMember> membershipsOf(String accountId) =>
+      _mem.membershipsOf(accountId);
 
   @override
   void addFeedback(FeedbackEntry f) => _record({'t': 'feedback', ...f.toJson()});

@@ -229,6 +229,7 @@
   "communityRemoveMember": "Gruptan çıkar",
   "communityShares": "Paylaşıyor: {types}",
   "communitySharesNothing": "Henüz bir şey paylaşmıyor",
+  "communityUnnamedMember": "Bir üye",
   "communityYou": "Siz",
   "connActive": "Bağlantılarım",
   "connAgree": "Bu bilgileri okudum. Seçtiğim verilerin yukarıdaki amaçla {name} ile paylaşılmasına açıkça rıza veriyorum.",

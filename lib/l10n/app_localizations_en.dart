@@ -529,6 +529,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get communitySharesNothing => 'Not sharing anything yet';
 
   @override
+  String get communityUnnamedMember => 'A member';
+
+  @override
   String get communityYou => 'You';
 
   @override

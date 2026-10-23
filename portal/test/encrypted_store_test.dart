@@ -235,6 +235,52 @@ void main() {
     expect(await file.readAsString(), isNot(contains('yeni-anahtar')));
   });
 
+  test('gruplar kalıcıdır; silinen grup dosyadan çıkar', () async {
+    final (store, _) = await seeded();
+    final t = DateTime.utc(2026, 10, 20);
+    store
+      ..addGroup(
+        CareGroupRecord(
+          id: 'group-1',
+          name: 'Kaya ailesi',
+          ownerId: _patientId,
+          code: 'KAYA24',
+          created: t,
+        ),
+      )
+      ..putMember(
+        GroupMember(
+          id: 'member-1',
+          groupId: 'group-1',
+          name: 'Annem',
+          inviteCode: 'ANNE22',
+        ),
+      )
+      ..putMember(
+        const GroupMember(
+          id: 'member-1',
+          groupId: 'group-1',
+          name: 'Annem',
+          accountId: 'baska',
+          scopes: {ShareScope.sleep},
+        ),
+      );
+    await store.flush();
+    var again = await EncryptedPortalStore.open(file, _key);
+    expect(again.groupByCode('KAYA24')!.name, 'Kaya ailesi');
+    final m = again.members('group-1').single;
+    expect(m.accountId, 'baska');
+    expect(m.scopes, {ShareScope.sleep});
+    expect(again.memberByInvite('ANNE22'), isNull);
+    expect(await file.readAsString(), isNot(contains('Annem')));
+
+    again.deleteGroup('group-1');
+    await again.flush();
+    again = await EncryptedPortalStore.open(file, _key);
+    expect(again.group('group-1'), isNull);
+    expect(again.members('group-1'), isEmpty);
+  });
+
   test('kimlikler yeniden başlatmada çakışmaz', () async {
     final a = await EncryptedPortalStore.open(file, _key);
     final b = await EncryptedPortalStore.open(file, _key);

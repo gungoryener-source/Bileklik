@@ -75,9 +75,11 @@ class _MessageCard extends StatelessWidget {
     final l = context.l10n;
     final colors = context.colors;
     final invite = m.kind == CommunityMessageKind.invite;
+    // Grup koduyla katılanın adı yoktur.
+    final from = m.from.isEmpty ? l.communityUnnamedMember : m.from;
     final text = invite
-        ? l.communityMsgInvite(m.from, m.groupName)
-        : l.communityMsgJoined(m.from, m.groupName);
+        ? l.communityMsgInvite(from, m.groupName)
+        : l.communityMsgJoined(from, m.groupName);
     return Container(
       padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(

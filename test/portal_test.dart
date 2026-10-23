@@ -343,4 +343,76 @@ void main() {
     expect(find.text('Kod geçersiz ya da daha önce kullanılmış.'), findsOneWidget);
     expect(settings.recoveryCode, code);
   });
+
+  test('aile grubu portal üzerinden: kişiye özel kod, rıza ve yükleme', () async {
+    final b = _Backend();
+    final mePhone = AppSettings.memory();
+    final sisterPhone = AppSettings.memory();
+    final mine = PortalCommunityService(_client(b, mePhone));
+    final hers = PortalCommunityService(_client(b, sisterPhone));
+
+    final g = await mine.createGroup('  Kaya ailesi ');
+    expect(g.name, 'Kaya ailesi');
+    expect(g.ownedByMe, isTrue);
+    expect(g.inviteCode, hasLength(6));
+    expect(mine.myGroups, hasLength(1));
+
+    final code = await mine.invite(g.id, 'Ablam');
+    expect(code, isNot(g.inviteCode));
+    expect(mine.group(g.id)!.members.last.pending, isTrue);
+
+    expect(await hers.joinWithCode('YOKKOD'), isNull);
+    final joined = (await hers.joinWithCode(code.toLowerCase()))!;
+    expect(joined.ownedByMe, isFalse);
+    expect(hers.joinedGroups.single.id, g.id);
+    expect(joined.members.firstWhere((m) => m.isMe).name, 'Ablam');
+
+    // Sahibe katılım bildirimi gelir; okununca rozet söner.
+    await mine.refresh();
+    expect(mine.messages.single.from, 'Ablam');
+    expect(mine.messages.single.kind, CommunityMessageKind.memberJoined);
+    expect(mine.unreadCount, 1);
+    mine.markAllRead();
+    await Future<void>.delayed(Duration.zero);
+    expect(mine.unreadCount, 0);
+
+    // Paylaşım rızası: abla nabzını paylaşır, yükleyici yalnızca onu gönderir.
+    await hers.setConsent(g.id, {ShareScope.heartRate});
+    expect(hers.sharedScopes, {ShareScope.heartRate});
+    expect(hers.group(g.id)!.myConsent.grantedAt, isNotNull);
+    await mine.refresh();
+    expect(
+      mine.group(g.id)!.members.firstWhere((m) => m.name == 'Ablam').shares,
+      {ShareScope.heartRate},
+    );
+
+    final now = DateTime(2026, 10, 20, 12);
+    final uploader = PortalUploader(
+      client: _client(b, sisterPhone),
+      connections: PortalConnectionService(_client(b, sisterPhone)),
+      community: hers,
+      store: MemoryHealthStore()
+        ..addMeasurements([
+          Measurement(MetricType.heartRate, now.subtract(const Duration(hours: 1)), 70),
+          Measurement(MetricType.spo2, now.subtract(const Duration(hours: 1)), 97),
+        ]),
+      clock: () => now,
+    );
+    addTearDown(uploader.dispose);
+    expect(await uploader.uploadNow(), 1);
+    expect(
+      b.store.observations(sisterPhone.patientId).map((o) => o.code),
+      ['8867-4'],
+    );
+
+    // Sahip üyeyi çıkarır; abla için grup kalmaz.
+    final sisterMember = mine.group(g.id)!.members.firstWhere((m) => m.name == 'Ablam');
+    await mine.removeMember(g.id, sisterMember.id);
+    await hers.refresh();
+    expect(hers.joinedGroups, isEmpty);
+    expect(hers.sharedScopes, isEmpty);
+
+    await mine.leave(g.id);
+    expect(mine.myGroups, isEmpty);
+  });
 }

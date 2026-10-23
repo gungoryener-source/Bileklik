@@ -153,6 +153,7 @@
   "communityRemoveMember": "إزالة من المجموعة",
   "communityShares": "يشارك: {types}",
   "communitySharesNothing": "لا يشارك أي شيء بعد",
+  "communityUnnamedMember": "عضو",
   "communityYou": "أنت",
   "connActive": "اتصالاتي",
   "connAgree": "قرأت هذه المعلومات وأوافق صراحةً على مشاركة البيانات التي اخترتها مع {name} للغرض المذكور أعلاه.",

@@ -131,8 +131,8 @@ class CommunityMessage {
   final bool answered;
 }
 
-/// Sağlık topluluğu sunucusu. Şimdilik [FakeCommunityServer]; portal arka ucu
-/// (ROADMAP 19) aynı arayüzü uygulayacak.
+/// Sağlık topluluğu sunucusu: portal adresi varsa `PortalCommunityService`
+/// (`portal.dart`), yoksa [FakeCommunityServer].
 abstract class CommunityService extends ChangeNotifier {
   List<CareGroup> get myGroups;
   List<CareGroup> get joinedGroups;
@@ -143,10 +143,14 @@ abstract class CommunityService extends ChangeNotifier {
 
   CareGroup? group(String id);
 
+  /// Sunucudan yeniden okur (sahte sunucuda bir şey yapmaz).
+  Future<void> refresh() async {}
+
   Future<CareGroup> createGroup(String name);
 
-  /// Bir kişiyi davet eder; üye "davet bekleniyor" olarak eklenir.
-  Future<void> invite(String groupId, String name);
+  /// Bir kişiyi davet eder; üye "davet bekleniyor" olarak eklenir. Davet
+  /// edilenin katılmak için gireceği kodu döner (portalda kişiye özel).
+  Future<String> invite(String groupId, String name);
   Future<void> removeMember(String groupId, String memberId);
 
   /// Kullanıcının bu grupla paylaştığı türleri günceller.
@@ -295,13 +299,14 @@ class FakeCommunityServer extends CommunityService {
   }
 
   @override
-  Future<void> invite(String groupId, String name) async {
+  Future<String> invite(String groupId, String name) async {
     await _wait();
     final member = GroupMember(id: _id('m'), name: name.trim(), pending: true);
     _replace(groupId, (g) => g.copyWith(members: [...g.members, member]));
     notifyListeners();
+    final code = group(groupId)?.inviteCode ?? '';
     final delay = acceptDelay;
-    if (delay == null) return;
+    if (delay == null) return code;
     _timers.add(
       Timer(delay, () {
         final g = group(groupId);
@@ -333,6 +338,7 @@ class FakeCommunityServer extends CommunityService {
         notifyListeners();
       }),
     );
+    return code;
   }
 
   @override

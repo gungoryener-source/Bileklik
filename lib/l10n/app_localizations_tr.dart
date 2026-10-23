@@ -529,6 +529,9 @@ class AppLocalizationsTr extends AppLocalizations {
   String get communitySharesNothing => 'Henüz bir şey paylaşmıyor';
 
   @override
+  String get communityUnnamedMember => 'Bir üye';
+
+  @override
   String get communityYou => 'Siz';
 
   @override

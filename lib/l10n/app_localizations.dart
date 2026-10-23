@@ -1020,6 +1020,12 @@ abstract class AppLocalizations {
   /// **'Henüz bir şey paylaşmıyor'**
   String get communitySharesNothing;
 
+  /// No description provided for @communityUnnamedMember.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bir üye'**
+  String get communityUnnamedMember;
+
   /// No description provided for @communityYou.
   ///
   /// In tr, this message translates to:

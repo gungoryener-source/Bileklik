@@ -480,4 +480,111 @@ void main() {
     p.now = p.now.add(const Duration(minutes: 1));
     expect((await p.call('POST', '/recover', body: {'recoveryCode': 'X'})).$1, 404);
   });
+
+  group('aile grupları', () {
+    const sister = '7a7a7a7a-1111-4222-8333-944455556666';
+    late _Portal p;
+    setUp(() {
+      p = _Portal();
+      p.store.addAccount(
+        const Account(id: sister, role: Role.patient, name: '-'),
+        'sister',
+      );
+    });
+
+    Future<Map<String, Object?>> groupOf(String token, String id) async {
+      final (_, list) = await p.call('GET', '/groups', token: token);
+      return (list['groups']! as List)
+          .cast<Map<String, Object?>>()
+          .firstWhere((g) => g['id'] == id);
+    }
+
+    test('kişiye özel kodla katılan davetteki adı alır; paylaşım rızayla', () async {
+      final (s1, g) = await p.call('POST', '/groups', token: 'patient', body: {'name': 'Kaya ailesi'});
+      expect(s1, 201);
+      final id = g['id']! as String;
+      expect(g['ownedByMe'], isTrue);
+      expect(g['inviteCode'], matches(RegExp(r'^[A-Z2-9]{6}$')));
+
+      final (s2, inv) = await p.call(
+        'POST',
+        '/groups/$id/members',
+        token: 'patient',
+        body: {'name': 'Ablam'},
+      );
+      expect(s2, 201);
+      final code = inv['code']! as String;
+      expect(code, isNot(g['inviteCode']));
+      // Sahip olmayan davet edemez.
+      expect(
+        (await p.call('POST', '/groups/$id/members', token: 'sister', body: {'name': 'x'})).$1,
+        404,
+      );
+
+      expect((await p.call('POST', '/groups/join', token: 'sister', body: {'code': 'YOKKOD'})).$1, 404);
+      final (s3, joined) = await p.call(
+        'POST',
+        '/groups/join',
+        token: 'sister',
+        body: {'code': code.toLowerCase()},
+      );
+      expect(s3, 200);
+      expect(joined['ownedByMe'], isFalse);
+      expect(joined['inviteCode'], '', reason: 'grup kodu yalnızca sahibine');
+      final members = (joined['members']! as List).cast<Map>();
+      expect(members.first['isOwner'], isTrue);
+      expect(members.last['name'], 'Ablam');
+      expect(members.last['isMe'], isTrue);
+      expect(members.last['pending'], isFalse);
+      // Kod bir kez kullanılır.
+      expect(p.store.memberByInvite(code), isNull);
+
+      // Paylaşım yokken abla hastanın verisini göremez.
+      await p.call('POST', '/fhir', token: 'patient', body: _bundle());
+      expect((await p.call('GET', '/fhir/Observation?patient=$_patientId', token: 'sister')).$1, 403);
+
+      await p.call('PUT', '/groups/$id/consent', token: 'patient', body: {
+        'scopes': ['spo2'],
+      });
+      final (s4, seen) = await p.call('GET', '/fhir/Observation?patient=$_patientId', token: 'sister');
+      expect(s4, 200);
+      expect(_entries(seen).map((o) => (o['code'] as Map)['coding']).toString(), contains('59408-5'));
+      expect(seen['total'], 1, reason: 'yalnızca SpO2');
+      final owner = await groupOf('sister', id);
+      expect(((owner['members']! as List).first as Map)['shares'], ['spo2']);
+
+      // Sahibe katılım bildirimi gider.
+      final (_, list) = await p.call('GET', '/groups', token: 'patient');
+      expect((list['messages']! as List).single, containsPair('from', 'Ablam'));
+
+      // Ayrılınca erişim biter.
+      expect((await p.call('DELETE', '/groups/$id', token: 'sister')).$1, 200);
+      expect((await p.call('GET', '/fhir/Observation?patient=$_patientId', token: 'sister')).$1, 403);
+      expect(p.store.group(id), isNotNull);
+    });
+
+    test('grup koduyla katılan adsız; sahip çıkarır ve grubu siler', () async {
+      final (_, g) = await p.call('POST', '/groups', token: 'patient', body: {'name': 'Ev'});
+      final id = g['id']! as String;
+      final (_, joined) = await p.call('POST', '/groups/join', token: 'sister', body: {'code': g['inviteCode']});
+      final me = (joined['members']! as List).cast<Map>().last;
+      expect(me['name'], '');
+      await p.call('PUT', '/groups/$id/consent', token: 'sister', body: {
+        'scopes': ['heartRate'],
+      });
+      // Üye başkasını çıkaramaz; sahip çıkarır.
+      expect((await p.call('DELETE', '/groups/$id/members/${me['id']}', token: 'sister')).$1, 404);
+      expect((await p.call('DELETE', '/groups/$id/members/${me['id']}', token: 'patient')).$1, 200);
+      expect((await p.call('GET', '/groups', token: 'sister')).$2['groups'], isEmpty);
+      expect(
+        p.store.auditForPatient(sister).where((e) => e.description.contains('Gruptan çıkarıldı')),
+        hasLength(1),
+      );
+
+      expect((await p.call('DELETE', '/groups/$id', token: 'patient')).$1, 200);
+      expect(p.store.group(id), isNull);
+      expect(p.store.members(id), isEmpty);
+      expect((await p.call('GET', '/groups', token: 'doctor')).$1, 403);
+    });
+  });
 }

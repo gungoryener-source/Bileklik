@@ -69,7 +69,8 @@ UI (lib/ui)  ->  DeviceController (lib/state)  ->  WristbandClient  ->  DeviceTr
 
 Uygulama `--dart-define=PORTAL_URL=https://…/` verilirse portala bağlanır
 (`lib/data/portal.dart`): ilk istekte takma kimlikle hesap açar, davet ve
-rızaları portaldan alır, yalnızca süren rızalardaki türleri yükler. Adres
+rızaları ve aile gruplarını portaldan alır (`PortalCommunityService`),
+yalnızca süren rızalardaki ve gruplarla paylaşılan türleri yükler. Adres
 verilmezse `FakeConnectionServer` kullanılır. Uygulama testleri gerçek portal
 API'sini bellekte, `MockClient` üzerinden çalıştırır (`test/portal_test.dart`).
 

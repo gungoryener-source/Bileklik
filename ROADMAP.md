@@ -34,6 +34,7 @@ bir öncekinin dalı üzerine kurulur. Durum: ✅ bitti (PR açık ya da birleş
 | 26 | Geri bildirim ekranı (Profil > Geri bildirim): konu, mesaj, isteğe bağlı sürüm/platform; portalda kimliksiz `POST /feedback`, dakikalık sınır, `--feedback` ile okuma | 🔄 | |
 | 27 | Telefonda şifreli veritabanı: SQLCipher (`sqflite_sqlcipher`), anahtar Keychain/Keystore'da (`flutter_secure_storage`); eski şifresiz dosyanın taşınması; portal oturum anahtarının da güvenli depoya alınması; Android yedeklemesinin kapatılması | 🔄 | |
 | 28 | Portal hesabını kurtarma: kayıtta 80 bitlik kurtarma kodu (yalnızca özeti saklanır), `POST /recover` ile yeni telefona alma (eski anahtar ve kod geçersiz), `POST /patients/recovery` ile yeni kod; Profil > Portal hesabı ekranı | 🔄 | |
+| 29 | Aile gruplarını portala bağla: `/groups` uçları, kişiye özel davet kodu (davet edilen verilen adla görünür), grup koduyla adsız katılım, üye başına paylaşım rızası, aynı gruptaki üyenin yalnızca rızadaki türleri okuyabilmesi, gruplarla paylaşılan türlerin de yüklenmesi | 🔄 | |
 
 ## Her madde için
 
