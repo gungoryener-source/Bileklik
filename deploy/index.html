@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bileklik · test portalı</title>
+<style>
+:root { color-scheme: dark; }
+body { margin: 0; font: 16px/1.55 system-ui, sans-serif; background: #0b0d14; color: #e9ebf0; }
+main { max-width: 720px; margin: 0 auto; padding: 40px 16px 64px; }
+h1 { font-size: 1.9rem; margin: 0 0 6px; }
+p.lead { color: #9aa3b2; margin: 0 0 28px; }
+a.card { display: block; padding: 18px 20px; margin: 12px 0; border-radius: 16px; background: #171a24; border: 1px solid #2c313b; color: inherit; text-decoration: none; }
+a.card:hover { border-color: #7a6cff; }
+a.card strong { display: block; font-size: 1.1rem; color: #b9a7ff; margin-bottom: 4px; }
+.muted { color: #9aa3b2; font-size: .92rem; }
+code { background: #ffffff14; padding: 1px 6px; border-radius: 4px; }
+</style>
+</head>
+<body>
+<main>
+<h1>Bileklik · test portalı</h1>
+<p class="lead">Uygulama ve hekim paneli aynı test sunucusuna bağlı: panelde oluşturduğunuz davet kodunu uygulamaya girdiğinizde bağlantı kurulur, uygulamanın ölçümleri panelde görünür. Veriler örnektir; sunucu yeniden başlayınca sıfırlanır.</p>
+<a class="card" href="/uygulama/">
+<strong>Uygulama</strong>
+Sahte bileklikle çalışır, portala bağlıdır. Profil &gt; Hekim ve araştırma kurumu'ndan panelin verdiği kodu, Profil &gt; Sağlık topluluğu'ndan aile kodunu girin. Telefonda açıp ana ekrana ekleyebilirsiniz.
+</a>
+<a class="card" href="/panel">
+<strong>Hekim paneli</strong>
+Hekim girişi <code>demo@bileklik.app</code> / <code>demo-sifre-2026</code> (ya da anahtar <code>demo-doctor</code>): hasta kayıtları, bilekliğe bağlama, tarih aralıklı rapor (yazdırma/PDF, CSV, FHIR). Araştırma kurumu için <code>demo-research</code>.
+</a>
+<a class="card" href="/gizlilik">
+<strong>Gizlilik politikası</strong>
+Portalın herkese açık sayfası (taslak, dört dil).
+</a>
+<p class="muted">Aile grubunu denemek için uygulamayı iki ayrı tarayıcıda (ya da biri telefonda) açın: birinde grup kurup kişiye özel kod alın, diğerinde Kodla katıl ile girin.</p>
+</main>
+</body>
+</html>

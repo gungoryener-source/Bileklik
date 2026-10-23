@@ -40,6 +40,7 @@ bir öncekinin dalı üzerine kurulur. Durum: ✅ bitti (PR açık ya da birleş
 | 32 | Kilit dosyaları (`pubspec.lock`, `portal/pubspec.lock` artık depoda) ve ekran görüntüsü testi (`EKRAN=1 flutter test --update-goldens test/ekran_goruntusu_test.dart`) | ✅ | #35 |
 | 33 | Tarayıcıda deneme: uygulamanın web demosu (sahte bileklik) ve sunucusuz çalışan portal (hekim paneli, gizlilik sayfası) örnek veriyle (`seedDemo`); `Demo` iş akışı `demo-site` dalına ve main'de GitHub Pages'e yayımlar | ✅ | #36 |
 | 34 | Gelişmiş hekim portalı: hekimin kendi kaydı (e-posta + PBKDF2 şifre, yönetici doğrulaması, doğrulanmamış hekim uygulamada uyarılır), hasta kayıtları ve kayda özel davetle bilekliğe bağlama, tüm türleri kapsayan tarih aralıklı rapor (özet, günlük grafikler, ESC/ESH tansiyon sınıfları, uyku evreleri, egzersiz, EKG, VO2 Max, eşiğe dayalı bulgular), yazdırma/PDF, CSV ve FHIR dışa aktarma; yeni paylaşım türleri solunum ve vücut ölçüleri | ✅ | (bu PR; bulgu eşikleri ve hekim doğrulama süreci klinik/hukuk ile gözden geçirilecek) |
+| 35 | Test portalı: portal sunucusu, portala bağlı uygulamanın web sürümü ve hekim paneli tek adreste; `portal-deploy` dalı ve Render şablonu. Panelde oluşturulan davet kodu uygulamada çalışır, uygulamanın ölçümleri panelde görünür | ✅ | #38 |
 
 ## Her madde için
 
