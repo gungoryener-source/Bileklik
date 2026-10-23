@@ -69,6 +69,8 @@ class _Connected extends StatelessWidget {
                 _Row(l.deviceBattery, l.deviceBatteryValue(battery.percent)),
               if (c.profile?.mac != null)
                 _Row(l.deviceAddress, ltr(c.profile!.mac!)),
+              if (c.firmware case final fw?)
+                _Row(l.deviceFirmware, ltr(fw.version)),
               _Row(
                 l.deviceLastSync,
                 sync == null ? l.noValue : whenText(sync, DateTime.now()),
@@ -79,6 +81,7 @@ class _Connected extends StatelessWidget {
         MenuHeader(l.deviceSectionSettings),
         MenuGroup(
           children: [
+            if (c.allDayHeartRate != null) const _AllDayHeartRateTile(),
             MenuTile(
               icon: Icons.schedule,
               title: l.autoMeasureTitle,
@@ -204,6 +207,51 @@ class _WearDetectionTile extends StatelessWidget {
           messenger
             ..hideCurrentSnackBar()
             ..showSnackBar(SnackBar(content: Text(l.wearDetectionFailed)));
+        }
+      },
+    );
+  }
+}
+
+/// Tüm gün nabız takibi (0x03/0x04). Kapalıysa bileklik gün boyu nabız
+/// kaydetmez; otomatik ölçüm ayarları da etkisiz kalır.
+class _AllDayHeartRateTile extends StatelessWidget {
+  const _AllDayHeartRateTile();
+
+  @override
+  Widget build(BuildContext context) {
+    final c = DeviceScope.of(context);
+    final l = context.l10n;
+    return SwitchListTile(
+      contentPadding: const EdgeInsetsDirectional.only(start: 16, end: 12),
+      secondary: Container(
+        width: 40,
+        height: 40,
+        decoration: BoxDecoration(
+          color: context.colors.surfaceHigh,
+          shape: BoxShape.circle,
+        ),
+        child: Icon(
+          Icons.monitor_heart_outlined,
+          size: 22,
+          color: context.colors.text,
+        ),
+      ),
+      title: Text(
+        l.allDayHeartRateTitle,
+        style: const TextStyle(fontWeight: FontWeight.w500, fontSize: 15),
+      ),
+      subtitle: Text(
+        l.allDayHeartRateSubtitle,
+        style: TextStyle(color: context.colors.muted),
+      ),
+      value: c.allDayHeartRate ?? false,
+      onChanged: (v) async {
+        final messenger = ScaffoldMessenger.of(context);
+        if (!await c.setAllDayHeartRate(v)) {
+          messenger
+            ..hideCurrentSnackBar()
+            ..showSnackBar(SnackBar(content: Text(l.allDayHeartRateFailed)));
         }
       },
     );

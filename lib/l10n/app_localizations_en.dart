@@ -101,6 +101,15 @@ class AppLocalizationsEn extends AppLocalizations {
   String get actionClose => 'Close';
 
   @override
+  String get allDayHeartRateFailed => 'The setting couldn\'t be saved to the wristband. Please try again.';
+
+  @override
+  String get allDayHeartRateSubtitle => 'When off, the wristband doesn\'t record your heart rate during the day.';
+
+  @override
+  String get allDayHeartRateTitle => 'All-day heart rate';
+
+  @override
   String get appTitle => 'Bileklik';
 
   @override
@@ -603,6 +612,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get deviceDisconnected => 'Not connected';
+
+  @override
+  String get deviceFirmware => 'Firmware';
 
   @override
   String get deviceLastSync => 'Last sync';
@@ -1737,18 +1749,6 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String reminderCountSedentary(int count) {
-    String _temp0 = intl.Intl.pluralLogic(
-      count,
-      locale: localeName,
-      other: '$count reminders and inactivity alert',
-      one: '1 reminder and inactivity alert',
-      zero: 'Inactivity alert only',
-    );
-    return '$_temp0';
-  }
-
-  @override
   String get reminderDelete => 'Delete';
 
   @override
@@ -1771,6 +1771,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get reminderLabelHint => 'e.g. Morning pill';
+
+  @override
+  String get reminderLabelNote => 'Stored on the wristband in Latin letters only.';
 
   @override
   String get reminderMedication => 'Medication';
@@ -1857,43 +1860,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String reportWorkoutsValue(Object count, Object time) {
     return '$count× · $time';
   }
-
-  @override
-  String sedentaryHours(int hours) {
-    String _temp0 = intl.Intl.pluralLogic(
-      hours,
-      locale: localeName,
-      other: '$hours hours',
-      one: '1 hour',
-    );
-    return '$_temp0';
-  }
-
-  @override
-  String sedentaryHoursMinutes(int hours, int minutes) {
-    return '$hours h $minutes min';
-  }
-
-  @override
-  String get sedentaryInterval => 'Inactive for';
-
-  @override
-  String sedentaryMinutes(int minutes) {
-    return '$minutes minutes';
-  }
-
-  @override
-  String sedentaryNote(int steps) {
-    return 'You are alerted if you take fewer than $steps steps in that time.';
-  }
-
-  @override
-  String sedentarySubtitle(String time) {
-    return 'The wristband vibrates if you don\'t move for $time.';
-  }
-
-  @override
-  String get sedentaryTitle => 'Inactivity alert';
 
   @override
   String get shareActivity => 'Activity and steps';

@@ -97,10 +97,14 @@ class FakeDevice implements DeviceTransport {
   bool wearDetection = false;
 
   /// Bileklikte kayıtlı hatırlatıcılar (0x23/0x57); ilk açılışta boş.
+  /// Etiketler bileklikteki gibi ASCII'dir.
   final reminders = <Reminder>[];
 
-  /// Hareketsizlik uyarısı (0x25/0x26); ilk açılışta kapalı.
-  SedentaryConfig sedentary = const SedentaryConfig();
+  /// Tüm gün nabız takibi (0x03/0x04); fabrika ayarı açık varsayıldı.
+  bool allDayHeartRate = true;
+
+  /// Parça parça gelen 0x23 yazımı.
+  final _reminderWrite = <int>[];
 
   static const mac = [0xA1, 0xB2, 0xC3, 0xD4, 0xE5, 0xF6];
 
@@ -128,6 +132,9 @@ class FakeDevice implements DeviceTransport {
     ];
   }
 
+  @override
+  int get maxWriteLength => 244;
+
   /// Sahte cihazda tek bileklik var; seçim bağlantıyı etkilemez.
   @override
   void select(DiscoveredDevice device) {}
@@ -148,6 +155,7 @@ class FakeDevice implements DeviceTransport {
     _spotTimer?.cancel();
     _spotMode = 0;
     _realtimeOn = false;
+    _reminderWrite.clear();
     _connected = false;
     _state.add(DeviceConnectionState.disconnected);
   }
@@ -155,8 +163,20 @@ class FakeDevice implements DeviceTransport {
   @override
   Future<void> send(List<int> bytes) async {
     if (!_connected) throw StateError('Cihaz bağlı değil');
-    if (bytes.length > Packet.length && bytes.first == ReminderCmd.set) {
-      scheduleMicrotask(() => _handleSetReminders(bytes));
+    // 0x23 hatırlatıcı listesi 16 bayt değildir ve birkaç yazıma bölünür;
+    // `23 FF` gelince tamamlanır.
+    if (bytes.isNotEmpty &&
+        bytes.first == ReminderCmd.set &&
+        bytes.length != Packet.length) {
+      _reminderWrite.addAll(bytes);
+      final n = _reminderWrite.length;
+      if (n >= 2 &&
+          _reminderWrite[n - 2] == ReminderCmd.set &&
+          _reminderWrite[n - 1] == 0xFF) {
+        final all = [..._reminderWrite];
+        _reminderWrite.clear();
+        scheduleMicrotask(() => _handleSetReminders(all));
+      }
       return;
     }
     final Packet cmd;
@@ -211,35 +231,13 @@ class FakeDevice implements DeviceTransport {
           return;
         }
         // Gerçek cihaz kayıtları birkaç bildirime bölebilir; sahte cihaz
-        // tek seferde gönderir.
+        // tek seferde gönderir. Kapalı kaydın tür baytı 0'dır.
         _reply([
           for (var i = 0; i < reminders.length; i++)
-            ...encodeReminder(
-              reminders[i],
-              index: i,
-              total: reminders.length,
-              command: ReminderCmd.get,
-            ),
+            ...encodeStoredReminder(reminders[i], index: i, readId: i),
           ReminderCmd.get,
           0xFF,
         ]);
-      case ReminderCmd.setSedentary:
-        final next = SedentaryConfig.fromBytes(d);
-        final ok =
-            fromBcd(d[0]) < 24 &&
-            fromBcd(d[1]) < 60 &&
-            fromBcd(d[2]) < 24 &&
-            fromBcd(d[3]) < 60;
-        if (!ok) {
-          _reply(Packet.error(ReminderCmd.setSedentary).bytes);
-          return;
-        }
-        sedentary = next;
-        _reply(Packet.build(ReminderCmd.setSedentary).bytes);
-      case ReminderCmd.getSedentary:
-        _reply(
-          Packet.build(ReminderCmd.getSedentary, sedentary.toBytes()).bytes,
-        );
       case Cmd.setTime:
         final deviceTime = DateTime(
           2000 + fromBcd(d[0]),
@@ -287,6 +285,23 @@ class FakeDevice implements DeviceTransport {
         );
       case Cmd.batteryLevel:
         _reply(Packet.build(Cmd.batteryLevel, [_battery, 0, 0x0F, 0xA0]).bytes);
+      case SettingsCmd.setBasic:
+        allDayHeartRate = d[13] == AllDayHeartRate.on;
+        _reply(Packet.build(SettingsCmd.setBasic).bytes);
+      case SettingsCmd.getBasic:
+        _reply(
+          Packet.build(SettingsCmd.getBasic, [
+            ...List.filled(13, 0),
+            allDayHeartRate ? AllDayHeartRate.on : AllDayHeartRate.off,
+          ]).bytes,
+        );
+      case Cmd.firmwareVersion:
+        // 1.0.2.5, derleme 2026-07-31.
+        _reply(
+          Packet.build(Cmd.firmwareVersion, [
+            0x01, 0x00, 0x02, 0x05, 0x26, 0x07, 0x31,
+          ]).bytes,
+        );
       case ExerciseCmd.control:
         _handleExercise(d);
       case EcgCmd.raw:
@@ -329,7 +344,12 @@ class FakeDevice implements DeviceTransport {
     reminders
       ..clear()
       ..addAll(next);
-    _reply(Packet.build(ReminderCmd.set).bytes);
+    // `23 R1 23 R2 … 23 EE`: her kayıt için sıra no, sonda kaydediliyor.
+    _reply([
+      for (var i = 0; i < next.length; i++) ...[ReminderCmd.set, i],
+      ReminderCmd.set,
+      ReminderCmd.saved,
+    ]);
   }
 
   void _startRealtimeTimer() {

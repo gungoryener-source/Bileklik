@@ -70,11 +70,18 @@ türleri gösterir, her erişimi `AuditEvent` olarak kaydeder. Kökteki
 
 ## Protokol kuralları (V8 API PDF)
 
+Kaynak V8 API V1.2 ve V8 SDK belgeleri; üreticinin gizli belgeleri olduğu
+için depoya eklenmez. Belgeyle karşılaştırma ve açık kalanlar:
+`docs/protokol-dogrulama.md`.
+
 - Paket 16 bayt: komut + 14 bayt veri + CRC (ilk 15 baytın toplamı & 0xFF).
 - Hata yanıtında komutun 7. biti 1 olur.
 - Saat alanları BCD, sayılar küçük sonlu onaltılık.
 - `0x09` anlık veri 32 bayttır ve CRC taşımaz.
 - Geçmiş kayıt uzunlukları `HistoryKind` içinde. Veri sonu `[komut, 0xFF]`.
+- 0x23 hatırlatıcı listesi 16 bayt değildir; bilekliğin paket boyuna (0x01
+  yanıtı) göre bölünür, onayı `23 … 23 EE`. Bileklik en çok 5 hatırlatıcı
+  ve ASCII etiket tutar.
 - Yeni bir komut eklerken PDF'teki örnek paketi teste koyun (bkz. `test/protocol_test.dart`).
 - PDF'te belirsiz kalan noktaları kodda "gerçek cihazda doğrulanacak" diye işaretleyin.
 

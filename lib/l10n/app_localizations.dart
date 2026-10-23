@@ -270,6 +270,24 @@ abstract class AppLocalizations {
   /// **'Kapat'**
   String get actionClose;
 
+  /// No description provided for @allDayHeartRateFailed.
+  ///
+  /// In tr, this message translates to:
+  /// **'Ayar bilekliğe yazılamadı. Tekrar deneyin.'**
+  String get allDayHeartRateFailed;
+
+  /// No description provided for @allDayHeartRateSubtitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kapalıyken bileklik gün boyu nabız kaydetmez.'**
+  String get allDayHeartRateSubtitle;
+
+  /// No description provided for @allDayHeartRateTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Tüm gün nabız takibi'**
+  String get allDayHeartRateTitle;
+
   /// No description provided for @appTitle.
   ///
   /// In tr, this message translates to:
@@ -1121,6 +1139,12 @@ abstract class AppLocalizations {
   /// In tr, this message translates to:
   /// **'Bağlı değil'**
   String get deviceDisconnected;
+
+  /// No description provided for @deviceFirmware.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yazılım sürümü'**
+  String get deviceFirmware;
 
   /// No description provided for @deviceLastSync.
   ///
@@ -2982,12 +3006,6 @@ abstract class AppLocalizations {
   /// **'{count, plural, =0{Hatırlatıcı yok} =1{1 hatırlatıcı} other{{count} hatırlatıcı}}'**
   String reminderCount(int count);
 
-  /// No description provided for @reminderCountSedentary.
-  ///
-  /// In tr, this message translates to:
-  /// **'{count, plural, =0{Yalnızca hareketsizlik uyarısı} =1{1 hatırlatıcı ve hareketsizlik uyarısı} other{{count} hatırlatıcı ve hareketsizlik uyarısı}}'**
-  String reminderCountSedentary(int count);
-
   /// No description provided for @reminderDelete.
   ///
   /// In tr, this message translates to:
@@ -3029,6 +3047,12 @@ abstract class AppLocalizations {
   /// In tr, this message translates to:
   /// **'ör. Sabah ilacı'**
   String get reminderLabelHint;
+
+  /// No description provided for @reminderLabelNote.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bileklikte Latin harfleriyle saklanır (ş → s gibi).'**
+  String get reminderLabelNote;
 
   /// No description provided for @reminderMedication.
   ///
@@ -3185,48 +3209,6 @@ abstract class AppLocalizations {
   /// In tr, this message translates to:
   /// **'{count} kez · {time}'**
   String reportWorkoutsValue(Object count, Object time);
-
-  /// No description provided for @sedentaryHours.
-  ///
-  /// In tr, this message translates to:
-  /// **'{hours, plural, =1{1 saat} other{{hours} saat}}'**
-  String sedentaryHours(int hours);
-
-  /// No description provided for @sedentaryHoursMinutes.
-  ///
-  /// In tr, this message translates to:
-  /// **'{hours} sa {minutes} dk'**
-  String sedentaryHoursMinutes(int hours, int minutes);
-
-  /// No description provided for @sedentaryInterval.
-  ///
-  /// In tr, this message translates to:
-  /// **'Hareketsiz kalma süresi'**
-  String get sedentaryInterval;
-
-  /// No description provided for @sedentaryMinutes.
-  ///
-  /// In tr, this message translates to:
-  /// **'{minutes} dakika'**
-  String sedentaryMinutes(int minutes);
-
-  /// No description provided for @sedentaryNote.
-  ///
-  /// In tr, this message translates to:
-  /// **'Bu sürede {steps} adımdan az atarsanız uyarı gelir.'**
-  String sedentaryNote(int steps);
-
-  /// No description provided for @sedentarySubtitle.
-  ///
-  /// In tr, this message translates to:
-  /// **'{time} boyunca kıpırdamazsanız bileklik titrer.'**
-  String sedentarySubtitle(String time);
-
-  /// No description provided for @sedentaryTitle.
-  ///
-  /// In tr, this message translates to:
-  /// **'Hareketsizlik uyarısı'**
-  String get sedentaryTitle;
 
   /// No description provided for @shareActivity.
   ///

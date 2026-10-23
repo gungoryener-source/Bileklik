@@ -38,6 +38,9 @@ abstract final class Commands {
   static Packet batteryLevel() => Packet.build(Cmd.batteryLevel);
 
   /// 0x09: Anlık adım, nabız, ısı ve SpO2 akışını açar ya da kapatır.
+  /// 0x27: yazılım sürümünü ister.
+  static Packet firmwareVersion() => Packet.build(Cmd.firmwareVersion);
+
   static Packet realtime(bool enabled) =>
       Packet.build(Cmd.realtime, [enabled ? 1 : 0]);
 }

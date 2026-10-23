@@ -23,28 +23,31 @@ class SyncService {
     await _temperature();
     await _sleep();
     await workouts();
-    // 0x63'ün biçimi tahmini; bileklik bu komutu desteklemezse diğer
-    // veriler yine senkronlanmış olur.
+    // Eski yazılımlı bileklik 0x63'ü desteklemeyebilir; diğer veriler yine
+    // senkronlanmış olur.
     try {
       await _ppi();
     } on DeviceCommandException {
-      // Gerçek cihazda doğrulanacak.
+      // PPI yok sayılır.
     }
   }
 
   /// Atımdan atıma aralıklar: her aralık, atımın bittiği anla saklanır.
+  /// Kayıt zamanı ölçümün kaydedildiği an olduğu için son atım o ana denk
+  /// gelir, öncekiler geriye doğru yerleşir. Böylece depodaki son PPI zamanı
+  /// bileklikteki bir kaydın zamanıyla birebir aynıdır; artan senkron bunu
+  /// ister (SDK: başlangıç tarihi cihazdaki bir kayıtla eşleşmeli).
   Future<void> _ppi() async {
     final rows = await client.fetchHistory(
       HistoryKind.ppi,
       since: store.lastTime(MetricType.ppi),
     );
     final out = <Measurement>[];
-    for (final r in rows.map(PpiRecord.parse)) {
-      var t = r.time;
-      for (final ms in r.intervalsMs) {
-        if (ms <= 0) continue;
-        t = t.add(Duration(milliseconds: ms));
+    for (final g in PpiGroup.assemble(rows.map(PpiRecord.parse))) {
+      var t = g.savedAt;
+      for (final ms in g.intervalsMs.reversed) {
         out.add(Measurement(MetricType.ppi, t, ms.toDouble()));
+        t = t.subtract(Duration(milliseconds: ms));
       }
     }
     store.addMeasurements(out);

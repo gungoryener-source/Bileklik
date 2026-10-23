@@ -9,9 +9,11 @@ import 'transport.dart';
 /// Gerçek bileklikle Bluetooth Low Energy üzerinden konuşan katman
 /// (flutter_blue_plus).
 ///
-/// V8 API PDF'ine göre servis 0xFFF0; komutlar 0xFFF6'ya yazılır, yanıtlar
-/// 0xFFF7 bildirimiyle gelir. UUID'ler, bilekliğin yayın adı ve bir
-/// bildirimin tek paket taşıdığı varsayımı gerçek cihazda doğrulanacak.
+/// V8 API V1.2: servis 0xFFF0; komutlar 0xFFF6'ya yazılır, yanıtlar 0xFFF7
+/// bildirimiyle gelir. Paketler 16 bayttır; geçmiş verisi gibi uzun yanıtlar
+/// bilekliğin paket boyuna (0x01 yanıtında, ör. 244) kadar bir bildirimde
+/// birden fazla kayıt taşır. Bilekliğin yayın adı belgede yok; gerçek
+/// cihazda doğrulanacak.
 ///
 /// Lisans: flutter_blue_plus ticari kullanımda ücretli lisans ister; şimdilik
 /// [License.nonprofit] ile kullanılıyor. Ürün satışa çıkmadan önce yeniden
@@ -251,6 +253,14 @@ class BleTransport implements DeviceTransport {
     _notifySub = null;
     await _device?.disconnect();
     _state.add(DeviceConnectionState.disconnected);
+  }
+
+  /// Android'de bağlanırken 512 istenir; iOS kendisi ayarlar. Bağlı değilse
+  /// BLE'nin en küçük değeri (23 − 3).
+  @override
+  int get maxWriteLength {
+    final d = _device;
+    return d == null ? 20 : d.mtuNow - 3;
   }
 
   @override

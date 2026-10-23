@@ -159,13 +159,29 @@ class DeviceController extends ChangeNotifier {
     } catch (_) {
       settingsFailed = true;
     }
+    try {
+      allDayHeartRate = await _client.getAllDayHeartRate();
+    } catch (_) {
+      allDayHeartRate = null;
+    }
+    try {
+      firmware = await _client.getFirmware();
+    } catch (_) {
+      firmware = null;
+    }
     remindersFailed = false;
     try {
-      reminders = await _client.getReminders();
-      sedentary = await _client.getSedentary();
+      final stored = await _client.getReminders();
+      // Bileklik sıraya (0-4) göre tutar; bilinen tam etiket ve kapalı
+      // kaydın türü son yazılan listeden gelir.
+      reminders = List.unmodifiable([
+        for (final r in stored)
+          r.toReminder(
+            known: r.index < _written.length ? _written[r.index] : null,
+          ),
+      ]);
     } catch (_) {
       reminders = null;
-      sedentary = null;
       remindersFailed = true;
     }
     notifyListeners();
@@ -174,8 +190,31 @@ class DeviceController extends ChangeNotifier {
   /// Bileklikteki hatırlatıcılar; bağlanınca okunur, okunamadıysa null.
   List<Reminder>? reminders;
 
-  /// Hareketsizlik uyarısı; bağlanınca okunur.
-  SedentaryConfig? sedentary;
+  /// Tüm gün nabız takibi (0x04); okunamadıysa null.
+  bool? allDayHeartRate;
+
+  /// Bilekliğin yazılım sürümü (0x27); okunamadıysa null.
+  FirmwareInfo? firmware;
+
+  /// Tüm gün nabız takibini açar ya da kapatır; olmazsa eski hal kalır.
+  Future<bool> setAllDayHeartRate(bool enabled) async {
+    final before = allDayHeartRate;
+    if (!isConnected) return false;
+    allDayHeartRate = enabled;
+    notifyListeners();
+    try {
+      await _client.setAllDayHeartRate(enabled);
+      return true;
+    } catch (_) {
+      allDayHeartRate = before;
+      notifyListeners();
+      return false;
+    }
+  }
+
+  /// Bu oturumda bilekliğe en son yazılan liste. Bileklik etiketi ASCII
+  /// tutar ve kapalı kaydın türünü saklamaz; geri okurken bu liste eşlenir.
+  List<Reminder> _written = const [];
 
   /// Hatırlatıcılar okunamadı.
   bool remindersFailed = false;
@@ -190,25 +229,10 @@ class DeviceController extends ChangeNotifier {
     notifyListeners();
     try {
       await _client.setReminders(next);
+      _written = List.unmodifiable(next);
       return true;
     } catch (_) {
       reminders = before;
-      notifyListeners();
-      return false;
-    }
-  }
-
-  /// Hareketsizlik uyarısını bilekliğe yazar; olmazsa eskisi kalır.
-  Future<bool> saveSedentary(SedentaryConfig next) async {
-    final before = sedentary;
-    if (!isConnected || before == null) return false;
-    sedentary = next;
-    notifyListeners();
-    try {
-      await _client.setSedentary(next);
-      return true;
-    } catch (_) {
-      sedentary = before;
       notifyListeners();
       return false;
     }
@@ -332,7 +356,8 @@ class DeviceController extends ChangeNotifier {
     live = null;
     autoMeasure = const {};
     reminders = null;
-    sedentary = null;
+    allDayHeartRate = null;
+    firmware = null;
     exercise = null;
     ecg = null;
     spot = null;
