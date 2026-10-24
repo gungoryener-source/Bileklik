@@ -1,0 +1,41 @@
+name: Tanıtım sitesi
+
+# website/ klasörünü website-deploy dalına yazar. Render'daki statik site
+# (bileklik) bu dalı izler; derleme adımı yoktur, dosyalar olduğu gibi sunulur.
+on:
+  push:
+    branches: [main]
+    paths: ['website/**', '.github/workflows/website.yml']
+  pull_request:
+    paths: ['website/**', '.github/workflows/website.yml']
+  workflow_dispatch:
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - name: Bağlantıları denetle
+        run: |
+          # Sayfadaki yerel görsel ve yazı tipi yolları gerçekten var mı?
+          cd website
+          missing=0
+          for f in $(grep -oE '(src|href)="(img|fonts)/[^"]+"' index.html | sed -E 's/^[a-z]+="//; s/"$//' | sort -u); do
+            [ -f "$f" ] || { echo "::error::Eksik dosya: website/$f"; missing=1; }
+          done
+          exit $missing
+      - name: website-deploy dalına yaz
+        if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
+        run: |
+          cp -r website /tmp/site
+          git config user.name "github-actions"
+          git config user.email "github-actions@users.noreply.github.com"
+          git checkout --orphan website-deploy
+          git rm -rfq --cached .
+          find . -mindepth 1 -maxdepth 1 ! -name .git -exec rm -rf {} +
+          cp -r /tmp/site/. .
+          git add -A
+          git commit -qm "Tanıtım sitesi: ${GITHUB_SHA::7}"
+          git push -f origin HEAD:website-deploy
