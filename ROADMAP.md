@@ -41,6 +41,7 @@ bir öncekinin dalı üzerine kurulur. Durum: ✅ bitti (PR açık ya da birleş
 | 33 | Tarayıcıda deneme: uygulamanın web demosu (sahte bileklik) ve sunucusuz çalışan portal (hekim paneli, gizlilik sayfası) örnek veriyle (`seedDemo`); `Demo` iş akışı `demo-site` dalına ve main'de GitHub Pages'e yayımlar | ✅ | #36 |
 | 34 | Gelişmiş hekim portalı: hekimin kendi kaydı (e-posta + PBKDF2 şifre, yönetici doğrulaması, doğrulanmamış hekim uygulamada uyarılır), hasta kayıtları ve kayda özel davetle bilekliğe bağlama, tüm türleri kapsayan tarih aralıklı rapor (özet, günlük grafikler, ESC/ESH tansiyon sınıfları, uyku evreleri, egzersiz, EKG, VO2 Max, eşiğe dayalı bulgular), yazdırma/PDF, CSV ve FHIR dışa aktarma; yeni paylaşım türleri solunum ve vücut ölçüleri | ✅ | (bu PR; bulgu eşikleri ve hekim doğrulama süreci klinik/hukuk ile gözden geçirilecek) |
 | 35 | Test portalı: portal sunucusu, portala bağlı uygulamanın web sürümü ve hekim paneli tek adreste; `portal-deploy` dalı ve Render şablonu. Panelde oluşturulan davet kodu uygulamada çalışır, uygulamanın ölçümleri panelde görünür | ✅ | #38 |
+| 36 | Tanıtım sitesi: `website/` tek sayfa statik site (tüm özellikler, paylaşım, KVKK, dört dil, SSS, test portalına bağlantılar), `website-deploy` dalı ve Render statik sitesi. Mağaza bağlantıları ve iletişim adresi yayın öncesi eklenecek | ✅ | #39 |
 
 ## Her madde için
 
