@@ -48,6 +48,7 @@ bir öncekinin dalı üzerine kurulur. Durum: ✅ bitti (PR açık ya da birleş
 | 36 | Tanıtım sitesi: `website/` tek sayfa statik site (tüm özellikler, paylaşım, KVKK, dört dil, SSS, test portalına bağlantılar), `website-deploy` dalı ve Render statik sitesi. Mağaza bağlantıları ve iletişim adresi yayın öncesi eklenecek | ✅ | #39 |
 | 40 | Hekim panelinde uyarı panosu (uzaktan izlem): rızalı hastanın verisi geldiğinde kurallar çalışır (SpO2 10 dk %90 altı, nabız 10 dk 120 üstü egzersiz dışında ya da 40 altı, tansiyon ≥180/120, ateş ≥38 °C, 24 saat veri yok). Ana sayfada açık uyarılar kritik önce, "Gördüm" + not, 15 dk yanıtsız kritik uyarı "Gecikti"; `/panel/alerts` 30 günlük kayıt ve ortanca yanıt süresi | ✅ | (bu PR; eşikler klinik gözden geçirme bekliyor, kademeli yükseltme karar bekliyor) |
 | 41 | Tanıtım sitesinde iş birliği (B2B) formu: distribütör, OEM/ODM, kurumsal sağlık, klinik; portalda `POST /inquiry` (anahtarsız, dakikada 10, bot tuzağı, aydınlatma onayı zorunlu), şifreli saklama, `--inquiries` ile okuma. Betiksiz tarayıcıda da çalışır | ✅ | (bu PR; yayında form adresi gerçek portala çevrilecek, başvurulara e-posta bildirimi yok) |
+| 42 | Hekim panelinde izlem notları ve görevler: hasta kaydına tarihli not ve son günlü görev, "Tamamlandı"; ana sayfada "Görevlerim" (gecikenler önce). Yalnızca kaydı açan hekim görür, kayıt silinince silinir | ✅ | (bu PR; ekip içi paylaşım ve vardiya, hasta rızası kapsamı netleşince) |
 
 ## Her madde için
 

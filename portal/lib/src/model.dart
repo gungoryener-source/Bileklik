@@ -685,3 +685,75 @@ class Inquiry {
     phone: j['phone'] as String?,
   );
 }
+
+/// Hasta kaydındaki bakım girdisinin türü: izlem notu ya da görev.
+enum CareKind { note, task }
+
+/// Hekimin hasta kaydına yazdığı izlem notu ya da görev. Yalnızca kaydı
+/// açan hekim görür; kayıt silinince birlikte silinir.
+class CareEntry {
+  const CareEntry({
+    required this.id,
+    required this.recordId,
+    required this.ownerId,
+    required this.kind,
+    required this.text,
+    required this.created,
+    this.due,
+    this.doneAt,
+  });
+
+  final String id;
+  final String recordId;
+  final String ownerId;
+  final CareKind kind;
+  final String text;
+  final DateTime created;
+
+  /// Görevin son günü (UTC gece yarısı).
+  final DateTime? due;
+  final DateTime? doneAt;
+
+  bool get open => kind == CareKind.task && doneAt == null;
+
+  /// [now] gününden önce bitmesi gereken açık görev.
+  bool overdueAt(DateTime now) {
+    final d = due;
+    if (!open || d == null) return false;
+    final today = DateTime.utc(now.year, now.month, now.day);
+    return d.isBefore(today);
+  }
+
+  CareEntry done(DateTime at) => CareEntry(
+    id: id,
+    recordId: recordId,
+    ownerId: ownerId,
+    kind: kind,
+    text: text,
+    created: created,
+    due: due,
+    doneAt: at,
+  );
+
+  Map<String, Object?> toJson() => {
+    'id': id,
+    'recordId': recordId,
+    'ownerId': ownerId,
+    'kind': kind.name,
+    'text': text,
+    'created': created.toUtc().toIso8601String(),
+    'due': due?.toUtc().toIso8601String(),
+    'doneAt': doneAt?.toUtc().toIso8601String(),
+  };
+
+  factory CareEntry.fromJson(Map<String, Object?> j) => CareEntry(
+    id: j['id']! as String,
+    recordId: j['recordId']! as String,
+    ownerId: j['ownerId']! as String,
+    kind: CareKind.values.byName(j['kind']! as String),
+    text: j['text']! as String,
+    created: DateTime.parse(j['created']! as String),
+    due: j['due'] == null ? null : DateTime.parse(j['due']! as String),
+    doneAt: j['doneAt'] == null ? null : DateTime.parse(j['doneAt']! as String),
+  );
+}

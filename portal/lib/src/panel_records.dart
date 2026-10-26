@@ -348,6 +348,7 @@ ${fact('createdAt', PanelApi._date(t, rec.created))}
 <h2>${esc(c['linkTitle'])}</h2>
 $wristband
 </section>
+${_careSection(t, c, s, rec, now)}
 <details class="card"${form == null ? '' : ' open'}>
 <summary><strong>${esc(c['editRecord'])}</strong></summary>
 ${_recordForm(t, s, action: '/panel/records/${rec.id}', rec: rec, form: form)}

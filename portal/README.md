@@ -147,6 +147,14 @@ seçilir ve çerezde kalır, Arapçada sayfa sağdan sola.
   enjeksiyonuna karşı korumalı) ve FHIR Bundle (JSON; EKG ham örnekleri
   dahil). Her rapor ve dışa aktarma erişim kaydına geçer.
 
+### İzlem notları ve görevler
+
+Hasta kaydı sayfasında hekim tarihli not (görüşme, ilaç değişikliği,
+telefon) ve son günlü görev ekler (`POST /panel/records/<id>/care`);
+görev "Tamamlandı" ile kapanır (`…/care/<kayıt>/done`). Ana sayfadaki
+"Görevlerim" açık görevleri gecikenler önce listeler. Notlar yalnızca kaydı
+açan hekime görünür, şifreli depoda durur ve kayıt silinince silinir.
+
 ### Uyarılar (uzaktan izlem)
 
 Hasta veri yükleyince ve hekim paneli açınca `AlertEngine`

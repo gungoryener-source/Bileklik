@@ -16,6 +16,7 @@ import 'store.dart';
 
 part 'panel_account.dart';
 part 'panel_alerts.dart';
+part 'panel_care.dart';
 part 'panel_records.dart';
 part 'panel_report.dart';
 
@@ -129,6 +130,14 @@ class PanelApi {
     ..post(
       '/panel/records/<id>/delete',
       (Request r, String id) => _deleteRecord(r, id),
+    )
+    ..post(
+      '/panel/records/<id>/care',
+      (Request r, String id) => _addCare(r, id),
+    )
+    ..post(
+      '/panel/records/<id>/care/<entry>/done',
+      (Request r, String id, String entry) => _careDone(r, id, entry),
     )
     ..get('/panel/patients/<id>', _patient)
     ..get(
@@ -371,6 +380,7 @@ ${shown.isEmpty ? '<p class="muted">${_h(c['noMatch'])}</p>' : '''
 <div class="stat ${openAlerts.isEmpty ? 'ok' : 'danger'}"><b>${openAlerts.length}</b><span>${_h(c['statAlerts'])}</span></div>
 </div>
 ${_openAlertsHtml(t, c, s, me, openAlerts, now)}
+${_myTasksHtml(t, c, s, me, now)}
 <h2>${_h(c['recordsTitle'])}</h2>
 $recordsHtml
 <h2>${_h(c['unlinkedTitle'])}</h2>
@@ -930,6 +940,10 @@ tr.row-alert td:first-child { box-shadow: inset 3px 0 0 var(--danger); }
 [dir="rtl"] tr.row-alert td:first-child { box-shadow: inset -3px 0 0 var(--danger); }
 form.ack { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; margin: 0; }
 form.ack input { min-width: 0; flex: 1 1 140px; }
+ul.care, ol.care { list-style: none; padding: 0; margin: 8px 0 16px; display: grid; gap: 8px; }
+.care li { display: flex; gap: 12px; align-items: center; justify-content: space-between; flex-wrap: wrap; padding: 10px 12px; border: 1px solid var(--line); border-radius: 10px; }
+.care li p { margin: 4px 0 0; }
+.pre { white-space: pre-wrap; overflow-wrap: anywhere; }
 dl.facts { display: grid; grid-template-columns: max-content 1fr; gap: 8px 20px; margin: 0; }
 dl.facts dt { color: var(--muted); font-weight: 600; }
 dl.facts dd { margin: 0; overflow-wrap: anywhere; font-weight: 600; }

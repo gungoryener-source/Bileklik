@@ -312,6 +312,26 @@ class ClinicText {
     'alertNotFound': 'Uyarı bulunamadı ya da zaten kapatılmış.',
     'alertRulesNote':
         'Uyarılar yalnızca hastanın sizinle paylaştığı türlerden üretilir ve karar destek içindir, tanı koymaz. Eşikler: SpO2 en az 10 dk %{spo2} altında; nabız en az 10 dk {hrHigh} üstünde (egzersiz dışında) ya da {hrLow} altında; tansiyon {sys}/{dia} ve üstü; ısı {temp} °C ve üstü; {hours} saattir veri yok. Kritik uyarı {overdue} dk içinde yanıtlanmazsa "Gecikti" olur.',
+    // İzlem notları ve görevler
+    'careTitle': 'İzlem notları ve görevler',
+    'tasksTitle': 'Açık görevler',
+    'tasksNone': 'Açık görev yok.',
+    'taskText': 'Görev',
+    'taskDueLabel': 'Son gün',
+    'taskAdd': 'Görev ekle',
+    'taskDone': 'Tamamlandı',
+    'taskToday': 'Bugün',
+    'taskDue': '{date}',
+    'taskOverdue': 'Gecikti ({date})',
+    'taskDoneLabel': 'Görev tamamlandı',
+    'notesTitle': 'Notlar',
+    'notesNone': 'Henüz not yok.',
+    'noteText': 'Yeni not (görüşme, ilaç değişikliği, telefon)',
+    'noteAdd': 'Not ekle',
+    'noteLabel': 'Not',
+    'careInvalid': 'Metin boş ya da çok uzun, ya da tarih geçersiz.',
+    'myTasks': 'Görevlerim',
+    'tasksMore': '{n} görev daha; hasta kayıtlarında.',
   });
 
   static const en = ClinicText._('en', {
@@ -587,6 +607,26 @@ class ClinicText {
     'alertNotFound': 'Alert not found or already closed.',
     'alertRulesNote':
         'Alerts come only from the data types the patient shares with you; they support decisions and do not diagnose. Thresholds: SpO2 below {spo2}% for at least 10 min; heart rate above {hrHigh} (outside workouts) or below {hrLow} for at least 10 min; blood pressure {sys}/{dia} or higher; temperature {temp} °C or higher; no data for {hours} hours. A critical alert becomes "Overdue" if not acknowledged within {overdue} min.',
+    // İzlem notları ve görevler
+    'careTitle': 'Care notes and tasks',
+    'tasksTitle': 'Open tasks',
+    'tasksNone': 'No open tasks.',
+    'taskText': 'Task',
+    'taskDueLabel': 'Due',
+    'taskAdd': 'Add task',
+    'taskDone': 'Done',
+    'taskToday': 'Today',
+    'taskDue': '{date}',
+    'taskOverdue': 'Overdue ({date})',
+    'taskDoneLabel': 'Task done',
+    'notesTitle': 'Notes',
+    'notesNone': 'No notes yet.',
+    'noteText': 'New note (visit, medication change, call)',
+    'noteAdd': 'Add note',
+    'noteLabel': 'Note',
+    'careInvalid': 'The text is empty or too long, or the date is invalid.',
+    'myTasks': 'My tasks',
+    'tasksMore': '{n} more tasks in patient records.',
   });
 
   static const ar = ClinicText._('ar', {
@@ -860,6 +900,26 @@ class ClinicText {
     'alertNotFound': 'التنبيه غير موجود أو أُغلق بالفعل.',
     'alertRulesNote':
         'تُنشأ التنبيهات فقط من أنواع البيانات التي يشاركها المريض معك، وهي لدعم القرار ولا تقدّم تشخيصًا. الحدود: SpO2 أقل من {spo2}٪ لمدة 10 دقائق على الأقل؛ النبض أعلى من {hrHigh} (خارج التمرين) أو أقل من {hrLow} لمدة 10 دقائق على الأقل؛ ضغط الدم {sys}/{dia} أو أعلى؛ الحرارة {temp} °م أو أعلى؛ لا بيانات منذ {hours} ساعة. يصبح التنبيه الحرج "متأخرًا" إذا لم تتم مراجعته خلال {overdue} دقيقة.',
+    // İzlem notları ve görevler
+    'careTitle': 'ملاحظات المتابعة والمهام',
+    'tasksTitle': 'المهام المفتوحة',
+    'tasksNone': 'لا توجد مهام مفتوحة.',
+    'taskText': 'المهمة',
+    'taskDueLabel': 'آخر موعد',
+    'taskAdd': 'إضافة مهمة',
+    'taskDone': 'تم',
+    'taskToday': 'اليوم',
+    'taskDue': '{date}',
+    'taskOverdue': 'متأخرة ({date})',
+    'taskDoneLabel': 'اكتملت المهمة',
+    'notesTitle': 'الملاحظات',
+    'notesNone': 'لا توجد ملاحظات بعد.',
+    'noteText': 'ملاحظة جديدة (زيارة، تغيير دواء، اتصال)',
+    'noteAdd': 'إضافة ملاحظة',
+    'noteLabel': 'ملاحظة',
+    'careInvalid': 'النص فارغ أو طويل جدًا، أو التاريخ غير صالح.',
+    'myTasks': 'مهامي',
+    'tasksMore': '{n} مهام أخرى في سجلات المرضى.',
   });
 
   static const de = ClinicText._('de', {
@@ -1139,5 +1199,26 @@ class ClinicText {
     'alertNotFound': 'Warnung nicht gefunden oder bereits geschlossen.',
     'alertRulesNote':
         'Warnungen entstehen nur aus den Datenarten, die der Patient mit Ihnen teilt; sie unterstützen Entscheidungen und stellen keine Diagnose. Schwellen: SpO2 mindestens 10 Min. unter {spo2} %; Puls mindestens 10 Min. über {hrHigh} (außerhalb von Training) oder unter {hrLow}; Blutdruck {sys}/{dia} oder höher; Temperatur {temp} °C oder höher; seit {hours} Stunden keine Daten. Eine kritische Warnung wird „Überfällig“, wenn sie nicht innerhalb von {overdue} Min. bestätigt wird.',
+    // İzlem notları ve görevler
+    'careTitle': 'Verlaufsnotizen und Aufgaben',
+    'tasksTitle': 'Offene Aufgaben',
+    'tasksNone': 'Keine offenen Aufgaben.',
+    'taskText': 'Aufgabe',
+    'taskDueLabel': 'Fällig',
+    'taskAdd': 'Aufgabe hinzufügen',
+    'taskDone': 'Erledigt',
+    'taskToday': 'Heute',
+    'taskDue': '{date}',
+    'taskOverdue': 'Überfällig ({date})',
+    'taskDoneLabel': 'Aufgabe erledigt',
+    'notesTitle': 'Notizen',
+    'notesNone': 'Noch keine Notizen.',
+    'noteText': 'Neue Notiz (Termin, Medikamentenänderung, Anruf)',
+    'noteAdd': 'Notiz hinzufügen',
+    'noteLabel': 'Notiz',
+    'careInvalid':
+        'Der Text ist leer oder zu lang, oder das Datum ist ungültig.',
+    'myTasks': 'Meine Aufgaben',
+    'tasksMore': '{n} weitere Aufgaben in den Patientenakten.',
   });
 }

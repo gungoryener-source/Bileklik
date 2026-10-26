@@ -169,6 +169,53 @@ Future<void> seedDemo(PortalApi api, {DateTime? now, Random? random}) async {
   );
   await accept(c2, DemoTokens.patients[1], hf);
 
+  // İzlem notları ve görevler.
+  final today = DateTime.utc(t.year, t.month, t.day);
+  void care(
+    String rec,
+    CareKind kind,
+    String text,
+    int daysAgo, {
+    int? dueIn,
+  }) => store.putCare(
+    CareEntry(
+      id: store.nextId('care'),
+      recordId: rec,
+      ownerId: 'dr-demo',
+      kind: kind,
+      text: text,
+      created: t.subtract(Duration(days: daysAgo, hours: 2)),
+      due: dueIn == null ? null : today.add(Duration(days: dueIn)),
+    ),
+  );
+  care(
+    'rec-demo-1',
+    CareKind.note,
+    'Holter: sık SVES, kısa SVT atağı yok. Bisoprolol 2,5 mg başlandı.',
+    14,
+  );
+  care(
+    'rec-demo-1',
+    CareKind.task,
+    'Çarpıntı uyarısı sonrası hastayı ara',
+    0,
+    dueIn: 0,
+  );
+  care('rec-demo-1', CareKind.task, 'Kontrol randevusu ver', 3, dueIn: 10);
+  care(
+    'rec-demo-2',
+    CareKind.note,
+    'Diüretik dozu azaltıldı; günlük kilo takibine devam.',
+    6,
+  );
+  care(
+    'rec-demo-2',
+    CareKind.task,
+    'Haftalık kilo eğilimini gözden geçir',
+    9,
+    dueIn: -2,
+  );
+
   // Kayda bağlanmamış bağlantı: hekim panelde bir kayda bağlayabilir.
   const apnea = ['sleep', 'spo2', 'respiration', 'heartRate'];
   await accept(

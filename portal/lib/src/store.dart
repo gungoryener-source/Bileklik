@@ -103,6 +103,16 @@ abstract class PortalStore {
   /// Hastanın uyarılarını siler (unutulma hakkı).
   void deleteAlertsFor(String patientId);
 
+  /// İzlem notu ya da görevi ekler veya aynı kimlikliyi değiştirir.
+  void putCare(CareEntry e);
+  CareEntry? care(String id);
+
+  /// Kaydın notları ve görevleri, yeniden eskiye.
+  List<CareEntry> careOf(String recordId);
+
+  /// Hekimin tüm kayıtlarındaki açık görevler.
+  List<CareEntry> openTasksOf(String ownerId);
+
   /// Yeni kayıtlar için benzersiz kimlik.
   String nextId(String prefix);
 }
@@ -129,7 +139,26 @@ class MemoryPortalStore implements PortalStore {
   final _passwords = <String, String>{};
   final _records = <String, PatientRecord>{};
   final _alerts = <String, Alert>{};
+  final _care = <String, CareEntry>{};
   var _seq = 0;
+
+  @override
+  void putCare(CareEntry e) => _care[e.id] = e;
+
+  @override
+  CareEntry? care(String id) => _care[id];
+
+  @override
+  List<CareEntry> careOf(String recordId) => [
+    for (final e in _care.values)
+      if (e.recordId == recordId) e,
+  ]..sort((a, b) => b.created.compareTo(a.created));
+
+  @override
+  List<CareEntry> openTasksOf(String ownerId) => [
+    for (final e in _care.values)
+      if (e.ownerId == ownerId && e.open) e,
+  ];
 
   @override
   void putAlert(Alert a) => _alerts[a.id] = a;
@@ -189,7 +218,10 @@ class MemoryPortalStore implements PortalStore {
   ]..sort((a, b) => b.created.compareTo(a.created));
 
   @override
-  void deleteRecord(String id) => _records.remove(id);
+  void deleteRecord(String id) {
+    _records.remove(id);
+    _care.removeWhere((_, e) => e.recordId == id);
+  }
 
   @override
   void addAccount(Account a, String token) {
