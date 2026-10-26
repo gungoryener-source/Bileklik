@@ -986,5 +986,191 @@
       "start": {},
       "end": {}
     }
-  }
+  },
+  "zonesTitle": "Nabız bölgeleri",
+  "zoneWarmUp": "Isınma",
+  "zoneFatBurn": "Yağ yakma",
+  "zoneAerobic": "Aerobik",
+  "zoneAnaerobic": "Anaerobik",
+  "zoneMaximum": "Azami",
+  "zonesNeedsAge": "Bölgeler için Kişisel bilgiler'e yaşınızı girin.",
+  "zonesEmpty": "Bu dönemde ısınma bölgesinin üstünde nabız yok.",
+  "zonesNote": "Azami nabzınız yaşınızdan tahmin edildi: {max} (208 − 0,7 × yaş). Bölgeler bu değerin yüzdesidir.",
+  "@zonesNote": {
+    "placeholders": {
+      "max": {
+        "type": "String"
+      }
+    }
+  },
+  "zoneSemantics": "{zone}, {range}: {time}",
+  "@zoneSemantics": {
+    "placeholders": {
+      "zone": {
+        "type": "String"
+      },
+      "range": {
+        "type": "String"
+      },
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "tempDevTitle": "Olağan ısınıza göre",
+  "tempDevBaseline": "Olağan ısınız {value}: ölçümlü ilk {days} gününüzün ortalaması ({from} – {to}).",
+  "@tempDevBaseline": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      },
+      "days": {
+        "type": "int"
+      },
+      "from": {
+        "type": "String"
+      },
+      "to": {
+        "type": "String"
+      }
+    }
+  },
+  "tempDevNeedsData": "Olağan ısınızın belirlenmesi için en az {days} gün ölçüm gerekiyor.",
+  "@tempDevNeedsData": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "tempDevAverage": "Bu dönemin farkı: {value}",
+  "@tempDevAverage": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "tempDevNote": "Bilekten ölçülen ısı vücut içi ısıdan farklıdır; yalnızca değişimi izlemek içindir.",
+  "bioAgeTitle": "Biyolojik yaş",
+  "bioAgeChronological": "Takvim yaşınız {age}",
+  "@bioAgeChronological": {
+    "placeholders": {
+      "age": {
+        "type": "int"
+      }
+    }
+  },
+  "bioAgeYounger": "{years} yaş daha genç",
+  "@bioAgeYounger": {
+    "placeholders": {
+      "years": {
+        "type": "int"
+      }
+    }
+  },
+  "bioAgeOlder": "{years} yaş daha büyük",
+  "@bioAgeOlder": {
+    "placeholders": {
+      "years": {
+        "type": "int"
+      }
+    }
+  },
+  "bioAgeSame": "Takvim yaşınızla aynı",
+  "bioAgeNeedsAge": "Biyolojik yaş için Kişisel bilgiler'e yaşınızı girin (18–90).",
+  "bioAgeNeedsData": "Biyolojik yaş için son 21 günde en az {days} gün nabız ve adım ya da uyku verisi gerekiyor.",
+  "@bioAgeNeedsData": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "bioAgeRestingHr": "Dinlenik nabız",
+  "bioAgeSteps": "Günlük adım",
+  "bioAgeSleep": "Gece uykusu",
+  "bioAgeBmi": "Vücut kitle indeksi",
+  "bioAgeYears": "{value} yaş",
+  "@bioAgeYears": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "bioAgeTrend": "Son 8 hafta",
+  "bioAgeNote": "Son 21 günün dinlenik nabzı, adımı, uykusu ve VKİ'sinden uygulamanın kendi tahminidir; tıbbi bir ölçüm değildir.",
+  "bioAgeSemantics": "Biyolojik yaş {age}, {difference}",
+  "@bioAgeSemantics": {
+    "placeholders": {
+      "age": {
+        "type": "int"
+      },
+      "difference": {
+        "type": "String"
+      }
+    }
+  },
+  "radarTitle": "Sağlık Radarı",
+  "radarCollecting": "Olağan değerleriniz öğreniliyor: {nights}/{needed} gece.",
+  "@radarCollecting": {
+    "placeholders": {
+      "nights": {
+        "type": "int"
+      },
+      "needed": {
+        "type": "int"
+      }
+    }
+  },
+  "radarNoTonight": "Son gecenin verisi yok. Radar için bilekliği gece de takın.",
+  "radarAllClear": "Son gece olağan aralığınızdaydı.",
+  "radarWatch": "Son gece bir değer olağanınızdan saptı.",
+  "radarStrong": "Birkaç değer birlikte saptı. Bugün dinlenmeye zaman ayırın; kendinizi iyi hissetmiyorsanız bir hekime danışın.",
+  "radarHeartRateUp": "Gece nabzı {value}, olağan {base}",
+  "@radarHeartRateUp": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      },
+      "base": {
+        "type": "String"
+      }
+    }
+  },
+  "radarHrvDown": "Gece HRV'si {value}, olağan {base}",
+  "@radarHrvDown": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      },
+      "base": {
+        "type": "String"
+      }
+    }
+  },
+  "radarTemperatureUp": "Gece ısısı {value}, olağan {base}",
+  "@radarTemperatureUp": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      },
+      "base": {
+        "type": "String"
+      }
+    }
+  },
+  "radarSpo2Down": "Gece oksijeni {value}, olağan {base}",
+  "@radarSpo2Down": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      },
+      "base": {
+        "type": "String"
+      }
+    }
+  },
+  "radarNote": "Her gece son 14 gecenizle karşılaştırılır. Tanı koymaz. Göğüs ağrısı, nefes darlığı ya da bayılma hissinde acil yardım numarasını arayın."
 }

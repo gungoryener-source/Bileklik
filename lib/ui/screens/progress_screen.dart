@@ -6,6 +6,7 @@ import '../app_shell.dart';
 import '../format.dart';
 import '../theme.dart';
 import '../widgets/cam/cam.dart';
+import '../widgets/insights.dart';
 
 extension EnergyLevelText on EnergyLevel {
   String get label => switch (this) {
@@ -85,7 +86,10 @@ class EnergyCard extends StatelessWidget {
               size: 56,
               child: Text(
                 e?.score.toString() ?? l.noValue,
-                style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w800),
+                style: const TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w800,
+                ),
               ),
             ),
             const SizedBox(width: 14),
@@ -149,6 +153,14 @@ class _ProgressScreenState extends State<ProgressScreen> {
               padding: const EdgeInsets.fromLTRB(16, 8, 16, 24),
               children: [
                 _EnergySection(energy: energy, day: widget.day),
+                const SizedBox(height: 12),
+                HealthRadarCard(store: store, day: widget.day, showNote: true),
+                const SizedBox(height: 12),
+                BiologicalAgeCard(
+                  store: store,
+                  day: widget.day,
+                  age: DeviceScope.of(context).profile?.age,
+                ),
                 const SizedBox(height: 28),
                 Row(
                   children: [
@@ -180,7 +192,9 @@ class _ProgressScreenState extends State<ProgressScreen> {
                   l.metricDetailWeekRange(
                     dayMonth(report.current.range.start),
                     dayMonth(
-                      report.current.range.end.subtract(const Duration(days: 1)),
+                      report.current.range.end.subtract(
+                        const Duration(days: 1),
+                      ),
                     ),
                   ),
                   style: TextStyle(color: context.colors.muted),
@@ -218,7 +232,9 @@ class _EnergySection extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 6),
       child: Row(
         children: [
-          Expanded(child: Text(label, style: TextStyle(color: colors.muted))),
+          Expanded(
+            child: Text(label, style: TextStyle(color: colors.muted)),
+          ),
           Text(value, style: const TextStyle(fontWeight: FontWeight.w700)),
         ],
       ),
@@ -238,7 +254,10 @@ class _EnergySection extends StatelessWidget {
               size: 120,
               child: Text(
                 e?.score.toString() ?? l.noValue,
-                style: const TextStyle(fontSize: 36, fontWeight: FontWeight.w800),
+                style: const TextStyle(
+                  fontSize: 36,
+                  fontWeight: FontWeight.w800,
+                ),
               ),
             ),
           ),
@@ -280,14 +299,21 @@ class _WeeklyReportCard extends StatelessWidget {
     }
 
     /// Bir satır: ad, değer ve önceki haftaya göre değişim.
-    Widget row(String label, String value, int? change, {bool lowerIsBetter = false}) {
+    Widget row(
+      String label,
+      String value,
+      int? change, {
+      bool lowerIsBetter = false,
+    }) {
       final up = change != null && change > 0;
       final good = change == null || change == 0 ? null : up != lowerIsBetter;
       return Padding(
         padding: const EdgeInsets.symmetric(vertical: 8),
         child: Row(
           children: [
-            Expanded(child: Text(label, style: TextStyle(color: colors.muted))),
+            Expanded(
+              child: Text(label, style: TextStyle(color: colors.muted)),
+            ),
             Text(value, style: const TextStyle(fontWeight: FontWeight.w700)),
             SizedBox(
               width: 72,

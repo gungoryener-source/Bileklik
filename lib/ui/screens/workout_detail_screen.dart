@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 
 import '../../data/models.dart';
 import '../../l10n/l10n.dart';
+import '../app_shell.dart';
 import '../format.dart';
 import '../theme.dart';
 import '../widgets/stat_tile.dart';
 import '../widgets/cam/cam.dart';
+import '../widgets/insights.dart';
 
 /// Bir egzersizin özeti.
 class WorkoutDetailScreen extends StatelessWidget {
@@ -25,6 +27,12 @@ class WorkoutDetailScreen extends StatelessWidget {
     final w = workout;
     final hasDistance = w.distanceKm > 0.01;
     final l = context.l10n;
+    final device = DeviceScope.of(context);
+    final heartRate = device.store.measurements(
+      MetricType.heartRate,
+      w.start,
+      w.end,
+    );
     final stats = [
       (l.statDuration, clock(w.duration), ''),
       (
@@ -107,6 +115,10 @@ class WorkoutDetailScreen extends StatelessWidget {
                 StatTile(label, value, unit: unit),
             ],
           ),
+          if (heartRate.isNotEmpty) ...[
+            const SizedBox(height: 16),
+            HeartRateZonesCard(heartRate: heartRate, age: device.profile?.age),
+          ],
         ],
       ),
     );

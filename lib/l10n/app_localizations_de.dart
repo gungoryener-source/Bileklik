@@ -2326,4 +2326,180 @@ class AppLocalizationsDe extends AppLocalizations {
   String workoutTimeRange(Object day, Object start, Object end) {
     return '$day · $start–$end';
   }
+
+  @override
+  String get zonesTitle => 'Herzfrequenzzonen';
+
+  @override
+  String get zoneWarmUp => 'Aufwärmen';
+
+  @override
+  String get zoneFatBurn => 'Fettverbrennung';
+
+  @override
+  String get zoneAerobic => 'Aerob';
+
+  @override
+  String get zoneAnaerobic => 'Anaerob';
+
+  @override
+  String get zoneMaximum => 'Maximal';
+
+  @override
+  String get zonesNeedsAge =>
+      'Geben Sie Ihr Alter unter Persönliche Angaben ein, um die Zonen zu sehen.';
+
+  @override
+  String get zonesEmpty =>
+      'In diesem Zeitraum kein Puls oberhalb der Aufwärmzone.';
+
+  @override
+  String zonesNote(String max) {
+    return 'Ihre maximale Herzfrequenz wurde aus Ihrem Alter geschätzt: $max (208 − 0,7 × Alter). Die Zonen sind Prozentsätze davon.';
+  }
+
+  @override
+  String zoneSemantics(String zone, String range, String time) {
+    return '$zone, $range: $time';
+  }
+
+  @override
+  String get tempDevTitle => 'Im Vergleich zu Ihrer üblichen Temperatur';
+
+  @override
+  String tempDevBaseline(String value, int days, String from, String to) {
+    return 'Ihre übliche Temperatur ist $value: der Durchschnitt Ihrer ersten $days Tage mit Messungen ($from – $to).';
+  }
+
+  @override
+  String tempDevNeedsData(int days) {
+    return 'Für Ihre übliche Temperatur sind Messungen an mindestens $days Tagen nötig.';
+  }
+
+  @override
+  String tempDevAverage(String value) {
+    return 'Abweichung in diesem Zeitraum: $value';
+  }
+
+  @override
+  String get tempDevNote =>
+      'Die Handgelenktemperatur unterscheidet sich von der Körperkerntemperatur; sie dient nur dazu, Veränderungen zu verfolgen.';
+
+  @override
+  String get bioAgeTitle => 'Biologisches Alter';
+
+  @override
+  String bioAgeChronological(int age) {
+    return 'Ihr kalendarisches Alter ist $age';
+  }
+
+  @override
+  String bioAgeYounger(int years) {
+    String _temp0 = intl.Intl.pluralLogic(
+      years,
+      locale: localeName,
+      other: '$years Jahre jünger',
+      one: '1 Jahr jünger',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String bioAgeOlder(int years) {
+    String _temp0 = intl.Intl.pluralLogic(
+      years,
+      locale: localeName,
+      other: '$years Jahre älter',
+      one: '1 Jahr älter',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get bioAgeSame => 'Wie Ihr kalendarisches Alter';
+
+  @override
+  String get bioAgeNeedsAge =>
+      'Geben Sie Ihr Alter unter Persönliche Angaben ein (18–90), um Ihr biologisches Alter zu sehen.';
+
+  @override
+  String bioAgeNeedsData(int days) {
+    return 'Für das biologische Alter sind Puls und Schritte oder Schlaf an mindestens $days der letzten 21 Tage nötig.';
+  }
+
+  @override
+  String get bioAgeRestingHr => 'Ruhepuls';
+
+  @override
+  String get bioAgeSteps => 'Tägliche Schritte';
+
+  @override
+  String get bioAgeSleep => 'Nachtschlaf';
+
+  @override
+  String get bioAgeBmi => 'Body-Mass-Index';
+
+  @override
+  String bioAgeYears(String value) {
+    return '$value J.';
+  }
+
+  @override
+  String get bioAgeTrend => 'Letzte 8 Wochen';
+
+  @override
+  String get bioAgeNote =>
+      'Eine eigene Schätzung der App aus Ruhepuls, Schritten, Schlaf und BMI der letzten 21 Tage; keine medizinische Messung.';
+
+  @override
+  String bioAgeSemantics(int age, String difference) {
+    return 'Biologisches Alter $age, $difference';
+  }
+
+  @override
+  String get radarTitle => 'Gesundheitsradar';
+
+  @override
+  String radarCollecting(int nights, int needed) {
+    return 'Ihre üblichen Werte werden gelernt: $nights/$needed Nächte.';
+  }
+
+  @override
+  String get radarNoTonight =>
+      'Keine Daten von letzter Nacht. Tragen Sie das Armband auch nachts für das Radar.';
+
+  @override
+  String get radarAllClear => 'Die letzte Nacht lag in Ihrem üblichen Bereich.';
+
+  @override
+  String get radarWatch =>
+      'Ein Wert der letzten Nacht wich von Ihrem Üblichen ab.';
+
+  @override
+  String get radarStrong =>
+      'Mehrere Werte haben sich gleichzeitig verändert. Gönnen Sie sich heute Ruhe und gehen Sie zum Arzt, wenn Sie sich unwohl fühlen.';
+
+  @override
+  String radarHeartRateUp(String value, String base) {
+    return 'Nachtpuls $value, üblich $base';
+  }
+
+  @override
+  String radarHrvDown(String value, String base) {
+    return 'Nacht-HRV $value, üblich $base';
+  }
+
+  @override
+  String radarTemperatureUp(String value, String base) {
+    return 'Nachttemperatur $value, üblich $base';
+  }
+
+  @override
+  String radarSpo2Down(String value, String base) {
+    return 'Nächtlicher Sauerstoff $value, üblich $base';
+  }
+
+  @override
+  String get radarNote =>
+      'Jede Nacht wird mit Ihren letzten 14 Nächten verglichen. Es stellt keine Diagnose. Bei Brustschmerzen, Atemnot oder Schwindel rufen Sie den Notruf.';
 }

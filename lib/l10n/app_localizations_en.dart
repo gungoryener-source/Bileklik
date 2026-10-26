@@ -2320,4 +2320,179 @@ class AppLocalizationsEn extends AppLocalizations {
   String workoutTimeRange(Object day, Object start, Object end) {
     return '$day · $start – $end';
   }
+
+  @override
+  String get zonesTitle => 'Heart rate zones';
+
+  @override
+  String get zoneWarmUp => 'Warm-up';
+
+  @override
+  String get zoneFatBurn => 'Fat burn';
+
+  @override
+  String get zoneAerobic => 'Aerobic';
+
+  @override
+  String get zoneAnaerobic => 'Anaerobic';
+
+  @override
+  String get zoneMaximum => 'Maximum';
+
+  @override
+  String get zonesNeedsAge => 'Enter your age in Personal info to see zones.';
+
+  @override
+  String get zonesEmpty =>
+      'No heart rate above the warm-up zone in this period.';
+
+  @override
+  String zonesNote(String max) {
+    return 'Your maximum heart rate is estimated from your age: $max (208 − 0.7 × age). Zones are percentages of it.';
+  }
+
+  @override
+  String zoneSemantics(String zone, String range, String time) {
+    return '$zone, $range: $time';
+  }
+
+  @override
+  String get tempDevTitle => 'Compared with your usual temperature';
+
+  @override
+  String tempDevBaseline(String value, int days, String from, String to) {
+    return 'Your usual temperature is $value: the average of your first $days days with readings ($from – $to).';
+  }
+
+  @override
+  String tempDevNeedsData(int days) {
+    return 'At least $days days of readings are needed to set your usual temperature.';
+  }
+
+  @override
+  String tempDevAverage(String value) {
+    return 'Difference in this period: $value';
+  }
+
+  @override
+  String get tempDevNote =>
+      'Wrist temperature differs from core body temperature; use it only to follow changes.';
+
+  @override
+  String get bioAgeTitle => 'Biological age';
+
+  @override
+  String bioAgeChronological(int age) {
+    return 'Your calendar age is $age';
+  }
+
+  @override
+  String bioAgeYounger(int years) {
+    String _temp0 = intl.Intl.pluralLogic(
+      years,
+      locale: localeName,
+      other: '$years years younger',
+      one: '1 year younger',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String bioAgeOlder(int years) {
+    String _temp0 = intl.Intl.pluralLogic(
+      years,
+      locale: localeName,
+      other: '$years years older',
+      one: '1 year older',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get bioAgeSame => 'Same as your calendar age';
+
+  @override
+  String get bioAgeNeedsAge =>
+      'Enter your age in Personal info (18–90) to see your biological age.';
+
+  @override
+  String bioAgeNeedsData(int days) {
+    return 'Biological age needs heart rate and steps or sleep on at least $days of the last 21 days.';
+  }
+
+  @override
+  String get bioAgeRestingHr => 'Resting heart rate';
+
+  @override
+  String get bioAgeSteps => 'Daily steps';
+
+  @override
+  String get bioAgeSleep => 'Night sleep';
+
+  @override
+  String get bioAgeBmi => 'Body mass index';
+
+  @override
+  String bioAgeYears(String value) {
+    return '$value y';
+  }
+
+  @override
+  String get bioAgeTrend => 'Last 8 weeks';
+
+  @override
+  String get bioAgeNote =>
+      'The app\'s own estimate from the last 21 days of resting heart rate, steps, sleep and BMI; it is not a medical measurement.';
+
+  @override
+  String bioAgeSemantics(int age, String difference) {
+    return 'Biological age $age, $difference';
+  }
+
+  @override
+  String get radarTitle => 'Health Radar';
+
+  @override
+  String radarCollecting(int nights, int needed) {
+    return 'Learning your usual values: $nights/$needed nights.';
+  }
+
+  @override
+  String get radarNoTonight =>
+      'No data from last night. Wear the wristband at night for the radar.';
+
+  @override
+  String get radarAllClear => 'Last night was within your usual range.';
+
+  @override
+  String get radarWatch =>
+      'One value from last night differed from your usual.';
+
+  @override
+  String get radarStrong =>
+      'Several values changed together. Take it easy today, and see a doctor if you feel unwell.';
+
+  @override
+  String radarHeartRateUp(String value, String base) {
+    return 'Night heart rate $value, usually $base';
+  }
+
+  @override
+  String radarHrvDown(String value, String base) {
+    return 'Night HRV $value, usually $base';
+  }
+
+  @override
+  String radarTemperatureUp(String value, String base) {
+    return 'Night temperature $value, usually $base';
+  }
+
+  @override
+  String radarSpo2Down(String value, String base) {
+    return 'Night blood oxygen $value, usually $base';
+  }
+
+  @override
+  String get radarNote =>
+      'Each night is compared with your last 14 nights. It does not diagnose. If you have chest pain, shortness of breath or feel faint, call your local emergency number.';
 }

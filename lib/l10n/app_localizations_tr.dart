@@ -2288,4 +2288,166 @@ class AppLocalizationsTr extends AppLocalizations {
   String workoutTimeRange(Object day, Object start, Object end) {
     return '$day · $start - $end';
   }
+
+  @override
+  String get zonesTitle => 'Nabız bölgeleri';
+
+  @override
+  String get zoneWarmUp => 'Isınma';
+
+  @override
+  String get zoneFatBurn => 'Yağ yakma';
+
+  @override
+  String get zoneAerobic => 'Aerobik';
+
+  @override
+  String get zoneAnaerobic => 'Anaerobik';
+
+  @override
+  String get zoneMaximum => 'Azami';
+
+  @override
+  String get zonesNeedsAge =>
+      'Bölgeler için Kişisel bilgiler\'e yaşınızı girin.';
+
+  @override
+  String get zonesEmpty => 'Bu dönemde ısınma bölgesinin üstünde nabız yok.';
+
+  @override
+  String zonesNote(String max) {
+    return 'Azami nabzınız yaşınızdan tahmin edildi: $max (208 − 0,7 × yaş). Bölgeler bu değerin yüzdesidir.';
+  }
+
+  @override
+  String zoneSemantics(String zone, String range, String time) {
+    return '$zone, $range: $time';
+  }
+
+  @override
+  String get tempDevTitle => 'Olağan ısınıza göre';
+
+  @override
+  String tempDevBaseline(String value, int days, String from, String to) {
+    return 'Olağan ısınız $value: ölçümlü ilk $days gününüzün ortalaması ($from – $to).';
+  }
+
+  @override
+  String tempDevNeedsData(int days) {
+    return 'Olağan ısınızın belirlenmesi için en az $days gün ölçüm gerekiyor.';
+  }
+
+  @override
+  String tempDevAverage(String value) {
+    return 'Bu dönemin farkı: $value';
+  }
+
+  @override
+  String get tempDevNote =>
+      'Bilekten ölçülen ısı vücut içi ısıdan farklıdır; yalnızca değişimi izlemek içindir.';
+
+  @override
+  String get bioAgeTitle => 'Biyolojik yaş';
+
+  @override
+  String bioAgeChronological(int age) {
+    return 'Takvim yaşınız $age';
+  }
+
+  @override
+  String bioAgeYounger(int years) {
+    return '$years yaş daha genç';
+  }
+
+  @override
+  String bioAgeOlder(int years) {
+    return '$years yaş daha büyük';
+  }
+
+  @override
+  String get bioAgeSame => 'Takvim yaşınızla aynı';
+
+  @override
+  String get bioAgeNeedsAge =>
+      'Biyolojik yaş için Kişisel bilgiler\'e yaşınızı girin (18–90).';
+
+  @override
+  String bioAgeNeedsData(int days) {
+    return 'Biyolojik yaş için son 21 günde en az $days gün nabız ve adım ya da uyku verisi gerekiyor.';
+  }
+
+  @override
+  String get bioAgeRestingHr => 'Dinlenik nabız';
+
+  @override
+  String get bioAgeSteps => 'Günlük adım';
+
+  @override
+  String get bioAgeSleep => 'Gece uykusu';
+
+  @override
+  String get bioAgeBmi => 'Vücut kitle indeksi';
+
+  @override
+  String bioAgeYears(String value) {
+    return '$value yaş';
+  }
+
+  @override
+  String get bioAgeTrend => 'Son 8 hafta';
+
+  @override
+  String get bioAgeNote =>
+      'Son 21 günün dinlenik nabzı, adımı, uykusu ve VKİ\'sinden uygulamanın kendi tahminidir; tıbbi bir ölçüm değildir.';
+
+  @override
+  String bioAgeSemantics(int age, String difference) {
+    return 'Biyolojik yaş $age, $difference';
+  }
+
+  @override
+  String get radarTitle => 'Sağlık Radarı';
+
+  @override
+  String radarCollecting(int nights, int needed) {
+    return 'Olağan değerleriniz öğreniliyor: $nights/$needed gece.';
+  }
+
+  @override
+  String get radarNoTonight =>
+      'Son gecenin verisi yok. Radar için bilekliği gece de takın.';
+
+  @override
+  String get radarAllClear => 'Son gece olağan aralığınızdaydı.';
+
+  @override
+  String get radarWatch => 'Son gece bir değer olağanınızdan saptı.';
+
+  @override
+  String get radarStrong =>
+      'Birkaç değer birlikte saptı. Bugün dinlenmeye zaman ayırın; kendinizi iyi hissetmiyorsanız bir hekime danışın.';
+
+  @override
+  String radarHeartRateUp(String value, String base) {
+    return 'Gece nabzı $value, olağan $base';
+  }
+
+  @override
+  String radarHrvDown(String value, String base) {
+    return 'Gece HRV\'si $value, olağan $base';
+  }
+
+  @override
+  String radarTemperatureUp(String value, String base) {
+    return 'Gece ısısı $value, olağan $base';
+  }
+
+  @override
+  String radarSpo2Down(String value, String base) {
+    return 'Gece oksijeni $value, olağan $base';
+  }
+
+  @override
+  String get radarNote =>
+      'Her gece son 14 gecenizle karşılaştırılır. Tanı koymaz. Göğüs ağrısı, nefes darlığı ya da bayılma hissinde acil yardım numarasını arayın.';
 }

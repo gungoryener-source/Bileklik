@@ -2313,4 +2313,181 @@ class AppLocalizationsAr extends AppLocalizations {
   String workoutTimeRange(Object day, Object start, Object end) {
     return '$day · $start - $end';
   }
+
+  @override
+  String get zonesTitle => 'مناطق نبض القلب';
+
+  @override
+  String get zoneWarmUp => 'الإحماء';
+
+  @override
+  String get zoneFatBurn => 'حرق الدهون';
+
+  @override
+  String get zoneAerobic => 'هوائي';
+
+  @override
+  String get zoneAnaerobic => 'لاهوائي';
+
+  @override
+  String get zoneMaximum => 'الحد الأقصى';
+
+  @override
+  String get zonesNeedsAge => 'أدخل عمرك في المعلومات الشخصية لعرض المناطق.';
+
+  @override
+  String get zonesEmpty => 'لا يوجد نبض فوق منطقة الإحماء في هذه الفترة.';
+
+  @override
+  String zonesNote(String max) {
+    return 'تم تقدير الحد الأقصى لنبضك من عمرك: $max (208 − 0.7 × العمر). المناطق نسب مئوية منه.';
+  }
+
+  @override
+  String zoneSemantics(String zone, String range, String time) {
+    return '$zone، $range: $time';
+  }
+
+  @override
+  String get tempDevTitle => 'مقارنةً بحرارتك المعتادة';
+
+  @override
+  String tempDevBaseline(String value, int days, String from, String to) {
+    return 'حرارتك المعتادة $value: متوسط أول $days أيام بها قياسات ($from – $to).';
+  }
+
+  @override
+  String tempDevNeedsData(int days) {
+    return 'يلزم قياس لمدة $days أيام على الأقل لتحديد حرارتك المعتادة.';
+  }
+
+  @override
+  String tempDevAverage(String value) {
+    return 'الفرق في هذه الفترة: $value';
+  }
+
+  @override
+  String get tempDevNote =>
+      'تختلف حرارة المعصم عن حرارة الجسم الداخلية؛ استخدمها لمتابعة التغيّر فقط.';
+
+  @override
+  String get bioAgeTitle => 'العمر البيولوجي';
+
+  @override
+  String bioAgeChronological(int age) {
+    return 'عمرك الزمني $age';
+  }
+
+  @override
+  String bioAgeYounger(int years) {
+    String _temp0 = intl.Intl.pluralLogic(
+      years,
+      locale: localeName,
+      other: 'أصغر بـ $years سنة',
+      few: 'أصغر بـ $years سنوات',
+      two: 'أصغر بسنتين',
+      one: 'أصغر بسنة واحدة',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String bioAgeOlder(int years) {
+    String _temp0 = intl.Intl.pluralLogic(
+      years,
+      locale: localeName,
+      other: 'أكبر بـ $years سنة',
+      few: 'أكبر بـ $years سنوات',
+      two: 'أكبر بسنتين',
+      one: 'أكبر بسنة واحدة',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get bioAgeSame => 'مماثل لعمرك الزمني';
+
+  @override
+  String get bioAgeNeedsAge =>
+      'أدخل عمرك في المعلومات الشخصية (18–90) لعرض عمرك البيولوجي.';
+
+  @override
+  String bioAgeNeedsData(int days) {
+    return 'يحتاج العمر البيولوجي إلى بيانات النبض والخطوات أو النوم في $days أيام على الأقل من آخر 21 يومًا.';
+  }
+
+  @override
+  String get bioAgeRestingHr => 'نبض الراحة';
+
+  @override
+  String get bioAgeSteps => 'الخطوات اليومية';
+
+  @override
+  String get bioAgeSleep => 'نوم الليل';
+
+  @override
+  String get bioAgeBmi => 'مؤشر كتلة الجسم';
+
+  @override
+  String bioAgeYears(String value) {
+    return '$value سنة';
+  }
+
+  @override
+  String get bioAgeTrend => 'آخر 8 أسابيع';
+
+  @override
+  String get bioAgeNote =>
+      'تقدير خاص بالتطبيق من نبض الراحة والخطوات والنوم ومؤشر كتلة الجسم خلال آخر 21 يومًا؛ وليس قياسًا طبيًا.';
+
+  @override
+  String bioAgeSemantics(int age, String difference) {
+    return 'العمر البيولوجي $age، $difference';
+  }
+
+  @override
+  String get radarTitle => 'رادار الصحة';
+
+  @override
+  String radarCollecting(int nights, int needed) {
+    return 'جارٍ التعرّف على قيمك المعتادة: $nights/$needed ليالٍ.';
+  }
+
+  @override
+  String get radarNoTonight =>
+      'لا توجد بيانات من الليلة الماضية. ارتدِ السوار ليلًا ليعمل الرادار.';
+
+  @override
+  String get radarAllClear => 'كانت الليلة الماضية ضمن نطاقك المعتاد.';
+
+  @override
+  String get radarWatch => 'اختلفت قيمة واحدة من الليلة الماضية عن المعتاد.';
+
+  @override
+  String get radarStrong =>
+      'تغيّرت عدة قيم معًا. خذ قسطًا من الراحة اليوم، واستشر طبيبًا إن شعرت بتوعك.';
+
+  @override
+  String radarHeartRateUp(String value, String base) {
+    return 'نبض الليل $value، المعتاد $base';
+  }
+
+  @override
+  String radarHrvDown(String value, String base) {
+    return 'HRV الليل $value، المعتاد $base';
+  }
+
+  @override
+  String radarTemperatureUp(String value, String base) {
+    return 'حرارة الليل $value، المعتاد $base';
+  }
+
+  @override
+  String radarSpo2Down(String value, String base) {
+    return 'أكسجين الليل $value، المعتاد $base';
+  }
+
+  @override
+  String get radarNote =>
+      'تُقارن كل ليلة بآخر 14 ليلة لديك. لا يقدّم تشخيصًا. إذا شعرت بألم في الصدر أو ضيق في التنفس أو دوار، فاتصل برقم الطوارئ المحلي.';
 }

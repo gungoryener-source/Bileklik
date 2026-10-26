@@ -20,7 +20,7 @@ Future<void> _reveal(WidgetTester tester, Finder f) async {
     await tester.drag(list, const Offset(0, -200));
     await tester.pumpAndSettle();
   }
-  await tester.ensureVisible(f);
+  await tester.ensureVisible(f.first);
   await tester.pumpAndSettle();
 }
 
@@ -98,7 +98,7 @@ void main() {
       'Kan Oksijen Doygunluğu',
       'Zaman çizelgesi',
     ]) {
-      await _reveal(tester, find.text(title, skipOffstage: false).first);
+      await _reveal(tester, find.text(title, skipOffstage: false));
       expect(find.text(title), findsWidgets);
       expect(tester.takeException(), isNull, reason: title);
     }
