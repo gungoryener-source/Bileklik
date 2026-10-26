@@ -804,6 +804,24 @@ abstract class AppLocalizations {
   /// **'Katıl'**
   String get communityAccept;
 
+  /// No description provided for @communityAlertsBody.
+  ///
+  /// In tr, this message translates to:
+  /// **'Paylaştığınız nabız, SpO2, tansiyon ya da vücut ısısında uzun süren bir düşüş veya yükselme olursa grup üyeleri uygulamada uyarı görür. Uyarı tanı değildir.'**
+  String get communityAlertsBody;
+
+  /// No description provided for @communityAlertsNeedScope.
+  ///
+  /// In tr, this message translates to:
+  /// **'Önce nabız, SpO2, tansiyon ya da vücut ısısını paylaşın.'**
+  String get communityAlertsNeedScope;
+
+  /// No description provided for @communityAlertsTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Acil durumda grubu uyar'**
+  String get communityAlertsTitle;
+
   /// No description provided for @communityAnswered.
   ///
   /// In tr, this message translates to:
@@ -1643,6 +1661,58 @@ abstract class AppLocalizations {
   /// In tr, this message translates to:
   /// **'Verilerimi dışa aktar'**
   String get exportTitle;
+
+  /// No description provided for @familyAlertBloodPressure.
+  ///
+  /// In tr, this message translates to:
+  /// **'{name}: tansiyon çok yüksek ({systolic}/{diastolic}, tahmini)'**
+  String familyAlertBloodPressure(
+    String name,
+    String systolic,
+    String diastolic,
+  );
+
+  /// No description provided for @familyAlertFever.
+  ///
+  /// In tr, this message translates to:
+  /// **'{name}: ateş ({value})'**
+  String familyAlertFever(String name, String value);
+
+  /// No description provided for @familyAlertHeartRateHigh.
+  ///
+  /// In tr, this message translates to:
+  /// **'{name}: nabız yüksek (en yüksek {value} bpm)'**
+  String familyAlertHeartRateHigh(String name, String value);
+
+  /// No description provided for @familyAlertHeartRateLow.
+  ///
+  /// In tr, this message translates to:
+  /// **'{name}: nabız düşük (en düşük {value} bpm)'**
+  String familyAlertHeartRateLow(String name, String value);
+
+  /// No description provided for @familyAlertNote.
+  ///
+  /// In tr, this message translates to:
+  /// **'Otomatik uyarıdır, tanı değildir. Kişiye ulaşamıyorsanız ve durum acilse 112\'yi arayın.'**
+  String get familyAlertNote;
+
+  /// No description provided for @familyAlertSpo2Low.
+  ///
+  /// In tr, this message translates to:
+  /// **'{name}: SpO2 düşük (en düşük %{value})'**
+  String familyAlertSpo2Low(String name, String value);
+
+  /// No description provided for @familyAlertTime.
+  ///
+  /// In tr, this message translates to:
+  /// **'{start} – {end}'**
+  String familyAlertTime(String start, String end);
+
+  /// No description provided for @familyAlertTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Aile uyarısı'**
+  String get familyAlertTitle;
 
   /// No description provided for @feedbackDetailsValue.
   ///
@@ -2973,7 +3043,7 @@ abstract class AppLocalizations {
   /// No description provided for @privacyDataBody.
   ///
   /// In tr, this message translates to:
-  /// **'Bilekliğin ölçtükleri: nabız, kalp atış hızı değişkenliği (HRV), kandaki oksijen (SpO2), EKG, uyku, adım, egzersiz, vücut ısısı, stres ve tahmini tansiyon. Sizin girdikleriniz: yaş, boy, kilo, cinsiyet, vücut kompozisyonu ve hatırlatıcılar. Bilekliğin Bluetooth adresi. Adınız, TC kimlik numaranız, telefonunuz ya da e-postanız istenmez; portalda yalnızca rastgele bir takma kimlikle tanınırsınız.'**
+  /// **'Bilekliğin ölçtükleri: nabız, kalp atış hızı değişkenliği (HRV), kandaki oksijen (SpO2), EKG, uyku, adım, egzersiz, vücut ısısı, stres ve tahmini tansiyon. Sizin girdikleriniz: yaş, boy, kilo, cinsiyet, vücut kompozisyonu ve hatırlatıcılar. Bilekliğin Bluetooth adresi. Adınız, TC kimlik numaranız, telefonunuz ya da e-postanız istenmez; portalda yalnızca rastgele bir takma kimlikle tanınırsınız. Tanıtım sitesindeki iş birliği formunu doldurursanız adınız, kurumunuz, e-postanız ve mesajınız yalnızca size dönmek için şifreli saklanır; sağlık verisiyle birleştirilmez. Ön kayıt formunda yalnızca e-postanız alınır ve uygulama mağazalara çıktığında tek bir duyuru için kullanılır.'**
   String get privacyDataBody;
 
   /// No description provided for @privacyDataTitle.
@@ -3045,7 +3115,7 @@ abstract class AppLocalizations {
   /// No description provided for @privacySharingBody.
   ///
   /// In tr, this message translates to:
-  /// **'Yalnızca rıza verdiğiniz hekim, araştırma kurumu ya da aile grubu üyeleri, yalnızca seçtiğiniz türleri ve rıza süresince görür. Kilo ve vücut kompozisyonu gibi elle girdiğiniz değerler yalnızca “Vücut ölçüleri”ni ayrıca seçerseniz paylaşılır. Apple Sağlık ya da Health Connect\'e yalnızca seçtiğiniz türler yazılır; uygulama oradan veri okumaz. Geri bildirimler kimliğinize bağlanmaz.'**
+  /// **'Yalnızca rıza verdiğiniz hekim, araştırma kurumu ya da aile grubu üyeleri, yalnızca seçtiğiniz türleri ve rıza süresince görür. Kilo ve vücut kompozisyonu gibi elle girdiğiniz değerler yalnızca “Vücut ölçüleri”ni ayrıca seçerseniz paylaşılır. Apple Sağlık ya da Health Connect\'e yalnızca seçtiğiniz türler yazılır; uygulama oradan veri okumaz. Geri bildirimler kimliğinize bağlanmaz. Hekiminize, paylaştığınız türlerde belirgin bir değişiklik olduğunda (örneğin SpO2 uzun süre düşükse ya da bir gündür veri gelmiyorsa) portal otomatik uyarı gösterir; bu uyarılar tanı değildir ve portaldaki verinizi silince onlar da silinir. Bir aile grubu için \"Acil durumda grubu uyar\"ı ayrıca açarsanız, o grupla paylaştığınız türlerdeki aynı uyarılar grup üyelerine de gösterilir.'**
   String get privacySharingBody;
 
   /// No description provided for @privacySharingTitle.
@@ -3989,6 +4059,252 @@ abstract class AppLocalizations {
   /// In tr, this message translates to:
   /// **'{day} · {start} - {end}'**
   String workoutTimeRange(Object day, Object start, Object end);
+
+  /// No description provided for @zonesTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Nabız bölgeleri'**
+  String get zonesTitle;
+
+  /// No description provided for @zoneWarmUp.
+  ///
+  /// In tr, this message translates to:
+  /// **'Isınma'**
+  String get zoneWarmUp;
+
+  /// No description provided for @zoneFatBurn.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yağ yakma'**
+  String get zoneFatBurn;
+
+  /// No description provided for @zoneAerobic.
+  ///
+  /// In tr, this message translates to:
+  /// **'Aerobik'**
+  String get zoneAerobic;
+
+  /// No description provided for @zoneAnaerobic.
+  ///
+  /// In tr, this message translates to:
+  /// **'Anaerobik'**
+  String get zoneAnaerobic;
+
+  /// No description provided for @zoneMaximum.
+  ///
+  /// In tr, this message translates to:
+  /// **'Azami'**
+  String get zoneMaximum;
+
+  /// No description provided for @zonesNeedsAge.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bölgeler için Kişisel bilgiler\'e yaşınızı girin.'**
+  String get zonesNeedsAge;
+
+  /// No description provided for @zonesEmpty.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bu dönemde ısınma bölgesinin üstünde nabız yok.'**
+  String get zonesEmpty;
+
+  /// No description provided for @zonesNote.
+  ///
+  /// In tr, this message translates to:
+  /// **'Azami nabzınız yaşınızdan tahmin edildi: {max} (208 − 0,7 × yaş). Bölgeler bu değerin yüzdesidir.'**
+  String zonesNote(String max);
+
+  /// No description provided for @zoneSemantics.
+  ///
+  /// In tr, this message translates to:
+  /// **'{zone}, {range}: {time}'**
+  String zoneSemantics(String zone, String range, String time);
+
+  /// No description provided for @tempDevTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Olağan ısınıza göre'**
+  String get tempDevTitle;
+
+  /// No description provided for @tempDevBaseline.
+  ///
+  /// In tr, this message translates to:
+  /// **'Olağan ısınız {value}: ölçümlü ilk {days} gününüzün ortalaması ({from} – {to}).'**
+  String tempDevBaseline(String value, int days, String from, String to);
+
+  /// No description provided for @tempDevNeedsData.
+  ///
+  /// In tr, this message translates to:
+  /// **'Olağan ısınızın belirlenmesi için en az {days} gün ölçüm gerekiyor.'**
+  String tempDevNeedsData(int days);
+
+  /// No description provided for @tempDevAverage.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bu dönemin farkı: {value}'**
+  String tempDevAverage(String value);
+
+  /// No description provided for @tempDevNote.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bilekten ölçülen ısı vücut içi ısıdan farklıdır; yalnızca değişimi izlemek içindir.'**
+  String get tempDevNote;
+
+  /// No description provided for @bioAgeTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Biyolojik yaş'**
+  String get bioAgeTitle;
+
+  /// No description provided for @bioAgeChronological.
+  ///
+  /// In tr, this message translates to:
+  /// **'Takvim yaşınız {age}'**
+  String bioAgeChronological(int age);
+
+  /// No description provided for @bioAgeYounger.
+  ///
+  /// In tr, this message translates to:
+  /// **'{years} yaş daha genç'**
+  String bioAgeYounger(int years);
+
+  /// No description provided for @bioAgeOlder.
+  ///
+  /// In tr, this message translates to:
+  /// **'{years} yaş daha büyük'**
+  String bioAgeOlder(int years);
+
+  /// No description provided for @bioAgeSame.
+  ///
+  /// In tr, this message translates to:
+  /// **'Takvim yaşınızla aynı'**
+  String get bioAgeSame;
+
+  /// No description provided for @bioAgeNeedsAge.
+  ///
+  /// In tr, this message translates to:
+  /// **'Biyolojik yaş için Kişisel bilgiler\'e yaşınızı girin (18–90).'**
+  String get bioAgeNeedsAge;
+
+  /// No description provided for @bioAgeNeedsData.
+  ///
+  /// In tr, this message translates to:
+  /// **'Biyolojik yaş için son 21 günde en az {days} gün nabız ve adım ya da uyku verisi gerekiyor.'**
+  String bioAgeNeedsData(int days);
+
+  /// No description provided for @bioAgeRestingHr.
+  ///
+  /// In tr, this message translates to:
+  /// **'Dinlenik nabız'**
+  String get bioAgeRestingHr;
+
+  /// No description provided for @bioAgeSteps.
+  ///
+  /// In tr, this message translates to:
+  /// **'Günlük adım'**
+  String get bioAgeSteps;
+
+  /// No description provided for @bioAgeSleep.
+  ///
+  /// In tr, this message translates to:
+  /// **'Gece uykusu'**
+  String get bioAgeSleep;
+
+  /// No description provided for @bioAgeBmi.
+  ///
+  /// In tr, this message translates to:
+  /// **'Vücut kitle indeksi'**
+  String get bioAgeBmi;
+
+  /// No description provided for @bioAgeYears.
+  ///
+  /// In tr, this message translates to:
+  /// **'{value} yaş'**
+  String bioAgeYears(String value);
+
+  /// No description provided for @bioAgeTrend.
+  ///
+  /// In tr, this message translates to:
+  /// **'Son 8 hafta'**
+  String get bioAgeTrend;
+
+  /// No description provided for @bioAgeNote.
+  ///
+  /// In tr, this message translates to:
+  /// **'Son 21 günün dinlenik nabzı, adımı, uykusu ve VKİ\'sinden uygulamanın kendi tahminidir; tıbbi bir ölçüm değildir.'**
+  String get bioAgeNote;
+
+  /// No description provided for @bioAgeSemantics.
+  ///
+  /// In tr, this message translates to:
+  /// **'Biyolojik yaş {age}, {difference}'**
+  String bioAgeSemantics(int age, String difference);
+
+  /// No description provided for @radarTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Sağlık Radarı'**
+  String get radarTitle;
+
+  /// No description provided for @radarCollecting.
+  ///
+  /// In tr, this message translates to:
+  /// **'Olağan değerleriniz öğreniliyor: {nights}/{needed} gece.'**
+  String radarCollecting(int nights, int needed);
+
+  /// No description provided for @radarNoTonight.
+  ///
+  /// In tr, this message translates to:
+  /// **'Son gecenin verisi yok. Radar için bilekliği gece de takın.'**
+  String get radarNoTonight;
+
+  /// No description provided for @radarAllClear.
+  ///
+  /// In tr, this message translates to:
+  /// **'Son gece olağan aralığınızdaydı.'**
+  String get radarAllClear;
+
+  /// No description provided for @radarWatch.
+  ///
+  /// In tr, this message translates to:
+  /// **'Son gece bir değer olağanınızdan saptı.'**
+  String get radarWatch;
+
+  /// No description provided for @radarStrong.
+  ///
+  /// In tr, this message translates to:
+  /// **'Birkaç değer birlikte saptı. Bugün dinlenmeye zaman ayırın; kendinizi iyi hissetmiyorsanız bir hekime danışın.'**
+  String get radarStrong;
+
+  /// No description provided for @radarHeartRateUp.
+  ///
+  /// In tr, this message translates to:
+  /// **'Gece nabzı {value}, olağan {base}'**
+  String radarHeartRateUp(String value, String base);
+
+  /// No description provided for @radarHrvDown.
+  ///
+  /// In tr, this message translates to:
+  /// **'Gece HRV\'si {value}, olağan {base}'**
+  String radarHrvDown(String value, String base);
+
+  /// No description provided for @radarTemperatureUp.
+  ///
+  /// In tr, this message translates to:
+  /// **'Gece ısısı {value}, olağan {base}'**
+  String radarTemperatureUp(String value, String base);
+
+  /// No description provided for @radarSpo2Down.
+  ///
+  /// In tr, this message translates to:
+  /// **'Gece oksijeni {value}, olağan {base}'**
+  String radarSpo2Down(String value, String base);
+
+  /// No description provided for @radarNote.
+  ///
+  /// In tr, this message translates to:
+  /// **'Her gece son 14 gecenizle karşılaştırılır. Tanı koymaz. Göğüs ağrısı, nefes darlığı ya da bayılma hissinde acil yardım numarasını arayın.'**
+  String get radarNote;
 }
 
 class _AppLocalizationsDelegate

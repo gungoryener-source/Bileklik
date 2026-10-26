@@ -79,6 +79,10 @@ abstract class PortalStore {
   void addFeedback(FeedbackEntry f);
   List<FeedbackEntry> feedback();
 
+  /// Sitedeki iş birliği formundan gelen başvurular.
+  void addInquiry(Inquiry i);
+  List<Inquiry> inquiries();
+
   /// Hasta kaydını ekler ya da aynı kimlikliyi değiştirir.
   void putRecord(PatientRecord r);
   PatientRecord? record(String id);
@@ -88,6 +92,26 @@ abstract class PortalStore {
 
   /// Kaydı siler (bileklik verisine dokunmaz).
   void deleteRecord(String id);
+
+  /// Uyarıyı ekler ya da aynı kimlikliyi değiştirir.
+  void putAlert(Alert a);
+  Alert? alert(String id);
+
+  /// Hekimin uyarıları, yeniden eskiye.
+  List<Alert> alertsOf(String ownerId);
+
+  /// Hastanın uyarılarını siler (unutulma hakkı).
+  void deleteAlertsFor(String patientId);
+
+  /// İzlem notu ya da görevi ekler veya aynı kimlikliyi değiştirir.
+  void putCare(CareEntry e);
+  CareEntry? care(String id);
+
+  /// Kaydın notları ve görevleri, yeniden eskiye.
+  List<CareEntry> careOf(String recordId);
+
+  /// Hekimin tüm kayıtlarındaki açık görevler.
+  List<CareEntry> openTasksOf(String ownerId);
 
   /// Yeni kayıtlar için benzersiz kimlik.
   String nextId(String prefix);
@@ -108,12 +132,49 @@ class MemoryPortalStore implements PortalStore {
   final _invites = <String, Invite>{};
   final _audit = <AuditEntry>[];
   final _feedback = <FeedbackEntry>[];
+  final _inquiries = <Inquiry>[];
   final _recovery = <String, String>{}; // özet -> hesap
   final _groups = <String, CareGroupRecord>{};
   final _members = <String, GroupMember>{};
   final _passwords = <String, String>{};
   final _records = <String, PatientRecord>{};
+  final _alerts = <String, Alert>{};
+  final _care = <String, CareEntry>{};
   var _seq = 0;
+
+  @override
+  void putCare(CareEntry e) => _care[e.id] = e;
+
+  @override
+  CareEntry? care(String id) => _care[id];
+
+  @override
+  List<CareEntry> careOf(String recordId) => [
+    for (final e in _care.values)
+      if (e.recordId == recordId) e,
+  ]..sort((a, b) => b.created.compareTo(a.created));
+
+  @override
+  List<CareEntry> openTasksOf(String ownerId) => [
+    for (final e in _care.values)
+      if (e.ownerId == ownerId && e.open) e,
+  ];
+
+  @override
+  void putAlert(Alert a) => _alerts[a.id] = a;
+
+  @override
+  Alert? alert(String id) => _alerts[id];
+
+  @override
+  List<Alert> alertsOf(String ownerId) => [
+    for (final a in _alerts.values)
+      if (a.ownerId == ownerId) a,
+  ]..sort((a, b) => b.created.compareTo(a.created));
+
+  @override
+  void deleteAlertsFor(String patientId) =>
+      _alerts.removeWhere((_, a) => a.patientId == patientId);
 
   @override
   Account? accountByEmail(String email) {
@@ -157,7 +218,10 @@ class MemoryPortalStore implements PortalStore {
   ]..sort((a, b) => b.created.compareTo(a.created));
 
   @override
-  void deleteRecord(String id) => _records.remove(id);
+  void deleteRecord(String id) {
+    _records.remove(id);
+    _care.removeWhere((_, e) => e.recordId == id);
+  }
 
   @override
   void addAccount(Account a, String token) {
@@ -305,6 +369,12 @@ class MemoryPortalStore implements PortalStore {
 
   @override
   List<FeedbackEntry> feedback() => List.unmodifiable(_feedback);
+
+  @override
+  void addInquiry(Inquiry i) => _inquiries.add(i);
+
+  @override
+  List<Inquiry> inquiries() => List.unmodifiable(_inquiries);
 
   @override
   String nextId(String prefix) => '$prefix-${++_seq}';

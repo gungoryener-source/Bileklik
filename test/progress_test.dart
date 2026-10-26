@@ -19,14 +19,12 @@ DateTime _day(int offset) =>
     DateTime(_monday.year, _monday.month, _monday.day + offset);
 
 /// [day] sabahına biten 8 saatlik gece: 300 dk hafif, 100 derin, 80 REM.
-SleepSession _night(DateTime day) => SleepSession(
-  DateTime(day.year, day.month, day.day - 1, 23),
-  [
-    ...List.filled(300, SleepStage.light),
-    ...List.filled(100, SleepStage.deep),
-    ...List.filled(80, SleepStage.rem),
-  ],
-);
+SleepSession _night(DateTime day) =>
+    SleepSession(DateTime(day.year, day.month, day.day - 1, 23), [
+      ...List.filled(300, SleepStage.light),
+      ...List.filled(100, SleepStage.deep),
+      ...List.filled(80, SleepStage.rem),
+    ]);
 
 void main() {
   test('enerji: uyku ve toparlanma doldurur, adım harcar', () {
@@ -42,8 +40,16 @@ void main() {
             50,
           ),
         // Gece HRV'si 60 ms: ortancadan %20 yüksek.
-        Measurement(MetricType.hrv, DateTime(day.year, day.month, day.day, 2), 60),
-        Measurement(MetricType.steps, DateTime(day.year, day.month, day.day, 10), 7500),
+        Measurement(
+          MetricType.hrv,
+          DateTime(day.year, day.month, day.day, 2),
+          60,
+        ),
+        Measurement(
+          MetricType.steps,
+          DateTime(day.year, day.month, day.day, 10),
+          7500,
+        ),
       ]);
     final e = EnergyScore.of(store, day)!;
     // Süre 8 saat → 70; derin+REM 180/480 → 28,1 ⇒ 98.
@@ -63,9 +69,21 @@ void main() {
     final store = MemoryHealthStore()
       ..addMeasurements([
         for (var d = 0; d < 7; d++) ...[
-          Measurement(MetricType.steps, _day(d).add(const Duration(hours: 12)), 12000),
-          Measurement(MetricType.steps, _day(d - 7).add(const Duration(hours: 12)), 6000),
-          Measurement(MetricType.stress, _day(d).add(const Duration(hours: 9)), 30),
+          Measurement(
+            MetricType.steps,
+            _day(d).add(const Duration(hours: 12)),
+            12000,
+          ),
+          Measurement(
+            MetricType.steps,
+            _day(d - 7).add(const Duration(hours: 12)),
+            6000,
+          ),
+          Measurement(
+            MetricType.stress,
+            _day(d).add(const Duration(hours: 9)),
+            30,
+          ),
         ],
       ])
       ..addSleep([_night(_day(1)), _night(_day(2))]);
@@ -86,7 +104,11 @@ void main() {
     final store = MemoryHealthStore()
       ..addMeasurements([
         for (var d = 0; d < 8; d++)
-          Measurement(MetricType.steps, _day(d).add(const Duration(hours: 12)), 12000),
+          Measurement(
+            MetricType.steps,
+            _day(d).add(const Duration(hours: 12)),
+            12000,
+          ),
       ]);
     final list = achievements(store, _day(9));
     Achievement of(AchievementKind k) => list.firstWhere((a) => a.kind == k);
@@ -114,9 +136,16 @@ void main() {
       ..addSleep([_night(day)])
       ..addMeasurements([
         for (var d = 0; d < 3; d++)
-          Measurement(MetricType.steps, _day(d).add(const Duration(hours: 12)), 11000),
+          Measurement(
+            MetricType.steps,
+            _day(d).add(const Duration(hours: 12)),
+            11000,
+          ),
       ]);
-    final controller = DeviceController(FakeDevice(random: Random(5)), store: store);
+    final controller = DeviceController(
+      FakeDevice(random: Random(5)),
+      store: store,
+    );
     await tester.pumpWidget(
       BileklikApp(controller: controller, settings: AppSettings.memory()),
     );
@@ -130,14 +159,26 @@ void main() {
         );
     await tester.pumpAndSettle();
     expect(find.text('İlerleme'), findsOneWidget);
-    expect(find.text('Haftalık rapor'), findsOneWidget);
     // Uyku 98, HRV yok: enerji 98 − 18 (11.000 adım).
     expect(find.text('80'), findsOneWidget);
 
     final list = find.byType(Scrollable).last;
-    await tester.scrollUntilVisible(find.text('10.000 adım'), 200, scrollable: list);
+    await tester.scrollUntilVisible(
+      find.text('Haftalık rapor'),
+      200,
+      scrollable: list,
+    );
+    await tester.scrollUntilVisible(
+      find.text('10.000 adım'),
+      200,
+      scrollable: list,
+    );
     expect(find.textContaining('tarihinde kazanıldı'), findsWidgets);
-    await tester.scrollUntilVisible(find.text('Sadık bileklik'), 200, scrollable: list);
+    await tester.scrollUntilVisible(
+      find.text('Sadık bileklik'),
+      200,
+      scrollable: list,
+    );
     expect(tester.takeException(), isNull);
   });
 
@@ -152,7 +193,10 @@ void main() {
       addTearDown(tester.platformDispatcher.clearTextScaleFactorTestValue);
       final day = _day(2);
       final store = MemoryHealthStore()..addSleep([_night(day)]);
-      final controller = DeviceController(FakeDevice(random: Random(5)), store: store);
+      final controller = DeviceController(
+        FakeDevice(random: Random(5)),
+        store: store,
+      );
       await tester.pumpWidget(
         BileklikApp(
           controller: controller,

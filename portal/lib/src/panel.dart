@@ -6,7 +6,9 @@ import 'package:shelf_router/shelf_router.dart';
 
 import 'package:crypto/crypto.dart' as crypto;
 
+import 'alerts.dart';
 import 'clinic_text.dart';
+import 'hl7.dart';
 import 'model.dart';
 import 'panel_text.dart';
 import 'passwords.dart';
@@ -14,6 +16,8 @@ import 'report.dart';
 import 'store.dart';
 
 part 'panel_account.dart';
+part 'panel_alerts.dart';
+part 'panel_care.dart';
 part 'panel_records.dart';
 part 'panel_report.dart';
 
@@ -60,6 +64,9 @@ class PanelApi {
 
   final _sessions = <String, _Session>{};
 
+  /// Uyarı kuralları; panel açıldığında hekimin hastaları taranır.
+  late final AlertEngine _engine = AlertEngine(store);
+
   /// E-posta başına son hatalı giriş zamanları.
   final _loginFailures = <String, List<DateTime>>{};
 
@@ -98,6 +105,8 @@ class PanelApi {
     ..get('/panel/register', (Request r) => _registerPage(r))
     ..post('/panel/register', (Request r) => _register(r))
     ..get('/panel/account', (Request r) => _accountPage(r))
+    ..get('/panel/alerts', (Request r) => _alertsPage(r))
+    ..post('/panel/alerts/<id>/ack', (Request r, String id) => _ackAlert(r, id))
     ..post('/panel/account/password', (Request r) => _changePassword(r))
     ..post('/panel/invites', _createInvite)
     ..get('/panel/records/new', (Request r) => _newRecordPage(r))
@@ -123,6 +132,14 @@ class PanelApi {
       '/panel/records/<id>/delete',
       (Request r, String id) => _deleteRecord(r, id),
     )
+    ..post(
+      '/panel/records/<id>/care',
+      (Request r, String id) => _addCare(r, id),
+    )
+    ..post(
+      '/panel/records/<id>/care/<entry>/done',
+      (Request r, String id, String entry) => _careDone(r, id, entry),
+    )
     ..get('/panel/patients/<id>', _patient)
     ..get(
       '/panel/patients/<id>/report',
@@ -135,6 +152,10 @@ class PanelApi {
     ..get(
       '/panel/patients/<id>/report.json',
       (Request r, String id) => _exportFhir(r, id),
+    )
+    ..get(
+      '/panel/patients/<id>/report.hl7',
+      (Request r, String id) => _exportHl7(r, id),
     );
 
   /// Oturum ve hesabı; giriş yoksa null.
@@ -257,7 +278,21 @@ class PanelApi {
     if (auth == null) return _html(200, _loginPage(t));
     final (s, me) = auth;
     final now = _now();
-    final records = store.recordsOf(me.id);
+    // Veri gelmemesi gibi zamana bağlı uyarılar panel açılınca da taranır.
+    _engine.scan(now, ownerId: me.id);
+    final openAlerts = _openAlerts(me.id, now);
+    final alerted = {
+      for (final a in openAlerts)
+        if (a.kind.severity == AlertSeverity.critical) a.patientId,
+    };
+    // Kritik uyarısı açık olan hastalar başa; kendi aralarında sıra korunur.
+    final all = store.recordsOf(me.id);
+    final records = [
+      for (final rec in all)
+        if (alerted.contains(rec.patientId)) rec,
+      for (final rec in all)
+        if (!alerted.contains(rec.patientId)) rec,
+    ];
     final linked = {for (final rec in records) ?rec.patientId};
     final consents = [
       for (final k in store.consentsForActor(me.id))
@@ -289,7 +324,8 @@ class PanelApi {
       final age = rec.ageAt(now);
       recordRows.write(
         '<tr><td><a href="/panel/records/${_h(Uri.encodeComponent(rec.id))}">'
-        '${_h(rec.name)}</a></td>'
+        '${_h(rec.name)}</a>'
+        '${alerted.contains(rec.patientId) ? ' <span class="badge alert">${_h(c['severityCritical'])}</span>' : ''}</td>'
         '<td dir="ltr" class="nowrap">${_h(rec.fileNo ?? '—')}</td>'
         '<td>${age == null ? '—' : _h('$age')}</td>'
         '<td><span class="badge $cls">${_h(label)}</span></td>'
@@ -346,7 +382,10 @@ ${shown.isEmpty ? '<p class="muted">${_h(c['noMatch'])}</p>' : '''
 <div class="stat ok"><b>$sharing</b><span>${_h(c['statLinked'])}</span></div>
 <div class="stat wait"><b>$pending</b><span>${_h(c['statPending'])}</span></div>
 <div class="stat heart"><b>$fresh</b><span>${_h(c['statFresh'])}</span></div>
+<div class="stat ${openAlerts.isEmpty ? 'ok' : 'danger'}"><b>${openAlerts.length}</b><span>${_h(c['statAlerts'])}</span></div>
 </div>
+${_openAlertsHtml(t, c, s, me, openAlerts, now)}
+${_myTasksHtml(t, c, s, me, now)}
 <h2>${_h(c['recordsTitle'])}</h2>
 $recordsHtml
 <h2>${_h(c['unlinkedTitle'])}</h2>
@@ -742,6 +781,8 @@ ${error == null ? '' : '<p class="error" role="alert">${_h(error)}</p>'}
         'M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75',
     '/panel/records/new':
         'M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM19 8v6M22 11h-6',
+    '/panel/alerts':
+        'M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 0 1-3.46 0',
     '/panel/account':
         'M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z',
   };
@@ -793,7 +834,7 @@ ${error == null ? '' : '<p class="error" role="alert">${_h(error)}</p>'}
 <aside class="side noprint">
 <div class="side-top">
 ${_brand()}
-<nav class="menu" aria-label="${_h(t.myPatients)}">${nav('/panel', 'navPatients')}${nav('/panel/records/new', 'navNewPatient')}${nav('/panel/account', 'navAccount')}</nav>
+<nav class="menu" aria-label="${_h(t.myPatients)}">${nav('/panel', 'navPatients')}${nav('/panel/alerts', 'navAlerts')}${nav('/panel/records/new', 'navNewPatient')}${nav('/panel/account', 'navAccount')}</nav>
 </div>
 <div class="side-bottom">
 <div class="who"><span class="avatar" aria-hidden="true">${_h(_initials(me.name))}</span><span><strong>${_h(me.name)}</strong>${me.organization == null ? '' : '<small>${_h(me.organization!)}</small>'}</span></div>
@@ -855,7 +896,7 @@ h3 { font-size: 1rem; margin: 16px 0 8px; }
 .stat { background: var(--card); border: 1px solid var(--line); border-radius: 18px; padding: 16px 18px; box-shadow: var(--shadow); display: grid; gap: 2px; }
 .stat b { font-size: 2rem; line-height: 1.1; font-weight: 800; letter-spacing: -.02em; font-variant-numeric: tabular-nums; }
 .stat span { color: var(--muted); font-size: .9rem; font-weight: 600; }
-.stat.accent b { color: var(--accent); } .stat.heart b { color: var(--heart); } .stat.wait b { color: var(--wait); } .stat.ok b { color: var(--ok); }
+.stat.danger b { color: var(--danger); } .stat.accent b { color: var(--accent); } .stat.heart b { color: var(--heart); } .stat.wait b { color: var(--wait); } .stat.ok b { color: var(--ok); }
 table { width: 100%; border-collapse: separate; border-spacing: 0; background: var(--card); }
 th, td { text-align: start; padding: 12px 14px; border-bottom: 1px solid var(--line); vertical-align: middle; }
 thead th { font-size: .75rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); background: var(--bg); }
@@ -898,6 +939,16 @@ button.danger { background: var(--danger); box-shadow: none; }
 .badge::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: currentColor; opacity: .8; }
 .badge.on { color: var(--ok); border-color: currentColor; }
 .badge.wait { color: var(--wait); border-color: currentColor; }
+.badge.alert { color: var(--danger); border-color: currentColor; }
+.badge.alert.strong { background: var(--danger); color: var(--card); }
+tr.row-alert td:first-child { box-shadow: inset 3px 0 0 var(--danger); }
+[dir="rtl"] tr.row-alert td:first-child { box-shadow: inset -3px 0 0 var(--danger); }
+form.ack { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; margin: 0; }
+form.ack input { min-width: 0; flex: 1 1 140px; }
+ul.care, ol.care { list-style: none; padding: 0; margin: 8px 0 16px; display: grid; gap: 8px; }
+.care li { display: flex; gap: 12px; align-items: center; justify-content: space-between; flex-wrap: wrap; padding: 10px 12px; border: 1px solid var(--line); border-radius: 10px; }
+.care li p { margin: 4px 0 0; }
+.pre { white-space: pre-wrap; overflow-wrap: anywhere; }
 dl.facts { display: grid; grid-template-columns: max-content 1fr; gap: 8px 20px; margin: 0; }
 dl.facts dt { color: var(--muted); font-weight: 600; }
 dl.facts dd { margin: 0; overflow-wrap: anywhere; font-weight: 600; }

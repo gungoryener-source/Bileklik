@@ -14,6 +14,8 @@ import '../theme.dart';
 import '../widgets/cam/cam.dart';
 import '../widgets/home/day_chart.dart';
 import '../widgets/home/home_card.dart';
+import '../widgets/family_alerts.dart';
+import '../widgets/insights.dart';
 import 'ecg_screen.dart';
 import 'metric_detail_screen.dart';
 import 'progress_screen.dart';
@@ -97,6 +99,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 onPick: _pickDay,
               ),
               const SizedBox(height: 16),
+              // Ailedeki acil durum, varsa en üstte.
+              const FamilyAlertCard(),
               _HeartRateHero(s: s),
               if (issueText(c) case final issue?) ...[
                 gap,
@@ -135,6 +139,12 @@ class _HomeScreenState extends State<HomeScreen> {
               _Summary(s: s, isToday: isToday),
               gap,
               EnergyCard(
+                day: s.day,
+                onTap: () => _open(ProgressScreen(day: s.day)),
+              ),
+              gap,
+              HealthRadarCard(
+                store: store,
                 day: s.day,
                 onTap: () => _open(ProgressScreen(day: s.day)),
               ),

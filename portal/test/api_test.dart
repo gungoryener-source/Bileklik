@@ -563,6 +563,71 @@ void main() {
       expect(p.store.group(id), isNotNull);
     });
 
+    test('acil uyarı yalnızca üye izin verirse ve paylaştığı türlerden', () async {
+      final (_, g) = await p.call('POST', '/groups', token: 'patient', body: {'name': 'Ev'});
+      final id = g['id']! as String;
+      await p.call('POST', '/groups/join', token: 'sister', body: {'code': g['inviteCode']});
+      // 10 dakikadan uzun SpO2 düşüşü ve yüksek nabız.
+      final dip = p.now.subtract(const Duration(hours: 3));
+      await p.call('POST', '/fhir', token: 'patient', body: _bundle(extra: [
+        for (var i = 0; i < 5; i++)
+          {
+            'resource': _obs('spo2', '59408-5', dip.add(Duration(minutes: i * 5)), 86 + i),
+          },
+        for (var i = 0; i < 4; i++)
+          {
+            'resource': _obs('heartRate', '8867-4', dip.add(Duration(minutes: 30 + i * 5)), 130),
+          },
+      ]));
+      Map<String, Object?> owner(Map<String, Object?> group) =>
+          ((group['members']! as List).first as Map).cast<String, Object?>();
+
+      // Paylaşım var, izin yok: uyarı gitmez.
+      await p.call('PUT', '/groups/$id/consent', token: 'patient', body: {
+        'scopes': ['spo2'],
+      });
+      var seen = owner(await groupOf('sister', id));
+      expect(seen['alertsOn'], isFalse);
+      expect(seen.containsKey('alerts'), isFalse);
+
+      // İzin verildi: yalnızca paylaşılan SpO2 olayı, nabız değil.
+      final (s, mine) = await p.call('PUT', '/groups/$id/consent', token: 'patient', body: {
+        'scopes': ['spo2'],
+        'alerts': true,
+      });
+      expect(s, 200);
+      expect((mine['myConsent']! as Map)['alerts'], isTrue);
+      seen = owner(await groupOf('sister', id));
+      final alerts = (seen['alerts']! as List).cast<Map>();
+      expect(alerts.single['kind'], 'spo2Low');
+      expect(alerts.single['value'], 86);
+      expect(
+        p.store.auditForPatient(_patientId).first.description,
+        contains('Grup acil uyarısı gösterildi'),
+      );
+      // Kendi uyarısı kendine gösterilmez.
+      final self = owner(await groupOf('patient', id));
+      expect(self.containsKey('alerts'), isFalse);
+
+      // Paylaşım kapanınca izin de kapanır.
+      await p.call('PUT', '/groups/$id/consent', token: 'patient', body: {'scopes': <String>[]});
+      expect(p.store.membershipsOf(_patientId).single.alerts, isFalse);
+      // 24 saatten eski olay gösterilmez.
+      await p.call('PUT', '/groups/$id/consent', token: 'patient', body: {
+        'scopes': ['spo2'],
+        'alerts': true,
+      });
+      p.now = p.now.add(const Duration(days: 1));
+      expect(owner(await groupOf('sister', id))['alerts'], isEmpty);
+      expect(
+        (await p.call('PUT', '/groups/$id/consent', token: 'patient', body: {
+          'scopes': ['spo2'],
+          'alerts': 'evet',
+        })).$1,
+        400,
+      );
+    });
+
     test('grup koduyla katılan adsız; sahip çıkarır ve grubu siler', () async {
       final (_, g) = await p.call('POST', '/groups', token: 'patient', body: {'name': 'Ev'});
       final id = g['id']! as String;

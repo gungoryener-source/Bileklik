@@ -19,6 +19,15 @@ abstract final class DataColors {
 
   /// Kilo ve vücut ölçüleri.
   static const body = Color(0xFFF2D45C);
+
+  /// Nabız bölgeleri, ısınmadan azamiye: soğuktan sıcağa.
+  static const zones = [
+    Color(0xFF8FA6FF),
+    Color(0xFF2EE6C9),
+    Color(0xFF9BE15D),
+    Color(0xFFFFAA5C),
+    Color(0xFFFF5C84),
+  ];
 }
 
 /// "Cam" tasarım dilinin renkleri. Uygulama yalnızca koyu temada çalışır.

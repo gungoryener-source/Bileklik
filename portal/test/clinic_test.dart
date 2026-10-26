@@ -794,6 +794,49 @@ void main() {
       },
     );
 
+    test(
+      'HL7 v2 ORU^R01 dışa aktarma rızadaki türlerle ve kayda geçer',
+      () async {
+        final (p, cookie) = await setup();
+        final r = await p.send(
+          'GET',
+          '/panel/patients/$_patientId/report.hl7?from=2026-10-01&to=2026-10-20',
+          cookie: cookie,
+        );
+        expect(r.statusCode, 200);
+        expect(r.headers['content-type'], startsWith('application/hl7-v2'));
+        expect(
+          r.headers['content-disposition'],
+          'attachment; filename="bileklik-6f1c2a3e-2026-10-01-2026-10-20.hl7"',
+        );
+        final segs = (await r.readAsString()).split('\r')..removeLast();
+        expect(segs.first, startsWith(r'MSH|^~\&|BILEKLIK|'));
+        expect(segs.first, contains('|ORU^R01^ORU_R01|'));
+        expect(segs.first, contains('|P|2.5.1|'));
+        expect(segs[1], contains('$_patientId^^^BILEKLIK^PI'));
+        expect(segs[2], startsWith('OBR|1|'));
+        final obx = segs.where((s) => s.startsWith('OBX|')).toList();
+        expect(obx.first, startsWith('OBX|1|NM|'));
+        expect(
+          obx.any((s) => s.contains('|8480-6^') && s.contains('|150|')),
+          isTrue,
+        );
+        expect(
+          obx.any((s) => s.contains('|8867-4^') && s.contains('^LN|')),
+          isTrue,
+        );
+        expect(
+          obx.any((s) => s.contains('|sleep-deep^') && s.contains('^L|')),
+          isTrue,
+        );
+        expect(obx.any((s) => s.contains('59408-5')), isFalse);
+        expect(
+          p.store.auditForPatient(_patientId).first.description,
+          contains('HL7 v2 dışa aktarıldı'),
+        );
+      },
+    );
+
     test('vücut ölçüleri ve solunum yalnızca hasta seçerse görünür', () async {
       final (p, cookie) = await setup(scopes: ['body', 'spo2']);
       final html = await p.page(

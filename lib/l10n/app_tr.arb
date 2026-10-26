@@ -188,6 +188,9 @@
   "clockTitle": "Saat biçimi",
   "comingSoon": "Yakında",
   "communityAccept": "Katıl",
+  "communityAlertsBody": "Paylaştığınız nabız, SpO2, tansiyon ya da vücut ısısında uzun süren bir düşüş veya yükselme olursa grup üyeleri uygulamada uyarı görür. Uyarı tanı değildir.",
+  "communityAlertsNeedScope": "Önce nabız, SpO2, tansiyon ya da vücut ısısını paylaşın.",
+  "communityAlertsTitle": "Acil durumda grubu uyar",
   "communityAnswered": "Yanıtlandı",
   "communityCodeCopied": "Kod kopyalandı",
   "communityCodeInvalid": "Bu kodla bir grup bulunamadı.",
@@ -401,6 +404,77 @@
   },
   "exportShare": "Dosyayı paylaş",
   "exportTitle": "Verilerimi dışa aktar",
+  "familyAlertBloodPressure": "{name}: tansiyon çok yüksek ({systolic}/{diastolic}, tahmini)",
+  "@familyAlertBloodPressure": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "systolic": {
+        "type": "String"
+      },
+      "diastolic": {
+        "type": "String"
+      }
+    }
+  },
+  "familyAlertFever": "{name}: ateş ({value})",
+  "@familyAlertFever": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "familyAlertHeartRateHigh": "{name}: nabız yüksek (en yüksek {value} bpm)",
+  "@familyAlertHeartRateHigh": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "familyAlertHeartRateLow": "{name}: nabız düşük (en düşük {value} bpm)",
+  "@familyAlertHeartRateLow": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "familyAlertNote": "Otomatik uyarıdır, tanı değildir. Kişiye ulaşamıyorsanız ve durum acilse 112'yi arayın.",
+  "familyAlertSpo2Low": "{name}: SpO2 düşük (en düşük %{value})",
+  "@familyAlertSpo2Low": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "familyAlertTime": "{start} – {end}",
+  "@familyAlertTime": {
+    "placeholders": {
+      "start": {
+        "type": "String"
+      },
+      "end": {
+        "type": "String"
+      }
+    }
+  },
+  "familyAlertTitle": "Aile uyarısı",
   "feedbackDetailsValue": "Sürüm {version} · {platform}",
   "@feedbackDetailsValue": {
     "placeholders": {
@@ -751,7 +825,7 @@
   "privacyAuditTitle": "Erişim kayıtları",
   "privacyContactBody": "Veri sorumlusunun unvanı, adresi ve başvuru yolu yayından önce burada yer alacak. Uygulama içinden Profil > Geri bildirim ile de bize yazabilirsiniz.",
   "privacyContactTitle": "İletişim",
-  "privacyDataBody": "Bilekliğin ölçtükleri: nabız, kalp atış hızı değişkenliği (HRV), kandaki oksijen (SpO2), EKG, uyku, adım, egzersiz, vücut ısısı, stres ve tahmini tansiyon. Sizin girdikleriniz: yaş, boy, kilo, cinsiyet, vücut kompozisyonu ve hatırlatıcılar. Bilekliğin Bluetooth adresi. Adınız, TC kimlik numaranız, telefonunuz ya da e-postanız istenmez; portalda yalnızca rastgele bir takma kimlikle tanınırsınız.",
+  "privacyDataBody": "Bilekliğin ölçtükleri: nabız, kalp atış hızı değişkenliği (HRV), kandaki oksijen (SpO2), EKG, uyku, adım, egzersiz, vücut ısısı, stres ve tahmini tansiyon. Sizin girdikleriniz: yaş, boy, kilo, cinsiyet, vücut kompozisyonu ve hatırlatıcılar. Bilekliğin Bluetooth adresi. Adınız, TC kimlik numaranız, telefonunuz ya da e-postanız istenmez; portalda yalnızca rastgele bir takma kimlikle tanınırsınız. Tanıtım sitesindeki iş birliği formunu doldurursanız adınız, kurumunuz, e-postanız ve mesajınız yalnızca size dönmek için şifreli saklanır; sağlık verisiyle birleştirilmez. Ön kayıt formunda yalnızca e-postanız alınır ve uygulama mağazalara çıktığında tek bir duyuru için kullanılır.",
   "privacyDataTitle": "Hangi verileri işliyoruz?",
   "privacyDraft": "Taslak: Bu metin hukuk incelemesinden geçmedi. Veri sorumlusunun unvanı, adresi ve saklama süreleri yayından önce eklenecek.",
   "privacyIntro": "Bu metin, Bileklik uygulamasının ve portalının kişisel verilerinizi nasıl işlediğini 6698 sayılı Kişisel Verilerin Korunması Kanunu (KVKK) kapsamında anlatır.",
@@ -763,7 +837,7 @@
   "privacyRetentionTitle": "Ne kadar süre saklanır?",
   "privacyRightsBody": "KVKK madde 11 kapsamında verilerinizin işlenip işlenmediğini öğrenebilir, düzeltilmesini ya da silinmesini isteyebilir, rızanızı geri alabilirsiniz. Uygulamadan: paylaşımları Profil > Hekim ve araştırma kurumu ile Profil > Sağlık topluluğu bölümlerinden kaldırabilir, portaldaki verilerinizi Profil > Portal hesabı'ndan silebilir, tüm verinizi Profil > Verilerimi dışa aktar ile FHIR dosyası olarak alabilirsiniz.",
   "privacyRightsTitle": "Haklarınız",
-  "privacySharingBody": "Yalnızca rıza verdiğiniz hekim, araştırma kurumu ya da aile grubu üyeleri, yalnızca seçtiğiniz türleri ve rıza süresince görür. Kilo ve vücut kompozisyonu gibi elle girdiğiniz değerler yalnızca “Vücut ölçüleri”ni ayrıca seçerseniz paylaşılır. Apple Sağlık ya da Health Connect'e yalnızca seçtiğiniz türler yazılır; uygulama oradan veri okumaz. Geri bildirimler kimliğinize bağlanmaz.",
+  "privacySharingBody": "Yalnızca rıza verdiğiniz hekim, araştırma kurumu ya da aile grubu üyeleri, yalnızca seçtiğiniz türleri ve rıza süresince görür. Kilo ve vücut kompozisyonu gibi elle girdiğiniz değerler yalnızca “Vücut ölçüleri”ni ayrıca seçerseniz paylaşılır. Apple Sağlık ya da Health Connect'e yalnızca seçtiğiniz türler yazılır; uygulama oradan veri okumaz. Geri bildirimler kimliğinize bağlanmaz. Hekiminize, paylaştığınız türlerde belirgin bir değişiklik olduğunda (örneğin SpO2 uzun süre düşükse ya da bir gündür veri gelmiyorsa) portal otomatik uyarı gösterir; bu uyarılar tanı değildir ve portaldaki verinizi silince onlar da silinir. Bir aile grubu için \"Acil durumda grubu uyar\"ı ayrıca açarsanız, o grupla paylaştığınız türlerdeki aynı uyarılar grup üyelerine de gösterilir.",
   "privacySharingTitle": "Kimlerle paylaşılır?",
   "privacyStorageBody": "Ölçümler telefonunuzda şifreli bir veritabanında durur; anahtarı telefonun güvenli bölgesindedir (iOS Keychain, Android Keystore). Bu veriler telefon yedeğine girmez. Portala yalnızca paylaşmayı seçtiğiniz türler gider ve orada da şifreli saklanır.",
   "privacyStorageTitle": "Veriler nerede durur?",
@@ -986,5 +1060,191 @@
       "start": {},
       "end": {}
     }
-  }
+  },
+  "zonesTitle": "Nabız bölgeleri",
+  "zoneWarmUp": "Isınma",
+  "zoneFatBurn": "Yağ yakma",
+  "zoneAerobic": "Aerobik",
+  "zoneAnaerobic": "Anaerobik",
+  "zoneMaximum": "Azami",
+  "zonesNeedsAge": "Bölgeler için Kişisel bilgiler'e yaşınızı girin.",
+  "zonesEmpty": "Bu dönemde ısınma bölgesinin üstünde nabız yok.",
+  "zonesNote": "Azami nabzınız yaşınızdan tahmin edildi: {max} (208 − 0,7 × yaş). Bölgeler bu değerin yüzdesidir.",
+  "@zonesNote": {
+    "placeholders": {
+      "max": {
+        "type": "String"
+      }
+    }
+  },
+  "zoneSemantics": "{zone}, {range}: {time}",
+  "@zoneSemantics": {
+    "placeholders": {
+      "zone": {
+        "type": "String"
+      },
+      "range": {
+        "type": "String"
+      },
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "tempDevTitle": "Olağan ısınıza göre",
+  "tempDevBaseline": "Olağan ısınız {value}: ölçümlü ilk {days} gününüzün ortalaması ({from} – {to}).",
+  "@tempDevBaseline": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      },
+      "days": {
+        "type": "int"
+      },
+      "from": {
+        "type": "String"
+      },
+      "to": {
+        "type": "String"
+      }
+    }
+  },
+  "tempDevNeedsData": "Olağan ısınızın belirlenmesi için en az {days} gün ölçüm gerekiyor.",
+  "@tempDevNeedsData": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "tempDevAverage": "Bu dönemin farkı: {value}",
+  "@tempDevAverage": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "tempDevNote": "Bilekten ölçülen ısı vücut içi ısıdan farklıdır; yalnızca değişimi izlemek içindir.",
+  "bioAgeTitle": "Biyolojik yaş",
+  "bioAgeChronological": "Takvim yaşınız {age}",
+  "@bioAgeChronological": {
+    "placeholders": {
+      "age": {
+        "type": "int"
+      }
+    }
+  },
+  "bioAgeYounger": "{years} yaş daha genç",
+  "@bioAgeYounger": {
+    "placeholders": {
+      "years": {
+        "type": "int"
+      }
+    }
+  },
+  "bioAgeOlder": "{years} yaş daha büyük",
+  "@bioAgeOlder": {
+    "placeholders": {
+      "years": {
+        "type": "int"
+      }
+    }
+  },
+  "bioAgeSame": "Takvim yaşınızla aynı",
+  "bioAgeNeedsAge": "Biyolojik yaş için Kişisel bilgiler'e yaşınızı girin (18–90).",
+  "bioAgeNeedsData": "Biyolojik yaş için son 21 günde en az {days} gün nabız ve adım ya da uyku verisi gerekiyor.",
+  "@bioAgeNeedsData": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "bioAgeRestingHr": "Dinlenik nabız",
+  "bioAgeSteps": "Günlük adım",
+  "bioAgeSleep": "Gece uykusu",
+  "bioAgeBmi": "Vücut kitle indeksi",
+  "bioAgeYears": "{value} yaş",
+  "@bioAgeYears": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "bioAgeTrend": "Son 8 hafta",
+  "bioAgeNote": "Son 21 günün dinlenik nabzı, adımı, uykusu ve VKİ'sinden uygulamanın kendi tahminidir; tıbbi bir ölçüm değildir.",
+  "bioAgeSemantics": "Biyolojik yaş {age}, {difference}",
+  "@bioAgeSemantics": {
+    "placeholders": {
+      "age": {
+        "type": "int"
+      },
+      "difference": {
+        "type": "String"
+      }
+    }
+  },
+  "radarTitle": "Sağlık Radarı",
+  "radarCollecting": "Olağan değerleriniz öğreniliyor: {nights}/{needed} gece.",
+  "@radarCollecting": {
+    "placeholders": {
+      "nights": {
+        "type": "int"
+      },
+      "needed": {
+        "type": "int"
+      }
+    }
+  },
+  "radarNoTonight": "Son gecenin verisi yok. Radar için bilekliği gece de takın.",
+  "radarAllClear": "Son gece olağan aralığınızdaydı.",
+  "radarWatch": "Son gece bir değer olağanınızdan saptı.",
+  "radarStrong": "Birkaç değer birlikte saptı. Bugün dinlenmeye zaman ayırın; kendinizi iyi hissetmiyorsanız bir hekime danışın.",
+  "radarHeartRateUp": "Gece nabzı {value}, olağan {base}",
+  "@radarHeartRateUp": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      },
+      "base": {
+        "type": "String"
+      }
+    }
+  },
+  "radarHrvDown": "Gece HRV'si {value}, olağan {base}",
+  "@radarHrvDown": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      },
+      "base": {
+        "type": "String"
+      }
+    }
+  },
+  "radarTemperatureUp": "Gece ısısı {value}, olağan {base}",
+  "@radarTemperatureUp": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      },
+      "base": {
+        "type": "String"
+      }
+    }
+  },
+  "radarSpo2Down": "Gece oksijeni {value}, olağan {base}",
+  "@radarSpo2Down": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      },
+      "base": {
+        "type": "String"
+      }
+    }
+  },
+  "radarNote": "Her gece son 14 gecenizle karşılaştırılır. Tanı koymaz. Göğüs ağrısı, nefes darlığı ya da bayılma hissinde acil yardım numarasını arayın."
 }

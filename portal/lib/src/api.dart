@@ -6,8 +6,11 @@ import 'package:crypto/crypto.dart' as crypto;
 import 'package:shelf/shelf.dart';
 import 'package:shelf_router/shelf_router.dart';
 
+import 'alerts.dart';
 import 'ingest.dart';
+import 'inquiry.dart';
 import 'model.dart';
+import 'openapi.dart';
 import 'panel.dart';
 import 'passwords.dart';
 import 'privacy_page.dart';
@@ -31,6 +34,7 @@ import 'store.dart';
 /// | `DELETE /consents/<id>` | hasta | Rızayı geri alır |
 /// | `DELETE /patients/<id>/data` | hasta | Ölçümlerini siler (unutulma hakkı) |
 /// | `POST /feedback` | herkes | Uygulama içi geri bildirim (kimliksiz) |
+/// | `POST /inquiry` | herkes | Sitedeki iş birliği formu ([InquiryEndpoint]) |
 /// | `GET /groups` | hasta | Aile grupları, üyeler, paylaşımlar ve bildirimler |
 /// | `POST /groups` | hasta | Grup açar |
 /// | `POST /groups/join` | hasta | Grup ya da kişiye özel kodla katılır |
@@ -40,6 +44,7 @@ import 'store.dart';
 /// | `DELETE /groups/<id>` | üye | Sahipse grubu siler, değilse ayrılır |
 /// | `/panel` | hekim, araştırmacı | Tarayıcı paneli ([PanelApi]) |
 /// | `GET /gizlilik`, `GET /privacy` | herkes | Gizlilik politikası ([PrivacyPage]) |
+/// | `GET /openapi.json`, `GET /developers` | herkes | Geliştirici belgesi ([OpenApi]) |
 ///
 /// Kimlik doğrulama iskelette `Authorization: Bearer <anahtar>` ile; gerçek
 /// giriş akışı (e-Devlet/OAuth) sonra eklenecek.
@@ -84,6 +89,8 @@ class PortalApi {
     ..get('/health', (Request _) => Response.ok('ok'))
     ..get('/gizlilik', PrivacyPage.handle)
     ..get('/privacy', PrivacyPage.handle)
+    ..get('/openapi.json', OpenApi.json)
+    ..get('/developers', OpenApi.page)
     ..post('/patients', _registerPatient)
     ..post('/patients/recovery', _newRecovery)
     ..post('/recover', _recover)
@@ -98,6 +105,7 @@ class PortalApi {
     ..delete('/consents/<id>', _revokeConsent)
     ..delete('/patients/<id>/data', _erase)
     ..post('/feedback', _feedback)
+    ..post('/inquiry', _inquiry.handle)
     ..get('/groups', _listGroups)
     ..post('/groups', _createGroup)
     ..post('/groups/join', _joinGroup)
@@ -108,11 +116,11 @@ class PortalApi {
 
   Handler _authenticate(Handler inner) => (request) {
     if (request.method == 'GET' &&
-        const {'health', 'gizlilik', 'privacy'}.contains(request.url.path)) {
+        const {'health', 'gizlilik', 'privacy', 'openapi.json', 'developers'}.contains(request.url.path)) {
       return inner(request);
     }
     if (request.method == 'POST' &&
-        const {'patients', 'feedback', 'recover'}.contains(request.url.path)) {
+        const {'patients', 'feedback', 'recover', 'inquiry'}.contains(request.url.path)) {
       return inner(request);
     }
     final header = request.headers['authorization'] ?? '';
@@ -252,6 +260,9 @@ class PortalApi {
 
   // ---------------------------------------------------------- geri bildirim
 
+  /// Sitedeki iş birliği formu ([InquiryEndpoint]).
+  late final _inquiry = InquiryEndpoint(store, _now);
+
   /// Geri bildirimde en çok bu kadar karakter.
   static const feedbackMaxLength = 2000;
 
@@ -366,13 +377,47 @@ class PortalApi {
             // Bekleyen üyenin kişiye özel kodu yalnızca sahibine gider.
             if (owner) 'inviteCode': ?m.inviteCode,
             'shares': [for (final s in m.scopes) s.name],
+            'alertsOn': m.alerts,
+            if (m.accountId != meId && m.alerts) 'alerts': _familyAlerts(g, m, meId),
           },
       ],
       'myConsent': {
         'scopes': [for (final s in mine?.scopes ?? const <ShareScope>{}) s.name],
         'grantedAt': mine?.consentAt?.toUtc().toIso8601String(),
+        'alerts': mine?.alerts ?? false,
       },
     };
+  }
+
+  /// Aile grubu acil uyarıları: üyenin grupla paylaştığı türlerde son 24
+  /// saatteki olaylar (hekim uyarılarıyla aynı kurallar). Yalnızca üye izin
+  /// verdiyse; gösterim erişim kaydına geçer.
+  List<Map<String, Object?>> _familyAlerts(
+    CareGroupRecord g,
+    GroupMember m,
+    String meId,
+  ) {
+    final patientId = m.accountId;
+    if (patientId == null || m.scopes.isEmpty) return const [];
+    final now = _now();
+    final found = AlertEngine(store).detect(
+      patientId,
+      {for (final s in m.scopes) ...s.codes},
+      now,
+      since: const Duration(hours: 24),
+    );
+    if (found.isEmpty) return const [];
+    _audit(meId, patientId, AuditAction.read, true, 'Grup acil uyarısı gösterildi: ${g.id} (${found.length})');
+    return [
+      for (final e in [...found]..sort((a, b) => b.end.compareTo(a.end)))
+        {
+          'kind': e.kind.name,
+          'start': e.start.toUtc().toIso8601String(),
+          'end': e.end.toUtc().toIso8601String(),
+          'value': e.value,
+          'value2': ?e.value2,
+        },
+    ];
   }
 
   Response _listGroups(Request request) {
@@ -507,11 +552,17 @@ class PortalApi {
     if (g == null || mine == null) {
       return _outcome(404, 'error', 'not-found', 'Grup bulunamadı');
     }
-    final scopes = _scopes((await _body(request))?['scopes']);
-    if (scopes == null) {
-      return _outcome(400, 'error', 'invalid', 'scopes listesi gerekli');
+    final body = await _body(request);
+    final scopes = _scopes(body?['scopes']);
+    final rawAlerts = body?['alerts'];
+    if (scopes == null || (rawAlerts != null && rawAlerts is! bool)) {
+      return _outcome(400, 'error', 'invalid', 'scopes listesi gerekli; alerts true/false');
     }
-    store.putMember(mine.copyWith(scopes: scopes, consentAt: _now()));
+    // Acil uyarı yalnızca paylaşılan türlerden çıkar; paylaşım yoksa kapanır.
+    final alerts = scopes.isNotEmpty && ((rawAlerts as bool?) ?? mine.alerts);
+    store.putMember(
+      mine.copyWith(scopes: scopes, consentAt: _now(), alerts: alerts),
+    );
     _audit(
       me.id,
       me.id,
@@ -519,7 +570,8 @@ class PortalApi {
       true,
       scopes.isEmpty
           ? 'Grup paylaşımı kapatıldı: ${g.id}'
-          : 'Grup paylaşımı: ${g.id} (${scopes.map((s) => s.name).join(', ')})',
+          : 'Grup paylaşımı: ${g.id} (${scopes.map((s) => s.name).join(', ')})'
+                '${alerts ? ', acil uyarı açık' : ''}',
     );
     return _json(200, _groupJson(g, me.id));
   }
@@ -565,6 +617,9 @@ class PortalApi {
     for (final o in result.observations) {
       if (store.addObservation(o)) created++;
     }
+    // Yeni veri hekimlerin uyarı kurallarından geçer; uyarı veri geldiği
+    // anda açılır, yanıt süresi buradan ölçülür.
+    if (created > 0) AlertEngine(store).scan(_now(), patientId: me.id);
     final duplicates = result.observations.length - created;
     final summary =
         'created=$created duplicates=$duplicates rejected=${result.rejected.length}';
@@ -782,6 +837,7 @@ class PortalApi {
     }
     final now = _now();
     final count = store.deleteObservations(id);
+    store.deleteAlertsFor(id);
     for (final c in store.consentsForPatient(id)) {
       store.revokeConsent(c.id, now);
     }

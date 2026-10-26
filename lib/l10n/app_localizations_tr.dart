@@ -399,6 +399,17 @@ class AppLocalizationsTr extends AppLocalizations {
   String get communityAccept => 'Katıl';
 
   @override
+  String get communityAlertsBody =>
+      'Paylaştığınız nabız, SpO2, tansiyon ya da vücut ısısında uzun süren bir düşüş veya yükselme olursa grup üyeleri uygulamada uyarı görür. Uyarı tanı değildir.';
+
+  @override
+  String get communityAlertsNeedScope =>
+      'Önce nabız, SpO2, tansiyon ya da vücut ısısını paylaşın.';
+
+  @override
+  String get communityAlertsTitle => 'Acil durumda grubu uyar';
+
+  @override
   String get communityAnswered => 'Yanıtlandı';
 
   @override
@@ -912,6 +923,47 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get exportTitle => 'Verilerimi dışa aktar';
+
+  @override
+  String familyAlertBloodPressure(
+    String name,
+    String systolic,
+    String diastolic,
+  ) {
+    return '$name: tansiyon çok yüksek ($systolic/$diastolic, tahmini)';
+  }
+
+  @override
+  String familyAlertFever(String name, String value) {
+    return '$name: ateş ($value)';
+  }
+
+  @override
+  String familyAlertHeartRateHigh(String name, String value) {
+    return '$name: nabız yüksek (en yüksek $value bpm)';
+  }
+
+  @override
+  String familyAlertHeartRateLow(String name, String value) {
+    return '$name: nabız düşük (en düşük $value bpm)';
+  }
+
+  @override
+  String get familyAlertNote =>
+      'Otomatik uyarıdır, tanı değildir. Kişiye ulaşamıyorsanız ve durum acilse 112\'yi arayın.';
+
+  @override
+  String familyAlertSpo2Low(String name, String value) {
+    return '$name: SpO2 düşük (en düşük %$value)';
+  }
+
+  @override
+  String familyAlertTime(String start, String end) {
+    return '$start – $end';
+  }
+
+  @override
+  String get familyAlertTitle => 'Aile uyarısı';
 
   @override
   String feedbackDetailsValue(String version, String platform) {
@@ -1713,7 +1765,7 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get privacyDataBody =>
-      'Bilekliğin ölçtükleri: nabız, kalp atış hızı değişkenliği (HRV), kandaki oksijen (SpO2), EKG, uyku, adım, egzersiz, vücut ısısı, stres ve tahmini tansiyon. Sizin girdikleriniz: yaş, boy, kilo, cinsiyet, vücut kompozisyonu ve hatırlatıcılar. Bilekliğin Bluetooth adresi. Adınız, TC kimlik numaranız, telefonunuz ya da e-postanız istenmez; portalda yalnızca rastgele bir takma kimlikle tanınırsınız.';
+      'Bilekliğin ölçtükleri: nabız, kalp atış hızı değişkenliği (HRV), kandaki oksijen (SpO2), EKG, uyku, adım, egzersiz, vücut ısısı, stres ve tahmini tansiyon. Sizin girdikleriniz: yaş, boy, kilo, cinsiyet, vücut kompozisyonu ve hatırlatıcılar. Bilekliğin Bluetooth adresi. Adınız, TC kimlik numaranız, telefonunuz ya da e-postanız istenmez; portalda yalnızca rastgele bir takma kimlikle tanınırsınız. Tanıtım sitesindeki iş birliği formunu doldurursanız adınız, kurumunuz, e-postanız ve mesajınız yalnızca size dönmek için şifreli saklanır; sağlık verisiyle birleştirilmez. Ön kayıt formunda yalnızca e-postanız alınır ve uygulama mağazalara çıktığında tek bir duyuru için kullanılır.';
 
   @override
   String get privacyDataTitle => 'Hangi verileri işliyoruz?';
@@ -1756,7 +1808,7 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get privacySharingBody =>
-      'Yalnızca rıza verdiğiniz hekim, araştırma kurumu ya da aile grubu üyeleri, yalnızca seçtiğiniz türleri ve rıza süresince görür. Kilo ve vücut kompozisyonu gibi elle girdiğiniz değerler yalnızca “Vücut ölçüleri”ni ayrıca seçerseniz paylaşılır. Apple Sağlık ya da Health Connect\'e yalnızca seçtiğiniz türler yazılır; uygulama oradan veri okumaz. Geri bildirimler kimliğinize bağlanmaz.';
+      'Yalnızca rıza verdiğiniz hekim, araştırma kurumu ya da aile grubu üyeleri, yalnızca seçtiğiniz türleri ve rıza süresince görür. Kilo ve vücut kompozisyonu gibi elle girdiğiniz değerler yalnızca “Vücut ölçüleri”ni ayrıca seçerseniz paylaşılır. Apple Sağlık ya da Health Connect\'e yalnızca seçtiğiniz türler yazılır; uygulama oradan veri okumaz. Geri bildirimler kimliğinize bağlanmaz. Hekiminize, paylaştığınız türlerde belirgin bir değişiklik olduğunda (örneğin SpO2 uzun süre düşükse ya da bir gündür veri gelmiyorsa) portal otomatik uyarı gösterir; bu uyarılar tanı değildir ve portaldaki verinizi silince onlar da silinir. Bir aile grubu için \"Acil durumda grubu uyar\"ı ayrıca açarsanız, o grupla paylaştığınız türlerdeki aynı uyarılar grup üyelerine de gösterilir.';
 
   @override
   String get privacySharingTitle => 'Kimlerle paylaşılır?';
@@ -2288,4 +2340,166 @@ class AppLocalizationsTr extends AppLocalizations {
   String workoutTimeRange(Object day, Object start, Object end) {
     return '$day · $start - $end';
   }
+
+  @override
+  String get zonesTitle => 'Nabız bölgeleri';
+
+  @override
+  String get zoneWarmUp => 'Isınma';
+
+  @override
+  String get zoneFatBurn => 'Yağ yakma';
+
+  @override
+  String get zoneAerobic => 'Aerobik';
+
+  @override
+  String get zoneAnaerobic => 'Anaerobik';
+
+  @override
+  String get zoneMaximum => 'Azami';
+
+  @override
+  String get zonesNeedsAge =>
+      'Bölgeler için Kişisel bilgiler\'e yaşınızı girin.';
+
+  @override
+  String get zonesEmpty => 'Bu dönemde ısınma bölgesinin üstünde nabız yok.';
+
+  @override
+  String zonesNote(String max) {
+    return 'Azami nabzınız yaşınızdan tahmin edildi: $max (208 − 0,7 × yaş). Bölgeler bu değerin yüzdesidir.';
+  }
+
+  @override
+  String zoneSemantics(String zone, String range, String time) {
+    return '$zone, $range: $time';
+  }
+
+  @override
+  String get tempDevTitle => 'Olağan ısınıza göre';
+
+  @override
+  String tempDevBaseline(String value, int days, String from, String to) {
+    return 'Olağan ısınız $value: ölçümlü ilk $days gününüzün ortalaması ($from – $to).';
+  }
+
+  @override
+  String tempDevNeedsData(int days) {
+    return 'Olağan ısınızın belirlenmesi için en az $days gün ölçüm gerekiyor.';
+  }
+
+  @override
+  String tempDevAverage(String value) {
+    return 'Bu dönemin farkı: $value';
+  }
+
+  @override
+  String get tempDevNote =>
+      'Bilekten ölçülen ısı vücut içi ısıdan farklıdır; yalnızca değişimi izlemek içindir.';
+
+  @override
+  String get bioAgeTitle => 'Biyolojik yaş';
+
+  @override
+  String bioAgeChronological(int age) {
+    return 'Takvim yaşınız $age';
+  }
+
+  @override
+  String bioAgeYounger(int years) {
+    return '$years yaş daha genç';
+  }
+
+  @override
+  String bioAgeOlder(int years) {
+    return '$years yaş daha büyük';
+  }
+
+  @override
+  String get bioAgeSame => 'Takvim yaşınızla aynı';
+
+  @override
+  String get bioAgeNeedsAge =>
+      'Biyolojik yaş için Kişisel bilgiler\'e yaşınızı girin (18–90).';
+
+  @override
+  String bioAgeNeedsData(int days) {
+    return 'Biyolojik yaş için son 21 günde en az $days gün nabız ve adım ya da uyku verisi gerekiyor.';
+  }
+
+  @override
+  String get bioAgeRestingHr => 'Dinlenik nabız';
+
+  @override
+  String get bioAgeSteps => 'Günlük adım';
+
+  @override
+  String get bioAgeSleep => 'Gece uykusu';
+
+  @override
+  String get bioAgeBmi => 'Vücut kitle indeksi';
+
+  @override
+  String bioAgeYears(String value) {
+    return '$value yaş';
+  }
+
+  @override
+  String get bioAgeTrend => 'Son 8 hafta';
+
+  @override
+  String get bioAgeNote =>
+      'Son 21 günün dinlenik nabzı, adımı, uykusu ve VKİ\'sinden uygulamanın kendi tahminidir; tıbbi bir ölçüm değildir.';
+
+  @override
+  String bioAgeSemantics(int age, String difference) {
+    return 'Biyolojik yaş $age, $difference';
+  }
+
+  @override
+  String get radarTitle => 'Sağlık Radarı';
+
+  @override
+  String radarCollecting(int nights, int needed) {
+    return 'Olağan değerleriniz öğreniliyor: $nights/$needed gece.';
+  }
+
+  @override
+  String get radarNoTonight =>
+      'Son gecenin verisi yok. Radar için bilekliği gece de takın.';
+
+  @override
+  String get radarAllClear => 'Son gece olağan aralığınızdaydı.';
+
+  @override
+  String get radarWatch => 'Son gece bir değer olağanınızdan saptı.';
+
+  @override
+  String get radarStrong =>
+      'Birkaç değer birlikte saptı. Bugün dinlenmeye zaman ayırın; kendinizi iyi hissetmiyorsanız bir hekime danışın.';
+
+  @override
+  String radarHeartRateUp(String value, String base) {
+    return 'Gece nabzı $value, olağan $base';
+  }
+
+  @override
+  String radarHrvDown(String value, String base) {
+    return 'Gece HRV\'si $value, olağan $base';
+  }
+
+  @override
+  String radarTemperatureUp(String value, String base) {
+    return 'Gece ısısı $value, olağan $base';
+  }
+
+  @override
+  String radarSpo2Down(String value, String base) {
+    return 'Gece oksijeni $value, olağan $base';
+  }
+
+  @override
+  String get radarNote =>
+      'Her gece son 14 gecenizle karşılaştırılır. Tanı koymaz. Göğüs ağrısı, nefes darlığı ya da bayılma hissinde acil yardım numarasını arayın.';
 }

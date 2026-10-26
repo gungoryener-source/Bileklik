@@ -126,6 +126,7 @@ extension _PanelReport on PanelApi {
 <button type="button" id="print">${esc(c['print'])}</button>
 <a class="button secondary" href="$base/report.csv?${esc(query)}" download>${esc(c['downloadCsv'])}</a>
 <a class="button secondary" href="$base/report.json?${esc(query)}" download>${esc(c['downloadFhir'])}</a>
+<a class="button secondary" href="$base/report.hl7?${esc(query)}" download>${esc(c['downloadHl7'])}</a>
 </div>
 <p class="muted small">${esc(c['printHint'])}</p>
 </form>
@@ -785,6 +786,48 @@ ${_chart(t, c, report, sl.duration.days, m, bars: true)}
         'content-type': 'application/fhir+json; charset=utf-8',
         'content-disposition':
             'attachment; filename="${_fileName(id, from, to)}.json"',
+        'cache-control': 'no-store',
+        'x-content-type-options': 'nosniff',
+      },
+    );
+  }
+
+  /// HL7 v2.5.1 ORU^R01 ([Hl7Export]); hastane bilgi sistemine aktarım için.
+  Response _exportHl7(Request r, String id) {
+    final access = _reportAccess(r, id);
+    if (access is Response) return access;
+    final (_, me, consent) = access as (_Session, Account, Consent);
+    final range = _range(r);
+    if (range == null) return Response(400, body: 'from/to');
+    final (from, to) = range;
+    final items = store.observations(
+      id,
+      codes: _exportCodes(r, consent),
+      from: from,
+      to: to,
+    );
+    _audit(
+      me.id,
+      id,
+      true,
+      'Panel: HL7 v2 dışa aktarıldı (${items.length} ölçüm)',
+    );
+    final now = _now();
+    return Response.ok(
+      Hl7Export.oru(
+        messageId: store.nextId('hl7'),
+        now: now,
+        patientId: id,
+        observations: items,
+        from: from,
+        to: to,
+        record: _recordFor(me.id, id),
+        facility: me.organization,
+      ),
+      headers: {
+        'content-type': 'application/hl7-v2; charset=utf-8',
+        'content-disposition':
+            'attachment; filename="${_fileName(id, from, to)}.hl7"',
         'cache-control': 'no-store',
         'x-content-type-options': 'nosniff',
       },

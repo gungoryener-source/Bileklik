@@ -169,6 +169,53 @@ Future<void> seedDemo(PortalApi api, {DateTime? now, Random? random}) async {
   );
   await accept(c2, DemoTokens.patients[1], hf);
 
+  // İzlem notları ve görevler.
+  final today = DateTime.utc(t.year, t.month, t.day);
+  void care(
+    String rec,
+    CareKind kind,
+    String text,
+    int daysAgo, {
+    int? dueIn,
+  }) => store.putCare(
+    CareEntry(
+      id: store.nextId('care'),
+      recordId: rec,
+      ownerId: 'dr-demo',
+      kind: kind,
+      text: text,
+      created: t.subtract(Duration(days: daysAgo, hours: 2)),
+      due: dueIn == null ? null : today.add(Duration(days: dueIn)),
+    ),
+  );
+  care(
+    'rec-demo-1',
+    CareKind.note,
+    'Holter: sık SVES, kısa SVT atağı yok. Bisoprolol 2,5 mg başlandı.',
+    14,
+  );
+  care(
+    'rec-demo-1',
+    CareKind.task,
+    'Çarpıntı uyarısı sonrası hastayı ara',
+    0,
+    dueIn: 0,
+  );
+  care('rec-demo-1', CareKind.task, 'Kontrol randevusu ver', 3, dueIn: 10);
+  care(
+    'rec-demo-2',
+    CareKind.note,
+    'Diüretik dozu azaltıldı; günlük kilo takibine devam.',
+    6,
+  );
+  care(
+    'rec-demo-2',
+    CareKind.task,
+    'Haftalık kilo eğilimini gözden geçir',
+    9,
+    dueIn: -2,
+  );
+
   // Kayda bağlanmamış bağlantı: hekim panelde bir kayda bağlayabilir.
   const apnea = ['sleep', 'spo2', 'respiration', 'heartRate'];
   await accept(
@@ -325,6 +372,42 @@ Map<String, Object?> _bundle(
             unit: 'score',
           ),
         );
+    }
+  }
+  // Hekim panelindeki uyarı panosu için yakın zamanda birer olay: uyku
+  // apnesi şüphesinde dün gece 25 dk süren SpO2 düşüşü, çarpıntıda üç saat
+  // önce dinlenirken 20 dk süren yüksek nabız. Ölçümler beş dakikada bir.
+  final today = DateTime(now.year, now.month, now.day);
+  if (apnea) {
+    final start = today.subtract(const Duration(hours: 21)); // 03:00
+    const values = [92, 89, 87, 86, 88, 89, 94];
+    for (var i = 0; i < values.length; i++) {
+      list.add(
+        _obs(
+          patientId,
+          'spo2-dip-$i',
+          '59408-5',
+          start.add(Duration(minutes: 5 * i)),
+          value: values[i],
+          unit: '%',
+        ),
+      );
+    }
+  }
+  if (palp) {
+    final start = now.subtract(const Duration(hours: 3));
+    const values = [118, 128, 136, 141, 133, 124, 96];
+    for (var i = 0; i < values.length; i++) {
+      list.add(
+        _obs(
+          patientId,
+          'hr-run-$i',
+          '8867-4',
+          start.add(Duration(minutes: 5 * i)),
+          value: values[i],
+          unit: 'beats/minute',
+        ),
+      );
     }
   }
   for (var d = 0; d < days; d++) {

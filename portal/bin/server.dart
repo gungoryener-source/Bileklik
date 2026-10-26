@@ -19,7 +19,8 @@ import 'package:shelf/shelf_io.dart' as io;
 /// `--demo` deneme verisiyle açılır ([seedDemo]): `demo-doctor` (hekim),
 /// `demo-research` (araştırma), `demo-patient` (hasta) anahtarları; veriler
 /// sunucu kapanınca silinir.
-/// `--feedback` uygulamadan gelen geri bildirimleri yazar.
+/// `--feedback` uygulamadan gelen geri bildirimleri, `--inquiries` sitedeki
+/// iş birliği başvurularını yazar.
 /// `--add-clinician` (araştırma kurumu için ayrıca `--researcher`; isteğe
 /// bağlı `--email`, `--specialty`) hesabı açar, oturum anahtarını bir kez
 /// yazar ve çıkar. Hekim panelde `/panel/register` ile kendisi de kaydolabilir.
@@ -55,6 +56,12 @@ Future<void> main(List<String> args) async {
   if (args.contains('--feedback')) {
     for (final f in store.feedback()) {
       stdout.writeln(jsonEncode(f.toJson()));
+    }
+    return;
+  }
+  if (args.contains('--inquiries')) {
+    for (final i in store.inquiries()) {
+      stdout.writeln(jsonEncode(i.toJson()));
     }
     return;
   }

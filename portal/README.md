@@ -74,10 +74,12 @@ curl -H 'Authorization: Bearer demo-doctor' -H 'content-type: application/json' 
 | `POST /groups` | hasta | Grup açar (ad 1-40 karakter). |
 | `POST /groups/<id>/members` | grup sahibi | Davet edilenin adıyla kişiye özel 6 karakterlik kod üretir. |
 | `POST /groups/join` | hasta | Kişiye özel kodla (verilen adla) ya da grup koduyla (adsız) katılır. |
-| `PUT /groups/<id>/consent` | üye | Grupla paylaşılan türleri değiştirir; erişim kaydına geçer. |
+| `PUT /groups/<id>/consent` | üye | Grupla paylaşılan türleri ve isteğe bağlı `alerts` (acil uyarı izni) değiştirir; erişim kaydına geçer. Paylaşım boşsa izin kapanır. İzin veren üyenin paylaştığı türlerde son 24 saatteki olaylar (hekim uyarılarıyla aynı kurallar) `GET /groups` yanıtında diğer üyelere `alerts` olarak gider; gösterim erişim kaydına geçer. |
 | `DELETE /groups/<id>/members/<mid>` | grup sahibi | Üyeyi ya da bekleyen daveti çıkarır; paylaşımı biter. |
 | `DELETE /groups/<id>` | üye | Sahipse grubu siler (dosyadan da çıkar), değilse ayrılır. |
 | `POST /feedback` | herkes | Uygulama içi geri bildirim. Anahtar istenmez, kimliğe bağlanmaz; dakikada en çok 30, mesaj en çok 2000 karakter. Okumak için `dart run bin/server.dart --feedback`. |
+| `POST /inquiry` | herkes | Tanıtım sitesindeki iş birliği (distribütör, OEM/ODM, kurum, klinik) formu. Form gövdesi (`application/x-www-form-urlencoded`), herkese açık CORS; `Accept: application/json` ise JSON, değilse kısa HTML yanıt. Ad, kurum, e-posta, mesaj ve aydınlatma onayı zorunlu (`kind=waitlist` ön kayıtta yalnızca e-posta ve onay; aynı e-posta bir kez); dakikada en çok 10; gizli `website` alanı dolu gelirse kaydedilmez. Şifreli depoda saklanır, okumak için `dart run bin/server.dart --inquiries`. |
+| `GET /openapi.json`, `GET /developers` | herkes | Geliştirici belgesi: OpenAPI 3.1 ve aynı belgeden üretilen okunur sayfa (İngilizce). Kurumlar hekim/araştırmacı anahtarıyla `GET /fhir/Observation` üzerinden yalnızca rızalı veriyi çeker. Belgedeki her ucun yönlendiricide olduğu testle denetlenir (`test/openapi_test.dart`). |
 
 ## Hekim paneli
 
@@ -143,8 +145,37 @@ seçilir ve çerezde kalır, Arapçada sayfa sağdan sola.
   raporda yazılıdır (`PatientReport`).
 - **Çıktılar:** "Yazdır / PDF" (tarayıcının "PDF olarak kaydet"i; A4 baskı
   stili, panel öğeleri gizlenir), CSV (Excel için UTF-8 BOM, formül
-  enjeksiyonuna karşı korumalı) ve FHIR Bundle (JSON; EKG ham örnekleri
-  dahil). Her rapor ve dışa aktarma erişim kaydına geçer.
+  enjeksiyonuna karşı korumalı), FHIR Bundle (JSON; EKG ham örnekleri
+  dahil) ve HL7 v2.5.1 ORU^R01 (`report.hl7`; hastane bilgi sistemleri için,
+  her sayısal değer bir OBX, LOINC/UCUM; EKG dalga formu yalnızca FHIR'da;
+  gerçek bir hastane arayüzüyle denenmedi). Her rapor ve dışa aktarma erişim kaydına geçer.
+
+### İzlem notları ve görevler
+
+Hasta kaydı sayfasında hekim tarihli not (görüşme, ilaç değişikliği,
+telefon) ve son günlü görev ekler (`POST /panel/records/<id>/care`);
+görev "Tamamlandı" ile kapanır (`…/care/<kayıt>/done`). Ana sayfadaki
+"Görevlerim" açık görevleri gecikenler önce listeler. Notlar yalnızca kaydı
+açan hekime görünür, şifreli depoda durur ve kayıt silinince silinir.
+
+### Uyarılar (uzaktan izlem)
+
+Hasta veri yükleyince ve hekim paneli açınca `AlertEngine`
+(`lib/src/alerts.dart`) hekimin süren rızasındaki türlere son 48 saatte bakar:
+
+- SpO2 en az 10 dk %90 altı; nabız en az 10 dk 120 üstü (egzersizin 5 dk
+  öncesinden 15 dk sonrasına kadar sayılmaz) ya da 40 altı; tansiyon
+  ≥180/120 (bileklikten tahmini); ateş ≥38 °C (kritik).
+- 24 saattir veri gelmiyor (uyarı); veri gelince kendiliğinden kapanır.
+- Aynı türde bir saat içinde süren olay yeni uyarı açmaz, açık olanı günceller.
+
+Panel ana sayfasında açık uyarılar kritik önce listelenir, açık kritik
+uyarısı olan hasta kayıtlarda üste çıkar. "Gördüm" (`POST
+/panel/alerts/<id>/ack`, CSRF'li) uyarıyı kapatır; kim, ne zaman ve isteğe
+bağlı not kaydedilir. 15 dk yanıtlanmayan kritik uyarı "Gecikti" olur.
+`/panel/alerts` son 30 günün kaydını ve ortanca yanıt süresini gösterir.
+Eşikler `AlertRules` içinde, klinik danışmanla gözden geçirilecek; karar
+destek içindir, tanı koymaz. Hasta verisini silince uyarıları da silinir.
 
 ### Güvenlik
 

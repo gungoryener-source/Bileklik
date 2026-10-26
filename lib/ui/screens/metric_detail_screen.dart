@@ -9,6 +9,7 @@ import '../theme.dart';
 import '../widgets/metric_chart.dart';
 import '../widgets/cam/cam.dart';
 import '../widgets/hrv_insights.dart';
+import '../widgets/insights.dart';
 
 /// Bir metriğin gün, hafta ve ay grafiği ile özet değerleri.
 ///
@@ -160,6 +161,17 @@ class _MetricDetailScreenState extends State<MetricDetailScreen> {
                   l.metricDetailBpEstimate,
                   style: TextStyle(color: context.colors.muted),
                 ),
+              ],
+              if (type == MetricType.heartRate) ...[
+                const SizedBox(height: 24),
+                HeartRateZonesCard(
+                  heartRate: items,
+                  age: DeviceScope.of(context).profile?.age,
+                ),
+              ],
+              if (type == MetricType.temperature) ...[
+                const SizedBox(height: 24),
+                TemperatureDeviationCard(store: store, range: _range),
               ],
               if (type == MetricType.hrv) ...[
                 const SizedBox(height: 24),

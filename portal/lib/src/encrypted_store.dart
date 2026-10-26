@@ -174,6 +174,10 @@ class EncryptedPortalStore implements PortalStore {
         _mem.updateAccount(_account(e));
       case 'password':
         _mem.setPassword(e['id']! as String, e['hash']! as String);
+      case 'alert':
+        _mem.putAlert(Alert.fromJson(e));
+      case 'care':
+        _mem.putCare(CareEntry.fromJson(e));
       case 'record':
         _mem.putRecord(
           PatientRecord(
@@ -269,6 +273,7 @@ class EncryptedPortalStore implements PortalStore {
             joined: e['joined'] == null ? null : _parse(e['joined']),
             scopes: _scopes(e['scopes']),
             consentAt: e['consentAt'] == null ? null : _parse(e['consentAt']),
+            alerts: e['alerts'] == true,
           ),
         );
       case 'feedback':
@@ -283,6 +288,8 @@ class EncryptedPortalStore implements PortalStore {
             locale: e['locale'] as String?,
           ),
         );
+      case 'inquiry':
+        _mem.addInquiry(Inquiry.fromJson(e));
       default:
         throw FormatException('Bilinmeyen olay: ${e['t']}');
     }
@@ -351,6 +358,38 @@ class EncryptedPortalStore implements PortalStore {
   @override
   PatientRecord? record(String id) => _mem.record(id);
 
+  /// Uyarının her hali olay olarak eklenir; son hali geçerlidir.
+  @override
+  void putCare(CareEntry e) => _record({'t': 'care', ...e.toJson()});
+
+  @override
+  CareEntry? care(String id) => _mem.care(id);
+
+  @override
+  List<CareEntry> careOf(String recordId) => _mem.careOf(recordId);
+
+  @override
+  List<CareEntry> openTasksOf(String ownerId) => _mem.openTasksOf(ownerId);
+
+  @override
+  void putAlert(Alert a) => _record({'t': 'alert', ...a.toJson()});
+
+  @override
+  Alert? alert(String id) => _mem.alert(id);
+
+  @override
+  List<Alert> alertsOf(String ownerId) => _mem.alertsOf(ownerId);
+
+  /// Uyarılar ölçüm değeri taşır; hasta verisini silince dosyadan da çıkar.
+  @override
+  void deleteAlertsFor(String patientId) {
+    _mem.deleteAlertsFor(patientId);
+    _events.removeWhere(
+      (e) => e['t'] == 'alert' && e['patientId'] == patientId,
+    );
+    _rewrite();
+  }
+
   @override
   List<PatientRecord> recordsOf(String ownerId) => _mem.recordsOf(ownerId);
 
@@ -358,7 +397,11 @@ class EncryptedPortalStore implements PortalStore {
   void deleteRecord(String id) {
     if (_mem.record(id) == null) return;
     _mem.deleteRecord(id);
-    _events.removeWhere((e) => e['t'] == 'record' && e['id'] == id);
+    _events.removeWhere(
+      (e) =>
+          (e['t'] == 'record' && e['id'] == id) ||
+          (e['t'] == 'care' && e['recordId'] == id),
+    );
     _rewrite();
   }
 
@@ -526,6 +569,7 @@ class EncryptedPortalStore implements PortalStore {
     'joined': m.joined == null ? null : _time(m.joined!),
     'scopes': [for (final s in m.scopes) s.name],
     'consentAt': m.consentAt == null ? null : _time(m.consentAt!),
+    'alerts': m.alerts,
   });
 
   @override
@@ -551,6 +595,12 @@ class EncryptedPortalStore implements PortalStore {
 
   @override
   List<FeedbackEntry> feedback() => _mem.feedback();
+
+  @override
+  void addInquiry(Inquiry i) => _record({'t': 'inquiry', ...i.toJson()});
+
+  @override
+  List<Inquiry> inquiries() => _mem.inquiries();
 
   /// Yeniden başlatmada çakışmasın diye sıra numarası yerine rastgele.
   @override

@@ -211,8 +211,7 @@ class PortalConnectionService extends ConnectionService {
       k == 'researcher' ? ConnectionKind.research : ConnectionKind.clinician;
 
   static Set<ShareScope> _scopes(Object? raw) => {
-    for (final s in raw as List? ?? const [])
-      ?ShareScope.values.asNameMap()[s],
+    for (final s in raw as List? ?? const []) ?ShareScope.values.asNameMap()[s],
   };
 
   static ConnectionOffer _offer(Map j, {required String code}) =>
@@ -273,7 +272,9 @@ class PortalConnectionService extends ConnectionService {
     final r = await client.request(
       'POST',
       '/invites/${Uri.encodeComponent(offer.code)}/accept',
-      body: {'scopes': [for (final s in scopes) s.name]},
+      body: {
+        'scopes': [for (final s in scopes) s.name],
+      },
     );
     final id = (jsonDecode(r.body) as Map)['id'] as String;
     await refresh();
@@ -333,12 +334,10 @@ class PortalCommunityService extends CommunityService {
   };
 
   @override
-  CareGroup? group(String id) =>
-      _groups.where((g) => g.id == id).firstOrNull;
+  CareGroup? group(String id) => _groups.where((g) => g.id == id).firstOrNull;
 
   static Set<ShareScope> _scopes(Object? raw) => {
-    for (final s in raw as List? ?? const [])
-      ?ShareScope.values.asNameMap()[s],
+    for (final s in raw as List? ?? const []) ?ShareScope.values.asNameMap()[s],
   };
 
   static CareGroup _group(Map j) {
@@ -360,6 +359,20 @@ class PortalCommunityService extends CommunityService {
               isOwner: m['isOwner'] == true,
               pending: m['pending'] == true,
               shares: _scopes(m['shares']),
+              alertsOn: m['alertsOn'] == true,
+              alerts: [
+                for (final a in m['alerts'] as List? ?? const [])
+                  if (a is Map)
+                    if (FamilyAlertKind.values.asNameMap()[a['kind']]
+                        case final kind?)
+                      FamilyAlert(
+                        kind: kind,
+                        start: DateTime.parse(a['start'] as String).toLocal(),
+                        end: DateTime.parse(a['end'] as String).toLocal(),
+                        value: (a['value'] as num).toDouble(),
+                        value2: (a['value2'] as num?)?.toDouble(),
+                      ),
+              ],
             ),
       ],
       myConsent: ShareConsent(
@@ -367,6 +380,7 @@ class PortalCommunityService extends CommunityService {
         grantedAt: scopes.isEmpty || granted == null
             ? null
             : DateTime.parse(granted).toLocal(),
+        alerts: consent['alerts'] == true,
       ),
     );
   }
@@ -437,7 +451,23 @@ class PortalCommunityService extends CommunityService {
     await client.request(
       'PUT',
       _path(groupId, '/consent'),
-      body: {'scopes': [for (final s in scopes) s.name]},
+      body: {
+        'scopes': [for (final s in scopes) s.name],
+      },
+    );
+    await refresh();
+  }
+
+  @override
+  Future<void> setAlerts(String groupId, {required bool on}) async {
+    final scopes = group(groupId)?.myConsent.scopes ?? const <ShareScope>{};
+    await client.request(
+      'PUT',
+      _path(groupId, '/consent'),
+      body: {
+        'scopes': [for (final s in scopes) s.name],
+        'alerts': on,
+      },
     );
     await refresh();
   }

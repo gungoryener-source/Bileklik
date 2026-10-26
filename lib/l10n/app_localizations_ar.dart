@@ -397,6 +397,17 @@ class AppLocalizationsAr extends AppLocalizations {
   String get communityAccept => 'انضمام';
 
   @override
+  String get communityAlertsBody =>
+      'إذا انخفض أو ارتفع نبضك أو SpO2 أو ضغط الدم أو حرارة الجسم التي تشاركها لفترة طويلة، يرى أعضاء المجموعة تنبيهًا في التطبيق. التنبيه ليس تشخيصًا.';
+
+  @override
+  String get communityAlertsNeedScope =>
+      'شارك أولًا النبض أو SpO2 أو ضغط الدم أو حرارة الجسم.';
+
+  @override
+  String get communityAlertsTitle => 'نبّه المجموعة في حالة طارئة';
+
+  @override
   String get communityAnswered => 'تم الرد';
 
   @override
@@ -933,6 +944,47 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get exportTitle => 'تصدير بياناتي';
+
+  @override
+  String familyAlertBloodPressure(
+    String name,
+    String systolic,
+    String diastolic,
+  ) {
+    return '$name: ضغط دم مرتفع جدًا ($systolic/$diastolic، تقديري)';
+  }
+
+  @override
+  String familyAlertFever(String name, String value) {
+    return '$name: حمى ($value)';
+  }
+
+  @override
+  String familyAlertHeartRateHigh(String name, String value) {
+    return '$name: نبض مرتفع (الأعلى $value نبضة/د)';
+  }
+
+  @override
+  String familyAlertHeartRateLow(String name, String value) {
+    return '$name: نبض منخفض (الأدنى $value نبضة/د)';
+  }
+
+  @override
+  String get familyAlertNote =>
+      'هذا تنبيه تلقائي وليس تشخيصًا. إذا لم تستطع الوصول إليه وكان الأمر طارئًا فاتصل برقم الطوارئ المحلي.';
+
+  @override
+  String familyAlertSpo2Low(String name, String value) {
+    return '$name: انخفاض SpO2 (الأدنى $value٪)';
+  }
+
+  @override
+  String familyAlertTime(String start, String end) {
+    return '$start – $end';
+  }
+
+  @override
+  String get familyAlertTitle => 'تنبيه عائلي';
 
   @override
   String feedbackDetailsValue(String version, String platform) {
@@ -1743,7 +1795,7 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get privacyDataBody =>
-      'ما يقيسه السوار: نبض القلب وتقلبه (HRV) وأكسجين الدم (SpO2) وتخطيط القلب والنوم والخطوات والتمارين وحرارة الجسم والتوتر وضغط الدم التقديري. ما تدخله أنت: العمر والطول والوزن والجنس وتكوين الجسم والتذكيرات. عنوان البلوتوث للسوار. لا نطلب اسمك أو رقم هويتك أو هاتفك أو بريدك الإلكتروني؛ تُعرف في البوابة باسم مستعار عشوائي فقط.';
+      'ما يقيسه السوار: نبض القلب وتقلبه (HRV) وأكسجين الدم (SpO2) وتخطيط القلب والنوم والخطوات والتمارين وحرارة الجسم والتوتر وضغط الدم التقديري. ما تدخله أنت: العمر والطول والوزن والجنس وتكوين الجسم والتذكيرات. عنوان البلوتوث للسوار. لا نطلب اسمك أو رقم هويتك أو هاتفك أو بريدك الإلكتروني؛ تُعرف في البوابة باسم مستعار عشوائي فقط. إذا ملأت نموذج الشراكة على موقعنا، يُحفظ اسمك وجهتك وبريدك الإلكتروني ورسالتك مشفّرة فقط للرد عليك، ولا تُدمج مع البيانات الصحية. نموذج التسجيل المسبق يأخذ بريدك الإلكتروني فقط، ويُستخدم لإعلان واحد عند وصول التطبيق إلى المتاجر.';
 
   @override
   String get privacyDataTitle => 'ما البيانات التي نعالجها؟';
@@ -1786,7 +1838,7 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get privacySharingBody =>
-      'فقط مع الأطباء أو مؤسسات البحث أو أفراد مجموعة العائلة الذين توافق عليهم، وللأنواع التي تختارها فقط وطوال مدة الموافقة. القيم التي تدخلها بنفسك مثل الوزن وتكوين الجسم لا تُشارك إلا إذا اخترت «قياسات الجسم» صراحةً. لا يُكتب في Apple Health أو Health Connect إلا ما تختاره، ولا يقرأ التطبيق منهما. الملاحظات لا ترتبط بهويتك.';
+      'فقط مع الأطباء أو مؤسسات البحث أو أفراد مجموعة العائلة الذين توافق عليهم، وللأنواع التي تختارها فقط وطوال مدة الموافقة. القيم التي تدخلها بنفسك مثل الوزن وتكوين الجسم لا تُشارك إلا إذا اخترت «قياسات الجسم» صراحةً. لا يُكتب في Apple Health أو Health Connect إلا ما تختاره، ولا يقرأ التطبيق منهما. الملاحظات لا ترتبط بهويتك. عندما يظهر تغيّر واضح في الأنواع التي تشاركها (مثلًا انخفاض SpO2 لفترة طويلة أو عدم وصول بيانات منذ يوم)، تعرض البوابة على طبيبك تنبيهًا تلقائيًا؛ هذه التنبيهات ليست تشخيصًا وتُحذف عند حذف بياناتك من البوابة. إذا فعّلت أيضًا «نبّه المجموعة في حالة طارئة» لمجموعة عائلية، تظهر التنبيهات نفسها للأنواع التي تشاركها مع تلك المجموعة لأعضائها.';
 
   @override
   String get privacySharingTitle => 'مع من تُشارك؟';
@@ -2313,4 +2365,181 @@ class AppLocalizationsAr extends AppLocalizations {
   String workoutTimeRange(Object day, Object start, Object end) {
     return '$day · $start - $end';
   }
+
+  @override
+  String get zonesTitle => 'مناطق نبض القلب';
+
+  @override
+  String get zoneWarmUp => 'الإحماء';
+
+  @override
+  String get zoneFatBurn => 'حرق الدهون';
+
+  @override
+  String get zoneAerobic => 'هوائي';
+
+  @override
+  String get zoneAnaerobic => 'لاهوائي';
+
+  @override
+  String get zoneMaximum => 'الحد الأقصى';
+
+  @override
+  String get zonesNeedsAge => 'أدخل عمرك في المعلومات الشخصية لعرض المناطق.';
+
+  @override
+  String get zonesEmpty => 'لا يوجد نبض فوق منطقة الإحماء في هذه الفترة.';
+
+  @override
+  String zonesNote(String max) {
+    return 'تم تقدير الحد الأقصى لنبضك من عمرك: $max (208 − 0.7 × العمر). المناطق نسب مئوية منه.';
+  }
+
+  @override
+  String zoneSemantics(String zone, String range, String time) {
+    return '$zone، $range: $time';
+  }
+
+  @override
+  String get tempDevTitle => 'مقارنةً بحرارتك المعتادة';
+
+  @override
+  String tempDevBaseline(String value, int days, String from, String to) {
+    return 'حرارتك المعتادة $value: متوسط أول $days أيام بها قياسات ($from – $to).';
+  }
+
+  @override
+  String tempDevNeedsData(int days) {
+    return 'يلزم قياس لمدة $days أيام على الأقل لتحديد حرارتك المعتادة.';
+  }
+
+  @override
+  String tempDevAverage(String value) {
+    return 'الفرق في هذه الفترة: $value';
+  }
+
+  @override
+  String get tempDevNote =>
+      'تختلف حرارة المعصم عن حرارة الجسم الداخلية؛ استخدمها لمتابعة التغيّر فقط.';
+
+  @override
+  String get bioAgeTitle => 'العمر البيولوجي';
+
+  @override
+  String bioAgeChronological(int age) {
+    return 'عمرك الزمني $age';
+  }
+
+  @override
+  String bioAgeYounger(int years) {
+    String _temp0 = intl.Intl.pluralLogic(
+      years,
+      locale: localeName,
+      other: 'أصغر بـ $years سنة',
+      few: 'أصغر بـ $years سنوات',
+      two: 'أصغر بسنتين',
+      one: 'أصغر بسنة واحدة',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String bioAgeOlder(int years) {
+    String _temp0 = intl.Intl.pluralLogic(
+      years,
+      locale: localeName,
+      other: 'أكبر بـ $years سنة',
+      few: 'أكبر بـ $years سنوات',
+      two: 'أكبر بسنتين',
+      one: 'أكبر بسنة واحدة',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get bioAgeSame => 'مماثل لعمرك الزمني';
+
+  @override
+  String get bioAgeNeedsAge =>
+      'أدخل عمرك في المعلومات الشخصية (18–90) لعرض عمرك البيولوجي.';
+
+  @override
+  String bioAgeNeedsData(int days) {
+    return 'يحتاج العمر البيولوجي إلى بيانات النبض والخطوات أو النوم في $days أيام على الأقل من آخر 21 يومًا.';
+  }
+
+  @override
+  String get bioAgeRestingHr => 'نبض الراحة';
+
+  @override
+  String get bioAgeSteps => 'الخطوات اليومية';
+
+  @override
+  String get bioAgeSleep => 'نوم الليل';
+
+  @override
+  String get bioAgeBmi => 'مؤشر كتلة الجسم';
+
+  @override
+  String bioAgeYears(String value) {
+    return '$value سنة';
+  }
+
+  @override
+  String get bioAgeTrend => 'آخر 8 أسابيع';
+
+  @override
+  String get bioAgeNote =>
+      'تقدير خاص بالتطبيق من نبض الراحة والخطوات والنوم ومؤشر كتلة الجسم خلال آخر 21 يومًا؛ وليس قياسًا طبيًا.';
+
+  @override
+  String bioAgeSemantics(int age, String difference) {
+    return 'العمر البيولوجي $age، $difference';
+  }
+
+  @override
+  String get radarTitle => 'رادار الصحة';
+
+  @override
+  String radarCollecting(int nights, int needed) {
+    return 'جارٍ التعرّف على قيمك المعتادة: $nights/$needed ليالٍ.';
+  }
+
+  @override
+  String get radarNoTonight =>
+      'لا توجد بيانات من الليلة الماضية. ارتدِ السوار ليلًا ليعمل الرادار.';
+
+  @override
+  String get radarAllClear => 'كانت الليلة الماضية ضمن نطاقك المعتاد.';
+
+  @override
+  String get radarWatch => 'اختلفت قيمة واحدة من الليلة الماضية عن المعتاد.';
+
+  @override
+  String get radarStrong =>
+      'تغيّرت عدة قيم معًا. خذ قسطًا من الراحة اليوم، واستشر طبيبًا إن شعرت بتوعك.';
+
+  @override
+  String radarHeartRateUp(String value, String base) {
+    return 'نبض الليل $value، المعتاد $base';
+  }
+
+  @override
+  String radarHrvDown(String value, String base) {
+    return 'HRV الليل $value، المعتاد $base';
+  }
+
+  @override
+  String radarTemperatureUp(String value, String base) {
+    return 'حرارة الليل $value، المعتاد $base';
+  }
+
+  @override
+  String radarSpo2Down(String value, String base) {
+    return 'أكسجين الليل $value، المعتاد $base';
+  }
+
+  @override
+  String get radarNote =>
+      'تُقارن كل ليلة بآخر 14 ليلة لديك. لا يقدّم تشخيصًا. إذا شعرت بألم في الصدر أو ضيق في التنفس أو دوار، فاتصل برقم الطوارئ المحلي.';
 }

@@ -407,6 +407,17 @@ class AppLocalizationsDe extends AppLocalizations {
   String get communityAccept => 'Beitreten';
 
   @override
+  String get communityAlertsBody =>
+      'Wenn der geteilte Puls, die SpO2, der Blutdruck oder die Körpertemperatur länger deutlich sinkt oder steigt, sehen die Gruppenmitglieder einen Hinweis in der App. Ein Hinweis ist keine Diagnose.';
+
+  @override
+  String get communityAlertsNeedScope =>
+      'Teilen Sie zuerst Puls, SpO2, Blutdruck oder Körpertemperatur.';
+
+  @override
+  String get communityAlertsTitle => 'Gruppe im Notfall benachrichtigen';
+
+  @override
   String get communityAnswered => 'Beantwortet';
 
   @override
@@ -936,6 +947,47 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get exportTitle => 'Meine Daten exportieren';
+
+  @override
+  String familyAlertBloodPressure(
+    String name,
+    String systolic,
+    String diastolic,
+  ) {
+    return '$name: sehr hoher Blutdruck ($systolic/$diastolic, geschätzt)';
+  }
+
+  @override
+  String familyAlertFever(String name, String value) {
+    return '$name: Fieber ($value)';
+  }
+
+  @override
+  String familyAlertHeartRateHigh(String name, String value) {
+    return '$name: hoher Puls (höchster Wert $value bpm)';
+  }
+
+  @override
+  String familyAlertHeartRateLow(String name, String value) {
+    return '$name: niedriger Puls (niedrigster Wert $value bpm)';
+  }
+
+  @override
+  String get familyAlertNote =>
+      'Dies ist ein automatischer Hinweis, keine Diagnose. Wenn Sie die Person nicht erreichen und es dringend ist, rufen Sie die 112 an.';
+
+  @override
+  String familyAlertSpo2Low(String name, String value) {
+    return '$name: niedrige SpO2 (niedrigster Wert $value %)';
+  }
+
+  @override
+  String familyAlertTime(String start, String end) {
+    return '$start – $end';
+  }
+
+  @override
+  String get familyAlertTitle => 'Familienhinweis';
 
   @override
   String feedbackDetailsValue(String version, String platform) {
@@ -1751,7 +1803,7 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get privacyDataBody =>
-      'Was das Armband misst: Herzfrequenz, Herzfrequenzvariabilität (HRV), Blutsauerstoff (SpO2), EKG, Schlaf, Schritte, Training, Körpertemperatur, Stress und geschätzter Blutdruck. Was Sie eingeben: Alter, Größe, Gewicht, Geschlecht, Körperzusammensetzung und Erinnerungen. Die Bluetooth-Adresse des Armbands. Name, Ausweisnummer, Telefon oder E-Mail werden nicht abgefragt; im Portal sind Sie nur unter einem zufälligen Pseudonym bekannt.';
+      'Was das Armband misst: Herzfrequenz, Herzfrequenzvariabilität (HRV), Blutsauerstoff (SpO2), EKG, Schlaf, Schritte, Training, Körpertemperatur, Stress und geschätzter Blutdruck. Was Sie eingeben: Alter, Größe, Gewicht, Geschlecht, Körperzusammensetzung und Erinnerungen. Die Bluetooth-Adresse des Armbands. Name, Ausweisnummer, Telefon oder E-Mail werden nicht abgefragt; im Portal sind Sie nur unter einem zufälligen Pseudonym bekannt. Wenn Sie das Partnerformular auf unserer Website ausfüllen, werden Name, Organisation, E-Mail und Nachricht nur für unsere Antwort verschlüsselt gespeichert und nie mit Gesundheitsdaten verknüpft. Das Vorregistrierungsformular nimmt nur Ihre E-Mail-Adresse auf; sie wird für eine einzige Mitteilung verwendet, sobald die App in den Stores ist.';
 
   @override
   String get privacyDataTitle => 'Welche Daten verarbeiten wir?';
@@ -1794,7 +1846,7 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get privacySharingBody =>
-      'Nur mit den Ärzten, Forschungseinrichtungen oder Mitgliedern einer Familiengruppe, denen Sie zustimmen, nur die gewählten Datentypen und nur für die Dauer der Einwilligung. Selbst eingegebene Werte wie Gewicht und Körperzusammensetzung werden nur geteilt, wenn Sie „Körpermaße“ ausdrücklich auswählen. In Apple Health oder Health Connect werden nur die gewählten Datentypen geschrieben; die App liest dort nichts. Feedback wird nicht mit Ihrer Identität verknüpft.';
+      'Nur mit den Ärzten, Forschungseinrichtungen oder Mitgliedern einer Familiengruppe, denen Sie zustimmen, nur die gewählten Datentypen und nur für die Dauer der Einwilligung. Selbst eingegebene Werte wie Gewicht und Körperzusammensetzung werden nur geteilt, wenn Sie „Körpermaße“ ausdrücklich auswählen. In Apple Health oder Health Connect werden nur die gewählten Datentypen geschrieben; die App liest dort nichts. Feedback wird nicht mit Ihrer Identität verknüpft. Fällt in den geteilten Datentypen etwas auf (zum Beispiel bleibt die SpO2 lange niedrig oder seit einem Tag kommen keine Daten), zeigt das Portal Ihrem Arzt einen automatischen Hinweis; diese Hinweise sind keine Diagnose und werden mit Ihren Portaldaten gelöscht. Wenn Sie für eine Familiengruppe zusätzlich „Gruppe im Notfall benachrichtigen“ einschalten, sehen deren Mitglieder dieselben Hinweise zu den mit der Gruppe geteilten Datentypen.';
 
   @override
   String get privacySharingTitle => 'Mit wem wird geteilt?';
@@ -2326,4 +2378,180 @@ class AppLocalizationsDe extends AppLocalizations {
   String workoutTimeRange(Object day, Object start, Object end) {
     return '$day · $start–$end';
   }
+
+  @override
+  String get zonesTitle => 'Herzfrequenzzonen';
+
+  @override
+  String get zoneWarmUp => 'Aufwärmen';
+
+  @override
+  String get zoneFatBurn => 'Fettverbrennung';
+
+  @override
+  String get zoneAerobic => 'Aerob';
+
+  @override
+  String get zoneAnaerobic => 'Anaerob';
+
+  @override
+  String get zoneMaximum => 'Maximal';
+
+  @override
+  String get zonesNeedsAge =>
+      'Geben Sie Ihr Alter unter Persönliche Angaben ein, um die Zonen zu sehen.';
+
+  @override
+  String get zonesEmpty =>
+      'In diesem Zeitraum kein Puls oberhalb der Aufwärmzone.';
+
+  @override
+  String zonesNote(String max) {
+    return 'Ihre maximale Herzfrequenz wurde aus Ihrem Alter geschätzt: $max (208 − 0,7 × Alter). Die Zonen sind Prozentsätze davon.';
+  }
+
+  @override
+  String zoneSemantics(String zone, String range, String time) {
+    return '$zone, $range: $time';
+  }
+
+  @override
+  String get tempDevTitle => 'Im Vergleich zu Ihrer üblichen Temperatur';
+
+  @override
+  String tempDevBaseline(String value, int days, String from, String to) {
+    return 'Ihre übliche Temperatur ist $value: der Durchschnitt Ihrer ersten $days Tage mit Messungen ($from – $to).';
+  }
+
+  @override
+  String tempDevNeedsData(int days) {
+    return 'Für Ihre übliche Temperatur sind Messungen an mindestens $days Tagen nötig.';
+  }
+
+  @override
+  String tempDevAverage(String value) {
+    return 'Abweichung in diesem Zeitraum: $value';
+  }
+
+  @override
+  String get tempDevNote =>
+      'Die Handgelenktemperatur unterscheidet sich von der Körperkerntemperatur; sie dient nur dazu, Veränderungen zu verfolgen.';
+
+  @override
+  String get bioAgeTitle => 'Biologisches Alter';
+
+  @override
+  String bioAgeChronological(int age) {
+    return 'Ihr kalendarisches Alter ist $age';
+  }
+
+  @override
+  String bioAgeYounger(int years) {
+    String _temp0 = intl.Intl.pluralLogic(
+      years,
+      locale: localeName,
+      other: '$years Jahre jünger',
+      one: '1 Jahr jünger',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String bioAgeOlder(int years) {
+    String _temp0 = intl.Intl.pluralLogic(
+      years,
+      locale: localeName,
+      other: '$years Jahre älter',
+      one: '1 Jahr älter',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get bioAgeSame => 'Wie Ihr kalendarisches Alter';
+
+  @override
+  String get bioAgeNeedsAge =>
+      'Geben Sie Ihr Alter unter Persönliche Angaben ein (18–90), um Ihr biologisches Alter zu sehen.';
+
+  @override
+  String bioAgeNeedsData(int days) {
+    return 'Für das biologische Alter sind Puls und Schritte oder Schlaf an mindestens $days der letzten 21 Tage nötig.';
+  }
+
+  @override
+  String get bioAgeRestingHr => 'Ruhepuls';
+
+  @override
+  String get bioAgeSteps => 'Tägliche Schritte';
+
+  @override
+  String get bioAgeSleep => 'Nachtschlaf';
+
+  @override
+  String get bioAgeBmi => 'Body-Mass-Index';
+
+  @override
+  String bioAgeYears(String value) {
+    return '$value J.';
+  }
+
+  @override
+  String get bioAgeTrend => 'Letzte 8 Wochen';
+
+  @override
+  String get bioAgeNote =>
+      'Eine eigene Schätzung der App aus Ruhepuls, Schritten, Schlaf und BMI der letzten 21 Tage; keine medizinische Messung.';
+
+  @override
+  String bioAgeSemantics(int age, String difference) {
+    return 'Biologisches Alter $age, $difference';
+  }
+
+  @override
+  String get radarTitle => 'Gesundheitsradar';
+
+  @override
+  String radarCollecting(int nights, int needed) {
+    return 'Ihre üblichen Werte werden gelernt: $nights/$needed Nächte.';
+  }
+
+  @override
+  String get radarNoTonight =>
+      'Keine Daten von letzter Nacht. Tragen Sie das Armband auch nachts für das Radar.';
+
+  @override
+  String get radarAllClear => 'Die letzte Nacht lag in Ihrem üblichen Bereich.';
+
+  @override
+  String get radarWatch =>
+      'Ein Wert der letzten Nacht wich von Ihrem Üblichen ab.';
+
+  @override
+  String get radarStrong =>
+      'Mehrere Werte haben sich gleichzeitig verändert. Gönnen Sie sich heute Ruhe und gehen Sie zum Arzt, wenn Sie sich unwohl fühlen.';
+
+  @override
+  String radarHeartRateUp(String value, String base) {
+    return 'Nachtpuls $value, üblich $base';
+  }
+
+  @override
+  String radarHrvDown(String value, String base) {
+    return 'Nacht-HRV $value, üblich $base';
+  }
+
+  @override
+  String radarTemperatureUp(String value, String base) {
+    return 'Nachttemperatur $value, üblich $base';
+  }
+
+  @override
+  String radarSpo2Down(String value, String base) {
+    return 'Nächtlicher Sauerstoff $value, üblich $base';
+  }
+
+  @override
+  String get radarNote =>
+      'Jede Nacht wird mit Ihren letzten 14 Nächten verglichen. Es stellt keine Diagnose. Bei Brustschmerzen, Atemnot oder Schwindel rufen Sie den Notruf.';
 }

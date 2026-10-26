@@ -49,6 +49,10 @@ class CommunityScope extends InheritedNotifier<CommunityService> {
 
   static CommunityService of(BuildContext context) =>
       context.dependOnInheritedWidgetOfExactType<CommunityScope>()!.notifier!;
+
+  /// Topluluk yoksa (bazı testler) null.
+  static CommunityService? maybeOf(BuildContext context) =>
+      context.dependOnInheritedWidgetOfExactType<CommunityScope>()?.notifier;
 }
 
 /// Hekim ve araştırma kurumu bağlantılarını ekranlara taşır.
@@ -65,11 +69,7 @@ class ConnectionScope extends InheritedNotifier<ConnectionService> {
 
 /// Geri bildirim gönderen servisi ekranlara taşır.
 class FeedbackScope extends InheritedWidget {
-  const FeedbackScope({
-    super.key,
-    required this.service,
-    required super.child,
-  });
+  const FeedbackScope({super.key, required this.service, required super.child});
 
   final FeedbackService service;
 
@@ -146,11 +146,7 @@ class _AppShellState extends State<AppShell> {
         selectedIndex: _index,
         onSelected: _select,
         items: [
-          (
-            icon: Icons.home_outlined,
-            activeIcon: Icons.home,
-            label: l.navHome,
-          ),
+          (icon: Icons.home_outlined, activeIcon: Icons.home, label: l.navHome),
           (
             icon: Icons.favorite_border,
             activeIcon: Icons.favorite,

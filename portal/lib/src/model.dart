@@ -460,6 +460,7 @@ class GroupMember {
     this.joined,
     this.scopes = const {},
     this.consentAt,
+    this.alerts = false,
   });
 
   final String id;
@@ -475,6 +476,10 @@ class GroupMember {
   final Set<ShareScope> scopes;
   final DateTime? consentAt;
 
+  /// Üye, paylaştığı türlerde acil bir durum olursa (ör. SpO2 uzun süre
+  /// düşük) grubun bunu görmesine izin verdi. Varsayılan kapalı.
+  final bool alerts;
+
   bool get pending => accountId == null;
 
   GroupMember copyWith({
@@ -482,6 +487,7 @@ class GroupMember {
     DateTime? joined,
     Set<ShareScope>? scopes,
     DateTime? consentAt,
+    bool? alerts,
     bool clearInvite = false,
   }) => GroupMember(
     id: id,
@@ -492,5 +498,278 @@ class GroupMember {
     joined: joined ?? this.joined,
     scopes: scopes ?? this.scopes,
     consentAt: consentAt ?? this.consentAt,
+    alerts: alerts ?? this.alerts,
+  );
+}
+
+/// Hekim panelindeki uyarı türleri ([AlertEngine] üretir).
+enum AlertKind {
+  /// SpO2 en az 10 dakika %90'ın altında.
+  spo2Low(AlertSeverity.critical),
+
+  /// Nabız en az 10 dakika 120'nin üstünde (egzersiz dışında).
+  heartRateHigh(AlertSeverity.critical),
+
+  /// Nabız en az 10 dakika 40'ın altında.
+  heartRateLow(AlertSeverity.critical),
+
+  /// Tansiyon 180/120 ve üstü (tahmini değer).
+  bloodPressureCrisis(AlertSeverity.critical),
+
+  /// Vücut ısısı 38 °C ve üstü.
+  fever(AlertSeverity.warning),
+
+  /// 24 saattir veri gelmiyor (bileklik takılmamış ya da senkron yok).
+  noData(AlertSeverity.warning);
+
+  const AlertKind(this.severity);
+
+  final AlertSeverity severity;
+}
+
+enum AlertSeverity { critical, warning }
+
+/// Bir hekime düşen uyarı. Hekim "Gördüm" deyip not yazınca kapanır; veri
+/// gelmeme uyarısı veri gelince kendiliğinden kapanır. Kapanan uyarı
+/// silinmez: kim, ne zaman, ne yaptı kaydı olarak kalır.
+class Alert {
+  const Alert({
+    required this.id,
+    required this.ownerId,
+    required this.patientId,
+    required this.kind,
+    required this.start,
+    required this.lastSeen,
+    required this.created,
+    this.value,
+    this.value2,
+    this.ackAt,
+    this.ackBy,
+    this.note,
+    this.resolvedAt,
+  });
+
+  final String id;
+
+  /// Uyarının gittiği hekim.
+  final String ownerId;
+  final String patientId;
+  final AlertKind kind;
+
+  /// Olayın ilk ölçümü; veri gelmemede son verinin zamanı.
+  final DateTime start;
+
+  /// Olayın bilinen son ölçümü.
+  final DateTime lastSeen;
+
+  /// Uyarının portala düştüğü an; yanıt süresi buradan ölçülür.
+  final DateTime created;
+
+  /// En kötü değer (en düşük SpO2, en yüksek nabız, sistolik…).
+  final double? value;
+
+  /// Tansiyonda diyastolik.
+  final double? value2;
+
+  final DateTime? ackAt;
+  final String? ackBy;
+  final String? note;
+
+  /// Kendiliğinden kapandı (veri yeniden gelmeye başladı).
+  final DateTime? resolvedAt;
+
+  bool get open => ackAt == null && resolvedAt == null;
+
+  Alert copyWith({
+    DateTime? lastSeen,
+    double? value,
+    double? value2,
+    DateTime? ackAt,
+    String? ackBy,
+    String? note,
+    DateTime? resolvedAt,
+  }) => Alert(
+    id: id,
+    ownerId: ownerId,
+    patientId: patientId,
+    kind: kind,
+    start: start,
+    lastSeen: lastSeen ?? this.lastSeen,
+    created: created,
+    value: value ?? this.value,
+    value2: value2 ?? this.value2,
+    ackAt: ackAt ?? this.ackAt,
+    ackBy: ackBy ?? this.ackBy,
+    note: note ?? this.note,
+    resolvedAt: resolvedAt ?? this.resolvedAt,
+  );
+
+  Map<String, Object?> toJson() => {
+    'id': id,
+    'ownerId': ownerId,
+    'patientId': patientId,
+    'kind': kind.name,
+    'start': start.toUtc().toIso8601String(),
+    'lastSeen': lastSeen.toUtc().toIso8601String(),
+    'created': created.toUtc().toIso8601String(),
+    'value': value,
+    'value2': value2,
+    'ackAt': ackAt?.toUtc().toIso8601String(),
+    'ackBy': ackBy,
+    'note': note,
+    'resolvedAt': resolvedAt?.toUtc().toIso8601String(),
+  };
+
+  static Alert fromJson(Map<String, Object?> j) {
+    DateTime? t(Object? v) => v is String ? DateTime.parse(v) : null;
+    return Alert(
+      id: j['id']! as String,
+      ownerId: j['ownerId']! as String,
+      patientId: j['patientId']! as String,
+      kind: AlertKind.values.byName(j['kind']! as String),
+      start: t(j['start'])!,
+      lastSeen: t(j['lastSeen'])!,
+      created: t(j['created'])!,
+      value: (j['value'] as num?)?.toDouble(),
+      value2: (j['value2'] as num?)?.toDouble(),
+      ackAt: t(j['ackAt']),
+      ackBy: j['ackBy'] as String?,
+      note: j['note'] as String?,
+      resolvedAt: t(j['resolvedAt']),
+    );
+  }
+}
+
+/// Tanıtım sitesindeki iş birliği formunda başvuranın türü.
+enum InquiryKind {
+  distributor,
+  oem,
+  corporate,
+  clinic,
+  other,
+
+  /// Ön kayıt: uygulama mağazaya çıkınca haber verilsin (yalnızca e-posta).
+  waitlist,
+}
+
+/// Siteden gelen iş birliği başvurusu (B2B). Sağlık verisi değildir ve
+/// hiçbir hesaba bağlanmaz; yalnızca başvurana dönmek için saklanır.
+class Inquiry {
+  const Inquiry({
+    required this.id,
+    required this.time,
+    required this.kind,
+    required this.name,
+    required this.company,
+    required this.email,
+    required this.message,
+    this.country,
+    this.phone,
+  });
+
+  final String id;
+  final DateTime time;
+  final InquiryKind kind;
+  final String name;
+  final String company;
+  final String email;
+  final String message;
+  final String? country;
+  final String? phone;
+
+  Map<String, Object?> toJson() => {
+    'id': id,
+    'time': time.toUtc().toIso8601String(),
+    'kind': kind.name,
+    'name': name,
+    'company': company,
+    'email': email,
+    'message': message,
+    'country': country,
+    'phone': phone,
+  };
+
+  factory Inquiry.fromJson(Map<String, Object?> j) => Inquiry(
+    id: j['id']! as String,
+    time: DateTime.parse(j['time']! as String),
+    kind: InquiryKind.values.byName(j['kind']! as String),
+    name: j['name']! as String,
+    company: j['company']! as String,
+    email: j['email']! as String,
+    message: j['message']! as String,
+    country: j['country'] as String?,
+    phone: j['phone'] as String?,
+  );
+}
+
+/// Hasta kaydındaki bakım girdisinin türü: izlem notu ya da görev.
+enum CareKind { note, task }
+
+/// Hekimin hasta kaydına yazdığı izlem notu ya da görev. Yalnızca kaydı
+/// açan hekim görür; kayıt silinince birlikte silinir.
+class CareEntry {
+  const CareEntry({
+    required this.id,
+    required this.recordId,
+    required this.ownerId,
+    required this.kind,
+    required this.text,
+    required this.created,
+    this.due,
+    this.doneAt,
+  });
+
+  final String id;
+  final String recordId;
+  final String ownerId;
+  final CareKind kind;
+  final String text;
+  final DateTime created;
+
+  /// Görevin son günü (UTC gece yarısı).
+  final DateTime? due;
+  final DateTime? doneAt;
+
+  bool get open => kind == CareKind.task && doneAt == null;
+
+  /// [now] gününden önce bitmesi gereken açık görev.
+  bool overdueAt(DateTime now) {
+    final d = due;
+    if (!open || d == null) return false;
+    final today = DateTime.utc(now.year, now.month, now.day);
+    return d.isBefore(today);
+  }
+
+  CareEntry done(DateTime at) => CareEntry(
+    id: id,
+    recordId: recordId,
+    ownerId: ownerId,
+    kind: kind,
+    text: text,
+    created: created,
+    due: due,
+    doneAt: at,
+  );
+
+  Map<String, Object?> toJson() => {
+    'id': id,
+    'recordId': recordId,
+    'ownerId': ownerId,
+    'kind': kind.name,
+    'text': text,
+    'created': created.toUtc().toIso8601String(),
+    'due': due?.toUtc().toIso8601String(),
+    'doneAt': doneAt?.toUtc().toIso8601String(),
+  };
+
+  factory CareEntry.fromJson(Map<String, Object?> j) => CareEntry(
+    id: j['id']! as String,
+    recordId: j['recordId']! as String,
+    ownerId: j['ownerId']! as String,
+    kind: CareKind.values.byName(j['kind']! as String),
+    text: j['text']! as String,
+    created: DateTime.parse(j['created']! as String),
+    due: j['due'] == null ? null : DateTime.parse(j['due']! as String),
+    doneAt: j['doneAt'] == null ? null : DateTime.parse(j['doneAt']! as String),
   );
 }
