@@ -2554,4 +2554,251 @@ class AppLocalizationsDe extends AppLocalizations {
   @override
   String get radarNote =>
       'Jede Nacht wird mit Ihren letzten 14 Nächten verglichen. Es stellt keine Diagnose. Bei Brustschmerzen, Atemnot oder Schwindel rufen Sie den Notruf.';
+
+  @override
+  String get aiReportTitle => 'KI-Gesundheitsbericht';
+
+  @override
+  String get aiReportCardText =>
+      'Ein persönlicher Bericht über Ihre Woche mit Tipps.';
+
+  @override
+  String get aiDemoBadge => 'Demo';
+
+  @override
+  String get aiDemoNote =>
+      'Dies ist ein Beispielbericht: Die KI ist noch nicht verbunden, den Text haben Regeln in der App geschrieben. Ihre Daten haben Ihr Telefon nicht verlassen.';
+
+  @override
+  String get aiConsentTitle => 'Einwilligung zur KI-Analyse';
+
+  @override
+  String get aiConsentIntro =>
+      'Ein KI-Modell schreibt den Wochenbericht. Dazu wird eine Zusammenfassung Ihrer Woche an unseren Server und von dort an den KI-Anbieter gesendet.';
+
+  @override
+  String get aiConsentSentTitle => 'Was gesendet wird';
+
+  @override
+  String get aiConsentSent =>
+      'Altersgruppe und Geschlecht; Wochendurchschnitte für Schritte, Schlaf, Puls, HRV, Stress und Training; Signale des Gesundheitsradars.';
+
+  @override
+  String get aiConsentNotSentTitle => 'Was nicht gesendet wird';
+
+  @override
+  String get aiConsentNotSent =>
+      'Ihr Name, Ihre Kontaktdaten, die Adresse des Armbands, rohe EKG-Aufzeichnungen und einzelne Messwerte.';
+
+  @override
+  String get aiConsentAbroad =>
+      'Der KI-Anbieter sitzt im Ausland (USA), daher wird die Zusammenfassung ins Ausland übermittelt. Der Anbieter nutzt diese Daten nicht zum Trainieren von Modellen.';
+
+  @override
+  String get aiConsentLimits =>
+      'Der Bericht stellt keine Diagnose, empfiehlt keine Medikamente und ersetzt keine ärztliche Untersuchung.';
+
+  @override
+  String get aiConsentRevoke =>
+      'Sie können die Einwilligung jederzeit auf diesem Bildschirm widerrufen. Danach werden keine neuen Berichte erstellt.';
+
+  @override
+  String get aiConsentCheck =>
+      'Ich willige ausdrücklich ein, dass meine Wochenzusammenfassung zur KI-Analyse ins Ausland übermittelt wird.';
+
+  @override
+  String get aiConsentAccept => 'Zulassen';
+
+  @override
+  String get aiConsentDecline => 'Nicht jetzt';
+
+  @override
+  String get aiGenerate => 'Bericht erstellen';
+
+  @override
+  String get aiRegenerate => 'Neu erstellen';
+
+  @override
+  String get aiGenerating => 'Bericht wird erstellt …';
+
+  @override
+  String aiWeek(String start, String end) {
+    return 'Woche vom $start – $end';
+  }
+
+  @override
+  String get aiEmpty =>
+      'Für diese Woche gibt es nicht genug Daten für einen Bericht. Tragen und synchronisieren Sie das Armband ein paar Tage.';
+
+  @override
+  String get aiSummaryTitle => 'Zusammenfassung';
+
+  @override
+  String get aiWinsTitle => 'Läuft gut';
+
+  @override
+  String get aiWatchTitle => 'Im Blick behalten';
+
+  @override
+  String get aiTipsTitle => 'Vorschläge';
+
+  @override
+  String get aiNothing => 'Diese Woche fällt nichts auf.';
+
+  @override
+  String get aiDisclaimer =>
+      'Dieser Bericht dient nur der Information. Er stellt keine Diagnose und empfiehlt keine Behandlung. Sprechen Sie bei Beschwerden mit Ihrer Ärztin oder Ihrem Arzt. Rufen Sie bei Brustschmerzen, Atemnot oder Schwächegefühl den Notruf.';
+
+  @override
+  String get aiDataTitle => 'Verwendete Daten';
+
+  @override
+  String get aiDataNote =>
+      'Beim echten Bericht geht nur diese Zusammenfassung an den Server.';
+
+  @override
+  String get aiRevoke => 'Einwilligung widerrufen';
+
+  @override
+  String get aiRevoked => 'Einwilligung widerrufen.';
+
+  @override
+  String aiConsentGiven(String date) {
+    return 'Eingewilligt am $date';
+  }
+
+  @override
+  String aiStepsGood(int steps) {
+    final intl.NumberFormat stepsNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String stepsString = stepsNumberFormat.format(steps);
+
+    return 'Sie sind im Schnitt $stepsString Schritte am Tag gegangen, über Ihrem Ziel.';
+  }
+
+  @override
+  String aiStepsLow(int steps) {
+    final intl.NumberFormat stepsNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String stepsString = stepsNumberFormat.format(steps);
+
+    return 'Ihr Tagesdurchschnitt lag bei $stepsString Schritten, unter Ihrem Bewegungsziel.';
+  }
+
+  @override
+  String aiStepsUp(int percent) {
+    return 'Ihre Schritte sind gegenüber letzter Woche um $percent % gestiegen.';
+  }
+
+  @override
+  String aiStepsDown(int percent) {
+    return 'Ihre Schritte sind gegenüber letzter Woche um $percent % gesunken.';
+  }
+
+  @override
+  String aiSleepGood(int hours, int minutes) {
+    return 'Sie haben im Schnitt $hours Std. $minutes Min. pro Nacht geschlafen, im gesunden Bereich.';
+  }
+
+  @override
+  String aiSleepShort(int hours, int minutes) {
+    return 'Sie haben im Schnitt $hours Std. $minutes Min. pro Nacht geschlafen, unter 7 Stunden.';
+  }
+
+  @override
+  String aiHrvUp(int percent) {
+    return 'Ihre HRV ist gegenüber letzter Woche um $percent % gestiegen, ein Zeichen guter Erholung.';
+  }
+
+  @override
+  String aiHrvDown(int percent) {
+    return 'Ihre HRV ist gegenüber letzter Woche um $percent % gesunken, was auf Müdigkeit oder Stress hindeuten kann.';
+  }
+
+  @override
+  String aiStressHigh(int level) {
+    return 'Ihr durchschnittlicher Stresswert lag bei $level; die Woche war überwiegend hoch.';
+  }
+
+  @override
+  String aiWorkoutsGood(int count, int minutes) {
+    return '$count Trainings, insgesamt $minutes Minuten: Sie bewegen sich regelmäßig.';
+  }
+
+  @override
+  String get aiRadar =>
+      'Der Gesundheitsradar hat letzte Nacht Werte gesehen, die von Ihrem Üblichen abweichen.';
+
+  @override
+  String aiBioYounger(int years) {
+    String _temp0 = intl.Intl.pluralLogic(
+      years,
+      locale: localeName,
+      other: '$years Jahre',
+      one: '1 Jahr',
+    );
+    return 'Ihr geschätztes biologisches Alter liegt $_temp0 unter Ihrem Kalenderalter.';
+  }
+
+  @override
+  String aiBioOlder(int years) {
+    String _temp0 = intl.Intl.pluralLogic(
+      years,
+      locale: localeName,
+      other: '$years Jahre',
+      one: '1 Jahr',
+    );
+    return 'Ihr geschätztes biologisches Alter liegt $_temp0 über Ihrem Kalenderalter.';
+  }
+
+  @override
+  String get aiTipWalk =>
+      'Bauen Sie zwei kurze Spaziergänge von 10–15 Minuten am Tag ein und nehmen Sie die Treppe.';
+
+  @override
+  String get aiTipSleep =>
+      'Gehen Sie möglichst jeden Tag zur gleichen Zeit ins Bett und stehen Sie zur gleichen Zeit auf; legen Sie Bildschirme eine Stunde vorher weg.';
+
+  @override
+  String get aiTipRecover =>
+      'Wählen Sie diese Woche lockere Spaziergänge und Dehnen statt hartem Training und geben Sie dem Schlaf Vorrang.';
+
+  @override
+  String get aiTipBreathe =>
+      'Machen Sie über den Tag einige 2-minütige Pausen mit langsamer Atmung (4 Sekunden ein, 6 Sekunden aus).';
+
+  @override
+  String get aiTipMove =>
+      'Peilen Sie mindestens 150 Minuten moderate Bewegung pro Woche an; auch kurze Einheiten zählen.';
+
+  @override
+  String get aiTipRadar =>
+      'Lassen Sie es heute ruhig angehen und trinken Sie viel Wasser. Wenn Sie sich nicht wohlfühlen, sprechen Sie mit Ihrer Ärztin oder Ihrem Arzt.';
+
+  @override
+  String get aiTipKeep =>
+      'Weiter so – tragen Sie das Armband auch nachts, damit Schlaf- und Erholungsdaten vollständig bleiben.';
+
+  @override
+  String get aiSummaryGood =>
+      'Insgesamt war es eine gute Woche, ohne auffällige Probleme.';
+
+  @override
+  String get aiSummaryMixed =>
+      'Eine ausgeglichene Woche: Einiges läuft gut, ein paar Dinge sollten Sie im Blick behalten.';
+
+  @override
+  String get aiSummaryCare =>
+      'Ihr Körper braucht diese Woche etwas mehr Fürsorge; die Vorschläge unten können helfen.';
+
+  @override
+  String aiSummaryFewDays(int days) {
+    String _temp0 = intl.Intl.pluralLogic(
+      days,
+      locale: localeName,
+      other: '$days Tage',
+      one: '1 Tag',
+    );
+    return 'Nur $_temp0 mit Daten diese Woche, daher zeigt der Bericht ein begrenztes Bild.';
+  }
 }

@@ -2547,4 +2547,250 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get radarNote =>
       'Each night is compared with your last 14 nights. It does not diagnose. If you have chest pain, shortness of breath or feel faint, call your local emergency number.';
+
+  @override
+  String get aiReportTitle => 'AI health report';
+
+  @override
+  String get aiReportCardText => 'A personal report on your week, with tips.';
+
+  @override
+  String get aiDemoBadge => 'Demo';
+
+  @override
+  String get aiDemoNote =>
+      'This is a sample report: the AI isn\'t connected yet, so rules in the app wrote the text. Your data didn\'t leave your phone.';
+
+  @override
+  String get aiConsentTitle => 'Permission for AI analysis';
+
+  @override
+  String get aiConsentIntro =>
+      'An AI model writes the weekly report. For this, a summary of your week is sent to our server and from there to the AI provider.';
+
+  @override
+  String get aiConsentSentTitle => 'What is sent';
+
+  @override
+  String get aiConsentSent =>
+      'Age range and sex; weekly averages for steps, sleep, heart rate, HRV, stress and exercise; Health Radar signals.';
+
+  @override
+  String get aiConsentNotSentTitle => 'What is not sent';
+
+  @override
+  String get aiConsentNotSent =>
+      'Your name, contact details, wristband address, raw ECG recordings and individual measurements.';
+
+  @override
+  String get aiConsentAbroad =>
+      'The AI provider is abroad (USA), so the summary is transferred abroad. The provider does not use this data to train models.';
+
+  @override
+  String get aiConsentLimits =>
+      'The report does not diagnose, does not recommend medicines and does not replace a doctor\'s examination.';
+
+  @override
+  String get aiConsentRevoke =>
+      'You can withdraw permission on this screen at any time. After that, no new reports are written.';
+
+  @override
+  String get aiConsentCheck =>
+      'I explicitly consent to my weekly summary being transferred abroad for AI analysis.';
+
+  @override
+  String get aiConsentAccept => 'Allow';
+
+  @override
+  String get aiConsentDecline => 'Not now';
+
+  @override
+  String get aiGenerate => 'Create report';
+
+  @override
+  String get aiRegenerate => 'Create again';
+
+  @override
+  String get aiGenerating => 'Preparing your report…';
+
+  @override
+  String aiWeek(String start, String end) {
+    return 'Week of $start – $end';
+  }
+
+  @override
+  String get aiEmpty =>
+      'There isn\'t enough data this week for a report. Wear and sync the wristband for a few days.';
+
+  @override
+  String get aiSummaryTitle => 'Summary';
+
+  @override
+  String get aiWinsTitle => 'Going well';
+
+  @override
+  String get aiWatchTitle => 'Worth watching';
+
+  @override
+  String get aiTipsTitle => 'Suggestions';
+
+  @override
+  String get aiNothing => 'Nothing stands out this week.';
+
+  @override
+  String get aiDisclaimer =>
+      'This report is for information only. It does not diagnose or suggest treatment. If you have symptoms, talk to your doctor. For chest pain, shortness of breath or feeling faint, call the emergency number.';
+
+  @override
+  String get aiDataTitle => 'Data used';
+
+  @override
+  String get aiDataNote =>
+      'In the real report, only this summary goes to the server.';
+
+  @override
+  String get aiRevoke => 'Withdraw permission';
+
+  @override
+  String get aiRevoked => 'Permission withdrawn.';
+
+  @override
+  String aiConsentGiven(String date) {
+    return 'Permission given: $date';
+  }
+
+  @override
+  String aiStepsGood(int steps) {
+    final intl.NumberFormat stepsNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String stepsString = stepsNumberFormat.format(steps);
+
+    return 'You averaged $stepsString steps a day, above your goal.';
+  }
+
+  @override
+  String aiStepsLow(int steps) {
+    final intl.NumberFormat stepsNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String stepsString = stepsNumberFormat.format(steps);
+
+    return 'Your daily average was $stepsString steps, below your movement goal.';
+  }
+
+  @override
+  String aiStepsUp(int percent) {
+    return 'Your steps rose $percent% from last week.';
+  }
+
+  @override
+  String aiStepsDown(int percent) {
+    return 'Your steps fell $percent% from last week.';
+  }
+
+  @override
+  String aiSleepGood(int hours, int minutes) {
+    return 'You slept $hours h $minutes min a night on average, within a healthy range.';
+  }
+
+  @override
+  String aiSleepShort(int hours, int minutes) {
+    return 'You slept $hours h $minutes min a night on average, under 7 hours.';
+  }
+
+  @override
+  String aiHrvUp(int percent) {
+    return 'Your HRV rose $percent% from last week, a sign of good recovery.';
+  }
+
+  @override
+  String aiHrvDown(int percent) {
+    return 'Your HRV fell $percent% from last week, which can be a sign of tiredness or stress.';
+  }
+
+  @override
+  String aiStressHigh(int level) {
+    return 'Your average stress level was $level; most of the week was high.';
+  }
+
+  @override
+  String aiWorkoutsGood(int count, int minutes) {
+    return '$count workouts, $minutes minutes in total: you\'re moving regularly.';
+  }
+
+  @override
+  String get aiRadar =>
+      'Health Radar saw values last night that differ from your usual.';
+
+  @override
+  String aiBioYounger(int years) {
+    String _temp0 = intl.Intl.pluralLogic(
+      years,
+      locale: localeName,
+      other: '$years years',
+      one: '1 year',
+    );
+    return 'Your estimated biological age is $_temp0 younger than your calendar age.';
+  }
+
+  @override
+  String aiBioOlder(int years) {
+    String _temp0 = intl.Intl.pluralLogic(
+      years,
+      locale: localeName,
+      other: '$years years',
+      one: '1 year',
+    );
+    return 'Your estimated biological age is $_temp0 older than your calendar age.';
+  }
+
+  @override
+  String get aiTipWalk =>
+      'Add two short 10–15 minute walks a day and take the stairs.';
+
+  @override
+  String get aiTipSleep =>
+      'Try going to bed and getting up at the same time each day, and put screens away an hour before bed.';
+
+  @override
+  String get aiTipRecover =>
+      'This week, choose light walks and stretching over hard training, and put sleep first.';
+
+  @override
+  String get aiTipBreathe =>
+      'Take a few 2-minute slow-breathing breaks during the day (in for 4 seconds, out for 6).';
+
+  @override
+  String get aiTipMove =>
+      'Aim for at least 150 minutes of moderate activity a week; short bouts count too.';
+
+  @override
+  String get aiTipRadar =>
+      'Take it easy today and drink plenty of water. If you don\'t feel well, talk to your doctor.';
+
+  @override
+  String get aiTipKeep =>
+      'Keep it up, and wear the wristband at night too so sleep and recovery data stay complete.';
+
+  @override
+  String get aiSummaryGood =>
+      'Overall it was a good week, with nothing worrying standing out.';
+
+  @override
+  String get aiSummaryMixed =>
+      'A balanced week: some habits are going well, and a few things are worth watching.';
+
+  @override
+  String get aiSummaryCare =>
+      'Your body could use a little more care this week; the suggestions below may help.';
+
+  @override
+  String aiSummaryFewDays(int days) {
+    String _temp0 = intl.Intl.pluralLogic(
+      days,
+      locale: localeName,
+      other: '$days days',
+      one: '1 day',
+    );
+    return 'Only $_temp0 of data this week, so the report shows a limited picture.';
+  }
 }

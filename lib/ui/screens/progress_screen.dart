@@ -7,6 +7,7 @@ import '../format.dart';
 import '../theme.dart';
 import '../widgets/cam/cam.dart';
 import '../widgets/insights.dart';
+import 'ai_report_screen.dart';
 
 extension EnergyLevelText on EnergyLevel {
   String get label => switch (this) {
@@ -201,6 +202,14 @@ class _ProgressScreenState extends State<ProgressScreen> {
                 ),
                 const SizedBox(height: 12),
                 _WeeklyReportCard(report: report),
+                const SizedBox(height: 12),
+                AiReportCard(
+                  onTap: () => Navigator.of(context).push(
+                    MaterialPageRoute<void>(
+                      builder: (_) => AiReportScreen(day: _week),
+                    ),
+                  ),
+                ),
                 const SizedBox(height: 28),
                 Text(
                   l.achievementsTitle,

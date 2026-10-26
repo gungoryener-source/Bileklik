@@ -2502,4 +2502,232 @@ class AppLocalizationsTr extends AppLocalizations {
   @override
   String get radarNote =>
       'Her gece son 14 gecenizle karşılaştırılır. Tanı koymaz. Göğüs ağrısı, nefes darlığı ya da bayılma hissinde acil yardım numarasını arayın.';
+
+  @override
+  String get aiReportTitle => 'Yapay zeka raporu';
+
+  @override
+  String get aiReportCardText =>
+      'Haftanızı yorumlayan kişisel rapor ve öneriler.';
+
+  @override
+  String get aiDemoBadge => 'Demo';
+
+  @override
+  String get aiDemoNote =>
+      'Bu bir örnek rapordur: yapay zeka henüz bağlı değil, metni uygulamadaki kurallar yazdı. Verileriniz telefondan çıkmadı.';
+
+  @override
+  String get aiConsentTitle => 'Yapay zeka analizi için izin';
+
+  @override
+  String get aiConsentIntro =>
+      'Haftalık raporu bir yapay zeka modeli yazar. Bunun için haftanızın özeti sunucumuza, oradan da yapay zeka sağlayıcısına gönderilir.';
+
+  @override
+  String get aiConsentSentTitle => 'Gönderilenler';
+
+  @override
+  String get aiConsentSent =>
+      'Yaş aralığı ve cinsiyet; haftalık adım, uyku, nabız, HRV, stres ve egzersiz ortalamaları; Sağlık Radarı işaretleri.';
+
+  @override
+  String get aiConsentNotSentTitle => 'Gönderilmeyenler';
+
+  @override
+  String get aiConsentNotSent =>
+      'Adınız, iletişim bilgileriniz, bileklik adresi, ham EKG kayıtları ve tek tek ölçümler.';
+
+  @override
+  String get aiConsentAbroad =>
+      'Yapay zeka sağlayıcısı yurt dışındadır (ABD), bu yüzden özet yurt dışına aktarılır. Sağlayıcı bu veriyi model eğitmek için kullanmaz.';
+
+  @override
+  String get aiConsentLimits =>
+      'Rapor tanı koymaz, ilaç önermez ve hekim muayenesinin yerini tutmaz.';
+
+  @override
+  String get aiConsentRevoke =>
+      'İzni istediğiniz an bu ekrandan geri alabilirsiniz. Geri alınca yeni rapor yazılmaz.';
+
+  @override
+  String get aiConsentCheck =>
+      'Haftalık özetimin yapay zeka analizi için yurt dışına aktarılmasına açık rıza veriyorum.';
+
+  @override
+  String get aiConsentAccept => 'İzin ver';
+
+  @override
+  String get aiConsentDecline => 'Şimdi değil';
+
+  @override
+  String get aiGenerate => 'Raporu oluştur';
+
+  @override
+  String get aiRegenerate => 'Yeniden oluştur';
+
+  @override
+  String get aiGenerating => 'Rapor hazırlanıyor…';
+
+  @override
+  String aiWeek(String start, String end) {
+    return '$start – $end haftası';
+  }
+
+  @override
+  String get aiEmpty =>
+      'Bu hafta rapor için yeterli veri yok. Bilekliği birkaç gün takıp eşitleyin.';
+
+  @override
+  String get aiSummaryTitle => 'Özet';
+
+  @override
+  String get aiWinsTitle => 'İyi gidenler';
+
+  @override
+  String get aiWatchTitle => 'Dikkat edilecekler';
+
+  @override
+  String get aiTipsTitle => 'Öneriler';
+
+  @override
+  String get aiNothing => 'Bu hafta öne çıkan bir şey yok.';
+
+  @override
+  String get aiDisclaimer =>
+      'Bu rapor bilgilendirme amaçlıdır; tanı koymaz ve tedavi önermez. Belirtileriniz varsa hekiminize danışın. Göğüs ağrısı, nefes darlığı ya da bayılma hissinde acil yardım numarasını arayın.';
+
+  @override
+  String get aiDataTitle => 'Kullanılan veri';
+
+  @override
+  String get aiDataNote => 'Gerçek raporda sunucuya yalnızca bu özet gider.';
+
+  @override
+  String get aiRevoke => 'İzni geri al';
+
+  @override
+  String get aiRevoked => 'İzin geri alındı.';
+
+  @override
+  String aiConsentGiven(String date) {
+    return 'İzin tarihi: $date';
+  }
+
+  @override
+  String aiStepsGood(int steps) {
+    final intl.NumberFormat stepsNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String stepsString = stepsNumberFormat.format(steps);
+
+    return 'Günde ortalama $stepsString adım attınız; hedefin üstündesiniz.';
+  }
+
+  @override
+  String aiStepsLow(int steps) {
+    final intl.NumberFormat stepsNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String stepsString = stepsNumberFormat.format(steps);
+
+    return 'Günlük ortalamanız $stepsString adım; hareket hedefinin altında kaldı.';
+  }
+
+  @override
+  String aiStepsUp(int percent) {
+    return 'Adımlarınız geçen haftaya göre %$percent arttı.';
+  }
+
+  @override
+  String aiStepsDown(int percent) {
+    return 'Adımlarınız geçen haftaya göre %$percent azaldı.';
+  }
+
+  @override
+  String aiSleepGood(int hours, int minutes) {
+    return 'Gecede ortalama $hours sa $minutes dk uyudunuz; sağlıklı aralıktasınız.';
+  }
+
+  @override
+  String aiSleepShort(int hours, int minutes) {
+    return 'Gecede ortalama $hours sa $minutes dk uyudunuz; 7 saatin altında.';
+  }
+
+  @override
+  String aiHrvUp(int percent) {
+    return 'HRV\'niz geçen haftaya göre %$percent yükseldi; vücudunuz iyi toparlanıyor.';
+  }
+
+  @override
+  String aiHrvDown(int percent) {
+    return 'HRV\'niz geçen haftaya göre %$percent düştü; yorgunluk ya da stres işareti olabilir.';
+  }
+
+  @override
+  String aiStressHigh(int level) {
+    return 'Ortalama stres düzeyiniz $level; haftanın çoğu yüksek geçti.';
+  }
+
+  @override
+  String aiWorkoutsGood(int count, int minutes) {
+    return '$count egzersiz, toplam $minutes dakika: düzenli hareket ediyorsunuz.';
+  }
+
+  @override
+  String get aiRadar =>
+      'Sağlık Radarı son gece olağanınızdan farklı değerler gördü.';
+
+  @override
+  String aiBioYounger(int years) {
+    return 'Biyolojik yaş tahmininiz takvim yaşınızdan $years yıl genç.';
+  }
+
+  @override
+  String aiBioOlder(int years) {
+    return 'Biyolojik yaş tahmininiz takvim yaşınızdan $years yıl büyük.';
+  }
+
+  @override
+  String get aiTipWalk =>
+      'Güne 10-15 dakikalık iki kısa yürüyüş ekleyin, asansör yerine merdiveni seçin.';
+
+  @override
+  String get aiTipSleep =>
+      'Her gün aynı saatte yatıp kalkmayı deneyin; yatmadan bir saat önce ekranı bırakın.';
+
+  @override
+  String get aiTipRecover =>
+      'Bu hafta ağır antrenman yerine hafif yürüyüş ve esneme seçin, uykuya öncelik verin.';
+
+  @override
+  String get aiTipBreathe =>
+      'Gün içinde birkaç kez 2 dakikalık yavaş nefes molası verin (4 saniye alın, 6 saniye verin).';
+
+  @override
+  String get aiTipMove =>
+      'Haftada en az 150 dakika orta tempolu hareket hedefleyin; kısa parçalar da sayılır.';
+
+  @override
+  String get aiTipRadar =>
+      'Bugün dinlenmeye ağırlık verin ve bol su için. Kendinizi iyi hissetmiyorsanız hekiminize danışın.';
+
+  @override
+  String get aiTipKeep =>
+      'Böyle devam edin; bilekliği gece de takarak uyku ve toparlanma verisini eksiksiz tutun.';
+
+  @override
+  String get aiSummaryGood =>
+      'Haftanız genel olarak iyi geçti; dikkat çeken bir sorun görünmüyor.';
+
+  @override
+  String get aiSummaryMixed =>
+      'Haftanız dengeli geçti: iyi giden alışkanlıklarınız var, birkaç konuya da dikkat etmekte yarar var.';
+
+  @override
+  String get aiSummaryCare =>
+      'Bu hafta vücudunuz biraz daha özen istiyor; aşağıdaki öneriler yardımcı olabilir.';
+
+  @override
+  String aiSummaryFewDays(int days) {
+    return 'Bu hafta yalnızca $days günün verisi var; rapor sınırlı bir tablo gösteriyor.';
+  }
 }
