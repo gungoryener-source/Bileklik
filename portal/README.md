@@ -78,6 +78,7 @@ curl -H 'Authorization: Bearer demo-doctor' -H 'content-type: application/json' 
 | `DELETE /groups/<id>/members/<mid>` | grup sahibi | Üyeyi ya da bekleyen daveti çıkarır; paylaşımı biter. |
 | `DELETE /groups/<id>` | üye | Sahipse grubu siler (dosyadan da çıkar), değilse ayrılır. |
 | `POST /feedback` | herkes | Uygulama içi geri bildirim. Anahtar istenmez, kimliğe bağlanmaz; dakikada en çok 30, mesaj en çok 2000 karakter. Okumak için `dart run bin/server.dart --feedback`. |
+| `POST /inquiry` | herkes | Tanıtım sitesindeki iş birliği (distribütör, OEM/ODM, kurum, klinik) formu. Form gövdesi (`application/x-www-form-urlencoded`), herkese açık CORS; `Accept: application/json` ise JSON, değilse kısa HTML yanıt. Ad, kurum, e-posta, mesaj ve aydınlatma onayı zorunlu; dakikada en çok 10; gizli `website` alanı dolu gelirse kaydedilmez. Şifreli depoda saklanır, okumak için `dart run bin/server.dart --inquiries`. |
 
 ## Hekim paneli
 

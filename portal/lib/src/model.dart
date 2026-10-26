@@ -632,3 +632,56 @@ class Alert {
     );
   }
 }
+
+/// Tanıtım sitesindeki iş birliği formunda başvuranın türü.
+enum InquiryKind { distributor, oem, corporate, clinic, other }
+
+/// Siteden gelen iş birliği başvurusu (B2B). Sağlık verisi değildir ve
+/// hiçbir hesaba bağlanmaz; yalnızca başvurana dönmek için saklanır.
+class Inquiry {
+  const Inquiry({
+    required this.id,
+    required this.time,
+    required this.kind,
+    required this.name,
+    required this.company,
+    required this.email,
+    required this.message,
+    this.country,
+    this.phone,
+  });
+
+  final String id;
+  final DateTime time;
+  final InquiryKind kind;
+  final String name;
+  final String company;
+  final String email;
+  final String message;
+  final String? country;
+  final String? phone;
+
+  Map<String, Object?> toJson() => {
+    'id': id,
+    'time': time.toUtc().toIso8601String(),
+    'kind': kind.name,
+    'name': name,
+    'company': company,
+    'email': email,
+    'message': message,
+    'country': country,
+    'phone': phone,
+  };
+
+  factory Inquiry.fromJson(Map<String, Object?> j) => Inquiry(
+    id: j['id']! as String,
+    time: DateTime.parse(j['time']! as String),
+    kind: InquiryKind.values.byName(j['kind']! as String),
+    name: j['name']! as String,
+    company: j['company']! as String,
+    email: j['email']! as String,
+    message: j['message']! as String,
+    country: j['country'] as String?,
+    phone: j['phone'] as String?,
+  );
+}

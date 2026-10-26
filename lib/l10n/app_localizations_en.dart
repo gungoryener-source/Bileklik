@@ -1742,7 +1742,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get privacyDataBody =>
-      'What the wristband measures: heart rate, heart rate variability (HRV), blood oxygen (SpO2), ECG, sleep, steps, workouts, body temperature, stress and estimated blood pressure. What you enter: age, height, weight, sex, body composition and reminders. The wristband\'s Bluetooth address. We don\'t ask for your name, national ID number, phone or email; on the portal you are known only by a random pseudonym.';
+      'What the wristband measures: heart rate, heart rate variability (HRV), blood oxygen (SpO2), ECG, sleep, steps, workouts, body temperature, stress and estimated blood pressure. What you enter: age, height, weight, sex, body composition and reminders. The wristband\'s Bluetooth address. We don\'t ask for your name, national ID number, phone or email; on the portal you are known only by a random pseudonym. If you fill in the partnership form on our website, your name, organisation, email and message are stored encrypted only so we can reply; they are never combined with health data.';
 
   @override
   String get privacyDataTitle => 'What data do we process?';

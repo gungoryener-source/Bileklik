@@ -285,6 +285,8 @@ class EncryptedPortalStore implements PortalStore {
             locale: e['locale'] as String?,
           ),
         );
+      case 'inquiry':
+        _mem.addInquiry(Inquiry.fromJson(e));
       default:
         throw FormatException('Bilinmeyen olay: ${e['t']}');
     }
@@ -573,6 +575,12 @@ class EncryptedPortalStore implements PortalStore {
 
   @override
   List<FeedbackEntry> feedback() => _mem.feedback();
+
+  @override
+  void addInquiry(Inquiry i) => _record({'t': 'inquiry', ...i.toJson()});
+
+  @override
+  List<Inquiry> inquiries() => _mem.inquiries();
 
   /// Yeniden başlatmada çakışmasın diye sıra numarası yerine rastgele.
   @override

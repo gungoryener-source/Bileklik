@@ -144,6 +144,25 @@ h1, h2, h3 { text-wrap: balance; }
 .cred { display: flex; flex-wrap: wrap; gap: 8px; }
 .cred code { font: 600 14px/1 var(--mono); background: var(--soft); color: var(--violet-ink); padding: 8px 10px; border-radius: 8px; }
 
+/* İş birliği formu */
+.b2b { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 380px), 1fr)); gap: 40px; align-items: start; }
+.form { display: grid; gap: 16px; }
+.form .two { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr)); gap: 16px; }
+.form label { display: grid; gap: 6px; font-weight: 600; font-size: 15px; color: var(--ink); }
+.form label small { font-weight: 500; color: var(--muted); }
+.form input, .form select, .form textarea { width: 100%; min-height: 48px; padding: 12px 14px; border-radius: 12px; border: 1px solid #D5CDE8; background: #FFFFFF; color: var(--ink); font: 400 16px/1.4 var(--font); }
+.form textarea { min-height: 128px; resize: vertical; }
+.form input:focus-visible, .form select:focus-visible, .form textarea:focus-visible { outline: 3px solid var(--violet); outline-offset: 1px; border-color: var(--violet); }
+.form [aria-invalid="true"] { border-color: var(--heart-ink); }
+.form .check { display: flex; gap: 12px; align-items: flex-start; font-weight: 500; color: var(--body); font-size: 15px; }
+.form .check input { width: 22px; min-height: 22px; height: 22px; margin: 2px 0 0; flex: 0 0 auto; accent-color: var(--violet); }
+.form .hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+.form .btn { justify-self: start; border: 0; cursor: pointer; }
+.form .btn[disabled] { opacity: .6; cursor: progress; }
+.status { margin: 0; font-weight: 600; min-height: 1.6em; }
+.status.ok { color: var(--green); }
+.status.err { color: var(--heart-ink); }
+
 /* SSS */
 .faq { max-width: 860px; margin: 0 auto; }
 details { border-bottom: 1px solid #E4DFEF; padding: 18px 0; }
@@ -191,6 +210,7 @@ footer nav { display: flex; flex-wrap: wrap; gap: 8px 20px; }
       <a href="#paylasim">Paylaşım</a>
       <a href="#gizlilik">Gizlilik</a>
       <a href="#dene">Deneyin</a>
+      <a href="#is-birligi">İş birliği</a>
       <a href="#sss">SSS</a>
     </nav>
     <a class="btn btn-ghost btn-sm" href="#dene">Demoyu dene</a>
@@ -485,6 +505,49 @@ footer nav { display: flex; flex-wrap: wrap; gap: 8px 20px; }
   </div>
 </section>
 
+<section id="is-birligi" class="sec" aria-labelledby="b2b-baslik">
+  <div class="wrap b2b">
+    <div class="txt">
+      <p class="eyebrow">İş birliği</p>
+      <h2 id="b2b-baslik" class="h2">Bileklik'i birlikte sunalım</h2>
+      <p class="lead">Distribütörler, kendi markasıyla üretmek isteyen firmalar, çalışanlarına sağlık programı kuran kurumlar ve hastalarını uzaktan izlemek isteyen klinikler için.</p>
+      <ul class="list">
+        <li><i class="dot" style="background: var(--heart)"></i><span><strong>Distribütörlük:</strong> bölgenizde bileklik ve uygulamanın satışı, kurulum desteği.</span></li>
+        <li><i class="dot" style="background: var(--violet)"></i><span><strong>OEM / ODM:</strong> kendi markanızla uygulama ve hekim paneli, dört dil hazır.</span></li>
+        <li><i class="dot" style="background: var(--teal)"></i><span><strong>Kurumsal sağlık:</strong> çalışanlar verisini yalnızca kendi seçtikleriyle paylaşır; kurum kişisel veri görmez.</span></li>
+        <li><i class="dot" style="background: var(--amber)"></i><span><strong>Klinik ve hastane:</strong> hekim panelinde uzaktan izlem, uyarı panosu, rapor ve FHIR R4 aktarımı.</span></li>
+      </ul>
+    </div>
+    <div class="card">
+      <form id="b2b-form" class="form" action="https://bileklik-test.onrender.com/inquiry" method="post" novalidate>
+        <label>Başvuru türü
+          <select name="kind" required>
+            <option value="distributor">Distribütörlük</option>
+            <option value="oem">OEM / ODM (kendi markanız)</option>
+            <option value="corporate">Kurumsal sağlık programı</option>
+            <option value="clinic">Klinik ya da hastane</option>
+            <option value="other">Diğer</option>
+          </select>
+        </label>
+        <div class="two">
+          <label>Adınız soyadınız<input name="name" autocomplete="name" maxlength="120" required></label>
+          <label>Kurum<input name="company" autocomplete="organization" maxlength="120" required></label>
+        </div>
+        <div class="two">
+          <label>E-posta<input name="email" type="email" autocomplete="email" maxlength="200" required></label>
+          <label><span>Telefon <small>(isteğe bağlı)</small></span><input name="phone" type="tel" autocomplete="tel" maxlength="40"></label>
+        </div>
+        <label><span>Ülke / bölge <small>(isteğe bağlı)</small></span><input name="country" autocomplete="country-name" maxlength="120"></label>
+        <label>Mesajınız<textarea name="message" maxlength="2000" required placeholder="Hedef pazar, tahmini adet, ihtiyacınız…"></textarea></label>
+        <label class="hp" aria-hidden="true">Web sitesi<input name="website" tabindex="-1" autocomplete="off"></label>
+        <label class="check"><input type="checkbox" name="consent" required><span>Bilgilerimin yalnızca başvuruma dönülmesi için saklanacağını ve sağlık verisiyle birleştirilmeyeceğini okudum (<a href="https://bileklik-test.onrender.com/gizlilik">gizlilik politikası</a>).</span></label>
+        <button class="btn btn-primary" type="submit">Başvuruyu gönder</button>
+        <p class="status" role="status" aria-live="polite"></p>
+      </form>
+    </div>
+  </div>
+</section>
+
 <section id="sss" class="sec" aria-labelledby="sss-baslik">
   <div class="wrap faq">
     <p class="eyebrow">Sık sorulanlar</p>
@@ -524,5 +587,41 @@ footer nav { display: flex; flex-wrap: wrap; gap: 8px 20px; }
     </nav>
   </div>
 </footer>
+<script>
+// İş birliği formu: betik varsa sayfadan çıkmadan gönderilir; yoksa form
+// portala normal yoldan gider ve portal kısa bir sayfa gösterir.
+(function () {
+  var form = document.getElementById("b2b-form");
+  if (!form || !window.fetch) return;
+  var status = form.querySelector(".status");
+  var button = form.querySelector("button[type=submit]");
+  var labels = { kind: "başvuru türü", name: "ad soyad", company: "kurum", email: "e-posta", message: "mesaj", consent: "aydınlatma onayı" };
+  function show(text, ok) { status.textContent = text; status.className = "status " + (ok ? "ok" : "err"); }
+  function mark(fields) {
+    form.querySelectorAll("[aria-invalid]").forEach(function (el) { el.removeAttribute("aria-invalid"); });
+    fields.forEach(function (f) { var el = form.elements[f]; if (el) el.setAttribute("aria-invalid", "true"); });
+    if (fields.length && form.elements[fields[0]]) form.elements[fields[0]].focus();
+  }
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
+    var missing = ["name", "company", "email", "message"].filter(function (f) { return !form.elements[f].value.trim(); });
+    if (form.elements.email.value && !form.elements.email.checkValidity()) missing.push("email");
+    if (!form.elements.consent.checked) missing.push("consent");
+    if (missing.length) { mark(missing); show("Eksik ya da hatalı: " + missing.map(function (f) { return labels[f]; }).join(", ") + ".", false); return; }
+    mark([]);
+    button.disabled = true;
+    show("Gönderiliyor…", true);
+    fetch(form.action, { method: "POST", body: new URLSearchParams(new FormData(form)), headers: { "Accept": "application/json" } })
+      .then(function (r) { return r.json().catch(function () { return {}; }).then(function (b) { return { status: r.status, body: b }; }); })
+      .then(function (r) {
+        if (r.status === 201) { form.reset(); show("Teşekkürler, başvurunuz alındı. En kısa sürede e-postayla döneceğiz.", true); }
+        else if (r.status === 429) { show("Şu an çok fazla başvuru geliyor; birkaç dakika sonra yeniden deneyin.", false); }
+        else { var f = (r.body && r.body.fields) || []; mark(f); show("Eksik ya da hatalı: " + (f.map(function (x) { return labels[x] || x; }).join(", ") || "form") + ".", false); }
+      })
+      .catch(function () { show("Bağlantı kurulamadı. Sunucu uyuyorsa ilk açılış bir dakika sürebilir; biraz sonra yeniden deneyin.", false); })
+      .then(function () { button.disabled = false; });
+  });
+})();
+</script>
 </body>
 </html>

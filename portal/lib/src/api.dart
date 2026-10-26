@@ -8,6 +8,7 @@ import 'package:shelf_router/shelf_router.dart';
 
 import 'alerts.dart';
 import 'ingest.dart';
+import 'inquiry.dart';
 import 'model.dart';
 import 'panel.dart';
 import 'passwords.dart';
@@ -32,6 +33,7 @@ import 'store.dart';
 /// | `DELETE /consents/<id>` | hasta | Rızayı geri alır |
 /// | `DELETE /patients/<id>/data` | hasta | Ölçümlerini siler (unutulma hakkı) |
 /// | `POST /feedback` | herkes | Uygulama içi geri bildirim (kimliksiz) |
+/// | `POST /inquiry` | herkes | Sitedeki iş birliği formu ([InquiryEndpoint]) |
 /// | `GET /groups` | hasta | Aile grupları, üyeler, paylaşımlar ve bildirimler |
 /// | `POST /groups` | hasta | Grup açar |
 /// | `POST /groups/join` | hasta | Grup ya da kişiye özel kodla katılır |
@@ -99,6 +101,7 @@ class PortalApi {
     ..delete('/consents/<id>', _revokeConsent)
     ..delete('/patients/<id>/data', _erase)
     ..post('/feedback', _feedback)
+    ..post('/inquiry', _inquiry.handle)
     ..get('/groups', _listGroups)
     ..post('/groups', _createGroup)
     ..post('/groups/join', _joinGroup)
@@ -113,7 +116,7 @@ class PortalApi {
       return inner(request);
     }
     if (request.method == 'POST' &&
-        const {'patients', 'feedback', 'recover'}.contains(request.url.path)) {
+        const {'patients', 'feedback', 'recover', 'inquiry'}.contains(request.url.path)) {
       return inner(request);
     }
     final header = request.headers['authorization'] ?? '';
@@ -252,6 +255,9 @@ class PortalApi {
   }
 
   // ---------------------------------------------------------- geri bildirim
+
+  /// Sitedeki iş birliği formu ([InquiryEndpoint]).
+  late final _inquiry = InquiryEndpoint(store, _now);
 
   /// Geri bildirimde en çok bu kadar karakter.
   static const feedbackMaxLength = 2000;

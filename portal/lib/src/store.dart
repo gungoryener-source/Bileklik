@@ -79,6 +79,10 @@ abstract class PortalStore {
   void addFeedback(FeedbackEntry f);
   List<FeedbackEntry> feedback();
 
+  /// Sitedeki iş birliği formundan gelen başvurular.
+  void addInquiry(Inquiry i);
+  List<Inquiry> inquiries();
+
   /// Hasta kaydını ekler ya da aynı kimlikliyi değiştirir.
   void putRecord(PatientRecord r);
   PatientRecord? record(String id);
@@ -118,6 +122,7 @@ class MemoryPortalStore implements PortalStore {
   final _invites = <String, Invite>{};
   final _audit = <AuditEntry>[];
   final _feedback = <FeedbackEntry>[];
+  final _inquiries = <Inquiry>[];
   final _recovery = <String, String>{}; // özet -> hesap
   final _groups = <String, CareGroupRecord>{};
   final _members = <String, GroupMember>{};
@@ -332,6 +337,12 @@ class MemoryPortalStore implements PortalStore {
 
   @override
   List<FeedbackEntry> feedback() => List.unmodifiable(_feedback);
+
+  @override
+  void addInquiry(Inquiry i) => _inquiries.add(i);
+
+  @override
+  List<Inquiry> inquiries() => List.unmodifiable(_inquiries);
 
   @override
   String nextId(String prefix) => '$prefix-${++_seq}';

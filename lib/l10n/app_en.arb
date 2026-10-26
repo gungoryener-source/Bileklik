@@ -478,7 +478,7 @@
   "privacyAuditTitle": "Access log",
   "privacyContactBody": "The data controller's name, address and how to make a request will appear here before release. You can also write to us in the app under Profile > Feedback.",
   "privacyContactTitle": "Contact",
-  "privacyDataBody": "What the wristband measures: heart rate, heart rate variability (HRV), blood oxygen (SpO2), ECG, sleep, steps, workouts, body temperature, stress and estimated blood pressure. What you enter: age, height, weight, sex, body composition and reminders. The wristband's Bluetooth address. We don't ask for your name, national ID number, phone or email; on the portal you are known only by a random pseudonym.",
+  "privacyDataBody": "What the wristband measures: heart rate, heart rate variability (HRV), blood oxygen (SpO2), ECG, sleep, steps, workouts, body temperature, stress and estimated blood pressure. What you enter: age, height, weight, sex, body composition and reminders. The wristband's Bluetooth address. We don't ask for your name, national ID number, phone or email; on the portal you are known only by a random pseudonym. If you fill in the partnership form on our website, your name, organisation, email and message are stored encrypted only so we can reply; they are never combined with health data.",
   "privacyDataTitle": "What data do we process?",
   "privacyDraft": "Draft: this text has not been reviewed by a lawyer. The data controller's name, address and retention periods will be added before release.",
   "privacyIntro": "This text explains how the Bileklik app and portal process your personal data under the Turkish Personal Data Protection Law No. 6698 (KVKK).",
