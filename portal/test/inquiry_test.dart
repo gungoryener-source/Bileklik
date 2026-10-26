@@ -74,6 +74,23 @@ void main() {
     expect(store.inquiries(), isEmpty);
   });
 
+  test(
+    'ön kayıt yalnızca e-posta ve onay ister, aynı e-posta bir kez',
+    () async {
+      final form = {
+        'kind': 'waitlist',
+        'email': 'ali@ornek.com',
+        'consent': 'on',
+      };
+      expect((await post(form)).statusCode, 201);
+      expect((await post({...form, 'email': 'ALI@ornek.com'})).statusCode, 201);
+      final i = store.inquiries().single;
+      expect(i.kind, InquiryKind.waitlist);
+      expect(i.name, '');
+      expect((await post({'kind': 'waitlist', 'email': 'x'})).statusCode, 400);
+    },
+  );
+
   test('gizli alan doluysa başarılı görünür ama kaydedilmez', () async {
     final r = await post({...valid, 'website': 'http://spam.example'});
     expect(r.statusCode, 201);

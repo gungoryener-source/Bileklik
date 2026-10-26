@@ -93,7 +93,7 @@ nav { color: var(--muted); font-size: .9rem; }
     [
       (
         'Hangi verileri işliyoruz?',
-        'Bilekliğin ölçtükleri: nabız, kalp atış hızı değişkenliği (HRV), kandaki oksijen (SpO2), EKG, uyku, adım, egzersiz, vücut ısısı, stres ve tahmini tansiyon. Sizin girdikleriniz: yaş, boy, kilo, cinsiyet, vücut kompozisyonu ve hatırlatıcılar. Bilekliğin Bluetooth adresi. Adınız, TC kimlik numaranız, telefonunuz ya da e-postanız istenmez; portalda yalnızca rastgele bir takma kimlikle tanınırsınız. Tanıtım sitesindeki iş birliği formunu doldurursanız adınız, kurumunuz, e-postanız ve mesajınız yalnızca size dönmek için şifreli saklanır; sağlık verisiyle birleştirilmez.',
+        'Bilekliğin ölçtükleri: nabız, kalp atış hızı değişkenliği (HRV), kandaki oksijen (SpO2), EKG, uyku, adım, egzersiz, vücut ısısı, stres ve tahmini tansiyon. Sizin girdikleriniz: yaş, boy, kilo, cinsiyet, vücut kompozisyonu ve hatırlatıcılar. Bilekliğin Bluetooth adresi. Adınız, TC kimlik numaranız, telefonunuz ya da e-postanız istenmez; portalda yalnızca rastgele bir takma kimlikle tanınırsınız. Tanıtım sitesindeki iş birliği formunu doldurursanız adınız, kurumunuz, e-postanız ve mesajınız yalnızca size dönmek için şifreli saklanır; sağlık verisiyle birleştirilmez. Ön kayıt formunda yalnızca e-postanız alınır ve uygulama mağazalara çıktığında tek bir duyuru için kullanılır.',
       ),
       (
         'Veriler nerede durur?',
@@ -137,7 +137,7 @@ nav { color: var(--muted); font-size: .9rem; }
     [
       (
         'What data do we process?',
-        'What the wristband measures: heart rate, heart rate variability (HRV), blood oxygen (SpO2), ECG, sleep, steps, workouts, body temperature, stress and estimated blood pressure. What you enter: age, height, weight, sex, body composition and reminders. The wristband\'s Bluetooth address. We don\'t ask for your name, national ID number, phone or email; on the portal you are known only by a random pseudonym. If you fill in the partnership form on our website, your name, organisation, email and message are stored encrypted only so we can reply; they are never combined with health data.',
+        'What the wristband measures: heart rate, heart rate variability (HRV), blood oxygen (SpO2), ECG, sleep, steps, workouts, body temperature, stress and estimated blood pressure. What you enter: age, height, weight, sex, body composition and reminders. The wristband\'s Bluetooth address. We don\'t ask for your name, national ID number, phone or email; on the portal you are known only by a random pseudonym. If you fill in the partnership form on our website, your name, organisation, email and message are stored encrypted only so we can reply; they are never combined with health data. The pre-registration form takes only your email, used for a single announcement when the app reaches the stores.',
       ),
       (
         'Where is the data kept?',
@@ -181,7 +181,7 @@ nav { color: var(--muted); font-size: .9rem; }
     [
       (
         'ما البيانات التي نعالجها؟',
-        'ما يقيسه السوار: نبض القلب وتقلبه (HRV) وأكسجين الدم (SpO2) وتخطيط القلب والنوم والخطوات والتمارين وحرارة الجسم والتوتر وضغط الدم التقديري. ما تدخله أنت: العمر والطول والوزن والجنس وتكوين الجسم والتذكيرات. عنوان البلوتوث للسوار. لا نطلب اسمك أو رقم هويتك أو هاتفك أو بريدك الإلكتروني؛ تُعرف في البوابة باسم مستعار عشوائي فقط. إذا ملأت نموذج الشراكة على موقعنا، يُحفظ اسمك وجهتك وبريدك الإلكتروني ورسالتك مشفّرة فقط للرد عليك، ولا تُدمج مع البيانات الصحية.',
+        'ما يقيسه السوار: نبض القلب وتقلبه (HRV) وأكسجين الدم (SpO2) وتخطيط القلب والنوم والخطوات والتمارين وحرارة الجسم والتوتر وضغط الدم التقديري. ما تدخله أنت: العمر والطول والوزن والجنس وتكوين الجسم والتذكيرات. عنوان البلوتوث للسوار. لا نطلب اسمك أو رقم هويتك أو هاتفك أو بريدك الإلكتروني؛ تُعرف في البوابة باسم مستعار عشوائي فقط. إذا ملأت نموذج الشراكة على موقعنا، يُحفظ اسمك وجهتك وبريدك الإلكتروني ورسالتك مشفّرة فقط للرد عليك، ولا تُدمج مع البيانات الصحية. نموذج التسجيل المسبق يأخذ بريدك الإلكتروني فقط، ويُستخدم لإعلان واحد عند وصول التطبيق إلى المتاجر.',
       ),
       (
         'أين تُحفظ البيانات؟',
@@ -225,7 +225,7 @@ nav { color: var(--muted); font-size: .9rem; }
     [
       (
         'Welche Daten verarbeiten wir?',
-        'Was das Armband misst: Herzfrequenz, Herzfrequenzvariabilität (HRV), Blutsauerstoff (SpO2), EKG, Schlaf, Schritte, Training, Körpertemperatur, Stress und geschätzter Blutdruck. Was Sie eingeben: Alter, Größe, Gewicht, Geschlecht, Körperzusammensetzung und Erinnerungen. Die Bluetooth-Adresse des Armbands. Name, Ausweisnummer, Telefon oder E-Mail werden nicht abgefragt; im Portal sind Sie nur unter einem zufälligen Pseudonym bekannt. Wenn Sie das Partnerformular auf unserer Website ausfüllen, werden Name, Organisation, E-Mail und Nachricht nur für unsere Antwort verschlüsselt gespeichert und nie mit Gesundheitsdaten verknüpft.',
+        'Was das Armband misst: Herzfrequenz, Herzfrequenzvariabilität (HRV), Blutsauerstoff (SpO2), EKG, Schlaf, Schritte, Training, Körpertemperatur, Stress und geschätzter Blutdruck. Was Sie eingeben: Alter, Größe, Gewicht, Geschlecht, Körperzusammensetzung und Erinnerungen. Die Bluetooth-Adresse des Armbands. Name, Ausweisnummer, Telefon oder E-Mail werden nicht abgefragt; im Portal sind Sie nur unter einem zufälligen Pseudonym bekannt. Wenn Sie das Partnerformular auf unserer Website ausfüllen, werden Name, Organisation, E-Mail und Nachricht nur für unsere Antwort verschlüsselt gespeichert und nie mit Gesundheitsdaten verknüpft. Das Vorregistrierungsformular nimmt nur Ihre E-Mail-Adresse auf; sie wird für eine einzige Mitteilung verwendet, sobald die App in den Stores ist.',
       ),
       (
         'Wo werden die Daten gespeichert?',

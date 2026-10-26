@@ -641,7 +641,16 @@ class Alert {
 }
 
 /// Tanıtım sitesindeki iş birliği formunda başvuranın türü.
-enum InquiryKind { distributor, oem, corporate, clinic, other }
+enum InquiryKind {
+  distributor,
+  oem,
+  corporate,
+  clinic,
+  other,
+
+  /// Ön kayıt: uygulama mağazaya çıkınca haber verilsin (yalnızca e-posta).
+  waitlist,
+}
 
 /// Siteden gelen iş birliği başvurusu (B2B). Sağlık verisi değildir ve
 /// hiçbir hesaba bağlanmaz; yalnızca başvurana dönmek için saklanır.

@@ -241,7 +241,7 @@ class OpenApi {
       'Form body (application/x-www-form-urlencoded), CORS open. 10 per minute.',
       roles: 'anyone',
       body: {
-        'kind': 'distributor | oem | corporate | clinic | other',
+        'kind': 'distributor | oem | corporate | clinic | other | waitlist',
         'name': 'string',
         'company': 'string',
         'email': 'string',

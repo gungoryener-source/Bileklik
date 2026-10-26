@@ -10,8 +10,9 @@ Derleme gerektirmeyen tek sayfa statik site: `index.html`, `404.html`,
 - "Dene" bağlantıları test portalına gider (https://bileklik-test.onrender.com).
 - "İş birliği" formu (`#is-birligi`) portalın `POST /inquiry` ucuna gönderir
   (şimdilik test portalı). Başvurular portalda şifreli durur; okumak için
-  `dart run bin/server.dart --inquiries`.
+  `dart run bin/server.dart --inquiries`. Sondaki "Haber ver" ön kayıt formu
+  da aynı uca `kind=waitlist` ile yalnızca e-posta gönderir.
 - Yayın öncesi eklenecekler: App Store ve Google Play bağlantıları, iletişim
-  adresi, şirket adı.
+  adresi, şirket adı, kayış ölçü aralığı ("Nasıl ölçer" bölümü).
 
 Yerelde bakmak için: `python3 -m http.server -d website 8080`.

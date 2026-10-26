@@ -15,6 +15,8 @@ import 'store.dart';
 /// - Dakikada en çok [perMinute] başvuru. Gizli `website` alanı doluysa
 ///   (bot) başarılı görünür ama kaydedilmez.
 /// - Aydınlatma onayı (`consent=on`) zorunludur.
+/// - `kind=waitlist` ön kayıttır: yalnızca e-posta ve onay; aynı e-posta
+///   ikinci kez kaydedilmez.
 class InquiryEndpoint {
   InquiryEndpoint(this.store, this._now);
 
@@ -49,25 +51,33 @@ class InquiryEndpoint {
     final message = field('message', messageMax);
     final emailOk =
         email != null && RegExp(r'^[^@\s]+@[^@\s]+\.[^@\s]+$').hasMatch(email);
+    // Ön kayıtta yalnızca e-posta ve onay istenir.
+    final waitlist = kind == InquiryKind.waitlist;
     final bad = [
       if (kind == null) 'kind',
-      if (name == null) 'name',
-      if (company == null) 'company',
+      if (name == null && !waitlist) 'name',
+      if (company == null && !waitlist) 'company',
       if (!emailOk) 'email',
-      if (message == null) 'message',
+      if (message == null && !waitlist) 'message',
       if (form['consent'] != 'on') 'consent',
     ];
     if (bad.isNotEmpty) return _reply(r, json, 400, 'invalid', bad);
     _times.add(now);
+    if (waitlist &&
+        store.inquiries().any(
+          (i) => i.kind == InquiryKind.waitlist && i.email == email,
+        )) {
+      return _reply(r, json, 201, 'received', const []);
+    }
     store.addInquiry(
       Inquiry(
         id: store.nextId('inq'),
         time: now,
         kind: kind!,
-        name: name!,
-        company: company!,
+        name: name ?? '',
+        company: company ?? '',
         email: email!,
-        message: message!,
+        message: message ?? '',
         country: field('country', fieldMax),
         phone: field('phone', 40),
       ),

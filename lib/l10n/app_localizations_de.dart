@@ -1803,7 +1803,7 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get privacyDataBody =>
-      'Was das Armband misst: Herzfrequenz, Herzfrequenzvariabilität (HRV), Blutsauerstoff (SpO2), EKG, Schlaf, Schritte, Training, Körpertemperatur, Stress und geschätzter Blutdruck. Was Sie eingeben: Alter, Größe, Gewicht, Geschlecht, Körperzusammensetzung und Erinnerungen. Die Bluetooth-Adresse des Armbands. Name, Ausweisnummer, Telefon oder E-Mail werden nicht abgefragt; im Portal sind Sie nur unter einem zufälligen Pseudonym bekannt. Wenn Sie das Partnerformular auf unserer Website ausfüllen, werden Name, Organisation, E-Mail und Nachricht nur für unsere Antwort verschlüsselt gespeichert und nie mit Gesundheitsdaten verknüpft.';
+      'Was das Armband misst: Herzfrequenz, Herzfrequenzvariabilität (HRV), Blutsauerstoff (SpO2), EKG, Schlaf, Schritte, Training, Körpertemperatur, Stress und geschätzter Blutdruck. Was Sie eingeben: Alter, Größe, Gewicht, Geschlecht, Körperzusammensetzung und Erinnerungen. Die Bluetooth-Adresse des Armbands. Name, Ausweisnummer, Telefon oder E-Mail werden nicht abgefragt; im Portal sind Sie nur unter einem zufälligen Pseudonym bekannt. Wenn Sie das Partnerformular auf unserer Website ausfüllen, werden Name, Organisation, E-Mail und Nachricht nur für unsere Antwort verschlüsselt gespeichert und nie mit Gesundheitsdaten verknüpft. Das Vorregistrierungsformular nimmt nur Ihre E-Mail-Adresse auf; sie wird für eine einzige Mitteilung verwendet, sobald die App in den Stores ist.';
 
   @override
   String get privacyDataTitle => 'Welche Daten verarbeiten wir?';
