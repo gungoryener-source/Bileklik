@@ -397,6 +397,17 @@ class AppLocalizationsAr extends AppLocalizations {
   String get communityAccept => 'انضمام';
 
   @override
+  String get communityAlertsBody =>
+      'إذا انخفض أو ارتفع نبضك أو SpO2 أو ضغط الدم أو حرارة الجسم التي تشاركها لفترة طويلة، يرى أعضاء المجموعة تنبيهًا في التطبيق. التنبيه ليس تشخيصًا.';
+
+  @override
+  String get communityAlertsNeedScope =>
+      'شارك أولًا النبض أو SpO2 أو ضغط الدم أو حرارة الجسم.';
+
+  @override
+  String get communityAlertsTitle => 'نبّه المجموعة في حالة طارئة';
+
+  @override
   String get communityAnswered => 'تم الرد';
 
   @override
@@ -933,6 +944,47 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get exportTitle => 'تصدير بياناتي';
+
+  @override
+  String familyAlertBloodPressure(
+    String name,
+    String systolic,
+    String diastolic,
+  ) {
+    return '$name: ضغط دم مرتفع جدًا ($systolic/$diastolic، تقديري)';
+  }
+
+  @override
+  String familyAlertFever(String name, String value) {
+    return '$name: حمى ($value)';
+  }
+
+  @override
+  String familyAlertHeartRateHigh(String name, String value) {
+    return '$name: نبض مرتفع (الأعلى $value نبضة/د)';
+  }
+
+  @override
+  String familyAlertHeartRateLow(String name, String value) {
+    return '$name: نبض منخفض (الأدنى $value نبضة/د)';
+  }
+
+  @override
+  String get familyAlertNote =>
+      'هذا تنبيه تلقائي وليس تشخيصًا. إذا لم تستطع الوصول إليه وكان الأمر طارئًا فاتصل برقم الطوارئ المحلي.';
+
+  @override
+  String familyAlertSpo2Low(String name, String value) {
+    return '$name: انخفاض SpO2 (الأدنى $value٪)';
+  }
+
+  @override
+  String familyAlertTime(String start, String end) {
+    return '$start – $end';
+  }
+
+  @override
+  String get familyAlertTitle => 'تنبيه عائلي';
 
   @override
   String feedbackDetailsValue(String version, String platform) {
@@ -1786,7 +1838,7 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get privacySharingBody =>
-      'فقط مع الأطباء أو مؤسسات البحث أو أفراد مجموعة العائلة الذين توافق عليهم، وللأنواع التي تختارها فقط وطوال مدة الموافقة. القيم التي تدخلها بنفسك مثل الوزن وتكوين الجسم لا تُشارك إلا إذا اخترت «قياسات الجسم» صراحةً. لا يُكتب في Apple Health أو Health Connect إلا ما تختاره، ولا يقرأ التطبيق منهما. الملاحظات لا ترتبط بهويتك. عندما يظهر تغيّر واضح في الأنواع التي تشاركها (مثلًا انخفاض SpO2 لفترة طويلة أو عدم وصول بيانات منذ يوم)، تعرض البوابة على طبيبك تنبيهًا تلقائيًا؛ هذه التنبيهات ليست تشخيصًا وتُحذف عند حذف بياناتك من البوابة.';
+      'فقط مع الأطباء أو مؤسسات البحث أو أفراد مجموعة العائلة الذين توافق عليهم، وللأنواع التي تختارها فقط وطوال مدة الموافقة. القيم التي تدخلها بنفسك مثل الوزن وتكوين الجسم لا تُشارك إلا إذا اخترت «قياسات الجسم» صراحةً. لا يُكتب في Apple Health أو Health Connect إلا ما تختاره، ولا يقرأ التطبيق منهما. الملاحظات لا ترتبط بهويتك. عندما يظهر تغيّر واضح في الأنواع التي تشاركها (مثلًا انخفاض SpO2 لفترة طويلة أو عدم وصول بيانات منذ يوم)، تعرض البوابة على طبيبك تنبيهًا تلقائيًا؛ هذه التنبيهات ليست تشخيصًا وتُحذف عند حذف بياناتك من البوابة. إذا فعّلت أيضًا «نبّه المجموعة في حالة طارئة» لمجموعة عائلية، تظهر التنبيهات نفسها للأنواع التي تشاركها مع تلك المجموعة لأعضائها.';
 
   @override
   String get privacySharingTitle => 'مع من تُشارك؟';

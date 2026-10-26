@@ -399,6 +399,17 @@ class AppLocalizationsTr extends AppLocalizations {
   String get communityAccept => 'Katıl';
 
   @override
+  String get communityAlertsBody =>
+      'Paylaştığınız nabız, SpO2, tansiyon ya da vücut ısısında uzun süren bir düşüş veya yükselme olursa grup üyeleri uygulamada uyarı görür. Uyarı tanı değildir.';
+
+  @override
+  String get communityAlertsNeedScope =>
+      'Önce nabız, SpO2, tansiyon ya da vücut ısısını paylaşın.';
+
+  @override
+  String get communityAlertsTitle => 'Acil durumda grubu uyar';
+
+  @override
   String get communityAnswered => 'Yanıtlandı';
 
   @override
@@ -912,6 +923,47 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get exportTitle => 'Verilerimi dışa aktar';
+
+  @override
+  String familyAlertBloodPressure(
+    String name,
+    String systolic,
+    String diastolic,
+  ) {
+    return '$name: tansiyon çok yüksek ($systolic/$diastolic, tahmini)';
+  }
+
+  @override
+  String familyAlertFever(String name, String value) {
+    return '$name: ateş ($value)';
+  }
+
+  @override
+  String familyAlertHeartRateHigh(String name, String value) {
+    return '$name: nabız yüksek (en yüksek $value bpm)';
+  }
+
+  @override
+  String familyAlertHeartRateLow(String name, String value) {
+    return '$name: nabız düşük (en düşük $value bpm)';
+  }
+
+  @override
+  String get familyAlertNote =>
+      'Otomatik uyarıdır, tanı değildir. Kişiye ulaşamıyorsanız ve durum acilse 112\'yi arayın.';
+
+  @override
+  String familyAlertSpo2Low(String name, String value) {
+    return '$name: SpO2 düşük (en düşük %$value)';
+  }
+
+  @override
+  String familyAlertTime(String start, String end) {
+    return '$start – $end';
+  }
+
+  @override
+  String get familyAlertTitle => 'Aile uyarısı';
 
   @override
   String feedbackDetailsValue(String version, String platform) {
@@ -1756,7 +1808,7 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get privacySharingBody =>
-      'Yalnızca rıza verdiğiniz hekim, araştırma kurumu ya da aile grubu üyeleri, yalnızca seçtiğiniz türleri ve rıza süresince görür. Kilo ve vücut kompozisyonu gibi elle girdiğiniz değerler yalnızca “Vücut ölçüleri”ni ayrıca seçerseniz paylaşılır. Apple Sağlık ya da Health Connect\'e yalnızca seçtiğiniz türler yazılır; uygulama oradan veri okumaz. Geri bildirimler kimliğinize bağlanmaz. Hekiminize, paylaştığınız türlerde belirgin bir değişiklik olduğunda (örneğin SpO2 uzun süre düşükse ya da bir gündür veri gelmiyorsa) portal otomatik uyarı gösterir; bu uyarılar tanı değildir ve portaldaki verinizi silince onlar da silinir.';
+      'Yalnızca rıza verdiğiniz hekim, araştırma kurumu ya da aile grubu üyeleri, yalnızca seçtiğiniz türleri ve rıza süresince görür. Kilo ve vücut kompozisyonu gibi elle girdiğiniz değerler yalnızca “Vücut ölçüleri”ni ayrıca seçerseniz paylaşılır. Apple Sağlık ya da Health Connect\'e yalnızca seçtiğiniz türler yazılır; uygulama oradan veri okumaz. Geri bildirimler kimliğinize bağlanmaz. Hekiminize, paylaştığınız türlerde belirgin bir değişiklik olduğunda (örneğin SpO2 uzun süre düşükse ya da bir gündür veri gelmiyorsa) portal otomatik uyarı gösterir; bu uyarılar tanı değildir ve portaldaki verinizi silince onlar da silinir. Bir aile grubu için \"Acil durumda grubu uyar\"ı ayrıca açarsanız, o grupla paylaştığınız türlerdeki aynı uyarılar grup üyelerine de gösterilir.';
 
   @override
   String get privacySharingTitle => 'Kimlerle paylaşılır?';

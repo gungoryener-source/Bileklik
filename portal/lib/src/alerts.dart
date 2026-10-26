@@ -53,7 +53,7 @@ class AlertEngine {
     ];
     final out = <Alert>[];
 
-    void raise(_Episode e) {
+    void raise(AlertEpisode e) {
       // Aynı türde, bir saat içinde süren olay aynı uyarıdır.
       final same = existing
           .where(
@@ -96,10 +96,44 @@ class AlertEngine {
       out.add(a);
     }
 
+    for (final e in detect(c.patientId, codes, now)) {
+      raise(e);
+    }
+
+    // Veri gelmemesi: rızadaki türlerin en son ölçümü.
+    final last = store
+        .observations(c.patientId, codes: codes)
+        .map((o) => o.effective)
+        .fold<DateTime?>(null, (a, b) => a == null || b.isAfter(a) ? b : a);
+    final openNoData = existing
+        .where((a) => a.kind == AlertKind.noData && a.resolvedAt == null)
+        .firstOrNull;
+    if (openNoData != null && last != null && last.isAfter(openNoData.start)) {
+      // Veri yeniden geldi: uyarı kendiliğinden kapanır.
+      store.putAlert(openNoData.copyWith(resolvedAt: now));
+    } else if (openNoData == null) {
+      final since = last ?? c.start;
+      if (now.difference(since) >= rules.noDataAfter) {
+        raise(AlertEpisode(AlertKind.noData, since, since, 0));
+      }
+    }
+    return out;
+  }
+
+  /// [patientId]'nin [codes] türlerinde, [now]'dan [since] kadar geriye
+  /// süren olaylar (veri gelmemesi hariç). Hekim uyarıları ve aile grubu
+  /// acil uyarıları aynı kuralları kullanır.
+  List<AlertEpisode> detect(
+    String patientId,
+    Set<String> codes,
+    DateTime now, {
+    Duration since = window,
+  }) {
+    final found = <AlertEpisode>[];
     final recent = store.observations(
-      c.patientId,
+      patientId,
       codes: codes,
-      from: now.subtract(window),
+      from: now.subtract(since),
       to: now.add(const Duration(minutes: 1)),
     )..sort((a, b) => a.effective.compareTo(b.effective));
     List<(DateTime, double)> series(String code) => [
@@ -114,7 +148,7 @@ class AlertEngine {
       AlertKind.spo2Low,
       lowest: true,
     )) {
-      raise(e);
+      found.add(e);
     }
 
     // Egzersiz sırasındaki yüksek nabız uyarı sayılmaz (etkinlik
@@ -137,7 +171,7 @@ class AlertEngine {
       (v) => v > rules.heartRateAbove,
       AlertKind.heartRateHigh,
     )) {
-      raise(e);
+      found.add(e);
     }
     for (final e in _runs(
       hr,
@@ -145,7 +179,7 @@ class AlertEngine {
       AlertKind.heartRateLow,
       lowest: true,
     )) {
-      raise(e);
+      found.add(e);
     }
 
     for (final o in recent) {
@@ -154,8 +188,8 @@ class AlertEngine {
       final d = _component(o.resource, '8462-4');
       if (s == null || d == null) continue;
       if (s >= rules.systolicCrisis || d >= rules.diastolicCrisis) {
-        raise(
-          _Episode(
+        found.add(
+          AlertEpisode(
             AlertKind.bloodPressureCrisis,
             o.effective,
             o.effective,
@@ -168,33 +202,16 @@ class AlertEngine {
 
     for (final (t, v) in series('8310-5')) {
       if (v >= rules.feverFrom) {
-        raise(_Episode(AlertKind.fever, t, t, v));
+        found.add(AlertEpisode(AlertKind.fever, t, t, v));
       }
     }
 
-    // Veri gelmemesi: rızadaki türlerin en son ölçümü.
-    final last = store
-        .observations(c.patientId, codes: codes)
-        .map((o) => o.effective)
-        .fold<DateTime?>(null, (a, b) => a == null || b.isAfter(a) ? b : a);
-    final openNoData = existing
-        .where((a) => a.kind == AlertKind.noData && a.resolvedAt == null)
-        .firstOrNull;
-    if (openNoData != null && last != null && last.isAfter(openNoData.start)) {
-      // Veri yeniden geldi: uyarı kendiliğinden kapanır.
-      store.putAlert(openNoData.copyWith(resolvedAt: now));
-    } else if (openNoData == null) {
-      final since = last ?? c.start;
-      if (now.difference(since) >= rules.noDataAfter) {
-        raise(_Episode(AlertKind.noData, since, since, 0));
-      }
-    }
-    return out;
+    return found;
   }
 
   /// Eşiği aşan ardışık ölçümlerden en az [AlertRules.sustained] süren
   /// diziler. Arada eşiği aşmayan bir ölçüm diziyi böler.
-  Iterable<_Episode> _runs(
+  Iterable<AlertEpisode> _runs(
     List<(DateTime, double)> readings,
     bool Function(double) over,
     AlertKind kind, {
@@ -211,7 +228,7 @@ class AlertEngine {
       }
       final r = run;
       if (r != null && r.$2.difference(r.$1) >= rules.sustained) {
-        yield _Episode(kind, r.$1, r.$2, r.$3);
+        yield AlertEpisode(kind, r.$1, r.$2, r.$3);
       }
       run = null;
     }
@@ -288,8 +305,15 @@ class AlertRules {
   final Duration overdueAfter;
 }
 
-class _Episode {
-  const _Episode(this.kind, this.start, this.end, this.value, [this.value2]);
+/// Kurala uyan tek olay: tür, başlangıç, bitiş ve en uç değer(ler).
+class AlertEpisode {
+  const AlertEpisode(
+    this.kind,
+    this.start,
+    this.end,
+    this.value, [
+    this.value2,
+  ]);
 
   final AlertKind kind;
   final DateTime start;

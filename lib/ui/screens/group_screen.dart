@@ -7,6 +7,7 @@ import '../format.dart';
 import '../theme.dart';
 import '../widgets/menu_group.dart';
 import '../widgets/cam/cam.dart';
+import '../widgets/family_alerts.dart';
 import 'community_dialogs.dart';
 import 'community_screen.dart';
 
@@ -41,11 +42,12 @@ class GroupScreen extends StatelessWidget {
       }
     }
 
-    Future<void> toggle(ShareScope s, bool on) =>
-        guarded(() => service.setConsent(g.id, {
-          ...consent.scopes.where((x) => x != s),
-          if (on) s,
-        }));
+    Future<void> toggle(ShareScope s, bool on) => guarded(
+      () => service.setConsent(g.id, {
+        ...consent.scopes.where((x) => x != s),
+        if (on) s,
+      }),
+    );
 
     Future<void> leave() async {
       final ok = await showCamDialog<bool>(
@@ -138,6 +140,33 @@ class GroupScreen extends StatelessWidget {
                 style: TextStyle(color: colors.muted, fontSize: 13),
               ),
             ),
+            const SizedBox(height: 16),
+            MenuGroup(
+              children: [
+                SwitchListTile(
+                  contentPadding: const EdgeInsetsDirectional.only(
+                    start: 16,
+                    end: 12,
+                  ),
+                  secondary: Icon(
+                    Icons.notification_important_outlined,
+                    color: colors.danger,
+                  ),
+                  title: Text(l.communityAlertsTitle),
+                  subtitle: Text(
+                    consent.canAlert
+                        ? l.communityAlertsBody
+                        : l.communityAlertsNeedScope,
+                    style: TextStyle(color: colors.muted, fontSize: 13),
+                  ),
+                  isThreeLine: true,
+                  value: consent.alerts && consent.canAlert,
+                  onChanged: consent.canAlert
+                      ? (on) => guarded(() => service.setAlerts(g.id, on: on))
+                      : null,
+                ),
+              ],
+            ),
             MenuHeader(l.communityMembers),
             MenuGroup(
               children: [
@@ -156,15 +185,15 @@ class GroupScreen extends StatelessWidget {
                   ),
                   // Grup kodu bilinmiyorsa satır gizlenir.
                   if (g.inviteCode.isNotEmpty)
-                  MenuTile(
-                    icon: Icons.pin_outlined,
-                    title: l.communityCodeLabel,
-                    value: ltr(g.inviteCode),
-                    onTap: () => showCamDialog<void>(
-                      context: context,
-                      builder: (_) => InviteCodeDialog(code: g.inviteCode),
+                    MenuTile(
+                      icon: Icons.pin_outlined,
+                      title: l.communityCodeLabel,
+                      value: ltr(g.inviteCode),
+                      onTap: () => showCamDialog<void>(
+                        context: context,
+                        builder: (_) => InviteCodeDialog(code: g.inviteCode),
+                      ),
                     ),
-                  ),
                 ],
               ],
             ),
@@ -233,9 +262,20 @@ class _MemberTile extends StatelessWidget {
           color: m.pending ? colors.muted : colors.text,
         ),
       ),
-      subtitle: shares == null
+      subtitle: shares == null && m.alerts.isEmpty
           ? null
-          : Text(shares, style: TextStyle(color: colors.muted)),
+          : Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                if (shares != null)
+                  Text(shares, style: TextStyle(color: colors.muted)),
+                for (final a in m.alerts)
+                  Padding(
+                    padding: const EdgeInsetsDirectional.only(top: 8),
+                    child: FamilyAlertLine(name: name, alert: a),
+                  ),
+              ],
+            ),
       trailing: onRemove == null
           ? null
           : PopupMenuButton<void>(

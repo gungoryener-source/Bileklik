@@ -31,12 +31,61 @@ enum ShareScope {
 /// izni istediği an geri alır. `grantedAt` iznin son değiştiği an.
 @immutable
 class ShareConsent {
-  const ShareConsent({this.scopes = const {}, this.grantedAt});
+  const ShareConsent({
+    this.scopes = const {},
+    this.grantedAt,
+    this.alerts = false,
+  });
 
   final Set<ShareScope> scopes;
   final DateTime? grantedAt;
 
+  /// Paylaşılan türlerde acil bir durum olursa grup görsün (ayrı izin,
+  /// varsayılan kapalı).
+  final bool alerts;
+
   bool get isEmpty => scopes.isEmpty;
+
+  /// Acil uyarı çıkarabilen türlerden en az biri paylaşılıyor.
+  bool get canAlert => scopes.any(alertScopes.contains);
+
+  /// Acil uyarı kurallarının baktığı türler.
+  static const alertScopes = {
+    ShareScope.heartRate,
+    ShareScope.spo2,
+    ShareScope.bloodPressure,
+    ShareScope.temperature,
+  };
+}
+
+/// Grup üyesinin paylaştığı türlerde portalın bulduğu acil durum (hekim
+/// uyarılarıyla aynı kurallar: SpO2 10 dk %90 altı, nabız 10 dk 120 üstü ya
+/// da 40 altı, tansiyon 180/120 ve üstü, ateş 38 °C ve üstü).
+enum FamilyAlertKind {
+  spo2Low,
+  heartRateHigh,
+  heartRateLow,
+  bloodPressureCrisis,
+  fever,
+}
+
+@immutable
+class FamilyAlert {
+  const FamilyAlert({
+    required this.kind,
+    required this.start,
+    required this.end,
+    required this.value,
+    this.value2,
+  });
+
+  final FamilyAlertKind kind;
+  final DateTime start;
+  final DateTime end;
+
+  /// En uç değer; tansiyonda sistolik, [value2] diastolik.
+  final double value;
+  final double? value2;
 }
 
 /// Grup üyesi. `shares`, bu üyenin grupla paylaştığı veri türleri.
@@ -49,6 +98,8 @@ class GroupMember {
     this.isOwner = false,
     this.pending = false,
     this.shares = const {},
+    this.alertsOn = false,
+    this.alerts = const [],
   });
 
   final String id;
@@ -60,13 +111,25 @@ class GroupMember {
   final bool pending;
   final Set<ShareScope> shares;
 
-  GroupMember copyWith({bool? pending, Set<ShareScope>? shares}) => GroupMember(
+  /// Üye acil uyarıların grupta görünmesine izin verdi.
+  final bool alertsOn;
+
+  /// Son 24 saatteki acil durumlar, yeniden eskiye (kendi üyeliğinde boş).
+  final List<FamilyAlert> alerts;
+
+  GroupMember copyWith({
+    bool? pending,
+    Set<ShareScope>? shares,
+    bool? alertsOn,
+  }) => GroupMember(
     id: id,
     name: name,
     isMe: isMe,
     isOwner: isOwner,
     pending: pending ?? this.pending,
     shares: shares ?? this.shares,
+    alertsOn: alertsOn ?? this.alertsOn,
+    alerts: alerts,
   );
 }
 
@@ -163,6 +226,26 @@ abstract class CommunityService extends ChangeNotifier {
   /// Kullanıcının bu grupla paylaştığı türleri günceller.
   Future<void> setConsent(String groupId, Set<ShareScope> scopes);
 
+  /// Acil uyarıların bu grupta görünmesine izin verir ya da kapatır.
+  Future<void> setAlerts(String groupId, {required bool on});
+
+  /// Tüm gruplardaki üyelerin acil durumları, yeniden eskiye. Aynı kişi
+  /// birden çok grupta ise bir kez.
+  List<({CareGroup group, GroupMember member, FamilyAlert alert})>
+  get familyAlerts {
+    final seen = <String>{};
+    final out = <({CareGroup group, GroupMember member, FamilyAlert alert})>[];
+    for (final g in [...myGroups, ...joinedGroups]) {
+      for (final m in g.members) {
+        for (final a in m.alerts) {
+          final key = '${m.name}|${a.kind.name}|${a.start.toIso8601String()}';
+          if (seen.add(key)) out.add((group: g, member: m, alert: a));
+        }
+      }
+    }
+    return out..sort((a, b) => b.alert.end.compareTo(a.alert.end));
+  }
+
   /// Kodla katılır; kod geçersizse null.
   Future<CareGroup?> joinWithCode(String code);
   Future<void> answerInvite(String messageId, {required bool accept});
@@ -208,17 +291,28 @@ class FakeCommunityServer extends CommunityService {
 
   void _seed() {
     final now = _now();
+    // Elif nabız paylaşıyor ve acil uyarıya izin verdi: davet kabul edilince
+    // demo grubunda bir yüksek nabız uyarısı görünür.
     final elif = CareGroup(
       id: 'g-elif',
       name: 'Elif',
       ownedByMe: false,
       inviteCode: 'ELIF7Q',
-      members: const [
+      members: [
         GroupMember(
           id: 'm-elif',
           name: 'Elif',
           isOwner: true,
           shares: {ShareScope.heartRate, ShareScope.sleep, ShareScope.activity},
+          alertsOn: true,
+          alerts: [
+            FamilyAlert(
+              kind: FamilyAlertKind.heartRateHigh,
+              start: now.subtract(const Duration(hours: 2, minutes: 20)),
+              end: now.subtract(const Duration(hours: 2)),
+              value: 138,
+            ),
+          ],
         ),
       ],
     );
@@ -363,9 +457,11 @@ class FakeCommunityServer extends CommunityService {
   @override
   Future<void> setConsent(String groupId, Set<ShareScope> scopes) async {
     await _wait();
+    final before = group(groupId)?.myConsent.alerts ?? false;
     final consent = ShareConsent(
       scopes: Set.unmodifiable(scopes),
       grantedAt: scopes.isEmpty ? null : _now(),
+      alerts: before && scopes.isNotEmpty,
     );
     _replace(
       groupId,
@@ -376,6 +472,26 @@ class FakeCommunityServer extends CommunityService {
         ],
       ),
     );
+    notifyListeners();
+  }
+
+  @override
+  Future<void> setAlerts(String groupId, {required bool on}) async {
+    await _wait();
+    _replace(groupId, (g) {
+      final c = g.myConsent;
+      final alerts = on && c.canAlert;
+      return g.copyWith(
+        myConsent: ShareConsent(
+          scopes: c.scopes,
+          grantedAt: c.grantedAt,
+          alerts: alerts,
+        ),
+        members: [
+          for (final m in g.members) m.isMe ? m.copyWith(alertsOn: alerts) : m,
+        ],
+      );
+    });
     notifyListeners();
   }
 

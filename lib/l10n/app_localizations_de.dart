@@ -407,6 +407,17 @@ class AppLocalizationsDe extends AppLocalizations {
   String get communityAccept => 'Beitreten';
 
   @override
+  String get communityAlertsBody =>
+      'Wenn der geteilte Puls, die SpO2, der Blutdruck oder die Körpertemperatur länger deutlich sinkt oder steigt, sehen die Gruppenmitglieder einen Hinweis in der App. Ein Hinweis ist keine Diagnose.';
+
+  @override
+  String get communityAlertsNeedScope =>
+      'Teilen Sie zuerst Puls, SpO2, Blutdruck oder Körpertemperatur.';
+
+  @override
+  String get communityAlertsTitle => 'Gruppe im Notfall benachrichtigen';
+
+  @override
   String get communityAnswered => 'Beantwortet';
 
   @override
@@ -936,6 +947,47 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get exportTitle => 'Meine Daten exportieren';
+
+  @override
+  String familyAlertBloodPressure(
+    String name,
+    String systolic,
+    String diastolic,
+  ) {
+    return '$name: sehr hoher Blutdruck ($systolic/$diastolic, geschätzt)';
+  }
+
+  @override
+  String familyAlertFever(String name, String value) {
+    return '$name: Fieber ($value)';
+  }
+
+  @override
+  String familyAlertHeartRateHigh(String name, String value) {
+    return '$name: hoher Puls (höchster Wert $value bpm)';
+  }
+
+  @override
+  String familyAlertHeartRateLow(String name, String value) {
+    return '$name: niedriger Puls (niedrigster Wert $value bpm)';
+  }
+
+  @override
+  String get familyAlertNote =>
+      'Dies ist ein automatischer Hinweis, keine Diagnose. Wenn Sie die Person nicht erreichen und es dringend ist, rufen Sie die 112 an.';
+
+  @override
+  String familyAlertSpo2Low(String name, String value) {
+    return '$name: niedrige SpO2 (niedrigster Wert $value %)';
+  }
+
+  @override
+  String familyAlertTime(String start, String end) {
+    return '$start – $end';
+  }
+
+  @override
+  String get familyAlertTitle => 'Familienhinweis';
 
   @override
   String feedbackDetailsValue(String version, String platform) {
@@ -1794,7 +1846,7 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get privacySharingBody =>
-      'Nur mit den Ärzten, Forschungseinrichtungen oder Mitgliedern einer Familiengruppe, denen Sie zustimmen, nur die gewählten Datentypen und nur für die Dauer der Einwilligung. Selbst eingegebene Werte wie Gewicht und Körperzusammensetzung werden nur geteilt, wenn Sie „Körpermaße“ ausdrücklich auswählen. In Apple Health oder Health Connect werden nur die gewählten Datentypen geschrieben; die App liest dort nichts. Feedback wird nicht mit Ihrer Identität verknüpft. Fällt in den geteilten Datentypen etwas auf (zum Beispiel bleibt die SpO2 lange niedrig oder seit einem Tag kommen keine Daten), zeigt das Portal Ihrem Arzt einen automatischen Hinweis; diese Hinweise sind keine Diagnose und werden mit Ihren Portaldaten gelöscht.';
+      'Nur mit den Ärzten, Forschungseinrichtungen oder Mitgliedern einer Familiengruppe, denen Sie zustimmen, nur die gewählten Datentypen und nur für die Dauer der Einwilligung. Selbst eingegebene Werte wie Gewicht und Körperzusammensetzung werden nur geteilt, wenn Sie „Körpermaße“ ausdrücklich auswählen. In Apple Health oder Health Connect werden nur die gewählten Datentypen geschrieben; die App liest dort nichts. Feedback wird nicht mit Ihrer Identität verknüpft. Fällt in den geteilten Datentypen etwas auf (zum Beispiel bleibt die SpO2 lange niedrig oder seit einem Tag kommen keine Daten), zeigt das Portal Ihrem Arzt einen automatischen Hinweis; diese Hinweise sind keine Diagnose und werden mit Ihren Portaldaten gelöscht. Wenn Sie für eine Familiengruppe zusätzlich „Gruppe im Notfall benachrichtigen“ einschalten, sehen deren Mitglieder dieselben Hinweise zu den mit der Gruppe geteilten Datentypen.';
 
   @override
   String get privacySharingTitle => 'Mit wem wird geteilt?';

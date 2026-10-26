@@ -273,6 +273,7 @@ class EncryptedPortalStore implements PortalStore {
             joined: e['joined'] == null ? null : _parse(e['joined']),
             scopes: _scopes(e['scopes']),
             consentAt: e['consentAt'] == null ? null : _parse(e['consentAt']),
+            alerts: e['alerts'] == true,
           ),
         );
       case 'feedback':
@@ -568,6 +569,7 @@ class EncryptedPortalStore implements PortalStore {
     'joined': m.joined == null ? null : _time(m.joined!),
     'scopes': [for (final s in m.scopes) s.name],
     'consentAt': m.consentAt == null ? null : _time(m.consentAt!),
+    'alerts': m.alerts,
   });
 
   @override

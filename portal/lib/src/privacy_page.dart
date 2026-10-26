@@ -109,7 +109,7 @@ nav { color: var(--muted); font-size: .9rem; }
       ),
       (
         'Kimlerle paylaşılır?',
-        'Yalnızca rıza verdiğiniz hekim, araştırma kurumu ya da aile grubu üyeleri, yalnızca seçtiğiniz türleri ve rıza süresince görür. Kilo ve vücut kompozisyonu gibi elle girdiğiniz değerler yalnızca “Vücut ölçüleri”ni ayrıca seçerseniz paylaşılır. Apple Sağlık ya da Health Connect\'e yalnızca seçtiğiniz türler yazılır; uygulama oradan veri okumaz. Geri bildirimler kimliğinize bağlanmaz. Hekiminize, paylaştığınız türlerde belirgin bir değişiklik olduğunda (örneğin SpO2 uzun süre düşükse ya da bir gündür veri gelmiyorsa) portal otomatik uyarı gösterir; bu uyarılar tanı değildir ve portaldaki verinizi silince onlar da silinir.',
+        'Yalnızca rıza verdiğiniz hekim, araştırma kurumu ya da aile grubu üyeleri, yalnızca seçtiğiniz türleri ve rıza süresince görür. Kilo ve vücut kompozisyonu gibi elle girdiğiniz değerler yalnızca “Vücut ölçüleri”ni ayrıca seçerseniz paylaşılır. Apple Sağlık ya da Health Connect\'e yalnızca seçtiğiniz türler yazılır; uygulama oradan veri okumaz. Geri bildirimler kimliğinize bağlanmaz. Hekiminize, paylaştığınız türlerde belirgin bir değişiklik olduğunda (örneğin SpO2 uzun süre düşükse ya da bir gündür veri gelmiyorsa) portal otomatik uyarı gösterir; bu uyarılar tanı değildir ve portaldaki verinizi silince onlar da silinir. Bir aile grubu için "Acil durumda grubu uyar"ı ayrıca açarsanız, o grupla paylaştığınız türlerdeki aynı uyarılar grup üyelerine de gösterilir.',
       ),
       (
         'Erişim kayıtları',
@@ -153,7 +153,7 @@ nav { color: var(--muted); font-size: .9rem; }
       ),
       (
         'Who is it shared with?',
-        'Only the doctors, research institutions or family group members you consent to, only the types you choose and only for the consent period. Values you enter yourself, such as weight and body composition, are shared only if you separately choose “Body measurements”. Only the types you choose are written to Apple Health or Health Connect; the app does not read data from them. Feedback is not linked to your identity. When something stands out in the types you share (for example SpO2 stays low or no data has arrived for a day), the portal shows your doctor an automatic alert; these alerts are not a diagnosis and are deleted when you delete your portal data.',
+        'Only the doctors, research institutions or family group members you consent to, only the types you choose and only for the consent period. Values you enter yourself, such as weight and body composition, are shared only if you separately choose “Body measurements”. Only the types you choose are written to Apple Health or Health Connect; the app does not read data from them. Feedback is not linked to your identity. When something stands out in the types you share (for example SpO2 stays low or no data has arrived for a day), the portal shows your doctor an automatic alert; these alerts are not a diagnosis and are deleted when you delete your portal data. If you also turn on “Alert the group in an emergency” for a family group, the same alerts for the types you share with that group are shown to its members.',
       ),
       (
         'Access log',
@@ -197,7 +197,7 @@ nav { color: var(--muted); font-size: .9rem; }
       ),
       (
         'مع من تُشارك؟',
-        'فقط مع الأطباء أو مؤسسات البحث أو أفراد مجموعة العائلة الذين توافق عليهم، وللأنواع التي تختارها فقط وطوال مدة الموافقة. القيم التي تدخلها بنفسك مثل الوزن وتكوين الجسم لا تُشارك إلا إذا اخترت «قياسات الجسم» صراحةً. لا يُكتب في Apple Health أو Health Connect إلا ما تختاره، ولا يقرأ التطبيق منهما. الملاحظات لا ترتبط بهويتك. عندما يظهر تغيّر واضح في الأنواع التي تشاركها (مثلًا انخفاض SpO2 لفترة طويلة أو عدم وصول بيانات منذ يوم)، تعرض البوابة على طبيبك تنبيهًا تلقائيًا؛ هذه التنبيهات ليست تشخيصًا وتُحذف عند حذف بياناتك من البوابة.',
+        'فقط مع الأطباء أو مؤسسات البحث أو أفراد مجموعة العائلة الذين توافق عليهم، وللأنواع التي تختارها فقط وطوال مدة الموافقة. القيم التي تدخلها بنفسك مثل الوزن وتكوين الجسم لا تُشارك إلا إذا اخترت «قياسات الجسم» صراحةً. لا يُكتب في Apple Health أو Health Connect إلا ما تختاره، ولا يقرأ التطبيق منهما. الملاحظات لا ترتبط بهويتك. عندما يظهر تغيّر واضح في الأنواع التي تشاركها (مثلًا انخفاض SpO2 لفترة طويلة أو عدم وصول بيانات منذ يوم)، تعرض البوابة على طبيبك تنبيهًا تلقائيًا؛ هذه التنبيهات ليست تشخيصًا وتُحذف عند حذف بياناتك من البوابة. إذا فعّلت أيضًا «نبّه المجموعة في حالة طارئة» لمجموعة عائلية، تظهر التنبيهات نفسها للأنواع التي تشاركها مع تلك المجموعة لأعضائها.',
       ),
       (
         'سجل الوصول',
@@ -241,7 +241,7 @@ nav { color: var(--muted); font-size: .9rem; }
       ),
       (
         'Mit wem wird geteilt?',
-        'Nur mit den Ärzten, Forschungseinrichtungen oder Mitgliedern einer Familiengruppe, denen Sie zustimmen, nur die gewählten Datentypen und nur für die Dauer der Einwilligung. Selbst eingegebene Werte wie Gewicht und Körperzusammensetzung werden nur geteilt, wenn Sie „Körpermaße“ ausdrücklich auswählen. In Apple Health oder Health Connect werden nur die gewählten Datentypen geschrieben; die App liest dort nichts. Feedback wird nicht mit Ihrer Identität verknüpft. Fällt in den geteilten Datentypen etwas auf (zum Beispiel bleibt die SpO2 lange niedrig oder seit einem Tag kommen keine Daten), zeigt das Portal Ihrem Arzt einen automatischen Hinweis; diese Hinweise sind keine Diagnose und werden mit Ihren Portaldaten gelöscht.',
+        'Nur mit den Ärzten, Forschungseinrichtungen oder Mitgliedern einer Familiengruppe, denen Sie zustimmen, nur die gewählten Datentypen und nur für die Dauer der Einwilligung. Selbst eingegebene Werte wie Gewicht und Körperzusammensetzung werden nur geteilt, wenn Sie „Körpermaße“ ausdrücklich auswählen. In Apple Health oder Health Connect werden nur die gewählten Datentypen geschrieben; die App liest dort nichts. Feedback wird nicht mit Ihrer Identität verknüpft. Fällt in den geteilten Datentypen etwas auf (zum Beispiel bleibt die SpO2 lange niedrig oder seit einem Tag kommen keine Daten), zeigt das Portal Ihrem Arzt einen automatischen Hinweis; diese Hinweise sind keine Diagnose und werden mit Ihren Portaldaten gelöscht. Wenn Sie für eine Familiengruppe zusätzlich „Gruppe im Notfall benachrichtigen“ einschalten, sehen deren Mitglieder dieselben Hinweise zu den mit der Gruppe geteilten Datentypen.',
       ),
       (
         'Zugriffsprotokoll',

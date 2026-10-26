@@ -51,6 +51,7 @@ bir öncekinin dalı üzerine kurulur. Durum: ✅ bitti (PR açık ya da birleş
 | 42 | Hekim panelinde izlem notları ve görevler: hasta kaydına tarihli not ve son günlü görev, "Tamamlandı"; ana sayfada "Görevlerim" (gecikenler önce). Yalnızca kaydı açan hekim görür, kayıt silinince silinir | ✅ | (bu PR; ekip içi paylaşım ve vardiya, hasta rızası kapsamı netleşince) |
 | 43 | HL7 v2.5.1 ORU^R01 dışa aktarma: rapor sayfasında "HL7 v2 indir"; hekimin kaydı varsa dosya no ve ad (PID), takma kimlik her zaman; LOINC/UCUM; erişim kaydına geçer | ✅ | (bu PR; MLLP ile canlı gönderim ve kurumla alan doğrulaması hastane anlaşmasıyla) |
 | 44 | Geliştirici belgesi: portalda `/openapi.json` (OpenAPI 3.1) ve `/developers` sayfası; kurumlar hekim/araştırmacı anahtarıyla rızalı veriyi FHIR üzerinden çeker. Belge ile yönlendirici testle eşleştirilir | ✅ | (bu PR; kurum başına API anahtarı ve kota, ilk kurumsal müşteriyle) |
+| 45 | Aileye acil durum uyarısı: grup sayfasında ayrı izin "Acil durumda grubu uyar" (varsayılan kapalı, yalnızca nabız/SpO2/tansiyon/ısı paylaşılıyorsa); portal hekim uyarılarıyla aynı kurallarla son 24 saati tarar, grup üyeleri Ana Sayfa'da "Aile uyarısı" kartında ve grup sayfasında görür; her gösterim erişim kaydına geçer | ✅ | (bu PR; telefon bildirimi (push) için Firebase/APNs hesabı gerekiyor) |
 
 ## Her madde için
 

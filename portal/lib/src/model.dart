@@ -460,6 +460,7 @@ class GroupMember {
     this.joined,
     this.scopes = const {},
     this.consentAt,
+    this.alerts = false,
   });
 
   final String id;
@@ -475,6 +476,10 @@ class GroupMember {
   final Set<ShareScope> scopes;
   final DateTime? consentAt;
 
+  /// Üye, paylaştığı türlerde acil bir durum olursa (ör. SpO2 uzun süre
+  /// düşük) grubun bunu görmesine izin verdi. Varsayılan kapalı.
+  final bool alerts;
+
   bool get pending => accountId == null;
 
   GroupMember copyWith({
@@ -482,6 +487,7 @@ class GroupMember {
     DateTime? joined,
     Set<ShareScope>? scopes,
     DateTime? consentAt,
+    bool? alerts,
     bool clearInvite = false,
   }) => GroupMember(
     id: id,
@@ -492,6 +498,7 @@ class GroupMember {
     joined: joined ?? this.joined,
     scopes: scopes ?? this.scopes,
     consentAt: consentAt ?? this.consentAt,
+    alerts: alerts ?? this.alerts,
   );
 }
 

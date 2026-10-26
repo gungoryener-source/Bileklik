@@ -401,6 +401,17 @@ class AppLocalizationsEn extends AppLocalizations {
   String get communityAccept => 'Join';
 
   @override
+  String get communityAlertsBody =>
+      'If the heart rate, SpO2, blood pressure or body temperature you share drops or rises for a sustained time, group members see an alert in the app. An alert is not a diagnosis.';
+
+  @override
+  String get communityAlertsNeedScope =>
+      'First share heart rate, SpO2, blood pressure or body temperature.';
+
+  @override
+  String get communityAlertsTitle => 'Alert the group in an emergency';
+
+  @override
   String get communityAnswered => 'Answered';
 
   @override
@@ -928,6 +939,47 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get exportTitle => 'Export my data';
+
+  @override
+  String familyAlertBloodPressure(
+    String name,
+    String systolic,
+    String diastolic,
+  ) {
+    return '$name: very high blood pressure ($systolic/$diastolic, estimated)';
+  }
+
+  @override
+  String familyAlertFever(String name, String value) {
+    return '$name: fever ($value)';
+  }
+
+  @override
+  String familyAlertHeartRateHigh(String name, String value) {
+    return '$name: high heart rate (highest $value bpm)';
+  }
+
+  @override
+  String familyAlertHeartRateLow(String name, String value) {
+    return '$name: low heart rate (lowest $value bpm)';
+  }
+
+  @override
+  String get familyAlertNote =>
+      'This is an automatic alert, not a diagnosis. If you cannot reach them and it is urgent, call your local emergency number.';
+
+  @override
+  String familyAlertSpo2Low(String name, String value) {
+    return '$name: low SpO2 (lowest $value%)';
+  }
+
+  @override
+  String familyAlertTime(String start, String end) {
+    return '$start – $end';
+  }
+
+  @override
+  String get familyAlertTitle => 'Family alert';
 
   @override
   String feedbackDetailsValue(String version, String platform) {
@@ -1785,7 +1837,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get privacySharingBody =>
-      'Only the doctors, research institutions or family group members you consent to, only the types you choose and only for the consent period. Values you enter yourself, such as weight and body composition, are shared only if you separately choose “Body measurements”. Only the types you choose are written to Apple Health or Health Connect; the app does not read data from them. Feedback is not linked to your identity. When something stands out in the types you share (for example SpO2 stays low or no data has arrived for a day), the portal shows your doctor an automatic alert; these alerts are not a diagnosis and are deleted when you delete your portal data.';
+      'Only the doctors, research institutions or family group members you consent to, only the types you choose and only for the consent period. Values you enter yourself, such as weight and body composition, are shared only if you separately choose “Body measurements”. Only the types you choose are written to Apple Health or Health Connect; the app does not read data from them. Feedback is not linked to your identity. When something stands out in the types you share (for example SpO2 stays low or no data has arrived for a day), the portal shows your doctor an automatic alert; these alerts are not a diagnosis and are deleted when you delete your portal data. If you also turn on “Alert the group in an emergency” for a family group, the same alerts for the types you share with that group are shown to its members.';
 
   @override
   String get privacySharingTitle => 'Who is it shared with?';

@@ -149,6 +149,96 @@ void main() {
     });
   });
 
+  group('aile acil uyarısı', () {
+    test('izin yalnızca uyarı çıkarabilen tür paylaşılınca açılır', () async {
+      final s = _server();
+      final g = await s.createGroup('Ailem');
+      await s.setConsent(g.id, {ShareScope.sleep});
+      await s.setAlerts(g.id, on: true);
+      expect(s.group(g.id)!.myConsent.alerts, isFalse);
+
+      await s.setConsent(g.id, {ShareScope.sleep, ShareScope.spo2});
+      await s.setAlerts(g.id, on: true);
+      expect(s.group(g.id)!.myConsent.alerts, isTrue);
+      expect(s.group(g.id)!.members.firstWhere((m) => m.isMe).alertsOn, isTrue);
+
+      // Paylaşım kapanınca izin de kapanır.
+      await s.setConsent(g.id, {});
+      expect(s.group(g.id)!.myConsent.alerts, isFalse);
+    });
+
+    test('izin veren üyenin uyarısı listede, yeniden eskiye', () async {
+      final s = _server();
+      expect(s.familyAlerts, isEmpty);
+      final invite = s.messages.firstWhere(
+        (m) => m.kind == CommunityMessageKind.invite,
+      );
+      await s.answerInvite(invite.id, accept: true);
+      final a = s.familyAlerts.single;
+      expect(a.member.name, 'Elif');
+      expect(a.alert.kind, FamilyAlertKind.heartRateHigh);
+      expect(a.alert.value, 138);
+    });
+
+    testWidgets('ana sayfada kart, dokununca grup sayfasında ayrıntı', (
+      tester,
+    ) async {
+      final server = _server();
+      final invite = server.messages.firstWhere(
+        (m) => m.kind == CommunityMessageKind.invite,
+      );
+      await server.answerInvite(invite.id, accept: true);
+      tester.view.physicalSize = const Size(1080, 2340);
+      tester.view.devicePixelRatio = 3;
+      addTearDown(tester.view.reset);
+      await tester.pumpWidget(
+        BileklikApp(
+          controller: DeviceController(
+            FakeDevice(
+              random: Random(5),
+              realtimeInterval: const Duration(seconds: 30),
+            ),
+            store: MemoryHealthStore(),
+          ),
+          settings: AppSettings.memory(language: 'tr'),
+          community: server,
+        ),
+      );
+      await tester.pumpAndSettle();
+      expect(find.text('Aile uyarısı'), findsOneWidget);
+      final line = find.textContaining('nabız yüksek (en yüksek 138 bpm)');
+      expect(line, findsOneWidget);
+      expect(find.textContaining('tanı değildir'), findsOneWidget);
+      await tester.tap(find.text('Aile uyarısı'));
+      await tester.pumpAndSettle();
+      expect(find.byType(GroupScreen), findsOneWidget);
+      await _scrollTo(tester, _inGroup(line));
+      expect(_inGroup(line), findsOneWidget);
+      // Bu grupla bir şey paylaşılmıyor: izin anahtarı kapalı ve pasif.
+      final alertsSwitch = _inGroup(
+        find.widgetWithText(SwitchListTile, 'Acil durumda grubu uyar'),
+      );
+      expect(tester.widget<SwitchListTile>(alertsSwitch).onChanged, isNull);
+      expect(tester.takeException(), isNull);
+    });
+
+    testWidgets('grup sayfasında izin anahtarı', (tester) async {
+      final server = _server();
+      final g = await server.createGroup('Ailem');
+      await server.setConsent(g.id, {ShareScope.heartRate});
+      await _openCommunity(tester, server);
+      await _tap(tester, find.text('Ailem'));
+      await tester.pumpAndSettle();
+      final tile = _inGroup(
+        find.widgetWithText(SwitchListTile, 'Acil durumda grubu uyar'),
+      );
+      await _scrollTo(tester, tile);
+      await _tap(tester, tile);
+      await tester.pumpAndSettle();
+      expect(server.group(g.id)!.myConsent.alerts, isTrue);
+    });
+  });
+
   testWidgets('grup oluştur, izin ver, üye davet et', (tester) async {
     final server = _server(acceptDelay: const Duration(seconds: 2));
     await _openCommunity(tester, server);
@@ -274,6 +364,13 @@ void main() {
       addTearDown(tester.platformDispatcher.clearTextScaleFactorTestValue);
       final server = _server();
       final kaya = await server.joinWithCode(FakeCommunityServer.demoCode);
+      await server.answerInvite(
+        server.messages
+            .firstWhere((m) => m.kind == CommunityMessageKind.invite)
+            .id,
+        accept: true,
+      );
+      final elif = server.group('g-elif')!;
       final mine = await server.createGroup('Yener ve ailesi birlikte');
       await server.setConsent(mine.id, ShareScope.values.toSet());
       await _openCommunity(
@@ -284,7 +381,7 @@ void main() {
       );
       expect(tester.takeException(), isNull);
 
-      for (final g in [mine, kaya!]) {
+      for (final g in [mine, kaya!, elif]) {
         await _tap(tester, find.text(g.name, skipOffstage: false).first);
         await tester.pumpAndSettle();
         await tester.drag(

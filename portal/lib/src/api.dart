@@ -377,13 +377,47 @@ class PortalApi {
             // Bekleyen üyenin kişiye özel kodu yalnızca sahibine gider.
             if (owner) 'inviteCode': ?m.inviteCode,
             'shares': [for (final s in m.scopes) s.name],
+            'alertsOn': m.alerts,
+            if (m.accountId != meId && m.alerts) 'alerts': _familyAlerts(g, m, meId),
           },
       ],
       'myConsent': {
         'scopes': [for (final s in mine?.scopes ?? const <ShareScope>{}) s.name],
         'grantedAt': mine?.consentAt?.toUtc().toIso8601String(),
+        'alerts': mine?.alerts ?? false,
       },
     };
+  }
+
+  /// Aile grubu acil uyarıları: üyenin grupla paylaştığı türlerde son 24
+  /// saatteki olaylar (hekim uyarılarıyla aynı kurallar). Yalnızca üye izin
+  /// verdiyse; gösterim erişim kaydına geçer.
+  List<Map<String, Object?>> _familyAlerts(
+    CareGroupRecord g,
+    GroupMember m,
+    String meId,
+  ) {
+    final patientId = m.accountId;
+    if (patientId == null || m.scopes.isEmpty) return const [];
+    final now = _now();
+    final found = AlertEngine(store).detect(
+      patientId,
+      {for (final s in m.scopes) ...s.codes},
+      now,
+      since: const Duration(hours: 24),
+    );
+    if (found.isEmpty) return const [];
+    _audit(meId, patientId, AuditAction.read, true, 'Grup acil uyarısı gösterildi: ${g.id} (${found.length})');
+    return [
+      for (final e in [...found]..sort((a, b) => b.end.compareTo(a.end)))
+        {
+          'kind': e.kind.name,
+          'start': e.start.toUtc().toIso8601String(),
+          'end': e.end.toUtc().toIso8601String(),
+          'value': e.value,
+          'value2': ?e.value2,
+        },
+    ];
   }
 
   Response _listGroups(Request request) {
@@ -518,11 +552,17 @@ class PortalApi {
     if (g == null || mine == null) {
       return _outcome(404, 'error', 'not-found', 'Grup bulunamadı');
     }
-    final scopes = _scopes((await _body(request))?['scopes']);
-    if (scopes == null) {
-      return _outcome(400, 'error', 'invalid', 'scopes listesi gerekli');
+    final body = await _body(request);
+    final scopes = _scopes(body?['scopes']);
+    final rawAlerts = body?['alerts'];
+    if (scopes == null || (rawAlerts != null && rawAlerts is! bool)) {
+      return _outcome(400, 'error', 'invalid', 'scopes listesi gerekli; alerts true/false');
     }
-    store.putMember(mine.copyWith(scopes: scopes, consentAt: _now()));
+    // Acil uyarı yalnızca paylaşılan türlerden çıkar; paylaşım yoksa kapanır.
+    final alerts = scopes.isNotEmpty && ((rawAlerts as bool?) ?? mine.alerts);
+    store.putMember(
+      mine.copyWith(scopes: scopes, consentAt: _now(), alerts: alerts),
+    );
     _audit(
       me.id,
       me.id,
@@ -530,7 +570,8 @@ class PortalApi {
       true,
       scopes.isEmpty
           ? 'Grup paylaşımı kapatıldı: ${g.id}'
-          : 'Grup paylaşımı: ${g.id} (${scopes.map((s) => s.name).join(', ')})',
+          : 'Grup paylaşımı: ${g.id} (${scopes.map((s) => s.name).join(', ')})'
+                '${alerts ? ', acil uyarı açık' : ''}',
     );
     return _json(200, _groupJson(g, me.id));
   }

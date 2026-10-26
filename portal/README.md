@@ -74,7 +74,7 @@ curl -H 'Authorization: Bearer demo-doctor' -H 'content-type: application/json' 
 | `POST /groups` | hasta | Grup açar (ad 1-40 karakter). |
 | `POST /groups/<id>/members` | grup sahibi | Davet edilenin adıyla kişiye özel 6 karakterlik kod üretir. |
 | `POST /groups/join` | hasta | Kişiye özel kodla (verilen adla) ya da grup koduyla (adsız) katılır. |
-| `PUT /groups/<id>/consent` | üye | Grupla paylaşılan türleri değiştirir; erişim kaydına geçer. |
+| `PUT /groups/<id>/consent` | üye | Grupla paylaşılan türleri ve isteğe bağlı `alerts` (acil uyarı izni) değiştirir; erişim kaydına geçer. Paylaşım boşsa izin kapanır. İzin veren üyenin paylaştığı türlerde son 24 saatteki olaylar (hekim uyarılarıyla aynı kurallar) `GET /groups` yanıtında diğer üyelere `alerts` olarak gider; gösterim erişim kaydına geçer. |
 | `DELETE /groups/<id>/members/<mid>` | grup sahibi | Üyeyi ya da bekleyen daveti çıkarır; paylaşımı biter. |
 | `DELETE /groups/<id>` | üye | Sahipse grubu siler (dosyadan da çıkar), değilse ayrılır. |
 | `POST /feedback` | herkes | Uygulama içi geri bildirim. Anahtar istenmez, kimliğe bağlanmaz; dakikada en çok 30, mesaj en çok 2000 karakter. Okumak için `dart run bin/server.dart --feedback`. |
