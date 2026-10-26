@@ -494,3 +494,141 @@ class GroupMember {
     consentAt: consentAt ?? this.consentAt,
   );
 }
+
+/// Hekim panelindeki uyarı türleri ([AlertEngine] üretir).
+enum AlertKind {
+  /// SpO2 en az 10 dakika %90'ın altında.
+  spo2Low(AlertSeverity.critical),
+
+  /// Nabız en az 10 dakika 120'nin üstünde (egzersiz dışında).
+  heartRateHigh(AlertSeverity.critical),
+
+  /// Nabız en az 10 dakika 40'ın altında.
+  heartRateLow(AlertSeverity.critical),
+
+  /// Tansiyon 180/120 ve üstü (tahmini değer).
+  bloodPressureCrisis(AlertSeverity.critical),
+
+  /// Vücut ısısı 38 °C ve üstü.
+  fever(AlertSeverity.warning),
+
+  /// 24 saattir veri gelmiyor (bileklik takılmamış ya da senkron yok).
+  noData(AlertSeverity.warning);
+
+  const AlertKind(this.severity);
+
+  final AlertSeverity severity;
+}
+
+enum AlertSeverity { critical, warning }
+
+/// Bir hekime düşen uyarı. Hekim "Gördüm" deyip not yazınca kapanır; veri
+/// gelmeme uyarısı veri gelince kendiliğinden kapanır. Kapanan uyarı
+/// silinmez: kim, ne zaman, ne yaptı kaydı olarak kalır.
+class Alert {
+  const Alert({
+    required this.id,
+    required this.ownerId,
+    required this.patientId,
+    required this.kind,
+    required this.start,
+    required this.lastSeen,
+    required this.created,
+    this.value,
+    this.value2,
+    this.ackAt,
+    this.ackBy,
+    this.note,
+    this.resolvedAt,
+  });
+
+  final String id;
+
+  /// Uyarının gittiği hekim.
+  final String ownerId;
+  final String patientId;
+  final AlertKind kind;
+
+  /// Olayın ilk ölçümü; veri gelmemede son verinin zamanı.
+  final DateTime start;
+
+  /// Olayın bilinen son ölçümü.
+  final DateTime lastSeen;
+
+  /// Uyarının portala düştüğü an; yanıt süresi buradan ölçülür.
+  final DateTime created;
+
+  /// En kötü değer (en düşük SpO2, en yüksek nabız, sistolik…).
+  final double? value;
+
+  /// Tansiyonda diyastolik.
+  final double? value2;
+
+  final DateTime? ackAt;
+  final String? ackBy;
+  final String? note;
+
+  /// Kendiliğinden kapandı (veri yeniden gelmeye başladı).
+  final DateTime? resolvedAt;
+
+  bool get open => ackAt == null && resolvedAt == null;
+
+  Alert copyWith({
+    DateTime? lastSeen,
+    double? value,
+    double? value2,
+    DateTime? ackAt,
+    String? ackBy,
+    String? note,
+    DateTime? resolvedAt,
+  }) => Alert(
+    id: id,
+    ownerId: ownerId,
+    patientId: patientId,
+    kind: kind,
+    start: start,
+    lastSeen: lastSeen ?? this.lastSeen,
+    created: created,
+    value: value ?? this.value,
+    value2: value2 ?? this.value2,
+    ackAt: ackAt ?? this.ackAt,
+    ackBy: ackBy ?? this.ackBy,
+    note: note ?? this.note,
+    resolvedAt: resolvedAt ?? this.resolvedAt,
+  );
+
+  Map<String, Object?> toJson() => {
+    'id': id,
+    'ownerId': ownerId,
+    'patientId': patientId,
+    'kind': kind.name,
+    'start': start.toUtc().toIso8601String(),
+    'lastSeen': lastSeen.toUtc().toIso8601String(),
+    'created': created.toUtc().toIso8601String(),
+    'value': value,
+    'value2': value2,
+    'ackAt': ackAt?.toUtc().toIso8601String(),
+    'ackBy': ackBy,
+    'note': note,
+    'resolvedAt': resolvedAt?.toUtc().toIso8601String(),
+  };
+
+  static Alert fromJson(Map<String, Object?> j) {
+    DateTime? t(Object? v) => v is String ? DateTime.parse(v) : null;
+    return Alert(
+      id: j['id']! as String,
+      ownerId: j['ownerId']! as String,
+      patientId: j['patientId']! as String,
+      kind: AlertKind.values.byName(j['kind']! as String),
+      start: t(j['start'])!,
+      lastSeen: t(j['lastSeen'])!,
+      created: t(j['created'])!,
+      value: (j['value'] as num?)?.toDouble(),
+      value2: (j['value2'] as num?)?.toDouble(),
+      ackAt: t(j['ackAt']),
+      ackBy: j['ackBy'] as String?,
+      note: j['note'] as String?,
+      resolvedAt: t(j['resolvedAt']),
+    );
+  }
+}

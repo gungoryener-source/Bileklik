@@ -1785,7 +1785,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get privacySharingBody =>
-      'Only the doctors, research institutions or family group members you consent to, only the types you choose and only for the consent period. Values you enter yourself, such as weight and body composition, are shared only if you separately choose “Body measurements”. Only the types you choose are written to Apple Health or Health Connect; the app does not read data from them. Feedback is not linked to your identity.';
+      'Only the doctors, research institutions or family group members you consent to, only the types you choose and only for the consent period. Values you enter yourself, such as weight and body composition, are shared only if you separately choose “Body measurements”. Only the types you choose are written to Apple Health or Health Connect; the app does not read data from them. Feedback is not linked to your identity. When something stands out in the types you share (for example SpO2 stays low or no data has arrived for a day), the portal shows your doctor an automatic alert; these alerts are not a diagnosis and are deleted when you delete your portal data.';
 
   @override
   String get privacySharingTitle => 'Who is it shared with?';

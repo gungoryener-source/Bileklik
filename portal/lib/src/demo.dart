@@ -327,6 +327,42 @@ Map<String, Object?> _bundle(
         );
     }
   }
+  // Hekim panelindeki uyarı panosu için yakın zamanda birer olay: uyku
+  // apnesi şüphesinde dün gece 25 dk süren SpO2 düşüşü, çarpıntıda üç saat
+  // önce dinlenirken 20 dk süren yüksek nabız. Ölçümler beş dakikada bir.
+  final today = DateTime(now.year, now.month, now.day);
+  if (apnea) {
+    final start = today.subtract(const Duration(hours: 21)); // 03:00
+    const values = [92, 89, 87, 86, 88, 89, 94];
+    for (var i = 0; i < values.length; i++) {
+      list.add(
+        _obs(
+          patientId,
+          'spo2-dip-$i',
+          '59408-5',
+          start.add(Duration(minutes: 5 * i)),
+          value: values[i],
+          unit: '%',
+        ),
+      );
+    }
+  }
+  if (palp) {
+    final start = now.subtract(const Duration(hours: 3));
+    const values = [118, 128, 136, 141, 133, 124, 96];
+    for (var i = 0; i < values.length; i++) {
+      list.add(
+        _obs(
+          patientId,
+          'hr-run-$i',
+          '8867-4',
+          start.add(Duration(minutes: 5 * i)),
+          value: values[i],
+          unit: 'beats/minute',
+        ),
+      );
+    }
+  }
   for (var d = 0; d < days; d++) {
     // Gelecek zaman olmasın diye tüm kayıtlar şimdiden geriye sayılır.
     DateTime ago(int hours) => now.subtract(Duration(days: d, hours: hours));

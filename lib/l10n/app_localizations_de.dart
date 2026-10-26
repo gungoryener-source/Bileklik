@@ -1794,7 +1794,7 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get privacySharingBody =>
-      'Nur mit den Ärzten, Forschungseinrichtungen oder Mitgliedern einer Familiengruppe, denen Sie zustimmen, nur die gewählten Datentypen und nur für die Dauer der Einwilligung. Selbst eingegebene Werte wie Gewicht und Körperzusammensetzung werden nur geteilt, wenn Sie „Körpermaße“ ausdrücklich auswählen. In Apple Health oder Health Connect werden nur die gewählten Datentypen geschrieben; die App liest dort nichts. Feedback wird nicht mit Ihrer Identität verknüpft.';
+      'Nur mit den Ärzten, Forschungseinrichtungen oder Mitgliedern einer Familiengruppe, denen Sie zustimmen, nur die gewählten Datentypen und nur für die Dauer der Einwilligung. Selbst eingegebene Werte wie Gewicht und Körperzusammensetzung werden nur geteilt, wenn Sie „Körpermaße“ ausdrücklich auswählen. In Apple Health oder Health Connect werden nur die gewählten Datentypen geschrieben; die App liest dort nichts. Feedback wird nicht mit Ihrer Identität verknüpft. Fällt in den geteilten Datentypen etwas auf (zum Beispiel bleibt die SpO2 lange niedrig oder seit einem Tag kommen keine Daten), zeigt das Portal Ihrem Arzt einen automatischen Hinweis; diese Hinweise sind keine Diagnose und werden mit Ihren Portaldaten gelöscht.';
 
   @override
   String get privacySharingTitle => 'Mit wem wird geteilt?';

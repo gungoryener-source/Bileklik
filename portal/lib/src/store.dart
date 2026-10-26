@@ -89,6 +89,16 @@ abstract class PortalStore {
   /// Kaydı siler (bileklik verisine dokunmaz).
   void deleteRecord(String id);
 
+  /// Uyarıyı ekler ya da aynı kimlikliyi değiştirir.
+  void putAlert(Alert a);
+  Alert? alert(String id);
+
+  /// Hekimin uyarıları, yeniden eskiye.
+  List<Alert> alertsOf(String ownerId);
+
+  /// Hastanın uyarılarını siler (unutulma hakkı).
+  void deleteAlertsFor(String patientId);
+
   /// Yeni kayıtlar için benzersiz kimlik.
   String nextId(String prefix);
 }
@@ -113,7 +123,24 @@ class MemoryPortalStore implements PortalStore {
   final _members = <String, GroupMember>{};
   final _passwords = <String, String>{};
   final _records = <String, PatientRecord>{};
+  final _alerts = <String, Alert>{};
   var _seq = 0;
+
+  @override
+  void putAlert(Alert a) => _alerts[a.id] = a;
+
+  @override
+  Alert? alert(String id) => _alerts[id];
+
+  @override
+  List<Alert> alertsOf(String ownerId) => [
+    for (final a in _alerts.values)
+      if (a.ownerId == ownerId) a,
+  ]..sort((a, b) => b.created.compareTo(a.created));
+
+  @override
+  void deleteAlertsFor(String patientId) =>
+      _alerts.removeWhere((_, a) => a.patientId == patientId);
 
   @override
   Account? accountByEmail(String email) {

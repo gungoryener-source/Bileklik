@@ -146,6 +146,25 @@ seçilir ve çerezde kalır, Arapçada sayfa sağdan sola.
   enjeksiyonuna karşı korumalı) ve FHIR Bundle (JSON; EKG ham örnekleri
   dahil). Her rapor ve dışa aktarma erişim kaydına geçer.
 
+### Uyarılar (uzaktan izlem)
+
+Hasta veri yükleyince ve hekim paneli açınca `AlertEngine`
+(`lib/src/alerts.dart`) hekimin süren rızasındaki türlere son 48 saatte bakar:
+
+- SpO2 en az 10 dk %90 altı; nabız en az 10 dk 120 üstü (egzersizin 5 dk
+  öncesinden 15 dk sonrasına kadar sayılmaz) ya da 40 altı; tansiyon
+  ≥180/120 (bileklikten tahmini); ateş ≥38 °C (kritik).
+- 24 saattir veri gelmiyor (uyarı); veri gelince kendiliğinden kapanır.
+- Aynı türde bir saat içinde süren olay yeni uyarı açmaz, açık olanı günceller.
+
+Panel ana sayfasında açık uyarılar kritik önce listelenir, açık kritik
+uyarısı olan hasta kayıtlarda üste çıkar. "Gördüm" (`POST
+/panel/alerts/<id>/ack`, CSRF'li) uyarıyı kapatır; kim, ne zaman ve isteğe
+bağlı not kaydedilir. 15 dk yanıtlanmayan kritik uyarı "Gecikti" olur.
+`/panel/alerts` son 30 günün kaydını ve ortanca yanıt süresini gösterir.
+Eşikler `AlertRules` içinde, klinik danışmanla gözden geçirilecek; karar
+destek içindir, tanı koymaz. Hasta verisini silince uyarıları da silinir.
+
 ### Güvenlik
 
 - Oturum sunucu tarafında tutulur. Çerez `HttpOnly`, `SameSite=Strict` ve

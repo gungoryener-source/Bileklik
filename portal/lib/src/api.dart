@@ -6,6 +6,7 @@ import 'package:crypto/crypto.dart' as crypto;
 import 'package:shelf/shelf.dart';
 import 'package:shelf_router/shelf_router.dart';
 
+import 'alerts.dart';
 import 'ingest.dart';
 import 'model.dart';
 import 'panel.dart';
@@ -565,6 +566,9 @@ class PortalApi {
     for (final o in result.observations) {
       if (store.addObservation(o)) created++;
     }
+    // Yeni veri hekimlerin uyarı kurallarından geçer; uyarı veri geldiği
+    // anda açılır, yanıt süresi buradan ölçülür.
+    if (created > 0) AlertEngine(store).scan(_now(), patientId: me.id);
     final duplicates = result.observations.length - created;
     final summary =
         'created=$created duplicates=$duplicates rejected=${result.rejected.length}';
@@ -782,6 +786,7 @@ class PortalApi {
     }
     final now = _now();
     final count = store.deleteObservations(id);
+    store.deleteAlertsFor(id);
     for (final c in store.consentsForPatient(id)) {
       store.revokeConsent(c.id, now);
     }

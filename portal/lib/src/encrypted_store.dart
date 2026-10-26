@@ -174,6 +174,8 @@ class EncryptedPortalStore implements PortalStore {
         _mem.updateAccount(_account(e));
       case 'password':
         _mem.setPassword(e['id']! as String, e['hash']! as String);
+      case 'alert':
+        _mem.putAlert(Alert.fromJson(e));
       case 'record':
         _mem.putRecord(
           PatientRecord(
@@ -350,6 +352,26 @@ class EncryptedPortalStore implements PortalStore {
 
   @override
   PatientRecord? record(String id) => _mem.record(id);
+
+  /// Uyarının her hali olay olarak eklenir; son hali geçerlidir.
+  @override
+  void putAlert(Alert a) => _record({'t': 'alert', ...a.toJson()});
+
+  @override
+  Alert? alert(String id) => _mem.alert(id);
+
+  @override
+  List<Alert> alertsOf(String ownerId) => _mem.alertsOf(ownerId);
+
+  /// Uyarılar ölçüm değeri taşır; hasta verisini silince dosyadan da çıkar.
+  @override
+  void deleteAlertsFor(String patientId) {
+    _mem.deleteAlertsFor(patientId);
+    _events.removeWhere(
+      (e) => e['t'] == 'alert' && e['patientId'] == patientId,
+    );
+    _rewrite();
+  }
 
   @override
   List<PatientRecord> recordsOf(String ownerId) => _mem.recordsOf(ownerId);
