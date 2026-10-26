@@ -49,6 +49,7 @@ bir öncekinin dalı üzerine kurulur. Durum: ✅ bitti (PR açık ya da birleş
 | 40 | Hekim panelinde uyarı panosu (uzaktan izlem): rızalı hastanın verisi geldiğinde kurallar çalışır (SpO2 10 dk %90 altı, nabız 10 dk 120 üstü egzersiz dışında ya da 40 altı, tansiyon ≥180/120, ateş ≥38 °C, 24 saat veri yok). Ana sayfada açık uyarılar kritik önce, "Gördüm" + not, 15 dk yanıtsız kritik uyarı "Gecikti"; `/panel/alerts` 30 günlük kayıt ve ortanca yanıt süresi | ✅ | (bu PR; eşikler klinik gözden geçirme bekliyor, kademeli yükseltme karar bekliyor) |
 | 41 | Tanıtım sitesinde iş birliği (B2B) formu: distribütör, OEM/ODM, kurumsal sağlık, klinik; portalda `POST /inquiry` (anahtarsız, dakikada 10, bot tuzağı, aydınlatma onayı zorunlu), şifreli saklama, `--inquiries` ile okuma. Betiksiz tarayıcıda da çalışır | ✅ | (bu PR; yayında form adresi gerçek portala çevrilecek, başvurulara e-posta bildirimi yok) |
 | 42 | Hekim panelinde izlem notları ve görevler: hasta kaydına tarihli not ve son günlü görev, "Tamamlandı"; ana sayfada "Görevlerim" (gecikenler önce). Yalnızca kaydı açan hekim görür, kayıt silinince silinir | ✅ | (bu PR; ekip içi paylaşım ve vardiya, hasta rızası kapsamı netleşince) |
+| 43 | HL7 v2.5.1 ORU^R01 dışa aktarma: rapor sayfasında "HL7 v2 indir"; hekimin kaydı varsa dosya no ve ad (PID), takma kimlik her zaman; LOINC/UCUM; erişim kaydına geçer | ✅ | (bu PR; MLLP ile canlı gönderim ve kurumla alan doğrulaması hastane anlaşmasıyla) |
 
 ## Her madde için
 

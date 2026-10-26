@@ -7,6 +7,7 @@ export 'src/alerts.dart';
 export 'src/api.dart';
 export 'src/demo.dart';
 export 'src/encrypted_store.dart';
+export 'src/hl7.dart';
 export 'src/ingest.dart';
 export 'src/inquiry.dart';
 export 'src/model.dart';

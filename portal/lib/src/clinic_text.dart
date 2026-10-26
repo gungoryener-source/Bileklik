@@ -332,6 +332,8 @@ class ClinicText {
     'careInvalid': 'Metin boş ya da çok uzun, ya da tarih geçersiz.',
     'myTasks': 'Görevlerim',
     'tasksMore': '{n} görev daha; hasta kayıtlarında.',
+    // HL7
+    'downloadHl7': 'HL7 v2 indir',
   });
 
   static const en = ClinicText._('en', {
@@ -627,6 +629,8 @@ class ClinicText {
     'careInvalid': 'The text is empty or too long, or the date is invalid.',
     'myTasks': 'My tasks',
     'tasksMore': '{n} more tasks in patient records.',
+    // HL7
+    'downloadHl7': 'Download HL7 v2',
   });
 
   static const ar = ClinicText._('ar', {
@@ -920,6 +924,8 @@ class ClinicText {
     'careInvalid': 'النص فارغ أو طويل جدًا، أو التاريخ غير صالح.',
     'myTasks': 'مهامي',
     'tasksMore': '{n} مهام أخرى في سجلات المرضى.',
+    // HL7
+    'downloadHl7': 'تنزيل HL7 v2',
   });
 
   static const de = ClinicText._('de', {
@@ -1220,5 +1226,7 @@ class ClinicText {
         'Der Text ist leer oder zu lang, oder das Datum ist ungültig.',
     'myTasks': 'Meine Aufgaben',
     'tasksMore': '{n} weitere Aufgaben in den Patientenakten.',
+    // HL7
+    'downloadHl7': 'HL7 v2 herunterladen',
   });
 }

@@ -144,8 +144,10 @@ seçilir ve çerezde kalır, Arapçada sayfa sağdan sola.
   raporda yazılıdır (`PatientReport`).
 - **Çıktılar:** "Yazdır / PDF" (tarayıcının "PDF olarak kaydet"i; A4 baskı
   stili, panel öğeleri gizlenir), CSV (Excel için UTF-8 BOM, formül
-  enjeksiyonuna karşı korumalı) ve FHIR Bundle (JSON; EKG ham örnekleri
-  dahil). Her rapor ve dışa aktarma erişim kaydına geçer.
+  enjeksiyonuna karşı korumalı), FHIR Bundle (JSON; EKG ham örnekleri
+  dahil) ve HL7 v2.5.1 ORU^R01 (`report.hl7`; hastane bilgi sistemleri için,
+  her sayısal değer bir OBX, LOINC/UCUM; EKG dalga formu yalnızca FHIR'da;
+  gerçek bir hastane arayüzüyle denenmedi). Her rapor ve dışa aktarma erişim kaydına geçer.
 
 ### İzlem notları ve görevler
 

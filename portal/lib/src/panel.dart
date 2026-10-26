@@ -8,6 +8,7 @@ import 'package:crypto/crypto.dart' as crypto;
 
 import 'alerts.dart';
 import 'clinic_text.dart';
+import 'hl7.dart';
 import 'model.dart';
 import 'panel_text.dart';
 import 'passwords.dart';
@@ -151,6 +152,10 @@ class PanelApi {
     ..get(
       '/panel/patients/<id>/report.json',
       (Request r, String id) => _exportFhir(r, id),
+    )
+    ..get(
+      '/panel/patients/<id>/report.hl7',
+      (Request r, String id) => _exportHl7(r, id),
     );
 
   /// Oturum ve hesabı; giriş yoksa null.
