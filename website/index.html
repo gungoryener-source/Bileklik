@@ -202,6 +202,34 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
 footer p { margin: 0; max-width: 620px; }
 footer nav { display: flex; flex-wrap: wrap; gap: 8px 20px; }
 
+/* Satın al (demo): ürünler, sepet, sahte ödeme sayfası */
+.shop { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 380px), 1fr)); gap: 32px; align-items: start; }
+.products { display: grid; gap: 16px; }
+.product { display: grid; gap: 10px; }
+.product h3 { margin: 0; font-size: 20px; }
+.product p { margin: 0; color: var(--body); }
+.price { font-size: 28px; font-weight: 800; letter-spacing: -.01em; color: var(--ink); }
+.price small { font-size: 15px; font-weight: 600; color: var(--muted); }
+.product .btn { justify-self: start; border: 0; cursor: pointer; }
+.demo-note { font-size: 14px; color: var(--muted); background: var(--soft); border-radius: 14px; padding: 12px 14px; margin: 0; }
+.cart h3 { margin: 0 0 12px; font-size: 20px; }
+.cart-lines { list-style: none; padding: 0; margin: 0 0 12px; display: grid; gap: 12px; }
+.cart-line { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; }
+.cart-line .name { flex: 1 1 160px; font-weight: 600; overflow-wrap: anywhere; }
+.qty { display: inline-flex; align-items: center; gap: 4px; }
+.qty button { width: 44px; height: 44px; border-radius: 12px; border: 1px solid #D5CDE8; background: var(--card); font: 700 20px/1 var(--font); color: var(--ink); cursor: pointer; }
+.qty output { min-width: 28px; text-align: center; font-weight: 700; }
+.cart-line .sum { min-width: 96px; text-align: end; font-weight: 700; }
+.totals { display: grid; grid-template-columns: 1fr auto; gap: 6px 12px; border-top: 1px solid var(--line); padding-top: 12px; margin-bottom: 16px; }
+.totals .grand { font-size: 20px; font-weight: 800; }
+.empty-cart { color: var(--muted); margin: 0 0 8px; }
+.pay-dialog { border: 0; border-radius: 22px; padding: 24px; width: min(440px, calc(100vw - 32px)); box-shadow: var(--shadow); }
+.pay-dialog::backdrop { background: rgba(23,21,31,.45); }
+.pay-dialog h3 { margin: 0 0 8px; }
+.pay-dialog .actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 16px; }
+.pay-dialog .btn { border: 0; cursor: pointer; }
+.order-ok { background: #E9F6EC; color: var(--green); border-radius: 14px; padding: 14px; font-weight: 600; margin: 0 0 12px; }
+
 @media (max-width: 760px) {
   body { font-size: 16px; }
   .sec { padding-top: 76px; }
@@ -231,6 +259,7 @@ footer nav { display: flex; flex-wrap: wrap; gap: 8px 20px; }
       <a href="#gizlilik">Gizlilik</a>
       <a href="#nasil-olcer">Nasıl ölçer</a>
       <a href="#dene">Deneyin</a>
+      <a href="#satin-al">Satın al</a>
       <a href="#is-birligi">İş birliği</a>
       <a href="#sss">SSS</a>
     </nav>
@@ -573,6 +602,67 @@ footer nav { display: flex; flex-wrap: wrap; gap: 8px 20px; }
   </div>
 </section>
 
+<section id="satin-al" class="sec" aria-labelledby="satin-baslik">
+  <div class="wrap">
+    <p class="eyebrow">Satın al</p>
+    <h2 id="satin-baslik" class="h2">Bilekliğinizi alın</h2>
+    <p class="lead">Uygulama ve temel özellikler ücretsiz. Yapay zeka raporu için uygulamadan Premium'a geçebilirsiniz: aylık 149,99 TL ya da yıllık 1.199,99 TL.</p>
+    <p class="demo-note" style="margin-bottom: 24px"><strong>Demo:</strong> fiyatlar örnektir, gerçek ödeme alınmaz ve bilgileriniz hiçbir yere gönderilmez. Yayında ödeme, kart bilgilerinin doğrudan ödeme kuruluşuna gittiği güvenli ödeme sayfasıyla alınacak; kart bilgisi bizim sunucumuza gelmez.</p>
+    <div class="shop">
+      <div class="products">
+        <article class="card product" data-id="band" data-name="JCV8 EKG bileklik" data-price="2499">
+          <h3>JCV8 EKG bileklik</h3>
+          <p>Nabız, EKG, kan oksijeni, uyku, adım ve cilt ısısı. Şarj kablosu ve kullanım kılavuzuyla.</p>
+          <div class="price">2.499,00 TL <small>KDV dahil</small></div>
+          <button class="btn btn-primary js-add" type="button">Sepete ekle</button>
+        </article>
+        <article class="card product" data-id="band-premium" data-name="Bileklik + 1 yıl Premium" data-price="3299">
+          <h3>Bileklik + 1 yıl Premium</h3>
+          <p>Bileklik ve bir yıllık Premium kodu: haftalık yapay zeka sağlık raporu ve kişisel öneriler.</p>
+          <div class="price">3.299,00 TL <small>KDV dahil</small></div>
+          <button class="btn btn-primary js-add" type="button">Sepete ekle</button>
+        </article>
+      </div>
+      <div class="card cart" id="cart" aria-labelledby="sepet-baslik">
+        <h3 id="sepet-baslik">Sepetiniz</h3>
+        <noscript><p class="empty-cart">Sepet için tarayıcınızda JavaScript açık olmalı.</p></noscript>
+        <p class="order-ok" id="order-ok" role="status" hidden></p>
+        <p class="empty-cart" id="cart-empty">Sepetiniz boş.</p>
+        <ul class="cart-lines" id="cart-lines" aria-live="polite"></ul>
+        <div class="totals" id="cart-totals" hidden>
+          <span>Ara toplam</span><span id="t-sub"></span>
+          <span>Kargo</span><span>Ücretsiz</span>
+          <span class="grand">Toplam</span><span class="grand" id="t-total"></span>
+        </div>
+        <form id="checkout" class="form" novalidate hidden>
+          <label>Adınız soyadınız<input name="name" autocomplete="name" maxlength="120" required></label>
+          <div class="two">
+            <label>E-posta<input name="email" type="email" autocomplete="email" maxlength="200" required></label>
+            <label>Telefon<input name="phone" type="tel" autocomplete="tel" maxlength="40" required></label>
+          </div>
+          <label>Teslimat adresi<textarea name="address" autocomplete="street-address" maxlength="400" required style="min-height: 88px"></textarea></label>
+          <div class="two">
+            <label>İl<input name="city" autocomplete="address-level1" maxlength="80" required></label>
+            <label><span>Posta kodu <small>(isteğe bağlı)</small></span><input name="zip" autocomplete="postal-code" maxlength="12"></label>
+          </div>
+          <label class="check"><input type="checkbox" name="terms" required><span>Ön bilgilendirme formunu ve mesafeli satış sözleşmesini okudum, onaylıyorum. <small>(Metinler yayın öncesi eklenecek.)</small></span></label>
+          <button class="btn btn-primary" type="submit">Ödemeye geç</button>
+          <p class="status" role="status" aria-live="polite"></p>
+        </form>
+      </div>
+    </div>
+  </div>
+  <dialog class="pay-dialog" id="pay-dialog" aria-labelledby="pay-baslik">
+    <h3 id="pay-baslik">Demo ödeme sayfası</h3>
+    <p>Yayında burada ödeme kuruluşunun (ör. iyzico) güvenli sayfası açılır ve kart bilgileri orada girilir.</p>
+    <p><strong>Ödenecek tutar: <span id="pay-total"></span></strong></p>
+    <div class="actions">
+      <button class="btn btn-primary" type="button" id="pay-ok">Ödemeyi onayla</button>
+      <button class="btn btn-ghost" type="button" id="pay-fail">Başarısız ödemeyi dene</button>
+    </div>
+  </dialog>
+</section>
+
 <section id="is-birligi" class="sec" aria-labelledby="b2b-baslik">
   <div class="wrap b2b">
     <div class="txt">
@@ -703,6 +793,102 @@ footer nav { display: flex; flex-wrap: wrap; gap: 8px 20px; }
   }
   setup(document.getElementById("b2b-form"), ["name", "company", "email", "message"], "Teşekkürler, başvurunuz alındı. En kısa sürede e-postayla döneceğiz.");
   setup(document.getElementById("wait-form"), ["email"], "Teşekkürler. Uygulama mağazalara çıkınca size bir kez e-posta göndereceğiz.");
+})();
+</script>
+<script>
+// Satın al (demo): sepet tarayıcıda durur, hiçbir yere gönderilmez.
+(function () {
+  var root = document.getElementById("satin-al");
+  if (!root) return;
+  var KEY = "bileklik-sepet";
+  var money = function (n) { return n.toLocaleString("tr-TR", { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + " TL"; };
+  var products = {};
+  root.querySelectorAll(".product").forEach(function (el) {
+    products[el.dataset.id] = { name: el.dataset.name, price: Number(el.dataset.price) };
+  });
+  var cart = {};
+  try { cart = JSON.parse(localStorage.getItem(KEY) || "{}") || {}; } catch (e) { cart = {}; }
+  function save() { try { localStorage.setItem(KEY, JSON.stringify(cart)); } catch (e) {} }
+  var lines = document.getElementById("cart-lines");
+  var empty = document.getElementById("cart-empty");
+  var totals = document.getElementById("cart-totals");
+  var form = document.getElementById("checkout");
+  var ok = document.getElementById("order-ok");
+  var status = form.querySelector(".status");
+  var dialog = document.getElementById("pay-dialog");
+  function total() {
+    return Object.keys(cart).reduce(function (sum, id) { return products[id] ? sum + products[id].price * cart[id] : sum; }, 0);
+  }
+  function render() {
+    lines.textContent = "";
+    var ids = Object.keys(cart).filter(function (id) { return products[id] && cart[id] > 0; });
+    ids.forEach(function (id) {
+      var p = products[id];
+      var li = document.createElement("li");
+      li.className = "cart-line";
+      var name = document.createElement("span"); name.className = "name"; name.textContent = p.name;
+      var qty = document.createElement("span"); qty.className = "qty";
+      var minus = document.createElement("button"); minus.type = "button"; minus.textContent = "−"; minus.setAttribute("aria-label", p.name + ": bir azalt");
+      var out = document.createElement("output"); out.textContent = cart[id]; out.setAttribute("aria-label", "Adet");
+      var plus = document.createElement("button"); plus.type = "button"; plus.textContent = "+"; plus.setAttribute("aria-label", p.name + ": bir artır");
+      minus.addEventListener("click", function () { change(id, -1); });
+      plus.addEventListener("click", function () { change(id, 1); });
+      qty.append(minus, out, plus);
+      var sum = document.createElement("span"); sum.className = "sum"; sum.textContent = money(p.price * cart[id]);
+      li.append(name, qty, sum);
+      lines.appendChild(li);
+    });
+    var has = ids.length > 0;
+    empty.hidden = has;
+    totals.hidden = !has;
+    form.hidden = !has;
+    document.getElementById("t-sub").textContent = money(total());
+    document.getElementById("t-total").textContent = money(total());
+  }
+  function change(id, by) {
+    cart[id] = Math.max(0, Math.min(10, (cart[id] || 0) + by));
+    if (!cart[id]) delete cart[id];
+    ok.hidden = true;
+    save(); render();
+  }
+  root.querySelectorAll(".js-add").forEach(function (b) {
+    b.addEventListener("click", function () {
+      change(b.closest(".product").dataset.id, 1);
+      document.getElementById("cart").scrollIntoView({ block: "nearest" });
+    });
+  });
+  function show(text, good) { status.textContent = text; status.className = "status " + (good ? "ok" : "err"); }
+  var labels = { name: "ad soyad", email: "e-posta", phone: "telefon", address: "adres", city: "il", terms: "sözleşme onayı" };
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
+    var missing = ["name", "email", "phone", "address", "city"].filter(function (f) { return !form.elements[f].value.trim(); });
+    if (form.elements.email.value && !form.elements.email.checkValidity() && missing.indexOf("email") < 0) missing.push("email");
+    if (!form.elements.terms.checked) missing.push("terms");
+    form.querySelectorAll("[aria-invalid]").forEach(function (el) { el.removeAttribute("aria-invalid"); });
+    missing.forEach(function (f) { form.elements[f].setAttribute("aria-invalid", "true"); });
+    if (missing.length) {
+      form.elements[missing[0]].focus();
+      show("Eksik ya da hatalı: " + missing.map(function (f) { return labels[f]; }).join(", ") + ".", false);
+      return;
+    }
+    show("", true);
+    document.getElementById("pay-total").textContent = money(total());
+    if (dialog.showModal) dialog.showModal(); else dialog.setAttribute("open", "");
+  });
+  function close() { if (dialog.close) dialog.close(); else dialog.removeAttribute("open"); }
+  document.getElementById("pay-ok").addEventListener("click", function () {
+    close();
+    var no = "BLK-" + Math.floor(100000 + Math.random() * 900000);
+    ok.textContent = "Teşekkürler! Demo siparişiniz alındı: " + no + ". Gerçek ödeme alınmadı, ürün gönderilmeyecek.";
+    ok.hidden = false;
+    cart = {}; save(); form.reset(); render();
+    ok.focus && ok.setAttribute("tabindex", "-1"); ok.focus();
+  });
+  document.getElementById("pay-fail").addEventListener("click", function () {
+    close();
+    show("Ödeme alınamadı, kartınızdan para çekilmedi. Bilgilerinizi kontrol edip yeniden deneyin.", false);
+  });
+  render();
 })();
 </script>
 </body>
