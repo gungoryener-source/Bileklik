@@ -1246,5 +1246,270 @@
       }
     }
   },
-  "radarNote": "Her gece son 14 gecenizle karşılaştırılır. Tanı koymaz. Göğüs ağrısı, nefes darlığı ya da bayılma hissinde acil yardım numarasını arayın."
+  "radarNote": "Her gece son 14 gecenizle karşılaştırılır. Tanı koymaz. Göğüs ağrısı, nefes darlığı ya da bayılma hissinde acil yardım numarasını arayın.",
+  "aiReportTitle": "Yapay zeka raporu",
+  "aiReportCardText": "Haftanızı yorumlayan kişisel rapor ve öneriler.",
+  "aiDemoBadge": "Demo",
+  "aiDemoNote": "Bu bir örnek rapordur: yapay zeka henüz bağlı değil, metni uygulamadaki kurallar yazdı. Verileriniz telefondan çıkmadı.",
+  "aiConsentTitle": "Yapay zeka analizi için izin",
+  "aiConsentIntro": "Haftalık raporu bir yapay zeka modeli yazar. Bunun için haftanızın özeti sunucumuza, oradan da yapay zeka sağlayıcısına gönderilir.",
+  "aiConsentSentTitle": "Gönderilenler",
+  "aiConsentSent": "Yaş aralığı ve cinsiyet; haftalık adım, uyku, nabız, HRV, stres ve egzersiz ortalamaları; Sağlık Radarı işaretleri.",
+  "aiConsentNotSentTitle": "Gönderilmeyenler",
+  "aiConsentNotSent": "Adınız, iletişim bilgileriniz, bileklik adresi, ham EKG kayıtları ve tek tek ölçümler.",
+  "aiConsentAbroad": "Yapay zeka sağlayıcısı yurt dışındadır (ABD), bu yüzden özet yurt dışına aktarılır. Sağlayıcı bu veriyi model eğitmek için kullanmaz.",
+  "aiConsentLimits": "Rapor tanı koymaz, ilaç önermez ve hekim muayenesinin yerini tutmaz.",
+  "aiConsentRevoke": "İzni istediğiniz an bu ekrandan geri alabilirsiniz. Geri alınca yeni rapor yazılmaz.",
+  "aiConsentCheck": "Haftalık özetimin yapay zeka analizi için yurt dışına aktarılmasına açık rıza veriyorum.",
+  "aiConsentAccept": "İzin ver",
+  "aiConsentDecline": "Şimdi değil",
+  "aiGenerate": "Raporu oluştur",
+  "aiRegenerate": "Yeniden oluştur",
+  "aiGenerating": "Rapor hazırlanıyor…",
+  "aiWeek": "{start} – {end} haftası",
+  "@aiWeek": {
+    "placeholders": {
+      "start": {
+        "type": "String"
+      },
+      "end": {
+        "type": "String"
+      }
+    }
+  },
+  "aiEmpty": "Bu hafta rapor için yeterli veri yok. Bilekliği birkaç gün takıp eşitleyin.",
+  "aiSummaryTitle": "Özet",
+  "aiWinsTitle": "İyi gidenler",
+  "aiWatchTitle": "Dikkat edilecekler",
+  "aiTipsTitle": "Öneriler",
+  "aiNothing": "Bu hafta öne çıkan bir şey yok.",
+  "aiDisclaimer": "Bu rapor bilgilendirme amaçlıdır; tanı koymaz ve tedavi önermez. Belirtileriniz varsa hekiminize danışın. Göğüs ağrısı, nefes darlığı ya da bayılma hissinde acil yardım numarasını arayın.",
+  "aiDataTitle": "Kullanılan veri",
+  "aiDataNote": "Gerçek raporda sunucuya yalnızca bu özet gider.",
+  "aiRevoke": "İzni geri al",
+  "aiRevoked": "İzin geri alındı.",
+  "aiConsentGiven": "İzin tarihi: {date}",
+  "@aiConsentGiven": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "aiStepsGood": "Günde ortalama {steps} adım attınız; hedefin üstündesiniz.",
+  "@aiStepsGood": {
+    "placeholders": {
+      "steps": {
+        "type": "int",
+        "format": "decimalPattern"
+      }
+    }
+  },
+  "aiStepsLow": "Günlük ortalamanız {steps} adım; hareket hedefinin altında kaldı.",
+  "@aiStepsLow": {
+    "placeholders": {
+      "steps": {
+        "type": "int",
+        "format": "decimalPattern"
+      }
+    }
+  },
+  "aiStepsUp": "Adımlarınız geçen haftaya göre %{percent} arttı.",
+  "@aiStepsUp": {
+    "placeholders": {
+      "percent": {
+        "type": "int"
+      }
+    }
+  },
+  "aiStepsDown": "Adımlarınız geçen haftaya göre %{percent} azaldı.",
+  "@aiStepsDown": {
+    "placeholders": {
+      "percent": {
+        "type": "int"
+      }
+    }
+  },
+  "aiSleepGood": "Gecede ortalama {hours} sa {minutes} dk uyudunuz; sağlıklı aralıktasınız.",
+  "@aiSleepGood": {
+    "placeholders": {
+      "hours": {
+        "type": "int"
+      },
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "aiSleepShort": "Gecede ortalama {hours} sa {minutes} dk uyudunuz; 7 saatin altında.",
+  "@aiSleepShort": {
+    "placeholders": {
+      "hours": {
+        "type": "int"
+      },
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "aiHrvUp": "HRV'niz geçen haftaya göre %{percent} yükseldi; vücudunuz iyi toparlanıyor.",
+  "@aiHrvUp": {
+    "placeholders": {
+      "percent": {
+        "type": "int"
+      }
+    }
+  },
+  "aiHrvDown": "HRV'niz geçen haftaya göre %{percent} düştü; yorgunluk ya da stres işareti olabilir.",
+  "@aiHrvDown": {
+    "placeholders": {
+      "percent": {
+        "type": "int"
+      }
+    }
+  },
+  "aiStressHigh": "Ortalama stres düzeyiniz {level}; haftanın çoğu yüksek geçti.",
+  "@aiStressHigh": {
+    "placeholders": {
+      "level": {
+        "type": "int"
+      }
+    }
+  },
+  "aiWorkoutsGood": "{count} egzersiz, toplam {minutes} dakika: düzenli hareket ediyorsunuz.",
+  "@aiWorkoutsGood": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "aiRadar": "Sağlık Radarı son gece olağanınızdan farklı değerler gördü.",
+  "aiBioYounger": "Biyolojik yaş tahmininiz takvim yaşınızdan {years} yıl genç.",
+  "@aiBioYounger": {
+    "placeholders": {
+      "years": {
+        "type": "int"
+      }
+    }
+  },
+  "aiBioOlder": "Biyolojik yaş tahmininiz takvim yaşınızdan {years} yıl büyük.",
+  "@aiBioOlder": {
+    "placeholders": {
+      "years": {
+        "type": "int"
+      }
+    }
+  },
+  "aiTipWalk": "Güne 10-15 dakikalık iki kısa yürüyüş ekleyin, asansör yerine merdiveni seçin.",
+  "aiTipSleep": "Her gün aynı saatte yatıp kalkmayı deneyin; yatmadan bir saat önce ekranı bırakın.",
+  "aiTipRecover": "Bu hafta ağır antrenman yerine hafif yürüyüş ve esneme seçin, uykuya öncelik verin.",
+  "aiTipBreathe": "Gün içinde birkaç kez 2 dakikalık yavaş nefes molası verin (4 saniye alın, 6 saniye verin).",
+  "aiTipMove": "Haftada en az 150 dakika orta tempolu hareket hedefleyin; kısa parçalar da sayılır.",
+  "aiTipRadar": "Bugün dinlenmeye ağırlık verin ve bol su için. Kendinizi iyi hissetmiyorsanız hekiminize danışın.",
+  "aiTipKeep": "Böyle devam edin; bilekliği gece de takarak uyku ve toparlanma verisini eksiksiz tutun.",
+  "aiSummaryGood": "Haftanız genel olarak iyi geçti; dikkat çeken bir sorun görünmüyor.",
+  "aiSummaryMixed": "Haftanız dengeli geçti: iyi giden alışkanlıklarınız var, birkaç konuya da dikkat etmekte yarar var.",
+  "aiSummaryCare": "Bu hafta vücudunuz biraz daha özen istiyor; aşağıdaki öneriler yardımcı olabilir.",
+  "aiSummaryFewDays": "Bu hafta yalnızca {days} günün verisi var; rapor sınırlı bir tablo gösteriyor.",
+  "@aiSummaryFewDays": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "premiumTitle": "Bileklik Premium",
+  "premiumBadge": "Premium",
+  "premiumSubtitle": "Verilerinizden daha fazlasını çıkarın.",
+  "premiumBenefitReport": "Haftalık yapay zeka sağlık raporu",
+  "premiumBenefitCoaching": "Kişisel koçluk önerileri",
+  "premiumBenefitFree": "Ölçüm, geçmiş, paylaşım ve uyarılar ücretsiz kalır",
+  "premiumMonthly": "Aylık",
+  "premiumYearly": "Yıllık",
+  "premiumPerMonth": "{price} / ay",
+  "@premiumPerMonth": {
+    "placeholders": {
+      "price": {
+        "type": "String"
+      }
+    }
+  },
+  "premiumPerYear": "{price} / yıl",
+  "@premiumPerYear": {
+    "placeholders": {
+      "price": {
+        "type": "String"
+      }
+    }
+  },
+  "premiumSave": "%{percent} tasarruf",
+  "@premiumSave": {
+    "placeholders": {
+      "percent": {
+        "type": "int"
+      }
+    }
+  },
+  "premiumSubscribe": "Abone ol",
+  "premiumRestore": "Satın alımları geri yükle",
+  "premiumRestoreNone": "Geri yüklenecek satın alım bulunamadı.",
+  "premiumRestored": "Satın alım geri yüklendi.",
+  "premiumTerms": "Abonelik her dönem sonunda kendiliğinden yenilenir. Mağaza hesabınızdan istediğiniz an iptal edebilirsiniz; iptal edince Premium dönem sonuna kadar sürer.",
+  "premiumDemoNote": "Demo: ödeme ileride App Store ya da Google Play üzerinden alınacak. Bu sürümde gerçek ödeme alınmaz, fiyatlar örnektir.",
+  "storeSheetTitle": "Demo mağaza",
+  "storeSheetItem": "Bileklik Premium · {plan}",
+  "@storeSheetItem": {
+    "placeholders": {
+      "plan": {
+        "type": "String"
+      }
+    }
+  },
+  "storeSheetNote": "Gerçek ödeme alınmaz.",
+  "storeConfirm": "Onayla",
+  "storeCancel": "Vazgeç",
+  "premiumActive": "Premium etkin. Teşekkürler!",
+  "subscriptionTitle": "Abonelik",
+  "subscriptionFree": "Ücretsiz",
+  "subscriptionPremium": "Premium · {plan}",
+  "@subscriptionPremium": {
+    "placeholders": {
+      "plan": {
+        "type": "String"
+      }
+    }
+  },
+  "subscriptionRenews": "Yenileme tarihi: {date}",
+  "@subscriptionRenews": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "subscriptionEnds": "{date} tarihinde sona erecek",
+  "@subscriptionEnds": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "subscriptionUpgrade": "Premium'a geç",
+  "subscriptionCancel": "Aboneliği iptal et",
+  "subscriptionCancelConfirm": "Abonelik yenilenmeyecek; Premium {date} tarihine kadar sürer.",
+  "@subscriptionCancelConfirm": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "subscriptionCancelled": "Abonelik iptal edildi.",
+  "subscriptionKeep": "Aboneliği koru",
+  "subscriptionFreeText": "Ölçüm, geçmiş, paylaşım ve uyarılar ücretsiz. Yapay zeka raporu Premium ile açılır."
 }

@@ -7,6 +7,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'data/billing.dart';
 import 'data/community.dart';
 import 'data/connections.dart';
 import 'data/feedback.dart';
@@ -75,10 +76,7 @@ const _portalUrl = String.fromEnvironment('PORTAL_URL');
   FeedbackService feedback,
   PortalAccountService account,
 })?
-_portal(
-  AppSettings settings,
-  DeviceController controller,
-) {
+_portal(AppSettings settings, DeviceController controller) {
   if (_portalUrl.isEmpty) return null;
   // `same-origin`: uygulama portalın kendi adresinden sunuluyor (test
   // portalı); istekler aynı sunucuya gider.
@@ -154,7 +152,9 @@ Future<HealthStore> _openStore(SecretStore secrets) async {
       secrets,
       onKeyLost: () => FlutterError.reportError(
         FlutterErrorDetails(
-          exception: StateError('veritabanı anahtarı yok; dosya yeniden kuruldu'),
+          exception: StateError(
+            'veritabanı anahtarı yok; dosya yeniden kuruldu',
+          ),
           library: 'bileklik',
         ),
       ),
@@ -176,8 +176,11 @@ class BileklikApp extends StatelessWidget {
     ConnectionService? connections,
     HealthExportService? healthExport,
     FeedbackService? feedback,
+    BillingService? billing,
     this.account,
   }) : settings = settings ?? AppSettings.memory(),
+       // Mağaza bağlanana kadar sahte ödeme.
+       billing = billing ?? FakeBillingService(),
        feedback = feedback ?? FakeFeedbackService(),
        // Portal adresi verilmezse sahte sunucular.
        community = community ?? FakeCommunityServer(),
@@ -199,6 +202,7 @@ class BileklikApp extends StatelessWidget {
   final ConnectionService connections;
   final HealthExportService healthExport;
   final FeedbackService feedback;
+  final BillingService billing;
 
   /// Portal hesabı (kurtarma kodu); yalnızca portal adresi verildiyse.
   final PortalAccountService? account;
@@ -220,48 +224,51 @@ class BileklikApp extends StatelessWidget {
               child: FeedbackScope(
                 service: feedback,
                 child: AccountScope(
-                service: account,
-                child: ListenableBuilder(
-                listenable: settings,
-                builder: (context, _) => MaterialApp(
-                  onGenerateTitle: (context) => context.l10n.appTitle,
-                  debugShowCheckedModeBanner: false,
-                  localizationsDelegates: const [
-                    AppLocalizations.delegate,
-                    GlobalMaterialLocalizations.delegate,
-                    GlobalWidgetsLocalizations.delegate,
-                    GlobalCupertinoLocalizations.delegate,
-                  ],
-                  // Telefonun dili desteklenmiyorsa listenin ilki (İngilizce) seçilir.
-                  supportedLocales: const [
-                    Locale('en'),
-                    Locale('tr'),
-                    Locale('ar'),
-                    Locale('de'),
-                  ],
-                  // null: telefonun dili.
-                  locale: settings.locale,
-                  builder: (context, child) => LocaleSync(
-                    child: DisplaySync(
-                      clock: settings.clock,
-                      units: settings.units,
-                      child: child!,
+                  service: account,
+                  child: BillingScope(
+                    service: billing,
+                    child: ListenableBuilder(
+                      listenable: settings,
+                      builder: (context, _) => MaterialApp(
+                        onGenerateTitle: (context) => context.l10n.appTitle,
+                        debugShowCheckedModeBanner: false,
+                        localizationsDelegates: const [
+                          AppLocalizations.delegate,
+                          GlobalMaterialLocalizations.delegate,
+                          GlobalWidgetsLocalizations.delegate,
+                          GlobalCupertinoLocalizations.delegate,
+                        ],
+                        // Telefonun dili desteklenmiyorsa listenin ilki (İngilizce) seçilir.
+                        supportedLocales: const [
+                          Locale('en'),
+                          Locale('tr'),
+                          Locale('ar'),
+                          Locale('de'),
+                        ],
+                        // null: telefonun dili.
+                        locale: settings.locale,
+                        builder: (context, child) => LocaleSync(
+                          child: DisplaySync(
+                            clock: settings.clock,
+                            units: settings.units,
+                            child: child!,
+                          ),
+                        ),
+                        // Tek tema: koyu Cam.
+                        theme: _theme,
+                        // Android'de Health Connect "neden" bağlantısı bu sayfayı
+                        // açar (MainActivity.getInitialRoute).
+                        routes: {
+                          PrivacyScreen.routeName: (_) => const PrivacyScreen(),
+                        },
+                        // İlk açılışta dil seçilir; sonra Profil'den değişir.
+                        home: settings.languageChosen
+                            ? const AppShell()
+                            : const LanguageScreen(firstRun: true),
+                      ),
                     ),
                   ),
-                  // Tek tema: koyu Cam.
-                  theme: _theme,
-                  // Android'de Health Connect "neden" bağlantısı bu sayfayı
-                  // açar (MainActivity.getInitialRoute).
-                  routes: {
-                    PrivacyScreen.routeName: (_) => const PrivacyScreen(),
-                  },
-                  // İlk açılışta dil seçilir; sonra Profil'den değişir.
-                  home: settings.languageChosen
-                      ? const AppShell()
-                      : const LanguageScreen(firstRun: true),
                 ),
-              ),
-              ),
               ),
             ),
           ),

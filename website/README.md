@@ -12,6 +12,8 @@ Derleme gerektirmeyen tek sayfa statik site: `index.html`, `404.html`,
   (şimdilik test portalı). Başvurular portalda şifreli durur; okumak için
   `dart run bin/server.dart --inquiries`. Sondaki "Haber ver" ön kayıt formu
   da aynı uca `kind=waitlist` ile yalnızca e-posta gönderir.
+- "Satın al" bölümü (`#satin-al`) demodur: sepet tarayıcıda durur, ödeme
+  sayfası taklittir, hiçbir şey gönderilmez. Plan `docs/odeme.md`.
 - Yayın öncesi eklenecekler: App Store ve Google Play bağlantıları, iletişim
   adresi, şirket adı, kayış ölçü aralığı ("Nasıl ölçer" bölümü).
 

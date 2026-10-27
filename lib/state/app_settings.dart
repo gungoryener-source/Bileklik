@@ -31,6 +31,7 @@ class AppSettings extends ChangeNotifier implements PortalCredentials {
     this._portalToken,
     this._lastPortalUpload,
     this._recoveryCode,
+    this._aiConsentAt,
   });
 
   /// Kaydedilmiş tercihleri okur; yoksa telefonun dili.
@@ -65,6 +66,10 @@ class AppSettings extends ChangeNotifier implements PortalCredentials {
       portalToken: token,
       recoveryCode: recovery,
       lastPortalUpload: switch (prefs.getInt(_portalUploadKey)) {
+        null => null,
+        final ms => DateTime.fromMillisecondsSinceEpoch(ms),
+      },
+      aiConsentAt: switch (prefs.getInt(_aiConsentKey)) {
         null => null,
         final ms => DateTime.fromMillisecondsSinceEpoch(ms),
       },
@@ -106,6 +111,7 @@ class AppSettings extends ChangeNotifier implements PortalCredentials {
   static const _recoveryKey = 'portal_recovery_code';
   static const _portalUploadKey = 'portal_last_upload';
   static const _communityReadKey = 'community_read_until';
+  static const _aiConsentKey = 'ai_report_consent_at';
 
   final SharedPreferences? _prefs;
   final SecretStore? _secrets;
@@ -119,6 +125,24 @@ class AppSettings extends ChangeNotifier implements PortalCredentials {
   String? _patientId;
   String? _portalToken;
   DateTime? _lastPortalUpload;
+  DateTime? _aiConsentAt;
+
+  /// Yapay zeka raporu için açık rızanın verildiği an; verilmediyse ya da
+  /// geri alındıysa null. Bu rıza hekim/aile paylaşımından ayrıdır.
+  DateTime? get aiConsentAt => _aiConsentAt;
+
+  /// Rızayı verir ([at] anıyla) ya da null ile geri alır.
+  Future<void> setAiConsent(DateTime? at) async {
+    _aiConsentAt = at;
+    notifyListeners();
+    final p = _prefs;
+    if (p == null) return;
+    if (at == null) {
+      await p.remove(_aiConsentKey);
+    } else {
+      await p.setInt(_aiConsentKey, at.millisecondsSinceEpoch);
+    }
+  }
 
   /// Portalın verdiği oturum anahtarı; hesap açılınca saklanır.
   @override

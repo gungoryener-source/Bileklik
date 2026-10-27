@@ -4305,6 +4305,546 @@ abstract class AppLocalizations {
   /// In tr, this message translates to:
   /// **'Her gece son 14 gecenizle karşılaştırılır. Tanı koymaz. Göğüs ağrısı, nefes darlığı ya da bayılma hissinde acil yardım numarasını arayın.'**
   String get radarNote;
+
+  /// No description provided for @aiReportTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yapay zeka raporu'**
+  String get aiReportTitle;
+
+  /// No description provided for @aiReportCardText.
+  ///
+  /// In tr, this message translates to:
+  /// **'Haftanızı yorumlayan kişisel rapor ve öneriler.'**
+  String get aiReportCardText;
+
+  /// No description provided for @aiDemoBadge.
+  ///
+  /// In tr, this message translates to:
+  /// **'Demo'**
+  String get aiDemoBadge;
+
+  /// No description provided for @aiDemoNote.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bu bir örnek rapordur: yapay zeka henüz bağlı değil, metni uygulamadaki kurallar yazdı. Verileriniz telefondan çıkmadı.'**
+  String get aiDemoNote;
+
+  /// No description provided for @aiConsentTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yapay zeka analizi için izin'**
+  String get aiConsentTitle;
+
+  /// No description provided for @aiConsentIntro.
+  ///
+  /// In tr, this message translates to:
+  /// **'Haftalık raporu bir yapay zeka modeli yazar. Bunun için haftanızın özeti sunucumuza, oradan da yapay zeka sağlayıcısına gönderilir.'**
+  String get aiConsentIntro;
+
+  /// No description provided for @aiConsentSentTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Gönderilenler'**
+  String get aiConsentSentTitle;
+
+  /// No description provided for @aiConsentSent.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yaş aralığı ve cinsiyet; haftalık adım, uyku, nabız, HRV, stres ve egzersiz ortalamaları; Sağlık Radarı işaretleri.'**
+  String get aiConsentSent;
+
+  /// No description provided for @aiConsentNotSentTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Gönderilmeyenler'**
+  String get aiConsentNotSentTitle;
+
+  /// No description provided for @aiConsentNotSent.
+  ///
+  /// In tr, this message translates to:
+  /// **'Adınız, iletişim bilgileriniz, bileklik adresi, ham EKG kayıtları ve tek tek ölçümler.'**
+  String get aiConsentNotSent;
+
+  /// No description provided for @aiConsentAbroad.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yapay zeka sağlayıcısı yurt dışındadır (ABD), bu yüzden özet yurt dışına aktarılır. Sağlayıcı bu veriyi model eğitmek için kullanmaz.'**
+  String get aiConsentAbroad;
+
+  /// No description provided for @aiConsentLimits.
+  ///
+  /// In tr, this message translates to:
+  /// **'Rapor tanı koymaz, ilaç önermez ve hekim muayenesinin yerini tutmaz.'**
+  String get aiConsentLimits;
+
+  /// No description provided for @aiConsentRevoke.
+  ///
+  /// In tr, this message translates to:
+  /// **'İzni istediğiniz an bu ekrandan geri alabilirsiniz. Geri alınca yeni rapor yazılmaz.'**
+  String get aiConsentRevoke;
+
+  /// No description provided for @aiConsentCheck.
+  ///
+  /// In tr, this message translates to:
+  /// **'Haftalık özetimin yapay zeka analizi için yurt dışına aktarılmasına açık rıza veriyorum.'**
+  String get aiConsentCheck;
+
+  /// No description provided for @aiConsentAccept.
+  ///
+  /// In tr, this message translates to:
+  /// **'İzin ver'**
+  String get aiConsentAccept;
+
+  /// No description provided for @aiConsentDecline.
+  ///
+  /// In tr, this message translates to:
+  /// **'Şimdi değil'**
+  String get aiConsentDecline;
+
+  /// No description provided for @aiGenerate.
+  ///
+  /// In tr, this message translates to:
+  /// **'Raporu oluştur'**
+  String get aiGenerate;
+
+  /// No description provided for @aiRegenerate.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yeniden oluştur'**
+  String get aiRegenerate;
+
+  /// No description provided for @aiGenerating.
+  ///
+  /// In tr, this message translates to:
+  /// **'Rapor hazırlanıyor…'**
+  String get aiGenerating;
+
+  /// No description provided for @aiWeek.
+  ///
+  /// In tr, this message translates to:
+  /// **'{start} – {end} haftası'**
+  String aiWeek(String start, String end);
+
+  /// No description provided for @aiEmpty.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bu hafta rapor için yeterli veri yok. Bilekliği birkaç gün takıp eşitleyin.'**
+  String get aiEmpty;
+
+  /// No description provided for @aiSummaryTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Özet'**
+  String get aiSummaryTitle;
+
+  /// No description provided for @aiWinsTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'İyi gidenler'**
+  String get aiWinsTitle;
+
+  /// No description provided for @aiWatchTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Dikkat edilecekler'**
+  String get aiWatchTitle;
+
+  /// No description provided for @aiTipsTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Öneriler'**
+  String get aiTipsTitle;
+
+  /// No description provided for @aiNothing.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bu hafta öne çıkan bir şey yok.'**
+  String get aiNothing;
+
+  /// No description provided for @aiDisclaimer.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bu rapor bilgilendirme amaçlıdır; tanı koymaz ve tedavi önermez. Belirtileriniz varsa hekiminize danışın. Göğüs ağrısı, nefes darlığı ya da bayılma hissinde acil yardım numarasını arayın.'**
+  String get aiDisclaimer;
+
+  /// No description provided for @aiDataTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kullanılan veri'**
+  String get aiDataTitle;
+
+  /// No description provided for @aiDataNote.
+  ///
+  /// In tr, this message translates to:
+  /// **'Gerçek raporda sunucuya yalnızca bu özet gider.'**
+  String get aiDataNote;
+
+  /// No description provided for @aiRevoke.
+  ///
+  /// In tr, this message translates to:
+  /// **'İzni geri al'**
+  String get aiRevoke;
+
+  /// No description provided for @aiRevoked.
+  ///
+  /// In tr, this message translates to:
+  /// **'İzin geri alındı.'**
+  String get aiRevoked;
+
+  /// No description provided for @aiConsentGiven.
+  ///
+  /// In tr, this message translates to:
+  /// **'İzin tarihi: {date}'**
+  String aiConsentGiven(String date);
+
+  /// No description provided for @aiStepsGood.
+  ///
+  /// In tr, this message translates to:
+  /// **'Günde ortalama {steps} adım attınız; hedefin üstündesiniz.'**
+  String aiStepsGood(int steps);
+
+  /// No description provided for @aiStepsLow.
+  ///
+  /// In tr, this message translates to:
+  /// **'Günlük ortalamanız {steps} adım; hareket hedefinin altında kaldı.'**
+  String aiStepsLow(int steps);
+
+  /// No description provided for @aiStepsUp.
+  ///
+  /// In tr, this message translates to:
+  /// **'Adımlarınız geçen haftaya göre %{percent} arttı.'**
+  String aiStepsUp(int percent);
+
+  /// No description provided for @aiStepsDown.
+  ///
+  /// In tr, this message translates to:
+  /// **'Adımlarınız geçen haftaya göre %{percent} azaldı.'**
+  String aiStepsDown(int percent);
+
+  /// No description provided for @aiSleepGood.
+  ///
+  /// In tr, this message translates to:
+  /// **'Gecede ortalama {hours} sa {minutes} dk uyudunuz; sağlıklı aralıktasınız.'**
+  String aiSleepGood(int hours, int minutes);
+
+  /// No description provided for @aiSleepShort.
+  ///
+  /// In tr, this message translates to:
+  /// **'Gecede ortalama {hours} sa {minutes} dk uyudunuz; 7 saatin altında.'**
+  String aiSleepShort(int hours, int minutes);
+
+  /// No description provided for @aiHrvUp.
+  ///
+  /// In tr, this message translates to:
+  /// **'HRV\'niz geçen haftaya göre %{percent} yükseldi; vücudunuz iyi toparlanıyor.'**
+  String aiHrvUp(int percent);
+
+  /// No description provided for @aiHrvDown.
+  ///
+  /// In tr, this message translates to:
+  /// **'HRV\'niz geçen haftaya göre %{percent} düştü; yorgunluk ya da stres işareti olabilir.'**
+  String aiHrvDown(int percent);
+
+  /// No description provided for @aiStressHigh.
+  ///
+  /// In tr, this message translates to:
+  /// **'Ortalama stres düzeyiniz {level}; haftanın çoğu yüksek geçti.'**
+  String aiStressHigh(int level);
+
+  /// No description provided for @aiWorkoutsGood.
+  ///
+  /// In tr, this message translates to:
+  /// **'{count} egzersiz, toplam {minutes} dakika: düzenli hareket ediyorsunuz.'**
+  String aiWorkoutsGood(int count, int minutes);
+
+  /// No description provided for @aiRadar.
+  ///
+  /// In tr, this message translates to:
+  /// **'Sağlık Radarı son gece olağanınızdan farklı değerler gördü.'**
+  String get aiRadar;
+
+  /// No description provided for @aiBioYounger.
+  ///
+  /// In tr, this message translates to:
+  /// **'Biyolojik yaş tahmininiz takvim yaşınızdan {years} yıl genç.'**
+  String aiBioYounger(int years);
+
+  /// No description provided for @aiBioOlder.
+  ///
+  /// In tr, this message translates to:
+  /// **'Biyolojik yaş tahmininiz takvim yaşınızdan {years} yıl büyük.'**
+  String aiBioOlder(int years);
+
+  /// No description provided for @aiTipWalk.
+  ///
+  /// In tr, this message translates to:
+  /// **'Güne 10-15 dakikalık iki kısa yürüyüş ekleyin, asansör yerine merdiveni seçin.'**
+  String get aiTipWalk;
+
+  /// No description provided for @aiTipSleep.
+  ///
+  /// In tr, this message translates to:
+  /// **'Her gün aynı saatte yatıp kalkmayı deneyin; yatmadan bir saat önce ekranı bırakın.'**
+  String get aiTipSleep;
+
+  /// No description provided for @aiTipRecover.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bu hafta ağır antrenman yerine hafif yürüyüş ve esneme seçin, uykuya öncelik verin.'**
+  String get aiTipRecover;
+
+  /// No description provided for @aiTipBreathe.
+  ///
+  /// In tr, this message translates to:
+  /// **'Gün içinde birkaç kez 2 dakikalık yavaş nefes molası verin (4 saniye alın, 6 saniye verin).'**
+  String get aiTipBreathe;
+
+  /// No description provided for @aiTipMove.
+  ///
+  /// In tr, this message translates to:
+  /// **'Haftada en az 150 dakika orta tempolu hareket hedefleyin; kısa parçalar da sayılır.'**
+  String get aiTipMove;
+
+  /// No description provided for @aiTipRadar.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bugün dinlenmeye ağırlık verin ve bol su için. Kendinizi iyi hissetmiyorsanız hekiminize danışın.'**
+  String get aiTipRadar;
+
+  /// No description provided for @aiTipKeep.
+  ///
+  /// In tr, this message translates to:
+  /// **'Böyle devam edin; bilekliği gece de takarak uyku ve toparlanma verisini eksiksiz tutun.'**
+  String get aiTipKeep;
+
+  /// No description provided for @aiSummaryGood.
+  ///
+  /// In tr, this message translates to:
+  /// **'Haftanız genel olarak iyi geçti; dikkat çeken bir sorun görünmüyor.'**
+  String get aiSummaryGood;
+
+  /// No description provided for @aiSummaryMixed.
+  ///
+  /// In tr, this message translates to:
+  /// **'Haftanız dengeli geçti: iyi giden alışkanlıklarınız var, birkaç konuya da dikkat etmekte yarar var.'**
+  String get aiSummaryMixed;
+
+  /// No description provided for @aiSummaryCare.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bu hafta vücudunuz biraz daha özen istiyor; aşağıdaki öneriler yardımcı olabilir.'**
+  String get aiSummaryCare;
+
+  /// No description provided for @aiSummaryFewDays.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bu hafta yalnızca {days} günün verisi var; rapor sınırlı bir tablo gösteriyor.'**
+  String aiSummaryFewDays(int days);
+
+  /// No description provided for @premiumTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bileklik Premium'**
+  String get premiumTitle;
+
+  /// No description provided for @premiumBadge.
+  ///
+  /// In tr, this message translates to:
+  /// **'Premium'**
+  String get premiumBadge;
+
+  /// No description provided for @premiumSubtitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Verilerinizden daha fazlasını çıkarın.'**
+  String get premiumSubtitle;
+
+  /// No description provided for @premiumBenefitReport.
+  ///
+  /// In tr, this message translates to:
+  /// **'Haftalık yapay zeka sağlık raporu'**
+  String get premiumBenefitReport;
+
+  /// No description provided for @premiumBenefitCoaching.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kişisel koçluk önerileri'**
+  String get premiumBenefitCoaching;
+
+  /// No description provided for @premiumBenefitFree.
+  ///
+  /// In tr, this message translates to:
+  /// **'Ölçüm, geçmiş, paylaşım ve uyarılar ücretsiz kalır'**
+  String get premiumBenefitFree;
+
+  /// No description provided for @premiumMonthly.
+  ///
+  /// In tr, this message translates to:
+  /// **'Aylık'**
+  String get premiumMonthly;
+
+  /// No description provided for @premiumYearly.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yıllık'**
+  String get premiumYearly;
+
+  /// No description provided for @premiumPerMonth.
+  ///
+  /// In tr, this message translates to:
+  /// **'{price} / ay'**
+  String premiumPerMonth(String price);
+
+  /// No description provided for @premiumPerYear.
+  ///
+  /// In tr, this message translates to:
+  /// **'{price} / yıl'**
+  String premiumPerYear(String price);
+
+  /// No description provided for @premiumSave.
+  ///
+  /// In tr, this message translates to:
+  /// **'%{percent} tasarruf'**
+  String premiumSave(int percent);
+
+  /// No description provided for @premiumSubscribe.
+  ///
+  /// In tr, this message translates to:
+  /// **'Abone ol'**
+  String get premiumSubscribe;
+
+  /// No description provided for @premiumRestore.
+  ///
+  /// In tr, this message translates to:
+  /// **'Satın alımları geri yükle'**
+  String get premiumRestore;
+
+  /// No description provided for @premiumRestoreNone.
+  ///
+  /// In tr, this message translates to:
+  /// **'Geri yüklenecek satın alım bulunamadı.'**
+  String get premiumRestoreNone;
+
+  /// No description provided for @premiumRestored.
+  ///
+  /// In tr, this message translates to:
+  /// **'Satın alım geri yüklendi.'**
+  String get premiumRestored;
+
+  /// No description provided for @premiumTerms.
+  ///
+  /// In tr, this message translates to:
+  /// **'Abonelik her dönem sonunda kendiliğinden yenilenir. Mağaza hesabınızdan istediğiniz an iptal edebilirsiniz; iptal edince Premium dönem sonuna kadar sürer.'**
+  String get premiumTerms;
+
+  /// No description provided for @premiumDemoNote.
+  ///
+  /// In tr, this message translates to:
+  /// **'Demo: ödeme ileride App Store ya da Google Play üzerinden alınacak. Bu sürümde gerçek ödeme alınmaz, fiyatlar örnektir.'**
+  String get premiumDemoNote;
+
+  /// No description provided for @storeSheetTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Demo mağaza'**
+  String get storeSheetTitle;
+
+  /// No description provided for @storeSheetItem.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bileklik Premium · {plan}'**
+  String storeSheetItem(String plan);
+
+  /// No description provided for @storeSheetNote.
+  ///
+  /// In tr, this message translates to:
+  /// **'Gerçek ödeme alınmaz.'**
+  String get storeSheetNote;
+
+  /// No description provided for @storeConfirm.
+  ///
+  /// In tr, this message translates to:
+  /// **'Onayla'**
+  String get storeConfirm;
+
+  /// No description provided for @storeCancel.
+  ///
+  /// In tr, this message translates to:
+  /// **'Vazgeç'**
+  String get storeCancel;
+
+  /// No description provided for @premiumActive.
+  ///
+  /// In tr, this message translates to:
+  /// **'Premium etkin. Teşekkürler!'**
+  String get premiumActive;
+
+  /// No description provided for @subscriptionTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Abonelik'**
+  String get subscriptionTitle;
+
+  /// No description provided for @subscriptionFree.
+  ///
+  /// In tr, this message translates to:
+  /// **'Ücretsiz'**
+  String get subscriptionFree;
+
+  /// No description provided for @subscriptionPremium.
+  ///
+  /// In tr, this message translates to:
+  /// **'Premium · {plan}'**
+  String subscriptionPremium(String plan);
+
+  /// No description provided for @subscriptionRenews.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yenileme tarihi: {date}'**
+  String subscriptionRenews(String date);
+
+  /// No description provided for @subscriptionEnds.
+  ///
+  /// In tr, this message translates to:
+  /// **'{date} tarihinde sona erecek'**
+  String subscriptionEnds(String date);
+
+  /// No description provided for @subscriptionUpgrade.
+  ///
+  /// In tr, this message translates to:
+  /// **'Premium\'a geç'**
+  String get subscriptionUpgrade;
+
+  /// No description provided for @subscriptionCancel.
+  ///
+  /// In tr, this message translates to:
+  /// **'Aboneliği iptal et'**
+  String get subscriptionCancel;
+
+  /// No description provided for @subscriptionCancelConfirm.
+  ///
+  /// In tr, this message translates to:
+  /// **'Abonelik yenilenmeyecek; Premium {date} tarihine kadar sürer.'**
+  String subscriptionCancelConfirm(String date);
+
+  /// No description provided for @subscriptionCancelled.
+  ///
+  /// In tr, this message translates to:
+  /// **'Abonelik iptal edildi.'**
+  String get subscriptionCancelled;
+
+  /// No description provided for @subscriptionKeep.
+  ///
+  /// In tr, this message translates to:
+  /// **'Aboneliği koru'**
+  String get subscriptionKeep;
+
+  /// No description provided for @subscriptionFreeText.
+  ///
+  /// In tr, this message translates to:
+  /// **'Ölçüm, geçmiş, paylaşım ve uyarılar ücretsiz. Yapay zeka raporu Premium ile açılır.'**
+  String get subscriptionFreeText;
 }
 
 class _AppLocalizationsDelegate

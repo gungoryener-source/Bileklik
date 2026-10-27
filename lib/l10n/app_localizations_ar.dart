@@ -2542,4 +2542,353 @@ class AppLocalizationsAr extends AppLocalizations {
   @override
   String get radarNote =>
       'تُقارن كل ليلة بآخر 14 ليلة لديك. لا يقدّم تشخيصًا. إذا شعرت بألم في الصدر أو ضيق في التنفس أو دوار، فاتصل برقم الطوارئ المحلي.';
+
+  @override
+  String get aiReportTitle => 'تقرير الذكاء الاصطناعي';
+
+  @override
+  String get aiReportCardText => 'تقرير شخصي عن أسبوعك مع نصائح.';
+
+  @override
+  String get aiDemoBadge => 'تجريبي';
+
+  @override
+  String get aiDemoNote =>
+      'هذا تقرير تجريبي: الذكاء الاصطناعي غير متصل بعد، لذا كتبت قواعد داخل التطبيق النص. لم تغادر بياناتك هاتفك.';
+
+  @override
+  String get aiConsentTitle => 'إذن لتحليل الذكاء الاصطناعي';
+
+  @override
+  String get aiConsentIntro =>
+      'يكتب نموذج ذكاء اصطناعي التقرير الأسبوعي. لذلك يُرسل ملخص أسبوعك إلى خادمنا ومنه إلى مزوّد الذكاء الاصطناعي.';
+
+  @override
+  String get aiConsentSentTitle => 'ما يُرسل';
+
+  @override
+  String get aiConsentSent =>
+      'الفئة العمرية والجنس؛ المتوسطات الأسبوعية للخطوات والنوم والنبض وتقلب نبض القلب والتوتر والتمارين؛ إشارات رادار الصحة.';
+
+  @override
+  String get aiConsentNotSentTitle => 'ما لا يُرسل';
+
+  @override
+  String get aiConsentNotSent =>
+      'اسمك وبيانات الاتصال وعنوان السوار وتسجيلات تخطيط القلب الخام والقياسات الفردية.';
+
+  @override
+  String get aiConsentAbroad =>
+      'مزوّد الذكاء الاصطناعي خارج البلاد (الولايات المتحدة)، لذا يُنقل الملخص إلى الخارج. لا يستخدم المزوّد هذه البيانات لتدريب النماذج.';
+
+  @override
+  String get aiConsentLimits =>
+      'لا يشخّص التقرير ولا يوصي بأدوية، ولا يغني عن فحص الطبيب.';
+
+  @override
+  String get aiConsentRevoke =>
+      'يمكنك سحب الإذن من هذه الشاشة في أي وقت. بعد ذلك لا تُكتب تقارير جديدة.';
+
+  @override
+  String get aiConsentCheck =>
+      'أوافق صراحةً على نقل ملخصي الأسبوعي إلى الخارج لتحليله بالذكاء الاصطناعي.';
+
+  @override
+  String get aiConsentAccept => 'السماح';
+
+  @override
+  String get aiConsentDecline => 'ليس الآن';
+
+  @override
+  String get aiGenerate => 'إنشاء التقرير';
+
+  @override
+  String get aiRegenerate => 'إنشاء من جديد';
+
+  @override
+  String get aiGenerating => 'جارٍ إعداد التقرير…';
+
+  @override
+  String aiWeek(String start, String end) {
+    return 'أسبوع $start – $end';
+  }
+
+  @override
+  String get aiEmpty =>
+      'لا توجد بيانات كافية هذا الأسبوع لإعداد تقرير. ارتدِ السوار وزامنه لبضعة أيام.';
+
+  @override
+  String get aiSummaryTitle => 'الملخص';
+
+  @override
+  String get aiWinsTitle => 'ما يسير جيدًا';
+
+  @override
+  String get aiWatchTitle => 'ما يستحق الانتباه';
+
+  @override
+  String get aiTipsTitle => 'اقتراحات';
+
+  @override
+  String get aiNothing => 'لا شيء لافت هذا الأسبوع.';
+
+  @override
+  String get aiDisclaimer =>
+      'هذا التقرير للمعلومات فقط، ولا يشخّص ولا يقترح علاجًا. إذا كانت لديك أعراض فاستشر طبيبك. عند ألم الصدر أو ضيق التنفس أو الشعور بالإغماء اتصل برقم الطوارئ.';
+
+  @override
+  String get aiDataTitle => 'البيانات المستخدمة';
+
+  @override
+  String get aiDataNote => 'في التقرير الفعلي يُرسل هذا الملخص فقط إلى الخادم.';
+
+  @override
+  String get aiRevoke => 'سحب الإذن';
+
+  @override
+  String get aiRevoked => 'تم سحب الإذن.';
+
+  @override
+  String aiConsentGiven(String date) {
+    return 'تاريخ الإذن: $date';
+  }
+
+  @override
+  String aiStepsGood(int steps) {
+    final intl.NumberFormat stepsNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String stepsString = stepsNumberFormat.format(steps);
+
+    return 'مشيت في المتوسط $stepsString خطوة يوميًا، وهذا فوق هدفك.';
+  }
+
+  @override
+  String aiStepsLow(int steps) {
+    final intl.NumberFormat stepsNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String stepsString = stepsNumberFormat.format(steps);
+
+    return 'كان متوسطك اليومي $stepsString خطوة، أقل من هدف الحركة.';
+  }
+
+  @override
+  String aiStepsUp(int percent) {
+    return 'زادت خطواتك بنسبة $percent% عن الأسبوع الماضي.';
+  }
+
+  @override
+  String aiStepsDown(int percent) {
+    return 'انخفضت خطواتك بنسبة $percent% عن الأسبوع الماضي.';
+  }
+
+  @override
+  String aiSleepGood(int hours, int minutes) {
+    return 'نمت في المتوسط $hours س $minutes د كل ليلة، ضمن المدى الصحي.';
+  }
+
+  @override
+  String aiSleepShort(int hours, int minutes) {
+    return 'نمت في المتوسط $hours س $minutes د كل ليلة، أقل من 7 ساعات.';
+  }
+
+  @override
+  String aiHrvUp(int percent) {
+    return 'ارتفع تقلب نبض قلبك بنسبة $percent% عن الأسبوع الماضي، وهي علامة على تعافٍ جيد.';
+  }
+
+  @override
+  String aiHrvDown(int percent) {
+    return 'انخفض تقلب نبض قلبك بنسبة $percent% عن الأسبوع الماضي، وقد يكون علامة على التعب أو التوتر.';
+  }
+
+  @override
+  String aiStressHigh(int level) {
+    return 'كان متوسط مستوى التوتر لديك $level، وكان معظم الأسبوع مرتفعًا.';
+  }
+
+  @override
+  String aiWorkoutsGood(int count, int minutes) {
+    return '$count تمارين بمجموع $minutes دقيقة: أنت تتحرك بانتظام.';
+  }
+
+  @override
+  String get aiRadar =>
+      'رصد رادار الصحة الليلة الماضية قيمًا تختلف عن المعتاد لديك.';
+
+  @override
+  String aiBioYounger(int years) {
+    return 'عمرك البيولوجي المقدّر أصغر من عمرك الفعلي بـ $years سنة.';
+  }
+
+  @override
+  String aiBioOlder(int years) {
+    return 'عمرك البيولوجي المقدّر أكبر من عمرك الفعلي بـ $years سنة.';
+  }
+
+  @override
+  String get aiTipWalk =>
+      'أضف نزهتين قصيرتين من 10 إلى 15 دقيقة يوميًا واستخدم الدرج.';
+
+  @override
+  String get aiTipSleep =>
+      'حاول النوم والاستيقاظ في الوقت نفسه يوميًا، وابتعد عن الشاشات قبل النوم بساعة.';
+
+  @override
+  String get aiTipRecover =>
+      'اختر هذا الأسبوع المشي الخفيف والتمدد بدل التمارين الشاقة، واجعل النوم أولوية.';
+
+  @override
+  String get aiTipBreathe =>
+      'خذ عدة استراحات تنفس بطيء لمدة دقيقتين خلال اليوم (شهيق 4 ثوانٍ، زفير 6).';
+
+  @override
+  String get aiTipMove =>
+      'استهدف 150 دقيقة على الأقل من النشاط المعتدل أسبوعيًا؛ الفترات القصيرة تُحتسب أيضًا.';
+
+  @override
+  String get aiTipRadar =>
+      'خذ قسطًا من الراحة اليوم واشرب الكثير من الماء. إذا لم تشعر بتحسن فاستشر طبيبك.';
+
+  @override
+  String get aiTipKeep =>
+      'واصل على هذا النحو، وارتدِ السوار ليلًا أيضًا لتبقى بيانات النوم والتعافي كاملة.';
+
+  @override
+  String get aiSummaryGood =>
+      'كان أسبوعك جيدًا بشكل عام، ولا يظهر ما يدعو للقلق.';
+
+  @override
+  String get aiSummaryMixed =>
+      'كان أسبوعًا متوازنًا: بعض العادات تسير جيدًا، وهناك أمور قليلة تستحق الانتباه.';
+
+  @override
+  String get aiSummaryCare =>
+      'يحتاج جسمك إلى مزيد من العناية هذا الأسبوع؛ قد تساعدك الاقتراحات أدناه.';
+
+  @override
+  String aiSummaryFewDays(int days) {
+    return 'توجد بيانات $days يوم فقط هذا الأسبوع، لذا يعرض التقرير صورة محدودة.';
+  }
+
+  @override
+  String get premiumTitle => 'Bileklik Premium';
+
+  @override
+  String get premiumBadge => 'Premium';
+
+  @override
+  String get premiumSubtitle => 'استفد أكثر من بياناتك.';
+
+  @override
+  String get premiumBenefitReport => 'تقرير صحي أسبوعي بالذكاء الاصطناعي';
+
+  @override
+  String get premiumBenefitCoaching => 'نصائح تدريب شخصية';
+
+  @override
+  String get premiumBenefitFree =>
+      'تبقى القياسات والسجل والمشاركة والتنبيهات مجانية';
+
+  @override
+  String get premiumMonthly => 'شهري';
+
+  @override
+  String get premiumYearly => 'سنوي';
+
+  @override
+  String premiumPerMonth(String price) {
+    return '$price / شهر';
+  }
+
+  @override
+  String premiumPerYear(String price) {
+    return '$price / سنة';
+  }
+
+  @override
+  String premiumSave(int percent) {
+    return 'وفّر $percent٪';
+  }
+
+  @override
+  String get premiumSubscribe => 'اشترك';
+
+  @override
+  String get premiumRestore => 'استعادة المشتريات';
+
+  @override
+  String get premiumRestoreNone => 'لا توجد مشتريات لاستعادتها.';
+
+  @override
+  String get premiumRestored => 'تمت استعادة الشراء.';
+
+  @override
+  String get premiumTerms =>
+      'يتجدد الاشتراك تلقائيًا في نهاية كل فترة. يمكنك الإلغاء في أي وقت من حساب المتجر، وبعد الإلغاء يستمر Premium حتى نهاية الفترة.';
+
+  @override
+  String get premiumDemoNote =>
+      'تجريبي: سيتم الدفع لاحقًا عبر App Store أو Google Play. لا يُؤخذ أي دفع حقيقي في هذا الإصدار، والأسعار أمثلة.';
+
+  @override
+  String get storeSheetTitle => 'متجر تجريبي';
+
+  @override
+  String storeSheetItem(String plan) {
+    return 'Bileklik Premium · $plan';
+  }
+
+  @override
+  String get storeSheetNote => 'لن يُؤخذ أي دفع حقيقي.';
+
+  @override
+  String get storeConfirm => 'تأكيد';
+
+  @override
+  String get storeCancel => 'إلغاء';
+
+  @override
+  String get premiumActive => 'تم تفعيل Premium. شكرًا لك!';
+
+  @override
+  String get subscriptionTitle => 'الاشتراك';
+
+  @override
+  String get subscriptionFree => 'مجاني';
+
+  @override
+  String subscriptionPremium(String plan) {
+    return 'Premium · $plan';
+  }
+
+  @override
+  String subscriptionRenews(String date) {
+    return 'يتجدد في $date';
+  }
+
+  @override
+  String subscriptionEnds(String date) {
+    return 'ينتهي في $date';
+  }
+
+  @override
+  String get subscriptionUpgrade => 'الترقية إلى Premium';
+
+  @override
+  String get subscriptionCancel => 'إلغاء الاشتراك';
+
+  @override
+  String subscriptionCancelConfirm(String date) {
+    return 'لن يتجدد الاشتراك؛ يستمر Premium حتى $date.';
+  }
+
+  @override
+  String get subscriptionCancelled => 'تم إلغاء الاشتراك.';
+
+  @override
+  String get subscriptionKeep => 'الإبقاء على الاشتراك';
+
+  @override
+  String get subscriptionFreeText =>
+      'القياسات والسجل والمشاركة والتنبيهات مجانية. يتوفر تقرير الذكاء الاصطناعي مع Premium.';
 }
