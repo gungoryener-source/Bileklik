@@ -44,7 +44,7 @@ class AiReportCard extends StatelessWidget {
                         l.aiReportTitle,
                         style: Theme.of(context).textTheme.titleMedium,
                       ),
-                      const _DemoChip(),
+                      _DemoChip(label: l.premiumBadge),
                     ],
                   ),
                   const SizedBox(height: 4),
@@ -386,7 +386,9 @@ class _Notice extends StatelessWidget {
 }
 
 class _DemoChip extends StatelessWidget {
-  const _DemoChip();
+  const _DemoChip({required this.label});
+
+  final String label;
 
   @override
   Widget build(BuildContext context) {
@@ -398,7 +400,7 @@ class _DemoChip extends StatelessWidget {
         borderRadius: BorderRadius.circular(10),
       ),
       child: Text(
-        context.l10n.aiDemoBadge,
+        label,
         style: TextStyle(
           color: colors.accent,
           fontSize: 12,

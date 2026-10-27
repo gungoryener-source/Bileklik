@@ -17,6 +17,7 @@ import 'general_settings_screen.dart';
 import 'health_platform_screen.dart';
 import 'personal_info_screen.dart';
 import 'portal_account_screen.dart';
+import 'premium_screen.dart';
 
 /// Profil sekmesi: kişisel bilgiler, cihaz, ayarlar ve uygulama menüsü.
 class ProfileScreen extends StatelessWidget {
@@ -86,9 +87,9 @@ class ProfileScreen extends StatelessWidget {
               onTap: () {
                 // Portaldaysa liste açılırken yenilenir; hata ekranı bozmaz.
                 unawaited(
-                  CommunityScope.of(
-                    context,
-                  ).refresh().catchError((Object _) {}),
+                  CommunityScope.of(context)
+                      .refresh()
+                      .catchError((Object _) {}),
                 );
                 open(const CommunityScreen());
               },
@@ -100,9 +101,9 @@ class ProfileScreen extends StatelessWidget {
               onTap: () {
                 // Portaldaysa liste açılırken yenilenir; hata ekranı bozmaz.
                 unawaited(
-                  ConnectionScope.of(
-                    context,
-                  ).refresh().catchError((Object _) {}),
+                  ConnectionScope.of(context)
+                      .refresh()
+                      .catchError((Object _) {}),
                 );
                 open(const ConnectionsScreen());
               },
@@ -131,6 +132,16 @@ class ProfileScreen extends StatelessWidget {
         MenuHeader(l.profileSectionApp),
         MenuGroup(
           children: [
+            MenuTile(
+              icon: Icons.workspace_premium,
+              title: l.subscriptionTitle,
+              subtitle: switch (BillingScope.of(context).subscription) {
+                final s? when s.activeAt(DateTime.now()) =>
+                  l.subscriptionPremium(s.plan.label),
+                _ => l.subscriptionFree,
+              },
+              onTap: () => open(const SubscriptionScreen()),
+            ),
             MenuTile(
               icon: Icons.info_outline,
               title: l.profileMenuAbout,

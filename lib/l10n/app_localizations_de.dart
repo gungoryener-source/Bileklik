@@ -2801,4 +2801,126 @@ class AppLocalizationsDe extends AppLocalizations {
     );
     return 'Nur $_temp0 mit Daten diese Woche, daher zeigt der Bericht ein begrenztes Bild.';
   }
+
+  @override
+  String get premiumTitle => 'Bileklik Premium';
+
+  @override
+  String get premiumBadge => 'Premium';
+
+  @override
+  String get premiumSubtitle => 'Holen Sie mehr aus Ihren Daten heraus.';
+
+  @override
+  String get premiumBenefitReport => 'Wöchentlicher KI-Gesundheitsbericht';
+
+  @override
+  String get premiumBenefitCoaching => 'Persönliche Coaching-Tipps';
+
+  @override
+  String get premiumBenefitFree =>
+      'Messungen, Verlauf, Teilen und Warnungen bleiben kostenlos';
+
+  @override
+  String get premiumMonthly => 'Monatlich';
+
+  @override
+  String get premiumYearly => 'Jährlich';
+
+  @override
+  String premiumPerMonth(String price) {
+    return '$price / Monat';
+  }
+
+  @override
+  String premiumPerYear(String price) {
+    return '$price / Jahr';
+  }
+
+  @override
+  String premiumSave(int percent) {
+    return '$percent % sparen';
+  }
+
+  @override
+  String get premiumSubscribe => 'Abonnieren';
+
+  @override
+  String get premiumRestore => 'Käufe wiederherstellen';
+
+  @override
+  String get premiumRestoreNone => 'Keine Käufe zum Wiederherstellen.';
+
+  @override
+  String get premiumRestored => 'Kauf wiederhergestellt.';
+
+  @override
+  String get premiumTerms =>
+      'Das Abo verlängert sich am Ende jedes Zeitraums automatisch. Sie können jederzeit in Ihrem Store-Konto kündigen; danach bleibt Premium bis zum Ende des Zeitraums aktiv.';
+
+  @override
+  String get premiumDemoNote =>
+      'Demo: Bezahlt wird später über den App Store oder Google Play. In dieser Version wird nichts abgebucht, die Preise sind Beispiele.';
+
+  @override
+  String get storeSheetTitle => 'Demo-Store';
+
+  @override
+  String storeSheetItem(String plan) {
+    return 'Bileklik Premium · $plan';
+  }
+
+  @override
+  String get storeSheetNote => 'Es wird nichts abgebucht.';
+
+  @override
+  String get storeConfirm => 'Bestätigen';
+
+  @override
+  String get storeCancel => 'Abbrechen';
+
+  @override
+  String get premiumActive => 'Premium ist aktiv. Danke!';
+
+  @override
+  String get subscriptionTitle => 'Abo';
+
+  @override
+  String get subscriptionFree => 'Kostenlos';
+
+  @override
+  String subscriptionPremium(String plan) {
+    return 'Premium · $plan';
+  }
+
+  @override
+  String subscriptionRenews(String date) {
+    return 'Verlängerung am $date';
+  }
+
+  @override
+  String subscriptionEnds(String date) {
+    return 'Endet am $date';
+  }
+
+  @override
+  String get subscriptionUpgrade => 'Zu Premium wechseln';
+
+  @override
+  String get subscriptionCancel => 'Abo kündigen';
+
+  @override
+  String subscriptionCancelConfirm(String date) {
+    return 'Das Abo verlängert sich nicht; Premium bleibt bis $date aktiv.';
+  }
+
+  @override
+  String get subscriptionCancelled => 'Abo gekündigt.';
+
+  @override
+  String get subscriptionKeep => 'Abo behalten';
+
+  @override
+  String get subscriptionFreeText =>
+      'Messungen, Verlauf, Teilen und Warnungen sind kostenlos. Der KI-Bericht ist in Premium enthalten.';
 }

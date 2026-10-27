@@ -2793,4 +2793,126 @@ class AppLocalizationsEn extends AppLocalizations {
     );
     return 'Only $_temp0 of data this week, so the report shows a limited picture.';
   }
+
+  @override
+  String get premiumTitle => 'Bileklik Premium';
+
+  @override
+  String get premiumBadge => 'Premium';
+
+  @override
+  String get premiumSubtitle => 'Get more out of your data.';
+
+  @override
+  String get premiumBenefitReport => 'Weekly AI health report';
+
+  @override
+  String get premiumBenefitCoaching => 'Personal coaching tips';
+
+  @override
+  String get premiumBenefitFree =>
+      'Measurements, history, sharing and alerts stay free';
+
+  @override
+  String get premiumMonthly => 'Monthly';
+
+  @override
+  String get premiumYearly => 'Yearly';
+
+  @override
+  String premiumPerMonth(String price) {
+    return '$price / month';
+  }
+
+  @override
+  String premiumPerYear(String price) {
+    return '$price / year';
+  }
+
+  @override
+  String premiumSave(int percent) {
+    return 'Save $percent%';
+  }
+
+  @override
+  String get premiumSubscribe => 'Subscribe';
+
+  @override
+  String get premiumRestore => 'Restore purchases';
+
+  @override
+  String get premiumRestoreNone => 'No purchases to restore.';
+
+  @override
+  String get premiumRestored => 'Purchase restored.';
+
+  @override
+  String get premiumTerms =>
+      'The subscription renews automatically at the end of each period. You can cancel any time in your store account; after cancelling, Premium lasts until the end of the period.';
+
+  @override
+  String get premiumDemoNote =>
+      'Demo: payment will later go through the App Store or Google Play. No real payment is taken in this version, and prices are examples.';
+
+  @override
+  String get storeSheetTitle => 'Demo store';
+
+  @override
+  String storeSheetItem(String plan) {
+    return 'Bileklik Premium · $plan';
+  }
+
+  @override
+  String get storeSheetNote => 'No real payment is taken.';
+
+  @override
+  String get storeConfirm => 'Confirm';
+
+  @override
+  String get storeCancel => 'Cancel';
+
+  @override
+  String get premiumActive => 'Premium is active. Thank you!';
+
+  @override
+  String get subscriptionTitle => 'Subscription';
+
+  @override
+  String get subscriptionFree => 'Free';
+
+  @override
+  String subscriptionPremium(String plan) {
+    return 'Premium · $plan';
+  }
+
+  @override
+  String subscriptionRenews(String date) {
+    return 'Renews on $date';
+  }
+
+  @override
+  String subscriptionEnds(String date) {
+    return 'Ends on $date';
+  }
+
+  @override
+  String get subscriptionUpgrade => 'Go Premium';
+
+  @override
+  String get subscriptionCancel => 'Cancel subscription';
+
+  @override
+  String subscriptionCancelConfirm(String date) {
+    return 'The subscription won\'t renew; Premium lasts until $date.';
+  }
+
+  @override
+  String get subscriptionCancelled => 'Subscription cancelled.';
+
+  @override
+  String get subscriptionKeep => 'Keep subscription';
+
+  @override
+  String get subscriptionFreeText =>
+      'Measurements, history, sharing and alerts are free. The AI report comes with Premium.';
 }

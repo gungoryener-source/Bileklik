@@ -4641,6 +4641,210 @@ abstract class AppLocalizations {
   /// In tr, this message translates to:
   /// **'Bu hafta yalnızca {days} günün verisi var; rapor sınırlı bir tablo gösteriyor.'**
   String aiSummaryFewDays(int days);
+
+  /// No description provided for @premiumTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bileklik Premium'**
+  String get premiumTitle;
+
+  /// No description provided for @premiumBadge.
+  ///
+  /// In tr, this message translates to:
+  /// **'Premium'**
+  String get premiumBadge;
+
+  /// No description provided for @premiumSubtitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Verilerinizden daha fazlasını çıkarın.'**
+  String get premiumSubtitle;
+
+  /// No description provided for @premiumBenefitReport.
+  ///
+  /// In tr, this message translates to:
+  /// **'Haftalık yapay zeka sağlık raporu'**
+  String get premiumBenefitReport;
+
+  /// No description provided for @premiumBenefitCoaching.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kişisel koçluk önerileri'**
+  String get premiumBenefitCoaching;
+
+  /// No description provided for @premiumBenefitFree.
+  ///
+  /// In tr, this message translates to:
+  /// **'Ölçüm, geçmiş, paylaşım ve uyarılar ücretsiz kalır'**
+  String get premiumBenefitFree;
+
+  /// No description provided for @premiumMonthly.
+  ///
+  /// In tr, this message translates to:
+  /// **'Aylık'**
+  String get premiumMonthly;
+
+  /// No description provided for @premiumYearly.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yıllık'**
+  String get premiumYearly;
+
+  /// No description provided for @premiumPerMonth.
+  ///
+  /// In tr, this message translates to:
+  /// **'{price} / ay'**
+  String premiumPerMonth(String price);
+
+  /// No description provided for @premiumPerYear.
+  ///
+  /// In tr, this message translates to:
+  /// **'{price} / yıl'**
+  String premiumPerYear(String price);
+
+  /// No description provided for @premiumSave.
+  ///
+  /// In tr, this message translates to:
+  /// **'%{percent} tasarruf'**
+  String premiumSave(int percent);
+
+  /// No description provided for @premiumSubscribe.
+  ///
+  /// In tr, this message translates to:
+  /// **'Abone ol'**
+  String get premiumSubscribe;
+
+  /// No description provided for @premiumRestore.
+  ///
+  /// In tr, this message translates to:
+  /// **'Satın alımları geri yükle'**
+  String get premiumRestore;
+
+  /// No description provided for @premiumRestoreNone.
+  ///
+  /// In tr, this message translates to:
+  /// **'Geri yüklenecek satın alım bulunamadı.'**
+  String get premiumRestoreNone;
+
+  /// No description provided for @premiumRestored.
+  ///
+  /// In tr, this message translates to:
+  /// **'Satın alım geri yüklendi.'**
+  String get premiumRestored;
+
+  /// No description provided for @premiumTerms.
+  ///
+  /// In tr, this message translates to:
+  /// **'Abonelik her dönem sonunda kendiliğinden yenilenir. Mağaza hesabınızdan istediğiniz an iptal edebilirsiniz; iptal edince Premium dönem sonuna kadar sürer.'**
+  String get premiumTerms;
+
+  /// No description provided for @premiumDemoNote.
+  ///
+  /// In tr, this message translates to:
+  /// **'Demo: ödeme ileride App Store ya da Google Play üzerinden alınacak. Bu sürümde gerçek ödeme alınmaz, fiyatlar örnektir.'**
+  String get premiumDemoNote;
+
+  /// No description provided for @storeSheetTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Demo mağaza'**
+  String get storeSheetTitle;
+
+  /// No description provided for @storeSheetItem.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bileklik Premium · {plan}'**
+  String storeSheetItem(String plan);
+
+  /// No description provided for @storeSheetNote.
+  ///
+  /// In tr, this message translates to:
+  /// **'Gerçek ödeme alınmaz.'**
+  String get storeSheetNote;
+
+  /// No description provided for @storeConfirm.
+  ///
+  /// In tr, this message translates to:
+  /// **'Onayla'**
+  String get storeConfirm;
+
+  /// No description provided for @storeCancel.
+  ///
+  /// In tr, this message translates to:
+  /// **'Vazgeç'**
+  String get storeCancel;
+
+  /// No description provided for @premiumActive.
+  ///
+  /// In tr, this message translates to:
+  /// **'Premium etkin. Teşekkürler!'**
+  String get premiumActive;
+
+  /// No description provided for @subscriptionTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Abonelik'**
+  String get subscriptionTitle;
+
+  /// No description provided for @subscriptionFree.
+  ///
+  /// In tr, this message translates to:
+  /// **'Ücretsiz'**
+  String get subscriptionFree;
+
+  /// No description provided for @subscriptionPremium.
+  ///
+  /// In tr, this message translates to:
+  /// **'Premium · {plan}'**
+  String subscriptionPremium(String plan);
+
+  /// No description provided for @subscriptionRenews.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yenileme tarihi: {date}'**
+  String subscriptionRenews(String date);
+
+  /// No description provided for @subscriptionEnds.
+  ///
+  /// In tr, this message translates to:
+  /// **'{date} tarihinde sona erecek'**
+  String subscriptionEnds(String date);
+
+  /// No description provided for @subscriptionUpgrade.
+  ///
+  /// In tr, this message translates to:
+  /// **'Premium\'a geç'**
+  String get subscriptionUpgrade;
+
+  /// No description provided for @subscriptionCancel.
+  ///
+  /// In tr, this message translates to:
+  /// **'Aboneliği iptal et'**
+  String get subscriptionCancel;
+
+  /// No description provided for @subscriptionCancelConfirm.
+  ///
+  /// In tr, this message translates to:
+  /// **'Abonelik yenilenmeyecek; Premium {date} tarihine kadar sürer.'**
+  String subscriptionCancelConfirm(String date);
+
+  /// No description provided for @subscriptionCancelled.
+  ///
+  /// In tr, this message translates to:
+  /// **'Abonelik iptal edildi.'**
+  String get subscriptionCancelled;
+
+  /// No description provided for @subscriptionKeep.
+  ///
+  /// In tr, this message translates to:
+  /// **'Aboneliği koru'**
+  String get subscriptionKeep;
+
+  /// No description provided for @subscriptionFreeText.
+  ///
+  /// In tr, this message translates to:
+  /// **'Ölçüm, geçmiş, paylaşım ve uyarılar ücretsiz. Yapay zeka raporu Premium ile açılır.'**
+  String get subscriptionFreeText;
 }
 
 class _AppLocalizationsDelegate

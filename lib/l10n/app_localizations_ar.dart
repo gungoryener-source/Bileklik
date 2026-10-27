@@ -2769,4 +2769,126 @@ class AppLocalizationsAr extends AppLocalizations {
   String aiSummaryFewDays(int days) {
     return 'توجد بيانات $days يوم فقط هذا الأسبوع، لذا يعرض التقرير صورة محدودة.';
   }
+
+  @override
+  String get premiumTitle => 'Bileklik Premium';
+
+  @override
+  String get premiumBadge => 'Premium';
+
+  @override
+  String get premiumSubtitle => 'استفد أكثر من بياناتك.';
+
+  @override
+  String get premiumBenefitReport => 'تقرير صحي أسبوعي بالذكاء الاصطناعي';
+
+  @override
+  String get premiumBenefitCoaching => 'نصائح تدريب شخصية';
+
+  @override
+  String get premiumBenefitFree =>
+      'تبقى القياسات والسجل والمشاركة والتنبيهات مجانية';
+
+  @override
+  String get premiumMonthly => 'شهري';
+
+  @override
+  String get premiumYearly => 'سنوي';
+
+  @override
+  String premiumPerMonth(String price) {
+    return '$price / شهر';
+  }
+
+  @override
+  String premiumPerYear(String price) {
+    return '$price / سنة';
+  }
+
+  @override
+  String premiumSave(int percent) {
+    return 'وفّر $percent٪';
+  }
+
+  @override
+  String get premiumSubscribe => 'اشترك';
+
+  @override
+  String get premiumRestore => 'استعادة المشتريات';
+
+  @override
+  String get premiumRestoreNone => 'لا توجد مشتريات لاستعادتها.';
+
+  @override
+  String get premiumRestored => 'تمت استعادة الشراء.';
+
+  @override
+  String get premiumTerms =>
+      'يتجدد الاشتراك تلقائيًا في نهاية كل فترة. يمكنك الإلغاء في أي وقت من حساب المتجر، وبعد الإلغاء يستمر Premium حتى نهاية الفترة.';
+
+  @override
+  String get premiumDemoNote =>
+      'تجريبي: سيتم الدفع لاحقًا عبر App Store أو Google Play. لا يُؤخذ أي دفع حقيقي في هذا الإصدار، والأسعار أمثلة.';
+
+  @override
+  String get storeSheetTitle => 'متجر تجريبي';
+
+  @override
+  String storeSheetItem(String plan) {
+    return 'Bileklik Premium · $plan';
+  }
+
+  @override
+  String get storeSheetNote => 'لن يُؤخذ أي دفع حقيقي.';
+
+  @override
+  String get storeConfirm => 'تأكيد';
+
+  @override
+  String get storeCancel => 'إلغاء';
+
+  @override
+  String get premiumActive => 'تم تفعيل Premium. شكرًا لك!';
+
+  @override
+  String get subscriptionTitle => 'الاشتراك';
+
+  @override
+  String get subscriptionFree => 'مجاني';
+
+  @override
+  String subscriptionPremium(String plan) {
+    return 'Premium · $plan';
+  }
+
+  @override
+  String subscriptionRenews(String date) {
+    return 'يتجدد في $date';
+  }
+
+  @override
+  String subscriptionEnds(String date) {
+    return 'ينتهي في $date';
+  }
+
+  @override
+  String get subscriptionUpgrade => 'الترقية إلى Premium';
+
+  @override
+  String get subscriptionCancel => 'إلغاء الاشتراك';
+
+  @override
+  String subscriptionCancelConfirm(String date) {
+    return 'لن يتجدد الاشتراك؛ يستمر Premium حتى $date.';
+  }
+
+  @override
+  String get subscriptionCancelled => 'تم إلغاء الاشتراك.';
+
+  @override
+  String get subscriptionKeep => 'الإبقاء على الاشتراك';
+
+  @override
+  String get subscriptionFreeText =>
+      'القياسات والسجل والمشاركة والتنبيهات مجانية. يتوفر تقرير الذكاء الاصطناعي مع Premium.';
 }

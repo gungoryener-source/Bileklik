@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../data/billing.dart';
 import '../data/community.dart';
 import '../data/connections.dart';
 import '../data/feedback.dart';
@@ -78,6 +79,18 @@ class FeedbackScope extends InheritedWidget {
 
   @override
   bool updateShouldNotify(FeedbackScope old) => service != old.service;
+}
+
+/// Premium aboneliği (mağaza ödemesi) ekranlara taşır.
+class BillingScope extends InheritedNotifier<BillingService> {
+  const BillingScope({
+    super.key,
+    required BillingService service,
+    required super.child,
+  }) : super(notifier: service);
+
+  static BillingService of(BuildContext context) =>
+      context.dependOnInheritedWidgetOfExactType<BillingScope>()!.notifier!;
 }
 
 /// Portal hesabı servisi; portal adresi verilmediyse null.

@@ -2730,4 +2730,126 @@ class AppLocalizationsTr extends AppLocalizations {
   String aiSummaryFewDays(int days) {
     return 'Bu hafta yalnızca $days günün verisi var; rapor sınırlı bir tablo gösteriyor.';
   }
+
+  @override
+  String get premiumTitle => 'Bileklik Premium';
+
+  @override
+  String get premiumBadge => 'Premium';
+
+  @override
+  String get premiumSubtitle => 'Verilerinizden daha fazlasını çıkarın.';
+
+  @override
+  String get premiumBenefitReport => 'Haftalık yapay zeka sağlık raporu';
+
+  @override
+  String get premiumBenefitCoaching => 'Kişisel koçluk önerileri';
+
+  @override
+  String get premiumBenefitFree =>
+      'Ölçüm, geçmiş, paylaşım ve uyarılar ücretsiz kalır';
+
+  @override
+  String get premiumMonthly => 'Aylık';
+
+  @override
+  String get premiumYearly => 'Yıllık';
+
+  @override
+  String premiumPerMonth(String price) {
+    return '$price / ay';
+  }
+
+  @override
+  String premiumPerYear(String price) {
+    return '$price / yıl';
+  }
+
+  @override
+  String premiumSave(int percent) {
+    return '%$percent tasarruf';
+  }
+
+  @override
+  String get premiumSubscribe => 'Abone ol';
+
+  @override
+  String get premiumRestore => 'Satın alımları geri yükle';
+
+  @override
+  String get premiumRestoreNone => 'Geri yüklenecek satın alım bulunamadı.';
+
+  @override
+  String get premiumRestored => 'Satın alım geri yüklendi.';
+
+  @override
+  String get premiumTerms =>
+      'Abonelik her dönem sonunda kendiliğinden yenilenir. Mağaza hesabınızdan istediğiniz an iptal edebilirsiniz; iptal edince Premium dönem sonuna kadar sürer.';
+
+  @override
+  String get premiumDemoNote =>
+      'Demo: ödeme ileride App Store ya da Google Play üzerinden alınacak. Bu sürümde gerçek ödeme alınmaz, fiyatlar örnektir.';
+
+  @override
+  String get storeSheetTitle => 'Demo mağaza';
+
+  @override
+  String storeSheetItem(String plan) {
+    return 'Bileklik Premium · $plan';
+  }
+
+  @override
+  String get storeSheetNote => 'Gerçek ödeme alınmaz.';
+
+  @override
+  String get storeConfirm => 'Onayla';
+
+  @override
+  String get storeCancel => 'Vazgeç';
+
+  @override
+  String get premiumActive => 'Premium etkin. Teşekkürler!';
+
+  @override
+  String get subscriptionTitle => 'Abonelik';
+
+  @override
+  String get subscriptionFree => 'Ücretsiz';
+
+  @override
+  String subscriptionPremium(String plan) {
+    return 'Premium · $plan';
+  }
+
+  @override
+  String subscriptionRenews(String date) {
+    return 'Yenileme tarihi: $date';
+  }
+
+  @override
+  String subscriptionEnds(String date) {
+    return '$date tarihinde sona erecek';
+  }
+
+  @override
+  String get subscriptionUpgrade => 'Premium\'a geç';
+
+  @override
+  String get subscriptionCancel => 'Aboneliği iptal et';
+
+  @override
+  String subscriptionCancelConfirm(String date) {
+    return 'Abonelik yenilenmeyecek; Premium $date tarihine kadar sürer.';
+  }
+
+  @override
+  String get subscriptionCancelled => 'Abonelik iptal edildi.';
+
+  @override
+  String get subscriptionKeep => 'Aboneliği koru';
+
+  @override
+  String get subscriptionFreeText =>
+      'Ölçüm, geçmiş, paylaşım ve uyarılar ücretsiz. Yapay zeka raporu Premium ile açılır.';
 }

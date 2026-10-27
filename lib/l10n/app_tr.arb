@@ -1421,5 +1421,95 @@
         "type": "int"
       }
     }
-  }
+  },
+  "premiumTitle": "Bileklik Premium",
+  "premiumBadge": "Premium",
+  "premiumSubtitle": "Verilerinizden daha fazlasını çıkarın.",
+  "premiumBenefitReport": "Haftalık yapay zeka sağlık raporu",
+  "premiumBenefitCoaching": "Kişisel koçluk önerileri",
+  "premiumBenefitFree": "Ölçüm, geçmiş, paylaşım ve uyarılar ücretsiz kalır",
+  "premiumMonthly": "Aylık",
+  "premiumYearly": "Yıllık",
+  "premiumPerMonth": "{price} / ay",
+  "@premiumPerMonth": {
+    "placeholders": {
+      "price": {
+        "type": "String"
+      }
+    }
+  },
+  "premiumPerYear": "{price} / yıl",
+  "@premiumPerYear": {
+    "placeholders": {
+      "price": {
+        "type": "String"
+      }
+    }
+  },
+  "premiumSave": "%{percent} tasarruf",
+  "@premiumSave": {
+    "placeholders": {
+      "percent": {
+        "type": "int"
+      }
+    }
+  },
+  "premiumSubscribe": "Abone ol",
+  "premiumRestore": "Satın alımları geri yükle",
+  "premiumRestoreNone": "Geri yüklenecek satın alım bulunamadı.",
+  "premiumRestored": "Satın alım geri yüklendi.",
+  "premiumTerms": "Abonelik her dönem sonunda kendiliğinden yenilenir. Mağaza hesabınızdan istediğiniz an iptal edebilirsiniz; iptal edince Premium dönem sonuna kadar sürer.",
+  "premiumDemoNote": "Demo: ödeme ileride App Store ya da Google Play üzerinden alınacak. Bu sürümde gerçek ödeme alınmaz, fiyatlar örnektir.",
+  "storeSheetTitle": "Demo mağaza",
+  "storeSheetItem": "Bileklik Premium · {plan}",
+  "@storeSheetItem": {
+    "placeholders": {
+      "plan": {
+        "type": "String"
+      }
+    }
+  },
+  "storeSheetNote": "Gerçek ödeme alınmaz.",
+  "storeConfirm": "Onayla",
+  "storeCancel": "Vazgeç",
+  "premiumActive": "Premium etkin. Teşekkürler!",
+  "subscriptionTitle": "Abonelik",
+  "subscriptionFree": "Ücretsiz",
+  "subscriptionPremium": "Premium · {plan}",
+  "@subscriptionPremium": {
+    "placeholders": {
+      "plan": {
+        "type": "String"
+      }
+    }
+  },
+  "subscriptionRenews": "Yenileme tarihi: {date}",
+  "@subscriptionRenews": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "subscriptionEnds": "{date} tarihinde sona erecek",
+  "@subscriptionEnds": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "subscriptionUpgrade": "Premium'a geç",
+  "subscriptionCancel": "Aboneliği iptal et",
+  "subscriptionCancelConfirm": "Abonelik yenilenmeyecek; Premium {date} tarihine kadar sürer.",
+  "@subscriptionCancelConfirm": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "subscriptionCancelled": "Abonelik iptal edildi.",
+  "subscriptionKeep": "Aboneliği koru",
+  "subscriptionFreeText": "Ölçüm, geçmiş, paylaşım ve uyarılar ücretsiz. Yapay zeka raporu Premium ile açılır."
 }
