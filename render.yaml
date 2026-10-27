@@ -1,0 +1,15 @@
+# Render şablonu: portal-deploy dalından ücretsiz web servisi.
+services:
+  - type: web
+    name: bileklik-test
+    runtime: docker
+    plan: free
+    branch: portal-deploy
+    dockerfilePath: ./Dockerfile
+    healthCheckPath: /health
+    autoDeploy: true
+    envVars:
+      - key: PORTAL_DEMO
+        value: "1"
+      - key: PORTAL_HTTPS
+        value: "1"
