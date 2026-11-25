@@ -3059,4 +3059,14 @@ class AppLocalizationsDe extends AppLocalizations {
   String diagLogCount(int count) {
     return '$count Zeilen, neueste zuerst';
   }
+
+  @override
+  String get startupFailedTitle => 'Die App konnte nicht starten';
+
+  @override
+  String get startupFailedBody =>
+      'Beim Start ist ein Fehler aufgetreten. Kopieren Sie den Text unten und senden Sie ihn uns, damit wir ihn in einer neuen Version beheben.';
+
+  @override
+  String get startupFailedCopy => 'Fehler kopieren';
 }

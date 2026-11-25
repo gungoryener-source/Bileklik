@@ -831,5 +831,8 @@
   "diagLogEmpty": "لا توجد سجلات بعد.",
   "diagShare": "مشاركة السجل",
   "diagClear": "مسح السجل",
-  "diagLogCount": "{count} سطر، الأحدث أولًا"
+  "diagLogCount": "{count} سطر، الأحدث أولًا",
+  "startupFailedTitle": "تعذّر تشغيل التطبيق",
+  "startupFailedBody": "حدث خطأ أثناء التشغيل. انسخ النص أدناه وأرسله إلينا لنصلحه في إصدار جديد.",
+  "startupFailedCopy": "نسخ الخطأ"
 }

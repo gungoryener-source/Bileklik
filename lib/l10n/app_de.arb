@@ -831,5 +831,8 @@
   "diagLogEmpty": "Noch keine Einträge.",
   "diagShare": "Protokoll teilen",
   "diagClear": "Protokoll leeren",
-  "diagLogCount": "{count} Zeilen, neueste zuerst"
+  "diagLogCount": "{count} Zeilen, neueste zuerst",
+  "startupFailedTitle": "Die App konnte nicht starten",
+  "startupFailedBody": "Beim Start ist ein Fehler aufgetreten. Kopieren Sie den Text unten und senden Sie ihn uns, damit wir ihn in einer neuen Version beheben.",
+  "startupFailedCopy": "Fehler kopieren"
 }

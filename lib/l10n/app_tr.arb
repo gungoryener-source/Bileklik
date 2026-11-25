@@ -1574,5 +1574,8 @@
         "type": "int"
       }
     }
-  }
+  },
+  "startupFailedTitle": "Uygulama başlatılamadı",
+  "startupFailedBody": "Açılırken bir hata oluştu. Aşağıdaki metni kopyalayıp bize gönderin; düzeltip yeni sürüm çıkaracağız.",
+  "startupFailedCopy": "Hatayı kopyala"
 }

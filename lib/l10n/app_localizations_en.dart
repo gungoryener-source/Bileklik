@@ -3051,4 +3051,14 @@ class AppLocalizationsEn extends AppLocalizations {
   String diagLogCount(int count) {
     return '$count lines, newest first';
   }
+
+  @override
+  String get startupFailedTitle => 'The app couldn\'t start';
+
+  @override
+  String get startupFailedBody =>
+      'Something went wrong while starting. Copy the text below and send it to us so we can fix it in a new version.';
+
+  @override
+  String get startupFailedCopy => 'Copy error';
 }

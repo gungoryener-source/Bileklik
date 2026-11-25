@@ -2988,4 +2988,14 @@ class AppLocalizationsTr extends AppLocalizations {
   String diagLogCount(int count) {
     return '$count satır, en yenisi üstte';
   }
+
+  @override
+  String get startupFailedTitle => 'Uygulama başlatılamadı';
+
+  @override
+  String get startupFailedBody =>
+      'Açılırken bir hata oluştu. Aşağıdaki metni kopyalayıp bize gönderin; düzeltip yeni sürüm çıkaracağız.';
+
+  @override
+  String get startupFailedCopy => 'Hatayı kopyala';
 }

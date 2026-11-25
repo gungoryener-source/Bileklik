@@ -3027,4 +3027,14 @@ class AppLocalizationsAr extends AppLocalizations {
   String diagLogCount(int count) {
     return '$count سطر، الأحدث أولًا';
   }
+
+  @override
+  String get startupFailedTitle => 'تعذّر تشغيل التطبيق';
+
+  @override
+  String get startupFailedBody =>
+      'حدث خطأ أثناء التشغيل. انسخ النص أدناه وأرسله إلينا لنصلحه في إصدار جديد.';
+
+  @override
+  String get startupFailedCopy => 'نسخ الخطأ';
 }

@@ -5097,6 +5097,24 @@ abstract class AppLocalizations {
   /// In tr, this message translates to:
   /// **'{count} satır, en yenisi üstte'**
   String diagLogCount(int count);
+
+  /// No description provided for @startupFailedTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Uygulama başlatılamadı'**
+  String get startupFailedTitle;
+
+  /// No description provided for @startupFailedBody.
+  ///
+  /// In tr, this message translates to:
+  /// **'Açılırken bir hata oluştu. Aşağıdaki metni kopyalayıp bize gönderin; düzeltip yeni sürüm çıkaracağız.'**
+  String get startupFailedBody;
+
+  /// No description provided for @startupFailedCopy.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hatayı kopyala'**
+  String get startupFailedCopy;
 }
 
 class _AppLocalizationsDelegate

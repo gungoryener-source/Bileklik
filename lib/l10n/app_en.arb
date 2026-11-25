@@ -831,5 +831,8 @@
   "diagLogEmpty": "Nothing logged yet.",
   "diagShare": "Share log",
   "diagClear": "Clear log",
-  "diagLogCount": "{count} lines, newest first"
+  "diagLogCount": "{count} lines, newest first",
+  "startupFailedTitle": "The app couldn't start",
+  "startupFailedBody": "Something went wrong while starting. Copy the text below and send it to us so we can fix it in a new version.",
+  "startupFailedCopy": "Copy error"
 }

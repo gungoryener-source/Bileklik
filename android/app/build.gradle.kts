@@ -72,6 +72,11 @@ android {
     buildTypes {
         release {
             signingConfig = signingConfigs.getByName("release")
+            // Eklentilerin istediği R8 kuralları (yoksa açılışta çöker).
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro",
+            )
         }
     }
 }

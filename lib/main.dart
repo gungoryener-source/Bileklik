@@ -35,6 +35,19 @@ Future<void> main() async {
   SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
   SystemChrome.setSystemUIOverlayStyle(camSystemOverlay);
   LicenseRegistry.addLicense(_fontLicense);
+  // Açılıştaki bir adım (güvenli depo, şifreli veritabanı…) hata verir ya da
+  // takılırsa uygulama açılış ekranında kalmasın; hatayı gösteren ekran açılır.
+  try {
+    runApp(await _start().timeout(const Duration(seconds: 20)));
+  } catch (e, s) {
+    FlutterError.reportError(
+      FlutterErrorDetails(exception: e, stack: s, library: 'bileklik'),
+    );
+    runApp(StartupErrorApp(error: e, stack: s));
+  }
+}
+
+Future<Widget> _start() async {
   // Web demosu portala bağlı değilse saklanacak gizli değer yok. Portala
   // bağlıysa oturum anahtarı sayfa yenilenince kaybolmasın diye tarayıcının
   // deposunda (flutter_secure_storage web, WebCrypto ile) tutulur.
@@ -68,17 +81,76 @@ Future<void> main() async {
     _lifecycle = AppLifecycleListener(onResume: controller.onResumed);
   }
   final portal = _portal(settings, controller);
-  runApp(
-    BileklikApp(
-      controller: controller,
-      settings: settings,
-      healthExport: _healthExport(controller),
-      connections: portal?.connections,
-      community: portal?.community,
-      feedback: portal?.feedback,
-      account: portal?.account,
-    ),
+  return BileklikApp(
+    controller: controller,
+    settings: settings,
+    healthExport: _healthExport(controller),
+    connections: portal?.connections,
+    community: portal?.community,
+    feedback: portal?.feedback,
+    account: portal?.account,
   );
+}
+
+/// Açılış başarısız olunca gösterilen ekran: hata metni kopyalanıp bize
+/// gönderilebilir.
+class StartupErrorApp extends StatelessWidget {
+  const StartupErrorApp({super.key, required this.error, this.stack});
+
+  final Object error;
+  final StackTrace? stack;
+
+  @override
+  Widget build(BuildContext context) {
+    final details = '$error\n\n${stack ?? ''}';
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      theme: buildTheme(),
+      localizationsDelegates: AppLocalizations.localizationsDelegates,
+      supportedLocales: AppLocalizations.supportedLocales,
+      home: Builder(
+        builder: (context) {
+          final l = context.l10n;
+          return Scaffold(
+            body: SafeArea(
+              child: ListView(
+                padding: const EdgeInsets.all(24),
+                children: [
+                  Text(
+                    l.startupFailedTitle,
+                    style: Theme.of(context).textTheme.headlineSmall,
+                  ),
+                  const SizedBox(height: 12),
+                  Text(l.startupFailedBody),
+                  const SizedBox(height: 16),
+                  FilledButton.icon(
+                    onPressed: () =>
+                        Clipboard.setData(ClipboardData(text: details)),
+                    icon: const Icon(Icons.copy),
+                    label: Text(l.startupFailedCopy),
+                    style: FilledButton.styleFrom(
+                      minimumSize: const Size.fromHeight(48),
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  Directionality(
+                    textDirection: TextDirection.ltr,
+                    child: SelectableText(
+                      details,
+                      style: const TextStyle(
+                        fontFamily: 'monospace',
+                        fontSize: 12,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          );
+        },
+      ),
+    );
+  }
 }
 
 /// Portal adresi: `--dart-define=PORTAL_URL=https://portal.example/`; web
