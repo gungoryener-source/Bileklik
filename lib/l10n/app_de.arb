@@ -871,5 +871,15 @@
   "ecgFindingAfibOk": "Keine Anzeichen von Vorhofflimmern erkannt",
   "ecgFindingAfibFlagged": "Unregelmäßiger Rhythmus: mögliches Vorhofflimmern, zeigen Sie die Aufnahme Ihrer Ärztin oder Ihrem Arzt",
   "ecgFindingUnknown": "Aufnahme nicht auswertbar: zu wenige Schläge erkannt oder Signal gestört",
-  "ecgReportNote": "Die Befunde sind eine automatische Ersteinschätzung der App, keine Diagnose."
+  "ecgReportNote": "Die Befunde sind eine automatische Ersteinschätzung der App, keine Diagnose.",
+  "healthMeasure": "Messen",
+  "healthAdd": "Hinzufügen",
+  "healthGoalValue": "/{goal}",
+  "healthSleepShort": "Zu wenig Schlaf",
+  "healthSleepGood": "Ausreichend Schlaf",
+  "healthSleepLong": "Langer Schlaf",
+  "healthEcgUnassessed": "Nicht auswertbar",
+  "healthVo2Unit": "ml/kg/min",
+  "healthVo2NeedsData": "Benötigt Ihr Alter und einige Tage Herzfrequenz",
+  "healthEstimated": "Geschätzt"
 }

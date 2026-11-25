@@ -1645,5 +1645,22 @@
   "ecgFindingAfibOk": "Atriyal fibrilasyon belirtisi görülmedi",
   "ecgFindingAfibFlagged": "Düzensiz ritim: atriyal fibrilasyon olabilir, kaydı hekiminize gösterin",
   "ecgFindingUnknown": "Kayıt değerlendirilemedi: yeterli atım bulunamadı ya da sinyal gürültülü",
-  "ecgReportNote": "Bulgular uygulamanın otomatik ön değerlendirmesidir, tanı değildir."
+  "ecgReportNote": "Bulgular uygulamanın otomatik ön değerlendirmesidir, tanı değildir.",
+  "healthMeasure": "Ölçüm",
+  "healthAdd": "Ekle",
+  "healthGoalValue": "/{goal}",
+  "@healthGoalValue": {
+    "placeholders": {
+      "goal": {
+        "type": "String"
+      }
+    }
+  },
+  "healthSleepShort": "Uyku süresi yetersiz",
+  "healthSleepGood": "Yeterli uyku",
+  "healthSleepLong": "Uzun uyku",
+  "healthEcgUnassessed": "Değerlendirilemedi",
+  "healthVo2Unit": "ml/kg/dk",
+  "healthVo2NeedsData": "Yaşınız ve birkaç günlük nabız gerekiyor",
+  "healthEstimated": "Tahmini"
 }

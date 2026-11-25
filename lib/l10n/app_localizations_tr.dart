@@ -3134,4 +3134,36 @@ class AppLocalizationsTr extends AppLocalizations {
   @override
   String get ecgReportNote =>
       'Bulgular uygulamanın otomatik ön değerlendirmesidir, tanı değildir.';
+
+  @override
+  String get healthMeasure => 'Ölçüm';
+
+  @override
+  String get healthAdd => 'Ekle';
+
+  @override
+  String healthGoalValue(String goal) {
+    return '/$goal';
+  }
+
+  @override
+  String get healthSleepShort => 'Uyku süresi yetersiz';
+
+  @override
+  String get healthSleepGood => 'Yeterli uyku';
+
+  @override
+  String get healthSleepLong => 'Uzun uyku';
+
+  @override
+  String get healthEcgUnassessed => 'Değerlendirilemedi';
+
+  @override
+  String get healthVo2Unit => 'ml/kg/dk';
+
+  @override
+  String get healthVo2NeedsData => 'Yaşınız ve birkaç günlük nabız gerekiyor';
+
+  @override
+  String get healthEstimated => 'Tahmini';
 }

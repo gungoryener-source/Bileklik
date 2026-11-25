@@ -3173,4 +3173,36 @@ class AppLocalizationsAr extends AppLocalizations {
   @override
   String get ecgReportNote =>
       'النتائج تقييم أولي تلقائي من التطبيق وليست تشخيصًا.';
+
+  @override
+  String get healthMeasure => 'قياس';
+
+  @override
+  String get healthAdd => 'إضافة';
+
+  @override
+  String healthGoalValue(String goal) {
+    return '/$goal';
+  }
+
+  @override
+  String get healthSleepShort => 'مدة النوم غير كافية';
+
+  @override
+  String get healthSleepGood => 'نوم كافٍ';
+
+  @override
+  String get healthSleepLong => 'نوم طويل';
+
+  @override
+  String get healthEcgUnassessed => 'تعذّر التقييم';
+
+  @override
+  String get healthVo2Unit => 'مل/كغ/د';
+
+  @override
+  String get healthVo2NeedsData => 'يتطلب عمرك وبيانات نبض لعدة أيام';
+
+  @override
+  String get healthEstimated => 'تقديري';
 }

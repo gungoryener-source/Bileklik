@@ -99,6 +99,12 @@ void main() {
 
     await tester.tap(find.text('Sağlık'));
     await tester.pumpAndSettle();
+    // EKG kartı listenin sonunda; alt menünün altında kalmasın.
+    // Liste tembel kurulur; sonuna iki çekişte varılır.
+    for (var i = 0; i < 2; i++) {
+      await tester.drag(find.byType(Scrollable).first, const Offset(0, -4000));
+      await tester.pumpAndSettle();
+    }
     await tester.tap(find.text('EKG'));
     await tester.pumpAndSettle();
 

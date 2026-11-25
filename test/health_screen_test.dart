@@ -23,10 +23,16 @@ void main() {
 
     await tester.tap(find.text('Sağlık'));
     await tester.pumpAndSettle();
-    expect(find.text('Uyku'), findsOneWidget);
     expect(find.textContaining('Son güncelleme'), findsOneWidget);
+    // Hareket kartı: hedefleriyle adım, kalori, mesafe.
+    expect(find.textContaining('/10000'), findsOneWidget);
+    expect(find.text('Kalp Atış Hızı'), findsOneWidget);
 
-    await tester.ensureVisible(find.text('Uyku'));
+    await tester.scrollUntilVisible(
+      find.text('Uyku'),
+      300,
+      scrollable: find.byType(Scrollable).first,
+    );
     await tester.pumpAndSettle();
     await tester.tap(find.text('Uyku'));
     await tester.pumpAndSettle();
@@ -35,7 +41,11 @@ void main() {
 
     await tester.tap(find.byTooltip('Geri'));
     await tester.pumpAndSettle();
-    await tester.ensureVisible(find.text('Kalp Atış Hızı'));
+    await tester.scrollUntilVisible(
+      find.text('Kalp Atış Hızı'),
+      -300,
+      scrollable: find.byType(Scrollable).first,
+    );
     await tester.pumpAndSettle();
     await tester.tap(find.text('Kalp Atış Hızı'));
     await tester.pumpAndSettle();

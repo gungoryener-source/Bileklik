@@ -871,5 +871,15 @@
   "ecgFindingAfibOk": "No signs of atrial fibrillation seen",
   "ecgFindingAfibFlagged": "Irregular rhythm: possible atrial fibrillation, show this recording to your doctor",
   "ecgFindingUnknown": "Recording could not be assessed: too few beats found or the signal was noisy",
-  "ecgReportNote": "Findings are the app's automatic preliminary assessment, not a diagnosis."
+  "ecgReportNote": "Findings are the app's automatic preliminary assessment, not a diagnosis.",
+  "healthMeasure": "Measure",
+  "healthAdd": "Add",
+  "healthGoalValue": "/{goal}",
+  "healthSleepShort": "Not enough sleep",
+  "healthSleepGood": "Enough sleep",
+  "healthSleepLong": "Long sleep",
+  "healthEcgUnassessed": "Could not be assessed",
+  "healthVo2Unit": "ml/kg/min",
+  "healthVo2NeedsData": "Needs your age and a few days of heart rate",
+  "healthEstimated": "Estimated"
 }

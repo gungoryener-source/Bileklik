@@ -871,5 +871,15 @@
   "ecgFindingAfibOk": "لم تُلاحظ علامات رجفان أذيني",
   "ecgFindingAfibFlagged": "نظم غير منتظم: قد يكون رجفانًا أذينيًا، اعرض التسجيل على طبيبك",
   "ecgFindingUnknown": "تعذّر تقييم التسجيل: عدد النبضات قليل أو الإشارة مشوشة",
-  "ecgReportNote": "النتائج تقييم أولي تلقائي من التطبيق وليست تشخيصًا."
+  "ecgReportNote": "النتائج تقييم أولي تلقائي من التطبيق وليست تشخيصًا.",
+  "healthMeasure": "قياس",
+  "healthAdd": "إضافة",
+  "healthGoalValue": "/{goal}",
+  "healthSleepShort": "مدة النوم غير كافية",
+  "healthSleepGood": "نوم كافٍ",
+  "healthSleepLong": "نوم طويل",
+  "healthEcgUnassessed": "تعذّر التقييم",
+  "healthVo2Unit": "مل/كغ/د",
+  "healthVo2NeedsData": "يتطلب عمرك وبيانات نبض لعدة أيام",
+  "healthEstimated": "تقديري"
 }

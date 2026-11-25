@@ -3197,4 +3197,37 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get ecgReportNote =>
       'Findings are the app\'s automatic preliminary assessment, not a diagnosis.';
+
+  @override
+  String get healthMeasure => 'Measure';
+
+  @override
+  String get healthAdd => 'Add';
+
+  @override
+  String healthGoalValue(String goal) {
+    return '/$goal';
+  }
+
+  @override
+  String get healthSleepShort => 'Not enough sleep';
+
+  @override
+  String get healthSleepGood => 'Enough sleep';
+
+  @override
+  String get healthSleepLong => 'Long sleep';
+
+  @override
+  String get healthEcgUnassessed => 'Could not be assessed';
+
+  @override
+  String get healthVo2Unit => 'ml/kg/min';
+
+  @override
+  String get healthVo2NeedsData =>
+      'Needs your age and a few days of heart rate';
+
+  @override
+  String get healthEstimated => 'Estimated';
 }

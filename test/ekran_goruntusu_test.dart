@@ -169,6 +169,17 @@ void main() {
     await _shot(tester, 'ekg-raporu-2');
   });
 
+  testWidgets('sağlık sekmesi', skip: !_enabled, (tester) async {
+    final c = await _app(tester, connect: true);
+    c.store.addEcg(recording(DateTime.now().subtract(const Duration(hours: 2))));
+    await _tab(tester, 1);
+    await _shot(tester, 'saglik-1');
+    for (var i = 2; i <= 4; i++) {
+      await tester.drag(find.byType(Scrollable).first, const Offset(0, -650));
+      await _shot(tester, 'saglik-$i');
+    }
+  });
+
   testWidgets('profil', skip: !_enabled, (tester) async {
     final b = _Backend();
     final settings = AppSettings.memory();

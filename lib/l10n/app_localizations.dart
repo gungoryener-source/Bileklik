@@ -5337,6 +5337,66 @@ abstract class AppLocalizations {
   /// In tr, this message translates to:
   /// **'Bulgular uygulamanın otomatik ön değerlendirmesidir, tanı değildir.'**
   String get ecgReportNote;
+
+  /// No description provided for @healthMeasure.
+  ///
+  /// In tr, this message translates to:
+  /// **'Ölçüm'**
+  String get healthMeasure;
+
+  /// No description provided for @healthAdd.
+  ///
+  /// In tr, this message translates to:
+  /// **'Ekle'**
+  String get healthAdd;
+
+  /// No description provided for @healthGoalValue.
+  ///
+  /// In tr, this message translates to:
+  /// **'/{goal}'**
+  String healthGoalValue(String goal);
+
+  /// No description provided for @healthSleepShort.
+  ///
+  /// In tr, this message translates to:
+  /// **'Uyku süresi yetersiz'**
+  String get healthSleepShort;
+
+  /// No description provided for @healthSleepGood.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yeterli uyku'**
+  String get healthSleepGood;
+
+  /// No description provided for @healthSleepLong.
+  ///
+  /// In tr, this message translates to:
+  /// **'Uzun uyku'**
+  String get healthSleepLong;
+
+  /// No description provided for @healthEcgUnassessed.
+  ///
+  /// In tr, this message translates to:
+  /// **'Değerlendirilemedi'**
+  String get healthEcgUnassessed;
+
+  /// No description provided for @healthVo2Unit.
+  ///
+  /// In tr, this message translates to:
+  /// **'ml/kg/dk'**
+  String get healthVo2Unit;
+
+  /// No description provided for @healthVo2NeedsData.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yaşınız ve birkaç günlük nabız gerekiyor'**
+  String get healthVo2NeedsData;
+
+  /// No description provided for @healthEstimated.
+  ///
+  /// In tr, this message translates to:
+  /// **'Tahmini'**
+  String get healthEstimated;
 }
 
 class _AppLocalizationsDelegate
