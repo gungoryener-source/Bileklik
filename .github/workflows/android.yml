@@ -38,7 +38,9 @@ jobs:
           java-version: '17'
       - uses: subosito/flutter-action@v2
         with:
-          channel: stable
+          # Proje Flutter 3.47 ile yazıldı; 3.50 material.dart için
+          # kullanımdan kalkma bilgisi verir ve analyze kırmızı olur.
+          flutter-version: 3.47.9
           cache: true
       - run: flutter pub get
       - run: flutter test
