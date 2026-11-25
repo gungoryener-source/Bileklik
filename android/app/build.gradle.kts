@@ -72,7 +72,13 @@ android {
     buildTypes {
         release {
             signingConfig = signingConfigs.getByName("release")
-            // Eklentilerin istediği R8 kuralları (yoksa açılışta çöker).
+            // Kod küçültme şimdilik kapalı: JNI ile adıyla çağrılan eklenti
+            // yöntemleri (shared_preferences 2.5+) R8'de siliniyor ve uygulama
+            // açılmıyordu. Play'e çıkmadan önce kurallarla yeniden açılıp
+            // telefonda denenecek.
+            isMinifyEnabled = false
+            isShrinkResources = false
+            // Eklentilerin istediği R8 kuralları (küçültme açılınca).
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro",

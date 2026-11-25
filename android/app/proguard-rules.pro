@@ -18,3 +18,10 @@
 -keep class com.google.crypto.tink.** { *; }
 -dontwarn com.google.errorprone.annotations.**
 -dontwarn javax.annotation.**
+
+# shared_preferences_android 2.5+ ve path_provider_android Dart'tan JNI
+# (jnigen) ile yöntemleri adıyla çağırır; R8 adları değiştirirse
+# "NoSuchMethodError: SharedPreferencesApiRegistrar.getAll" ile açılmaz.
+-keep class io.flutter.plugins.** { *; }
+-keep class com.github.dart_lang.** { *; }
+-keep interface kotlin.coroutines.Continuation { *; }
