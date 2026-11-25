@@ -12,3 +12,5 @@ GeneratedPluginRegistrant.java
 key.properties
 **/*.keystore
 **/*.jks
+# Deneme imzası bilerek depoda (şifresi açık; yalnızca elle yüklenen sürümler).
+!/deneme-imza/bileklik-deneme.p12

@@ -18,8 +18,8 @@ import 'data/portal.dart';
 import 'data/secrets.dart';
 import 'data/sqlite_health_store.dart';
 import 'device/ble_transport.dart';
+import 'device/device_log.dart';
 import 'device/fake_device.dart';
-import 'device/transport.dart';
 import 'l10n/l10n.dart';
 import 'state/app_settings.dart';
 import 'state/device_controller.dart';
@@ -42,14 +42,31 @@ Future<void> main() async {
       ? MemorySecretStore()
       : DeviceSecretStore();
   final settings = await AppSettings.load(secrets: secrets);
+  final prefs = await SharedPreferences.getInstance();
+  final real =
+      _usesRealDevices &&
+      !(prefs.getBool(DeviceController.demoModeKey) ?? false);
+  final log = DeviceLog();
   final controller = DeviceController(
-    await _transport(),
+    LoggingTransport(real ? BleTransport(prefs: prefs) : FakeDevice(), log),
     store: await _openStore(secrets),
     wearDetection: settings.wearDetection,
+    autoReconnect: real,
+    isDemo: !real,
+    log: log,
+  );
+  log.event(
+    'uygulama açıldı: ${real ? 'gerçek bileklik' : 'demo (sahte bileklik)'}',
   );
   // Tarayıcı demosunda sahte bileklik hemen bağlanır; veriler ilk ekranda
-  // görünsün. Telefonda kullanıcı eşleştirir.
-  if (kIsWeb) unawaited(controller.connect());
+  // görünsün. Telefonda eşleştirilmiş bileklik varsa ona bağlanılır, yoksa
+  // kullanıcı eşleştirir; bağlantı koparsa kendiliğinden yeniden denenir.
+  if (kIsWeb) {
+    unawaited(controller.connect());
+  } else if (real) {
+    unawaited(controller.start());
+    _lifecycle = AppLifecycleListener(onResume: controller.onResumed);
+  }
   final portal = _portal(settings, controller);
   runApp(
     BileklikApp(
@@ -124,15 +141,15 @@ bool get _usesRealDevices =>
     (defaultTargetPlatform == TargetPlatform.android ||
         defaultTargetPlatform == TargetPlatform.iOS);
 
-/// Telefonda gerçek BLE, demoda ve web'de sahte cihaz.
-Future<DeviceTransport> _transport() async => _usesRealDevices
-    ? BleTransport(prefs: await SharedPreferences.getInstance())
-    : FakeDevice();
+/// Uygulama öne gelince kopmuş bilekliğe yeniden bağlanmak için.
+// ignore: unused_element
+AppLifecycleListener? _lifecycle;
 
 /// Telefonda Health Connect / Apple Health'e gerçekten yazar; demoda null
 /// (BileklikApp sahte platformu kullanır).
 HealthExportService? _healthExport(DeviceController controller) =>
-    _usesRealDevices
+    // Demo kipinde sahte ölçümler Health Connect'e yazılmasın.
+    !controller.isDemo
     ? HealthExportService(PluginHealthPlatform(), controller.store)
     : null;
 

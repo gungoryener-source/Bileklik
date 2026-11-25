@@ -43,6 +43,9 @@ satırları tek tek denenmeli.
 
 ## Açık kalanlar (gerçek cihazda denenecek)
 
+Uygulamada **Cihaz > Bağlantı tanılama** ekranı her paketi onaltılık kaydeder;
+aşağıdakiler bu kayıtla doğrulanır (adımlar `docs/android-canli.md`).
+
 | Konu | Neden açık | Koddaki yeri |
 | --- | --- | --- |
 | Bilekliğin yayın adı | Belgede yok; `JCV8`/`V8` öneki varsayıldı | `BleTransport.namePrefixes` |

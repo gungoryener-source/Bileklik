@@ -68,24 +68,24 @@ class BleTransport implements DeviceTransport {
   Stream<List<int>> get incoming => _incoming.stream;
 
   @override
-  Future<List<DiscoveredDevice>> scan() async {
+  Future<List<DiscoveredDevice>> scan({bool all = false}) async {
     await _ensureAdapterOn();
     final results = <String, ScanResult>{};
     Object? streamError;
-    final sub = FlutterBluePlus.onScanResults.listen(
-      (list) {
-        for (final r in list) {
-          results[r.device.remoteId.str] = r;
-        }
-      },
-      onError: (Object e) => streamError = e,
-    );
+    final sub = FlutterBluePlus.onScanResults.listen((list) {
+      for (final r in list) {
+        results[r.device.remoteId.str] = r;
+      }
+    }, onError: (Object e) => streamError = e);
     try {
       await FlutterBluePlus.startScan(timeout: scanTimeout);
       await FlutterBluePlus.isScanning
           .where((s) => !s)
           .first
-          .timeout(scanTimeout + const Duration(seconds: 5), onTimeout: () => false);
+          .timeout(
+            scanTimeout + const Duration(seconds: 5),
+            onTimeout: () => false,
+          );
     } on FlutterBluePlusException catch (e) {
       throw _scanError(e);
     } finally {
@@ -98,7 +98,7 @@ class BleTransport implements DeviceTransport {
     if (error is FlutterBluePlusException) throw _scanError(error);
     final found = [
       for (final r in results.values)
-        if (_isWristband(r)) _toDiscovered(r),
+        if (all || _isWristband(r)) _toDiscovered(r),
     ]..sort((a, b) => b.rssi.compareTo(a.rssi));
     return found;
   }
@@ -159,11 +159,20 @@ class BleTransport implements DeviceTransport {
   static DiscoveredDevice _toDiscovered(ScanResult r) {
     final id = r.device.remoteId.str;
     final name = _nameOf(r);
+    final adv = r.advertisementData;
+    final details = [
+      if (adv.serviceUuids.isNotEmpty)
+        'uuid=${adv.serviceUuids.map((u) => u.str).join(',')}',
+      for (final e in adv.manufacturerData.entries)
+        'mfr${e.key.toRadixString(16)}=${e.value.map((b) => b.toRadixString(16).padLeft(2, '0')).join()}',
+      if (!adv.connectable) 'bağlanamaz',
+    ].join(' ');
     return DiscoveredDevice(
-      name: name.isEmpty ? 'JCV8' : name,
+      name: name.isEmpty ? (_isWristband(r) ? 'JCV8' : '?') : name,
       address: _addressOf(r) ?? id,
       rssi: r.rssi,
       platformId: id,
+      details: details.isEmpty ? null : details,
     );
   }
 
@@ -181,6 +190,20 @@ class BleTransport implements DeviceTransport {
       }
     }
     return null;
+  }
+
+  @override
+  bool get hasPairedDevice => _device != null;
+
+  @override
+  String? get pairedId => _device?.remoteId.str;
+
+  @override
+  void forget() {
+    _device = null;
+    _name = 'JCV8';
+    unawaited(_prefs?.remove(_idKey));
+    unawaited(_prefs?.remove(_nameKey));
   }
 
   @override
@@ -217,6 +240,17 @@ class BleTransport implements DeviceTransport {
       d.cancelWhenDisconnected(sub);
       _notifySub = sub;
       await notify.setNotifyValue(true);
+      // EKG ham verisi saniyede yüzlerce örnek taşır; Android'de bağlantı
+      // aralığını kısaltmak paket kaybını azaltır. Desteklenmezse önemsiz.
+      if (defaultTargetPlatform == TargetPlatform.android) {
+        try {
+          await d.requestConnectionPriority(
+            connectionPriorityRequest: ConnectionPriority.high,
+          );
+        } catch (e) {
+          debugPrint('BLE bağlantı önceliği istenemedi: $e');
+        }
+      }
       _write = write;
       await _connSub?.cancel();
       _connSub = d.connectionState.listen(_onConnectionState);
@@ -269,6 +303,9 @@ class BleTransport implements DeviceTransport {
     if (w == null) throw StateError('Cihaz bağlı değil');
     // Yanıtlı yazma destekleniyorsa onu kullan; yoksa yanıtsız.
     final props = w.properties;
-    await w.write(bytes, withoutResponse: !props.write && props.writeWithoutResponse);
+    await w.write(
+      bytes,
+      withoutResponse: !props.write && props.writeWithoutResponse,
+    );
   }
 }

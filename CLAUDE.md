@@ -57,6 +57,13 @@ UI (lib/ui)  ->  DeviceController (lib/state)  ->  WristbandClient  ->  DeviceTr
   `SecretStore` içinde; `SharedPreferences`'a yazılmaz. Android yedeklemesi
   kapalıdır, sağlık verisi telefondan yedekle çıkmaz.
 - Ekranlar `DeviceScope.of(context)` ile denetleyiciye, `.store` ile ölçümlere erişir.
+- Telefonda taşıyıcı `LoggingTransport` ile sarılır; her paket `DeviceLog`'a
+  (bellekte) yazılır ve `DiagnosticsScreen`'de görünür. Denetleyici
+  `autoReconnect` açıkken eşleştirilmiş bilekliğe açılışta bağlanır, kopunca
+  yeniden dener. Telefonda demo kipi `DeviceController.demoModeKey`
+  tercihiyle de açılır (tanılama ekranındaki anahtar).
+- Android yayın imzası `android/app/build.gradle.kts` başındaki açıklamada;
+  APK `.github/workflows/android.yml` ile GitHub sürümü olarak çıkar.
 - FHIR R4: `FhirExporter` (`lib/data/fhir.dart`) depodaki kayıtları Bundle'a
   çevirir (Observation + LOINC/UCUM, EKG için SampledData). Hasta kaynağı takma
   kimliklidir (`AppSettings.patientId`), ad ya da TC kimlik yazılmaz.

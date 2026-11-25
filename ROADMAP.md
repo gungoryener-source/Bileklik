@@ -55,6 +55,7 @@ bir öncekinin dalı üzerine kurulur. Durum: ✅ bitti (PR açık ya da birleş
 | 46 | Tanıtım sitesi güncellemesi: "Nasıl ölçer" bölümü (PPG, EKG, HRV, uyku, tahmini tansiyon, cilt ısısı ve her birinin sınırı), doğru takma ve bilek ölçüsü rehberi, ön kayıt formu (`kind=waitlist`, yalnızca e-posta), yeni özellik kartları (Sağlık Radarı, biyolojik yaş, nabız bölgeleri, ısı sapması) ve panel/aile anlatımında uyarılar | ✅ | (bu PR; kayış ölçü aralığı üreticiden gelince eklenecek) |
 | 47 | Yapay zeka sağlık raporu (demo): İlerleme'de "Yapay zeka raporu" kartı; ayrı ve geri alınabilir açık rıza (ne gider, ne gitmez, yurt dışı aktarımı, sınırlar); haftanın özetinden kurallarla yazılan örnek rapor (özet, iyi gidenler, dikkat edilecekler, öneriler) dört dilde; gönderilecek özetin JSON'u ekranda; sabit uyarı metni. Plan `docs/yapay-zeka-raporu.md` | ✅ | (yeni PR; Claude API, portal ucu ve hekim onayı sonra, kullanıcı şimdilik yalnızca demoyu seçti) |
 | 48 | Ödeme (demo): uygulamada Premium ekranı (aylık/yıllık, sahte mağaza onayı, geri yükleme), Profil > Abonelik (durum, yenileme, iptal), yapay zeka raporu Premium'a bağlı; sitede `#satin-al` bölümü (iki ürün, sepet, teslimat formu, sahte ödeme sayfası). Plan `docs/odeme.md` | ✅ | #41 (gerçek mağaza ve ödeme kuruluşu hesapları, sözleşme metinleri ve fiyatlar bekliyor) |
+| 49 | Android'i gerçek bileklikle canlıya hazırlama: açılışta eşleştirilen bilekliğe bağlanma, kopunca artan aralıklarla yeniden bağlanma; bağlandıktan sonraki komutlardan biri yanıtsız kalırsa bağlantı düşmüyor; Cihaz > Bağlantı tanılama (ham paket kaydı ve paylaşımı, test komutları, ham komut, ad süzgeçsiz arama, demo kipi anahtarı); Android'de yüksek bağlantı önceliği; yayın imzası (key.properties / GitHub gizli değerleri / deneme anahtarı) ve APK'yı GitHub sürümü olarak yayımlayan iş akışı. Adımlar ve Play listesi `docs/android-canli.md` | ✅ | (bu PR; gerçek cihazla deneme kullanıcıda, uygulama kapalıyken bağlantı için ön plan hizmeti sonra) |
 
 ## Her madde için
 
@@ -68,7 +69,8 @@ bir öncekinin dalı üzerine kurulur. Durum: ✅ bitti (PR açık ya da birleş
 Kod tarafı hazır olsa da karar, insan ya da donanım gerektiren işler:
 
 - **Çeviri incelemesi:** Arapça ve Almanca metinler ana dili konuşan biri tarafından gözden geçirilecek (7. madde). Tablo ve yönerge: `docs/ceviri-inceleme.md`.
-- **Gerçek bileklikle deneme:** `docs/protokol-dogrulama.md` içindeki "Açık kalanlar".
+- **Gerçek bileklikle deneme:** `docs/protokol-dogrulama.md` içindeki "Açık kalanlar"; nasıl deneneceği ve kaydın nasıl paylaşılacağı `docs/android-canli.md`.
+- **Google Play:** geliştirici hesabı, yükleme anahtarı, Veri güvenliği ve sağlık uygulaması beyanları (`docs/android-canli.md`, 5. bölüm).
 - **Lisans:** flutter_blue_plus ticari lisansı ya da başka paket, satıştan önce.
 - **Hukuk:** `docs/gizlilik-politikasi.md` taslağının son hali (veri sorumlusu, başvuru yolu, saklama süreleri), VERBİS kaydı, sunucunun yeri.
 - **Hekim ve kurum doğrulaması:** hekim kendisi kaydoluyor, yönetici `--verify-clinician` ile elle onaylıyor; e-Devlet, kurum SSO ya da sicil sorgusu sonra.

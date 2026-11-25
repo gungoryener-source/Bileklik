@@ -1511,5 +1511,68 @@
   },
   "subscriptionCancelled": "Abonelik iptal edildi.",
   "subscriptionKeep": "Aboneliği koru",
-  "subscriptionFreeText": "Ölçüm, geçmiş, paylaşım ve uyarılar ücretsiz. Yapay zeka raporu Premium ile açılır."
+  "subscriptionFreeText": "Ölçüm, geçmiş, paylaşım ve uyarılar ücretsiz. Yapay zeka raporu Premium ile açılır.",
+  "diagTitle": "Bağlantı tanılama",
+  "diagOpen": "Bağlantı tanılama",
+  "diagIntro": "Bileklikle ilk denemelerde ne olduğunu gösterir. Bir sorun olursa kaydı paylaşın.",
+  "diagMode": "Kip",
+  "diagModeReal": "Gerçek bileklik",
+  "diagModeDemo": "Demo (sahte bileklik)",
+  "diagConnecting": "Bağlanıyor",
+  "diagPaired": "Eşleştirilen",
+  "diagNone": "Yok",
+  "diagWriteLength": "Paket boyu",
+  "diagWriteLengthValue": "{bytes} bayt",
+  "@diagWriteLengthValue": {
+    "placeholders": {
+      "bytes": {
+        "type": "int"
+      }
+    }
+  },
+  "diagNextRetry": "Yeniden deneme",
+  "diagNextRetryValue": "{seconds} sn sonra",
+  "@diagNextRetryValue": {
+    "placeholders": {
+      "seconds": {
+        "type": "int"
+      }
+    }
+  },
+  "diagReconnect": "Şimdi bağlan",
+  "diagForget": "Eşleştirmeyi unut",
+  "diagSectionTests": "Test komutları",
+  "diagTestsHint": "Bağlıyken dokunun; gönderilen ve gelen paketler aşağıdaki kayıtta görünür.",
+  "diagTestBattery": "Pil",
+  "diagTestTime": "Saat",
+  "diagTestFirmware": "Sürüm",
+  "diagTestProfile": "Kişisel bilgi",
+  "diagTestRealtime": "Anlık veri",
+  "diagRawLabel": "Ham komut (onaltılık)",
+  "diagRawHint": "ör. 13 — CRC kendiliğinden eklenir",
+  "diagRawSend": "Gönder",
+  "diagRawInvalid": "Geçerli onaltılık bayt yazın (en çok 15).",
+  "diagNotConnected": "Önce bilekliğe bağlanın.",
+  "diagSectionScan": "Tüm cihazları ara",
+  "diagScanHint": "Bileklik eşleştirme ekranında çıkmıyorsa buradan arayın: ad süzgeci olmadan yakındaki tüm Bluetooth cihazları listelenir.",
+  "diagScan": "Ara",
+  "diagScanning": "Aranıyor…",
+  "diagScanEmpty": "Cihaz bulunamadı.",
+  "diagConnectTo": "Bağlan",
+  "diagSectionDeveloper": "Geliştirici",
+  "diagDemoSwitch": "Demo kipi (sahte bileklik)",
+  "diagDemoHint": "Uygulamayı kapatıp açınca geçerli olur. Demo verileri Health Connect'e yazılmaz.",
+  "diagRestartNeeded": "Uygulamayı kapatıp yeniden açın.",
+  "diagSectionLog": "Kayıt",
+  "diagLogEmpty": "Henüz kayıt yok.",
+  "diagShare": "Kaydı paylaş",
+  "diagClear": "Kaydı temizle",
+  "diagLogCount": "{count} satır, en yenisi üstte",
+  "@diagLogCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  }
 }

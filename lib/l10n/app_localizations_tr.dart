@@ -2852,4 +2852,140 @@ class AppLocalizationsTr extends AppLocalizations {
   @override
   String get subscriptionFreeText =>
       'Ölçüm, geçmiş, paylaşım ve uyarılar ücretsiz. Yapay zeka raporu Premium ile açılır.';
+
+  @override
+  String get diagTitle => 'Bağlantı tanılama';
+
+  @override
+  String get diagOpen => 'Bağlantı tanılama';
+
+  @override
+  String get diagIntro =>
+      'Bileklikle ilk denemelerde ne olduğunu gösterir. Bir sorun olursa kaydı paylaşın.';
+
+  @override
+  String get diagMode => 'Kip';
+
+  @override
+  String get diagModeReal => 'Gerçek bileklik';
+
+  @override
+  String get diagModeDemo => 'Demo (sahte bileklik)';
+
+  @override
+  String get diagConnecting => 'Bağlanıyor';
+
+  @override
+  String get diagPaired => 'Eşleştirilen';
+
+  @override
+  String get diagNone => 'Yok';
+
+  @override
+  String get diagWriteLength => 'Paket boyu';
+
+  @override
+  String diagWriteLengthValue(int bytes) {
+    return '$bytes bayt';
+  }
+
+  @override
+  String get diagNextRetry => 'Yeniden deneme';
+
+  @override
+  String diagNextRetryValue(int seconds) {
+    return '$seconds sn sonra';
+  }
+
+  @override
+  String get diagReconnect => 'Şimdi bağlan';
+
+  @override
+  String get diagForget => 'Eşleştirmeyi unut';
+
+  @override
+  String get diagSectionTests => 'Test komutları';
+
+  @override
+  String get diagTestsHint =>
+      'Bağlıyken dokunun; gönderilen ve gelen paketler aşağıdaki kayıtta görünür.';
+
+  @override
+  String get diagTestBattery => 'Pil';
+
+  @override
+  String get diagTestTime => 'Saat';
+
+  @override
+  String get diagTestFirmware => 'Sürüm';
+
+  @override
+  String get diagTestProfile => 'Kişisel bilgi';
+
+  @override
+  String get diagTestRealtime => 'Anlık veri';
+
+  @override
+  String get diagRawLabel => 'Ham komut (onaltılık)';
+
+  @override
+  String get diagRawHint => 'ör. 13 — CRC kendiliğinden eklenir';
+
+  @override
+  String get diagRawSend => 'Gönder';
+
+  @override
+  String get diagRawInvalid => 'Geçerli onaltılık bayt yazın (en çok 15).';
+
+  @override
+  String get diagNotConnected => 'Önce bilekliğe bağlanın.';
+
+  @override
+  String get diagSectionScan => 'Tüm cihazları ara';
+
+  @override
+  String get diagScanHint =>
+      'Bileklik eşleştirme ekranında çıkmıyorsa buradan arayın: ad süzgeci olmadan yakındaki tüm Bluetooth cihazları listelenir.';
+
+  @override
+  String get diagScan => 'Ara';
+
+  @override
+  String get diagScanning => 'Aranıyor…';
+
+  @override
+  String get diagScanEmpty => 'Cihaz bulunamadı.';
+
+  @override
+  String get diagConnectTo => 'Bağlan';
+
+  @override
+  String get diagSectionDeveloper => 'Geliştirici';
+
+  @override
+  String get diagDemoSwitch => 'Demo kipi (sahte bileklik)';
+
+  @override
+  String get diagDemoHint =>
+      'Uygulamayı kapatıp açınca geçerli olur. Demo verileri Health Connect\'e yazılmaz.';
+
+  @override
+  String get diagRestartNeeded => 'Uygulamayı kapatıp yeniden açın.';
+
+  @override
+  String get diagSectionLog => 'Kayıt';
+
+  @override
+  String get diagLogEmpty => 'Henüz kayıt yok.';
+
+  @override
+  String get diagShare => 'Kaydı paylaş';
+
+  @override
+  String get diagClear => 'Kaydı temizle';
+
+  @override
+  String diagLogCount(int count) {
+    return '$count satır, en yenisi üstte';
+  }
 }

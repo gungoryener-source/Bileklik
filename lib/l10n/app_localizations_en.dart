@@ -2915,4 +2915,140 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get subscriptionFreeText =>
       'Measurements, history, sharing and alerts are free. The AI report comes with Premium.';
+
+  @override
+  String get diagTitle => 'Connection diagnostics';
+
+  @override
+  String get diagOpen => 'Connection diagnostics';
+
+  @override
+  String get diagIntro =>
+      'Shows what happens with the wristband during first tests. If something goes wrong, share the log.';
+
+  @override
+  String get diagMode => 'Mode';
+
+  @override
+  String get diagModeReal => 'Real wristband';
+
+  @override
+  String get diagModeDemo => 'Demo (simulated wristband)';
+
+  @override
+  String get diagConnecting => 'Connecting';
+
+  @override
+  String get diagPaired => 'Paired with';
+
+  @override
+  String get diagNone => 'None';
+
+  @override
+  String get diagWriteLength => 'Packet size';
+
+  @override
+  String diagWriteLengthValue(int bytes) {
+    return '$bytes bytes';
+  }
+
+  @override
+  String get diagNextRetry => 'Next retry';
+
+  @override
+  String diagNextRetryValue(int seconds) {
+    return 'in $seconds s';
+  }
+
+  @override
+  String get diagReconnect => 'Connect now';
+
+  @override
+  String get diagForget => 'Forget wristband';
+
+  @override
+  String get diagSectionTests => 'Test commands';
+
+  @override
+  String get diagTestsHint =>
+      'Tap while connected; sent and received packets appear in the log below.';
+
+  @override
+  String get diagTestBattery => 'Battery';
+
+  @override
+  String get diagTestTime => 'Clock';
+
+  @override
+  String get diagTestFirmware => 'Version';
+
+  @override
+  String get diagTestProfile => 'Personal info';
+
+  @override
+  String get diagTestRealtime => 'Live data';
+
+  @override
+  String get diagRawLabel => 'Raw command (hex)';
+
+  @override
+  String get diagRawHint => 'e.g. 13 — CRC is added automatically';
+
+  @override
+  String get diagRawSend => 'Send';
+
+  @override
+  String get diagRawInvalid => 'Enter valid hex bytes (at most 15).';
+
+  @override
+  String get diagNotConnected => 'Connect to the wristband first.';
+
+  @override
+  String get diagSectionScan => 'Scan all devices';
+
+  @override
+  String get diagScanHint =>
+      'If the wristband doesn\'t show up on the pairing screen, scan here: all nearby Bluetooth devices are listed without the name filter.';
+
+  @override
+  String get diagScan => 'Scan';
+
+  @override
+  String get diagScanning => 'Scanning…';
+
+  @override
+  String get diagScanEmpty => 'No devices found.';
+
+  @override
+  String get diagConnectTo => 'Connect';
+
+  @override
+  String get diagSectionDeveloper => 'Developer';
+
+  @override
+  String get diagDemoSwitch => 'Demo mode (simulated wristband)';
+
+  @override
+  String get diagDemoHint =>
+      'Takes effect after you close and reopen the app. Demo data isn\'t written to Health Connect.';
+
+  @override
+  String get diagRestartNeeded => 'Close and reopen the app.';
+
+  @override
+  String get diagSectionLog => 'Log';
+
+  @override
+  String get diagLogEmpty => 'Nothing logged yet.';
+
+  @override
+  String get diagShare => 'Share log';
+
+  @override
+  String get diagClear => 'Clear log';
+
+  @override
+  String diagLogCount(int count) {
+    return '$count lines, newest first';
+  }
 }

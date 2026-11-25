@@ -7,6 +7,7 @@ import '../app_shell.dart';
 import '../format.dart';
 import '../theme.dart';
 import '../widgets/cam/cam.dart';
+import 'diagnostics_screen.dart';
 import 'qr_scan_screen.dart';
 
 /// Ayrı sayfa olarak eşleştirme ("Başka bileklik eşleştir").
@@ -16,7 +17,17 @@ class PairingScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => CamScaffold(
-    appBar: AppBar(),
+    appBar: AppBar(
+      actions: [
+        IconButton(
+          tooltip: context.l10n.diagOpen,
+          icon: const Icon(Icons.troubleshoot),
+          onPressed: () => Navigator.of(context).push(
+            MaterialPageRoute<void>(builder: (_) => const DiagnosticsScreen()),
+          ),
+        ),
+      ],
+    ),
     body: SafeArea(
       top: false,
       child: PairingView(onConnected: () => Navigator.of(context).pop()),

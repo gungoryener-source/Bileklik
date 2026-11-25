@@ -7,6 +7,7 @@ import '../data/ecg_analysis.dart';
 import '../data/health_store.dart';
 import '../data/sync_service.dart';
 import '../data/models.dart';
+import '../device/device_log.dart';
 import '../device/protocol/commands.dart';
 import '../device/protocol/ecg.dart';
 import '../device/protocol/exercise.dart';
@@ -41,11 +42,27 @@ class DeviceController extends ChangeNotifier {
     this._transport, {
     HealthStore? store,
     this.wearDetection = true,
+    this.autoReconnect = false,
+    this.reconnectDelays = const [
+      Duration(seconds: 3),
+      Duration(seconds: 10),
+      Duration(seconds: 30),
+      Duration(seconds: 60),
+    ],
+    this.isDemo = false,
+    DeviceLog? log,
   }) : _client = WristbandClient(_transport),
+       log = log ?? DeviceLog(),
        store = store ?? MemoryHealthStore() {
     _sync = SyncService(_client, this.store);
     _stateSub = _transport.state.listen((s) {
+      final was = connection;
       connection = s;
+      if (s == DeviceConnectionState.connected) _reconnectAttempt = 0;
+      if (s == DeviceConnectionState.disconnected &&
+          was != DeviceConnectionState.disconnected) {
+        _scheduleReconnect();
+      }
       notifyListeners();
     });
     _realtimeSub = _client.realtime.listen((d) {
@@ -108,29 +125,115 @@ class DeviceController extends ChangeNotifier {
   String get deviceName => _transport.name;
   bool get isConnected => connection == DeviceConnectionState.connected;
 
+  /// Bağlantı tanılama ekranındaki "Demo kipi" anahtarının tercih adı. Açıksa
+  /// telefonda da sahte bileklik kullanılır; uygulama yeniden açılınca
+  /// geçerli olur.
+  static const demoModeKey = 'demo_mode';
+
+  /// Bileklik trafiğinin kaydı (Bağlantı tanılama ekranı).
+  final DeviceLog log;
+
+  /// Sahte bileklikle mi çalışılıyor (demo kipi).
+  final bool isDemo;
+
+  /// Bağlantı kendiliğinden koparsa yeniden bağlanılsın mı. Telefonda
+  /// açık; testlerde kapalı.
+  final bool autoReconnect;
+
+  /// Art arda başarısız denemeler arasındaki bekleme; son değer tekrarlanır.
+  final List<Duration> reconnectDelays;
+
+  bool get hasPairedDevice => _transport.hasPairedDevice;
+  String? get pairedId => _transport.pairedId;
+  int get maxWriteLength => _transport.maxWriteLength;
+
+  /// Kullanıcı "Bağlantıyı kes" dediyse kendiliğinden bağlanılmaz.
+  bool _userDisconnected = false;
+  bool _connecting = false;
+  Timer? _reconnectTimer;
+  int _reconnectAttempt = 0;
+  bool _disposed = false;
+
+  /// Bir sonraki otomatik deneme zamanı; bekleyen yoksa null.
+  DateTime? nextReconnect;
+
+  /// Uygulama açılınca: eşleştirilmiş bileklik varsa bağlanır.
+  Future<void> start() async {
+    if (hasPairedDevice && !isConnected) await connect();
+  }
+
+  /// Uygulama öne gelince: kopmuşsa beklemeden yeniden dener.
+  void onResumed() {
+    if (!autoReconnect || _userDisconnected || !hasPairedDevice) return;
+    if (isConnected || _connecting) return;
+    _reconnectTimer?.cancel();
+    _reconnectAttempt = 0;
+    unawaited(connect());
+  }
+
+  void _scheduleReconnect() {
+    if (!autoReconnect || _userDisconnected || _disposed) return;
+    if (!hasPairedDevice || _connecting) return;
+    if (_reconnectTimer?.isActive ?? false) return;
+    final delays = reconnectDelays;
+    final wait = delays[min(_reconnectAttempt, delays.length - 1)];
+    _reconnectAttempt++;
+    nextReconnect = DateTime.now().add(wait);
+    log.event(
+      'yeniden bağlanma ${wait.inSeconds} sn sonra '
+      '(deneme $_reconnectAttempt)',
+    );
+    _reconnectTimer = Timer(wait, () {
+      nextReconnect = null;
+      if (!isConnected && !_connecting) unawaited(connect());
+    });
+  }
+
   Future<void> connect() async {
+    if (_connecting || _disposed) return;
+    _connecting = true;
+    _userDisconnected = false;
+    _reconnectTimer?.cancel();
+    nextReconnect = null;
     error = null;
     try {
       await _transport.connect();
-      await _client.syncTime(DateTime.now());
-      battery = await _client.getBattery();
-      profile = await _client.getPersonalInfo();
-      await _client.startRealtime();
+      // Bağlantı kurulduktan sonraki ilk komutlar birbirinden bağımsızdır:
+      // biri yanıtsız kalırsa (ör. gerçek cihazda belgeden farklı bir
+      // yanıt) bağlantı kesilmez, kayda yazılır ve diğerleri denenir.
+      await _step('saat (0x01)', () => _client.syncTime(DateTime.now()));
+      await _step('pil (0x13)', () async {
+        battery = await _client.getBattery();
+      });
+      await _step('kişisel bilgi (0x42)', () async {
+        profile = await _client.getPersonalInfo();
+      });
+      await _step('anlık veri (0x09)', _client.startRealtime);
     } on DeviceNotPairedException catch (e) {
       error = e.toString();
       issue = DeviceIssue.notPaired;
     } catch (e) {
       error = e.toString();
-      // Bağlandıktan sonra bir komut başarısız olduysa yarım bağlantı kalmasın.
-      if (isConnected) {
-        try {
-          await _transport.disconnect();
-        } catch (_) {}
-      }
     }
+    _connecting = false;
+    if (_disposed) return;
     notifyListeners();
-    if (isConnected) await _loadDeviceSettings();
+    if (!isConnected) {
+      // Bağlantı hiç kurulamadıysa durum değişmemiş olabilir; yine dene.
+      if (issue != DeviceIssue.notPaired) _scheduleReconnect();
+      return;
+    }
+    await _loadDeviceSettings();
     if (isConnected) await sync();
+  }
+
+  /// Bağlanınca çalışan bir adım; hata bağlantıyı düşürmez, kayda yazılır.
+  Future<void> _step(String what, Future<void> Function() run) async {
+    try {
+      await run();
+    } catch (e) {
+      log.error('$what başarısız: $e');
+    }
   }
 
   /// Bileklikteki otomatik ölçüm ayarları; bağlanınca okunur.
@@ -318,14 +421,14 @@ class DeviceController extends ChangeNotifier {
   ScanProblem? scanProblem;
 
   /// Yakındaki bileklikleri arar.
-  Future<List<DiscoveredDevice>> scan() async {
+  Future<List<DiscoveredDevice>> scan({bool all = false}) async {
     if (scanning) return found;
     scanning = true;
     error = null;
     scanProblem = null;
     notifyListeners();
     try {
-      found = await _transport.scan();
+      found = await _transport.scan(all: all);
     } on ScanException catch (e) {
       scanProblem = e.problem;
       found = const [];
@@ -350,7 +453,21 @@ class DeviceController extends ChangeNotifier {
   /// En son tamamlanan elle ölçüm.
   Measurement? lastSpot;
 
+  /// Tanılama: baytları olduğu gibi gönderir; yanıt [log]'da görünür.
+  Future<void> sendRaw(List<int> bytes) => _transport.send(bytes);
+
+  /// Eşleştirmeyi unutur: bağlantı kesilir, açılışta bağlanılmaz.
+  Future<void> forgetDevice() async {
+    await disconnect();
+    _transport.forget();
+    found = const [];
+    notifyListeners();
+  }
+
   Future<void> disconnect() async {
+    _userDisconnected = true;
+    _reconnectTimer?.cancel();
+    nextReconnect = null;
     spot?.watchdog?.cancel();
     await _transport.disconnect();
     live = null;
@@ -639,6 +756,8 @@ class DeviceController extends ChangeNotifier {
 
   @override
   void dispose() {
+    _disposed = true;
+    _reconnectTimer?.cancel();
     spot?.watchdog?.cancel();
     ecg?.watchdog?.cancel();
     _ecgSub.cancel();

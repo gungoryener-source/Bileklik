@@ -4845,6 +4845,258 @@ abstract class AppLocalizations {
   /// In tr, this message translates to:
   /// **'Ölçüm, geçmiş, paylaşım ve uyarılar ücretsiz. Yapay zeka raporu Premium ile açılır.'**
   String get subscriptionFreeText;
+
+  /// No description provided for @diagTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bağlantı tanılama'**
+  String get diagTitle;
+
+  /// No description provided for @diagOpen.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bağlantı tanılama'**
+  String get diagOpen;
+
+  /// No description provided for @diagIntro.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bileklikle ilk denemelerde ne olduğunu gösterir. Bir sorun olursa kaydı paylaşın.'**
+  String get diagIntro;
+
+  /// No description provided for @diagMode.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kip'**
+  String get diagMode;
+
+  /// No description provided for @diagModeReal.
+  ///
+  /// In tr, this message translates to:
+  /// **'Gerçek bileklik'**
+  String get diagModeReal;
+
+  /// No description provided for @diagModeDemo.
+  ///
+  /// In tr, this message translates to:
+  /// **'Demo (sahte bileklik)'**
+  String get diagModeDemo;
+
+  /// No description provided for @diagConnecting.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bağlanıyor'**
+  String get diagConnecting;
+
+  /// No description provided for @diagPaired.
+  ///
+  /// In tr, this message translates to:
+  /// **'Eşleştirilen'**
+  String get diagPaired;
+
+  /// No description provided for @diagNone.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yok'**
+  String get diagNone;
+
+  /// No description provided for @diagWriteLength.
+  ///
+  /// In tr, this message translates to:
+  /// **'Paket boyu'**
+  String get diagWriteLength;
+
+  /// No description provided for @diagWriteLengthValue.
+  ///
+  /// In tr, this message translates to:
+  /// **'{bytes} bayt'**
+  String diagWriteLengthValue(int bytes);
+
+  /// No description provided for @diagNextRetry.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yeniden deneme'**
+  String get diagNextRetry;
+
+  /// No description provided for @diagNextRetryValue.
+  ///
+  /// In tr, this message translates to:
+  /// **'{seconds} sn sonra'**
+  String diagNextRetryValue(int seconds);
+
+  /// No description provided for @diagReconnect.
+  ///
+  /// In tr, this message translates to:
+  /// **'Şimdi bağlan'**
+  String get diagReconnect;
+
+  /// No description provided for @diagForget.
+  ///
+  /// In tr, this message translates to:
+  /// **'Eşleştirmeyi unut'**
+  String get diagForget;
+
+  /// No description provided for @diagSectionTests.
+  ///
+  /// In tr, this message translates to:
+  /// **'Test komutları'**
+  String get diagSectionTests;
+
+  /// No description provided for @diagTestsHint.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bağlıyken dokunun; gönderilen ve gelen paketler aşağıdaki kayıtta görünür.'**
+  String get diagTestsHint;
+
+  /// No description provided for @diagTestBattery.
+  ///
+  /// In tr, this message translates to:
+  /// **'Pil'**
+  String get diagTestBattery;
+
+  /// No description provided for @diagTestTime.
+  ///
+  /// In tr, this message translates to:
+  /// **'Saat'**
+  String get diagTestTime;
+
+  /// No description provided for @diagTestFirmware.
+  ///
+  /// In tr, this message translates to:
+  /// **'Sürüm'**
+  String get diagTestFirmware;
+
+  /// No description provided for @diagTestProfile.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kişisel bilgi'**
+  String get diagTestProfile;
+
+  /// No description provided for @diagTestRealtime.
+  ///
+  /// In tr, this message translates to:
+  /// **'Anlık veri'**
+  String get diagTestRealtime;
+
+  /// No description provided for @diagRawLabel.
+  ///
+  /// In tr, this message translates to:
+  /// **'Ham komut (onaltılık)'**
+  String get diagRawLabel;
+
+  /// No description provided for @diagRawHint.
+  ///
+  /// In tr, this message translates to:
+  /// **'ör. 13 — CRC kendiliğinden eklenir'**
+  String get diagRawHint;
+
+  /// No description provided for @diagRawSend.
+  ///
+  /// In tr, this message translates to:
+  /// **'Gönder'**
+  String get diagRawSend;
+
+  /// No description provided for @diagRawInvalid.
+  ///
+  /// In tr, this message translates to:
+  /// **'Geçerli onaltılık bayt yazın (en çok 15).'**
+  String get diagRawInvalid;
+
+  /// No description provided for @diagNotConnected.
+  ///
+  /// In tr, this message translates to:
+  /// **'Önce bilekliğe bağlanın.'**
+  String get diagNotConnected;
+
+  /// No description provided for @diagSectionScan.
+  ///
+  /// In tr, this message translates to:
+  /// **'Tüm cihazları ara'**
+  String get diagSectionScan;
+
+  /// No description provided for @diagScanHint.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bileklik eşleştirme ekranında çıkmıyorsa buradan arayın: ad süzgeci olmadan yakındaki tüm Bluetooth cihazları listelenir.'**
+  String get diagScanHint;
+
+  /// No description provided for @diagScan.
+  ///
+  /// In tr, this message translates to:
+  /// **'Ara'**
+  String get diagScan;
+
+  /// No description provided for @diagScanning.
+  ///
+  /// In tr, this message translates to:
+  /// **'Aranıyor…'**
+  String get diagScanning;
+
+  /// No description provided for @diagScanEmpty.
+  ///
+  /// In tr, this message translates to:
+  /// **'Cihaz bulunamadı.'**
+  String get diagScanEmpty;
+
+  /// No description provided for @diagConnectTo.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bağlan'**
+  String get diagConnectTo;
+
+  /// No description provided for @diagSectionDeveloper.
+  ///
+  /// In tr, this message translates to:
+  /// **'Geliştirici'**
+  String get diagSectionDeveloper;
+
+  /// No description provided for @diagDemoSwitch.
+  ///
+  /// In tr, this message translates to:
+  /// **'Demo kipi (sahte bileklik)'**
+  String get diagDemoSwitch;
+
+  /// No description provided for @diagDemoHint.
+  ///
+  /// In tr, this message translates to:
+  /// **'Uygulamayı kapatıp açınca geçerli olur. Demo verileri Health Connect\'e yazılmaz.'**
+  String get diagDemoHint;
+
+  /// No description provided for @diagRestartNeeded.
+  ///
+  /// In tr, this message translates to:
+  /// **'Uygulamayı kapatıp yeniden açın.'**
+  String get diagRestartNeeded;
+
+  /// No description provided for @diagSectionLog.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kayıt'**
+  String get diagSectionLog;
+
+  /// No description provided for @diagLogEmpty.
+  ///
+  /// In tr, this message translates to:
+  /// **'Henüz kayıt yok.'**
+  String get diagLogEmpty;
+
+  /// No description provided for @diagShare.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kaydı paylaş'**
+  String get diagShare;
+
+  /// No description provided for @diagClear.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kaydı temizle'**
+  String get diagClear;
+
+  /// No description provided for @diagLogCount.
+  ///
+  /// In tr, this message translates to:
+  /// **'{count} satır, en yenisi üstte'**
+  String diagLogCount(int count);
 }
 
 class _AppLocalizationsDelegate

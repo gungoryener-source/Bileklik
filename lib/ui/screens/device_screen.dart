@@ -8,6 +8,7 @@ import '../widgets/cam/cam.dart';
 import '../../device/protocol/settings.dart';
 import '../widgets/menu_group.dart';
 import 'auto_measure_screen.dart';
+import 'diagnostics_screen.dart';
 import 'pairing_screen.dart';
 import 'reminders_screen.dart';
 
@@ -20,7 +21,20 @@ class DeviceScreen extends StatelessWidget {
     final c = DeviceScope.of(context);
     final l = context.l10n;
     return CamScaffold(
-      appBar: AppBar(title: Text(l.profileMenuDevice)),
+      appBar: AppBar(
+        title: Text(l.profileMenuDevice),
+        actions: [
+          IconButton(
+            tooltip: l.diagOpen,
+            icon: const Icon(Icons.troubleshoot),
+            onPressed: () => Navigator.of(context).push(
+              MaterialPageRoute<void>(
+                builder: (_) => const DiagnosticsScreen(),
+              ),
+            ),
+          ),
+        ],
+      ),
       body: SafeArea(
         top: false,
         child: c.isConnected ? const _Connected() : const PairingView(),

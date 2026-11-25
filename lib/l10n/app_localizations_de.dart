@@ -2923,4 +2923,140 @@ class AppLocalizationsDe extends AppLocalizations {
   @override
   String get subscriptionFreeText =>
       'Messungen, Verlauf, Teilen und Warnungen sind kostenlos. Der KI-Bericht ist in Premium enthalten.';
+
+  @override
+  String get diagTitle => 'Verbindungsdiagnose';
+
+  @override
+  String get diagOpen => 'Verbindungsdiagnose';
+
+  @override
+  String get diagIntro =>
+      'Zeigt, was bei den ersten Tests mit dem Armband passiert. Wenn etwas nicht klappt, teilen Sie das Protokoll.';
+
+  @override
+  String get diagMode => 'Modus';
+
+  @override
+  String get diagModeReal => 'Echtes Armband';
+
+  @override
+  String get diagModeDemo => 'Demo (simuliertes Armband)';
+
+  @override
+  String get diagConnecting => 'Verbindung wird hergestellt';
+
+  @override
+  String get diagPaired => 'Gekoppelt mit';
+
+  @override
+  String get diagNone => 'Keines';
+
+  @override
+  String get diagWriteLength => 'Paketgröße';
+
+  @override
+  String diagWriteLengthValue(int bytes) {
+    return '$bytes Byte';
+  }
+
+  @override
+  String get diagNextRetry => 'Nächster Versuch';
+
+  @override
+  String diagNextRetryValue(int seconds) {
+    return 'in $seconds s';
+  }
+
+  @override
+  String get diagReconnect => 'Jetzt verbinden';
+
+  @override
+  String get diagForget => 'Armband vergessen';
+
+  @override
+  String get diagSectionTests => 'Testbefehle';
+
+  @override
+  String get diagTestsHint =>
+      'Im verbundenen Zustand tippen; gesendete und empfangene Pakete erscheinen unten im Protokoll.';
+
+  @override
+  String get diagTestBattery => 'Akku';
+
+  @override
+  String get diagTestTime => 'Uhrzeit';
+
+  @override
+  String get diagTestFirmware => 'Version';
+
+  @override
+  String get diagTestProfile => 'Persönliche Daten';
+
+  @override
+  String get diagTestRealtime => 'Live-Daten';
+
+  @override
+  String get diagRawLabel => 'Rohbefehl (hex)';
+
+  @override
+  String get diagRawHint => 'z. B. 13 — CRC wird automatisch ergänzt';
+
+  @override
+  String get diagRawSend => 'Senden';
+
+  @override
+  String get diagRawInvalid => 'Gültige Hex-Bytes eingeben (höchstens 15).';
+
+  @override
+  String get diagNotConnected => 'Verbinden Sie zuerst das Armband.';
+
+  @override
+  String get diagSectionScan => 'Alle Geräte suchen';
+
+  @override
+  String get diagScanHint =>
+      'Wenn das Armband beim Koppeln nicht erscheint, suchen Sie hier: Alle Bluetooth-Geräte in der Nähe werden ohne Namensfilter angezeigt.';
+
+  @override
+  String get diagScan => 'Suchen';
+
+  @override
+  String get diagScanning => 'Suche läuft…';
+
+  @override
+  String get diagScanEmpty => 'Keine Geräte gefunden.';
+
+  @override
+  String get diagConnectTo => 'Verbinden';
+
+  @override
+  String get diagSectionDeveloper => 'Entwickler';
+
+  @override
+  String get diagDemoSwitch => 'Demo-Modus (simuliertes Armband)';
+
+  @override
+  String get diagDemoHint =>
+      'Wirkt nach dem Schließen und erneuten Öffnen der App. Demodaten werden nicht in Health Connect geschrieben.';
+
+  @override
+  String get diagRestartNeeded => 'App schließen und erneut öffnen.';
+
+  @override
+  String get diagSectionLog => 'Protokoll';
+
+  @override
+  String get diagLogEmpty => 'Noch keine Einträge.';
+
+  @override
+  String get diagShare => 'Protokoll teilen';
+
+  @override
+  String get diagClear => 'Protokoll leeren';
+
+  @override
+  String diagLogCount(int count) {
+    return '$count Zeilen, neueste zuerst';
+  }
 }

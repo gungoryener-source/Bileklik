@@ -2891,4 +2891,140 @@ class AppLocalizationsAr extends AppLocalizations {
   @override
   String get subscriptionFreeText =>
       'القياسات والسجل والمشاركة والتنبيهات مجانية. يتوفر تقرير الذكاء الاصطناعي مع Premium.';
+
+  @override
+  String get diagTitle => 'تشخيص الاتصال';
+
+  @override
+  String get diagOpen => 'تشخيص الاتصال';
+
+  @override
+  String get diagIntro =>
+      'يعرض ما يحدث مع السوار أثناء التجارب الأولى. إذا حدثت مشكلة، شارك السجل.';
+
+  @override
+  String get diagMode => 'الوضع';
+
+  @override
+  String get diagModeReal => 'سوار حقيقي';
+
+  @override
+  String get diagModeDemo => 'تجريبي (سوار محاكى)';
+
+  @override
+  String get diagConnecting => 'جارٍ الاتصال';
+
+  @override
+  String get diagPaired => 'مقترن بـ';
+
+  @override
+  String get diagNone => 'لا يوجد';
+
+  @override
+  String get diagWriteLength => 'حجم الحزمة';
+
+  @override
+  String diagWriteLengthValue(int bytes) {
+    return '$bytes بايت';
+  }
+
+  @override
+  String get diagNextRetry => 'المحاولة التالية';
+
+  @override
+  String diagNextRetryValue(int seconds) {
+    return 'بعد $seconds ث';
+  }
+
+  @override
+  String get diagReconnect => 'اتصل الآن';
+
+  @override
+  String get diagForget => 'انسَ السوار';
+
+  @override
+  String get diagSectionTests => 'أوامر الاختبار';
+
+  @override
+  String get diagTestsHint =>
+      'اضغط أثناء الاتصال؛ تظهر الحزم المرسلة والمستلمة في السجل أدناه.';
+
+  @override
+  String get diagTestBattery => 'البطارية';
+
+  @override
+  String get diagTestTime => 'الساعة';
+
+  @override
+  String get diagTestFirmware => 'الإصدار';
+
+  @override
+  String get diagTestProfile => 'المعلومات الشخصية';
+
+  @override
+  String get diagTestRealtime => 'بيانات مباشرة';
+
+  @override
+  String get diagRawLabel => 'أمر خام (ست عشري)';
+
+  @override
+  String get diagRawHint => 'مثال 13 — يُضاف CRC تلقائيًا';
+
+  @override
+  String get diagRawSend => 'إرسال';
+
+  @override
+  String get diagRawInvalid => 'أدخل بايتات ست عشرية صالحة (15 كحد أقصى).';
+
+  @override
+  String get diagNotConnected => 'اتصل بالسوار أولًا.';
+
+  @override
+  String get diagSectionScan => 'البحث عن كل الأجهزة';
+
+  @override
+  String get diagScanHint =>
+      'إذا لم يظهر السوار في شاشة الاقتران، ابحث هنا: تُعرض كل أجهزة البلوتوث القريبة دون تصفية بالاسم.';
+
+  @override
+  String get diagScan => 'ابحث';
+
+  @override
+  String get diagScanning => 'جارٍ البحث…';
+
+  @override
+  String get diagScanEmpty => 'لم يُعثر على أجهزة.';
+
+  @override
+  String get diagConnectTo => 'اتصل';
+
+  @override
+  String get diagSectionDeveloper => 'المطوّر';
+
+  @override
+  String get diagDemoSwitch => 'الوضع التجريبي (سوار محاكى)';
+
+  @override
+  String get diagDemoHint =>
+      'يسري بعد إغلاق التطبيق وفتحه من جديد. لا تُكتب البيانات التجريبية في Health Connect.';
+
+  @override
+  String get diagRestartNeeded => 'أغلق التطبيق وافتحه من جديد.';
+
+  @override
+  String get diagSectionLog => 'السجل';
+
+  @override
+  String get diagLogEmpty => 'لا توجد سجلات بعد.';
+
+  @override
+  String get diagShare => 'مشاركة السجل';
+
+  @override
+  String get diagClear => 'مسح السجل';
+
+  @override
+  String diagLogCount(int count) {
+    return '$count سطر، الأحدث أولًا';
+  }
 }
