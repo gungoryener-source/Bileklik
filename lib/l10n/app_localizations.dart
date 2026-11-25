@@ -5397,6 +5397,186 @@ abstract class AppLocalizations {
   /// In tr, this message translates to:
   /// **'Tahmini'**
   String get healthEstimated;
+
+  /// No description provided for @homeLateNightTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Gece geç oldu, dinlenmeyi deneyin'**
+  String get homeLateNightTitle;
+
+  /// No description provided for @homeLateNightBody.
+  ///
+  /// In tr, this message translates to:
+  /// **'Erken dinlenmek yarın nasıl hissedeceğiniz için önemli. Ekranı bırakıp gözlerinizi dinlendirin.'**
+  String get homeLateNightBody;
+
+  /// No description provided for @homeLowRecoveryTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bugün vücudunuz toparlanıyor'**
+  String get homeLowRecoveryTitle;
+
+  /// No description provided for @homeLowRecoveryBody.
+  ///
+  /// In tr, this message translates to:
+  /// **'Gece HRV\'niz olağandan düşük. Yoğun antrenman yerine hafif hareket ve erken uyku seçin.'**
+  String get homeLowRecoveryBody;
+
+  /// No description provided for @homeSleepScore.
+  ///
+  /// In tr, this message translates to:
+  /// **'Uyku'**
+  String get homeSleepScore;
+
+  /// No description provided for @homeDailyRecovery.
+  ///
+  /// In tr, this message translates to:
+  /// **'Günlük toparlanma'**
+  String get homeDailyRecovery;
+
+  /// No description provided for @homeDailyLoad.
+  ///
+  /// In tr, this message translates to:
+  /// **'Günlük yük'**
+  String get homeDailyLoad;
+
+  /// No description provided for @homeGaugeSemantics.
+  ///
+  /// In tr, this message translates to:
+  /// **'{label}: {value}'**
+  String homeGaugeSemantics(String label, String value);
+
+  /// No description provided for @homeAiTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bugünkü AI analizi'**
+  String get homeAiTitle;
+
+  /// No description provided for @homeAiBody.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bugünkü verilerinizden kişisel bir sağlık özeti oluşturun.'**
+  String get homeAiBody;
+
+  /// No description provided for @homeSleepExcellent.
+  ///
+  /// In tr, this message translates to:
+  /// **'Mükemmel'**
+  String get homeSleepExcellent;
+
+  /// No description provided for @homeSleepGood.
+  ///
+  /// In tr, this message translates to:
+  /// **'İyi'**
+  String get homeSleepGood;
+
+  /// No description provided for @homeSleepFair.
+  ///
+  /// In tr, this message translates to:
+  /// **'Fena değil'**
+  String get homeSleepFair;
+
+  /// No description provided for @homeSleepPoor.
+  ///
+  /// In tr, this message translates to:
+  /// **'Zayıf'**
+  String get homeSleepPoor;
+
+  /// No description provided for @homeSleepDuration.
+  ///
+  /// In tr, this message translates to:
+  /// **'Süre'**
+  String get homeSleepDuration;
+
+  /// No description provided for @homeActivity.
+  ///
+  /// In tr, this message translates to:
+  /// **'Aktivite'**
+  String get homeActivity;
+
+  /// No description provided for @homeActivityLow.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yetersiz hareket'**
+  String get homeActivityLow;
+
+  /// No description provided for @homeActivityFair.
+  ///
+  /// In tr, this message translates to:
+  /// **'Orta hareket'**
+  String get homeActivityFair;
+
+  /// No description provided for @homeActivityGood.
+  ///
+  /// In tr, this message translates to:
+  /// **'İyi hareket'**
+  String get homeActivityGood;
+
+  /// No description provided for @homeActivityDone.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hedefe ulaşıldı'**
+  String get homeActivityDone;
+
+  /// No description provided for @homeKilometers.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kilometre'**
+  String get homeKilometers;
+
+  /// No description provided for @homeFellAsleep.
+  ///
+  /// In tr, this message translates to:
+  /// **'Uykuya daldınız'**
+  String get homeFellAsleep;
+
+  /// No description provided for @homeFellAsleepSubtitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Uyku başlangıcı'**
+  String get homeFellAsleepSubtitle;
+
+  /// No description provided for @homeNightLowHrv.
+  ///
+  /// In tr, this message translates to:
+  /// **'Düşük HRV'**
+  String get homeNightLowHrv;
+
+  /// No description provided for @homeNightHighHr.
+  ///
+  /// In tr, this message translates to:
+  /// **'Uykuda yüksek nabız'**
+  String get homeNightHighHr;
+
+  /// No description provided for @homeNightLowHr.
+  ///
+  /// In tr, this message translates to:
+  /// **'Uykuda düşük nabız'**
+  String get homeNightLowHr;
+
+  /// No description provided for @homeNightLowSpo2.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kan oksijeni düşüşü'**
+  String get homeNightLowSpo2;
+
+  /// No description provided for @homeRestingLabel.
+  ///
+  /// In tr, this message translates to:
+  /// **'Dinlenik nabız'**
+  String get homeRestingLabel;
+
+  /// No description provided for @homeAverageLabel.
+  ///
+  /// In tr, this message translates to:
+  /// **'Ortalama'**
+  String get homeAverageLabel;
+
+  /// No description provided for @homeLowestLabel.
+  ///
+  /// In tr, this message translates to:
+  /// **'En düşük'**
+  String get homeLowestLabel;
 }
 
 class _AppLocalizationsDelegate

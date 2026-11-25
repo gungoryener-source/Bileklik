@@ -3205,4 +3205,98 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get healthEstimated => 'تقديري';
+
+  @override
+  String get homeLateNightTitle => 'الوقت متأخر، حاول أن ترتاح';
+
+  @override
+  String get homeLateNightBody =>
+      'الراحة المبكرة مهمة لشعورك غدًا. ضع الشاشة جانبًا وأرح عينيك.';
+
+  @override
+  String get homeLowRecoveryTitle => 'جسمك يتعافى اليوم';
+
+  @override
+  String get homeLowRecoveryBody =>
+      'تقلب نبضك الليلي أقل من المعتاد. اختر نشاطًا خفيفًا ونومًا مبكرًا بدل التمرين الشاق.';
+
+  @override
+  String get homeSleepScore => 'النوم';
+
+  @override
+  String get homeDailyRecovery => 'التعافي اليومي';
+
+  @override
+  String get homeDailyLoad => 'الحِمل اليومي';
+
+  @override
+  String homeGaugeSemantics(String label, String value) {
+    return '$label: $value';
+  }
+
+  @override
+  String get homeAiTitle => 'تحليل الذكاء الاصطناعي لليوم';
+
+  @override
+  String get homeAiBody => 'أنشئ ملخصًا صحيًا شخصيًا من بيانات اليوم.';
+
+  @override
+  String get homeSleepExcellent => 'ممتاز';
+
+  @override
+  String get homeSleepGood => 'جيد';
+
+  @override
+  String get homeSleepFair => 'مقبول';
+
+  @override
+  String get homeSleepPoor => 'ضعيف';
+
+  @override
+  String get homeSleepDuration => 'المدة';
+
+  @override
+  String get homeActivity => 'النشاط';
+
+  @override
+  String get homeActivityLow => 'نشاط غير كافٍ';
+
+  @override
+  String get homeActivityFair => 'نشاط متوسط';
+
+  @override
+  String get homeActivityGood => 'نشاط جيد';
+
+  @override
+  String get homeActivityDone => 'تم بلوغ الهدف';
+
+  @override
+  String get homeKilometers => 'كيلومتر';
+
+  @override
+  String get homeFellAsleep => 'غفوت';
+
+  @override
+  String get homeFellAsleepSubtitle => 'بداية النوم';
+
+  @override
+  String get homeNightLowHrv => 'تقلب نبض منخفض';
+
+  @override
+  String get homeNightHighHr => 'نبض مرتفع أثناء النوم';
+
+  @override
+  String get homeNightLowHr => 'نبض منخفض أثناء النوم';
+
+  @override
+  String get homeNightLowSpo2 => 'انخفاض أكسجين الدم';
+
+  @override
+  String get homeRestingLabel => 'معدل النبض أثناء الراحة';
+
+  @override
+  String get homeAverageLabel => 'المتوسط';
+
+  @override
+  String get homeLowestLabel => 'الأدنى';
 }

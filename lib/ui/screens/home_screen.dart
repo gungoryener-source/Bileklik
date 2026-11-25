@@ -12,10 +12,12 @@ import '../app_shell.dart';
 import '../format.dart';
 import '../theme.dart';
 import '../widgets/cam/cam.dart';
+import '../widgets/home/activity_gauge.dart';
 import '../widgets/home/day_chart.dart';
 import '../widgets/home/home_card.dart';
 import '../widgets/family_alerts.dart';
 import '../widgets/insights.dart';
+import 'ai_report_screen.dart';
 import 'ecg_screen.dart';
 import 'metric_detail_screen.dart';
 import 'progress_screen.dart';
@@ -23,12 +25,9 @@ import 'sleep_screen.dart';
 import 'spot_measure_screen.dart';
 import 'workout_detail_screen.dart';
 
-/// Günlük aktif süre hedefi (dakika); haftada 150 dakikanın günlük payı.
-const dailyActiveGoalMinutes = 30;
-
-/// Ana Sayfa (Cam): başlık ve tarih gezgini, canlı nabız kartı, hızlı
-/// işlemler, uyku/adım/kalori/aktif süre ızgarası, günün özeti, denge,
-/// nabız ve SpO2 grafikleri, zaman çizelgesi.
+/// Ana Sayfa (Cam): başlık ve tarih gezgini; öneri ve uyku, toparlanma,
+/// yük göstergeleri; AI analizi; uyku, aktivite, denge, nabız ve SpO2
+/// kartları; enerji ve sağlık radarı; gece olaylarıyla zaman çizelgesi.
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
@@ -81,6 +80,9 @@ class _HomeScreenState extends State<HomeScreen> {
       listenable: store,
       builder: (context, _) {
         final s = DaySummary.of(store, day);
+        final energy = EnergyScore.of(store, day);
+        final liveHr = isToday && c.isConnected ? c.live?.heartRate ?? 0 : 0;
+        final resting = s.sleepHeartRate ?? s.heartRateStats?.min;
         return RefreshIndicator(
           onRefresh: c.sync,
           child: ListView(
@@ -101,52 +103,20 @@ class _HomeScreenState extends State<HomeScreen> {
               const SizedBox(height: 16),
               // Ailedeki acil durum, varsa en üstte.
               const FamilyAlertCard(),
-              _HeartRateHero(s: s),
-              if (issueText(c) case final issue?) ...[
-                gap,
-                Text(issue, style: TextStyle(color: context.colors.danger)),
-              ],
-              const SizedBox(height: 16),
-              const _QuickActions(),
-              const SizedBox(height: 16),
-              _EqualRow(
-                start: _SleepTile(
-                  s: s,
-                  onTap: () => _open(const SleepScreen()),
-                ),
-                end: _StepsTile(
-                  s: s,
-                  isToday: isToday,
-                  onTap: () =>
-                      _open(const MetricDetailScreen(type: MetricType.steps)),
-                ),
+              _Hero(s: s, energy: energy, isToday: isToday),
+              gap,
+              _AiCard(onTap: () => _open(AiReportScreen(day: s.day))),
+              gap,
+              _SleepCard(
+                s: s,
+                score: energy?.sleepScore,
+                onTap: () => _open(const SleepScreen()),
               ),
               gap,
-              _EqualRow(
-                start: _CaloriesTile(
-                  s: s,
-                  isToday: isToday,
-                  onTap: () => _open(
-                    const MetricDetailScreen(type: MetricType.calories),
-                  ),
-                ),
-                end: _ActiveTimeTile(
-                  s: s,
-                  onTap: () => AppShell.selectTab(context, 2),
-                ),
-              ),
-              gap,
-              _Summary(s: s, isToday: isToday),
-              gap,
-              EnergyCard(
-                day: s.day,
-                onTap: () => _open(ProgressScreen(day: s.day)),
-              ),
-              gap,
-              HealthRadarCard(
-                store: store,
-                day: s.day,
-                onTap: () => _open(ProgressScreen(day: s.day)),
+              _ActivityCard(
+                s: s,
+                onTap: () =>
+                    _open(const MetricDetailScreen(type: MetricType.steps)),
               ),
               gap,
               _BalanceCard(
@@ -161,7 +131,22 @@ class _HomeScreenState extends State<HomeScreen> {
                 values: s.hourlyHeartRate,
                 stats: s.heartRateStats,
                 hintIcon: Icons.monitor_heart_outlined,
-                hint: l.homeHeartRateHint,
+                hint: c.isConnected || s.heartRateStats != null
+                    ? l.homeHeartRateHint
+                    : l.homeHeroEmpty,
+                badge: liveHr > 0 ? _LiveChip(bpm: liveHr) : null,
+                footer: [
+                  (
+                    resting == null ? null : l.homeBpm(resting.round()),
+                    l.homeRestingLabel,
+                  ),
+                  (
+                    s.heartRateStats == null
+                        ? null
+                        : l.homeBpm(s.heartRateStats!.average.round()),
+                    l.homeAverageLabel,
+                  ),
+                ],
                 onTap: () =>
                     _open(const MetricDetailScreen(type: MetricType.heartRate)),
               ),
@@ -173,8 +158,33 @@ class _HomeScreenState extends State<HomeScreen> {
                 stats: s.spo2Stats,
                 hintIcon: Icons.water_drop_outlined,
                 hint: l.homeSpo2Hint,
+                footer: [
+                  (
+                    s.spo2Stats == null
+                        ? null
+                        : l.homePercent(s.spo2Stats!.min.round()),
+                    l.homeLowestLabel,
+                  ),
+                  (
+                    s.spo2Stats == null
+                        ? null
+                        : l.homePercent(s.spo2Stats!.average.round()),
+                    l.homeAverageLabel,
+                  ),
+                ],
                 onTap: () =>
                     _open(const MetricDetailScreen(type: MetricType.spo2)),
+              ),
+              gap,
+              EnergyCard(
+                day: s.day,
+                onTap: () => _open(ProgressScreen(day: s.day)),
+              ),
+              gap,
+              HealthRadarCard(
+                store: store,
+                day: s.day,
+                onTap: () => _open(ProgressScreen(day: s.day)),
               ),
               gap,
               _Timeline(s: s, open: _open),
@@ -400,124 +410,153 @@ class _StatusDot extends StatelessWidget {
 }
 
 // ---------------------------------------------------------------------------
-// Nabız kartı
+// Üst bölüm: öneri ve günün göstergeleri
 // ---------------------------------------------------------------------------
 
-/// Büyük nabız değeri, "Canlı" çipi, dinlenik nabız, köşede 3D kalp ve
-/// "Şimdi ölç" (bağlı değilken pasif).
-class _HeartRateHero extends StatelessWidget {
-  const _HeartRateHero({required this.s});
+/// Günün durumuna göre başlık ve öneri; altında uyku, toparlanma ve yük
+/// göstergeleri; en altta Egzersize başla ve Şimdi ölç.
+class _Hero extends StatelessWidget {
+  const _Hero({required this.s, required this.energy, required this.isToday});
 
   final DaySummary s;
+  final EnergyScore? energy;
+  final bool isToday;
+
+  /// Günlük yükün (adım ve stres harcaması, en çok 40) 0-100 ölçeği.
+  static int loadOf(EnergyScore e) => (e.drain * 2.5).round().clamp(0, 100);
 
   @override
   Widget build(BuildContext context) {
     final c = DeviceScope.of(context);
     final l = context.l10n;
     final colors = context.colors;
-    final liveHr = c.isConnected ? c.live?.heartRate ?? 0 : 0;
-    final last = c.store.latest(MetricType.heartRate);
-    final int? value = liveHr > 0 ? liveHr : last?.value.round();
-    final resting = s.sleepHeartRate ?? s.heartRateStats?.min;
-    final String? sub = liveHr > 0
-        ? null
-        : last != null
-        ? l.homeLastMeasured(hhmm(last.time))
-        : c.isConnected
-        ? null
-        : l.homeHeroEmpty;
+    final now = DateTime.now();
+    final night = s.night;
+    final hrv = s.recoveryHrv;
+    final hrvBand = hrv == null ? null : bandOf(MetricType.hrv, hrv);
+    final lateNight = isToday && (now.hour >= 23 || now.hour < 5);
+    final lowRecovery = (energy?.recoveryScore ?? 100) < 35;
 
+    final String title;
+    final String body;
+    final IconData icon;
+    if (lateNight) {
+      title = l.homeLateNightTitle;
+      body = l.homeLateNightBody;
+      icon = Icons.nights_stay;
+    } else if (night == null) {
+      title = isToday ? l.homeNoSleepLastNight : l.homeNoSleepThisDay;
+      body = isToday ? l.homeNoSleepTonightHint : l.homeNoSleepPastHint;
+      icon = Icons.bedtime_outlined;
+    } else {
+      final slept = duration(night.asleepMinutes);
+      final summary = hrv == null
+          ? l.homeSleptSummary(slept)
+          : hrvBand == null
+          ? l.homeSleptHrvSummary(slept, hrv.round())
+          : l.homeSleptHrvBandSummary(slept, hrv.round(), hrvBand.label);
+      if (isToday && lowRecovery) {
+        title = l.homeLowRecoveryTitle;
+        body = '$summary ${l.homeLowRecoveryBody}';
+        icon = Icons.spa;
+      } else {
+        title = isToday ? _greeting(l, now) : l.homeDaySummary;
+        body = summary;
+        icon = isToday && now.hour >= 18 ? Icons.wb_twilight : Icons.wb_sunny;
+      }
+    }
+
+    final e = energy;
     return GlassCard(
       radius: CamRadius.hero,
       padding: CamSpace.heroPadding,
       tint: camTint(colors.heroTintStart, colors.heroTintEnd),
-      child: Stack(
-        clipBehavior: Clip.none,
+      child: Column(
         children: [
-          // 3D kalp: Arapçada sol üst köşeye geçer, kendisi çevrilmez.
-          const PositionedDirectional(
-            top: -14,
-            end: -14,
-            child: Heart3D(size: 104),
+          Orb(palette: CamArt.orbViolet, size: 56, icon: icon),
+          const SizedBox(height: 14),
+          Text(
+            title,
+            textAlign: TextAlign.center,
+            style: Theme.of(context).textTheme.headlineSmall
+                ?.copyWith(fontWeight: FontWeight.w800),
           ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+          const SizedBox(height: 8),
+          Text(
+            body,
+            textAlign: TextAlign.center,
+            style: TextStyle(color: colors.muted, height: 1.4),
+          ),
+          const SizedBox(height: 22),
+          IntrinsicHeight(
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                _Gauge(
+                  label: l.homeSleepScore,
+                  value: e?.sleepScore?.toString(),
+                  progress: (e?.sleepScore ?? 0) / 100,
+                  color: DataColors.sleepLight,
+                ),
+                VerticalDivider(color: colors.grid, width: 1),
+                _Gauge(
+                  label: l.homeDailyRecovery,
+                  value: e?.recoveryScore == null
+                      ? null
+                      : l.homePercent(e!.recoveryScore!),
+                  progress: (e?.recoveryScore ?? 0) / 100,
+                  color: DataColors.hrv,
+                ),
+                VerticalDivider(color: colors.grid, width: 1),
+                _Gauge(
+                  label: l.homeDailyLoad,
+                  value: e == null ? null : loadOf(e).toString(),
+                  progress: e == null ? 0 : loadOf(e) / 100,
+                  color: DataColors.temperature,
+                ),
+              ],
+            ),
+          ),
+          if (issueText(c) case final issue?) ...[
+            const SizedBox(height: 12),
+            Text(issue, style: TextStyle(color: colors.danger)),
+          ],
+          const SizedBox(height: 20),
+          Row(
             children: [
-              Padding(
-                padding: const EdgeInsetsDirectional.only(end: 96),
-                child: Wrap(
-                  spacing: 8,
-                  runSpacing: 6,
-                  crossAxisAlignment: WrapCrossAlignment.center,
-                  children: [
-                    Text(
-                      l.measureHeartRate,
-                      style: const TextStyle(
-                        fontSize: 17,
-                        fontWeight: FontWeight.w700,
-                      ),
+              Expanded(
+                child: OutlinedButton.icon(
+                  onPressed: () => AppShell.selectTab(context, 2),
+                  style: OutlinedButton.styleFrom(
+                    minimumSize: const Size.fromHeight(52),
+                    padding: const EdgeInsetsDirectional.symmetric(
+                      horizontal: 12,
                     ),
-                    if (liveHr > 0) const _LiveChip(),
-                  ],
-                ),
-              ),
-              const SizedBox(height: 8),
-              Semantics(
-                label: value == null ? null : l.homeHeroSemantics(value),
-                excludeSemantics: value != null,
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.baseline,
-                  textBaseline: TextBaseline.alphabetic,
-                  children: [
-                    Flexible(
-                      child: FittedBox(
-                        fit: BoxFit.scaleDown,
-                        alignment: AlignmentDirectional.centerStart,
-                        child: Text(
-                          value?.toString() ?? l.noValue,
-                          style: TextStyle(
-                            fontSize: 64,
-                            fontWeight: FontWeight.w800,
-                            height: 1.05,
-                            letterSpacing: -1.5,
-                            fontFeatures: [
-                              if (value != null) FontFeature.tabularFigures(),
-                            ],
-                          ),
-                        ),
-                      ),
+                    foregroundColor: colors.text,
+                    side: BorderSide(color: colors.glassBorder),
+                    backgroundColor: colors.surfaceHigh,
+                  ),
+                  icon: const Icon(Icons.directions_run),
+                  // Dar ekranda iki satıra iner, kesilmez.
+                  label: Text(
+                    l.homeStartWorkout,
+                    maxLines: 2,
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.w700,
+                      height: 1.15,
                     ),
-                    const SizedBox(width: 6),
-                    Text(
-                      MetricType.heartRate.unit,
-                      style: TextStyle(
-                        color: colors.muted,
-                        fontSize: 17,
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              if (resting != null) ...[
-                const SizedBox(height: 4),
-                Text(
-                  l.homeRestingHr(resting.round()),
-                  style: TextStyle(
-                    color: colors.muted,
-                    fontWeight: FontWeight.w600,
                   ),
                 ),
-              ],
-              if (sub != null) ...[
-                const SizedBox(height: 4),
-                Text(sub, style: TextStyle(color: colors.muted)),
-              ],
-              const SizedBox(height: 18),
-              GlowButton(
-                label: l.homeMeasureNow,
-                icon: Icons.favorite,
-                onTap: c.isConnected ? () => showMeasureSheet(context) : null,
+              ),
+              const SizedBox(width: CamSpace.gap),
+              Expanded(
+                child: GlowButton(
+                  label: l.homeMeasureNow,
+                  icon: Icons.favorite,
+                  onTap: c.isConnected ? () => showMeasureSheet(context) : null,
+                ),
               ),
             ],
           ),
@@ -525,10 +564,293 @@ class _HeartRateHero extends StatelessWidget {
       ),
     );
   }
+
+  static String _greeting(AppLocalizations l, DateTime t) => switch (t.hour) {
+    >= 5 && < 11 => l.homeGoodMorning,
+    >= 11 && < 18 => l.homeGoodAfternoon,
+    _ => l.homeGoodEvening,
+  };
+}
+
+/// Büyük değer, etiket ve altında noktalı ilerleme çizgisi.
+class _Gauge extends StatelessWidget {
+  const _Gauge({
+    required this.label,
+    required this.value,
+    required this.progress,
+    required this.color,
+  });
+
+  final String label;
+  final String? value;
+  final double progress;
+  final Color color;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.colors;
+    final shown = value ?? context.l10n.noValue;
+    return Expanded(
+      child: Semantics(
+        label: context.l10n.homeGaugeSemantics(label, shown),
+        excludeSemantics: true,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8),
+          child: Column(
+            children: [
+              FittedBox(
+                fit: BoxFit.scaleDown,
+                child: Text(
+                  shown,
+                  style: TextStyle(
+                    fontSize: 30,
+                    fontWeight: FontWeight.w800,
+                    fontFeatures: [
+                      if (value != null) FontFeature.tabularFigures(),
+                    ],
+                  ),
+                ),
+              ),
+              const SizedBox(height: 2),
+              Expanded(
+                child: Text(
+                  label,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(color: colors.muted, fontSize: 13),
+                ),
+              ),
+              const SizedBox(height: 8),
+              SizedBox(
+                height: 10,
+                child: CustomPaint(
+                  size: const Size(double.infinity, 10),
+                  painter: _DotLinePainter(
+                    value == null ? null : progress.clamp(0.0, 1.0),
+                    color,
+                    colors.surfaceHigh,
+                    Directionality.of(context),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _DotLinePainter extends CustomPainter {
+  _DotLinePainter(this.progress, this.color, this.track, this.direction);
+
+  /// null: değer yok, yalnızca iz çizilir.
+  final double? progress;
+  final Color color;
+  final Color track;
+  final TextDirection direction;
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final y = size.height / 2;
+    final line = Paint()
+      ..strokeWidth = 3
+      ..strokeCap = StrokeCap.round;
+    canvas.drawLine(
+      Offset(4, y),
+      Offset(size.width - 4, y),
+      line..color = track,
+    );
+    final p = progress;
+    if (p == null) return;
+    final rtl = direction == TextDirection.rtl;
+    final x = 4 + (size.width - 8) * (rtl ? 1 - p : p);
+    canvas.drawLine(
+      Offset(rtl ? size.width - 4 : 4, y),
+      Offset(x, y),
+      line..color = color.withValues(alpha: 0.8),
+    );
+    canvas.drawCircle(Offset(x, y), 5, Paint()..color = color);
+  }
+
+  @override
+  bool shouldRepaint(_DotLinePainter old) =>
+      old.progress != progress ||
+      old.color != color ||
+      old.track != track ||
+      old.direction != direction;
+}
+
+/// Bugünkü AI analizi: rapor ekranına geçiş.
+class _AiCard extends StatelessWidget {
+  const _AiCard({required this.onTap});
+
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final l = context.l10n;
+    final colors = context.colors;
+    return Pressable(
+      semanticLabel: l.homeAiTitle,
+      onTap: onTap,
+      pressedScale: 0.98,
+      child: GlassCard(
+        tint: camTint(
+          DataColors.hrv.withValues(alpha: 0.16),
+          colors.auroraViolet.withValues(alpha: 0.12),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                const Icon(Icons.auto_awesome, color: DataColors.hrv),
+                const SizedBox(width: 10),
+                Expanded(
+                  child: Text(
+                    l.homeAiTitle,
+                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                      color: DataColors.hrv,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                ),
+                const Icon(Icons.arrow_forward, color: DataColors.hrv),
+              ],
+            ),
+            const SizedBox(height: 8),
+            Text(l.homeAiBody, style: TextStyle(color: colors.muted)),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+/// Uyku: skor ve değerlendirme, evre şeridi (yatış-uyanış), süre, gece
+/// nabzı ve SpO2.
+class _SleepCard extends StatelessWidget {
+  const _SleepCard({required this.s, required this.score, required this.onTap});
+
+  final DaySummary s;
+  final int? score;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final l = context.l10n;
+    final colors = context.colors;
+    final n = s.night;
+    final sc = score;
+    final label = sc == null
+        ? null
+        : sc >= 85
+        ? l.homeSleepExcellent
+        : sc >= 70
+        ? l.homeSleepGood
+        : sc >= 50
+        ? l.homeSleepFair
+        : l.homeSleepPoor;
+    return HomeCard(
+      title: l.homeSleep,
+      onTap: onTap,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          BigValue(sc?.toString(), caption: label),
+          const SizedBox(height: 16),
+          _StageStrip(night: n),
+          if (n != null) ...[
+            const SizedBox(height: 6),
+            Row(
+              textDirection: TextDirection.ltr,
+              children: [
+                Icon(Icons.bedtime, size: 14, color: colors.muted),
+                const SizedBox(width: 4),
+                Text(
+                  hhmm(n.start),
+                  style: TextStyle(color: colors.muted, fontSize: 12),
+                ),
+                const Spacer(),
+                Text(
+                  hhmm(n.end),
+                  style: TextStyle(color: colors.muted, fontSize: 12),
+                ),
+                const SizedBox(width: 4),
+                Icon(Icons.wb_sunny_outlined, size: 14, color: colors.muted),
+              ],
+            ),
+          ],
+          const SizedBox(height: 16),
+          MiniStats([
+            (n == null ? null : duration(n.asleepMinutes), l.homeSleepDuration),
+            (
+              s.sleepHeartRate == null
+                  ? null
+                  : l.homeBpm(s.sleepHeartRate!.round()),
+              l.homeHeartRateLabel,
+            ),
+            (
+              s.sleepSpo2 == null ? null : l.homePercent(s.sleepSpo2!.round()),
+              l.homeBloodOxygen,
+            ),
+          ]),
+        ],
+      ),
+    );
+  }
+}
+
+/// Aktivite: adım hedefine göre yarım halka ve değerlendirme; adım,
+/// kalori, mesafe.
+class _ActivityCard extends StatelessWidget {
+  const _ActivityCard({required this.s, required this.onTap});
+
+  final DaySummary s;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final l = context.l10n;
+    final percent = (s.steps / dailyStepGoal * 100).round();
+    final label = percent >= 100
+        ? l.homeActivityDone
+        : percent >= 70
+        ? l.homeActivityGood
+        : percent >= 30
+        ? l.homeActivityFair
+        : l.homeActivityLow;
+    return HomeCard(
+      title: l.homeActivity,
+      onTap: onTap,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Semantics(
+            label: l.homeStepGoalSemantics(s.steps, dailyStepGoal, percent),
+            excludeSemantics: true,
+            child: ActivityGauge(
+              progress: s.steps / dailyStepGoal,
+              color: DataColors.steps,
+              child: BigValue(l.homePercent(percent), caption: label),
+            ),
+          ),
+          const SizedBox(height: 16),
+          MiniStats([
+            ('${s.steps}', l.homeSteps),
+            (s.calories.round().toString(), l.homeCalories),
+            (distanceValue(s.distanceKm), l.homeKilometers),
+          ]),
+        ],
+      ),
+    );
+  }
 }
 
 class _LiveChip extends StatelessWidget {
-  const _LiveChip();
+  const _LiveChip({required this.bpm});
+
+  final int bpm;
 
   @override
   Widget build(BuildContext context) {
@@ -549,558 +871,14 @@ class _LiveChip extends StatelessWidget {
             context.l10n.homeLive,
             style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w700),
           ),
-        ],
-      ),
-    );
-  }
-}
-
-// ---------------------------------------------------------------------------
-// Hızlı işlemler
-// ---------------------------------------------------------------------------
-
-/// Nabız ölç, Egzersize başla, Senkronize.
-class _QuickActions extends StatelessWidget {
-  const _QuickActions();
-
-  @override
-  Widget build(BuildContext context) {
-    final c = DeviceScope.of(context);
-    final l = context.l10n;
-    void sync() {
-      if (c.isConnected) {
-        c.sync();
-        return;
-      }
-      ScaffoldMessenger.of(context)
-        ..hideCurrentSnackBar()
-        ..showSnackBar(SnackBar(content: Text(l.ecgConnectFirst)));
-    }
-
-    return Semantics(
-      container: true,
-      label: l.homeQuickActions,
-      explicitChildNodes: true,
-      child: IntrinsicHeight(
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Expanded(
-              child: _QuickTile(
-                palette: CamArt.orbPink,
-                icon: Icons.favorite,
-                label: l.homeQuickHeartRate,
-                onTap: () =>
-                    startSpotMeasurement(context, MetricType.heartRate),
-              ),
-            ),
-            const SizedBox(width: CamSpace.gap),
-            Expanded(
-              child: _QuickTile(
-                palette: CamArt.orbLime,
-                icon: Icons.directions_run,
-                label: l.homeStartWorkout,
-                onTap: () => AppShell.selectTab(context, 2),
-              ),
-            ),
-            const SizedBox(width: CamSpace.gap),
-            Expanded(
-              child: _QuickTile(
-                palette: CamArt.orbCyan,
-                icon: Icons.sync,
-                label: c.syncing ? l.homeSyncing : l.homeQuickSync,
-                busy: c.syncing,
-                onTap: c.syncing ? null : sync,
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class _QuickTile extends StatelessWidget {
-  const _QuickTile({
-    required this.palette,
-    required this.icon,
-    required this.label,
-    required this.onTap,
-    this.busy = false,
-  });
-
-  final OrbPalette palette;
-  final IconData icon;
-  final String label;
-  final VoidCallback? onTap;
-  final bool busy;
-
-  @override
-  Widget build(BuildContext context) {
-    return Pressable(
-      semanticLabel: label,
-      onTap: onTap,
-      child: GlassCard(
-        radius: CamRadius.tile,
-        padding: const EdgeInsetsDirectional.fromSTEB(8, 14, 8, 12),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            busy
-                ? SizedBox.square(
-                    dimension: 44,
-                    child: Padding(
-                      padding: const EdgeInsets.all(10),
-                      child: CircularProgressIndicator(
-                        strokeWidth: 2.5,
-                        color: palette.colors[1],
-                      ),
-                    ),
-                  )
-                : Orb(palette: palette, size: 44, icon: icon),
-            const SizedBox(height: 10),
-            Text(
-              label,
-              textAlign: TextAlign.center,
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
-              style: const TextStyle(
-                fontSize: 13,
-                fontWeight: FontWeight.w700,
-                height: 1.2,
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-// ---------------------------------------------------------------------------
-// İki sütunlu ızgara
-// ---------------------------------------------------------------------------
-
-/// Eşit yükseklikte iki kart.
-class _EqualRow extends StatelessWidget {
-  const _EqualRow({required this.start, required this.end});
-
-  final Widget start;
-  final Widget end;
-
-  @override
-  Widget build(BuildContext context) => IntrinsicHeight(
-    child: Row(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        Expanded(child: start),
-        const SizedBox(width: CamSpace.gap),
-        Expanded(child: end),
-      ],
-    ),
-  );
-}
-
-/// Izgara kartı: başlık, köşede 3D nesne, büyük değer, alt satır.
-class _GridTile extends StatelessWidget {
-  const _GridTile({
-    required this.title,
-    required this.art,
-    required this.value,
-    required this.onTap,
-    this.unit,
-    this.caption,
-    this.footer,
-    this.tint,
-    this.semanticLabel,
-  });
-
-  final String title;
-  final Widget art;
-  final String? value;
-  final String? unit;
-  final String? caption;
-  final Widget? footer;
-  final Gradient? tint;
-  final VoidCallback onTap;
-  final String? semanticLabel;
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = context.colors;
-    final l = context.l10n;
-    return Pressable(
-      semanticLabel:
-          semanticLabel ??
-          [
-            title,
-            value == null ? l.noValue : [value!, ?unit].join(' '),
-            ?caption,
-          ].join(l.homeListSeparator),
-      onTap: onTap,
-      child: GlassCard(
-        tint: tint,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.only(top: 4),
-                    child: Text(
-                      title,
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                  ),
-                ),
-                const SizedBox(width: 4),
-                art,
-              ],
-            ),
-            const Spacer(),
-            const SizedBox(height: 8),
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.baseline,
-              textBaseline: TextBaseline.alphabetic,
-              children: [
-                Flexible(
-                  child: FittedBox(
-                    fit: BoxFit.scaleDown,
-                    alignment: AlignmentDirectional.centerStart,
-                    child: Text(
-                      value ?? context.l10n.noValue,
-                      style: TextStyle(
-                        fontSize: 28,
-                        fontWeight: FontWeight.w800,
-                        letterSpacing: -0.5,
-                        fontFeatures: [
-                          if (value != null) FontFeature.tabularFigures(),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-                if (unit != null && value != null) ...[
-                  const SizedBox(width: 4),
-                  Text(
-                    unit!,
-                    style: TextStyle(
-                      color: colors.muted,
-                      fontSize: 13,
-                      fontWeight: FontWeight.w700,
-                    ),
-                  ),
-                ],
-              ],
-            ),
-            if (caption != null) ...[
-              const SizedBox(height: 2),
-              Text(
-                caption!,
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-                style: TextStyle(color: colors.muted, fontSize: 12),
-              ),
-            ],
-            if (footer != null) ...[const SizedBox(height: 10), footer!],
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class _SleepTile extends StatelessWidget {
-  const _SleepTile({required this.s, required this.onTap});
-
-  final DaySummary s;
-  final VoidCallback onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    final n = s.night;
-    final l = context.l10n;
-    final colors = context.colors;
-    final muted = TextStyle(color: colors.muted, fontSize: 11);
-    return _GridTile(
-      title: l.homeSleep,
-      art: const Moon3D(size: 48),
-      tint: camTint(colors.sleepTintStart, colors.sleepTintEnd),
-      value: n == null ? null : duration(n.asleepMinutes),
-      caption: n == null
-          ? l.homeNoRecord
-          : l.homeDeepSleep(duration(n.minutesIn(SleepStage.deep))),
-      onTap: onTap,
-      footer: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          _StageStrip(night: n),
-          if (n != null) ...[
-            const SizedBox(height: 4),
-            // Saat ekseni şeritle birlikte her dilde soldan sağa akar.
-            Row(
-              textDirection: TextDirection.ltr,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                for (final t in [n.start, n.end])
-                  Flexible(
-                    child: FittedBox(
-                      fit: BoxFit.scaleDown,
-                      child: Text(hhmm(t), style: muted),
-                    ),
-                  ),
-              ],
-            ),
-          ],
-        ],
-      ),
-    );
-  }
-}
-
-/// Bugün için bileklikten gelen anlık toplamlar daha günceldir.
-({int steps, double kcal, double km}) _activity(
-  BuildContext context,
-  DaySummary s,
-  bool isToday,
-) {
-  final live = DeviceScope.of(context).live;
-  final useLive = isToday && live != null && live.steps >= s.steps;
-  return useLive
-      ? (steps: live.steps, kcal: live.calories, km: live.distanceKm)
-      : (steps: s.steps, kcal: s.calories, km: s.distanceKm);
-}
-
-class _StepsTile extends StatelessWidget {
-  const _StepsTile({
-    required this.s,
-    required this.isToday,
-    required this.onTap,
-  });
-
-  final DaySummary s;
-  final bool isToday;
-  final VoidCallback onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    final a = _activity(context, s, isToday);
-    final hasData = a.steps > 0;
-    final pct = (a.steps / dailyStepGoal * 100).round();
-    final l = context.l10n;
-    return _GridTile(
-      title: l.homeSteps,
-      semanticLabel: l.homeStepGoalSemantics(a.steps, dailyStepGoal, pct),
-      art: RingProgress(progress: a.steps / dailyStepGoal, size: 48),
-      value: hasData ? '${a.steps}' : null,
-      caption: hasData
-          ? l.homeStepGoalProgress(pct, dailyStepGoal)
-          : l.homeStepGoal(dailyStepGoal),
-      footer: hasData
-          ? Text(
-              ltr('${distanceValue(a.km)} ${MetricType.distance.unit}'),
-              style: TextStyle(
-                color: context.colors.muted,
-                fontSize: 12,
-                fontWeight: FontWeight.w700,
-              ),
-            )
-          : null,
-      onTap: onTap,
-    );
-  }
-}
-
-class _CaloriesTile extends StatelessWidget {
-  const _CaloriesTile({
-    required this.s,
-    required this.isToday,
-    required this.onTap,
-  });
-
-  final DaySummary s;
-  final bool isToday;
-  final VoidCallback onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    final a = _activity(context, s, isToday);
-    final l = context.l10n;
-    return _GridTile(
-      title: l.homeCalories,
-      art: const Flame3D(width: 40),
-      value: a.kcal > 0 ? a.kcal.round().toString() : null,
-      unit: l.homeKcal,
-      caption: a.kcal > 0 ? null : l.homeNoRecord,
-      onTap: onTap,
-    );
-  }
-}
-
-class _ActiveTimeTile extends StatelessWidget {
-  const _ActiveTimeTile({required this.s, required this.onTap});
-
-  final DaySummary s;
-  final VoidCallback onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    final minutes = s.workouts.fold<int>(
-      0,
-      (sum, w) => sum + w.duration.inMinutes,
-    );
-    final l = context.l10n;
-    return _GridTile(
-      title: l.homeActiveTime,
-      art: const Orb(palette: CamArt.orbAmber, size: 44, icon: Icons.timer),
-      value: minutes > 0 ? duration(minutes) : null,
-      caption: l.homeActiveGoal(dailyActiveGoalMinutes),
-      footer: GlowProgressBar(
-        progress: minutes / dailyActiveGoalMinutes,
-        palette: CamArt.orbAmber,
-        height: 10,
-      ),
-      onTap: onTap,
-    );
-  }
-}
-
-// ---------------------------------------------------------------------------
-// Kalan kartlar
-// ---------------------------------------------------------------------------
-
-/// Günün özeti: başlık cümlesi ve uyku, toparlanma, stres yükü.
-class _Summary extends StatelessWidget {
-  const _Summary({required this.s, required this.isToday});
-
-  final DaySummary s;
-  final bool isToday;
-
-  @override
-  Widget build(BuildContext context) {
-    final night = s.night;
-    final hrv = s.recoveryHrv;
-    final hrvBand = hrv == null ? null : bandOf(MetricType.hrv, hrv);
-    final stress = s.averageStress;
-    final stressBand = stress == null
-        ? null
-        : bandOf(MetricType.stress, stress);
-
-    final l = context.l10n;
-    final String title;
-    final String body;
-    if (night == null) {
-      title = isToday ? l.homeNoSleepLastNight : l.homeNoSleepThisDay;
-      body = isToday ? l.homeNoSleepTonightHint : l.homeNoSleepPastHint;
-    } else {
-      title = isToday ? _greeting(l, DateTime.now()) : l.homeDaySummary;
-      final slept = duration(night.asleepMinutes);
-      body = hrv == null
-          ? l.homeSleptSummary(slept)
-          : hrvBand == null
-          ? l.homeSleptHrvSummary(slept, hrv.round())
-          : l.homeSleptHrvBandSummary(slept, hrv.round(), hrvBand.label);
-    }
-
-    return GlassCard(
-      child: Column(
-        children: [
-          const Orb(
-            palette: CamArt.orbViolet,
-            size: 48,
-            icon: Icons.wb_twilight,
-          ),
-          const SizedBox(height: 12),
+          const SizedBox(width: 6),
           Text(
-            title,
-            textAlign: TextAlign.center,
-            style: Theme.of(context).textTheme.headlineSmall
-                ?.copyWith(fontWeight: FontWeight.w700),
-          ),
-          const SizedBox(height: 8),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8),
-            child: Text(
-              body,
-              textAlign: TextAlign.center,
-              style: TextStyle(color: context.colors.muted, height: 1.4),
+            context.l10n.homeBpm(bpm),
+            style: const TextStyle(
+              fontSize: 12,
+              fontWeight: FontWeight.w700,
+              fontFeatures: [FontFeature.tabularFigures()],
             ),
-          ),
-          const SizedBox(height: 20),
-          IntrinsicHeight(
-            child: Row(
-              children: [
-                _SummaryItem(
-                  night == null ? null : duration(night.asleepMinutes),
-                  l.homeSleep,
-                ),
-                VerticalDivider(color: context.colors.grid, width: 1),
-                _SummaryItem(hrvBand?.label, l.homeRecovery),
-                VerticalDivider(color: context.colors.grid, width: 1),
-                _SummaryItem(stressBand?.label, l.homeStressLoad),
-              ],
-            ),
-          ),
-          // Gece boyunca ölçülen nabız ve kan oksijeni.
-          if (night != null) ...[
-            const SizedBox(height: 16),
-            MiniStats([
-              (
-                s.sleepHeartRate == null
-                    ? null
-                    : l.homeBpm(s.sleepHeartRate!.round()),
-                l.homeHeartRateLabel,
-              ),
-              (
-                s.sleepSpo2 == null
-                    ? null
-                    : l.homePercent(s.sleepSpo2!.round()),
-                l.homeBloodOxygen,
-              ),
-            ]),
-          ],
-        ],
-      ),
-    );
-  }
-
-  static String _greeting(AppLocalizations l, DateTime t) => switch (t.hour) {
-    >= 5 && < 11 => l.homeGoodMorning,
-    >= 11 && < 18 => l.homeGoodAfternoon,
-    _ => l.homeGoodEvening,
-  };
-}
-
-class _SummaryItem extends StatelessWidget {
-  const _SummaryItem(this.value, this.label);
-
-  final String? value;
-  final String label;
-
-  @override
-  Widget build(BuildContext context) {
-    return Expanded(
-      child: Column(
-        children: [
-          FittedBox(
-            fit: BoxFit.scaleDown,
-            child: Text(
-              value ?? context.l10n.noValue,
-              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w800),
-            ),
-          ),
-          const SizedBox(height: 4),
-          Text(
-            label,
-            textAlign: TextAlign.center,
-            style: TextStyle(color: context.colors.muted, fontSize: 13),
           ),
         ],
       ),
@@ -1230,6 +1008,8 @@ class _DayChartCard extends StatelessWidget {
     required this.hint,
     required this.hintIcon,
     required this.onTap,
+    this.badge,
+    this.footer,
   });
 
   final String title;
@@ -1239,6 +1019,12 @@ class _DayChartCard extends StatelessWidget {
   final String hint;
   final IconData hintIcon;
   final VoidCallback onTap;
+
+  /// Grafiğin üstünde (ör. canlı nabız çipi).
+  final Widget? badge;
+
+  /// Grafiğin altındaki küçük değerler (ör. dinlenik ve ortalama).
+  final List<(String?, String)>? footer;
 
   @override
   Widget build(BuildContext context) {
@@ -1250,6 +1036,10 @@ class _DayChartCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
+          if (badge case final b?) ...[
+            Align(alignment: AlignmentDirectional.centerStart, child: b),
+            const SizedBox(height: 12),
+          ],
           if (st != null) ...[
             // Uzun birim (ör. Arapça) ve büyük yazıda aralık taşmak yerine küçülür.
             Row(
@@ -1305,6 +1095,9 @@ class _DayChartCard extends StatelessWidget {
           if (st == null) ...[
             const SizedBox(height: 16),
             EmptyHint(icon: hintIcon, text: hint),
+          ] else if (footer case final f?) ...[
+            const SizedBox(height: 16),
+            MiniStats(f),
           ],
         ],
       ),
@@ -1336,18 +1129,24 @@ class _Timeline extends StatelessWidget {
             l.homeTimelineSubtitle,
             style: TextStyle(color: context.colors.muted),
           ),
-          const SizedBox(height: 12),
+          const SizedBox(height: 16),
           if (events.isEmpty)
             EmptyHint(icon: Icons.info_outline, text: l.homeTimelineEmpty)
           else
-            for (final e in events) _eventTile(context, e),
+            for (final (i, e) in events.indexed)
+              _eventTile(context, e, last: i == events.length - 1),
         ],
       ),
     );
   }
 
-  Widget _eventTile(BuildContext context, TimelineEvent e) {
+  Widget _eventTile(
+    BuildContext context,
+    TimelineEvent e, {
+    required bool last,
+  }) {
     final l = context.l10n;
+    final colors = context.colors;
     final (
       IconData icon,
       Color color,
@@ -1378,33 +1177,134 @@ class _Timeline extends StatelessWidget {
         EcgDetailScreen(recording: recording),
       ),
       SleepEvent(:final night) => (
-        Icons.bedtime,
-        SleepStage.light.color,
+        Icons.wb_sunny,
+        DataColors.steps,
         l.homeWokeUp,
         l.homeWokeUpSubtitle(duration(night.asleepMinutes), hhmm(night.start)),
         const SleepScreen(),
       ),
+      FellAsleepEvent() => (
+        Icons.bedtime,
+        DataColors.sleepRem,
+        l.homeFellAsleep,
+        l.homeFellAsleepSubtitle,
+        const SleepScreen(),
+      ),
+      NightEvent(:final kind, :final value) => (
+        switch (kind) {
+          NightEventKind.lowHrv => MetricType.hrv.icon,
+          NightEventKind.highHeartRate ||
+          NightEventKind.lowHeartRate => MetricType.heartRate.icon,
+          NightEventKind.lowSpo2 => MetricType.spo2.icon,
+        },
+        kind.type.color,
+        switch (kind) {
+          NightEventKind.lowHrv => l.homeMs(value.round()),
+          NightEventKind.highHeartRate ||
+          NightEventKind.lowHeartRate => l.homeBpm(value.round()),
+          NightEventKind.lowSpo2 => l.homePercent(value.round()),
+        },
+        switch (kind) {
+          NightEventKind.lowHrv => l.homeNightLowHrv,
+          NightEventKind.highHeartRate => l.homeNightHighHr,
+          NightEventKind.lowHeartRate => l.homeNightLowHr,
+          NightEventKind.lowSpo2 => l.homeNightLowSpo2,
+        },
+        MetricDetailScreen(type: kind.type),
+      ),
     };
-    return ListTile(
-      contentPadding: EdgeInsets.zero,
-      minTileHeight: 56,
-      leading: Container(
-        width: 40,
-        height: 40,
-        decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          color: color.withValues(alpha: 0.16),
-          border: Border.all(color: color.withValues(alpha: 0.35)),
-        ),
-        child: Icon(icon, size: 20, color: color),
-      ),
-      title: Text(title, style: const TextStyle(fontWeight: FontWeight.w700)),
-      subtitle: Text(sub, style: TextStyle(color: context.colors.muted)),
-      trailing: Text(
-        hhmm(e.time),
-        style: TextStyle(color: context.colors.muted),
-      ),
+    // Simgeler alt alta noktalı bir çizgiyle bağlanır.
+    return InkWell(
       onTap: () => open(to),
+      borderRadius: BorderRadius.circular(12),
+      child: IntrinsicHeight(
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            SizedBox(
+              width: 40,
+              child: Column(
+                children: [
+                  Container(
+                    width: 40,
+                    height: 40,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: color.withValues(alpha: 0.16),
+                      border: Border.all(color: color.withValues(alpha: 0.35)),
+                    ),
+                    child: Icon(icon, size: 20, color: color),
+                  ),
+                  if (!last)
+                    Expanded(
+                      child: CustomPaint(
+                        size: const Size(2, double.infinity),
+                        painter: _DashPainter(colors.outline),
+                      ),
+                    ),
+                ],
+              ),
+            ),
+            const SizedBox(width: 14),
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.only(top: 2, bottom: 18),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Expanded(
+                          child: Text(
+                            title,
+                            style: const TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(width: 8),
+                        Text(
+                          hhmm(e.time),
+                          style: TextStyle(
+                            color: colors.muted,
+                            fontFeatures: const [FontFeature.tabularFigures()],
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 2),
+                    Text(sub, style: TextStyle(color: colors.muted)),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
+}
+
+/// Zaman çizelgesindeki simgeleri bağlayan dikey kesikli çizgi.
+class _DashPainter extends CustomPainter {
+  _DashPainter(this.color);
+
+  final Color color;
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final p = Paint()
+      ..color = color
+      ..strokeWidth = 2
+      ..strokeCap = StrokeCap.round;
+    final x = size.width / 2;
+    for (var y = 6.0; y < size.height - 2; y += 8) {
+      canvas.drawLine(Offset(x, y), Offset(x, y + 3), p);
+    }
+  }
+
+  @override
+  bool shouldRepaint(_DashPainter old) => old.color != color;
 }

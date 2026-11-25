@@ -3230,4 +3230,99 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get healthEstimated => 'Estimated';
+
+  @override
+  String get homeLateNightTitle => 'It\'s late, try to rest';
+
+  @override
+  String get homeLateNightBody =>
+      'Resting early matters for how you\'ll feel tomorrow. Put the screen away and rest your eyes.';
+
+  @override
+  String get homeLowRecoveryTitle => 'Your body is recovering today';
+
+  @override
+  String get homeLowRecoveryBody =>
+      'Your night HRV is lower than usual. Choose light activity and an early night over hard training.';
+
+  @override
+  String get homeSleepScore => 'Sleep';
+
+  @override
+  String get homeDailyRecovery => 'Daily recovery';
+
+  @override
+  String get homeDailyLoad => 'Daily load';
+
+  @override
+  String homeGaugeSemantics(String label, String value) {
+    return '$label: $value';
+  }
+
+  @override
+  String get homeAiTitle => 'Today\'s AI analysis';
+
+  @override
+  String get homeAiBody =>
+      'Create a personal health summary from today\'s data.';
+
+  @override
+  String get homeSleepExcellent => 'Excellent';
+
+  @override
+  String get homeSleepGood => 'Good';
+
+  @override
+  String get homeSleepFair => 'Fair';
+
+  @override
+  String get homeSleepPoor => 'Poor';
+
+  @override
+  String get homeSleepDuration => 'Duration';
+
+  @override
+  String get homeActivity => 'Activity';
+
+  @override
+  String get homeActivityLow => 'Not enough activity';
+
+  @override
+  String get homeActivityFair => 'Moderate activity';
+
+  @override
+  String get homeActivityGood => 'Good activity';
+
+  @override
+  String get homeActivityDone => 'Goal reached';
+
+  @override
+  String get homeKilometers => 'Kilometres';
+
+  @override
+  String get homeFellAsleep => 'Fell asleep';
+
+  @override
+  String get homeFellAsleepSubtitle => 'Start of sleep';
+
+  @override
+  String get homeNightLowHrv => 'Low HRV';
+
+  @override
+  String get homeNightHighHr => 'High heart rate during sleep';
+
+  @override
+  String get homeNightLowHr => 'Low heart rate during sleep';
+
+  @override
+  String get homeNightLowSpo2 => 'Drop in blood oxygen';
+
+  @override
+  String get homeRestingLabel => 'Resting heart rate';
+
+  @override
+  String get homeAverageLabel => 'Average';
+
+  @override
+  String get homeLowestLabel => 'Lowest';
 }

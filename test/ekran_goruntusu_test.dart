@@ -3,6 +3,8 @@ import 'dart:io';
 import 'dart:math';
 
 import 'package:bileklik/data/community.dart';
+import 'package:bileklik/data/day_summary.dart';
+import 'package:bileklik/data/models.dart';
 import 'package:bileklik/data/health_store.dart';
 import 'package:bileklik/data/portal.dart';
 import 'package:bileklik/device/fake_device.dart';
@@ -167,6 +169,28 @@ void main() {
     await _shot(tester, 'ekg-raporu');
     await tester.drag(find.byType(Scrollable).last, const Offset(0, -700));
     await _shot(tester, 'ekg-raporu-2');
+  });
+
+  testWidgets('ana sayfa yeni düzen', skip: !_enabled, (tester) async {
+    final c = await _app(tester, connect: true);
+    // Dün gece için örnek bir düşük HRV olayı.
+    final now = DateTime.now();
+    final night = DaySummary.of(c.store, now).night;
+    if (night != null) {
+      c.store.addMeasurements([
+        Measurement(
+          MetricType.hrv,
+          night.start.add(const Duration(hours: 2, minutes: 36)),
+          8,
+        ),
+      ]);
+    }
+    await tester.pumpAndSettle();
+    await _shot(tester, 'ana-1');
+    for (var i = 2; i <= 6; i++) {
+      await tester.drag(find.byType(Scrollable).first, const Offset(0, -700));
+      await _shot(tester, 'ana-$i');
+    }
   });
 
   testWidgets('sağlık sekmesi', skip: !_enabled, (tester) async {

@@ -1662,5 +1662,45 @@
   "healthEcgUnassessed": "Değerlendirilemedi",
   "healthVo2Unit": "ml/kg/dk",
   "healthVo2NeedsData": "Yaşınız ve birkaç günlük nabız gerekiyor",
-  "healthEstimated": "Tahmini"
+  "healthEstimated": "Tahmini",
+  "homeLateNightTitle": "Gece geç oldu, dinlenmeyi deneyin",
+  "homeLateNightBody": "Erken dinlenmek yarın nasıl hissedeceğiniz için önemli. Ekranı bırakıp gözlerinizi dinlendirin.",
+  "homeLowRecoveryTitle": "Bugün vücudunuz toparlanıyor",
+  "homeLowRecoveryBody": "Gece HRV'niz olağandan düşük. Yoğun antrenman yerine hafif hareket ve erken uyku seçin.",
+  "homeSleepScore": "Uyku",
+  "homeDailyRecovery": "Günlük toparlanma",
+  "homeDailyLoad": "Günlük yük",
+  "homeGaugeSemantics": "{label}: {value}",
+  "@homeGaugeSemantics": {
+    "placeholders": {
+      "label": {
+        "type": "String"
+      },
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "homeAiTitle": "Bugünkü AI analizi",
+  "homeAiBody": "Bugünkü verilerinizden kişisel bir sağlık özeti oluşturun.",
+  "homeSleepExcellent": "Mükemmel",
+  "homeSleepGood": "İyi",
+  "homeSleepFair": "Fena değil",
+  "homeSleepPoor": "Zayıf",
+  "homeSleepDuration": "Süre",
+  "homeActivity": "Aktivite",
+  "homeActivityLow": "Yetersiz hareket",
+  "homeActivityFair": "Orta hareket",
+  "homeActivityGood": "İyi hareket",
+  "homeActivityDone": "Hedefe ulaşıldı",
+  "homeKilometers": "Kilometre",
+  "homeFellAsleep": "Uykuya daldınız",
+  "homeFellAsleepSubtitle": "Uyku başlangıcı",
+  "homeNightLowHrv": "Düşük HRV",
+  "homeNightHighHr": "Uykuda yüksek nabız",
+  "homeNightLowHr": "Uykuda düşük nabız",
+  "homeNightLowSpo2": "Kan oksijeni düşüşü",
+  "homeRestingLabel": "Dinlenik nabız",
+  "homeAverageLabel": "Ortalama",
+  "homeLowestLabel": "En düşük"
 }

@@ -3166,4 +3166,99 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get healthEstimated => 'Tahmini';
+
+  @override
+  String get homeLateNightTitle => 'Gece geç oldu, dinlenmeyi deneyin';
+
+  @override
+  String get homeLateNightBody =>
+      'Erken dinlenmek yarın nasıl hissedeceğiniz için önemli. Ekranı bırakıp gözlerinizi dinlendirin.';
+
+  @override
+  String get homeLowRecoveryTitle => 'Bugün vücudunuz toparlanıyor';
+
+  @override
+  String get homeLowRecoveryBody =>
+      'Gece HRV\'niz olağandan düşük. Yoğun antrenman yerine hafif hareket ve erken uyku seçin.';
+
+  @override
+  String get homeSleepScore => 'Uyku';
+
+  @override
+  String get homeDailyRecovery => 'Günlük toparlanma';
+
+  @override
+  String get homeDailyLoad => 'Günlük yük';
+
+  @override
+  String homeGaugeSemantics(String label, String value) {
+    return '$label: $value';
+  }
+
+  @override
+  String get homeAiTitle => 'Bugünkü AI analizi';
+
+  @override
+  String get homeAiBody =>
+      'Bugünkü verilerinizden kişisel bir sağlık özeti oluşturun.';
+
+  @override
+  String get homeSleepExcellent => 'Mükemmel';
+
+  @override
+  String get homeSleepGood => 'İyi';
+
+  @override
+  String get homeSleepFair => 'Fena değil';
+
+  @override
+  String get homeSleepPoor => 'Zayıf';
+
+  @override
+  String get homeSleepDuration => 'Süre';
+
+  @override
+  String get homeActivity => 'Aktivite';
+
+  @override
+  String get homeActivityLow => 'Yetersiz hareket';
+
+  @override
+  String get homeActivityFair => 'Orta hareket';
+
+  @override
+  String get homeActivityGood => 'İyi hareket';
+
+  @override
+  String get homeActivityDone => 'Hedefe ulaşıldı';
+
+  @override
+  String get homeKilometers => 'Kilometre';
+
+  @override
+  String get homeFellAsleep => 'Uykuya daldınız';
+
+  @override
+  String get homeFellAsleepSubtitle => 'Uyku başlangıcı';
+
+  @override
+  String get homeNightLowHrv => 'Düşük HRV';
+
+  @override
+  String get homeNightHighHr => 'Uykuda yüksek nabız';
+
+  @override
+  String get homeNightLowHr => 'Uykuda düşük nabız';
+
+  @override
+  String get homeNightLowSpo2 => 'Kan oksijeni düşüşü';
+
+  @override
+  String get homeRestingLabel => 'Dinlenik nabız';
+
+  @override
+  String get homeAverageLabel => 'Ortalama';
+
+  @override
+  String get homeLowestLabel => 'En düşük';
 }

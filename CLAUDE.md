@@ -72,6 +72,10 @@ UI (lib/ui)  ->  DeviceController (lib/state)  ->  WristbandClient  ->  DeviceTr
   (`lib/data/ecg_analysis.dart`) bulgularını gösterir: ritim, yüksek/düşük
   kalp hızı, AF belirtisi. Ön değerlendirmedir, tanı değildir; eşikler
   gerçek kayıtlarla ayarlanacak.
+- Gece olayları `NightEvent` (`lib/data/day_summary.dart`): uyku sırasında
+  düşük HRV, yüksek/düşük nabız ve SpO2 düşüşü Ana Sayfa zaman çizelgesinde
+  uyanma ve uykuya dalmayla birlikte saat sırasıyla görünür. Eşikler tarama
+  değeridir, gerçek kayıtlarla ayarlanacak.
 - HRV ayrıntısı ve VO2 Max `lib/data/hrv_analysis.dart` (0x63 PPI'dan);
   enerji skoru, haftalık rapor ve rozetler `lib/data/progress.dart`. Rozetler
   saklanmaz, her açılışta geçmişten hesaplanır. Adım hedefi `dailyStepGoal`.

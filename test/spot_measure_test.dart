@@ -153,12 +153,25 @@ void main() {
     final controller = DeviceController(device, store: MemoryHealthStore());
     await tester.pumpWidget(BileklikApp(controller: controller));
     await tester.pumpAndSettle();
-    // "Şimdi ölç" bağlı değilken pasif; hızlı işlemdeki "Nabız ölç" nedenini
-    // söyler.
+    // "Şimdi ölç" bağlı değilken pasif; Sağlık sekmesindeki SpO2 kartının
+    // "Ölçüm" düğmesi nedenini söyler.
     await tester.tap(find.text('Şimdi ölç'));
     await tester.pumpAndSettle();
     expect(find.text('Ne ölçmek istersiniz?'), findsNothing);
-    await tester.tap(find.text('Nabız ölç'));
+    await tester.tap(find.text('Sağlık'));
+    await tester.pumpAndSettle();
+    // Küçük test ekranında düğme alt menünün altında kalabilir; doğrudan
+    // basılır.
+    tester
+        .widget<ButtonStyleButton>(
+          find
+              .ancestor(
+                of: find.text('Ölçüm').first,
+                matching: find.byWidgetPredicate((w) => w is ButtonStyleButton),
+              )
+              .first,
+        )
+        .onPressed!();
     await tester.pumpAndSettle();
     expect(
       find.descendant(

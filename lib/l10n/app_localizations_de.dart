@@ -3240,4 +3240,99 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get healthEstimated => 'Geschätzt';
+
+  @override
+  String get homeLateNightTitle => 'Es ist spät, versuchen Sie sich auszuruhen';
+
+  @override
+  String get homeLateNightBody =>
+      'Früh zu ruhen ist wichtig dafür, wie Sie sich morgen fühlen. Legen Sie das Handy weg und entspannen Sie die Augen.';
+
+  @override
+  String get homeLowRecoveryTitle => 'Ihr Körper erholt sich heute';
+
+  @override
+  String get homeLowRecoveryBody =>
+      'Ihre nächtliche HRV ist niedriger als sonst. Wählen Sie leichte Bewegung und frühen Schlaf statt hartem Training.';
+
+  @override
+  String get homeSleepScore => 'Schlaf';
+
+  @override
+  String get homeDailyRecovery => 'Tägliche Erholung';
+
+  @override
+  String get homeDailyLoad => 'Tägliche Belastung';
+
+  @override
+  String homeGaugeSemantics(String label, String value) {
+    return '$label: $value';
+  }
+
+  @override
+  String get homeAiTitle => 'KI-Analyse von heute';
+
+  @override
+  String get homeAiBody =>
+      'Erstellen Sie aus den heutigen Daten eine persönliche Gesundheitsübersicht.';
+
+  @override
+  String get homeSleepExcellent => 'Ausgezeichnet';
+
+  @override
+  String get homeSleepGood => 'Gut';
+
+  @override
+  String get homeSleepFair => 'Ganz gut';
+
+  @override
+  String get homeSleepPoor => 'Schwach';
+
+  @override
+  String get homeSleepDuration => 'Dauer';
+
+  @override
+  String get homeActivity => 'Aktivität';
+
+  @override
+  String get homeActivityLow => 'Zu wenig Bewegung';
+
+  @override
+  String get homeActivityFair => 'Mäßige Bewegung';
+
+  @override
+  String get homeActivityGood => 'Gute Bewegung';
+
+  @override
+  String get homeActivityDone => 'Ziel erreicht';
+
+  @override
+  String get homeKilometers => 'Kilometer';
+
+  @override
+  String get homeFellAsleep => 'Eingeschlafen';
+
+  @override
+  String get homeFellAsleepSubtitle => 'Schlafbeginn';
+
+  @override
+  String get homeNightLowHrv => 'Niedrige HRV';
+
+  @override
+  String get homeNightHighHr => 'Hoher Puls im Schlaf';
+
+  @override
+  String get homeNightLowHr => 'Niedriger Puls im Schlaf';
+
+  @override
+  String get homeNightLowSpo2 => 'Abfall des Blutsauerstoffs';
+
+  @override
+  String get homeRestingLabel => 'Ruhepuls';
+
+  @override
+  String get homeAverageLabel => 'Durchschnitt';
+
+  @override
+  String get homeLowestLabel => 'Niedrigster';
 }
