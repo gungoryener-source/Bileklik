@@ -67,8 +67,14 @@ class DeviceLog extends ChangeNotifier {
   void event(String text) => add(LogKind.event, text);
   void error(String text) => add(LogKind.error, text);
 
+  /// Kaydı siler ve yerine bir ayraç satırı koyar; bileklik bağlıyken
+  /// yeni paketler hemen gelmeye devam eder.
   void clear() {
-    _entries.clear();
+    _entries
+      ..clear()
+      ..add(
+        LogEntry(DateTime.now(), LogKind.event, '--- kayıt temizlendi ---'),
+      );
     _notify?.cancel();
     _notify = null;
     notifyListeners();

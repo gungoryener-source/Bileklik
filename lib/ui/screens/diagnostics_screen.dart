@@ -129,7 +129,11 @@ class _DiagnosticsScreenState extends State<DiagnosticsScreen> {
           IconButton(
             tooltip: l.diagClear,
             icon: const Icon(Icons.delete_sweep_outlined),
-            onPressed: c.log.clear,
+            onPressed: () {
+              c.log.clear();
+              ScaffoldMessenger.of(context)
+                  .showSnackBar(SnackBar(content: Text(l.diagCleared)));
+            },
           ),
         ],
       ),

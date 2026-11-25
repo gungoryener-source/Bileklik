@@ -609,18 +609,32 @@ class DeviceController extends ChangeNotifier {
   }
 
   /// EKG ölçümünü başlatır. Bileklik [seconds] boyunca ham veri gönderir.
-  Future<bool> startEcg({int seconds = 30}) async {
+  /// EKG ölçümünü başlatır.
+  ///
+  /// Bileklik parmak elektroda değince veri göndermeye başlar (üreticinin
+  /// uygulaması bu süreye "kalibrasyon" diyor). Sayaç ilk örnek gelince
+  /// başlar; [waitForSignal] içinde hiç veri gelmezse ölçüm "sinyal yok"
+  /// ile biter. [invert]: bileklik sağ bilekteyse dalga ters çıkar
+  /// (I. derivasyon), çizim ve kayıt için çevrilir (gerçek cihazda
+  /// doğrulanacak).
+  Future<bool> startEcg({
+    int seconds = 30,
+    bool invert = false,
+    Duration waitForSignal = const Duration(seconds: 60),
+  }) async {
     if (ecg != null) return true;
     error = null;
     lastEcg = null;
-    final session = EcgSession(DateTime.now(), seconds);
+    final session = EcgSession(DateTime.now(), seconds, invert: invert);
     ecg = session;
     notifyListeners();
     try {
       await _client.startEcg(seconds: seconds);
-      // Paketler gelmezse ölçüm süresi ve 10 sn pay sonunda bitir.
-      session.watchdog = Timer(Duration(seconds: seconds + 10), () {
-        if (ecg == session) _completeEcg(session);
+      session.watchdog = Timer(waitForSignal, () {
+        if (ecg == session && session.samples.isEmpty) {
+          log.error('EKG: ${waitForSignal.inSeconds} sn içinde veri gelmedi');
+          _completeEcg(session);
+        }
       });
     } catch (e) {
       error = e.toString();
@@ -645,7 +659,20 @@ class DeviceController extends ChangeNotifier {
   void _onEcg(EcgPacket p) {
     final session = ecg;
     if (session == null) return;
-    session.samples.addAll(p.samples);
+    final now = DateTime.now();
+    if (session.firstSample == null) {
+      session.firstSample = now;
+      log.event('EKG: ilk veri geldi (${p.samples.length} örnek/paket)');
+    }
+    session.samples.addAll(
+      session.invert ? [for (final v in p.samples) -v] : p.samples,
+    );
+    session.updateRate(now);
+    // Paketler kesilirse (parmak kalktı, ölçüm bitti) beklemeden bitir.
+    session.watchdog?.cancel();
+    session.watchdog = Timer(const Duration(seconds: 5), () {
+      if (ecg == session) _completeEcg(session);
+    });
     if (session.samples.length >= session.target) {
       _completeEcg(session);
     } else {
@@ -659,11 +686,15 @@ class DeviceController extends ChangeNotifier {
     final samples = session.samples.length > session.target
         ? session.samples.sublist(0, session.target)
         : session.samples;
-    if (samples.length >= ecgSampleRate * 5) {
-      final s = EcgSummary.analyze(samples, ecgSampleRate);
+    final rate = session.rate;
+    if (samples.isNotEmpty) {
+      log.event('EKG bitti: ${samples.length} örnek, $rate Hz');
+    }
+    if (samples.length >= rate * 5) {
+      final s = EcgSummary.analyze(samples, rate);
       final r = EcgRecording(
-        start: session.start,
-        sampleRate: ecgSampleRate,
+        start: session.firstSample ?? session.start,
+        sampleRate: rate,
         samples: List.unmodifiable(samples),
         averageHeartRate: s.averageHeartRate,
         minHeartRate: s.minHeartRate,
@@ -793,17 +824,47 @@ class ActiveExercise {
 
 /// Süren EKG ölçümü.
 class EcgSession {
-  EcgSession(this.start, this.seconds);
+  EcgSession(this.start, this.seconds, {this.invert = false});
 
   final DateTime start;
   final int seconds;
+  final bool invert;
   final samples = <int>[];
   Timer? watchdog;
 
-  int get target => seconds * ecgSampleRate;
+  /// İlk örneğin geldiği an; o zamana kadar bileklik "kalibrasyon" yapar.
+  DateTime? firstSample;
+
+  /// Örnekleme hızı. Belgede yok; 250 Hz ile başlanır, 3 sn veri gelince
+  /// gelen örnek sayısından ölçülüp yaygın bir değere yuvarlanır.
+  int rate = ecgSampleRate;
+
+  bool get waiting => firstSample == null;
+  int get target => seconds * rate;
   double get progress => (samples.length / target).clamp(0, 1);
   Duration get remaining =>
-      Duration(seconds: seconds - samples.length ~/ ecgSampleRate);
+      Duration(seconds: (seconds - samples.length ~/ rate).clamp(0, seconds));
+
+  static const _commonRates = [100, 125, 128, 200, 250, 256, 300, 500, 512];
+
+  void updateRate(DateTime now) {
+    final first = firstSample;
+    if (first == null) return;
+    final ms = now.difference(first).inMilliseconds;
+    if (ms < 3000) return;
+    rate = snapSampleRate(samples.length * 1000 / ms);
+  }
+
+  /// Ölçülen hızı en yakın yaygın değere yuvarlar (%15 içindeyse).
+  static int snapSampleRate(double measured) {
+    var best = _commonRates.first;
+    for (final r in _commonRates) {
+      if ((r - measured).abs() < (best - measured).abs()) best = r;
+    }
+    return (best - measured).abs() <= best * 0.15
+        ? best
+        : measured.round().clamp(50, 2000);
+  }
 }
 
 /// Süren elle nabız ya da SpO2 ölçümü. Bileklik saniyede bir anlık veri

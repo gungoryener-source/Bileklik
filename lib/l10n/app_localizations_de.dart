@@ -3069,4 +3069,80 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get startupFailedCopy => 'Fehler kopieren';
+
+  @override
+  String get ecgPrepareTitle => 'EKG-Messung';
+
+  @override
+  String get ecgHandQuestion => 'An welchem Handgelenk tragen Sie das Armband?';
+
+  @override
+  String get ecgHandLeft => 'Linke Hand';
+
+  @override
+  String get ecgHandRight => 'Rechte Hand';
+
+  @override
+  String get ecgWearTip =>
+      'Tragen Sie das Armband für beste Ergebnisse etwa einen Finger breit über dem Handgelenkknochen mit vollem Hautkontakt. Halten Sie die Hand während der Messung locker und ruhig.';
+
+  @override
+  String get ecgStartMeasure => 'Messung starten';
+
+  @override
+  String get ecgTip1Title => 'Setzen Sie sich, Füße flach auf den Boden';
+
+  @override
+  String get ecgTip1Body =>
+      'Aufrechtes Sitzen verringert den Einfluss der Haltung.';
+
+  @override
+  String get ecgTip2Title => 'Legen Sie die Arme auf einen Tisch';
+
+  @override
+  String get ecgTip2Body =>
+      'Arme locker lassen; Muskelspannung stört das Signal.';
+
+  @override
+  String get ecgTip3Title => 'Nicht sprechen, nicht bewegen';
+
+  @override
+  String get ecgTip3Body => 'Das Signal wird klarer und stabiler.';
+
+  @override
+  String get ecgTip4Title =>
+      'Legen Sie einen Finger der anderen Hand auf den Metallkontakt des Armbands';
+
+  @override
+  String get ecgTip4Body =>
+      'Leichtes Berühren genügt; nicht drücken und bis zum Ende warten.';
+
+  @override
+  String get ecgWaitingTitle => 'Finger auf den Metallkontakt legen';
+
+  @override
+  String get ecgWaitingBody =>
+      'Der Countdown startet von selbst, sobald das Armband ein Signal erkennt.';
+
+  @override
+  String ecgWaitingElapsed(int seconds) {
+    return 'Warte auf Signal · $seconds s';
+  }
+
+  @override
+  String get ecgNoSignalYetTitle => 'Noch kein Signal';
+
+  @override
+  String get ecgNoSignalYetBody =>
+      'Achten Sie auf Hautkontakt des Armbands und darauf, dass Ihr Finger den Metallkontakt berührt. Wenn es so bleibt, senden Sie uns das Verbindungsprotokoll.';
+
+  @override
+  String get ecgSecondsUnit => 's';
+
+  @override
+  String get ecgLiveDisclaimer =>
+      'Die Live-Kurve dient nur der Information, nicht der Diagnose. Nach der Messung öffnet sich ein ausführlicher Bericht.';
+
+  @override
+  String get diagCleared => 'Protokoll geleert. Neue Pakete kommen weiter an.';
 }

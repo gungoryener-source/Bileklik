@@ -3061,4 +3061,80 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get startupFailedCopy => 'Copy error';
+
+  @override
+  String get ecgPrepareTitle => 'ECG measurement';
+
+  @override
+  String get ecgHandQuestion => 'Which wrist is the band on?';
+
+  @override
+  String get ecgHandLeft => 'Left hand';
+
+  @override
+  String get ecgHandRight => 'Right hand';
+
+  @override
+  String get ecgWearTip =>
+      'For best results, wear the band about one finger above the wrist bone with full skin contact. Keep your hand relaxed and still during the measurement.';
+
+  @override
+  String get ecgStartMeasure => 'Start measurement';
+
+  @override
+  String get ecgTip1Title => 'Sit down with your feet flat on the floor';
+
+  @override
+  String get ecgTip1Body =>
+      'Sitting upright keeps posture from affecting the reading.';
+
+  @override
+  String get ecgTip2Title => 'Rest your arms on a table';
+
+  @override
+  String get ecgTip2Body =>
+      'Keep your arms relaxed; muscle tension disturbs the signal.';
+
+  @override
+  String get ecgTip3Title => 'Don\'t talk or move';
+
+  @override
+  String get ecgTip3Body => 'The signal will be clearer and steadier.';
+
+  @override
+  String get ecgTip4Title =>
+      'Place a finger of your other hand on the band\'s metal contact';
+
+  @override
+  String get ecgTip4Body =>
+      'A light touch is enough; don\'t press, and wait until the measurement ends.';
+
+  @override
+  String get ecgWaitingTitle => 'Place your finger on the metal contact';
+
+  @override
+  String get ecgWaitingBody =>
+      'The countdown starts by itself once the band detects a signal.';
+
+  @override
+  String ecgWaitingElapsed(int seconds) {
+    return 'Waiting for signal · $seconds s';
+  }
+
+  @override
+  String get ecgNoSignalYetTitle => 'No signal yet';
+
+  @override
+  String get ecgNoSignalYetBody =>
+      'Make sure the band touches your skin and your finger touches the metal contact. If it keeps happening, send us the connection log.';
+
+  @override
+  String get ecgSecondsUnit => 's';
+
+  @override
+  String get ecgLiveDisclaimer =>
+      'The live wave is for information only, not for diagnosis. A detailed record opens when the measurement ends.';
+
+  @override
+  String get diagCleared => 'Log cleared. New packets keep arriving.';
 }

@@ -1577,5 +1577,34 @@
   },
   "startupFailedTitle": "Uygulama başlatılamadı",
   "startupFailedBody": "Açılırken bir hata oluştu. Aşağıdaki metni kopyalayıp bize gönderin; düzeltip yeni sürüm çıkaracağız.",
-  "startupFailedCopy": "Hatayı kopyala"
+  "startupFailedCopy": "Hatayı kopyala",
+  "ecgPrepareTitle": "EKG ölçümü",
+  "ecgHandQuestion": "Bileklik hangi bileğinizde?",
+  "ecgHandLeft": "Sol el",
+  "ecgHandRight": "Sağ el",
+  "ecgWearTip": "En iyi sonuç için bilekliği bilek kemiğinin yaklaşık bir parmak üstüne takın ve ciltle tam temas ettiğinden emin olun. Ölçüm sırasında elinizi gevşek ve hareketsiz tutun.",
+  "ecgStartMeasure": "Ölçümü başlat",
+  "ecgTip1Title": "Oturun, ayaklarınızı yere düz basın",
+  "ecgTip1Body": "Dik oturmak duruşun ölçümü etkilemesini azaltır.",
+  "ecgTip2Title": "Kollarınızı masaya koyun",
+  "ecgTip2Body": "Kollarınız gevşek olsun; kas gerginliği sinyali bozar.",
+  "ecgTip3Title": "Konuşmayın, hareket etmeyin",
+  "ecgTip3Body": "Sinyal daha net ve kararlı olur.",
+  "ecgTip4Title": "Diğer elinizin parmağını bilekliğin metal temas noktasına koyun",
+  "ecgTip4Body": "Hafifçe dokunmanız yeterli; bastırmayın ve ölçüm bitene kadar bekleyin.",
+  "ecgWaitingTitle": "Parmağınızı metal temas noktasına koyun",
+  "ecgWaitingBody": "Bileklik sinyali algılayınca sayaç kendiliğinden başlar.",
+  "ecgWaitingElapsed": "Sinyal bekleniyor · {seconds} sn",
+  "@ecgWaitingElapsed": {
+    "placeholders": {
+      "seconds": {
+        "type": "int"
+      }
+    }
+  },
+  "ecgNoSignalYetTitle": "Sinyal henüz gelmedi",
+  "ecgNoSignalYetBody": "Bilekliğin cildinize tam değdiğinden ve parmağınızın metal noktaya dokunduğundan emin olun. Sorun sürerse bağlantı kaydını bize gönderin.",
+  "ecgSecondsUnit": "sn",
+  "ecgLiveDisclaimer": "Canlı dalga yalnızca bilgi içindir, tanı için kullanılmaz. Ölçüm bitince ayrıntılı kayıt açılır.",
+  "diagCleared": "Kayıt temizlendi. Yeni paketler gelmeye devam eder."
 }

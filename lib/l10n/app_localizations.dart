@@ -5115,6 +5115,138 @@ abstract class AppLocalizations {
   /// In tr, this message translates to:
   /// **'Hatayı kopyala'**
   String get startupFailedCopy;
+
+  /// No description provided for @ecgPrepareTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'EKG ölçümü'**
+  String get ecgPrepareTitle;
+
+  /// No description provided for @ecgHandQuestion.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bileklik hangi bileğinizde?'**
+  String get ecgHandQuestion;
+
+  /// No description provided for @ecgHandLeft.
+  ///
+  /// In tr, this message translates to:
+  /// **'Sol el'**
+  String get ecgHandLeft;
+
+  /// No description provided for @ecgHandRight.
+  ///
+  /// In tr, this message translates to:
+  /// **'Sağ el'**
+  String get ecgHandRight;
+
+  /// No description provided for @ecgWearTip.
+  ///
+  /// In tr, this message translates to:
+  /// **'En iyi sonuç için bilekliği bilek kemiğinin yaklaşık bir parmak üstüne takın ve ciltle tam temas ettiğinden emin olun. Ölçüm sırasında elinizi gevşek ve hareketsiz tutun.'**
+  String get ecgWearTip;
+
+  /// No description provided for @ecgStartMeasure.
+  ///
+  /// In tr, this message translates to:
+  /// **'Ölçümü başlat'**
+  String get ecgStartMeasure;
+
+  /// No description provided for @ecgTip1Title.
+  ///
+  /// In tr, this message translates to:
+  /// **'Oturun, ayaklarınızı yere düz basın'**
+  String get ecgTip1Title;
+
+  /// No description provided for @ecgTip1Body.
+  ///
+  /// In tr, this message translates to:
+  /// **'Dik oturmak duruşun ölçümü etkilemesini azaltır.'**
+  String get ecgTip1Body;
+
+  /// No description provided for @ecgTip2Title.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kollarınızı masaya koyun'**
+  String get ecgTip2Title;
+
+  /// No description provided for @ecgTip2Body.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kollarınız gevşek olsun; kas gerginliği sinyali bozar.'**
+  String get ecgTip2Body;
+
+  /// No description provided for @ecgTip3Title.
+  ///
+  /// In tr, this message translates to:
+  /// **'Konuşmayın, hareket etmeyin'**
+  String get ecgTip3Title;
+
+  /// No description provided for @ecgTip3Body.
+  ///
+  /// In tr, this message translates to:
+  /// **'Sinyal daha net ve kararlı olur.'**
+  String get ecgTip3Body;
+
+  /// No description provided for @ecgTip4Title.
+  ///
+  /// In tr, this message translates to:
+  /// **'Diğer elinizin parmağını bilekliğin metal temas noktasına koyun'**
+  String get ecgTip4Title;
+
+  /// No description provided for @ecgTip4Body.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hafifçe dokunmanız yeterli; bastırmayın ve ölçüm bitene kadar bekleyin.'**
+  String get ecgTip4Body;
+
+  /// No description provided for @ecgWaitingTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Parmağınızı metal temas noktasına koyun'**
+  String get ecgWaitingTitle;
+
+  /// No description provided for @ecgWaitingBody.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bileklik sinyali algılayınca sayaç kendiliğinden başlar.'**
+  String get ecgWaitingBody;
+
+  /// No description provided for @ecgWaitingElapsed.
+  ///
+  /// In tr, this message translates to:
+  /// **'Sinyal bekleniyor · {seconds} sn'**
+  String ecgWaitingElapsed(int seconds);
+
+  /// No description provided for @ecgNoSignalYetTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Sinyal henüz gelmedi'**
+  String get ecgNoSignalYetTitle;
+
+  /// No description provided for @ecgNoSignalYetBody.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bilekliğin cildinize tam değdiğinden ve parmağınızın metal noktaya dokunduğundan emin olun. Sorun sürerse bağlantı kaydını bize gönderin.'**
+  String get ecgNoSignalYetBody;
+
+  /// No description provided for @ecgSecondsUnit.
+  ///
+  /// In tr, this message translates to:
+  /// **'sn'**
+  String get ecgSecondsUnit;
+
+  /// No description provided for @ecgLiveDisclaimer.
+  ///
+  /// In tr, this message translates to:
+  /// **'Canlı dalga yalnızca bilgi içindir, tanı için kullanılmaz. Ölçüm bitince ayrıntılı kayıt açılır.'**
+  String get ecgLiveDisclaimer;
+
+  /// No description provided for @diagCleared.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kayıt temizlendi. Yeni paketler gelmeye devam eder.'**
+  String get diagCleared;
 }
 
 class _AppLocalizationsDelegate

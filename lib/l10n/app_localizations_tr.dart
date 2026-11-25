@@ -2998,4 +2998,80 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get startupFailedCopy => 'Hatayı kopyala';
+
+  @override
+  String get ecgPrepareTitle => 'EKG ölçümü';
+
+  @override
+  String get ecgHandQuestion => 'Bileklik hangi bileğinizde?';
+
+  @override
+  String get ecgHandLeft => 'Sol el';
+
+  @override
+  String get ecgHandRight => 'Sağ el';
+
+  @override
+  String get ecgWearTip =>
+      'En iyi sonuç için bilekliği bilek kemiğinin yaklaşık bir parmak üstüne takın ve ciltle tam temas ettiğinden emin olun. Ölçüm sırasında elinizi gevşek ve hareketsiz tutun.';
+
+  @override
+  String get ecgStartMeasure => 'Ölçümü başlat';
+
+  @override
+  String get ecgTip1Title => 'Oturun, ayaklarınızı yere düz basın';
+
+  @override
+  String get ecgTip1Body => 'Dik oturmak duruşun ölçümü etkilemesini azaltır.';
+
+  @override
+  String get ecgTip2Title => 'Kollarınızı masaya koyun';
+
+  @override
+  String get ecgTip2Body =>
+      'Kollarınız gevşek olsun; kas gerginliği sinyali bozar.';
+
+  @override
+  String get ecgTip3Title => 'Konuşmayın, hareket etmeyin';
+
+  @override
+  String get ecgTip3Body => 'Sinyal daha net ve kararlı olur.';
+
+  @override
+  String get ecgTip4Title =>
+      'Diğer elinizin parmağını bilekliğin metal temas noktasına koyun';
+
+  @override
+  String get ecgTip4Body =>
+      'Hafifçe dokunmanız yeterli; bastırmayın ve ölçüm bitene kadar bekleyin.';
+
+  @override
+  String get ecgWaitingTitle => 'Parmağınızı metal temas noktasına koyun';
+
+  @override
+  String get ecgWaitingBody =>
+      'Bileklik sinyali algılayınca sayaç kendiliğinden başlar.';
+
+  @override
+  String ecgWaitingElapsed(int seconds) {
+    return 'Sinyal bekleniyor · $seconds sn';
+  }
+
+  @override
+  String get ecgNoSignalYetTitle => 'Sinyal henüz gelmedi';
+
+  @override
+  String get ecgNoSignalYetBody =>
+      'Bilekliğin cildinize tam değdiğinden ve parmağınızın metal noktaya dokunduğundan emin olun. Sorun sürerse bağlantı kaydını bize gönderin.';
+
+  @override
+  String get ecgSecondsUnit => 'sn';
+
+  @override
+  String get ecgLiveDisclaimer =>
+      'Canlı dalga yalnızca bilgi içindir, tanı için kullanılmaz. Ölçüm bitince ayrıntılı kayıt açılır.';
+
+  @override
+  String get diagCleared =>
+      'Kayıt temizlendi. Yeni paketler gelmeye devam eder.';
 }

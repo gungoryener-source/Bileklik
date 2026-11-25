@@ -42,10 +42,17 @@ class EcgPacket {
   final List<int> samples;
   const EcgPacket(this.sequence, this.samples);
 
-  /// 0x07 komutunun 16 baytlık yanıtı (2 + 14 bayt) 3'e bölünmez; veri
-  /// paketlerinde komut ve sıra baytından sonrası hep 3'ün katıdır.
-  static bool isData(List<int> raw) =>
-      raw.length > 2 && raw[0] == EcgCmd.raw && (raw.length - 2) % 3 == 0;
+  /// 0x07 ile başlayan ve CRC'si tutan 16 baytlık paket komut yanıtıdır;
+  /// gerisi veridir. Veri paketinin boyu bilekliğin paket boyuna ve MTU'ya
+  /// göre değişebilir; sondaki 3'e tamamlanmayan baytlar atılır (gerçek
+  /// cihazda doğrulanacak).
+  static bool isData(List<int> raw) {
+    if (raw.length < 5 || raw[0] != EcgCmd.raw) return false;
+    if (raw.length == Packet.length && Packet.crc(raw) == raw[15]) {
+      return false;
+    }
+    return true;
+  }
 
   static EcgPacket parse(List<int> raw) => EcgPacket(raw[1], [
     for (var i = 2; i + 2 < raw.length; i += 3)

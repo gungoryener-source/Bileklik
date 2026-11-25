@@ -3037,4 +3037,78 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get startupFailedCopy => 'نسخ الخطأ';
+
+  @override
+  String get ecgPrepareTitle => 'قياس تخطيط القلب';
+
+  @override
+  String get ecgHandQuestion => 'على أي معصم السوار؟';
+
+  @override
+  String get ecgHandLeft => 'اليد اليسرى';
+
+  @override
+  String get ecgHandRight => 'اليد اليمنى';
+
+  @override
+  String get ecgWearTip =>
+      'للحصول على أفضل نتيجة، ارتدِ السوار فوق عظمة المعصم بمقدار إصبع تقريبًا مع تلامس كامل مع الجلد. أبقِ يدك مسترخية وثابتة أثناء القياس.';
+
+  @override
+  String get ecgStartMeasure => 'ابدأ القياس';
+
+  @override
+  String get ecgTip1Title => 'اجلس وضع قدميك مسطحتين على الأرض';
+
+  @override
+  String get ecgTip1Body => 'الجلوس باستقامة يقلل تأثير الوضعية على القياس.';
+
+  @override
+  String get ecgTip2Title => 'ضع ذراعيك على طاولة';
+
+  @override
+  String get ecgTip2Body =>
+      'أبقِ ذراعيك مسترخيتين؛ توتر العضلات يشوّش الإشارة.';
+
+  @override
+  String get ecgTip3Title => 'لا تتحدث ولا تتحرك';
+
+  @override
+  String get ecgTip3Body => 'تصبح الإشارة أوضح وأكثر ثباتًا.';
+
+  @override
+  String get ecgTip4Title =>
+      'ضع إصبعًا من يدك الأخرى على نقطة التلامس المعدنية في السوار';
+
+  @override
+  String get ecgTip4Body => 'تكفي لمسة خفيفة؛ لا تضغط وانتظر حتى ينتهي القياس.';
+
+  @override
+  String get ecgWaitingTitle => 'ضع إصبعك على نقطة التلامس المعدنية';
+
+  @override
+  String get ecgWaitingBody =>
+      'يبدأ العد التنازلي تلقائيًا عندما يلتقط السوار الإشارة.';
+
+  @override
+  String ecgWaitingElapsed(int seconds) {
+    return 'بانتظار الإشارة · $seconds ث';
+  }
+
+  @override
+  String get ecgNoSignalYetTitle => 'لا توجد إشارة بعد';
+
+  @override
+  String get ecgNoSignalYetBody =>
+      'تأكد من ملامسة السوار لجلدك ومن أن إصبعك يلمس النقطة المعدنية. إذا استمرت المشكلة فأرسل إلينا سجل الاتصال.';
+
+  @override
+  String get ecgSecondsUnit => 'ث';
+
+  @override
+  String get ecgLiveDisclaimer =>
+      'الموجة المباشرة للمعلومات فقط وليست للتشخيص. يُفتح سجل مفصل عند انتهاء القياس.';
+
+  @override
+  String get diagCleared => 'تم مسح السجل. تستمر الحزم الجديدة في الوصول.';
 }

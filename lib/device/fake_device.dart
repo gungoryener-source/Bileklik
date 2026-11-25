@@ -530,7 +530,9 @@ class FakeDevice implements DeviceTransport {
     final start = d[1] == 1;
     _ecgMode = start ? d[0] : 0;
     _reply(Packet.build(EcgCmd.measure, [d[0]]).bytes);
-    if (!start || d[0] != MeasureMode.ecg.code || !_ecgRaw) return;
+    if (!start || d[0] != MeasureMode.ecg.code || !_ecgRaw || ecgSilent) {
+      return;
+    }
 
     final seconds = max(30, d[3] | (d[4] << 8));
     final synth = EcgSynth(
@@ -612,6 +614,9 @@ class FakeDevice implements DeviceTransport {
     _connected = false;
     _state.add(DeviceConnectionState.disconnected);
   }
+
+  /// Doğruysa EKG başlatılır ama veri gelmez (parmak elektrotta değil).
+  bool ecgSilent = false;
 
   /// Sonraki [connect] çağrıları bu hatayla başarısız olur (null: başarılı).
   Object? connectError;
