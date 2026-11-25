@@ -3111,4 +3111,66 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get diagCleared => 'تم مسح السجل. تستمر الحزم الجديدة في الوصول.';
+
+  @override
+  String get ecgReportTitle => 'تقرير تخطيط القلب';
+
+  @override
+  String get ecgReportPickMonth => 'اختر شهرًا';
+
+  @override
+  String ecgReportMonthEmpty(String month) {
+    return 'لا توجد تسجيلات تخطيط قلب في $month.';
+  }
+
+  @override
+  String ecgReportMonthCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count تسجيلات',
+      one: 'تسجيل واحد',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String ecgReportWhen(String date, String time) {
+    return '$date، $time';
+  }
+
+  @override
+  String get ecgFindingNormalOk => 'لوحظ نظم قلب طبيعي';
+
+  @override
+  String get ecgFindingNormalFlagged => 'توجد ملاحظات غير طبيعية في النظم';
+
+  @override
+  String get ecgFindingHighOk => 'لم يُلاحظ ارتفاع في معدل القلب';
+
+  @override
+  String get ecgFindingHighFlagged =>
+      'لوحظ ارتفاع معدل القلب (أكثر من 100 نبضة/دقيقة)';
+
+  @override
+  String get ecgFindingLowOk => 'لم يُلاحظ انخفاض في معدل القلب';
+
+  @override
+  String get ecgFindingLowFlagged =>
+      'لوحظ انخفاض معدل القلب (أقل من 50 نبضة/دقيقة)';
+
+  @override
+  String get ecgFindingAfibOk => 'لم تُلاحظ علامات رجفان أذيني';
+
+  @override
+  String get ecgFindingAfibFlagged =>
+      'نظم غير منتظم: قد يكون رجفانًا أذينيًا، اعرض التسجيل على طبيبك';
+
+  @override
+  String get ecgFindingUnknown =>
+      'تعذّر تقييم التسجيل: عدد النبضات قليل أو الإشارة مشوشة';
+
+  @override
+  String get ecgReportNote =>
+      'النتائج تقييم أولي تلقائي من التطبيق وليست تشخيصًا.';
 }

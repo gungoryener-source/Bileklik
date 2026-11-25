@@ -10,6 +10,7 @@ import 'package:bileklik/main.dart';
 import 'package:bileklik/state/app_settings.dart';
 import 'package:bileklik/state/device_controller.dart';
 import 'package:bileklik/ui/screens/community_dialogs.dart';
+import 'package:bileklik/ui/screens/ecg_screen.dart';
 import 'package:bileklik/ui/screens/feedback_screen.dart';
 import 'package:bileklik/ui/screens/group_screen.dart';
 import 'package:bileklik/ui/screens/portal_account_screen.dart';
@@ -22,6 +23,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/testing.dart';
 import 'package:shelf/shelf.dart' as shelf;
+
+import 'ecg_report_test.dart' show recording;
 
 /// Ekran görüntüleri: yalnızca `EKRAN=1` ile çalışır.
 ///
@@ -151,6 +154,19 @@ void main() {
   testWidgets('ana sayfa', skip: !_enabled, (tester) async {
     await _app(tester, connect: true);
     await _shot(tester, '01-ana-sayfa');
+  });
+
+  testWidgets('EKG raporu', skip: !_enabled, (tester) async {
+    final c = await _app(tester);
+    c.store
+      ..addEcg(
+        recording(DateTime(2026, 11, 24, 21, 5), heartRate: 88, jitter: 0.3),
+      )
+      ..addEcg(recording(DateTime(2026, 11, 25, 18, 43)));
+    _push(tester, const EcgScreen());
+    await _shot(tester, 'ekg-raporu');
+    await tester.drag(find.byType(Scrollable).last, const Offset(0, -700));
+    await _shot(tester, 'ekg-raporu-2');
   });
 
   testWidgets('profil', skip: !_enabled, (tester) async {

@@ -3145,4 +3145,66 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get diagCleared => 'Protokoll geleert. Neue Pakete kommen weiter an.';
+
+  @override
+  String get ecgReportTitle => 'EKG-Bericht';
+
+  @override
+  String get ecgReportPickMonth => 'Monat wählen';
+
+  @override
+  String ecgReportMonthEmpty(String month) {
+    return 'Keine EKG-Aufnahmen im $month.';
+  }
+
+  @override
+  String ecgReportMonthCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count Aufnahmen',
+      one: '1 Aufnahme',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String ecgReportWhen(String date, String time) {
+    return '$date, $time';
+  }
+
+  @override
+  String get ecgFindingNormalOk => 'Normaler Herzrhythmus erkannt';
+
+  @override
+  String get ecgFindingNormalFlagged => 'Auffälligkeiten im Herzrhythmus';
+
+  @override
+  String get ecgFindingHighOk => 'Keine hohe Herzfrequenz erkannt';
+
+  @override
+  String get ecgFindingHighFlagged =>
+      'Hohe Herzfrequenz erkannt (über 100 bpm)';
+
+  @override
+  String get ecgFindingLowOk => 'Keine niedrige Herzfrequenz erkannt';
+
+  @override
+  String get ecgFindingLowFlagged =>
+      'Niedrige Herzfrequenz erkannt (unter 50 bpm)';
+
+  @override
+  String get ecgFindingAfibOk => 'Keine Anzeichen von Vorhofflimmern erkannt';
+
+  @override
+  String get ecgFindingAfibFlagged =>
+      'Unregelmäßiger Rhythmus: mögliches Vorhofflimmern, zeigen Sie die Aufnahme Ihrer Ärztin oder Ihrem Arzt';
+
+  @override
+  String get ecgFindingUnknown =>
+      'Aufnahme nicht auswertbar: zu wenige Schläge erkannt oder Signal gestört';
+
+  @override
+  String get ecgReportNote =>
+      'Die Befunde sind eine automatische Ersteinschätzung der App, keine Diagnose.';
 }

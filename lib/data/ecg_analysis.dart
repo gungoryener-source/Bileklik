@@ -91,3 +91,82 @@ List<int> detectRPeaks(List<int> samples, int sampleRate) {
   }
   return peaks;
 }
+
+/// Bir bulgunun sonucu: sorun yok, dikkat gerekiyor ya da kayıt yetersiz.
+enum FindingState { ok, flagged, unknown }
+
+/// EKG raporundaki dört bulgu: ritim, yüksek ve düşük kalp hızı, atriyal
+/// fibrilasyon belirtisi.
+///
+/// Uygulamanın otomatik ön değerlendirmesidir, tanı değildir. Eşikler
+/// yaygın tarama ölçütlerinden alındı; klinik doğrulaması yapılmadı ve
+/// gerçek cihaz kayıtlarıyla ayarlanacak.
+class EcgFindings {
+  const EcgFindings({
+    required this.normalRhythm,
+    required this.highRate,
+    required this.lowRate,
+    required this.afib,
+  });
+
+  /// Düzenli ve 50-100 bpm aralığında ritim.
+  final FindingState normalRhythm;
+
+  /// Ortalama nabız 100 bpm üstü (taşikardi).
+  final FindingState highRate;
+
+  /// Ortalama nabız 50 bpm altı (bradikardi).
+  final FindingState lowRate;
+
+  /// Atımlar arası süreler belirgin düzensiz.
+  final FindingState afib;
+
+  static const highBpm = 100;
+  static const lowBpm = 50;
+
+  /// Değerlendirme için gereken en az atım aralığı.
+  static const minIntervals = 5;
+
+  bool get assessable => normalRhythm != FindingState.unknown;
+
+  static const _unknown = EcgFindings(
+    normalRhythm: FindingState.unknown,
+    highRate: FindingState.unknown,
+    lowRate: FindingState.unknown,
+    afib: FindingState.unknown,
+  );
+
+  static EcgFindings of(EcgSummary s) {
+    final rr = s.rrMs;
+    final avg = s.averageHeartRate;
+    if (rr.length < minIntervals || avg == null) return _unknown;
+    final high = avg > highBpm;
+    final low = avg < lowBpm;
+    final irregular = isIrregular(rr);
+    FindingState flag(bool v) => v ? FindingState.flagged : FindingState.ok;
+    return EcgFindings(
+      normalRhythm: flag(high || low || irregular),
+      highRate: flag(high),
+      lowRate: flag(low),
+      afib: flag(irregular),
+    );
+  }
+
+  /// Ardışık farkların kareli ortalamasının kökü ortalama aralığa
+  /// bölünür (nRMSSD) ve değişkenlik katsayısıyla birlikte bakılır. İkisi
+  /// de yüksekse ritim "düzensiz" sayılır. Tek bir erken atım ortalamayı
+  /// fazla oynatmasın diye en uç fark atılır.
+  static bool isIrregular(List<double> rr) {
+    if (rr.length < 8) return false;
+    final mean = rr.reduce((a, b) => a + b) / rr.length;
+    final diffs = [
+      for (var i = 1; i < rr.length; i++) (rr[i] - rr[i - 1]).abs(),
+    ]..sort();
+    diffs.removeLast();
+    final rmssd = sqrt(diffs.fold(0.0, (s, d) => s + d * d) / diffs.length);
+    final sd = sqrt(
+      rr.fold(0.0, (s, x) => s + (x - mean) * (x - mean)) / (rr.length - 1),
+    );
+    return rmssd / mean > 0.12 && sd / mean > 0.1;
+  }
+}

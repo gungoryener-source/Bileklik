@@ -3074,4 +3074,64 @@ class AppLocalizationsTr extends AppLocalizations {
   @override
   String get diagCleared =>
       'Kayıt temizlendi. Yeni paketler gelmeye devam eder.';
+
+  @override
+  String get ecgReportTitle => 'EKG raporu';
+
+  @override
+  String get ecgReportPickMonth => 'Ay seçin';
+
+  @override
+  String ecgReportMonthEmpty(String month) {
+    return '$month ayında EKG kaydı yok.';
+  }
+
+  @override
+  String ecgReportMonthCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count kayıt',
+      one: '1 kayıt',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String ecgReportWhen(String date, String time) {
+    return '$date, $time';
+  }
+
+  @override
+  String get ecgFindingNormalOk => 'Normal kalp ritmi görüldü';
+
+  @override
+  String get ecgFindingNormalFlagged => 'Ritimde normal dışı bulgu var';
+
+  @override
+  String get ecgFindingHighOk => 'Yüksek kalp hızı görülmedi';
+
+  @override
+  String get ecgFindingHighFlagged => 'Yüksek kalp hızı görüldü (100 bpm üstü)';
+
+  @override
+  String get ecgFindingLowOk => 'Düşük kalp hızı görülmedi';
+
+  @override
+  String get ecgFindingLowFlagged => 'Düşük kalp hızı görüldü (50 bpm altı)';
+
+  @override
+  String get ecgFindingAfibOk => 'Atriyal fibrilasyon belirtisi görülmedi';
+
+  @override
+  String get ecgFindingAfibFlagged =>
+      'Düzensiz ritim: atriyal fibrilasyon olabilir, kaydı hekiminize gösterin';
+
+  @override
+  String get ecgFindingUnknown =>
+      'Kayıt değerlendirilemedi: yeterli atım bulunamadı ya da sinyal gürültülü';
+
+  @override
+  String get ecgReportNote =>
+      'Bulgular uygulamanın otomatik ön değerlendirmesidir, tanı değildir.';
 }

@@ -68,6 +68,10 @@ UI (lib/ui)  ->  DeviceController (lib/state)  ->  WristbandClient  ->  DeviceTr
   çevirir (Observation + LOINC/UCUM, EKG için SampledData). Hasta kaynağı takma
   kimliklidir (`AppSettings.patientId`), ad ya da TC kimlik yazılmaz.
 
+- EKG raporu (`EcgScreen`) aylara göre kayıtları ve `EcgFindings`
+  (`lib/data/ecg_analysis.dart`) bulgularını gösterir: ritim, yüksek/düşük
+  kalp hızı, AF belirtisi. Ön değerlendirmedir, tanı değildir; eşikler
+  gerçek kayıtlarla ayarlanacak.
 - HRV ayrıntısı ve VO2 Max `lib/data/hrv_analysis.dart` (0x63 PPI'dan);
   enerji skoru, haftalık rapor ve rozetler `lib/data/progress.dart`. Rozetler
   saklanmaz, her açılışta geçmişten hesaplanır. Adım hedefi `dailyStepGoal`.

@@ -856,5 +856,20 @@
   "ecgNoSignalYetBody": "Make sure the band touches your skin and your finger touches the metal contact. If it keeps happening, send us the connection log.",
   "ecgSecondsUnit": "s",
   "ecgLiveDisclaimer": "The live wave is for information only, not for diagnosis. A detailed record opens when the measurement ends.",
-  "diagCleared": "Log cleared. New packets keep arriving."
+  "diagCleared": "Log cleared. New packets keep arriving.",
+  "ecgReportTitle": "ECG report",
+  "ecgReportPickMonth": "Choose a month",
+  "ecgReportMonthEmpty": "No ECG recordings in {month}.",
+  "ecgReportMonthCount": "{count, plural, =1{1 recording} other{{count} recordings}}",
+  "ecgReportWhen": "{date}, {time}",
+  "ecgFindingNormalOk": "Normal heart rhythm seen",
+  "ecgFindingNormalFlagged": "Rhythm shows findings outside normal",
+  "ecgFindingHighOk": "No high heart rate seen",
+  "ecgFindingHighFlagged": "High heart rate seen (over 100 bpm)",
+  "ecgFindingLowOk": "No low heart rate seen",
+  "ecgFindingLowFlagged": "Low heart rate seen (under 50 bpm)",
+  "ecgFindingAfibOk": "No signs of atrial fibrillation seen",
+  "ecgFindingAfibFlagged": "Irregular rhythm: possible atrial fibrillation, show this recording to your doctor",
+  "ecgFindingUnknown": "Recording could not be assessed: too few beats found or the signal was noisy",
+  "ecgReportNote": "Findings are the app's automatic preliminary assessment, not a diagnosis."
 }

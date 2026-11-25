@@ -856,5 +856,20 @@
   "ecgNoSignalYetBody": "Achten Sie auf Hautkontakt des Armbands und darauf, dass Ihr Finger den Metallkontakt berührt. Wenn es so bleibt, senden Sie uns das Verbindungsprotokoll.",
   "ecgSecondsUnit": "s",
   "ecgLiveDisclaimer": "Die Live-Kurve dient nur der Information, nicht der Diagnose. Nach der Messung öffnet sich ein ausführlicher Bericht.",
-  "diagCleared": "Protokoll geleert. Neue Pakete kommen weiter an."
+  "diagCleared": "Protokoll geleert. Neue Pakete kommen weiter an.",
+  "ecgReportTitle": "EKG-Bericht",
+  "ecgReportPickMonth": "Monat wählen",
+  "ecgReportMonthEmpty": "Keine EKG-Aufnahmen im {month}.",
+  "ecgReportMonthCount": "{count, plural, =1{1 Aufnahme} other{{count} Aufnahmen}}",
+  "ecgReportWhen": "{date}, {time}",
+  "ecgFindingNormalOk": "Normaler Herzrhythmus erkannt",
+  "ecgFindingNormalFlagged": "Auffälligkeiten im Herzrhythmus",
+  "ecgFindingHighOk": "Keine hohe Herzfrequenz erkannt",
+  "ecgFindingHighFlagged": "Hohe Herzfrequenz erkannt (über 100 bpm)",
+  "ecgFindingLowOk": "Keine niedrige Herzfrequenz erkannt",
+  "ecgFindingLowFlagged": "Niedrige Herzfrequenz erkannt (unter 50 bpm)",
+  "ecgFindingAfibOk": "Keine Anzeichen von Vorhofflimmern erkannt",
+  "ecgFindingAfibFlagged": "Unregelmäßiger Rhythmus: mögliches Vorhofflimmern, zeigen Sie die Aufnahme Ihrer Ärztin oder Ihrem Arzt",
+  "ecgFindingUnknown": "Aufnahme nicht auswertbar: zu wenige Schläge erkannt oder Signal gestört",
+  "ecgReportNote": "Die Befunde sind eine automatische Ersteinschätzung der App, keine Diagnose."
 }

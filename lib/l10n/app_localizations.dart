@@ -5247,6 +5247,96 @@ abstract class AppLocalizations {
   /// In tr, this message translates to:
   /// **'Kayıt temizlendi. Yeni paketler gelmeye devam eder.'**
   String get diagCleared;
+
+  /// No description provided for @ecgReportTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'EKG raporu'**
+  String get ecgReportTitle;
+
+  /// No description provided for @ecgReportPickMonth.
+  ///
+  /// In tr, this message translates to:
+  /// **'Ay seçin'**
+  String get ecgReportPickMonth;
+
+  /// No description provided for @ecgReportMonthEmpty.
+  ///
+  /// In tr, this message translates to:
+  /// **'{month} ayında EKG kaydı yok.'**
+  String ecgReportMonthEmpty(String month);
+
+  /// No description provided for @ecgReportMonthCount.
+  ///
+  /// In tr, this message translates to:
+  /// **'{count, plural, =1{1 kayıt} other{{count} kayıt}}'**
+  String ecgReportMonthCount(int count);
+
+  /// No description provided for @ecgReportWhen.
+  ///
+  /// In tr, this message translates to:
+  /// **'{date}, {time}'**
+  String ecgReportWhen(String date, String time);
+
+  /// No description provided for @ecgFindingNormalOk.
+  ///
+  /// In tr, this message translates to:
+  /// **'Normal kalp ritmi görüldü'**
+  String get ecgFindingNormalOk;
+
+  /// No description provided for @ecgFindingNormalFlagged.
+  ///
+  /// In tr, this message translates to:
+  /// **'Ritimde normal dışı bulgu var'**
+  String get ecgFindingNormalFlagged;
+
+  /// No description provided for @ecgFindingHighOk.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yüksek kalp hızı görülmedi'**
+  String get ecgFindingHighOk;
+
+  /// No description provided for @ecgFindingHighFlagged.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yüksek kalp hızı görüldü (100 bpm üstü)'**
+  String get ecgFindingHighFlagged;
+
+  /// No description provided for @ecgFindingLowOk.
+  ///
+  /// In tr, this message translates to:
+  /// **'Düşük kalp hızı görülmedi'**
+  String get ecgFindingLowOk;
+
+  /// No description provided for @ecgFindingLowFlagged.
+  ///
+  /// In tr, this message translates to:
+  /// **'Düşük kalp hızı görüldü (50 bpm altı)'**
+  String get ecgFindingLowFlagged;
+
+  /// No description provided for @ecgFindingAfibOk.
+  ///
+  /// In tr, this message translates to:
+  /// **'Atriyal fibrilasyon belirtisi görülmedi'**
+  String get ecgFindingAfibOk;
+
+  /// No description provided for @ecgFindingAfibFlagged.
+  ///
+  /// In tr, this message translates to:
+  /// **'Düzensiz ritim: atriyal fibrilasyon olabilir, kaydı hekiminize gösterin'**
+  String get ecgFindingAfibFlagged;
+
+  /// No description provided for @ecgFindingUnknown.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kayıt değerlendirilemedi: yeterli atım bulunamadı ya da sinyal gürültülü'**
+  String get ecgFindingUnknown;
+
+  /// No description provided for @ecgReportNote.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bulgular uygulamanın otomatik ön değerlendirmesidir, tanı değildir.'**
+  String get ecgReportNote;
 }
 
 class _AppLocalizationsDelegate

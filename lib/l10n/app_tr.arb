@@ -1606,5 +1606,44 @@
   "ecgNoSignalYetBody": "Bilekliğin cildinize tam değdiğinden ve parmağınızın metal noktaya dokunduğundan emin olun. Sorun sürerse bağlantı kaydını bize gönderin.",
   "ecgSecondsUnit": "sn",
   "ecgLiveDisclaimer": "Canlı dalga yalnızca bilgi içindir, tanı için kullanılmaz. Ölçüm bitince ayrıntılı kayıt açılır.",
-  "diagCleared": "Kayıt temizlendi. Yeni paketler gelmeye devam eder."
+  "diagCleared": "Kayıt temizlendi. Yeni paketler gelmeye devam eder.",
+  "ecgReportTitle": "EKG raporu",
+  "ecgReportPickMonth": "Ay seçin",
+  "ecgReportMonthEmpty": "{month} ayında EKG kaydı yok.",
+  "@ecgReportMonthEmpty": {
+    "placeholders": {
+      "month": {
+        "type": "String"
+      }
+    }
+  },
+  "ecgReportMonthCount": "{count, plural, =1{1 kayıt} other{{count} kayıt}}",
+  "@ecgReportMonthCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "ecgReportWhen": "{date}, {time}",
+  "@ecgReportWhen": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      },
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "ecgFindingNormalOk": "Normal kalp ritmi görüldü",
+  "ecgFindingNormalFlagged": "Ritimde normal dışı bulgu var",
+  "ecgFindingHighOk": "Yüksek kalp hızı görülmedi",
+  "ecgFindingHighFlagged": "Yüksek kalp hızı görüldü (100 bpm üstü)",
+  "ecgFindingLowOk": "Düşük kalp hızı görülmedi",
+  "ecgFindingLowFlagged": "Düşük kalp hızı görüldü (50 bpm altı)",
+  "ecgFindingAfibOk": "Atriyal fibrilasyon belirtisi görülmedi",
+  "ecgFindingAfibFlagged": "Düzensiz ritim: atriyal fibrilasyon olabilir, kaydı hekiminize gösterin",
+  "ecgFindingUnknown": "Kayıt değerlendirilemedi: yeterli atım bulunamadı ya da sinyal gürültülü",
+  "ecgReportNote": "Bulgular uygulamanın otomatik ön değerlendirmesidir, tanı değildir."
 }

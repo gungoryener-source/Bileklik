@@ -16,9 +16,27 @@ import '../widgets/stat_tile.dart';
 import '../widgets/cam/cam.dart';
 import 'diagnostics_screen.dart';
 
-/// EKG kayıtları ve yeni ölçüm.
-class EcgScreen extends StatelessWidget {
+/// EKG: yeni ölçüm ve aylara göre EKG raporu.
+///
+/// Rapor, seçilen ayın her kaydı için tarih, üç satırlık dalga şeridi ve
+/// dört bulgu (ritim, yüksek/düşük kalp hızı, atriyal fibrilasyon) gösterir.
+class EcgScreen extends StatefulWidget {
   const EcgScreen({super.key});
+
+  @override
+  State<EcgScreen> createState() => _EcgScreenState();
+}
+
+class _EcgScreenState extends State<EcgScreen> {
+  /// Seçilen ay (günü 1). Boşsa en son kaydın ayı, kayıt yoksa bu ay.
+  DateTime? _month;
+
+  // Bulgular her çizimde yeniden hesaplanmasın; kayıt değişmez.
+  final _findings = Expando<EcgFindings>();
+
+  EcgFindings _findingsOf(EcgRecording r) => _findings[r] ??= EcgFindings.of(
+    EcgSummary.analyze(r.samples, r.sampleRate),
+  );
 
   void _start(BuildContext context) {
     final c = DeviceScope.of(context);
@@ -32,6 +50,54 @@ class EcgScreen extends StatelessWidget {
     ).push(MaterialPageRoute<void>(builder: (_) => const EcgPrepareScreen()));
   }
 
+  static DateTime _monthOf(DateTime t) => DateTime(t.year, t.month);
+
+  Future<void> _pickMonth(
+    BuildContext context,
+    List<EcgRecording> records,
+    DateTime current,
+  ) async {
+    final counts = <DateTime, int>{};
+    for (final r in records) {
+      counts.update(_monthOf(r.start), (n) => n + 1, ifAbsent: () => 1);
+    }
+    counts.putIfAbsent(current, () => 0);
+    final months = counts.keys.toList()..sort((a, b) => b.compareTo(a));
+    final picked = await showCamSheet<DateTime>(
+      context: context,
+      builder: (ctx) {
+        final l = ctx.l10n;
+        return SafeArea(
+          top: false,
+          child: ListView(
+            shrinkWrap: true,
+            padding: const EdgeInsetsDirectional.fromSTEB(12, 20, 12, 12),
+            children: [
+              Padding(
+                padding: const EdgeInsetsDirectional.only(start: 12, bottom: 8),
+                child: Text(
+                  l.ecgReportPickMonth,
+                  style: Theme.of(ctx).textTheme.titleMedium,
+                ),
+              ),
+              for (final m in months)
+                ListTile(
+                  minTileHeight: 56,
+                  title: Text(monthYear(m)),
+                  subtitle: Text(l.ecgReportMonthCount(counts[m]!)),
+                  trailing: m == current
+                      ? Icon(Icons.check, color: ctx.colors.accent)
+                      : null,
+                  onTap: () => Navigator.of(ctx).pop(m),
+                ),
+            ],
+          ),
+        );
+      },
+    );
+    if (picked != null && mounted) setState(() => _month = picked);
+  }
+
   @override
   Widget build(BuildContext context) {
     final c = DeviceScope.of(context);
@@ -41,7 +107,13 @@ class EcgScreen extends StatelessWidget {
       body: ListenableBuilder(
         listenable: c.store,
         builder: (context, _) {
-          final records = c.store.ecgRecordings();
+          final all = c.store.ecgRecordings();
+          final month =
+              _month ?? _monthOf(all.firstOrNull?.start ?? DateTime.now());
+          final records = [
+            for (final r in all)
+              if (_monthOf(r.start) == month) r,
+          ];
           return ListView(
             padding: const EdgeInsets.all(20),
             children: [
@@ -50,42 +122,39 @@ class EcgScreen extends StatelessWidget {
                 icon: Icons.monitor_heart,
                 label: l.ecgStartButton,
               ),
-              const SizedBox(height: 24),
-              Text(
-                l.ecgRecordsTitle,
-                style: Theme.of(context).textTheme.titleMedium,
+              const SizedBox(height: 28),
+              Row(
+                children: [
+                  Expanded(
+                    child: Text(
+                      l.ecgReportTitle,
+                      style: Theme.of(context).textTheme.titleLarge,
+                    ),
+                  ),
+                  const SizedBox(width: 12),
+                  _MonthButton(
+                    label: monthYear(month),
+                    onTap: () => _pickMonth(context, all, month),
+                  ),
+                ],
               ),
-              const SizedBox(height: 10),
+              const SizedBox(height: 14),
               if (records.isEmpty)
-                Text(
-                  l.ecgNoRecords,
-                  style: TextStyle(color: context.colors.muted),
-                ),
-              for (final r in records)
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 10),
-                  child: GlassCard(
-                    padding: EdgeInsets.zero,
-                    child: ListTile(
-                      leading: const Icon(
-                        Icons.monitor_heart,
-                        color: DataColors.heart,
-                      ),
-                      title: Text(
-                        r.averageHeartRate == null
-                            ? l.ecgNoHeartRate
-                            : l.ecgAverageBpm(r.averageHeartRate!),
-                      ),
-                      subtitle: Text(
-                        l.ecgRecordSubtitle(
-                          whenText(r.start, DateTime.now()),
-                          r.duration.inSeconds,
-                        ),
-                      ),
-                      trailing: Icon(
-                        Icons.chevron_right,
-                        color: context.colors.muted,
-                      ),
+                GlassCard(
+                  child: Text(
+                    all.isEmpty
+                        ? l.ecgNoRecords
+                        : l.ecgReportMonthEmpty(monthYear(month)),
+                    style: TextStyle(color: context.colors.muted),
+                  ),
+                )
+              else ...[
+                for (final r in records)
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 14),
+                    child: EcgReportCard(
+                      recording: r,
+                      findings: _findingsOf(r),
                       onTap: () => Navigator.of(context).push(
                         MaterialPageRoute<void>(
                           builder: (_) => EcgDetailScreen(recording: r),
@@ -93,10 +162,184 @@ class EcgScreen extends StatelessWidget {
                       ),
                     ),
                   ),
+                Text(
+                  l.ecgReportNote,
+                  style: Theme.of(context).textTheme.bodySmall
+                      ?.copyWith(color: context.colors.muted),
                 ),
+              ],
             ],
           );
         },
+      ),
+    );
+  }
+}
+
+/// Raporun sağ üstündeki ay seçici.
+class _MonthButton extends StatelessWidget {
+  const _MonthButton({required this.label, required this.onTap});
+
+  final String label;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) => OutlinedButton.icon(
+    onPressed: onTap,
+    style: OutlinedButton.styleFrom(
+      minimumSize: const Size(48, 48),
+      foregroundColor: context.colors.text,
+      side: BorderSide(color: context.colors.outline),
+    ),
+    iconAlignment: IconAlignment.end,
+    icon: const Icon(Icons.expand_more, size: 20),
+    label: Text(label),
+  );
+}
+
+/// Rapordaki bir EKG kaydı: tarih ve nabız, dalga şeridi ve bulgular.
+class EcgReportCard extends StatelessWidget {
+  const EcgReportCard({
+    super.key,
+    required this.recording,
+    required this.findings,
+    this.onTap,
+  });
+
+  final EcgRecording recording;
+  final EcgFindings findings;
+  final VoidCallback? onTap;
+
+  /// Şeritte gösterilen satır sayısı ve satır başına süre.
+  static const rows = 3;
+  static const secondsPerRow = 6;
+
+  @override
+  Widget build(BuildContext context) {
+    final r = recording;
+    final l = context.l10n;
+    final muted = context.colors.muted;
+    final perRow = secondsPerRow * r.sampleRate;
+    final shown = (r.samples.length / perRow).ceil().clamp(1, rows);
+    final f = findings;
+    final when = l.ecgReportWhen(longDate(r.start), hhmm(r.start));
+    final card = GlassCard(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Row(
+            children: [
+              Expanded(
+                child: Text(
+                  when,
+                  style: Theme.of(context).textTheme.bodyMedium
+                      ?.copyWith(color: muted),
+                ),
+              ),
+              if (r.averageHeartRate case final bpm?)
+                Text(
+                  l.ecgAverageBpm(bpm),
+                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                    color: DataColors.heart,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              Icon(Icons.chevron_right, color: muted),
+            ],
+          ),
+          const SizedBox(height: 12),
+          ClipRRect(
+            borderRadius: BorderRadius.circular(8),
+            child: Column(
+              children: [
+                for (var i = 0; i < shown; i++)
+                  EcgTrace(
+                    samples: r.samples,
+                    sampleRate: r.sampleRate,
+                    seconds: secondsPerRow.toDouble(),
+                    height: 72,
+                    offset: i * perRow,
+                  ),
+              ],
+            ),
+          ),
+          const SizedBox(height: 16),
+          if (!f.assessable)
+            _Finding(FindingState.unknown, l.ecgFindingUnknown)
+          else ...[
+            _Finding(
+              f.normalRhythm,
+              f.normalRhythm == FindingState.ok
+                  ? l.ecgFindingNormalOk
+                  : l.ecgFindingNormalFlagged,
+            ),
+            _Finding(
+              f.highRate,
+              f.highRate == FindingState.ok
+                  ? l.ecgFindingHighOk
+                  : l.ecgFindingHighFlagged,
+            ),
+            _Finding(
+              f.lowRate,
+              f.lowRate == FindingState.ok
+                  ? l.ecgFindingLowOk
+                  : l.ecgFindingLowFlagged,
+            ),
+            _Finding(
+              f.afib,
+              f.afib == FindingState.ok
+                  ? l.ecgFindingAfibOk
+                  : l.ecgFindingAfibFlagged,
+            ),
+          ],
+        ],
+      ),
+    );
+    if (onTap == null) return card;
+    return Pressable(
+      onTap: onTap,
+      pressedScale: 0.98,
+      semanticLabel: [
+        when,
+        if (r.averageHeartRate case final bpm?) l.ecgAverageBpm(bpm),
+      ].join(', '),
+      child: card,
+    );
+  }
+}
+
+/// Tek bulgu satırı: yuvarlak simge ve metin.
+class _Finding extends StatelessWidget {
+  const _Finding(this.state, this.text);
+
+  final FindingState state;
+  final String text;
+
+  @override
+  Widget build(BuildContext context) {
+    final (icon, color) = switch (state) {
+      FindingState.ok => (Icons.check, DataColors.steps),
+      FindingState.flagged => (Icons.priority_high, context.colors.danger),
+      FindingState.unknown => (Icons.question_mark, context.colors.muted),
+    };
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 6),
+      child: Row(
+        children: [
+          Container(
+            width: 32,
+            height: 32,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: color.withValues(alpha: 0.16),
+            ),
+            child: Icon(icon, size: 18, color: color),
+          ),
+          const SizedBox(width: 14),
+          Expanded(
+            child: Text(text, style: Theme.of(context).textTheme.bodyLarge),
+          ),
+        ],
       ),
     );
   }

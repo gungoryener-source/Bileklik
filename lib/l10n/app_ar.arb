@@ -856,5 +856,20 @@
   "ecgNoSignalYetBody": "تأكد من ملامسة السوار لجلدك ومن أن إصبعك يلمس النقطة المعدنية. إذا استمرت المشكلة فأرسل إلينا سجل الاتصال.",
   "ecgSecondsUnit": "ث",
   "ecgLiveDisclaimer": "الموجة المباشرة للمعلومات فقط وليست للتشخيص. يُفتح سجل مفصل عند انتهاء القياس.",
-  "diagCleared": "تم مسح السجل. تستمر الحزم الجديدة في الوصول."
+  "diagCleared": "تم مسح السجل. تستمر الحزم الجديدة في الوصول.",
+  "ecgReportTitle": "تقرير تخطيط القلب",
+  "ecgReportPickMonth": "اختر شهرًا",
+  "ecgReportMonthEmpty": "لا توجد تسجيلات تخطيط قلب في {month}.",
+  "ecgReportMonthCount": "{count, plural, =1{تسجيل واحد} other{{count} تسجيلات}}",
+  "ecgReportWhen": "{date}، {time}",
+  "ecgFindingNormalOk": "لوحظ نظم قلب طبيعي",
+  "ecgFindingNormalFlagged": "توجد ملاحظات غير طبيعية في النظم",
+  "ecgFindingHighOk": "لم يُلاحظ ارتفاع في معدل القلب",
+  "ecgFindingHighFlagged": "لوحظ ارتفاع معدل القلب (أكثر من 100 نبضة/دقيقة)",
+  "ecgFindingLowOk": "لم يُلاحظ انخفاض في معدل القلب",
+  "ecgFindingLowFlagged": "لوحظ انخفاض معدل القلب (أقل من 50 نبضة/دقيقة)",
+  "ecgFindingAfibOk": "لم تُلاحظ علامات رجفان أذيني",
+  "ecgFindingAfibFlagged": "نظم غير منتظم: قد يكون رجفانًا أذينيًا، اعرض التسجيل على طبيبك",
+  "ecgFindingUnknown": "تعذّر تقييم التسجيل: عدد النبضات قليل أو الإشارة مشوشة",
+  "ecgReportNote": "النتائج تقييم أولي تلقائي من التطبيق وليست تشخيصًا."
 }

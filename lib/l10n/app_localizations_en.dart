@@ -3137,4 +3137,64 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get diagCleared => 'Log cleared. New packets keep arriving.';
+
+  @override
+  String get ecgReportTitle => 'ECG report';
+
+  @override
+  String get ecgReportPickMonth => 'Choose a month';
+
+  @override
+  String ecgReportMonthEmpty(String month) {
+    return 'No ECG recordings in $month.';
+  }
+
+  @override
+  String ecgReportMonthCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count recordings',
+      one: '1 recording',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String ecgReportWhen(String date, String time) {
+    return '$date, $time';
+  }
+
+  @override
+  String get ecgFindingNormalOk => 'Normal heart rhythm seen';
+
+  @override
+  String get ecgFindingNormalFlagged => 'Rhythm shows findings outside normal';
+
+  @override
+  String get ecgFindingHighOk => 'No high heart rate seen';
+
+  @override
+  String get ecgFindingHighFlagged => 'High heart rate seen (over 100 bpm)';
+
+  @override
+  String get ecgFindingLowOk => 'No low heart rate seen';
+
+  @override
+  String get ecgFindingLowFlagged => 'Low heart rate seen (under 50 bpm)';
+
+  @override
+  String get ecgFindingAfibOk => 'No signs of atrial fibrillation seen';
+
+  @override
+  String get ecgFindingAfibFlagged =>
+      'Irregular rhythm: possible atrial fibrillation, show this recording to your doctor';
+
+  @override
+  String get ecgFindingUnknown =>
+      'Recording could not be assessed: too few beats found or the signal was noisy';
+
+  @override
+  String get ecgReportNote =>
+      'Findings are the app\'s automatic preliminary assessment, not a diagnosis.';
 }
