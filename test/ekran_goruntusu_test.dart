@@ -15,6 +15,8 @@ import 'package:bileklik/state/device_controller.dart';
 import 'package:bileklik/ui/screens/community_dialogs.dart';
 import 'package:bileklik/ui/screens/biological_age_screen.dart';
 import 'package:bileklik/ui/screens/ecg_screen.dart';
+import 'package:bileklik/ui/screens/recovery_screen.dart';
+import 'package:bileklik/ui/screens/sleep_screen.dart';
 import 'package:bileklik/ui/screens/feedback_screen.dart';
 import 'package:bileklik/ui/screens/group_screen.dart';
 import 'package:bileklik/ui/screens/portal_account_screen.dart';
@@ -203,6 +205,20 @@ void main() {
     await _shot(tester, 'biyo-1');
     await tester.drag(find.byType(Scrollable).last, const Offset(0, -700));
     await _shot(tester, 'biyo-2');
+  });
+
+  testWidgets('uyku ve toparlanma', skip: !_enabled, (tester) async {
+    await _app(tester, connect: true);
+    _push(tester, SleepScreen(day: DateTime.now()));
+    await _shot(tester, 'uyku-1');
+    for (var i = 2; i <= 5; i++) {
+      await tester.drag(find.byType(Scrollable).last, const Offset(0, -700));
+      await _shot(tester, 'uyku-$i');
+    }
+    _push(tester, RecoveryScreen(day: DateTime.now()));
+    await _shot(tester, 'toparlanma-1');
+    await tester.drag(find.byType(Scrollable).last, const Offset(0, -900));
+    await _shot(tester, 'toparlanma-2');
   });
 
   testWidgets('sağlık sekmesi', skip: !_enabled, (tester) async {

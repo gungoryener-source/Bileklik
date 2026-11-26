@@ -5697,6 +5697,324 @@ abstract class AppLocalizations {
   /// In tr, this message translates to:
   /// **'Günlük adımınızı ve egzersizlerinizi kaydedin.'**
   String get bioAgeTipActivity;
+
+  /// No description provided for @sleepScoreLabel.
+  ///
+  /// In tr, this message translates to:
+  /// **'Uyku skoru'**
+  String get sleepScoreLabel;
+
+  /// No description provided for @sleepBedTime.
+  ///
+  /// In tr, this message translates to:
+  /// **'Uykuya dalma'**
+  String get sleepBedTime;
+
+  /// No description provided for @sleepWakeTime.
+  ///
+  /// In tr, this message translates to:
+  /// **'Uyanma'**
+  String get sleepWakeTime;
+
+  /// No description provided for @sleepDistribution.
+  ///
+  /// In tr, this message translates to:
+  /// **'Uyku dağılımı'**
+  String get sleepDistribution;
+
+  /// No description provided for @sleepIdealRange.
+  ///
+  /// In tr, this message translates to:
+  /// **'İdeal aralık'**
+  String get sleepIdealRange;
+
+  /// No description provided for @sleepIdealValue.
+  ///
+  /// In tr, this message translates to:
+  /// **'İdeal %{low}–{high}'**
+  String sleepIdealValue(int low, int high);
+
+  /// No description provided for @sleepPattern.
+  ///
+  /// In tr, this message translates to:
+  /// **'Uyku örüntüsü'**
+  String get sleepPattern;
+
+  /// No description provided for @sleepInBed.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yatakta kalma süresi'**
+  String get sleepInBed;
+
+  /// No description provided for @sleepEfficiency.
+  ///
+  /// In tr, this message translates to:
+  /// **'Uyku verimliliği'**
+  String get sleepEfficiency;
+
+  /// No description provided for @sleepLatency.
+  ///
+  /// In tr, this message translates to:
+  /// **'Uykuya dalma süresi'**
+  String get sleepLatency;
+
+  /// No description provided for @sleepDebt.
+  ///
+  /// In tr, this message translates to:
+  /// **'Uyku borcu'**
+  String get sleepDebt;
+
+  /// No description provided for @sleepNoDebt.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yok'**
+  String get sleepNoDebt;
+
+  /// No description provided for @sleepDuringHeartRate.
+  ///
+  /// In tr, this message translates to:
+  /// **'Uyku sırasında nabız'**
+  String get sleepDuringHeartRate;
+
+  /// No description provided for @sleepDuringSpo2.
+  ///
+  /// In tr, this message translates to:
+  /// **'Uyku sırasında kan oksijeni'**
+  String get sleepDuringSpo2;
+
+  /// No description provided for @sleepDuringHrv.
+  ///
+  /// In tr, this message translates to:
+  /// **'Uyku sırasında HRV'**
+  String get sleepDuringHrv;
+
+  /// No description provided for @sleepNaps.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kısa şekerlemeler'**
+  String get sleepNaps;
+
+  /// No description provided for @sleepNoNaps.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kısa şekerleme yok'**
+  String get sleepNoNaps;
+
+  /// No description provided for @sleepSummaryDebt.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bu uykuda {duration} uyudunuz; günlük 8 saatlik ihtiyacınıza göre {debt} uyku borcunuz var.'**
+  String sleepSummaryDebt(String duration, String debt);
+
+  /// No description provided for @sleepSummaryEnough.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bu uykuda {duration} uyudunuz; günlük ihtiyacınızı karşıladınız.'**
+  String sleepSummaryEnough(String duration);
+
+  /// No description provided for @sleepSummaryLowDeep.
+  ///
+  /// In tr, this message translates to:
+  /// **'Derin uykunuz önerilen aralığın altında; akşam kafein ve ağır yemekten kaçınmak yardımcı olabilir.'**
+  String get sleepSummaryLowDeep;
+
+  /// No description provided for @sleepSummaryLowEfficiency.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yatakta uyanık geçen süre uzun; uyku verimliliğiniz %{value}.'**
+  String sleepSummaryLowEfficiency(int value);
+
+  /// No description provided for @sleepSummaryNote.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bilekliğin ölçümlerinden uygulamanın kendi değerlendirmesidir; tıbbi değildir.'**
+  String get sleepSummaryNote;
+
+  /// No description provided for @sleepStagesChart.
+  ///
+  /// In tr, this message translates to:
+  /// **'Uyku evreleri, {start} ile {end} arası'**
+  String sleepStagesChart(String start, String end);
+
+  /// No description provided for @recoveryTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Toparlanma'**
+  String get recoveryTitle;
+
+  /// No description provided for @recoveryExcellent.
+  ///
+  /// In tr, this message translates to:
+  /// **'Mükemmel'**
+  String get recoveryExcellent;
+
+  /// No description provided for @recoveryGood.
+  ///
+  /// In tr, this message translates to:
+  /// **'İyi'**
+  String get recoveryGood;
+
+  /// No description provided for @recoveryNormal.
+  ///
+  /// In tr, this message translates to:
+  /// **'Normal'**
+  String get recoveryNormal;
+
+  /// No description provided for @recoveryPoor.
+  ///
+  /// In tr, this message translates to:
+  /// **'Zayıf'**
+  String get recoveryPoor;
+
+  /// No description provided for @recoveryInadequate.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yetersiz'**
+  String get recoveryInadequate;
+
+  /// No description provided for @recoveryOptimal.
+  ///
+  /// In tr, this message translates to:
+  /// **'İdeal'**
+  String get recoveryOptimal;
+
+  /// No description provided for @recoveryAssessment.
+  ///
+  /// In tr, this message translates to:
+  /// **'Değerlendirme'**
+  String get recoveryAssessment;
+
+  /// No description provided for @recoveryCommentExcellent.
+  ///
+  /// In tr, this message translates to:
+  /// **'Çok iyi toparlandınız; yoğun antrenman için uygun bir gün.'**
+  String get recoveryCommentExcellent;
+
+  /// No description provided for @recoveryCommentGood.
+  ///
+  /// In tr, this message translates to:
+  /// **'İyi toparlandınız; olağan antrenmanınızı yapabilirsiniz.'**
+  String get recoveryCommentGood;
+
+  /// No description provided for @recoveryCommentNormal.
+  ///
+  /// In tr, this message translates to:
+  /// **'Toparlanma orta düzeyde, hafif yorgunluk var. Hafif aktivite önerilir.'**
+  String get recoveryCommentNormal;
+
+  /// No description provided for @recoveryCommentPoor.
+  ///
+  /// In tr, this message translates to:
+  /// **'Toparlanma zayıf; bugün tempoyu düşürün ve dinlenmeye öncelik verin.'**
+  String get recoveryCommentPoor;
+
+  /// No description provided for @recoveryCommentInadequate.
+  ///
+  /// In tr, this message translates to:
+  /// **'Vücudunuz yeterince toparlanmadı; bugün dinlenin ve erken yatın.'**
+  String get recoveryCommentInadequate;
+
+  /// No description provided for @recoveryHrvLow.
+  ///
+  /// In tr, this message translates to:
+  /// **'HRV\'niz olağanın altında; vücudunuz hâlâ toparlanıyor olabilir.'**
+  String get recoveryHrvLow;
+
+  /// No description provided for @recoveryRhrHigh.
+  ///
+  /// In tr, this message translates to:
+  /// **'Dinlenik nabzınız olağandan yüksek.'**
+  String get recoveryRhrHigh;
+
+  /// No description provided for @recoveryNote.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bilekliğin ölçümlerinden uygulamanın kendi tahminidir; tıbbi değildir.'**
+  String get recoveryNote;
+
+  /// No description provided for @recoveryIndicators.
+  ///
+  /// In tr, this message translates to:
+  /// **'Toparlanma göstergeleri'**
+  String get recoveryIndicators;
+
+  /// No description provided for @recoveryRestingHr.
+  ///
+  /// In tr, this message translates to:
+  /// **'Dinlenik nabız'**
+  String get recoveryRestingHr;
+
+  /// No description provided for @recoveryHrv.
+  ///
+  /// In tr, this message translates to:
+  /// **'HRV'**
+  String get recoveryHrv;
+
+  /// No description provided for @recoveryStress.
+  ///
+  /// In tr, this message translates to:
+  /// **'Stres'**
+  String get recoveryStress;
+
+  /// No description provided for @recoverySleepScore.
+  ///
+  /// In tr, this message translates to:
+  /// **'Uyku skoru'**
+  String get recoverySleepScore;
+
+  /// No description provided for @recoveryUsual.
+  ///
+  /// In tr, this message translates to:
+  /// **'Olağan {value}'**
+  String recoveryUsual(String value);
+
+  /// No description provided for @recoveryTrend.
+  ///
+  /// In tr, this message translates to:
+  /// **'Eğilim'**
+  String get recoveryTrend;
+
+  /// No description provided for @recoveryWeek.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hafta'**
+  String get recoveryWeek;
+
+  /// No description provided for @recoveryMonth.
+  ///
+  /// In tr, this message translates to:
+  /// **'Ay'**
+  String get recoveryMonth;
+
+  /// No description provided for @recoveryRange.
+  ///
+  /// In tr, this message translates to:
+  /// **'{start} – {end}'**
+  String recoveryRange(String start, String end);
+
+  /// No description provided for @recoveryEmpty.
+  ///
+  /// In tr, this message translates to:
+  /// **'Toparlanma için gece HRV\'si ya da uyku verisi gerekiyor. Bilekliği bu gece takın.'**
+  String get recoveryEmpty;
+
+  /// No description provided for @recoveryTrendEmpty.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bu dönemde veri yok'**
+  String get recoveryTrendEmpty;
+
+  /// No description provided for @recoveryRingSemantics.
+  ///
+  /// In tr, this message translates to:
+  /// **'Günlük toparlanma {value}, {level}'**
+  String recoveryRingSemantics(String value, String level);
+
+  /// No description provided for @recoveryTrendSemantics.
+  ///
+  /// In tr, this message translates to:
+  /// **'{range} toparlanma eğilimi, ortalama {value}'**
+  String recoveryTrendSemantics(String range, String value);
 }
 
 class _AppLocalizationsDelegate

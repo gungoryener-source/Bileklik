@@ -3333,4 +3333,191 @@ class AppLocalizationsTr extends AppLocalizations {
   @override
   String get bioAgeTipActivity =>
       'Günlük adımınızı ve egzersizlerinizi kaydedin.';
+
+  @override
+  String get sleepScoreLabel => 'Uyku skoru';
+
+  @override
+  String get sleepBedTime => 'Uykuya dalma';
+
+  @override
+  String get sleepWakeTime => 'Uyanma';
+
+  @override
+  String get sleepDistribution => 'Uyku dağılımı';
+
+  @override
+  String get sleepIdealRange => 'İdeal aralık';
+
+  @override
+  String sleepIdealValue(int low, int high) {
+    return 'İdeal %$low–$high';
+  }
+
+  @override
+  String get sleepPattern => 'Uyku örüntüsü';
+
+  @override
+  String get sleepInBed => 'Yatakta kalma süresi';
+
+  @override
+  String get sleepEfficiency => 'Uyku verimliliği';
+
+  @override
+  String get sleepLatency => 'Uykuya dalma süresi';
+
+  @override
+  String get sleepDebt => 'Uyku borcu';
+
+  @override
+  String get sleepNoDebt => 'Yok';
+
+  @override
+  String get sleepDuringHeartRate => 'Uyku sırasında nabız';
+
+  @override
+  String get sleepDuringSpo2 => 'Uyku sırasında kan oksijeni';
+
+  @override
+  String get sleepDuringHrv => 'Uyku sırasında HRV';
+
+  @override
+  String get sleepNaps => 'Kısa şekerlemeler';
+
+  @override
+  String get sleepNoNaps => 'Kısa şekerleme yok';
+
+  @override
+  String sleepSummaryDebt(String duration, String debt) {
+    return 'Bu uykuda $duration uyudunuz; günlük 8 saatlik ihtiyacınıza göre $debt uyku borcunuz var.';
+  }
+
+  @override
+  String sleepSummaryEnough(String duration) {
+    return 'Bu uykuda $duration uyudunuz; günlük ihtiyacınızı karşıladınız.';
+  }
+
+  @override
+  String get sleepSummaryLowDeep =>
+      'Derin uykunuz önerilen aralığın altında; akşam kafein ve ağır yemekten kaçınmak yardımcı olabilir.';
+
+  @override
+  String sleepSummaryLowEfficiency(int value) {
+    return 'Yatakta uyanık geçen süre uzun; uyku verimliliğiniz %$value.';
+  }
+
+  @override
+  String get sleepSummaryNote =>
+      'Bilekliğin ölçümlerinden uygulamanın kendi değerlendirmesidir; tıbbi değildir.';
+
+  @override
+  String sleepStagesChart(String start, String end) {
+    return 'Uyku evreleri, $start ile $end arası';
+  }
+
+  @override
+  String get recoveryTitle => 'Toparlanma';
+
+  @override
+  String get recoveryExcellent => 'Mükemmel';
+
+  @override
+  String get recoveryGood => 'İyi';
+
+  @override
+  String get recoveryNormal => 'Normal';
+
+  @override
+  String get recoveryPoor => 'Zayıf';
+
+  @override
+  String get recoveryInadequate => 'Yetersiz';
+
+  @override
+  String get recoveryOptimal => 'İdeal';
+
+  @override
+  String get recoveryAssessment => 'Değerlendirme';
+
+  @override
+  String get recoveryCommentExcellent =>
+      'Çok iyi toparlandınız; yoğun antrenman için uygun bir gün.';
+
+  @override
+  String get recoveryCommentGood =>
+      'İyi toparlandınız; olağan antrenmanınızı yapabilirsiniz.';
+
+  @override
+  String get recoveryCommentNormal =>
+      'Toparlanma orta düzeyde, hafif yorgunluk var. Hafif aktivite önerilir.';
+
+  @override
+  String get recoveryCommentPoor =>
+      'Toparlanma zayıf; bugün tempoyu düşürün ve dinlenmeye öncelik verin.';
+
+  @override
+  String get recoveryCommentInadequate =>
+      'Vücudunuz yeterince toparlanmadı; bugün dinlenin ve erken yatın.';
+
+  @override
+  String get recoveryHrvLow =>
+      'HRV\'niz olağanın altında; vücudunuz hâlâ toparlanıyor olabilir.';
+
+  @override
+  String get recoveryRhrHigh => 'Dinlenik nabzınız olağandan yüksek.';
+
+  @override
+  String get recoveryNote =>
+      'Bilekliğin ölçümlerinden uygulamanın kendi tahminidir; tıbbi değildir.';
+
+  @override
+  String get recoveryIndicators => 'Toparlanma göstergeleri';
+
+  @override
+  String get recoveryRestingHr => 'Dinlenik nabız';
+
+  @override
+  String get recoveryHrv => 'HRV';
+
+  @override
+  String get recoveryStress => 'Stres';
+
+  @override
+  String get recoverySleepScore => 'Uyku skoru';
+
+  @override
+  String recoveryUsual(String value) {
+    return 'Olağan $value';
+  }
+
+  @override
+  String get recoveryTrend => 'Eğilim';
+
+  @override
+  String get recoveryWeek => 'Hafta';
+
+  @override
+  String get recoveryMonth => 'Ay';
+
+  @override
+  String recoveryRange(String start, String end) {
+    return '$start – $end';
+  }
+
+  @override
+  String get recoveryEmpty =>
+      'Toparlanma için gece HRV\'si ya da uyku verisi gerekiyor. Bilekliği bu gece takın.';
+
+  @override
+  String get recoveryTrendEmpty => 'Bu dönemde veri yok';
+
+  @override
+  String recoveryRingSemantics(String value, String level) {
+    return 'Günlük toparlanma $value, $level';
+  }
+
+  @override
+  String recoveryTrendSemantics(String range, String value) {
+    return '$range toparlanma eğilimi, ortalama $value';
+  }
 }

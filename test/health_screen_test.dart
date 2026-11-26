@@ -37,6 +37,12 @@ void main() {
     await tester.tap(find.text('Uyku'));
     await tester.pumpAndSettle();
     expect(find.text('Derin'), findsOneWidget);
+    expect(find.text('Uyku skoru'), findsOneWidget);
+    await tester.scrollUntilVisible(
+      find.text('Son 7 gece'),
+      300,
+      scrollable: find.byType(Scrollable).last,
+    );
     expect(find.text('Son 7 gece'), findsOneWidget);
 
     await tester.tap(find.byTooltip('Geri'));

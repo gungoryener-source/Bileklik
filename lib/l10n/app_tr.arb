@@ -1746,5 +1746,139 @@
   "bioAgeTipsTitle": "Veri toplama ipuçları",
   "bioAgeTipSleep": "Uykunuzun eksiksiz kaydedilmesi için her gece bilekliği takarak uyuyun.",
   "bioAgeTipHeart": "Nabzın doğru ölçülmesi için bilekliği gün boyu takın.",
-  "bioAgeTipActivity": "Günlük adımınızı ve egzersizlerinizi kaydedin."
+  "bioAgeTipActivity": "Günlük adımınızı ve egzersizlerinizi kaydedin.",
+  "sleepScoreLabel": "Uyku skoru",
+  "sleepBedTime": "Uykuya dalma",
+  "sleepWakeTime": "Uyanma",
+  "sleepDistribution": "Uyku dağılımı",
+  "sleepIdealRange": "İdeal aralık",
+  "sleepIdealValue": "İdeal %{low}–{high}",
+  "@sleepIdealValue": {
+    "placeholders": {
+      "low": {
+        "type": "int"
+      },
+      "high": {
+        "type": "int"
+      }
+    }
+  },
+  "sleepPattern": "Uyku örüntüsü",
+  "sleepInBed": "Yatakta kalma süresi",
+  "sleepEfficiency": "Uyku verimliliği",
+  "sleepLatency": "Uykuya dalma süresi",
+  "sleepDebt": "Uyku borcu",
+  "sleepNoDebt": "Yok",
+  "sleepDuringHeartRate": "Uyku sırasında nabız",
+  "sleepDuringSpo2": "Uyku sırasında kan oksijeni",
+  "sleepDuringHrv": "Uyku sırasında HRV",
+  "sleepNaps": "Kısa şekerlemeler",
+  "sleepNoNaps": "Kısa şekerleme yok",
+  "sleepSummaryDebt": "Bu uykuda {duration} uyudunuz; günlük 8 saatlik ihtiyacınıza göre {debt} uyku borcunuz var.",
+  "@sleepSummaryDebt": {
+    "placeholders": {
+      "duration": {
+        "type": "String"
+      },
+      "debt": {
+        "type": "String"
+      }
+    }
+  },
+  "sleepSummaryEnough": "Bu uykuda {duration} uyudunuz; günlük ihtiyacınızı karşıladınız.",
+  "@sleepSummaryEnough": {
+    "placeholders": {
+      "duration": {
+        "type": "String"
+      }
+    }
+  },
+  "sleepSummaryLowDeep": "Derin uykunuz önerilen aralığın altında; akşam kafein ve ağır yemekten kaçınmak yardımcı olabilir.",
+  "sleepSummaryLowEfficiency": "Yatakta uyanık geçen süre uzun; uyku verimliliğiniz %{value}.",
+  "@sleepSummaryLowEfficiency": {
+    "placeholders": {
+      "value": {
+        "type": "int"
+      }
+    }
+  },
+  "sleepSummaryNote": "Bilekliğin ölçümlerinden uygulamanın kendi değerlendirmesidir; tıbbi değildir.",
+  "sleepStagesChart": "Uyku evreleri, {start} ile {end} arası",
+  "@sleepStagesChart": {
+    "placeholders": {
+      "start": {
+        "type": "String"
+      },
+      "end": {
+        "type": "String"
+      }
+    }
+  },
+  "recoveryTitle": "Toparlanma",
+  "recoveryExcellent": "Mükemmel",
+  "recoveryGood": "İyi",
+  "recoveryNormal": "Normal",
+  "recoveryPoor": "Zayıf",
+  "recoveryInadequate": "Yetersiz",
+  "recoveryOptimal": "İdeal",
+  "recoveryAssessment": "Değerlendirme",
+  "recoveryCommentExcellent": "Çok iyi toparlandınız; yoğun antrenman için uygun bir gün.",
+  "recoveryCommentGood": "İyi toparlandınız; olağan antrenmanınızı yapabilirsiniz.",
+  "recoveryCommentNormal": "Toparlanma orta düzeyde, hafif yorgunluk var. Hafif aktivite önerilir.",
+  "recoveryCommentPoor": "Toparlanma zayıf; bugün tempoyu düşürün ve dinlenmeye öncelik verin.",
+  "recoveryCommentInadequate": "Vücudunuz yeterince toparlanmadı; bugün dinlenin ve erken yatın.",
+  "recoveryHrvLow": "HRV'niz olağanın altında; vücudunuz hâlâ toparlanıyor olabilir.",
+  "recoveryRhrHigh": "Dinlenik nabzınız olağandan yüksek.",
+  "recoveryNote": "Bilekliğin ölçümlerinden uygulamanın kendi tahminidir; tıbbi değildir.",
+  "recoveryIndicators": "Toparlanma göstergeleri",
+  "recoveryRestingHr": "Dinlenik nabız",
+  "recoveryHrv": "HRV",
+  "recoveryStress": "Stres",
+  "recoverySleepScore": "Uyku skoru",
+  "recoveryUsual": "Olağan {value}",
+  "@recoveryUsual": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "recoveryTrend": "Eğilim",
+  "recoveryWeek": "Hafta",
+  "recoveryMonth": "Ay",
+  "recoveryRange": "{start} – {end}",
+  "@recoveryRange": {
+    "placeholders": {
+      "start": {
+        "type": "String"
+      },
+      "end": {
+        "type": "String"
+      }
+    }
+  },
+  "recoveryEmpty": "Toparlanma için gece HRV'si ya da uyku verisi gerekiyor. Bilekliği bu gece takın.",
+  "recoveryTrendEmpty": "Bu dönemde veri yok",
+  "recoveryRingSemantics": "Günlük toparlanma {value}, {level}",
+  "@recoveryRingSemantics": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      },
+      "level": {
+        "type": "String"
+      }
+    }
+  },
+  "recoveryTrendSemantics": "{range} toparlanma eğilimi, ortalama {value}",
+  "@recoveryTrendSemantics": {
+    "placeholders": {
+      "range": {
+        "type": "String"
+      },
+      "value": {
+        "type": "String"
+      }
+    }
+  }
 }

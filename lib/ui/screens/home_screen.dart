@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import '../../data/aggregate.dart';
 import '../../data/day_summary.dart';
 import '../../data/progress.dart';
+import '../../data/recovery.dart';
 import '../../data/models.dart';
 import '../../device/protocol/history.dart';
 import '../../device/transport.dart';
@@ -22,6 +23,7 @@ import 'biological_age_screen.dart';
 import 'ecg_screen.dart';
 import 'metric_detail_screen.dart';
 import 'progress_screen.dart';
+import 'recovery_screen.dart';
 import 'sleep_screen.dart';
 import 'spot_measure_screen.dart';
 import 'workout_detail_screen.dart';
@@ -104,14 +106,20 @@ class _HomeScreenState extends State<HomeScreen> {
               const SizedBox(height: 16),
               // Ailedeki acil durum, varsa en üstte.
               const FamilyAlertCard(),
-              _Hero(s: s, energy: energy, isToday: isToday),
+              _Hero(
+                s: s,
+                energy: energy,
+                recovery: DayRecovery.of(store, s.day),
+                isToday: isToday,
+                open: _open,
+              ),
               gap,
               _AiCard(onTap: () => _open(AiReportScreen(day: s.day))),
               gap,
               _SleepCard(
                 s: s,
                 score: energy?.sleepScore,
-                onTap: () => _open(const SleepScreen()),
+                onTap: () => _open(SleepScreen(day: s.day)),
               ),
               gap,
               _ActivityCard(
@@ -424,11 +432,19 @@ class _StatusDot extends StatelessWidget {
 /// Günün durumuna göre başlık ve öneri; altında uyku, toparlanma ve yük
 /// göstergeleri; en altta Egzersize başla ve Şimdi ölç.
 class _Hero extends StatelessWidget {
-  const _Hero({required this.s, required this.energy, required this.isToday});
+  const _Hero({
+    required this.s,
+    required this.energy,
+    required this.recovery,
+    required this.isToday,
+    required this.open,
+  });
 
   final DaySummary s;
   final EnergyScore? energy;
+  final DayRecovery? recovery;
   final bool isToday;
+  final void Function(Widget) open;
 
   /// Günlük yükün (adım ve stres harcaması, en çok 40) 0-100 ölçeği.
   static int loadOf(EnergyScore e) => (e.drain * 2.5).round().clamp(0, 100);
@@ -443,7 +459,7 @@ class _Hero extends StatelessWidget {
     final hrv = s.recoveryHrv;
     final hrvBand = hrv == null ? null : bandOf(MetricType.hrv, hrv);
     final lateNight = isToday && (now.hour >= 23 || now.hour < 5);
-    final lowRecovery = (energy?.recoveryScore ?? 100) < 35;
+    final lowRecovery = (recovery?.score ?? 100) < 35;
 
     final String title;
     final String body;
@@ -505,15 +521,17 @@ class _Hero extends StatelessWidget {
                   value: e?.sleepScore?.toString(),
                   progress: (e?.sleepScore ?? 0) / 100,
                   color: DataColors.sleepLight,
+                  onTap: () => open(SleepScreen(day: s.day)),
                 ),
                 VerticalDivider(color: colors.grid, width: 1),
                 _Gauge(
                   label: l.homeDailyRecovery,
-                  value: e?.recoveryScore == null
+                  value: recovery == null
                       ? null
-                      : l.homePercent(e!.recoveryScore!),
-                  progress: (e?.recoveryScore ?? 0) / 100,
+                      : l.homePercent(recovery!.score),
+                  progress: (recovery?.score ?? 0) / 100,
                   color: DataColors.hrv,
+                  onTap: () => open(RecoveryScreen(day: s.day)),
                 ),
                 VerticalDivider(color: colors.grid, width: 1),
                 _Gauge(
@@ -587,22 +605,32 @@ class _Gauge extends StatelessWidget {
     required this.value,
     required this.progress,
     required this.color,
+    this.onTap,
   });
 
   final String label;
   final String? value;
   final double progress;
   final Color color;
+  final VoidCallback? onTap;
 
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
     final shown = value ?? context.l10n.noValue;
+    final semantics = context.l10n.homeGaugeSemantics(label, shown);
+    final tap = onTap;
+    Widget wrap(Widget child) => tap == null
+        ? Semantics(label: semantics, excludeSemantics: true, child: child)
+        : Pressable(
+            semanticLabel: semantics,
+            pressedScale: 0.95,
+            onTap: tap,
+            child: child,
+          );
     return Expanded(
-      child: Semantics(
-        label: context.l10n.homeGaugeSemantics(label, shown),
-        excludeSemantics: true,
-        child: Padding(
+      child: wrap(
+        Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8),
           child: Column(
             children: [
@@ -1189,14 +1217,14 @@ class _Timeline extends StatelessWidget {
         DataColors.steps,
         l.homeWokeUp,
         l.homeWokeUpSubtitle(duration(night.asleepMinutes), hhmm(night.start)),
-        const SleepScreen(),
+        SleepScreen(day: night.day),
       ),
-      FellAsleepEvent() => (
+      FellAsleepEvent(:final night) => (
         Icons.bedtime,
         DataColors.sleepRem,
         l.homeFellAsleep,
         l.homeFellAsleepSubtitle,
-        const SleepScreen(),
+        SleepScreen(day: night.day),
       ),
       NightEvent(:final kind, :final value) => (
         switch (kind) {

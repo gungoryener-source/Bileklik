@@ -3407,4 +3407,191 @@ class AppLocalizationsDe extends AppLocalizations {
   @override
   String get bioAgeTipActivity =>
       'Erfassen Sie Ihre täglichen Schritte und Trainings.';
+
+  @override
+  String get sleepScoreLabel => 'Schlafwert';
+
+  @override
+  String get sleepBedTime => 'Eingeschlafen';
+
+  @override
+  String get sleepWakeTime => 'Aufgewacht';
+
+  @override
+  String get sleepDistribution => 'Schlafphasen';
+
+  @override
+  String get sleepIdealRange => 'Idealbereich';
+
+  @override
+  String sleepIdealValue(int low, int high) {
+    return 'Ideal $low–$high %';
+  }
+
+  @override
+  String get sleepPattern => 'Schlafmuster';
+
+  @override
+  String get sleepInBed => 'Zeit im Bett';
+
+  @override
+  String get sleepEfficiency => 'Schlafeffizienz';
+
+  @override
+  String get sleepLatency => 'Einschlafdauer';
+
+  @override
+  String get sleepDebt => 'Schlafdefizit';
+
+  @override
+  String get sleepNoDebt => 'Keins';
+
+  @override
+  String get sleepDuringHeartRate => 'Herzfrequenz im Schlaf';
+
+  @override
+  String get sleepDuringSpo2 => 'Blutsauerstoff im Schlaf';
+
+  @override
+  String get sleepDuringHrv => 'HRV im Schlaf';
+
+  @override
+  String get sleepNaps => 'Nickerchen';
+
+  @override
+  String get sleepNoNaps => 'Keine Nickerchen';
+
+  @override
+  String sleepSummaryDebt(String duration, String debt) {
+    return 'Sie haben $duration geschlafen; gemessen am Bedarf von 8 Stunden fehlen Ihnen $debt.';
+  }
+
+  @override
+  String sleepSummaryEnough(String duration) {
+    return 'Sie haben $duration geschlafen und Ihren Tagesbedarf gedeckt.';
+  }
+
+  @override
+  String get sleepSummaryLowDeep =>
+      'Ihr Tiefschlaf liegt unter dem empfohlenen Bereich; abends auf Koffein und schwere Mahlzeiten zu verzichten kann helfen.';
+
+  @override
+  String sleepSummaryLowEfficiency(int value) {
+    return 'Sie lagen lange wach im Bett; Ihre Schlafeffizienz beträgt $value %.';
+  }
+
+  @override
+  String get sleepSummaryNote =>
+      'Dies ist eine eigene Einschätzung der App aus den Armbanddaten, keine medizinische.';
+
+  @override
+  String sleepStagesChart(String start, String end) {
+    return 'Schlafphasen von $start bis $end';
+  }
+
+  @override
+  String get recoveryTitle => 'Erholung';
+
+  @override
+  String get recoveryExcellent => 'Ausgezeichnet';
+
+  @override
+  String get recoveryGood => 'Gut';
+
+  @override
+  String get recoveryNormal => 'Normal';
+
+  @override
+  String get recoveryPoor => 'Schwach';
+
+  @override
+  String get recoveryInadequate => 'Unzureichend';
+
+  @override
+  String get recoveryOptimal => 'Optimal';
+
+  @override
+  String get recoveryAssessment => 'Einschätzung';
+
+  @override
+  String get recoveryCommentExcellent =>
+      'Sie sind sehr gut erholt; ein guter Tag für intensives Training.';
+
+  @override
+  String get recoveryCommentGood =>
+      'Sie sind gut erholt; Ihr übliches Training passt.';
+
+  @override
+  String get recoveryCommentNormal =>
+      'Die Erholung ist mittel, leichte Müdigkeit ist vorhanden. Leichte Aktivität wird empfohlen.';
+
+  @override
+  String get recoveryCommentPoor =>
+      'Die Erholung ist schwach; machen Sie heute langsamer und ruhen Sie sich aus.';
+
+  @override
+  String get recoveryCommentInadequate =>
+      'Ihr Körper hat sich nicht ausreichend erholt; ruhen Sie sich heute aus und gehen Sie früh schlafen.';
+
+  @override
+  String get recoveryHrvLow =>
+      'Ihre HRV liegt unter Ihrem Normalwert; Ihr Körper erholt sich vielleicht noch.';
+
+  @override
+  String get recoveryRhrHigh => 'Ihr Ruhepuls ist höher als üblich.';
+
+  @override
+  String get recoveryNote =>
+      'Eigene Schätzung der App aus den Armbanddaten, keine medizinische.';
+
+  @override
+  String get recoveryIndicators => 'Erholungswerte';
+
+  @override
+  String get recoveryRestingHr => 'Ruhepuls';
+
+  @override
+  String get recoveryHrv => 'HRV';
+
+  @override
+  String get recoveryStress => 'Stress';
+
+  @override
+  String get recoverySleepScore => 'Schlafwert';
+
+  @override
+  String recoveryUsual(String value) {
+    return 'Üblich $value';
+  }
+
+  @override
+  String get recoveryTrend => 'Verlauf';
+
+  @override
+  String get recoveryWeek => 'Woche';
+
+  @override
+  String get recoveryMonth => 'Monat';
+
+  @override
+  String recoveryRange(String start, String end) {
+    return '$start – $end';
+  }
+
+  @override
+  String get recoveryEmpty =>
+      'Für die Erholung sind nächtliche HRV- oder Schlafdaten nötig. Tragen Sie das Armband heute Nacht.';
+
+  @override
+  String get recoveryTrendEmpty => 'Keine Daten in diesem Zeitraum';
+
+  @override
+  String recoveryRingSemantics(String value, String level) {
+    return 'Tägliche Erholung $value, $level';
+  }
+
+  @override
+  String recoveryTrendSemantics(String range, String value) {
+    return 'Erholungsverlauf $range, Durchschnitt $value';
+  }
 }

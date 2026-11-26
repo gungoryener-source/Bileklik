@@ -1,10 +1,10 @@
 import 'dart:math';
 
-import '../device/protocol/history.dart';
 import 'aggregate.dart';
 import 'day_summary.dart';
 import 'health_store.dart';
 import 'models.dart';
+import 'sleep_analysis.dart';
 
 /// Günlük adım hedefi.
 const dailyStepGoal = 10000;
@@ -49,15 +49,7 @@ class EnergyScore {
   static EnergyScore? of(HealthStore store, DateTime day) {
     final s = DaySummary.of(store, day);
     final night = s.night;
-    int? sleep;
-    if (night != null && night.asleepMinutes > 0) {
-      final asleep = night.asleepMinutes;
-      final restorative =
-          night.minutesIn(SleepStage.deep) + night.minutesIn(SleepStage.rem);
-      sleep =
-          (min(asleep / 480, 1) * 70 + min(restorative / asleep / 0.4, 1) * 30)
-              .round();
-    }
+    final sleep = night == null ? null : sleepScoreOf(night);
     int? recovery;
     final hrv = s.recoveryHrv;
     if (hrv != null) {

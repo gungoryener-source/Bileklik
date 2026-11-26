@@ -3368,4 +3368,191 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get bioAgeTipActivity => 'سجّل خطواتك وتمارينك اليومية.';
+
+  @override
+  String get sleepScoreLabel => 'درجة النوم';
+
+  @override
+  String get sleepBedTime => 'وقت النوم';
+
+  @override
+  String get sleepWakeTime => 'وقت الاستيقاظ';
+
+  @override
+  String get sleepDistribution => 'توزيع مراحل النوم';
+
+  @override
+  String get sleepIdealRange => 'النطاق المثالي';
+
+  @override
+  String sleepIdealValue(int low, int high) {
+    return 'المثالي $low–$high٪';
+  }
+
+  @override
+  String get sleepPattern => 'نمط النوم';
+
+  @override
+  String get sleepInBed => 'الوقت في السرير';
+
+  @override
+  String get sleepEfficiency => 'كفاءة النوم';
+
+  @override
+  String get sleepLatency => 'مدة الدخول في النوم';
+
+  @override
+  String get sleepDebt => 'دَين النوم';
+
+  @override
+  String get sleepNoDebt => 'لا يوجد';
+
+  @override
+  String get sleepDuringHeartRate => 'نبض القلب أثناء النوم';
+
+  @override
+  String get sleepDuringSpo2 => 'أكسجين الدم أثناء النوم';
+
+  @override
+  String get sleepDuringHrv => 'تقلب نبض القلب أثناء النوم';
+
+  @override
+  String get sleepNaps => 'القيلولات';
+
+  @override
+  String get sleepNoNaps => 'لا توجد قيلولات';
+
+  @override
+  String sleepSummaryDebt(String duration, String debt) {
+    return 'نمت $duration؛ مقارنةً بحاجتك اليومية البالغة 8 ساعات لديك دَين نوم قدره $debt.';
+  }
+
+  @override
+  String sleepSummaryEnough(String duration) {
+    return 'نمت $duration وغطّيت حاجتك اليومية.';
+  }
+
+  @override
+  String get sleepSummaryLowDeep =>
+      'نومك العميق أقل من النطاق الموصى به؛ قد يساعد تجنّب الكافيين والوجبات الثقيلة مساءً.';
+
+  @override
+  String sleepSummaryLowEfficiency(int value) {
+    return 'قضيت وقتًا طويلًا مستيقظًا في السرير؛ كفاءة نومك $value٪.';
+  }
+
+  @override
+  String get sleepSummaryNote =>
+      'هذا تقييم التطبيق لبيانات السوار، وليس تقييمًا طبيًا.';
+
+  @override
+  String sleepStagesChart(String start, String end) {
+    return 'مراحل النوم من $start إلى $end';
+  }
+
+  @override
+  String get recoveryTitle => 'التعافي';
+
+  @override
+  String get recoveryExcellent => 'ممتاز';
+
+  @override
+  String get recoveryGood => 'جيد';
+
+  @override
+  String get recoveryNormal => 'طبيعي';
+
+  @override
+  String get recoveryPoor => 'ضعيف';
+
+  @override
+  String get recoveryInadequate => 'غير كافٍ';
+
+  @override
+  String get recoveryOptimal => 'المثالي';
+
+  @override
+  String get recoveryAssessment => 'التقييم';
+
+  @override
+  String get recoveryCommentExcellent =>
+      'تعافيت جيدًا جدًا؛ يوم مناسب لتمرين مكثف.';
+
+  @override
+  String get recoveryCommentGood =>
+      'تعافيت جيدًا؛ يمكنك ممارسة تمرينك المعتاد.';
+
+  @override
+  String get recoveryCommentNormal =>
+      'التعافي متوسط مع إرهاق خفيف. يُنصح بنشاط خفيف.';
+
+  @override
+  String get recoveryCommentPoor =>
+      'التعافي ضعيف؛ خفّف الوتيرة اليوم وأعطِ الأولوية للراحة.';
+
+  @override
+  String get recoveryCommentInadequate =>
+      'لم يتعافَ جسمك بما يكفي؛ استرح اليوم ونم مبكرًا.';
+
+  @override
+  String get recoveryHrvLow =>
+      'تقلب نبض قلبك أقل من المعتاد؛ ربما لا يزال جسمك يتعافى.';
+
+  @override
+  String get recoveryRhrHigh => 'نبض قلبك أثناء الراحة أعلى من المعتاد.';
+
+  @override
+  String get recoveryNote =>
+      'تقدير التطبيق من بيانات السوار، وليس تقييمًا طبيًا.';
+
+  @override
+  String get recoveryIndicators => 'مؤشرات التعافي';
+
+  @override
+  String get recoveryRestingHr => 'نبض الراحة';
+
+  @override
+  String get recoveryHrv => 'تقلب نبض القلب';
+
+  @override
+  String get recoveryStress => 'التوتر';
+
+  @override
+  String get recoverySleepScore => 'درجة النوم';
+
+  @override
+  String recoveryUsual(String value) {
+    return 'المعتاد $value';
+  }
+
+  @override
+  String get recoveryTrend => 'الاتجاه';
+
+  @override
+  String get recoveryWeek => 'أسبوع';
+
+  @override
+  String get recoveryMonth => 'شهر';
+
+  @override
+  String recoveryRange(String start, String end) {
+    return '$start – $end';
+  }
+
+  @override
+  String get recoveryEmpty =>
+      'يحتاج التعافي إلى بيانات تقلب النبض الليلي أو النوم. ارتدِ السوار الليلة.';
+
+  @override
+  String get recoveryTrendEmpty => 'لا توجد بيانات في هذه الفترة';
+
+  @override
+  String recoveryRingSemantics(String value, String level) {
+    return 'تعافي اليوم $value، $level';
+  }
+
+  @override
+  String recoveryTrendSemantics(String range, String value) {
+    return 'اتجاه التعافي $range، المتوسط $value';
+  }
 }

@@ -3396,4 +3396,191 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get bioAgeTipActivity => 'Track your daily steps and workouts.';
+
+  @override
+  String get sleepScoreLabel => 'Sleep score';
+
+  @override
+  String get sleepBedTime => 'Fell asleep';
+
+  @override
+  String get sleepWakeTime => 'Woke up';
+
+  @override
+  String get sleepDistribution => 'Sleep stages';
+
+  @override
+  String get sleepIdealRange => 'Ideal range';
+
+  @override
+  String sleepIdealValue(int low, int high) {
+    return 'Ideal $low–$high%';
+  }
+
+  @override
+  String get sleepPattern => 'Sleep pattern';
+
+  @override
+  String get sleepInBed => 'Time in bed';
+
+  @override
+  String get sleepEfficiency => 'Sleep efficiency';
+
+  @override
+  String get sleepLatency => 'Time to fall asleep';
+
+  @override
+  String get sleepDebt => 'Sleep debt';
+
+  @override
+  String get sleepNoDebt => 'None';
+
+  @override
+  String get sleepDuringHeartRate => 'Heart rate during sleep';
+
+  @override
+  String get sleepDuringSpo2 => 'Blood oxygen during sleep';
+
+  @override
+  String get sleepDuringHrv => 'HRV during sleep';
+
+  @override
+  String get sleepNaps => 'Naps';
+
+  @override
+  String get sleepNoNaps => 'No naps';
+
+  @override
+  String sleepSummaryDebt(String duration, String debt) {
+    return 'You slept $duration; compared with your 8-hour daily need, you have $debt of sleep debt.';
+  }
+
+  @override
+  String sleepSummaryEnough(String duration) {
+    return 'You slept $duration and met your daily need.';
+  }
+
+  @override
+  String get sleepSummaryLowDeep =>
+      'Your deep sleep is below the recommended range; avoiding caffeine and heavy meals in the evening may help.';
+
+  @override
+  String sleepSummaryLowEfficiency(int value) {
+    return 'You spent a long time awake in bed; your sleep efficiency is $value%.';
+  }
+
+  @override
+  String get sleepSummaryNote =>
+      'This is the app\'s own assessment of your wristband data, not a medical one.';
+
+  @override
+  String sleepStagesChart(String start, String end) {
+    return 'Sleep stages from $start to $end';
+  }
+
+  @override
+  String get recoveryTitle => 'Recovery';
+
+  @override
+  String get recoveryExcellent => 'Excellent';
+
+  @override
+  String get recoveryGood => 'Good';
+
+  @override
+  String get recoveryNormal => 'Normal';
+
+  @override
+  String get recoveryPoor => 'Poor';
+
+  @override
+  String get recoveryInadequate => 'Inadequate';
+
+  @override
+  String get recoveryOptimal => 'Optimal';
+
+  @override
+  String get recoveryAssessment => 'Assessment';
+
+  @override
+  String get recoveryCommentExcellent =>
+      'You\'re very well recovered; a good day for a hard workout.';
+
+  @override
+  String get recoveryCommentGood =>
+      'You\'re well recovered; your usual training is fine.';
+
+  @override
+  String get recoveryCommentNormal =>
+      'Recovery is moderate with mild fatigue. Light activity is recommended.';
+
+  @override
+  String get recoveryCommentPoor =>
+      'Recovery is low; ease off today and prioritise rest.';
+
+  @override
+  String get recoveryCommentInadequate =>
+      'Your body hasn\'t recovered enough; rest today and go to bed early.';
+
+  @override
+  String get recoveryHrvLow =>
+      'Your HRV is below your usual; your body may still be recovering.';
+
+  @override
+  String get recoveryRhrHigh => 'Your resting heart rate is higher than usual.';
+
+  @override
+  String get recoveryNote =>
+      'This is the app\'s own estimate from your wristband data, not a medical one.';
+
+  @override
+  String get recoveryIndicators => 'Recovery indicators';
+
+  @override
+  String get recoveryRestingHr => 'Resting heart rate';
+
+  @override
+  String get recoveryHrv => 'HRV';
+
+  @override
+  String get recoveryStress => 'Stress';
+
+  @override
+  String get recoverySleepScore => 'Sleep score';
+
+  @override
+  String recoveryUsual(String value) {
+    return 'Usual $value';
+  }
+
+  @override
+  String get recoveryTrend => 'Trend';
+
+  @override
+  String get recoveryWeek => 'Week';
+
+  @override
+  String get recoveryMonth => 'Month';
+
+  @override
+  String recoveryRange(String start, String end) {
+    return '$start – $end';
+  }
+
+  @override
+  String get recoveryEmpty =>
+      'Recovery needs overnight HRV or sleep data. Wear your wristband tonight.';
+
+  @override
+  String get recoveryTrendEmpty => 'No data in this period';
+
+  @override
+  String recoveryRingSemantics(String value, String level) {
+    return 'Day recovery $value, $level';
+  }
+
+  @override
+  String recoveryTrendSemantics(String range, String value) {
+    return 'Recovery trend $range, average $value';
+  }
 }
