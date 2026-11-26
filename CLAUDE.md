@@ -94,6 +94,10 @@ UI (lib/ui)  ->  DeviceController (lib/state)  ->  WristbandClient  ->  DeviceTr
   kodla çizilir; üreticinin resim, logo ya da marka adı kullanılmaz. Gün serisi
   `dataStreak`, antrenman planı `showTrainingPlan` (`training_plan.dart`,
   toparlanma düzeyine göre yoğunluk ve nabız bölgesi).
+- Tüm ekranlar aynı gökyüzü paletini kullanır: `AppColors.cam` zemini
+  (lacivert-mavi-gece degradesi) ve koyu yarı saydam cam kartlar `HomeSky`
+  ile uyumludur. Renk değişikliği tokenlarda yapılır, ekrana sabit renk
+  yazılmaz; `test/theme_test.dart` kontrastı denetler.
 
 ## Portal (`portal/`)
 
