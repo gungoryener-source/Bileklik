@@ -562,32 +562,48 @@ class DeviceController extends ChangeNotifier {
   Future<void> stopExercise() async {
     final ex = exercise;
     if (ex == null) return;
+    // Bileklik yanıt vermezse "Bitir" takılı kalmasın.
     try {
-      await _client.controlExercise(ExerciseAction.end, ex.type);
+      await _client
+          .controlExercise(ExerciseAction.end, ex.type)
+          .timeout(exerciseTimeout);
     } catch (e) {
       error = e.toString();
     }
     await _finishExercise(ex);
   }
 
+  /// Egzersizi bitirirken bileklikten yanıt ve geçmiş için en uzun bekleme.
+  static const exerciseTimeout = Duration(seconds: 8);
+
   Future<void> _finishExercise(ActiveExercise ex) async {
+    // "Bitir" ile bilekliğin bitti bildirimi üst üste gelebilir.
+    if (ex.finishing) return;
+    ex.finishing = true;
     exercise = null;
     lastWorkout = null;
     notifyListeners();
     // Bileklik biten egzersizi 0x5C geçmişine yazar; oradan çekiyoruz.
+    // Senkron sürüyorsa ya da kayıt gelmezse egzersiz, süren ölçümlerden
+    // kaydedilir; özet ekranı hiçbir durumda beklemede kalmaz.
     if (!syncing) {
       try {
-        await _sync.workouts();
+        await _sync.workouts().timeout(exerciseTimeout * 2);
       } catch (e) {
         error = e.toString();
       }
     }
-    lastWorkout = store
+    var w = store
         .workoutsBetween(
           ex.startedAt.subtract(const Duration(minutes: 1)),
           DateTime.now().add(const Duration(days: 1)),
         )
         .firstOrNull;
+    if (w == null) {
+      w = ex.toWorkout(DateTime.now());
+      store.addWorkouts([w]);
+    }
+    lastWorkout = w;
     notifyListeners();
   }
 
@@ -820,6 +836,29 @@ class ActiveExercise {
   int? get averageHeartRate => heartRates.isEmpty
       ? null
       : (heartRates.reduce((a, b) => a + b) / heartRates.length).round();
+
+  /// Bitirme bir kez işlenir.
+  bool finishing = false;
+
+  /// Bileklik geçmişe kayıt yazmadıysa egzersiz, son anlık veriden
+  /// kaydedilir. Anlık veri hiç gelmediyse süre başlangıçtan [now]'a kadar.
+  Workout toWorkout(DateTime now) {
+    final l = live;
+    final seconds = l != null && l.durationSeconds > 0
+        ? l.durationSeconds
+        : now.difference(startedAt).inSeconds;
+    final km = l?.distanceKm ?? 0;
+    return Workout(
+      type: type,
+      start: startedAt,
+      duration: Duration(seconds: seconds),
+      steps: l?.steps ?? 0,
+      distanceKm: km,
+      calories: l?.calories ?? 0,
+      averageHeartRate: averageHeartRate ?? 0,
+      pace: km > 0.01 ? Duration(seconds: (seconds / km).round()) : null,
+    );
+  }
 }
 
 /// Süren EKG ölçümü.

@@ -99,8 +99,12 @@ class DayStrain {
       : (0, 6);
 
   /// Bir dakikalık nabız yükü; [reserve] nabız yedeğinin payı (0–1).
-  static double _trimp(double reserve) =>
+  static double trimp(double reserve) =>
       reserve <= 0.3 ? 0 : reserve * 0.64 * exp(1.92 * reserve);
+
+  /// TRIMP birimindeki yükün 0–21 ölçeğindeki karşılığı (bir ondalık
+  /// yuvarlanmadan).
+  static double scale(double load) => max * (1 - exp(-load / _saturation));
 
   /// [day] gününün yükü; ne nabız ne adım ne egzersiz varsa null.
   /// [age] verilirse en yüksek nabız yaşa göre, yoksa 190 alınır.
@@ -136,18 +140,18 @@ class DayStrain {
       if (m.value <= 0 || asleep(m.time) || inWorkout(m.time)) continue;
       final next = i + 1 < sorted.length ? sorted[i + 1].time : s.range.end;
       final minutes = min(next.difference(m.time).inSeconds / 60, 15.0);
-      load += minutes * _trimp(reserve(m.value));
+      load += minutes * trimp(reserve(m.value));
     }
     var workoutMinutes = 0;
     for (final w in s.workouts) {
       workoutMinutes += w.duration.inMinutes;
       if (w.averageHeartRate > 0) {
-        load += w.duration.inSeconds / 60 * _trimp(reserve(w.averageHeartRate));
+        load += w.duration.inSeconds / 60 * trimp(reserve(w.averageHeartRate));
       }
     }
     load += s.steps / 1000 * 1.5;
 
-    final score = max * (1 - exp(-load / _saturation));
+    final score = scale(load);
     final recovery = DayRecovery.of(store, d);
     return DayStrain(
       day: d,

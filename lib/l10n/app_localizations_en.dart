@@ -3787,4 +3787,76 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get strainOpen => 'Daily strain details';
+
+  @override
+  String get wrTitle => 'Workout report';
+
+  @override
+  String get wrLoad => 'Workout strain';
+
+  @override
+  String get wrAvgHr => 'Average HR';
+
+  @override
+  String get wrMaxHr => 'Max HR';
+
+  @override
+  String get wrMet => 'Metabolic equivalent';
+
+  @override
+  String get wrMetLight => 'Light activity';
+
+  @override
+  String get wrMetModerate => 'Maintaining fitness';
+
+  @override
+  String get wrMetVigorous => 'Building endurance';
+
+  @override
+  String get wrMetCommentLight =>
+      'A light-intensity workout; it boosts circulation and supports recovery.';
+
+  @override
+  String get wrMetCommentModerate =>
+      'A moderate-intensity workout; it keeps your heart and muscles fit.';
+
+  @override
+  String get wrMetCommentVigorous =>
+      'A high-intensity workout. Activities like this raise the heart rate quickly and clearly improve cardiorespiratory capacity, muscle strength and endurance.';
+
+  @override
+  String get wrRecovery => 'Recovery';
+
+  @override
+  String wrHrChart(String unit) {
+    return 'Heart rate ($unit)';
+  }
+
+  @override
+  String get wrRange => 'Range';
+
+  @override
+  String get wrZones => 'Heart rate zones';
+
+  @override
+  String get wrNote =>
+      'The app\'s own estimate from heart rate and calories; not medical advice.';
+
+  @override
+  String wrLoadSemantics(String value) {
+    return 'Workout strain $value of 21';
+  }
+
+  @override
+  String wrGaugeSemantics(String label, String value, String level) {
+    return '$label $value, $level';
+  }
+
+  @override
+  String wrChartSemantics(String range) {
+    return 'Heart rate during the workout $range';
+  }
+
+  @override
+  String get wrNoHeartRate => 'No heart rate was recorded during this workout.';
 }

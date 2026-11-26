@@ -95,7 +95,12 @@ class FakeHistory {
       case HistoryKind.sleep:
         _sleepRecords(now, out);
       case HistoryKind.heartRateDetail:
-        each(const Duration(minutes: 10), _hrDetailRecord);
+        // 10 dakikada bir; akşam egzersizi sırasında 2 dakikada bir.
+        each(
+          const Duration(minutes: 2),
+          _hrDetailRecord,
+          when: (t) => t.minute % 10 == 0 || _exerciseAt(t) != null,
+        );
       case HistoryKind.heartRateSingle:
         each(
           const Duration(hours: 2),
@@ -295,9 +300,32 @@ class FakeHistory {
     return 66 + rng.nextInt(14);
   }
 
+  /// [t] akşam egzersizinin içindeyse egzersizin ilerleme payı (0–1) ve
+  /// türü. [_exerciseRecords] ile aynı rastgele diziyi kullanır.
+  static (double, SportType)? _exerciseAt(DateTime t) {
+    final start = DateTime(t.year, t.month, t.day, 18, 5);
+    if (t.isBefore(start)) return null;
+    final rng = _rng(start, 0x5C);
+    if (rng.nextInt(4) == 0) return null;
+    const types = [SportType.walk, SportType.run, SportType.cycling];
+    final type = types[rng.nextInt(types.length)];
+    final seconds = (20 + rng.nextInt(30)) * 60;
+    final into = t.difference(start).inSeconds;
+    if (into >= seconds) return null;
+    return (into / seconds, type);
+  }
+
   List<int> _hrDetailRecord(DateTime t, int id) {
     final rng = _rng(t, 0x54);
-    final base = _baseHeartRate(t, rng);
+    final ex = _exerciseAt(t);
+    // Egzersizde ısınma, tepe ve soğuma: yürüyüşte ~105, diğerlerinde ~150.
+    final base = ex == null
+        ? _baseHeartRate(t, rng)
+        : ((ex.$2 == SportType.walk ? 92 : 118) +
+                  (ex.$2 == SportType.walk ? 18 : 40) *
+                      sin(pi * min(1.0, ex.$1 * 1.4)) +
+                  rng.nextInt(6))
+              .round();
     final r = _header(HistoryKind.heartRateDetail.command, id, t, 24);
     for (var i = 0; i < 15; i++) {
       r[9 + i] = base + rng.nextInt(5) - 2;
@@ -325,10 +353,7 @@ class FakeHistory {
 
   /// Gece 30 dakikada bir ~90 atımlık PPI ölçümü. V8 API V1.2 biçiminde
   /// iki kayda bölünür (56 + 34 aralık); kayıt zamanı ölçümün bittiği an.
-  void _ppiRecords(
-    DateTime now,
-    List<({DateTime time, List<int> bytes})> out,
-  ) {
+  void _ppiRecords(DateTime now, List<({DateTime time, List<int> bytes})> out) {
     var t = _firstDay(now);
     var id = 0;
     while (!t.isAfter(now)) {

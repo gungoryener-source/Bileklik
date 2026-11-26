@@ -150,6 +150,26 @@ void main() {
       expect(controller.lastWorkout?.type, SportType.walk);
     });
 
+    test('senkron sürerken bitir takılmaz, anlık veriden kaydedilir', () async {
+      expect(await controller.startExercise(SportType.run), isTrue);
+      await Future<void>.delayed(const Duration(milliseconds: 100));
+      // Senkron sürüyormuş gibi: geçmiş çekilmez, kayıt anlık veriden.
+      controller.syncing = true;
+      await controller.stopExercise();
+      controller.syncing = false;
+      expect(controller.exercise, isNull);
+      final w = controller.lastWorkout!;
+      expect(w.type, SportType.run);
+      expect(w.duration.inSeconds, greaterThan(0));
+      expect(
+        controller.store.workoutsBetween(
+          w.start,
+          w.start.add(const Duration(seconds: 1)),
+        ),
+        isNotEmpty,
+      );
+    });
+
     test('egzersiz geçmiş türü 0x5C kayıt uzunluğu', () {
       expect(HistoryKind.exercise.recordLength, ExerciseRecord.length);
     });

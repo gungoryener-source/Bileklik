@@ -14,6 +14,8 @@ import 'package:bileklik/state/device_controller.dart';
 import 'package:bileklik/ui/screens/recovery_screen.dart';
 import 'package:bileklik/ui/screens/sleep_screen.dart';
 import 'package:bileklik/ui/screens/strain_screen.dart';
+import 'package:bileklik/ui/screens/workout_detail_screen.dart';
+import 'package:bileklik/device/protocol/exercise.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -66,6 +68,17 @@ MemoryHealthStore _store({int days = 14, double lastHrv = 50}) {
   }
   return store;
 }
+
+final _workout = Workout(
+  type: SportType.run,
+  start: DateTime(2026, 11, 26, 18, 5),
+  duration: const Duration(minutes: 40),
+  steps: 5200,
+  distanceKm: 6.1,
+  calories: 410,
+  averageHeartRate: 142,
+  pace: const Duration(seconds: 393),
+);
 
 void main() {
   group('uyku çözümlemesi', () {
@@ -305,10 +318,20 @@ void main() {
         SleepScreen(day: _today),
         RecoveryScreen(day: _today, now: _today),
         StrainScreen(day: _today, now: _today),
+        WorkoutDetailScreen(workout: _workout),
       ]) {
         await pump(
           tester,
-          _store(),
+          _store()
+            ..addWorkouts([_workout])
+            ..addMeasurements([
+              for (var m = 0; m < 40; m += 2)
+                Measurement(
+                  MetricType.heartRate,
+                  _workout.start.add(Duration(minutes: m)),
+                  110.0 + m,
+                ),
+            ]),
           screen,
           lang: lang,
           size: const Size(960, 1920),

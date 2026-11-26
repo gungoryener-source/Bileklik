@@ -2028,5 +2028,59 @@
       }
     }
   },
-  "strainOpen": "Günlük yük ayrıntısı"
+  "strainOpen": "Günlük yük ayrıntısı",
+  "wrTitle": "Egzersiz raporu",
+  "wrLoad": "Egzersiz yükü",
+  "wrAvgHr": "Ortalama nabız",
+  "wrMaxHr": "Maksimum nabız",
+  "wrMet": "Metabolik eşdeğer",
+  "wrMetLight": "Hafif aktivite",
+  "wrMetModerate": "Kondisyonu koruma",
+  "wrMetVigorous": "Dayanıklılığı güçlendirme",
+  "wrMetCommentLight": "Hafif yoğunlukta bir egzersiz yaptınız; dolaşımı canlandırır ve toparlanmaya yardım eder.",
+  "wrMetCommentModerate": "Orta yoğunlukta egzersiz yaptınız; kalp ve kas kondisyonunuzu korur.",
+  "wrMetCommentVigorous": "Yüksek yoğunlukta egzersiz yaptınız. Bu tür aktiviteler nabzı hızla yükseltir; kalp-akciğer kapasitesini, kas gücünü ve dayanıklılığı belirgin biçimde artırır.",
+  "wrRecovery": "Toparlanma",
+  "wrHrChart": "Kalp atış hızı ({unit})",
+  "@wrHrChart": {
+    "placeholders": {
+      "unit": {
+        "type": "String"
+      }
+    }
+  },
+  "wrRange": "Aralık",
+  "wrZones": "Nabız bölgeleri",
+  "wrNote": "Nabız ve kaloriden uygulamanın kendi tahminidir; tıbbi değildir.",
+  "wrLoadSemantics": "Egzersiz yükü {value} / 21",
+  "@wrLoadSemantics": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "wrGaugeSemantics": "{label} {value}, {level}",
+  "@wrGaugeSemantics": {
+    "placeholders": {
+      "label": {
+        "type": "String"
+      },
+      "value": {
+        "type": "String"
+      },
+      "level": {
+        "type": "String"
+      }
+    }
+  },
+  "wrChartSemantics": "Egzersiz boyunca nabız {range}",
+  "@wrChartSemantics": {
+    "placeholders": {
+      "range": {
+        "type": "String"
+      }
+    }
+  },
+  "wrNoHeartRate": "Bu egzersizde nabız ölçümü yok."
 }

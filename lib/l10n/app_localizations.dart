@@ -6351,6 +6351,126 @@ abstract class AppLocalizations {
   /// In tr, this message translates to:
   /// **'Günlük yük ayrıntısı'**
   String get strainOpen;
+
+  /// No description provided for @wrTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Egzersiz raporu'**
+  String get wrTitle;
+
+  /// No description provided for @wrLoad.
+  ///
+  /// In tr, this message translates to:
+  /// **'Egzersiz yükü'**
+  String get wrLoad;
+
+  /// No description provided for @wrAvgHr.
+  ///
+  /// In tr, this message translates to:
+  /// **'Ortalama nabız'**
+  String get wrAvgHr;
+
+  /// No description provided for @wrMaxHr.
+  ///
+  /// In tr, this message translates to:
+  /// **'Maksimum nabız'**
+  String get wrMaxHr;
+
+  /// No description provided for @wrMet.
+  ///
+  /// In tr, this message translates to:
+  /// **'Metabolik eşdeğer'**
+  String get wrMet;
+
+  /// No description provided for @wrMetLight.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hafif aktivite'**
+  String get wrMetLight;
+
+  /// No description provided for @wrMetModerate.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kondisyonu koruma'**
+  String get wrMetModerate;
+
+  /// No description provided for @wrMetVigorous.
+  ///
+  /// In tr, this message translates to:
+  /// **'Dayanıklılığı güçlendirme'**
+  String get wrMetVigorous;
+
+  /// No description provided for @wrMetCommentLight.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hafif yoğunlukta bir egzersiz yaptınız; dolaşımı canlandırır ve toparlanmaya yardım eder.'**
+  String get wrMetCommentLight;
+
+  /// No description provided for @wrMetCommentModerate.
+  ///
+  /// In tr, this message translates to:
+  /// **'Orta yoğunlukta egzersiz yaptınız; kalp ve kas kondisyonunuzu korur.'**
+  String get wrMetCommentModerate;
+
+  /// No description provided for @wrMetCommentVigorous.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yüksek yoğunlukta egzersiz yaptınız. Bu tür aktiviteler nabzı hızla yükseltir; kalp-akciğer kapasitesini, kas gücünü ve dayanıklılığı belirgin biçimde artırır.'**
+  String get wrMetCommentVigorous;
+
+  /// No description provided for @wrRecovery.
+  ///
+  /// In tr, this message translates to:
+  /// **'Toparlanma'**
+  String get wrRecovery;
+
+  /// No description provided for @wrHrChart.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kalp atış hızı ({unit})'**
+  String wrHrChart(String unit);
+
+  /// No description provided for @wrRange.
+  ///
+  /// In tr, this message translates to:
+  /// **'Aralık'**
+  String get wrRange;
+
+  /// No description provided for @wrZones.
+  ///
+  /// In tr, this message translates to:
+  /// **'Nabız bölgeleri'**
+  String get wrZones;
+
+  /// No description provided for @wrNote.
+  ///
+  /// In tr, this message translates to:
+  /// **'Nabız ve kaloriden uygulamanın kendi tahminidir; tıbbi değildir.'**
+  String get wrNote;
+
+  /// No description provided for @wrLoadSemantics.
+  ///
+  /// In tr, this message translates to:
+  /// **'Egzersiz yükü {value} / 21'**
+  String wrLoadSemantics(String value);
+
+  /// No description provided for @wrGaugeSemantics.
+  ///
+  /// In tr, this message translates to:
+  /// **'{label} {value}, {level}'**
+  String wrGaugeSemantics(String label, String value, String level);
+
+  /// No description provided for @wrChartSemantics.
+  ///
+  /// In tr, this message translates to:
+  /// **'Egzersiz boyunca nabız {range}'**
+  String wrChartSemantics(String range);
+
+  /// No description provided for @wrNoHeartRate.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bu egzersizde nabız ölçümü yok.'**
+  String get wrNoHeartRate;
 }
 
 class _AppLocalizationsDelegate

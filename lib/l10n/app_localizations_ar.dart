@@ -3758,4 +3758,76 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get strainOpen => 'تفاصيل الحمل اليومي';
+
+  @override
+  String get wrTitle => 'تقرير التمرين';
+
+  @override
+  String get wrLoad => 'حمل التمرين';
+
+  @override
+  String get wrAvgHr => 'متوسط النبض';
+
+  @override
+  String get wrMaxHr => 'أقصى نبض';
+
+  @override
+  String get wrMet => 'المكافئ الأيضي';
+
+  @override
+  String get wrMetLight => 'نشاط خفيف';
+
+  @override
+  String get wrMetModerate => 'الحفاظ على اللياقة';
+
+  @override
+  String get wrMetVigorous => 'تعزيز التحمّل';
+
+  @override
+  String get wrMetCommentLight =>
+      'تمرين بشدة خفيفة؛ ينشّط الدورة الدموية ويساعد على التعافي.';
+
+  @override
+  String get wrMetCommentModerate =>
+      'تمرين بشدة متوسطة؛ يحافظ على لياقة القلب والعضلات.';
+
+  @override
+  String get wrMetCommentVigorous =>
+      'تمرين بشدة عالية. ترفع هذه الأنشطة النبض بسرعة وتحسّن بوضوح قدرة القلب والرئتين وقوة العضلات والتحمّل.';
+
+  @override
+  String get wrRecovery => 'التعافي';
+
+  @override
+  String wrHrChart(String unit) {
+    return 'معدل النبض ($unit)';
+  }
+
+  @override
+  String get wrRange => 'النطاق';
+
+  @override
+  String get wrZones => 'مناطق النبض';
+
+  @override
+  String get wrNote =>
+      'تقدير التطبيق الخاص من النبض والسعرات؛ ليس تقييمًا طبيًا.';
+
+  @override
+  String wrLoadSemantics(String value) {
+    return 'حمل التمرين $value من 21';
+  }
+
+  @override
+  String wrGaugeSemantics(String label, String value, String level) {
+    return '$label $value، $level';
+  }
+
+  @override
+  String wrChartSemantics(String range) {
+    return 'النبض أثناء التمرين $range';
+  }
+
+  @override
+  String get wrNoHeartRate => 'لم يُسجَّل النبض خلال هذا التمرين.';
 }

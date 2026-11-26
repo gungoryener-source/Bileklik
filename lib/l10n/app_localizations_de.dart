@@ -3798,4 +3798,77 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get strainOpen => 'Details zur Tagesbelastung';
+
+  @override
+  String get wrTitle => 'Trainingsbericht';
+
+  @override
+  String get wrLoad => 'Trainingsbelastung';
+
+  @override
+  String get wrAvgHr => 'Ø Puls';
+
+  @override
+  String get wrMaxHr => 'Max. Puls';
+
+  @override
+  String get wrMet => 'Metabolisches Äquivalent';
+
+  @override
+  String get wrMetLight => 'Leichte Aktivität';
+
+  @override
+  String get wrMetModerate => 'Fitness erhalten';
+
+  @override
+  String get wrMetVigorous => 'Ausdauer aufbauen';
+
+  @override
+  String get wrMetCommentLight =>
+      'Ein Training mit leichter Intensität; es regt den Kreislauf an und unterstützt die Erholung.';
+
+  @override
+  String get wrMetCommentModerate =>
+      'Ein Training mit mittlerer Intensität; es hält Herz und Muskeln fit.';
+
+  @override
+  String get wrMetCommentVigorous =>
+      'Ein Training mit hoher Intensität. Solche Aktivitäten erhöhen den Puls schnell und verbessern Herz-Lungen-Leistung, Muskelkraft und Ausdauer deutlich.';
+
+  @override
+  String get wrRecovery => 'Erholung';
+
+  @override
+  String wrHrChart(String unit) {
+    return 'Puls ($unit)';
+  }
+
+  @override
+  String get wrRange => 'Bereich';
+
+  @override
+  String get wrZones => 'Pulszonen';
+
+  @override
+  String get wrNote =>
+      'Eigene Schätzung der App aus Puls und Kalorien; keine medizinische Aussage.';
+
+  @override
+  String wrLoadSemantics(String value) {
+    return 'Trainingsbelastung $value von 21';
+  }
+
+  @override
+  String wrGaugeSemantics(String label, String value, String level) {
+    return '$label $value, $level';
+  }
+
+  @override
+  String wrChartSemantics(String range) {
+    return 'Puls während des Trainings $range';
+  }
+
+  @override
+  String get wrNoHeartRate =>
+      'Während dieses Trainings wurde kein Puls gemessen.';
 }

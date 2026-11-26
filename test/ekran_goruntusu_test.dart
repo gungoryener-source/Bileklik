@@ -15,6 +15,8 @@ import 'package:bileklik/state/device_controller.dart';
 import 'package:bileklik/ui/screens/community_dialogs.dart';
 import 'package:bileklik/ui/screens/biological_age_screen.dart';
 import 'package:bileklik/ui/screens/ecg_screen.dart';
+import 'package:bileklik/ui/screens/workout_detail_screen.dart';
+import 'package:bileklik/device/protocol/exercise.dart';
 import 'package:bileklik/ui/screens/strain_screen.dart';
 import 'package:bileklik/ui/screens/recovery_screen.dart';
 import 'package:bileklik/ui/screens/sleep_screen.dart';
@@ -224,6 +226,20 @@ void main() {
     await _shot(tester, 'yuk-1');
     await tester.drag(find.byType(Scrollable).last, const Offset(0, -900));
     await _shot(tester, 'yuk-2');
+  });
+
+  testWidgets('egzersiz raporu', skip: !_enabled, (tester) async {
+    final c = await _app(tester, connect: true);
+    final w = c.store
+        .workoutsBetween(
+          DateTime.now().subtract(const Duration(days: 7)),
+          DateTime.now(),
+        )
+        .firstWhere((w) => w.type != SportType.walk);
+    _push(tester, WorkoutDetailScreen(workout: w));
+    await _shot(tester, 'egzersiz-1');
+    await tester.drag(find.byType(Scrollable).last, const Offset(0, -800));
+    await _shot(tester, 'egzersiz-2');
   });
 
   testWidgets('sağlık sekmesi', skip: !_enabled, (tester) async {

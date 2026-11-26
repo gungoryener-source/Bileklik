@@ -3724,4 +3724,76 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get strainOpen => 'Günlük yük ayrıntısı';
+
+  @override
+  String get wrTitle => 'Egzersiz raporu';
+
+  @override
+  String get wrLoad => 'Egzersiz yükü';
+
+  @override
+  String get wrAvgHr => 'Ortalama nabız';
+
+  @override
+  String get wrMaxHr => 'Maksimum nabız';
+
+  @override
+  String get wrMet => 'Metabolik eşdeğer';
+
+  @override
+  String get wrMetLight => 'Hafif aktivite';
+
+  @override
+  String get wrMetModerate => 'Kondisyonu koruma';
+
+  @override
+  String get wrMetVigorous => 'Dayanıklılığı güçlendirme';
+
+  @override
+  String get wrMetCommentLight =>
+      'Hafif yoğunlukta bir egzersiz yaptınız; dolaşımı canlandırır ve toparlanmaya yardım eder.';
+
+  @override
+  String get wrMetCommentModerate =>
+      'Orta yoğunlukta egzersiz yaptınız; kalp ve kas kondisyonunuzu korur.';
+
+  @override
+  String get wrMetCommentVigorous =>
+      'Yüksek yoğunlukta egzersiz yaptınız. Bu tür aktiviteler nabzı hızla yükseltir; kalp-akciğer kapasitesini, kas gücünü ve dayanıklılığı belirgin biçimde artırır.';
+
+  @override
+  String get wrRecovery => 'Toparlanma';
+
+  @override
+  String wrHrChart(String unit) {
+    return 'Kalp atış hızı ($unit)';
+  }
+
+  @override
+  String get wrRange => 'Aralık';
+
+  @override
+  String get wrZones => 'Nabız bölgeleri';
+
+  @override
+  String get wrNote =>
+      'Nabız ve kaloriden uygulamanın kendi tahminidir; tıbbi değildir.';
+
+  @override
+  String wrLoadSemantics(String value) {
+    return 'Egzersiz yükü $value / 21';
+  }
+
+  @override
+  String wrGaugeSemantics(String label, String value, String level) {
+    return '$label $value, $level';
+  }
+
+  @override
+  String wrChartSemantics(String range) {
+    return 'Egzersiz boyunca nabız $range';
+  }
+
+  @override
+  String get wrNoHeartRate => 'Bu egzersizde nabız ölçümü yok.';
 }

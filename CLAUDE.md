@@ -106,6 +106,12 @@ UI (lib/ui)  ->  DeviceController (lib/state)  ->  WristbandClient  ->  DeviceTr
   `StrainScreen`'i açar. Toparlanma ve yük ekranları ortak parçaları
   (`lib/ui/widgets/score_dial.dart`: halka, açıklama, AI kartı, eğilim)
   paylaşır.
+- Egzersiz raporu `WorkoutReport` (`lib/data/workout_report.dart`):
+  egzersiz yükü (günlük yükle aynı TRIMP, 0–21), MET (kalori / kilo × saat),
+  günün toparlanması, nabız aralığı ve bölgeler; `WorkoutDetailScreen`
+  gösterir. Egzersiz bitince bileklik geçmişe kayıt yazmadıysa ya da
+  senkron sürüyorsa egzersiz son anlık veriden kaydedilir
+  (`ActiveExercise.toWorkout`); bitir komutu süre sınırlıdır.
 
 ## Portal (`portal/`)
 
