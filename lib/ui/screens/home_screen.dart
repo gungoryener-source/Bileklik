@@ -18,6 +18,7 @@ import '../widgets/home/home_card.dart';
 import '../widgets/family_alerts.dart';
 import '../widgets/insights.dart';
 import 'ai_report_screen.dart';
+import 'biological_age_screen.dart';
 import 'ecg_screen.dart';
 import 'metric_detail_screen.dart';
 import 'progress_screen.dart';
@@ -185,6 +186,13 @@ class _HomeScreenState extends State<HomeScreen> {
                 store: store,
                 day: s.day,
                 onTap: () => _open(ProgressScreen(day: s.day)),
+              ),
+              gap,
+              BiologicalAgeHomeCard(
+                store: store,
+                day: s.day,
+                age: DeviceScope.of(context).profile?.age,
+                onTap: () => _open(BiologicalAgeScreen(day: s.day)),
               ),
               gap,
               _Timeline(s: s, open: _open),

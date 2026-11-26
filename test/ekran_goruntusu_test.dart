@@ -5,6 +5,7 @@ import 'dart:math';
 import 'package:bileklik/data/community.dart';
 import 'package:bileklik/data/day_summary.dart';
 import 'package:bileklik/data/models.dart';
+import 'package:bileklik/device/protocol/commands.dart';
 import 'package:bileklik/data/health_store.dart';
 import 'package:bileklik/data/portal.dart';
 import 'package:bileklik/device/fake_device.dart';
@@ -12,6 +13,7 @@ import 'package:bileklik/main.dart';
 import 'package:bileklik/state/app_settings.dart';
 import 'package:bileklik/state/device_controller.dart';
 import 'package:bileklik/ui/screens/community_dialogs.dart';
+import 'package:bileklik/ui/screens/biological_age_screen.dart';
 import 'package:bileklik/ui/screens/ecg_screen.dart';
 import 'package:bileklik/ui/screens/feedback_screen.dart';
 import 'package:bileklik/ui/screens/group_screen.dart';
@@ -191,6 +193,16 @@ void main() {
       await tester.drag(find.byType(Scrollable).first, const Offset(0, -700));
       await _shot(tester, 'ana-$i');
     }
+  });
+
+  testWidgets('biyolojik yaş', skip: !_enabled, (tester) async {
+    final c = await _app(tester, connect: true);
+    c.profile = const PersonalInfo(isMale: true, age: 40, heightCm: 178, weightKg: 75);
+    await tester.pumpAndSettle();
+    _push(tester, BiologicalAgeScreen(day: DateTime.now()));
+    await _shot(tester, 'biyo-1');
+    await tester.drag(find.byType(Scrollable).last, const Offset(0, -700));
+    await _shot(tester, 'biyo-2');
   });
 
   testWidgets('sağlık sekmesi', skip: !_enabled, (tester) async {

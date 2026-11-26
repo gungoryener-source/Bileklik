@@ -5577,6 +5577,126 @@ abstract class AppLocalizations {
   /// In tr, this message translates to:
   /// **'En düşük'**
   String get homeLowestLabel;
+
+  /// No description provided for @bioAgeCollectingTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Veri toplanıyor'**
+  String get bioAgeCollectingTitle;
+
+  /// No description provided for @bioAgeCollectingBody.
+  ///
+  /// In tr, this message translates to:
+  /// **'İlk biyolojik yaş raporunuz için en az {days} gün kesintisiz ve eksiksiz veri gerekiyor.'**
+  String bioAgeCollectingBody(int days);
+
+  /// No description provided for @bioAgeCollectingProgress.
+  ///
+  /// In tr, this message translates to:
+  /// **'Toplanan veri'**
+  String get bioAgeCollectingProgress;
+
+  /// No description provided for @bioAgeCollectingDays.
+  ///
+  /// In tr, this message translates to:
+  /// **'{done}/{total} gün'**
+  String bioAgeCollectingDays(int done, int total);
+
+  /// No description provided for @bioAgeRemaining.
+  ///
+  /// In tr, this message translates to:
+  /// **'{days} gün kaldı'**
+  String bioAgeRemaining(int days);
+
+  /// No description provided for @bioAgeKeepGoing.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bilekliği takmayı sürdürün; biyolojik yaşınızı yakında göreceksiniz.'**
+  String get bioAgeKeepGoing;
+
+  /// No description provided for @bioAgeDailyRequired.
+  ///
+  /// In tr, this message translates to:
+  /// **'Her gün gereken veriler'**
+  String get bioAgeDailyRequired;
+
+  /// No description provided for @bioAgeDataSleep.
+  ///
+  /// In tr, this message translates to:
+  /// **'Uyku'**
+  String get bioAgeDataSleep;
+
+  /// No description provided for @bioAgeDataHeartRate.
+  ///
+  /// In tr, this message translates to:
+  /// **'Nabız'**
+  String get bioAgeDataHeartRate;
+
+  /// No description provided for @bioAgeDataExercise.
+  ///
+  /// In tr, this message translates to:
+  /// **'Egzersiz'**
+  String get bioAgeDataExercise;
+
+  /// No description provided for @bioAgeDataSteps.
+  ///
+  /// In tr, this message translates to:
+  /// **'Adım'**
+  String get bioAgeDataSteps;
+
+  /// No description provided for @bioAgeToday.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bugün geldi'**
+  String get bioAgeToday;
+
+  /// No description provided for @bioAgeNotToday.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bugün henüz yok'**
+  String get bioAgeNotToday;
+
+  /// No description provided for @bioAgeOptional.
+  ///
+  /// In tr, this message translates to:
+  /// **'İsteğe bağlı'**
+  String get bioAgeOptional;
+
+  /// No description provided for @bioAgeAgeCheckTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Profilinizdeki yaşın doğru olduğundan emin olun.'**
+  String get bioAgeAgeCheckTitle;
+
+  /// No description provided for @bioAgeAgeCheckBody.
+  ///
+  /// In tr, this message translates to:
+  /// **'Biyolojik yaşınız ve sağlık ölçütleriniz gerçek yaşınıza göre hesaplanır.'**
+  String get bioAgeAgeCheckBody;
+
+  /// No description provided for @bioAgeTipsTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Veri toplama ipuçları'**
+  String get bioAgeTipsTitle;
+
+  /// No description provided for @bioAgeTipSleep.
+  ///
+  /// In tr, this message translates to:
+  /// **'Uykunuzun eksiksiz kaydedilmesi için her gece bilekliği takarak uyuyun.'**
+  String get bioAgeTipSleep;
+
+  /// No description provided for @bioAgeTipHeart.
+  ///
+  /// In tr, this message translates to:
+  /// **'Nabzın doğru ölçülmesi için bilekliği gün boyu takın.'**
+  String get bioAgeTipHeart;
+
+  /// No description provided for @bioAgeTipActivity.
+  ///
+  /// In tr, this message translates to:
+  /// **'Günlük adımınızı ve egzersizlerinizi kaydedin.'**
+  String get bioAgeTipActivity;
 }
 
 class _AppLocalizationsDelegate

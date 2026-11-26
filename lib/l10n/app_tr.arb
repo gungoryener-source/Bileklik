@@ -1702,5 +1702,49 @@
   "homeNightLowSpo2": "Kan oksijeni düşüşü",
   "homeRestingLabel": "Dinlenik nabız",
   "homeAverageLabel": "Ortalama",
-  "homeLowestLabel": "En düşük"
+  "homeLowestLabel": "En düşük",
+  "bioAgeCollectingTitle": "Veri toplanıyor",
+  "bioAgeCollectingBody": "İlk biyolojik yaş raporunuz için en az {days} gün kesintisiz ve eksiksiz veri gerekiyor.",
+  "@bioAgeCollectingBody": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "bioAgeCollectingProgress": "Toplanan veri",
+  "bioAgeCollectingDays": "{done}/{total} gün",
+  "@bioAgeCollectingDays": {
+    "placeholders": {
+      "done": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "bioAgeRemaining": "{days} gün kaldı",
+  "@bioAgeRemaining": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "bioAgeKeepGoing": "Bilekliği takmayı sürdürün; biyolojik yaşınızı yakında göreceksiniz.",
+  "bioAgeDailyRequired": "Her gün gereken veriler",
+  "bioAgeDataSleep": "Uyku",
+  "bioAgeDataHeartRate": "Nabız",
+  "bioAgeDataExercise": "Egzersiz",
+  "bioAgeDataSteps": "Adım",
+  "bioAgeToday": "Bugün geldi",
+  "bioAgeNotToday": "Bugün henüz yok",
+  "bioAgeOptional": "İsteğe bağlı",
+  "bioAgeAgeCheckTitle": "Profilinizdeki yaşın doğru olduğundan emin olun.",
+  "bioAgeAgeCheckBody": "Biyolojik yaşınız ve sağlık ölçütleriniz gerçek yaşınıza göre hesaplanır.",
+  "bioAgeTipsTitle": "Veri toplama ipuçları",
+  "bioAgeTipSleep": "Uykunuzun eksiksiz kaydedilmesi için her gece bilekliği takarak uyuyun.",
+  "bioAgeTipHeart": "Nabzın doğru ölçülmesi için bilekliği gün boyu takın.",
+  "bioAgeTipActivity": "Günlük adımınızı ve egzersizlerinizi kaydedin."
 }

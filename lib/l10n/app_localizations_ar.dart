@@ -3299,4 +3299,73 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get homeLowestLabel => 'الأدنى';
+
+  @override
+  String get bioAgeCollectingTitle => 'جارٍ جمع البيانات';
+
+  @override
+  String bioAgeCollectingBody(int days) {
+    return 'يحتاج أول تقرير لعمرك البيولوجي إلى بيانات كاملة لمدة $days يومًا متتاليًا على الأقل.';
+  }
+
+  @override
+  String get bioAgeCollectingProgress => 'البيانات المجمّعة';
+
+  @override
+  String bioAgeCollectingDays(int done, int total) {
+    return '$done/$total يوم';
+  }
+
+  @override
+  String bioAgeRemaining(int days) {
+    return 'متبقٍ $days يوم';
+  }
+
+  @override
+  String get bioAgeKeepGoing =>
+      'استمر في ارتداء السوار وسترى عمرك البيولوجي قريبًا.';
+
+  @override
+  String get bioAgeDailyRequired => 'البيانات المطلوبة يوميًا';
+
+  @override
+  String get bioAgeDataSleep => 'النوم';
+
+  @override
+  String get bioAgeDataHeartRate => 'نبض القلب';
+
+  @override
+  String get bioAgeDataExercise => 'التمرين';
+
+  @override
+  String get bioAgeDataSteps => 'الخطوات';
+
+  @override
+  String get bioAgeToday => 'وصلت اليوم';
+
+  @override
+  String get bioAgeNotToday => 'لم تصل اليوم بعد';
+
+  @override
+  String get bioAgeOptional => 'اختياري';
+
+  @override
+  String get bioAgeAgeCheckTitle => 'تأكد من صحة العمر في ملفك الشخصي.';
+
+  @override
+  String get bioAgeAgeCheckBody =>
+      'يُحسب عمرك البيولوجي ومؤشراتك الصحية بناءً على عمرك الحقيقي.';
+
+  @override
+  String get bioAgeTipsTitle => 'نصائح لجمع البيانات';
+
+  @override
+  String get bioAgeTipSleep => 'ارتدِ السوار كل ليلة ليُسجَّل نومك كاملًا.';
+
+  @override
+  String get bioAgeTipHeart =>
+      'ارتدِ السوار طوال اليوم للحصول على قراءات نبض دقيقة.';
+
+  @override
+  String get bioAgeTipActivity => 'سجّل خطواتك وتمارينك اليومية.';
 }

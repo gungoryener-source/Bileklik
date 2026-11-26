@@ -330,6 +330,91 @@ class BiologicalAge {
   ];
 }
 
+/// Biyolojik yaş için her gün gereken veriler.
+enum BioAgeData { sleep, heartRate, exercise, steps }
+
+/// Biyolojik yaş için veri toplama durumu. İlk rapor, uyku, nabız ve adım
+/// verisinin eksiksiz olduğu [requiredDays] gün üst üste toplanınca açılır;
+/// açıldıktan sonra kaçan bir gün raporu yeniden kilitlemez. Antrenman
+/// gösterilir ama gün tamamlamak için şart değildir.
+class BioAgeCollection {
+  const BioAgeCollection({
+    required this.days,
+    required this.ready,
+    required this.today,
+  });
+
+  /// Kesintisiz eksiksiz gün sayısı; en çok [requiredDays].
+  final int days;
+
+  /// Bir kez [requiredDays] gün üst üste toplandıysa true.
+  final bool ready;
+
+  /// [day] gününde gelen veri türleri.
+  final Set<BioAgeData> today;
+
+  int get remaining => max(0, requiredDays - days);
+
+  static const requiredDays = 21;
+
+  /// Geriye bakılan en uzun süre (gün).
+  static const lookback = 120;
+
+  static BioAgeCollection of(HealthStore store, DateTime day) {
+    final d0 = DateTime(day.year, day.month, day.day);
+    final end = DateTime(d0.year, d0.month, d0.day + 1);
+    final start = DateTime(d0.year, d0.month, d0.day - lookback + 1);
+    DateTime dayOf(DateTime t) => DateTime(t.year, t.month, t.day);
+
+    final hr = {
+      for (final m in store.measurements(MetricType.heartRate, start, end))
+        if (m.value > 0) dayOf(m.time),
+    };
+    final steps = {
+      for (final m in store.measurements(MetricType.steps, start, end))
+        if (m.value > 0) dayOf(m.time),
+    };
+    final sleep = {
+      for (final n in NightSleep.group(
+        store.sleepBetween(start.subtract(const Duration(hours: 12)), end),
+      ))
+        if (n.asleepMinutes > 0) dayOf(n.day),
+    };
+    final exercise = {
+      for (final w in store.workoutsBetween(start, end)) dayOf(w.start),
+    };
+    bool complete(DateTime d) =>
+        hr.contains(d) && steps.contains(d) && sleep.contains(d);
+
+    // Gün henüz bitmediği için bugün eksikse seri dünden sayılır.
+    var cursor = complete(d0) ? d0 : DateTime(d0.year, d0.month, d0.day - 1);
+    var streak = 0;
+    while (!cursor.isBefore(start) && complete(cursor)) {
+      streak++;
+      cursor = DateTime(cursor.year, cursor.month, cursor.day - 1);
+    }
+    var ready = streak >= requiredDays;
+    if (!ready) {
+      var run = 0;
+      for (var i = 0; i < lookback && !ready; i++) {
+        final d = DateTime(start.year, start.month, start.day + i);
+        run = complete(d) ? run + 1 : 0;
+        ready = run >= requiredDays;
+      }
+    }
+    return BioAgeCollection(
+      days: ready ? requiredDays : min(streak, requiredDays),
+      ready: ready,
+      today: {
+        if (sleep.contains(d0)) BioAgeData.sleep,
+        if (hr.contains(d0)) BioAgeData.heartRate,
+        if (exercise.contains(d0)) BioAgeData.exercise,
+        if (steps.contains(d0)) BioAgeData.steps,
+      },
+    );
+  }
+}
+
 // ---------------------------------------------------------------------------
 // Sağlık Radarı
 // ---------------------------------------------------------------------------

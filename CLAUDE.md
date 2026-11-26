@@ -77,7 +77,10 @@ UI (lib/ui)  ->  DeviceController (lib/state)  ->  WristbandClient  ->  DeviceTr
   uyanma ve uykuya dalmayla birlikte saat sırasıyla görünür. Eşikler tarama
   değeridir, gerçek kayıtlarla ayarlanacak.
 - HRV ayrıntısı ve VO2 Max `lib/data/hrv_analysis.dart` (0x63 PPI'dan);
-  enerji skoru, haftalık rapor ve rozetler `lib/data/progress.dart`. Rozetler
+  enerji skoru, haftalık rapor ve rozetler `lib/data/progress.dart`.
+- Biyolojik yaş raporu, uyku, nabız ve adım verisinin eksiksiz olduğu 21 gün
+  üst üste toplanınca açılır (`BioAgeCollection`, `lib/data/insights.dart`);
+  o zamana kadar `BiologicalAgeScreen` veri toplama ilerlemesini gösterir. Rozetler
   saklanmaz, her açılışta geçmişten hesaplanır. Adım hedefi `dailyStepGoal`.
 
 ## Portal (`portal/`)

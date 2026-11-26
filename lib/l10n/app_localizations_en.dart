@@ -3325,4 +3325,75 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get homeLowestLabel => 'Lowest';
+
+  @override
+  String get bioAgeCollectingTitle => 'Data collection in progress';
+
+  @override
+  String bioAgeCollectingBody(int days) {
+    return 'Your first biological age report needs at least $days consecutive days of complete data.';
+  }
+
+  @override
+  String get bioAgeCollectingProgress => 'Collected data';
+
+  @override
+  String bioAgeCollectingDays(int done, int total) {
+    return '$done/$total days';
+  }
+
+  @override
+  String bioAgeRemaining(int days) {
+    return '$days days to go';
+  }
+
+  @override
+  String get bioAgeKeepGoing =>
+      'Keep wearing your wristband and you\'ll soon see your biological age.';
+
+  @override
+  String get bioAgeDailyRequired => 'Data needed every day';
+
+  @override
+  String get bioAgeDataSleep => 'Sleep';
+
+  @override
+  String get bioAgeDataHeartRate => 'Heart rate';
+
+  @override
+  String get bioAgeDataExercise => 'Exercise';
+
+  @override
+  String get bioAgeDataSteps => 'Steps';
+
+  @override
+  String get bioAgeToday => 'Received today';
+
+  @override
+  String get bioAgeNotToday => 'Not yet today';
+
+  @override
+  String get bioAgeOptional => 'Optional';
+
+  @override
+  String get bioAgeAgeCheckTitle =>
+      'Make sure the age in your profile is correct.';
+
+  @override
+  String get bioAgeAgeCheckBody =>
+      'Your biological age and health metrics are calculated from your real age.';
+
+  @override
+  String get bioAgeTipsTitle => 'Data collection tips';
+
+  @override
+  String get bioAgeTipSleep =>
+      'Wear the wristband every night so your sleep is fully recorded.';
+
+  @override
+  String get bioAgeTipHeart =>
+      'Wear the wristband all day for accurate heart rate data.';
+
+  @override
+  String get bioAgeTipActivity => 'Track your daily steps and workouts.';
 }

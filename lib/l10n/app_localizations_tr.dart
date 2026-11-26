@@ -3261,4 +3261,76 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get homeLowestLabel => 'En düşük';
+
+  @override
+  String get bioAgeCollectingTitle => 'Veri toplanıyor';
+
+  @override
+  String bioAgeCollectingBody(int days) {
+    return 'İlk biyolojik yaş raporunuz için en az $days gün kesintisiz ve eksiksiz veri gerekiyor.';
+  }
+
+  @override
+  String get bioAgeCollectingProgress => 'Toplanan veri';
+
+  @override
+  String bioAgeCollectingDays(int done, int total) {
+    return '$done/$total gün';
+  }
+
+  @override
+  String bioAgeRemaining(int days) {
+    return '$days gün kaldı';
+  }
+
+  @override
+  String get bioAgeKeepGoing =>
+      'Bilekliği takmayı sürdürün; biyolojik yaşınızı yakında göreceksiniz.';
+
+  @override
+  String get bioAgeDailyRequired => 'Her gün gereken veriler';
+
+  @override
+  String get bioAgeDataSleep => 'Uyku';
+
+  @override
+  String get bioAgeDataHeartRate => 'Nabız';
+
+  @override
+  String get bioAgeDataExercise => 'Egzersiz';
+
+  @override
+  String get bioAgeDataSteps => 'Adım';
+
+  @override
+  String get bioAgeToday => 'Bugün geldi';
+
+  @override
+  String get bioAgeNotToday => 'Bugün henüz yok';
+
+  @override
+  String get bioAgeOptional => 'İsteğe bağlı';
+
+  @override
+  String get bioAgeAgeCheckTitle =>
+      'Profilinizdeki yaşın doğru olduğundan emin olun.';
+
+  @override
+  String get bioAgeAgeCheckBody =>
+      'Biyolojik yaşınız ve sağlık ölçütleriniz gerçek yaşınıza göre hesaplanır.';
+
+  @override
+  String get bioAgeTipsTitle => 'Veri toplama ipuçları';
+
+  @override
+  String get bioAgeTipSleep =>
+      'Uykunuzun eksiksiz kaydedilmesi için her gece bilekliği takarak uyuyun.';
+
+  @override
+  String get bioAgeTipHeart =>
+      'Nabzın doğru ölçülmesi için bilekliği gün boyu takın.';
+
+  @override
+  String get bioAgeTipActivity =>
+      'Günlük adımınızı ve egzersizlerinizi kaydedin.';
 }

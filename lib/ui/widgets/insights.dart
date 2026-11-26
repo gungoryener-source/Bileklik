@@ -428,6 +428,13 @@ class BiologicalAgeCard extends StatelessWidget {
         child: Text(l.bioAgeNeedsAge, style: TextStyle(color: colors.muted)),
       );
     }
+    final collection = BioAgeCollection.of(store, day);
+    if (!collection.ready) {
+      return _Titled(
+        title: l.bioAgeTitle,
+        child: BioAgeProgress(collection: collection, compact: true),
+      );
+    }
     final b = BiologicalAge.of(store, day, a);
     if (b == null) {
       return _Titled(
@@ -765,6 +772,329 @@ class HealthRadarCard extends StatelessWidget {
       semanticLabel: '${l.radarTitle}. $status',
       onTap: tap,
       child: _Titled(title: l.radarTitle, trailing: true, child: body),
+    );
+  }
+}
+
+extension BioAgeDataLook on BioAgeData {
+  String get label {
+    final l = currentL10n;
+    return switch (this) {
+      BioAgeData.sleep => l.bioAgeDataSleep,
+      BioAgeData.heartRate => l.bioAgeDataHeartRate,
+      BioAgeData.exercise => l.bioAgeDataExercise,
+      BioAgeData.steps => l.bioAgeDataSteps,
+    };
+  }
+
+  IconData get icon => switch (this) {
+    BioAgeData.sleep => Icons.bedtime_outlined,
+    BioAgeData.heartRate => Icons.favorite_border,
+    BioAgeData.exercise => Icons.directions_run,
+    BioAgeData.steps => Icons.directions_walk,
+  };
+
+  Color get color => switch (this) {
+    BioAgeData.sleep => DataColors.sleepLight,
+    BioAgeData.heartRate => DataColors.heart,
+    BioAgeData.exercise => DataColors.temperature,
+    BioAgeData.steps => DataColors.steps,
+  };
+}
+
+/// Biyolojik yaş için veri toplama ilerlemesi: açıklama, gün çubuğu ve
+/// kalan gün. [compact] kartlarda açıklamayı ve kalan gün kutusunu kısaltır.
+class BioAgeProgress extends StatelessWidget {
+  const BioAgeProgress({
+    super.key,
+    required this.collection,
+    this.compact = false,
+  });
+
+  final BioAgeCollection collection;
+  final bool compact;
+
+  @override
+  Widget build(BuildContext context) {
+    final l = context.l10n;
+    final colors = context.colors;
+    const total = BioAgeCollection.requiredDays;
+    final c = collection;
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Text(
+          l.bioAgeCollectingBody(total),
+          style: TextStyle(color: colors.muted),
+        ),
+        const SizedBox(height: 14),
+        Semantics(
+          label:
+              '${l.bioAgeCollectingProgress}: '
+              '${l.bioAgeCollectingDays(c.days, total)}',
+          excludeSemantics: true,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Row(
+                children: [
+                  Expanded(
+                    child: Text(
+                      l.bioAgeCollectingProgress,
+                      style: const TextStyle(fontWeight: FontWeight.w600),
+                    ),
+                  ),
+                  Text(
+                    l.bioAgeCollectingDays(c.days, total),
+                    style: const TextStyle(
+                      fontWeight: FontWeight.w700,
+                      fontFeatures: [FontFeature.tabularFigures()],
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 8),
+              ClipRRect(
+                borderRadius: BorderRadius.circular(4),
+                child: LinearProgressIndicator(
+                  value: c.days / total,
+                  minHeight: 8,
+                  color: colors.accent,
+                  backgroundColor: colors.grid,
+                ),
+              ),
+            ],
+          ),
+        ),
+        const SizedBox(height: 14),
+        DecoratedBox(
+          decoration: BoxDecoration(
+            color: colors.accent.withValues(alpha: 0.12),
+            borderRadius: BorderRadius.circular(CamRadius.tile),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(14),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  l.bioAgeRemaining(c.remaining),
+                  style: TextStyle(
+                    color: colors.accent,
+                    fontSize: 18,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+                if (!compact) ...[
+                  const SizedBox(height: 6),
+                  Text(l.bioAgeKeepGoing),
+                ],
+              ],
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+/// Her gün gereken veriler; bugün gelenler işaretli.
+class BioAgeDailyData extends StatelessWidget {
+  const BioAgeDailyData({super.key, required this.today});
+
+  final Set<BioAgeData> today;
+
+  @override
+  Widget build(BuildContext context) {
+    final l = context.l10n;
+    final colors = context.colors;
+    Widget item(BioAgeData d) {
+      final has = today.contains(d);
+      final status = has
+          ? l.bioAgeToday
+          : d == BioAgeData.exercise
+          ? l.bioAgeOptional
+          : l.bioAgeNotToday;
+      return Semantics(
+        label: '${d.label}. $status',
+        excludeSemantics: true,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 8),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Icon(d.icon, color: d.color, size: 22),
+              const SizedBox(width: 10),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      d.label,
+                      style: const TextStyle(fontWeight: FontWeight.w600),
+                    ),
+                    Row(
+                      children: [
+                        Icon(
+                          has
+                              ? Icons.check_circle
+                              : Icons.radio_button_unchecked,
+                          size: 14,
+                          color: has ? colors.online : colors.muted,
+                        ),
+                        const SizedBox(width: 4),
+                        Flexible(
+                          child: Text(
+                            status,
+                            style: TextStyle(color: colors.muted, fontSize: 12),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
+    }
+
+    return _Titled(
+      title: l.bioAgeDailyRequired,
+      child: Column(
+        children: [
+          for (final row in const [
+            [BioAgeData.sleep, BioAgeData.heartRate],
+            [BioAgeData.exercise, BioAgeData.steps],
+          ])
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Expanded(child: item(row[0])),
+                const SizedBox(width: 12),
+                Expanded(child: item(row[1])),
+              ],
+            ),
+        ],
+      ),
+    );
+  }
+}
+
+/// Ana Sayfa'daki biyolojik yaş kartı: veri toplanırken ilerleme, rapor
+/// açılınca yaş ve takvim yaşına göre fark.
+class BiologicalAgeHomeCard extends StatelessWidget {
+  const BiologicalAgeHomeCard({
+    super.key,
+    required this.store,
+    required this.day,
+    required this.age,
+    required this.onTap,
+  });
+
+  final HealthStore store;
+  final DateTime day;
+  final int? age;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final l = context.l10n;
+    final colors = context.colors;
+    final c = BioAgeCollection.of(store, day);
+    final a = age;
+    final b = c.ready && a != null ? BiologicalAge.of(store, day, a) : null;
+    const total = BioAgeCollection.requiredDays;
+    final String status;
+    final Widget body;
+    if (b != null) {
+      final diff = _bioDifference(b);
+      status = l.bioAgeSemantics(b.age, diff);
+      body = Row(
+        children: [
+          Text(
+            '${b.age}',
+            style: const TextStyle(
+              fontSize: 40,
+              height: 1,
+              fontWeight: FontWeight.w800,
+              fontFeatures: [FontFeature.tabularFigures()],
+            ),
+          ),
+          const SizedBox(width: 14),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  diff,
+                  style: TextStyle(
+                    fontWeight: FontWeight.w700,
+                    color: b.difference <= 0 ? colors.accent : colors.danger,
+                  ),
+                ),
+                Text(
+                  l.bioAgeChronological(b.chronologicalAge),
+                  style: TextStyle(color: colors.muted),
+                ),
+              ],
+            ),
+          ),
+        ],
+      );
+    } else if (!c.ready) {
+      status =
+          '${l.bioAgeCollectingTitle}. ${l.bioAgeCollectingDays(c.days, total)}';
+      body = Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Row(
+            children: [
+              Icon(Icons.hourglass_bottom, color: colors.accent, size: 20),
+              const SizedBox(width: 8),
+              Expanded(
+                child: Text(
+                  l.bioAgeCollectingTitle,
+                  style: const TextStyle(fontWeight: FontWeight.w600),
+                ),
+              ),
+              Text(
+                l.bioAgeCollectingDays(c.days, total),
+                style: const TextStyle(
+                  fontWeight: FontWeight.w700,
+                  fontFeatures: [FontFeature.tabularFigures()],
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 10),
+          ClipRRect(
+            borderRadius: BorderRadius.circular(4),
+            child: LinearProgressIndicator(
+              value: c.days / total,
+              minHeight: 6,
+              color: colors.accent,
+              backgroundColor: colors.grid,
+            ),
+          ),
+          const SizedBox(height: 8),
+          Text(
+            l.bioAgeRemaining(c.remaining),
+            style: TextStyle(color: colors.muted),
+          ),
+        ],
+      );
+    } else {
+      status = a == null
+          ? l.bioAgeNeedsAge
+          : l.bioAgeNeedsData(BiologicalAge.minDays);
+      body = Text(status, style: TextStyle(color: colors.muted));
+    }
+    return Pressable(
+      semanticLabel: '${l.bioAgeTitle}. $status',
+      onTap: onTap,
+      child: _Titled(title: l.bioAgeTitle, trailing: true, child: body),
     );
   }
 }

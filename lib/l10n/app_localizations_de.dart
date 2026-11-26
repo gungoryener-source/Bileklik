@@ -3335,4 +3335,76 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get homeLowestLabel => 'Niedrigster';
+
+  @override
+  String get bioAgeCollectingTitle => 'Datenerfassung läuft';
+
+  @override
+  String bioAgeCollectingBody(int days) {
+    return 'Für Ihren ersten Bericht zum biologischen Alter sind mindestens $days aufeinanderfolgende Tage mit vollständigen Daten nötig.';
+  }
+
+  @override
+  String get bioAgeCollectingProgress => 'Erfasste Daten';
+
+  @override
+  String bioAgeCollectingDays(int done, int total) {
+    return '$done/$total Tage';
+  }
+
+  @override
+  String bioAgeRemaining(int days) {
+    return 'Noch $days Tage';
+  }
+
+  @override
+  String get bioAgeKeepGoing =>
+      'Tragen Sie das Armband weiter, bald sehen Sie Ihr biologisches Alter.';
+
+  @override
+  String get bioAgeDailyRequired => 'Täglich benötigte Daten';
+
+  @override
+  String get bioAgeDataSleep => 'Schlaf';
+
+  @override
+  String get bioAgeDataHeartRate => 'Herzfrequenz';
+
+  @override
+  String get bioAgeDataExercise => 'Training';
+
+  @override
+  String get bioAgeDataSteps => 'Schritte';
+
+  @override
+  String get bioAgeToday => 'Heute erhalten';
+
+  @override
+  String get bioAgeNotToday => 'Heute noch nicht';
+
+  @override
+  String get bioAgeOptional => 'Optional';
+
+  @override
+  String get bioAgeAgeCheckTitle =>
+      'Prüfen Sie, ob das Alter in Ihrem Profil stimmt.';
+
+  @override
+  String get bioAgeAgeCheckBody =>
+      'Ihr biologisches Alter und Ihre Gesundheitswerte werden aus Ihrem echten Alter berechnet.';
+
+  @override
+  String get bioAgeTipsTitle => 'Tipps zur Datenerfassung';
+
+  @override
+  String get bioAgeTipSleep =>
+      'Tragen Sie das Armband jede Nacht, damit Ihr Schlaf vollständig erfasst wird.';
+
+  @override
+  String get bioAgeTipHeart =>
+      'Tragen Sie das Armband den ganzen Tag für genaue Herzfrequenzwerte.';
+
+  @override
+  String get bioAgeTipActivity =>
+      'Erfassen Sie Ihre täglichen Schritte und Trainings.';
 }
