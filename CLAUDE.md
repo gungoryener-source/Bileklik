@@ -88,6 +88,12 @@ UI (lib/ui)  ->  DeviceController (lib/state)  ->  WristbandClient  ->  DeviceTr
   toparlanma `DayRecovery` (`lib/data/recovery.dart`): HRV ve dinlenik nabzın
   14 günlük olağana göre durumu, uyku skoru ve stres; Ana Sayfa'daki
   "Günlük toparlanma" göstergesi `RecoveryScreen`'i açar. Olmayan veri gizlenir.
+- Ana Sayfa görünümü `HomeSky` (`lib/ui/theme.dart`) renkleriyle: gökyüzü
+  degradesi ve dağ (`lib/ui/widgets/home/sky.dart`), enerji kristali
+  (`energy_gem.dart`) ve gezinme çubuğundaki yuvarlak AI düğmesi. Görseller
+  kodla çizilir; üreticinin resim, logo ya da marka adı kullanılmaz. Gün serisi
+  `dataStreak`, antrenman planı `showTrainingPlan` (`training_plan.dart`,
+  toparlanma düzeyine göre yoğunluk ve nabız bölgesi).
 
 ## Portal (`portal/`)
 

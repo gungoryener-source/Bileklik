@@ -84,7 +84,8 @@ void main() {
         of: find.byType(GlassNavBar),
         matching: find.byType(Pressable),
       );
-      expect(tabs, findsNWidgets(4));
+      // Dört sekme ve sondaki AI düğmesi.
+      expect(tabs, findsNWidgets(5));
       for (var i = 0; i < 4; i++) {
         await tester.tap(tabs.at(i));
         await tester.pumpAndSettle();

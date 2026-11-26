@@ -3555,4 +3555,120 @@ class AppLocalizationsAr extends AppLocalizations {
   String recoveryTrendSemantics(String range, String value) {
     return 'اتجاه التعافي $range، المتوسط $value';
   }
+
+  @override
+  String homeStreakSemantics(int days) {
+    return 'بيانات لمدة $days يومًا متتاليًا';
+  }
+
+  @override
+  String get homeEnergyLabel => 'الطاقة';
+
+  @override
+  String get homeEnergyHigh => 'مرتفعة';
+
+  @override
+  String get homeEnergyNormal => 'طبيعية';
+
+  @override
+  String get homeEnergyLow => 'منخفضة';
+
+  @override
+  String homeEnergyVsYesterday(String delta) {
+    return '$delta مقارنة بالأمس';
+  }
+
+  @override
+  String get homeEnergySame => 'مثل الأمس';
+
+  @override
+  String get homeEnergyNoCompare => 'لا مقارنة مع الأمس';
+
+  @override
+  String get homeTrainingPlan => 'خطة التمرين';
+
+  @override
+  String get homeAiCollapse => 'طيّ';
+
+  @override
+  String get homeAiExpand => 'توسيع';
+
+  @override
+  String homeAiUpdated(String time) {
+    return 'حُدّثت البيانات في $time';
+  }
+
+  @override
+  String get homeAiReanalyze => 'أعد التحليل';
+
+  @override
+  String get homeAiNoData =>
+      'لا توجد بيانات لتحليلها اليوم بعد. ارتدِ السوار وزامِن.';
+
+  @override
+  String homeAiLoad(int value) {
+    return 'حملك البدني اليوم $value/100.';
+  }
+
+  @override
+  String get navAi => 'تحليل الذكاء الاصطناعي';
+
+  @override
+  String get planTitle => 'خطة تمرين اليوم';
+
+  @override
+  String get planIntenseTitle => 'تمرين مكثف';
+
+  @override
+  String get planIntenseBody =>
+      'يمكنك الجري أو التمرين المتقطع لمدة 35–45 دقيقة.';
+
+  @override
+  String get planModerateTitle => 'تمرين معتدل';
+
+  @override
+  String get planModerateBody =>
+      '30–40 دقيقة من المشي السريع أو ركوب الدراجة أو الجري الخفيف.';
+
+  @override
+  String get planLightTitle => 'نشاط خفيف';
+
+  @override
+  String get planLightBody => '20–30 دقيقة من المشي المريح أو التمدد.';
+
+  @override
+  String get planRestTitle => 'يوم راحة';
+
+  @override
+  String get planRestBody =>
+      '10–15 دقيقة من التمدد أو التنفس؛ تجنّب التمارين المكثفة.';
+
+  @override
+  String planZone(String range, String zone) {
+    return 'النبض المستهدف: $range ($zone)';
+  }
+
+  @override
+  String planBasedOn(String value) {
+    return 'مقترحة بناءً على تعافيك اليوم ($value).';
+  }
+
+  @override
+  String get planNeedsData =>
+      'تحتاج الخطة إلى بيانات تقلب النبض الليلي أو النوم. ارتدِ السوار الليلة.';
+
+  @override
+  String get planNote => 'هذا اقتراح من التطبيق؛ توقّف إذا شعرت بانزعاج.';
+
+  @override
+  String get planNeedsAge =>
+      'أدخل عمرك في المعلومات الشخصية لمعرفة النبض المستهدف.';
+
+  @override
+  String get bioAgeUnlockTitle => 'اكشف عمرك البيولوجي';
+
+  @override
+  String bioAgeUnlockIn(int days) {
+    return 'سيُكشف عمرك البيولوجي بعد $days يومًا.';
+  }
 }

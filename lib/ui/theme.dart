@@ -183,9 +183,9 @@ class AppColors extends ThemeExtension<AppColors> {
     ctaEnd: Color(0xFF6A3DF0),
     ctaGlow: Color(0x80D9225F),
     navBase: Color(0x8C161234),
-    navActiveStart: Color(0xFF7B5CFF),
-    navActiveEnd: Color(0xFFD9225F),
-    navActiveGlow: Color(0x8C9646FF),
+    navActiveStart: Color(0xFF454C5A),
+    navActiveEnd: Color(0xFF2A303B),
+    navActiveGlow: Color(0x00000000),
     online: Color(0xFF9DFF3D),
     offline: Color(0x80FFFFFF),
     grid: Color(0x14FFFFFF),
@@ -539,4 +539,43 @@ class OrbPalette {
   const OrbPalette(this.colors, this.glow);
   final List<Color> colors;
   final Color glow;
+}
+
+/// Ana Sayfa'nın gökyüzü görünümü: lacivertten maviye gökyüzü, kodla
+/// çizilen dağ silueti, koyu cam kartlar ve skor renkleri. Resim dosyası
+/// kullanılmaz; her şey degrade ve yol çizimidir.
+abstract final class HomeSky {
+  static const top = Color(0xFF1F2E4D);
+  static const mid = Color(0xFF3F5A80);
+  static const horizon = Color(0xFF7D8BA0);
+  static const bottom = Color(0xFF0C1016);
+  static const ridgeFar = Color(0xFF52627C);
+  static const ridgeMid = Color(0xFF3A4352);
+  static const ridgeNear = Color(0xFF1B1F27);
+  static const rockLight = Color(0xFFB59A78);
+  static const snow = Color(0xFFEEF2F8);
+  static const sunGlow = Color(0xFFE8B978);
+
+  /// Koyu yarı saydam kart ve iç kutu.
+  static const card = Color(0xD9161A22);
+  static const inner = Color(0xCC0E1218);
+  static const border = Color(0x38FFFFFF);
+  static const pill = Color(0x40FFFFFF);
+
+  /// Skor renkleri.
+  static const green = Color(0xFF5BE37D);
+  static const blue = Color(0xFF4C8DFF);
+  static const yellow = Color(0xFFF3C85A);
+  static const ai = Color(0xFF45D6B8);
+  static const aiBlue = Color(0xFF4AA8FF);
+
+  /// Grafiklerde beyaz çizgi ve soluk çubuk.
+  static const chart = Color(0xFFF2F4F7);
+  static const chartDim = Color(0x33FFFFFF);
+
+  /// Zümrüt kristal.
+  static const gemLight = Color(0xFF9DF2D8);
+  static const gem = Color(0xFF2E9E86);
+  static const gemDark = Color(0xFF0B4A40);
+  static const gemGlow = Color(0x6633D1A8);
 }

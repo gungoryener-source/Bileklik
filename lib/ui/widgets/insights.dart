@@ -700,12 +700,16 @@ class HealthRadarCard extends StatelessWidget {
     required this.day,
     this.onTap,
     this.showNote = false,
+    this.baseColor,
   });
 
   final HealthStore store;
   final DateTime day;
   final VoidCallback? onTap;
   final bool showNote;
+
+  /// Kartın taban rengi (Ana Sayfa'da koyu cam).
+  final Color? baseColor;
 
   @override
   Widget build(BuildContext context) {
@@ -771,7 +775,12 @@ class HealthRadarCard extends StatelessWidget {
     return Pressable(
       semanticLabel: '${l.radarTitle}. $status',
       onTap: tap,
-      child: _Titled(title: l.radarTitle, trailing: true, child: body),
+      child: _Titled(
+        title: l.radarTitle,
+        trailing: true,
+        baseColor: baseColor,
+        child: body,
+      ),
     );
   }
 }
@@ -1049,39 +1058,24 @@ class BiologicalAgeHomeCard extends StatelessWidget {
       body = Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Row(
-            children: [
-              Icon(Icons.hourglass_bottom, color: colors.accent, size: 20),
-              const SizedBox(width: 8),
-              Expanded(
-                child: Text(
-                  l.bioAgeCollectingTitle,
-                  style: const TextStyle(fontWeight: FontWeight.w600),
-                ),
-              ),
-              Text(
-                l.bioAgeCollectingDays(c.days, total),
-                style: const TextStyle(
-                  fontWeight: FontWeight.w700,
-                  fontFeatures: [FontFeature.tabularFigures()],
-                ),
-              ),
-            ],
+          Text(
+            l.bioAgeUnlockTitle,
+            style: const TextStyle(fontSize: 22, fontWeight: FontWeight.w700),
           ),
-          const SizedBox(height: 10),
+          const SizedBox(height: 8),
+          Text(
+            l.bioAgeUnlockIn(c.remaining),
+            style: TextStyle(color: colors.muted),
+          ),
+          const SizedBox(height: 14),
           ClipRRect(
             borderRadius: BorderRadius.circular(4),
             child: LinearProgressIndicator(
               value: c.days / total,
               minHeight: 6,
-              color: colors.accent,
-              backgroundColor: colors.grid,
+              color: HomeSky.green,
+              backgroundColor: colors.outline,
             ),
-          ),
-          const SizedBox(height: 8),
-          Text(
-            l.bioAgeRemaining(c.remaining),
-            style: TextStyle(color: colors.muted),
           ),
         ],
       );
@@ -1094,7 +1088,12 @@ class BiologicalAgeHomeCard extends StatelessWidget {
     return Pressable(
       semanticLabel: '${l.bioAgeTitle}. $status',
       onTap: onTap,
-      child: _Titled(title: l.bioAgeTitle, trailing: true, child: body),
+      child: _Titled(
+        title: l.bioAgeTitle,
+        trailing: true,
+        baseColor: HomeSky.card,
+        child: body,
+      ),
     );
   }
 }
@@ -1105,14 +1104,17 @@ class _Titled extends StatelessWidget {
     required this.title,
     required this.child,
     this.trailing = false,
+    this.baseColor,
   });
 
   final String title;
   final Widget child;
   final bool trailing;
+  final Color? baseColor;
 
   @override
   Widget build(BuildContext context) => GlassCard(
+    baseColor: baseColor,
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [

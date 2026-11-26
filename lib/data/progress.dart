@@ -402,3 +402,23 @@ List<Achievement> achievements(
     count(AchievementKind.wear30, wornDays.toList()..sort(), 30),
   ];
 }
+
+/// Bileklikten veri (adım ya da nabız) gelen üst üste gün sayısı, [day]
+/// dahil. Gün henüz bitmediği için [day]'de veri yoksa seri dünden sayılır.
+int dataStreak(HealthStore store, DateTime day, {int maxDays = 365}) {
+  final d0 = DateTime(day.year, day.month, day.day);
+  final start = DateTime(d0.year, d0.month, d0.day - maxDays);
+  final end = DateTime(d0.year, d0.month, d0.day + 1);
+  final days = <DateTime>{
+    for (final t in [MetricType.steps, MetricType.heartRate])
+      for (final m in store.measurements(t, start, end))
+        if (m.value > 0) DateTime(m.time.year, m.time.month, m.time.day),
+  };
+  var cursor = days.contains(d0) ? d0 : DateTime(d0.year, d0.month, d0.day - 1);
+  var n = 0;
+  while (days.contains(cursor)) {
+    n++;
+    cursor = DateTime(cursor.year, cursor.month, cursor.day - 1);
+  }
+  return n;
+}

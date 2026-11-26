@@ -10,11 +10,13 @@ import '../l10n/l10n.dart';
 
 import '../state/app_settings.dart';
 import '../state/device_controller.dart';
+import 'screens/ai_report_screen.dart';
 import 'screens/exercise_screen.dart';
 import 'screens/health_screen.dart';
 import 'screens/home_screen.dart';
 import 'screens/profile_screen.dart';
 import 'widgets/cam/cam.dart';
+import 'widgets/home/sky.dart';
 
 /// Ekranlara cihaz durumunu taşır; durum değişince dinleyenler yeniden çizilir.
 class DeviceScope extends InheritedNotifier<DeviceController> {
@@ -150,12 +152,27 @@ class _AppShellState extends State<AppShell> {
     return CamScaffold(
       // Menü içeriğin üstünde yüzer; içerik altından kayar ve bulanık görünür.
       extendBody: true,
-      body: SafeArea(
-        bottom: false,
-        child: IndexedStack(index: _index, children: _pages),
+      body: Stack(
+        fit: StackFit.expand,
+        children: [
+          // Ana Sayfa kendi gökyüzü zeminini kullanır.
+          if (_index == 0) const HomeSkyBackground(),
+          SafeArea(
+            bottom: false,
+            child: IndexedStack(index: _index, children: _pages),
+          ),
+        ],
       ),
       bottomNavigationBar: GlassNavBar(
         semanticLabel: l.navSemantics,
+        trailing: AiNavButton(
+          label: l.navAi,
+          onTap: () => Navigator.of(context).push(
+            MaterialPageRoute<void>(
+              builder: (_) => AiReportScreen(day: DateTime.now()),
+            ),
+          ),
+        ),
         selectedIndex: _index,
         onSelected: _select,
         items: [

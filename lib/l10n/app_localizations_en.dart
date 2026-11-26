@@ -3583,4 +3583,121 @@ class AppLocalizationsEn extends AppLocalizations {
   String recoveryTrendSemantics(String range, String value) {
     return 'Recovery trend $range, average $value';
   }
+
+  @override
+  String homeStreakSemantics(int days) {
+    return '$days days of data in a row';
+  }
+
+  @override
+  String get homeEnergyLabel => 'Energy';
+
+  @override
+  String get homeEnergyHigh => 'High';
+
+  @override
+  String get homeEnergyNormal => 'Normal';
+
+  @override
+  String get homeEnergyLow => 'Low';
+
+  @override
+  String homeEnergyVsYesterday(String delta) {
+    return '$delta vs yesterday';
+  }
+
+  @override
+  String get homeEnergySame => 'Same as yesterday';
+
+  @override
+  String get homeEnergyNoCompare => 'No comparison with yesterday';
+
+  @override
+  String get homeTrainingPlan => 'Training plan';
+
+  @override
+  String get homeAiCollapse => 'Collapse';
+
+  @override
+  String get homeAiExpand => 'Expand';
+
+  @override
+  String homeAiUpdated(String time) {
+    return 'Data updated at $time';
+  }
+
+  @override
+  String get homeAiReanalyze => 'Analyse again';
+
+  @override
+  String get homeAiNoData =>
+      'There\'s no data to analyse for today yet. Wear your wristband and sync.';
+
+  @override
+  String homeAiLoad(int value) {
+    return 'Your physical load today is $value/100.';
+  }
+
+  @override
+  String get navAi => 'AI analysis';
+
+  @override
+  String get planTitle => 'Today\'s training plan';
+
+  @override
+  String get planIntenseTitle => 'Hard workout';
+
+  @override
+  String get planIntenseBody =>
+      'You can do 35–45 minutes of running or interval training.';
+
+  @override
+  String get planModerateTitle => 'Moderate workout';
+
+  @override
+  String get planModerateBody =>
+      '30–40 minutes of brisk walking, cycling or an easy run.';
+
+  @override
+  String get planLightTitle => 'Light activity';
+
+  @override
+  String get planLightBody => '20–30 minutes of easy walking or stretching.';
+
+  @override
+  String get planRestTitle => 'Rest day';
+
+  @override
+  String get planRestBody =>
+      '10–15 minutes of stretching or breathing; avoid hard training.';
+
+  @override
+  String planZone(String range, String zone) {
+    return 'Target heart rate: $range ($zone)';
+  }
+
+  @override
+  String planBasedOn(String value) {
+    return 'Suggested from today\'s recovery ($value).';
+  }
+
+  @override
+  String get planNeedsData =>
+      'The plan needs overnight HRV or sleep data. Wear your wristband tonight.';
+
+  @override
+  String get planNote =>
+      'This is the app\'s own suggestion; stop if you feel unwell.';
+
+  @override
+  String get planNeedsAge =>
+      'Enter your age in Personal info for a target heart rate.';
+
+  @override
+  String get bioAgeUnlockTitle => 'Unlock your biological age';
+
+  @override
+  String bioAgeUnlockIn(int days) {
+    return 'Your personal biological age unlocks in $days days.';
+  }
 }

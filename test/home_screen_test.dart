@@ -7,7 +7,6 @@ import 'package:bileklik/device/fake_device.dart';
 import 'package:bileklik/main.dart';
 import 'package:bileklik/state/app_settings.dart';
 import 'package:bileklik/state/device_controller.dart';
-import 'package:bileklik/ui/widgets/cam/cam.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -112,16 +111,17 @@ void main() {
     await tester.pumpWidget(BileklikApp(controller: controller));
     await tester.pumpAndSettle();
 
-    expect(find.text('Bağlı değil'), findsOneWidget);
-    // Gece 23-05 arası üstte dinlenme önerisi çıkar.
-    final hour = DateTime.now().hour;
-    final lateNight = hour >= 23 || hour < 5;
+    // Dar ekranda bileklik çipi yalnızca nokta; adı ipucunda.
+    expect(find.byTooltip('Bilekliğe bağlan'), findsOneWidget);
+    expect(find.byTooltip('Şimdi ölç'), findsOneWidget);
     for (final title in [
-      if (!lateNight) 'Dün gece uyku ölçülmedi',
+      'Enerji',
+      'Dünle karşılaştırma yok',
       'Günlük toparlanma',
       'Günlük yük',
-      'Şimdi ölç',
+      'Antrenman planı',
       'Bugünkü AI analizi',
+      'Biyolojik yaş',
       'Uyku',
       'Aktivite',
       'Denge',
@@ -154,8 +154,8 @@ void main() {
     await tester.runAsync(() => controller.connect());
     await tester.pumpAndSettle();
 
-    expect(find.text('Bugün'), findsOneWidget);
-    expect(find.textContaining('Bağlı ·'), findsOneWidget);
+    expect(find.textContaining('Bugün, '), findsOneWidget);
+    expect(find.byTooltip('Bağlantıyı kes'), findsOneWidget);
     // Canlı nabız, nabız kartının üstünde.
     await _reveal(tester, find.text('Canlı', skipOffstage: false));
     expect(find.text('Canlı'), findsOneWidget);
@@ -167,9 +167,9 @@ void main() {
     // Bileklik takılı olmadığı için ölçemediği gün yerine dün tam bir gündür.
     await tester.tap(find.byTooltip('Önceki gün'));
     await tester.pumpAndSettle();
-    expect(find.text('Dün'), findsOneWidget);
+    expect(find.textContaining('Dün, '), findsOneWidget);
     await tester.scrollUntilVisible(
-      find.text('Günün özeti'),
+      find.text('Bugünkü AI analizi'),
       200,
       scrollable: find.byType(Scrollable).first,
     );
@@ -193,7 +193,7 @@ void main() {
     await tester.pumpAndSettle();
     await tester.tap(find.byTooltip('Sonraki gün'));
     await tester.pumpAndSettle();
-    expect(find.text('Bugün'), findsOneWidget);
+    expect(find.textContaining('Bugün, '), findsOneWidget);
 
     await tester.tap(find.text('Egzersize başla'));
     await tester.pumpAndSettle();
@@ -215,7 +215,7 @@ void main() {
     await tester.pumpWidget(BileklikApp(controller: controller));
     await tester.pumpAndSettle();
 
-    expect(find.text('Bağlı değil'), findsOneWidget);
+    expect(find.byTooltip('Bilekliğe bağlan'), findsOneWidget);
     expect(find.text('Canlı'), findsNothing);
     await _reveal(
       tester,
@@ -234,23 +234,21 @@ void main() {
         .jumpTo(0);
     await tester.pumpAndSettle();
 
-    final measure = tester.widget<GlowButton>(
-      find.widgetWithText(GlowButton, 'Şimdi ölç'),
+    IconButton measure() => tester.widget<IconButton>(
+      find.ancestor(
+        of: find.byIcon(Icons.monitor_heart_outlined),
+        matching: find.byType(IconButton),
+      ),
     );
-    expect(measure.onTap, isNull);
+    expect(measure().onPressed, isNull);
 
     // Çipe dokununca bağlanır; düğme etkinleşir. Sahte bilekliğin
     // zamanlayıcıları test saatinde ilerler.
-    await tester.tap(find.text('Bağlı değil'));
+    await tester.tap(find.byTooltip('Bilekliğe bağlan'));
     await tester.pump(const Duration(seconds: 2));
     await tester.pumpAndSettle();
     expect(controller.isConnected, isTrue);
-    expect(
-      tester
-          .widget<GlowButton>(find.widgetWithText(GlowButton, 'Şimdi ölç'))
-          .onTap,
-      isNotNull,
-    );
+    expect(measure().onPressed, isNotNull);
     await controller.disconnect();
     await tester.pumpAndSettle();
     device.dispose();

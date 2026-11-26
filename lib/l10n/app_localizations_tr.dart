@@ -3520,4 +3520,121 @@ class AppLocalizationsTr extends AppLocalizations {
   String recoveryTrendSemantics(String range, String value) {
     return '$range toparlanma eğilimi, ortalama $value';
   }
+
+  @override
+  String homeStreakSemantics(int days) {
+    return '$days gün üst üste veri';
+  }
+
+  @override
+  String get homeEnergyLabel => 'Enerji';
+
+  @override
+  String get homeEnergyHigh => 'Yüksek';
+
+  @override
+  String get homeEnergyNormal => 'Normal';
+
+  @override
+  String get homeEnergyLow => 'Düşük';
+
+  @override
+  String homeEnergyVsYesterday(String delta) {
+    return 'Düne göre $delta';
+  }
+
+  @override
+  String get homeEnergySame => 'Dünle aynı';
+
+  @override
+  String get homeEnergyNoCompare => 'Dünle karşılaştırma yok';
+
+  @override
+  String get homeTrainingPlan => 'Antrenman planı';
+
+  @override
+  String get homeAiCollapse => 'Daralt';
+
+  @override
+  String get homeAiExpand => 'Genişlet';
+
+  @override
+  String homeAiUpdated(String time) {
+    return 'Veriler $time itibarıyla güncellendi';
+  }
+
+  @override
+  String get homeAiReanalyze => 'Yeniden analiz et';
+
+  @override
+  String get homeAiNoData =>
+      'Bugün için analiz edilecek veri henüz yok. Bilekliği takıp eşitleyin.';
+
+  @override
+  String homeAiLoad(int value) {
+    return 'Bugünkü fiziksel yükünüz $value/100.';
+  }
+
+  @override
+  String get navAi => 'AI analizi';
+
+  @override
+  String get planTitle => 'Bugünkü antrenman planı';
+
+  @override
+  String get planIntenseTitle => 'Yoğun antrenman';
+
+  @override
+  String get planIntenseBody =>
+      '35–45 dakika tempolu koşu ya da aralıklı antrenman yapabilirsiniz.';
+
+  @override
+  String get planModerateTitle => 'Orta tempolu antrenman';
+
+  @override
+  String get planModerateBody =>
+      '30–40 dakika tempolu yürüyüş, bisiklet ya da hafif koşu.';
+
+  @override
+  String get planLightTitle => 'Hafif aktivite';
+
+  @override
+  String get planLightBody => '20–30 dakika rahat yürüyüş ya da esneme.';
+
+  @override
+  String get planRestTitle => 'Dinlenme günü';
+
+  @override
+  String get planRestBody =>
+      '10–15 dakika esneme ya da nefes egzersizi; yoğun antrenmandan kaçının.';
+
+  @override
+  String planZone(String range, String zone) {
+    return 'Hedef nabız: $range ($zone)';
+  }
+
+  @override
+  String planBasedOn(String value) {
+    return 'Bugünkü toparlanmanıza ($value) göre önerilir.';
+  }
+
+  @override
+  String get planNeedsData =>
+      'Plan için gece HRV\'si ya da uyku verisi gerekiyor. Bilekliği bu gece takın.';
+
+  @override
+  String get planNote =>
+      'Uygulamanın kendi önerisidir; rahatsızlık hissederseniz durun.';
+
+  @override
+  String get planNeedsAge =>
+      'Hedef nabız için Kişisel bilgiler\'e yaşınızı girin.';
+
+  @override
+  String get bioAgeUnlockTitle => 'Biyolojik yaşınızı açın';
+
+  @override
+  String bioAgeUnlockIn(int days) {
+    return '$days gün sonra kişisel biyolojik yaşınız açılır.';
+  }
 }

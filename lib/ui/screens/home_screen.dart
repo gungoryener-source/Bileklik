@@ -15,7 +15,9 @@ import '../theme.dart';
 import '../widgets/cam/cam.dart';
 import '../widgets/home/activity_gauge.dart';
 import '../widgets/home/day_chart.dart';
+import '../widgets/home/energy_gem.dart';
 import '../widgets/home/home_card.dart';
+import '../widgets/home/sky.dart';
 import '../widgets/family_alerts.dart';
 import '../widgets/insights.dart';
 import 'ai_report_screen.dart';
@@ -24,6 +26,7 @@ import 'ecg_screen.dart';
 import 'metric_detail_screen.dart';
 import 'progress_screen.dart';
 import 'recovery_screen.dart';
+import 'training_plan.dart';
 import 'sleep_screen.dart';
 import 'spot_measure_screen.dart';
 import 'workout_detail_screen.dart';
@@ -84,6 +87,7 @@ class _HomeScreenState extends State<HomeScreen> {
       builder: (context, _) {
         final s = DaySummary.of(store, day);
         final energy = EnergyScore.of(store, day);
+        final recovery = DayRecovery.of(store, day);
         final liveHr = isToday && c.isConnected ? c.live?.heartRate ?? 0 : 0;
         final resting = s.sleepHeartRate ?? s.heartRateStats?.min;
         return RefreshIndicator(
@@ -99,22 +103,39 @@ class _HomeScreenState extends State<HomeScreen> {
               _Header(
                 day: day,
                 isToday: isToday,
+                streak: dataStreak(store, DateTime.now()),
                 onPrev: () => _shift(-1),
                 onNext: isToday ? null : () => _shift(1),
                 onPick: _pickDay,
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: 8),
               // Ailedeki acil durum, varsa en üstte.
               const FamilyAlertCard(),
               _Hero(
                 s: s,
                 energy: energy,
-                recovery: DayRecovery.of(store, s.day),
-                isToday: isToday,
+                yesterdayEnergy: EnergyScore.of(
+                  store,
+                  DateTime(day.year, day.month, day.day - 1),
+                ),
+                recovery: recovery,
                 open: _open,
               ),
               gap,
-              _AiCard(onTap: () => _open(AiReportScreen(day: s.day))),
+              _AiCard(
+                s: s,
+                energy: energy,
+                recovery: recovery,
+                isToday: isToday,
+                onReport: () => _open(AiReportScreen(day: s.day)),
+              ),
+              gap,
+              BiologicalAgeHomeCard(
+                store: store,
+                day: s.day,
+                age: c.profile?.age,
+                onTap: () => _open(BiologicalAgeScreen(day: s.day)),
+              ),
               gap,
               _SleepCard(
                 s: s,
@@ -185,22 +206,11 @@ class _HomeScreenState extends State<HomeScreen> {
                     _open(const MetricDetailScreen(type: MetricType.spo2)),
               ),
               gap,
-              EnergyCard(
-                day: s.day,
-                onTap: () => _open(ProgressScreen(day: s.day)),
-              ),
-              gap,
               HealthRadarCard(
                 store: store,
                 day: s.day,
+                baseColor: HomeSky.card,
                 onTap: () => _open(ProgressScreen(day: s.day)),
-              ),
-              gap,
-              BiologicalAgeHomeCard(
-                store: store,
-                day: s.day,
-                age: DeviceScope.of(context).profile?.age,
-                onTap: () => _open(BiologicalAgeScreen(day: s.day)),
               ),
               gap,
               _Timeline(s: s, open: _open),
@@ -216,11 +226,13 @@ class _HomeScreenState extends State<HomeScreen> {
 // Başlık
 // ---------------------------------------------------------------------------
 
-/// Gün adı ("Bugün"), bileklik çipi; altında tarih gezgini.
+/// Üst satır: profil, veri serisi, eşitleme, ölçüm ve bileklik çipi;
+/// altında ortalanmış tarih gezgini.
 class _Header extends StatelessWidget {
   const _Header({
     required this.day,
     required this.isToday,
+    required this.streak,
     required this.onPrev,
     required this.onNext,
     required this.onPick,
@@ -228,74 +240,123 @@ class _Header extends StatelessWidget {
 
   final DateTime day;
   final bool isToday;
+  final int streak;
   final VoidCallback onPrev;
   final VoidCallback? onNext;
   final VoidCallback onPick;
 
   @override
   Widget build(BuildContext context) {
+    final c = DeviceScope.of(context);
     final l = context.l10n;
     final colors = context.colors;
     final now = DateTime.now();
     final yesterday = DateTime(now.year, now.month, now.day - 1);
-    final title = isToday
+    final name = isToday
         ? l.homeToday
         : day == yesterday
         ? l.homeYesterday
-        : dayMonth(day);
+        : weekdayLong(day.weekday);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         Row(
           children: [
-            Expanded(
-              child: Semantics(
-                header: true,
-                child: Text(
-                  title,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(
-                    fontSize: 32,
-                    fontWeight: FontWeight.w800,
-                    letterSpacing: -0.5,
-                    height: 1.1,
+            Tooltip(
+              message: l.navProfile,
+              child: Pressable(
+                semanticLabel: l.navProfile,
+                onTap: () => AppShell.selectTab(context, 3),
+                child: Container(
+                  width: 44,
+                  height: 44,
+                  decoration: const BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: HomeSky.green,
                   ),
+                  child: const Icon(Icons.person, color: HomeSky.bottom),
                 ),
               ),
             ),
             const SizedBox(width: 8),
-            const _BandChip(),
+            Semantics(
+              label: l.homeStreakSemantics(streak),
+              excludeSemantics: true,
+              child: Container(
+                height: 40,
+                padding: const EdgeInsetsDirectional.fromSTEB(10, 0, 14, 0),
+                decoration: BoxDecoration(
+                  color: HomeSky.pill,
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const Icon(
+                      Icons.local_fire_department,
+                      size: 20,
+                      color: HomeSky.yellow,
+                    ),
+                    const SizedBox(width: 6),
+                    Text(
+                      '$streak',
+                      style: const TextStyle(
+                        fontWeight: FontWeight.w700,
+                        fontFeatures: [FontFeature.tabularFigures()],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            const Spacer(),
+            // Eşitleme simgesi yalnızca genişçe ekranda; her zaman aşağı
+            // çekerek de eşitlenir.
+            if (MediaQuery.sizeOf(context).width >= 360)
+              IconButton(
+                tooltip: l.healthSyncTooltip,
+                onPressed: c.isConnected && !c.syncing ? c.sync : null,
+                icon: const Icon(Icons.sync),
+              ),
+            IconButton(
+              tooltip: l.homeMeasureNow,
+              onPressed: c.isConnected ? () => showMeasureSheet(context) : null,
+              icon: const Icon(Icons.monitor_heart_outlined),
+            ),
+            Flexible(
+              child: _BandChip(compact: MediaQuery.sizeOf(context).width < 400),
+            ),
           ],
         ),
-        const SizedBox(height: 4),
+        const SizedBox(height: 8),
         Row(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            _RoundIcon(
-              icon: Icons.chevron_left,
+            IconButton(
               tooltip: l.homePrevDay,
-              onTap: onPrev,
+              onPressed: onPrev,
+              icon: const Icon(Icons.chevron_left),
             ),
             Flexible(
               child: TextButton.icon(
                 onPressed: onPick,
-                icon: Icon(Icons.calendar_today, size: 16, color: colors.muted),
+                style: TextButton.styleFrom(foregroundColor: colors.text),
+                icon: const Icon(Icons.calendar_month, size: 20),
                 label: Text(
-                  l.homeWeekdayDate(weekdayLong(day.weekday), dayMonth(day)),
+                  l.homeWeekdayDate(name, dayMonth(day)),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                    color: colors.muted,
-                    fontSize: 15,
+                  style: const TextStyle(
+                    fontSize: 17,
                     fontWeight: FontWeight.w600,
                   ),
                 ),
               ),
             ),
-            _RoundIcon(
-              icon: Icons.chevron_right,
+            IconButton(
               tooltip: l.homeNextDay,
-              onTap: onNext,
+              onPressed: onNext,
+              icon: const Icon(Icons.chevron_right),
             ),
           ],
         ),
@@ -304,37 +365,13 @@ class _Header extends StatelessWidget {
   }
 }
 
-/// 48 dp dokunma alanlı küçük cam daire düğme.
-class _RoundIcon extends StatelessWidget {
-  const _RoundIcon({required this.icon, required this.tooltip, this.onTap});
-
-  final IconData icon;
-  final String tooltip;
-  final VoidCallback? onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    final c = context.colors;
-    return IconButton(
-      tooltip: tooltip,
-      onPressed: onTap,
-      style: IconButton.styleFrom(
-        backgroundColor: c.surfaceHigh,
-        disabledBackgroundColor: const Color(0x00000000),
-        side: BorderSide(color: c.glassBorder),
-        fixedSize: const Size.square(40),
-        minimumSize: const Size.square(48),
-        tapTargetSize: MaterialTapTargetSize.padded,
-      ),
-      icon: Icon(icon, size: 20),
-    );
-  }
-}
-
 /// Bileklik çipi: bağlıyken yeşil nokta ve pil, değilken gri nokta ve
 /// "Bağlı değil". Dokununca bağlanır ya da bağlantıyı keser.
 class _BandChip extends StatelessWidget {
-  const _BandChip();
+  const _BandChip({this.compact = false});
+
+  /// Dar ekranda yalnızca nokta ve pil simgesi; ad ekran okuyucuda kalır.
+  final bool compact;
 
   @override
   Widget build(BuildContext context) {
@@ -359,7 +396,7 @@ class _BandChip extends StatelessWidget {
           onTap: connecting ? null : (connected ? c.disconnect : c.connect),
           child: Container(
             constraints: const BoxConstraints(minHeight: 48),
-            padding: const EdgeInsetsDirectional.fromSTEB(12, 8, 14, 8),
+            padding: const EdgeInsetsDirectional.fromSTEB(10, 8, 10, 8),
             decoration: BoxDecoration(
               color: colors.glassBase,
               borderRadius: BorderRadius.circular(CamRadius.chip + 4),
@@ -369,23 +406,24 @@ class _BandChip extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 _StatusDot(on: connected),
-                const SizedBox(width: 8),
                 if (connected && percent != null) ...[
+                  const SizedBox(width: 6),
                   Icon(_batteryIcon(percent), size: 16, color: colors.muted),
-                  const SizedBox(width: 2),
                 ],
-                Flexible(
-                  child: Text(
-                    label,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(
-                      fontSize: 13,
-                      fontWeight: FontWeight.w700,
-                      fontFeatures: [FontFeature.tabularFigures()],
+                if (!compact) const SizedBox(width: 4),
+                if (!compact)
+                  Flexible(
+                    child: Text(
+                      label,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(
+                        fontSize: 13,
+                        fontWeight: FontWeight.w700,
+                        fontFeatures: [FontFeature.tabularFigures()],
+                      ),
                     ),
                   ),
-                ),
               ],
             ),
           ),
@@ -429,21 +467,22 @@ class _StatusDot extends StatelessWidget {
 // Üst bölüm: öneri ve günün göstergeleri
 // ---------------------------------------------------------------------------
 
-/// Günün durumuna göre başlık ve öneri; altında uyku, toparlanma ve yük
-/// göstergeleri; en altta Egzersize başla ve Şimdi ölç.
+/// Üst bölüm (kartsız, gökyüzü üstünde): zümrüt kristalde enerji skoru,
+/// düne göre değişim, uyku/toparlanma/yük göstergeleri ve iki hap düğme.
+/// Arkada kodla çizilen dağ silueti.
 class _Hero extends StatelessWidget {
   const _Hero({
     required this.s,
     required this.energy,
+    required this.yesterdayEnergy,
     required this.recovery,
-    required this.isToday,
     required this.open,
   });
 
   final DaySummary s;
   final EnergyScore? energy;
+  final EnergyScore? yesterdayEnergy;
   final DayRecovery? recovery;
-  final bool isToday;
   final void Function(Widget) open;
 
   /// Günlük yükün (adım ve stres harcaması, en çok 40) 0-100 ölçeği.
@@ -454,151 +493,195 @@ class _Hero extends StatelessWidget {
     final c = DeviceScope.of(context);
     final l = context.l10n;
     final colors = context.colors;
-    final now = DateTime.now();
-    final night = s.night;
-    final hrv = s.recoveryHrv;
-    final hrvBand = hrv == null ? null : bandOf(MetricType.hrv, hrv);
-    final lateNight = isToday && (now.hour >= 23 || now.hour < 5);
-    final lowRecovery = (recovery?.score ?? 100) < 35;
-
-    final String title;
-    final String body;
-    final IconData icon;
-    if (lateNight) {
-      title = l.homeLateNightTitle;
-      body = l.homeLateNightBody;
-      icon = Icons.nights_stay;
-    } else if (night == null) {
-      title = isToday ? l.homeNoSleepLastNight : l.homeNoSleepThisDay;
-      body = isToday ? l.homeNoSleepTonightHint : l.homeNoSleepPastHint;
-      icon = Icons.bedtime_outlined;
-    } else {
-      final slept = duration(night.asleepMinutes);
-      final summary = hrv == null
-          ? l.homeSleptSummary(slept)
-          : hrvBand == null
-          ? l.homeSleptHrvSummary(slept, hrv.round())
-          : l.homeSleptHrvBandSummary(slept, hrv.round(), hrvBand.label);
-      if (isToday && lowRecovery) {
-        title = l.homeLowRecoveryTitle;
-        body = '$summary ${l.homeLowRecoveryBody}';
-        icon = Icons.spa;
-      } else {
-        title = isToday ? _greeting(l, now) : l.homeDaySummary;
-        body = summary;
-        icon = isToday && now.hour >= 18 ? Icons.wb_twilight : Icons.wb_sunny;
-      }
-    }
-
     final e = energy;
-    return GlassCard(
-      radius: CamRadius.hero,
-      padding: CamSpace.heroPadding,
-      tint: camTint(colors.heroTintStart, colors.heroTintEnd),
-      child: Column(
-        children: [
-          Orb(palette: CamArt.orbViolet, size: 56, icon: icon),
-          const SizedBox(height: 14),
-          Text(
-            title,
-            textAlign: TextAlign.center,
-            style: Theme.of(context).textTheme.headlineSmall
-                ?.copyWith(fontWeight: FontWeight.w800),
-          ),
-          const SizedBox(height: 8),
-          Text(
-            body,
-            textAlign: TextAlign.center,
-            style: TextStyle(color: colors.muted, height: 1.4),
-          ),
-          const SizedBox(height: 22),
-          IntrinsicHeight(
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
+    final level = e == null
+        ? null
+        : switch (e.level) {
+            EnergyLevel.high => l.homeEnergyHigh,
+            EnergyLevel.medium => l.homeEnergyNormal,
+            EnergyLevel.low => l.homeEnergyLow,
+          };
+    final y = yesterdayEnergy;
+    final String compare;
+    if (e == null || y == null) {
+      compare = l.homeEnergyNoCompare;
+    } else {
+      final d = e.score - y.score;
+      compare = d == 0
+          ? l.homeEnergySame
+          : l.homeEnergyVsYesterday(ltr(d > 0 ? '+$d' : '−${-d}'));
+    }
+    final score = e?.score.toString() ?? l.noValue;
+    return Stack(
+      clipBehavior: Clip.none,
+      children: [
+        // Dağ, kristalin arkasından yükselir; göstergelerin altında kararır.
+        const PositionedDirectional(
+          start: -16,
+          end: -16,
+          top: 90,
+          height: 320,
+          child: MountainSilhouette(),
+        ),
+        Column(
+          children: [
+            const SizedBox(height: 8),
+            Pressable(
+              semanticLabel: e == null
+                  ? l.energyEmpty
+                  : l.energySemantics(e.score, level!),
+              onTap: () => open(ProgressScreen(day: s.day)),
+              child: EnergyGem(
+                child: FittedBox(
+                  fit: BoxFit.scaleDown,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const Icon(Icons.bolt, color: HomeSky.snow, size: 22),
+                      Text(
+                        l.homeEnergyLabel,
+                        style: const TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      Text(
+                        score,
+                        style: const TextStyle(
+                          fontSize: 60,
+                          height: 1.1,
+                          fontWeight: FontWeight.w800,
+                          fontFeatures: [FontFeature.tabularFigures()],
+                        ),
+                      ),
+                      if (level != null)
+                        Text(
+                          level,
+                          style: const TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(height: 14),
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 7),
+              decoration: BoxDecoration(
+                color: HomeSky.pill,
+                borderRadius: BorderRadius.circular(20),
+              ),
+              child: Text(compare, style: const TextStyle(fontSize: 14)),
+            ),
+            const SizedBox(height: 24),
+            IntrinsicHeight(
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  _Gauge(
+                    label: l.homeSleepScore,
+                    value: e?.sleepScore?.toString(),
+                    progress: (e?.sleepScore ?? 0) / 100,
+                    color: HomeSky.green,
+                    onTap: () => open(SleepScreen(day: s.day)),
+                  ),
+                  VerticalDivider(color: colors.outline, width: 1),
+                  _Gauge(
+                    label: l.homeDailyRecovery,
+                    value: recovery == null
+                        ? null
+                        : l.homePercent(recovery!.score),
+                    progress: (recovery?.score ?? 0) / 100,
+                    color: HomeSky.blue,
+                    onTap: () => open(RecoveryScreen(day: s.day)),
+                  ),
+                  VerticalDivider(color: colors.outline, width: 1),
+                  _Gauge(
+                    label: l.homeDailyLoad,
+                    value: e == null ? null : loadOf(e).toString(),
+                    progress: e == null ? 0 : loadOf(e) / 100,
+                    color: HomeSky.green,
+                  ),
+                ],
+              ),
+            ),
+            if (issueText(c) case final issue?) ...[
+              const SizedBox(height: 12),
+              Text(issue, style: TextStyle(color: colors.danger)),
+            ],
+            const SizedBox(height: 28),
+            Row(
               children: [
-                _Gauge(
-                  label: l.homeSleepScore,
-                  value: e?.sleepScore?.toString(),
-                  progress: (e?.sleepScore ?? 0) / 100,
-                  color: DataColors.sleepLight,
-                  onTap: () => open(SleepScreen(day: s.day)),
+                Expanded(
+                  child: _PillButton(
+                    icon: Icons.directions_run,
+                    label: l.homeStartWorkout,
+                    onTap: () => AppShell.selectTab(context, 2),
+                  ),
                 ),
-                VerticalDivider(color: colors.grid, width: 1),
-                _Gauge(
-                  label: l.homeDailyRecovery,
-                  value: recovery == null
-                      ? null
-                      : l.homePercent(recovery!.score),
-                  progress: (recovery?.score ?? 0) / 100,
-                  color: DataColors.hrv,
-                  onTap: () => open(RecoveryScreen(day: s.day)),
-                ),
-                VerticalDivider(color: colors.grid, width: 1),
-                _Gauge(
-                  label: l.homeDailyLoad,
-                  value: e == null ? null : loadOf(e).toString(),
-                  progress: e == null ? 0 : loadOf(e) / 100,
-                  color: DataColors.temperature,
+                const SizedBox(width: CamSpace.gap),
+                Expanded(
+                  child: _PillButton(
+                    icon: Icons.auto_awesome,
+                    label: l.homeTrainingPlan,
+                    onTap: () => showTrainingPlan(
+                      context,
+                      recovery: recovery,
+                      age: c.profile?.age,
+                      onStart: () => AppShell.selectTab(context, 2),
+                    ),
+                  ),
                 ),
               ],
             ),
-          ),
-          if (issueText(c) case final issue?) ...[
-            const SizedBox(height: 12),
-            Text(issue, style: TextStyle(color: colors.danger)),
+            const SizedBox(height: 8),
           ],
-          const SizedBox(height: 20),
-          Row(
-            children: [
-              Expanded(
-                child: OutlinedButton.icon(
-                  onPressed: () => AppShell.selectTab(context, 2),
-                  style: OutlinedButton.styleFrom(
-                    minimumSize: const Size.fromHeight(52),
-                    padding: const EdgeInsetsDirectional.symmetric(
-                      horizontal: 12,
-                    ),
-                    foregroundColor: colors.text,
-                    side: BorderSide(color: colors.glassBorder),
-                    backgroundColor: colors.surfaceHigh,
-                  ),
-                  icon: const Icon(Icons.directions_run),
-                  // Dar ekranda iki satıra iner, kesilmez.
-                  label: Text(
-                    l.homeStartWorkout,
-                    maxLines: 2,
-                    textAlign: TextAlign.center,
-                    style: const TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.w700,
-                      height: 1.15,
-                    ),
-                  ),
-                ),
-              ),
-              const SizedBox(width: CamSpace.gap),
-              Expanded(
-                child: GlowButton(
-                  label: l.homeMeasureNow,
-                  icon: Icons.favorite,
-                  onTap: c.isConnected ? () => showMeasureSheet(context) : null,
-                ),
-              ),
-            ],
-          ),
-        ],
-      ),
+        ),
+      ],
     );
   }
-
-  static String _greeting(AppLocalizations l, DateTime t) => switch (t.hour) {
-    >= 5 && < 11 => l.homeGoodMorning,
-    >= 11 && < 18 => l.homeGoodAfternoon,
-    _ => l.homeGoodEvening,
-  };
 }
 
-/// Büyük değer, etiket ve altında noktalı ilerleme çizgisi.
+/// Yarı saydam hap düğme.
+class _PillButton extends StatelessWidget {
+  const _PillButton({
+    required this.icon,
+    required this.label,
+    required this.onTap,
+  });
+
+  final IconData icon;
+  final String label;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) => OutlinedButton.icon(
+    onPressed: onTap,
+    style: OutlinedButton.styleFrom(
+      minimumSize: const Size.fromHeight(52),
+      padding: const EdgeInsetsDirectional.symmetric(horizontal: 12),
+      foregroundColor: context.colors.text,
+      backgroundColor: HomeSky.pill.withValues(alpha: 0.18),
+      side: const BorderSide(color: HomeSky.border),
+      shape: const StadiumBorder(),
+    ),
+    icon: Icon(icon),
+    label: Text(
+      label,
+      maxLines: 2,
+      textAlign: TextAlign.center,
+      style: const TextStyle(
+        fontSize: 15,
+        fontWeight: FontWeight.w700,
+        height: 1.15,
+      ),
+    ),
+  );
+}
+
 class _Gauge extends StatelessWidget {
   const _Gauge({
     required this.label,
@@ -717,46 +800,165 @@ class _DotLinePainter extends CustomPainter {
 }
 
 /// Bugünkü AI analizi: rapor ekranına geçiş.
-class _AiCard extends StatelessWidget {
-  const _AiCard({required this.onTap});
+/// Bugünkü AI analizi: günün kısa değerlendirmesi; açılıp kapanır.
+/// Altta verinin güncellendiği saat ve ayrıntılı rapora geçiş.
+class _AiCard extends StatefulWidget {
+  const _AiCard({
+    required this.s,
+    required this.energy,
+    required this.recovery,
+    required this.isToday,
+    required this.onReport,
+  });
 
-  final VoidCallback onTap;
+  final DaySummary s;
+  final EnergyScore? energy;
+  final DayRecovery? recovery;
+  final bool isToday;
+  final VoidCallback onReport;
+
+  @override
+  State<_AiCard> createState() => _AiCardState();
+}
+
+class _AiCardState extends State<_AiCard> {
+  bool _open = true;
+
+  List<String> _lines(BuildContext context) {
+    final l = context.l10n;
+    final s = widget.s;
+    final now = DateTime.now();
+    final night = s.night;
+    final hrv = s.recoveryHrv;
+    final hrvBand = hrv == null ? null : bandOf(MetricType.hrv, hrv);
+    final out = <String>[];
+    if (widget.isToday && (now.hour >= 23 || now.hour < 5)) {
+      out.add(l.homeLateNightBody);
+    }
+    if (night == null) {
+      if (widget.isToday) out.add(l.homeNoSleepTonightHint);
+    } else {
+      final slept = duration(night.asleepMinutes);
+      out.add(
+        hrv == null
+            ? l.homeSleptSummary(slept)
+            : hrvBand == null
+            ? l.homeSleptHrvSummary(slept, hrv.round())
+            : l.homeSleptHrvBandSummary(slept, hrv.round(), hrvBand.label),
+      );
+    }
+    if (widget.recovery case final r?) out.add(r.level.comment);
+    if (widget.energy case final e?) {
+      out.add(l.homeAiLoad(_Hero.loadOf(e)));
+    }
+    if (out.isEmpty) out.add(l.homeAiNoData);
+    return out;
+  }
 
   @override
   Widget build(BuildContext context) {
     final l = context.l10n;
     final colors = context.colors;
-    return Pressable(
-      semanticLabel: l.homeAiTitle,
-      onTap: onTap,
-      pressedScale: 0.98,
-      child: GlassCard(
-        tint: camTint(
-          DataColors.hrv.withValues(alpha: 0.16),
-          colors.auroraViolet.withValues(alpha: 0.12),
+    final synced = DeviceScope.of(context).lastSync;
+    final text = _lines(context).join(' ');
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(CamRadius.card),
+        gradient: const LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [HomeSky.ai, HomeSky.aiBlue],
         ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(1.5),
+        child: DecoratedBox(
+          decoration: BoxDecoration(
+            color: HomeSky.inner,
+            borderRadius: BorderRadius.circular(CamRadius.card - 1.5),
+          ),
+          child: Padding(
+            padding: CamSpace.cardPadding,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                const Icon(Icons.auto_awesome, color: DataColors.hrv),
-                const SizedBox(width: 10),
-                Expanded(
-                  child: Text(
-                    l.homeAiTitle,
-                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                      color: DataColors.hrv,
-                      fontWeight: FontWeight.w700,
+                Row(
+                  children: [
+                    const Icon(Icons.auto_awesome, color: HomeSky.ai),
+                    const SizedBox(width: 10),
+                    Expanded(
+                      child: Text(
+                        l.homeAiTitle,
+                        style: Theme.of(context).textTheme.titleMedium
+                            ?.copyWith(
+                              color: HomeSky.ai,
+                              fontWeight: FontWeight.w700,
+                            ),
+                      ),
                     ),
+                    Flexible(
+                      child: TextButton.icon(
+                        onPressed: () => setState(() => _open = !_open),
+                        style: TextButton.styleFrom(
+                          foregroundColor: colors.muted,
+                        ),
+                        iconAlignment: IconAlignment.end,
+                        icon: Icon(
+                          _open ? Icons.expand_less : Icons.expand_more,
+                        ),
+                        label: Text(
+                          _open ? l.homeAiCollapse : l.homeAiExpand,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 6),
+                AnimatedSize(
+                  duration: MediaQuery.of(context).disableAnimations
+                      ? Duration.zero
+                      : const Duration(milliseconds: 220),
+                  alignment: AlignmentDirectional.topStart,
+                  child: Text(
+                    text,
+                    maxLines: _open ? null : 2,
+                    overflow: _open ? null : TextOverflow.ellipsis,
+                    style: const TextStyle(height: 1.45, fontSize: 15),
                   ),
                 ),
-                const Icon(Icons.arrow_forward, color: DataColors.hrv),
+                const SizedBox(height: 10),
+                Row(
+                  children: [
+                    Expanded(
+                      child: synced == null
+                          ? const SizedBox.shrink()
+                          : Text(
+                              l.homeAiUpdated(hhmm(synced)),
+                              style: TextStyle(
+                                color: colors.muted,
+                                fontSize: 12,
+                              ),
+                            ),
+                    ),
+                    Flexible(
+                      child: TextButton(
+                        onPressed: widget.onReport,
+                        style: TextButton.styleFrom(
+                          foregroundColor: HomeSky.green,
+                        ),
+                        child: Text(
+                          l.homeAiReanalyze,
+                          textAlign: TextAlign.end,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ],
             ),
-            const SizedBox(height: 8),
-            Text(l.homeAiBody, style: TextStyle(color: colors.muted)),
-          ],
+          ),
         ),
       ),
     );
@@ -793,7 +995,7 @@ class _SleepCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          BigValue(sc?.toString(), caption: label),
+          BigValue(sc?.toString(), caption: label, color: HomeSky.green),
           const SizedBox(height: 16),
           _StageStrip(night: n),
           if (n != null) ...[
@@ -867,8 +1069,12 @@ class _ActivityCard extends StatelessWidget {
             excludeSemantics: true,
             child: ActivityGauge(
               progress: s.steps / dailyStepGoal,
-              color: DataColors.steps,
-              child: BigValue(l.homePercent(percent), caption: label),
+              color: HomeSky.chart,
+              child: BigValue(
+                l.homePercent(percent),
+                caption: label,
+                color: HomeSky.blue,
+              ),
             ),
           ),
           const SizedBox(height: 16),
@@ -922,6 +1128,14 @@ class _LiveChip extends StatelessWidget {
   }
 }
 
+/// Şeritte evreler beyazın tonlarıyla: derin en açık, uyanık en koyu.
+Color _stripColor(SleepStage s) => switch (s) {
+  SleepStage.deep => HomeSky.chart,
+  SleepStage.light => HomeSky.chart.withValues(alpha: 0.55),
+  SleepStage.rem => HomeSky.chart.withValues(alpha: 0.32),
+  SleepStage.awake => HomeSky.chart.withValues(alpha: 0.14),
+};
+
 /// Gecenin evreleri soldan sağa, yatıştan uyanışa (RTL dillerde de;
 /// zaman ekseni grafiklerdeki gibi sabit kalır).
 class _StageStrip extends StatelessWidget {
@@ -959,9 +1173,9 @@ class _StageStrip extends StatelessWidget {
               ].join(l.homeListSeparator),
             ),
       child: ClipRRect(
-        borderRadius: BorderRadius.circular(6),
+        borderRadius: BorderRadius.circular(14),
         child: SizedBox(
-          height: 12,
+          height: 28,
           child: runs.isEmpty
               ? ColoredBox(color: context.colors.surfaceHigh)
               : Row(
@@ -971,7 +1185,7 @@ class _StageStrip extends StatelessWidget {
                     for (final (stage, minutes) in runs)
                       Expanded(
                         flex: minutes,
-                        child: ColoredBox(color: stage.color),
+                        child: ColoredBox(color: _stripColor(stage)),
                       ),
                   ],
                 ),
@@ -988,13 +1202,6 @@ class _BalanceCard extends StatelessWidget {
   final DaySummary s;
   final VoidCallback onTap;
 
-  static Color _stressColor(double v) => switch (v) {
-    < 25 => DataColors.hrv,
-    < 51 => DataColors.steps,
-    < 76 => DataColors.temperature,
-    _ => DataColors.heart,
-  };
-
   @override
   Widget build(BuildContext context) {
     final stress = s.averageStress;
@@ -1009,6 +1216,7 @@ class _BalanceCard extends StatelessWidget {
         children: [
           BigValue(
             stress?.round().toString(),
+            color: HomeSky.green,
             caption: band == null
                 ? l.homeAverageStress
                 : l.homeAverageStressBand(band.label),
@@ -1017,7 +1225,7 @@ class _BalanceCard extends StatelessWidget {
           DayBars(
             values: s.hourlyStress,
             max: 100,
-            colorOf: _stressColor,
+            colorOf: (_) => HomeSky.chart,
             semanticLabel: l.homeHourlyStressSemantics,
           ),
           const SizedBox(height: 16),
@@ -1118,7 +1326,7 @@ class _DayChartCard extends StatelessWidget {
           ],
           DayLineChart(
             values: values,
-            color: type.color,
+            color: HomeSky.chart,
             semanticLabel: st == null
                 ? l.homeChartNoData(title)
                 : l.homeChartSemantics(
@@ -1152,6 +1360,7 @@ class _Timeline extends StatelessWidget {
     final events = s.timeline;
     final l = context.l10n;
     return GlassCard(
+      baseColor: HomeSky.card,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

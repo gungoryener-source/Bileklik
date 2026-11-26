@@ -1880,5 +1880,89 @@
         "type": "String"
       }
     }
+  },
+  "homeStreakSemantics": "{days} gün üst üste veri",
+  "@homeStreakSemantics": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "homeEnergyLabel": "Enerji",
+  "homeEnergyHigh": "Yüksek",
+  "homeEnergyNormal": "Normal",
+  "homeEnergyLow": "Düşük",
+  "homeEnergyVsYesterday": "Düne göre {delta}",
+  "@homeEnergyVsYesterday": {
+    "placeholders": {
+      "delta": {
+        "type": "String"
+      }
+    }
+  },
+  "homeEnergySame": "Dünle aynı",
+  "homeEnergyNoCompare": "Dünle karşılaştırma yok",
+  "homeTrainingPlan": "Antrenman planı",
+  "homeAiCollapse": "Daralt",
+  "homeAiExpand": "Genişlet",
+  "homeAiUpdated": "Veriler {time} itibarıyla güncellendi",
+  "@homeAiUpdated": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "homeAiReanalyze": "Yeniden analiz et",
+  "homeAiNoData": "Bugün için analiz edilecek veri henüz yok. Bilekliği takıp eşitleyin.",
+  "homeAiLoad": "Bugünkü fiziksel yükünüz {value}/100.",
+  "@homeAiLoad": {
+    "placeholders": {
+      "value": {
+        "type": "int"
+      }
+    }
+  },
+  "navAi": "AI analizi",
+  "planTitle": "Bugünkü antrenman planı",
+  "planIntenseTitle": "Yoğun antrenman",
+  "planIntenseBody": "35–45 dakika tempolu koşu ya da aralıklı antrenman yapabilirsiniz.",
+  "planModerateTitle": "Orta tempolu antrenman",
+  "planModerateBody": "30–40 dakika tempolu yürüyüş, bisiklet ya da hafif koşu.",
+  "planLightTitle": "Hafif aktivite",
+  "planLightBody": "20–30 dakika rahat yürüyüş ya da esneme.",
+  "planRestTitle": "Dinlenme günü",
+  "planRestBody": "10–15 dakika esneme ya da nefes egzersizi; yoğun antrenmandan kaçının.",
+  "planZone": "Hedef nabız: {range} ({zone})",
+  "@planZone": {
+    "placeholders": {
+      "range": {
+        "type": "String"
+      },
+      "zone": {
+        "type": "String"
+      }
+    }
+  },
+  "planBasedOn": "Bugünkü toparlanmanıza ({value}) göre önerilir.",
+  "@planBasedOn": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "planNeedsData": "Plan için gece HRV'si ya da uyku verisi gerekiyor. Bilekliği bu gece takın.",
+  "planNote": "Uygulamanın kendi önerisidir; rahatsızlık hissederseniz durun.",
+  "planNeedsAge": "Hedef nabız için Kişisel bilgiler'e yaşınızı girin.",
+  "bioAgeUnlockTitle": "Biyolojik yaşınızı açın",
+  "bioAgeUnlockIn": "{days} gün sonra kişisel biyolojik yaşınız açılır.",
+  "@bioAgeUnlockIn": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
   }
 }

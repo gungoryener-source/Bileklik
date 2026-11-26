@@ -3594,4 +3594,121 @@ class AppLocalizationsDe extends AppLocalizations {
   String recoveryTrendSemantics(String range, String value) {
     return 'Erholungsverlauf $range, Durchschnitt $value';
   }
+
+  @override
+  String homeStreakSemantics(int days) {
+    return '$days Tage Daten in Folge';
+  }
+
+  @override
+  String get homeEnergyLabel => 'Energie';
+
+  @override
+  String get homeEnergyHigh => 'Hoch';
+
+  @override
+  String get homeEnergyNormal => 'Normal';
+
+  @override
+  String get homeEnergyLow => 'Niedrig';
+
+  @override
+  String homeEnergyVsYesterday(String delta) {
+    return '$delta gegenüber gestern';
+  }
+
+  @override
+  String get homeEnergySame => 'Wie gestern';
+
+  @override
+  String get homeEnergyNoCompare => 'Kein Vergleich mit gestern';
+
+  @override
+  String get homeTrainingPlan => 'Trainingsplan';
+
+  @override
+  String get homeAiCollapse => 'Einklappen';
+
+  @override
+  String get homeAiExpand => 'Ausklappen';
+
+  @override
+  String homeAiUpdated(String time) {
+    return 'Daten aktualisiert um $time';
+  }
+
+  @override
+  String get homeAiReanalyze => 'Neu analysieren';
+
+  @override
+  String get homeAiNoData =>
+      'Für heute gibt es noch keine Daten. Tragen Sie das Armband und synchronisieren Sie.';
+
+  @override
+  String homeAiLoad(int value) {
+    return 'Ihre körperliche Belastung heute: $value/100.';
+  }
+
+  @override
+  String get navAi => 'KI-Analyse';
+
+  @override
+  String get planTitle => 'Trainingsplan für heute';
+
+  @override
+  String get planIntenseTitle => 'Intensives Training';
+
+  @override
+  String get planIntenseBody =>
+      '35–45 Minuten Lauf- oder Intervalltraining sind möglich.';
+
+  @override
+  String get planModerateTitle => 'Mittleres Training';
+
+  @override
+  String get planModerateBody =>
+      '30–40 Minuten zügiges Gehen, Radfahren oder lockeres Laufen.';
+
+  @override
+  String get planLightTitle => 'Leichte Aktivität';
+
+  @override
+  String get planLightBody => '20–30 Minuten lockeres Gehen oder Dehnen.';
+
+  @override
+  String get planRestTitle => 'Ruhetag';
+
+  @override
+  String get planRestBody =>
+      '10–15 Minuten Dehnen oder Atemübungen; meiden Sie intensives Training.';
+
+  @override
+  String planZone(String range, String zone) {
+    return 'Zielpuls: $range ($zone)';
+  }
+
+  @override
+  String planBasedOn(String value) {
+    return 'Empfohlen anhand Ihrer heutigen Erholung ($value).';
+  }
+
+  @override
+  String get planNeedsData =>
+      'Für den Plan sind nächtliche HRV- oder Schlafdaten nötig. Tragen Sie das Armband heute Nacht.';
+
+  @override
+  String get planNote =>
+      'Eigene Empfehlung der App; hören Sie bei Beschwerden auf.';
+
+  @override
+  String get planNeedsAge =>
+      'Geben Sie für den Zielpuls Ihr Alter unter Persönliche Daten ein.';
+
+  @override
+  String get bioAgeUnlockTitle => 'Biologisches Alter freischalten';
+
+  @override
+  String bioAgeUnlockIn(int days) {
+    return 'Ihr biologisches Alter wird in $days Tagen freigeschaltet.';
+  }
 }

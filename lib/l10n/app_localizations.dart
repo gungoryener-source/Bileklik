@@ -6015,6 +6015,198 @@ abstract class AppLocalizations {
   /// In tr, this message translates to:
   /// **'{range} toparlanma eğilimi, ortalama {value}'**
   String recoveryTrendSemantics(String range, String value);
+
+  /// No description provided for @homeStreakSemantics.
+  ///
+  /// In tr, this message translates to:
+  /// **'{days} gün üst üste veri'**
+  String homeStreakSemantics(int days);
+
+  /// No description provided for @homeEnergyLabel.
+  ///
+  /// In tr, this message translates to:
+  /// **'Enerji'**
+  String get homeEnergyLabel;
+
+  /// No description provided for @homeEnergyHigh.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yüksek'**
+  String get homeEnergyHigh;
+
+  /// No description provided for @homeEnergyNormal.
+  ///
+  /// In tr, this message translates to:
+  /// **'Normal'**
+  String get homeEnergyNormal;
+
+  /// No description provided for @homeEnergyLow.
+  ///
+  /// In tr, this message translates to:
+  /// **'Düşük'**
+  String get homeEnergyLow;
+
+  /// No description provided for @homeEnergyVsYesterday.
+  ///
+  /// In tr, this message translates to:
+  /// **'Düne göre {delta}'**
+  String homeEnergyVsYesterday(String delta);
+
+  /// No description provided for @homeEnergySame.
+  ///
+  /// In tr, this message translates to:
+  /// **'Dünle aynı'**
+  String get homeEnergySame;
+
+  /// No description provided for @homeEnergyNoCompare.
+  ///
+  /// In tr, this message translates to:
+  /// **'Dünle karşılaştırma yok'**
+  String get homeEnergyNoCompare;
+
+  /// No description provided for @homeTrainingPlan.
+  ///
+  /// In tr, this message translates to:
+  /// **'Antrenman planı'**
+  String get homeTrainingPlan;
+
+  /// No description provided for @homeAiCollapse.
+  ///
+  /// In tr, this message translates to:
+  /// **'Daralt'**
+  String get homeAiCollapse;
+
+  /// No description provided for @homeAiExpand.
+  ///
+  /// In tr, this message translates to:
+  /// **'Genişlet'**
+  String get homeAiExpand;
+
+  /// No description provided for @homeAiUpdated.
+  ///
+  /// In tr, this message translates to:
+  /// **'Veriler {time} itibarıyla güncellendi'**
+  String homeAiUpdated(String time);
+
+  /// No description provided for @homeAiReanalyze.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yeniden analiz et'**
+  String get homeAiReanalyze;
+
+  /// No description provided for @homeAiNoData.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bugün için analiz edilecek veri henüz yok. Bilekliği takıp eşitleyin.'**
+  String get homeAiNoData;
+
+  /// No description provided for @homeAiLoad.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bugünkü fiziksel yükünüz {value}/100.'**
+  String homeAiLoad(int value);
+
+  /// No description provided for @navAi.
+  ///
+  /// In tr, this message translates to:
+  /// **'AI analizi'**
+  String get navAi;
+
+  /// No description provided for @planTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bugünkü antrenman planı'**
+  String get planTitle;
+
+  /// No description provided for @planIntenseTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yoğun antrenman'**
+  String get planIntenseTitle;
+
+  /// No description provided for @planIntenseBody.
+  ///
+  /// In tr, this message translates to:
+  /// **'35–45 dakika tempolu koşu ya da aralıklı antrenman yapabilirsiniz.'**
+  String get planIntenseBody;
+
+  /// No description provided for @planModerateTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Orta tempolu antrenman'**
+  String get planModerateTitle;
+
+  /// No description provided for @planModerateBody.
+  ///
+  /// In tr, this message translates to:
+  /// **'30–40 dakika tempolu yürüyüş, bisiklet ya da hafif koşu.'**
+  String get planModerateBody;
+
+  /// No description provided for @planLightTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hafif aktivite'**
+  String get planLightTitle;
+
+  /// No description provided for @planLightBody.
+  ///
+  /// In tr, this message translates to:
+  /// **'20–30 dakika rahat yürüyüş ya da esneme.'**
+  String get planLightBody;
+
+  /// No description provided for @planRestTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Dinlenme günü'**
+  String get planRestTitle;
+
+  /// No description provided for @planRestBody.
+  ///
+  /// In tr, this message translates to:
+  /// **'10–15 dakika esneme ya da nefes egzersizi; yoğun antrenmandan kaçının.'**
+  String get planRestBody;
+
+  /// No description provided for @planZone.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hedef nabız: {range} ({zone})'**
+  String planZone(String range, String zone);
+
+  /// No description provided for @planBasedOn.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bugünkü toparlanmanıza ({value}) göre önerilir.'**
+  String planBasedOn(String value);
+
+  /// No description provided for @planNeedsData.
+  ///
+  /// In tr, this message translates to:
+  /// **'Plan için gece HRV\'si ya da uyku verisi gerekiyor. Bilekliği bu gece takın.'**
+  String get planNeedsData;
+
+  /// No description provided for @planNote.
+  ///
+  /// In tr, this message translates to:
+  /// **'Uygulamanın kendi önerisidir; rahatsızlık hissederseniz durun.'**
+  String get planNote;
+
+  /// No description provided for @planNeedsAge.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hedef nabız için Kişisel bilgiler\'e yaşınızı girin.'**
+  String get planNeedsAge;
+
+  /// No description provided for @bioAgeUnlockTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Biyolojik yaşınızı açın'**
+  String get bioAgeUnlockTitle;
+
+  /// No description provided for @bioAgeUnlockIn.
+  ///
+  /// In tr, this message translates to:
+  /// **'{days} gün sonra kişisel biyolojik yaşınız açılır.'**
+  String bioAgeUnlockIn(int days);
 }
 
 class _AppLocalizationsDelegate

@@ -27,6 +27,7 @@ class HomeCard extends StatelessWidget {
     return GlassCard(
       padding: EdgeInsets.zero,
       tint: tint,
+      baseColor: HomeSky.card,
       child: InkWell(
         onTap: onTap,
         child: Padding(
@@ -64,10 +65,13 @@ class HomeCard extends StatelessWidget {
 
 /// Büyük değer ve altında soluk birim/etiket hapı.
 class BigValue extends StatelessWidget {
-  const BigValue(this.value, {super.key, this.caption});
+  const BigValue(this.value, {super.key, this.caption, this.color});
 
   final String? value;
   final String? caption;
+
+  /// Değerin rengi; verilmezse metin rengi.
+  final Color? color;
 
   @override
   Widget build(BuildContext context) {
@@ -79,7 +83,8 @@ class BigValue extends StatelessWidget {
           child: Text(
             value ?? context.l10n.noValue,
             style: TextStyle(
-              fontSize: 36,
+              fontSize: 44,
+              color: value == null ? null : color,
               fontWeight: FontWeight.w800,
               // Tire işareti eşit genişlikli rakamlarla aralıklı görünür.
               fontFeatures: [if (value != null) FontFeature.tabularFigures()],
@@ -91,12 +96,12 @@ class BigValue extends StatelessWidget {
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
             decoration: BoxDecoration(
-              color: context.colors.surfaceHigh,
+              color: HomeSky.pill,
               borderRadius: BorderRadius.circular(CamRadius.chip),
             ),
             child: Text(
               caption!,
-              style: TextStyle(color: context.colors.muted, fontSize: 13),
+              style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600),
             ),
           ),
         ],
@@ -117,7 +122,7 @@ class MiniStats extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 8),
       decoration: BoxDecoration(
-        color: context.colors.surfaceHigh,
+        color: HomeSky.inner,
         borderRadius: BorderRadius.circular(18),
       ),
       child: Row(

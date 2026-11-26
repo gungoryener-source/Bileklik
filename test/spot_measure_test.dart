@@ -124,7 +124,7 @@ void main() {
     await tester.runAsync(() => controller.connect());
     await tester.pumpAndSettle();
 
-    await tester.tap(find.text('Şimdi ölç'));
+    await tester.tap(find.byTooltip('Şimdi ölç'));
     await tester.pumpAndSettle();
     expect(find.text('Ne ölçmek istersiniz?'), findsOneWidget);
     await tester.tap(find.text('Kan oksijeni (SpO2)'));
@@ -155,7 +155,7 @@ void main() {
     await tester.pumpAndSettle();
     // "Şimdi ölç" bağlı değilken pasif; Sağlık sekmesindeki SpO2 kartının
     // "Ölçüm" düğmesi nedenini söyler.
-    await tester.tap(find.text('Şimdi ölç'));
+    await tester.tap(find.byTooltip('Şimdi ölç'));
     await tester.pumpAndSettle();
     expect(find.text('Ne ölçmek istersiniz?'), findsNothing);
     await tester.tap(find.text('Sağlık'));
