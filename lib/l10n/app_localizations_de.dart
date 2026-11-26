@@ -3645,8 +3645,8 @@ class AppLocalizationsDe extends AppLocalizations {
       'Für heute gibt es noch keine Daten. Tragen Sie das Armband und synchronisieren Sie.';
 
   @override
-  String homeAiLoad(int value) {
-    return 'Ihre körperliche Belastung heute: $value/100.';
+  String homeAiLoad(String value) {
+    return 'Ihre Tagesbelastung heute: $value/21.';
   }
 
   @override
@@ -3711,4 +3711,91 @@ class AppLocalizationsDe extends AppLocalizations {
   String bioAgeUnlockIn(int days) {
     return 'Ihr biologisches Alter wird in $days Tagen freigeschaltet.';
   }
+
+  @override
+  String get strainVeryLow => 'Sehr niedrig';
+
+  @override
+  String get strainNormal => 'Normal';
+
+  @override
+  String get strainModerate => 'Mäßig';
+
+  @override
+  String get strainHigh => 'Hoch';
+
+  @override
+  String get strainOverloaded => 'Überlastet';
+
+  @override
+  String get strainAiTitle => 'KI-Analyse';
+
+  @override
+  String get strainCommentVeryLow =>
+      'Ihre Gesamtbelastung blieb heute niedrig, der Körper wurde kaum beansprucht.';
+
+  @override
+  String get strainCommentNormal =>
+      'Ihre Belastung war heute ausgewogen; die Alltagsaktivität ist gut.';
+
+  @override
+  String get strainCommentModerate =>
+      'Sie haben sich heute mäßig gefordert; diese Belastung stärkt die Fitness.';
+
+  @override
+  String get strainCommentHigh =>
+      'Ihre Belastung war heute hoch; unterstützen Sie die Erholung mit Schlaf und Flüssigkeit.';
+
+  @override
+  String get strainCommentOverloaded =>
+      'Ihr Körper wurde heute sehr stark belastet; planen Sie morgen einen leichten Tag und ruhen Sie sich gut aus.';
+
+  @override
+  String strainBelowOptimal(String low, String high) {
+    return 'Ihrer Erholung nach könnten Sie sich heute etwas mehr bewegen; Ihre optimale Belastung liegt bei $low–$high.';
+  }
+
+  @override
+  String strainAboveOptimal(String low, String high) {
+    return 'Ihre Belastung liegt über dem für Ihre Erholung optimalen Bereich ($low–$high); gönnen Sie sich Ruhe.';
+  }
+
+  @override
+  String get strainNote =>
+      'Eigene Schätzung der App aus Puls, Schritten und Training; keine medizinische Aussage.';
+
+  @override
+  String get strainIndicators => 'Belastungswerte';
+
+  @override
+  String get strainSleep => 'Schlaf';
+
+  @override
+  String get strainAvgHr => 'Ø Puls';
+
+  @override
+  String get strainSteps => 'Schritte';
+
+  @override
+  String get strainKcal => 'kcal';
+
+  @override
+  String get strainWorkout => 'Training';
+
+  @override
+  String get strainEmpty =>
+      'Für die Tagesbelastung braucht es Puls-, Schritt- oder Trainingsdaten. Tragen Sie das Armband über den Tag.';
+
+  @override
+  String strainRingSemantics(String value, String level) {
+    return 'Tagesbelastung $value, $level';
+  }
+
+  @override
+  String strainTrendSemantics(String range, String value) {
+    return 'Belastungsverlauf $range, Durchschnitt $value';
+  }
+
+  @override
+  String get strainOpen => 'Details zur Tagesbelastung';
 }

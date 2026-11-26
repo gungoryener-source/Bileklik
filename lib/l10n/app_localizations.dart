@@ -6103,8 +6103,8 @@ abstract class AppLocalizations {
   /// No description provided for @homeAiLoad.
   ///
   /// In tr, this message translates to:
-  /// **'Bugünkü fiziksel yükünüz {value}/100.'**
-  String homeAiLoad(int value);
+  /// **'Bugünkü günlük yükünüz {value}/21.'**
+  String homeAiLoad(String value);
 
   /// No description provided for @navAi.
   ///
@@ -6207,6 +6207,150 @@ abstract class AppLocalizations {
   /// In tr, this message translates to:
   /// **'{days} gün sonra kişisel biyolojik yaşınız açılır.'**
   String bioAgeUnlockIn(int days);
+
+  /// No description provided for @strainVeryLow.
+  ///
+  /// In tr, this message translates to:
+  /// **'Çok düşük'**
+  String get strainVeryLow;
+
+  /// No description provided for @strainNormal.
+  ///
+  /// In tr, this message translates to:
+  /// **'Normal'**
+  String get strainNormal;
+
+  /// No description provided for @strainModerate.
+  ///
+  /// In tr, this message translates to:
+  /// **'Orta'**
+  String get strainModerate;
+
+  /// No description provided for @strainHigh.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yüksek'**
+  String get strainHigh;
+
+  /// No description provided for @strainOverloaded.
+  ///
+  /// In tr, this message translates to:
+  /// **'Aşırı yüklü'**
+  String get strainOverloaded;
+
+  /// No description provided for @strainAiTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'AI analizi'**
+  String get strainAiTitle;
+
+  /// No description provided for @strainCommentVeryLow.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bugün genel yükünüz düşük kaldı; vücudunuz üzerinde çok az zorlanma var.'**
+  String get strainCommentVeryLow;
+
+  /// No description provided for @strainCommentNormal.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bugün dengeli bir yük taşıdınız; gündelik hareket iyi düzeyde.'**
+  String get strainCommentNormal;
+
+  /// No description provided for @strainCommentModerate.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bugün orta düzeyde zorlandınız; bu yük kondisyonu geliştirir.'**
+  String get strainCommentModerate;
+
+  /// No description provided for @strainCommentHigh.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bugün yüksek yük taşıdınız; iyi uyku ve sıvı ile toparlanmaya özen gösterin.'**
+  String get strainCommentHigh;
+
+  /// No description provided for @strainCommentOverloaded.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bugün vücudunuz çok yoğun zorlandı; yarın hafif bir gün planlayın ve iyi dinlenin.'**
+  String get strainCommentOverloaded;
+
+  /// No description provided for @strainBelowOptimal.
+  ///
+  /// In tr, this message translates to:
+  /// **'Toparlanmanıza göre bugün biraz daha hareket edebilirsiniz; size uygun yük {low}–{high}.'**
+  String strainBelowOptimal(String low, String high);
+
+  /// No description provided for @strainAboveOptimal.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yükünüz toparlanmanıza göre uygun aralığın ({low}–{high}) üstünde; dinlenmeye zaman ayırın.'**
+  String strainAboveOptimal(String low, String high);
+
+  /// No description provided for @strainNote.
+  ///
+  /// In tr, this message translates to:
+  /// **'Nabız, adım ve egzersiz verisinden uygulamanın kendi tahminidir; tıbbi değildir.'**
+  String get strainNote;
+
+  /// No description provided for @strainIndicators.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yük göstergeleri'**
+  String get strainIndicators;
+
+  /// No description provided for @strainSleep.
+  ///
+  /// In tr, this message translates to:
+  /// **'Uyku'**
+  String get strainSleep;
+
+  /// No description provided for @strainAvgHr.
+  ///
+  /// In tr, this message translates to:
+  /// **'Ort. nabız'**
+  String get strainAvgHr;
+
+  /// No description provided for @strainSteps.
+  ///
+  /// In tr, this message translates to:
+  /// **'Adım'**
+  String get strainSteps;
+
+  /// No description provided for @strainKcal.
+  ///
+  /// In tr, this message translates to:
+  /// **'kcal'**
+  String get strainKcal;
+
+  /// No description provided for @strainWorkout.
+  ///
+  /// In tr, this message translates to:
+  /// **'Egzersiz'**
+  String get strainWorkout;
+
+  /// No description provided for @strainEmpty.
+  ///
+  /// In tr, this message translates to:
+  /// **'Günlük yük için nabız, adım ya da egzersiz verisi gerekiyor. Bilekliği gün boyu takın.'**
+  String get strainEmpty;
+
+  /// No description provided for @strainRingSemantics.
+  ///
+  /// In tr, this message translates to:
+  /// **'Günlük yük {value}, {level}'**
+  String strainRingSemantics(String value, String level);
+
+  /// No description provided for @strainTrendSemantics.
+  ///
+  /// In tr, this message translates to:
+  /// **'{range} günlük yük eğilimi, ortalama {value}'**
+  String strainTrendSemantics(String range, String value);
+
+  /// No description provided for @strainOpen.
+  ///
+  /// In tr, this message translates to:
+  /// **'Günlük yük ayrıntısı'**
+  String get strainOpen;
 }
 
 class _AppLocalizationsDelegate

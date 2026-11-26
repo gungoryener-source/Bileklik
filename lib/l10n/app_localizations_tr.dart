@@ -3571,8 +3571,8 @@ class AppLocalizationsTr extends AppLocalizations {
       'Bugün için analiz edilecek veri henüz yok. Bilekliği takıp eşitleyin.';
 
   @override
-  String homeAiLoad(int value) {
-    return 'Bugünkü fiziksel yükünüz $value/100.';
+  String homeAiLoad(String value) {
+    return 'Bugünkü günlük yükünüz $value/21.';
   }
 
   @override
@@ -3637,4 +3637,91 @@ class AppLocalizationsTr extends AppLocalizations {
   String bioAgeUnlockIn(int days) {
     return '$days gün sonra kişisel biyolojik yaşınız açılır.';
   }
+
+  @override
+  String get strainVeryLow => 'Çok düşük';
+
+  @override
+  String get strainNormal => 'Normal';
+
+  @override
+  String get strainModerate => 'Orta';
+
+  @override
+  String get strainHigh => 'Yüksek';
+
+  @override
+  String get strainOverloaded => 'Aşırı yüklü';
+
+  @override
+  String get strainAiTitle => 'AI analizi';
+
+  @override
+  String get strainCommentVeryLow =>
+      'Bugün genel yükünüz düşük kaldı; vücudunuz üzerinde çok az zorlanma var.';
+
+  @override
+  String get strainCommentNormal =>
+      'Bugün dengeli bir yük taşıdınız; gündelik hareket iyi düzeyde.';
+
+  @override
+  String get strainCommentModerate =>
+      'Bugün orta düzeyde zorlandınız; bu yük kondisyonu geliştirir.';
+
+  @override
+  String get strainCommentHigh =>
+      'Bugün yüksek yük taşıdınız; iyi uyku ve sıvı ile toparlanmaya özen gösterin.';
+
+  @override
+  String get strainCommentOverloaded =>
+      'Bugün vücudunuz çok yoğun zorlandı; yarın hafif bir gün planlayın ve iyi dinlenin.';
+
+  @override
+  String strainBelowOptimal(String low, String high) {
+    return 'Toparlanmanıza göre bugün biraz daha hareket edebilirsiniz; size uygun yük $low–$high.';
+  }
+
+  @override
+  String strainAboveOptimal(String low, String high) {
+    return 'Yükünüz toparlanmanıza göre uygun aralığın ($low–$high) üstünde; dinlenmeye zaman ayırın.';
+  }
+
+  @override
+  String get strainNote =>
+      'Nabız, adım ve egzersiz verisinden uygulamanın kendi tahminidir; tıbbi değildir.';
+
+  @override
+  String get strainIndicators => 'Yük göstergeleri';
+
+  @override
+  String get strainSleep => 'Uyku';
+
+  @override
+  String get strainAvgHr => 'Ort. nabız';
+
+  @override
+  String get strainSteps => 'Adım';
+
+  @override
+  String get strainKcal => 'kcal';
+
+  @override
+  String get strainWorkout => 'Egzersiz';
+
+  @override
+  String get strainEmpty =>
+      'Günlük yük için nabız, adım ya da egzersiz verisi gerekiyor. Bilekliği gün boyu takın.';
+
+  @override
+  String strainRingSemantics(String value, String level) {
+    return 'Günlük yük $value, $level';
+  }
+
+  @override
+  String strainTrendSemantics(String range, String value) {
+    return '$range günlük yük eğilimi, ortalama $value';
+  }
+
+  @override
+  String get strainOpen => 'Günlük yük ayrıntısı';
 }

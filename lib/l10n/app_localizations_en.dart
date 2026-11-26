@@ -3634,8 +3634,8 @@ class AppLocalizationsEn extends AppLocalizations {
       'There\'s no data to analyse for today yet. Wear your wristband and sync.';
 
   @override
-  String homeAiLoad(int value) {
-    return 'Your physical load today is $value/100.';
+  String homeAiLoad(String value) {
+    return 'Your daily strain today is $value/21.';
   }
 
   @override
@@ -3700,4 +3700,91 @@ class AppLocalizationsEn extends AppLocalizations {
   String bioAgeUnlockIn(int days) {
     return 'Your personal biological age unlocks in $days days.';
   }
+
+  @override
+  String get strainVeryLow => 'Very low';
+
+  @override
+  String get strainNormal => 'Normal';
+
+  @override
+  String get strainModerate => 'Moderate';
+
+  @override
+  String get strainHigh => 'High';
+
+  @override
+  String get strainOverloaded => 'Overloaded';
+
+  @override
+  String get strainAiTitle => 'AI analysis';
+
+  @override
+  String get strainCommentVeryLow =>
+      'Your overall strain stayed low today, with minimal stress on the body.';
+
+  @override
+  String get strainCommentNormal =>
+      'You carried a balanced load today; everyday activity is at a good level.';
+
+  @override
+  String get strainCommentModerate =>
+      'You pushed moderately today; this load builds fitness.';
+
+  @override
+  String get strainCommentHigh =>
+      'Your strain was high today; support recovery with good sleep and fluids.';
+
+  @override
+  String get strainCommentOverloaded =>
+      'Your body was pushed very hard today; plan a light day tomorrow and rest well.';
+
+  @override
+  String strainBelowOptimal(String low, String high) {
+    return 'Based on your recovery you could move a little more today; your optimal strain is $low–$high.';
+  }
+
+  @override
+  String strainAboveOptimal(String low, String high) {
+    return 'Your strain is above the optimal range for your recovery ($low–$high); make time to rest.';
+  }
+
+  @override
+  String get strainNote =>
+      'The app\'s own estimate from heart rate, steps and workouts; not medical advice.';
+
+  @override
+  String get strainIndicators => 'Strain indicators';
+
+  @override
+  String get strainSleep => 'Sleep';
+
+  @override
+  String get strainAvgHr => 'Avg HR';
+
+  @override
+  String get strainSteps => 'Steps';
+
+  @override
+  String get strainKcal => 'kcal';
+
+  @override
+  String get strainWorkout => 'Workout';
+
+  @override
+  String get strainEmpty =>
+      'Daily strain needs heart rate, step or workout data. Wear the band through the day.';
+
+  @override
+  String strainRingSemantics(String value, String level) {
+    return 'Daily strain $value, $level';
+  }
+
+  @override
+  String strainTrendSemantics(String range, String value) {
+    return 'Daily strain trend $range, average $value';
+  }
+
+  @override
+  String get strainOpen => 'Daily strain details';
 }

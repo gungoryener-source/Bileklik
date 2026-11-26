@@ -1916,11 +1916,11 @@
   },
   "homeAiReanalyze": "Yeniden analiz et",
   "homeAiNoData": "Bugün için analiz edilecek veri henüz yok. Bilekliği takıp eşitleyin.",
-  "homeAiLoad": "Bugünkü fiziksel yükünüz {value}/100.",
+  "homeAiLoad": "Bugünkü günlük yükünüz {value}/21.",
   "@homeAiLoad": {
     "placeholders": {
       "value": {
-        "type": "int"
+        "type": "String"
       }
     }
   },
@@ -1964,5 +1964,69 @@
         "type": "int"
       }
     }
-  }
+  },
+  "strainVeryLow": "Çok düşük",
+  "strainNormal": "Normal",
+  "strainModerate": "Orta",
+  "strainHigh": "Yüksek",
+  "strainOverloaded": "Aşırı yüklü",
+  "strainAiTitle": "AI analizi",
+  "strainCommentVeryLow": "Bugün genel yükünüz düşük kaldı; vücudunuz üzerinde çok az zorlanma var.",
+  "strainCommentNormal": "Bugün dengeli bir yük taşıdınız; gündelik hareket iyi düzeyde.",
+  "strainCommentModerate": "Bugün orta düzeyde zorlandınız; bu yük kondisyonu geliştirir.",
+  "strainCommentHigh": "Bugün yüksek yük taşıdınız; iyi uyku ve sıvı ile toparlanmaya özen gösterin.",
+  "strainCommentOverloaded": "Bugün vücudunuz çok yoğun zorlandı; yarın hafif bir gün planlayın ve iyi dinlenin.",
+  "strainBelowOptimal": "Toparlanmanıza göre bugün biraz daha hareket edebilirsiniz; size uygun yük {low}–{high}.",
+  "@strainBelowOptimal": {
+    "placeholders": {
+      "low": {
+        "type": "String"
+      },
+      "high": {
+        "type": "String"
+      }
+    }
+  },
+  "strainAboveOptimal": "Yükünüz toparlanmanıza göre uygun aralığın ({low}–{high}) üstünde; dinlenmeye zaman ayırın.",
+  "@strainAboveOptimal": {
+    "placeholders": {
+      "low": {
+        "type": "String"
+      },
+      "high": {
+        "type": "String"
+      }
+    }
+  },
+  "strainNote": "Nabız, adım ve egzersiz verisinden uygulamanın kendi tahminidir; tıbbi değildir.",
+  "strainIndicators": "Yük göstergeleri",
+  "strainSleep": "Uyku",
+  "strainAvgHr": "Ort. nabız",
+  "strainSteps": "Adım",
+  "strainKcal": "kcal",
+  "strainWorkout": "Egzersiz",
+  "strainEmpty": "Günlük yük için nabız, adım ya da egzersiz verisi gerekiyor. Bilekliği gün boyu takın.",
+  "strainRingSemantics": "Günlük yük {value}, {level}",
+  "@strainRingSemantics": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      },
+      "level": {
+        "type": "String"
+      }
+    }
+  },
+  "strainTrendSemantics": "{range} günlük yük eğilimi, ortalama {value}",
+  "@strainTrendSemantics": {
+    "placeholders": {
+      "range": {
+        "type": "String"
+      },
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "strainOpen": "Günlük yük ayrıntısı"
 }

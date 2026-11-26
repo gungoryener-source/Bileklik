@@ -3606,8 +3606,8 @@ class AppLocalizationsAr extends AppLocalizations {
       'لا توجد بيانات لتحليلها اليوم بعد. ارتدِ السوار وزامِن.';
 
   @override
-  String homeAiLoad(int value) {
-    return 'حملك البدني اليوم $value/100.';
+  String homeAiLoad(String value) {
+    return 'حملك اليومي اليوم $value/21.';
   }
 
   @override
@@ -3671,4 +3671,91 @@ class AppLocalizationsAr extends AppLocalizations {
   String bioAgeUnlockIn(int days) {
     return 'سيُكشف عمرك البيولوجي بعد $days يومًا.';
   }
+
+  @override
+  String get strainVeryLow => 'منخفض جدًا';
+
+  @override
+  String get strainNormal => 'طبيعي';
+
+  @override
+  String get strainModerate => 'متوسط';
+
+  @override
+  String get strainHigh => 'مرتفع';
+
+  @override
+  String get strainOverloaded => 'حمل زائد';
+
+  @override
+  String get strainAiTitle => 'تحليل الذكاء الاصطناعي';
+
+  @override
+  String get strainCommentVeryLow =>
+      'بقي إجهادك العام منخفضًا اليوم، مع ضغط ضئيل على الجسم.';
+
+  @override
+  String get strainCommentNormal =>
+      'كان حملك اليوم متوازنًا؛ نشاطك اليومي بمستوى جيد.';
+
+  @override
+  String get strainCommentModerate =>
+      'بذلت جهدًا متوسطًا اليوم؛ هذا الحمل يحسّن لياقتك.';
+
+  @override
+  String get strainCommentHigh =>
+      'كان إجهادك مرتفعًا اليوم؛ ادعم تعافيك بنوم جيد وسوائل كافية.';
+
+  @override
+  String get strainCommentOverloaded =>
+      'تعرّض جسمك لإجهاد شديد اليوم؛ خطّط ليوم خفيف غدًا واسترح جيدًا.';
+
+  @override
+  String strainBelowOptimal(String low, String high) {
+    return 'وفقًا لتعافيك يمكنك أن تتحرك أكثر قليلًا اليوم؛ الحمل المثالي لك $low–$high.';
+  }
+
+  @override
+  String strainAboveOptimal(String low, String high) {
+    return 'حملك أعلى من النطاق المثالي لتعافيك ($low–$high)؛ خصّص وقتًا للراحة.';
+  }
+
+  @override
+  String get strainNote =>
+      'تقدير التطبيق الخاص من النبض والخطوات والتمارين؛ ليس تقييمًا طبيًا.';
+
+  @override
+  String get strainIndicators => 'مؤشرات الحمل';
+
+  @override
+  String get strainSleep => 'النوم';
+
+  @override
+  String get strainAvgHr => 'متوسط النبض';
+
+  @override
+  String get strainSteps => 'خطوات';
+
+  @override
+  String get strainKcal => 'سعرة';
+
+  @override
+  String get strainWorkout => 'تمرين';
+
+  @override
+  String get strainEmpty =>
+      'يحتاج الحمل اليومي إلى بيانات النبض أو الخطوات أو التمارين. ارتدِ السوار طوال اليوم.';
+
+  @override
+  String strainRingSemantics(String value, String level) {
+    return 'الحمل اليومي $value، $level';
+  }
+
+  @override
+  String strainTrendSemantics(String range, String value) {
+    return 'اتجاه الحمل اليومي $range، المتوسط $value';
+  }
+
+  @override
+  String get strainOpen => 'تفاصيل الحمل اليومي';
 }

@@ -15,6 +15,7 @@ import 'package:bileklik/state/device_controller.dart';
 import 'package:bileklik/ui/screens/community_dialogs.dart';
 import 'package:bileklik/ui/screens/biological_age_screen.dart';
 import 'package:bileklik/ui/screens/ecg_screen.dart';
+import 'package:bileklik/ui/screens/strain_screen.dart';
 import 'package:bileklik/ui/screens/recovery_screen.dart';
 import 'package:bileklik/ui/screens/sleep_screen.dart';
 import 'package:bileklik/ui/screens/feedback_screen.dart';
@@ -219,6 +220,10 @@ void main() {
     await _shot(tester, 'toparlanma-1');
     await tester.drag(find.byType(Scrollable).last, const Offset(0, -900));
     await _shot(tester, 'toparlanma-2');
+    _push(tester, StrainScreen(day: DateTime.now()));
+    await _shot(tester, 'yuk-1');
+    await tester.drag(find.byType(Scrollable).last, const Offset(0, -900));
+    await _shot(tester, 'yuk-2');
   });
 
   testWidgets('sağlık sekmesi', skip: !_enabled, (tester) async {

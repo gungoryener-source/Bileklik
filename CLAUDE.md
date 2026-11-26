@@ -97,7 +97,15 @@ UI (lib/ui)  ->  DeviceController (lib/state)  ->  WristbandClient  ->  DeviceTr
 - Tüm ekranlar aynı gökyüzü paletini kullanır: `AppColors.cam` zemini
   (lacivert-mavi-gece degradesi) ve koyu yarı saydam cam kartlar `HomeSky`
   ile uyumludur. Renk değişikliği tokenlarda yapılır, ekrana sabit renk
-  yazılmaz; `test/theme_test.dart` kontrastı denetler.
+  yazılmaz; `test/theme_test.dart` kontrastı denetler. Dağ silueti
+  `CamBackground` içinde ekranın altında sabittir (kısılmış renklerle);
+  kartlar yarı saydamdır, dağ kartların içinden görünür.
+- Günlük yük `DayStrain` (`lib/data/strain.dart`), 0–21: uyanıkken nabzın
+  dinlenik nabız üstündeki payı (TRIMP benzeri), egzersizler ve adımlar;
+  ideal aralık toparlanma skoruna göre. Ana Sayfa "Günlük yük" göstergesi
+  `StrainScreen`'i açar. Toparlanma ve yük ekranları ortak parçaları
+  (`lib/ui/widgets/score_dial.dart`: halka, açıklama, AI kartı, eğilim)
+  paylaşır.
 
 ## Portal (`portal/`)
 

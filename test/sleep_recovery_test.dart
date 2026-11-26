@@ -5,6 +5,7 @@ import 'package:bileklik/data/health_store.dart';
 import 'package:bileklik/data/models.dart';
 import 'package:bileklik/data/recovery.dart';
 import 'package:bileklik/data/sleep_analysis.dart';
+import 'package:bileklik/data/strain.dart';
 import 'package:bileklik/device/fake_device.dart';
 import 'package:bileklik/device/protocol/history.dart';
 import 'package:bileklik/main.dart';
@@ -12,6 +13,7 @@ import 'package:bileklik/state/app_settings.dart';
 import 'package:bileklik/state/device_controller.dart';
 import 'package:bileklik/ui/screens/recovery_screen.dart';
 import 'package:bileklik/ui/screens/sleep_screen.dart';
+import 'package:bileklik/ui/screens/strain_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -211,6 +213,83 @@ void main() {
     expect(tester.takeException(), isNull);
   });
 
+  group('günlük yük', () {
+    test('düzey sınırları ve ideal aralık', () {
+      expect(StrainLevel.of(0), StrainLevel.veryLow);
+      expect(StrainLevel.of(5), StrainLevel.normal);
+      expect(StrainLevel.of(12.9), StrainLevel.moderate);
+      expect(StrainLevel.of(13), StrainLevel.high);
+      expect(StrainLevel.of(21), StrainLevel.overloaded);
+      expect(DayStrain.optimalFor(80), (10.0, 14.0));
+      expect(DayStrain.optimalFor(30), (0.0, 6.0));
+    });
+
+    test('yüksek nabız ve adım yükü artırır, uyku sayılmaz', () {
+      final rest = _store();
+      final calm = DayStrain.of(rest, _today, age: 40)!;
+      // Gecedeki nabız (uyku sırasında) yük katmaz; adım da yok.
+      expect(calm.score, 0);
+      expect(calm.sleepMinutes, isNotNull);
+      expect(calm.optimal, isNotNull);
+
+      final active = _store()
+        ..addMeasurements([
+          for (var m = 0; m < 60; m += 5)
+            Measurement(
+              MetricType.heartRate,
+              DateTime(_today.year, _today.month, _today.day, 18, m),
+              150,
+            ),
+          Measurement(
+            MetricType.steps,
+            DateTime(_today.year, _today.month, _today.day, 18),
+            9000,
+          ),
+        ]);
+      final s = DayStrain.of(active, _today, age: 40)!;
+      expect(s.score, greaterThan(5));
+      expect(s.score, lessThan(DayStrain.max));
+      expect(s.steps, 9000);
+      expect(DayStrain.of(MemoryHealthStore(), _today), isNull);
+    });
+  });
+
+  testWidgets('Günlük yük: halka, AI yorumu, göstergeler ve eğilim', (
+    tester,
+  ) async {
+    final store = _store()
+      ..addMeasurements([
+        for (var m = 0; m < 60; m += 5)
+          Measurement(
+            MetricType.heartRate,
+            DateTime(_today.year, _today.month, _today.day, 18, m),
+            140,
+          ),
+        Measurement(
+          MetricType.steps,
+          DateTime(_today.year, _today.month, _today.day, 18),
+          6400,
+        ),
+      ]);
+    await pump(tester, store, StrainScreen(day: _today, now: _today));
+    expect(find.text('Günlük yük'), findsWidgets);
+    expect(find.text('AI analizi'), findsOneWidget);
+    expect(find.text('Çok düşük'), findsWidgets);
+    await scrollTo(tester, 'Adım');
+    expect(find.text('Yük göstergeleri'), findsOneWidget);
+    expect(find.text('Uyku'), findsOneWidget);
+    await scrollTo(tester, 'Eğilim');
+    await tester.tap(find.text('Ay'));
+    await tester.pumpAndSettle();
+    expect(find.textContaining('30 Kas'), findsOneWidget);
+    expect(tester.takeException(), isNull);
+  });
+
+  testWidgets('Günlük yük: veri yoksa yönlendirir', (tester) async {
+    await pump(tester, MemoryHealthStore(), StrainScreen(day: _today));
+    expect(find.textContaining('gün boyu takın'), findsOneWidget);
+  });
+
   testWidgets('Toparlanma: veri yoksa yönlendirir', (tester) async {
     await pump(tester, MemoryHealthStore(), RecoveryScreen(day: _today));
     expect(find.textContaining('Bilekliği bu gece takın'), findsOneWidget);
@@ -225,6 +304,7 @@ void main() {
       for (final screen in [
         SleepScreen(day: _today),
         RecoveryScreen(day: _today, now: _today),
+        StrainScreen(day: _today, now: _today),
       ]) {
         await pump(
           tester,

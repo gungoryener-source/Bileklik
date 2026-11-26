@@ -163,14 +163,14 @@ class AppColors extends ThemeExtension<AppColors> {
     muted: Color(0xBFFFFFFF),
     danger: Color(0xFFFFB8C8),
     bgTop: Color(0xFF1F2E4D),
-    bgMid: Color(0xFF273B5A),
+    bgMid: Color(0xFF34507A),
     bgBottom: Color(0xFF0C1016),
     auroraPink: Color(0x4D4C8DFF),
     auroraViolet: Color(0x407D8BA0),
     auroraCyan: Color(0x2E45D6B8),
     auroraLime: Color(0x26E8B978),
     scrim: Color(0x330C1016),
-    glassBase: Color(0xB3161A22),
+    glassBase: Color(0x8C161A22),
     glassSheenStart: Color(0x1FFFFFFF),
     glassSheenEnd: Color(0x05FFFFFF),
     glassBorder: Color(0x2EFFFFFF),
@@ -557,8 +557,8 @@ abstract final class HomeSky {
   static const sunGlow = Color(0xFFE8B978);
 
   /// Koyu yarı saydam kart ve iç kutu.
-  static const card = Color(0xD9161A22);
-  static const inner = Color(0xCC0E1218);
+  static const card = Color(0x8C161A22);
+  static const inner = Color(0x590E1218);
   static const border = Color(0x38FFFFFF);
   static const pill = Color(0x40FFFFFF);
 

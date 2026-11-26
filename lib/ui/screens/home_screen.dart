@@ -5,6 +5,7 @@ import '../../data/aggregate.dart';
 import '../../data/day_summary.dart';
 import '../../data/progress.dart';
 import '../../data/recovery.dart';
+import '../../data/strain.dart';
 import '../../data/models.dart';
 import '../../device/protocol/history.dart';
 import '../../device/transport.dart';
@@ -17,11 +18,11 @@ import '../widgets/home/activity_gauge.dart';
 import '../widgets/home/day_chart.dart';
 import '../widgets/home/energy_gem.dart';
 import '../widgets/home/home_card.dart';
-import '../widgets/home/sky.dart';
 import '../widgets/family_alerts.dart';
 import '../widgets/insights.dart';
 import 'ai_report_screen.dart';
 import 'biological_age_screen.dart';
+import 'strain_screen.dart';
 import 'ecg_screen.dart';
 import 'metric_detail_screen.dart';
 import 'progress_screen.dart';
@@ -88,6 +89,7 @@ class _HomeScreenState extends State<HomeScreen> {
         final s = DaySummary.of(store, day);
         final energy = EnergyScore.of(store, day);
         final recovery = DayRecovery.of(store, day);
+        final strain = DayStrain.of(store, day, age: c.profile?.age);
         final liveHr = isToday && c.isConnected ? c.live?.heartRate ?? 0 : 0;
         final resting = s.sleepHeartRate ?? s.heartRateStats?.min;
         return RefreshIndicator(
@@ -119,6 +121,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   DateTime(day.year, day.month, day.day - 1),
                 ),
                 recovery: recovery,
+                strain: strain,
                 open: _open,
               ),
               gap,
@@ -126,6 +129,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 s: s,
                 energy: energy,
                 recovery: recovery,
+                strain: strain,
                 isToday: isToday,
                 onReport: () => _open(AiReportScreen(day: s.day)),
               ),
@@ -476,6 +480,7 @@ class _Hero extends StatelessWidget {
     required this.energy,
     required this.yesterdayEnergy,
     required this.recovery,
+    required this.strain,
     required this.open,
   });
 
@@ -483,10 +488,8 @@ class _Hero extends StatelessWidget {
   final EnergyScore? energy;
   final EnergyScore? yesterdayEnergy;
   final DayRecovery? recovery;
+  final DayStrain? strain;
   final void Function(Widget) open;
-
-  /// Günlük yükün (adım ve stres harcaması, en çok 40) 0-100 ölçeği.
-  static int loadOf(EnergyScore e) => (e.drain * 2.5).round().clamp(0, 100);
 
   @override
   Widget build(BuildContext context) {
@@ -515,14 +518,6 @@ class _Hero extends StatelessWidget {
     return Stack(
       clipBehavior: Clip.none,
       children: [
-        // Dağ, kristalin arkasından yükselir; göstergelerin altında kararır.
-        const PositionedDirectional(
-          start: -16,
-          end: -16,
-          top: 90,
-          height: 320,
-          child: MountainSilhouette(),
-        ),
         Column(
           children: [
             const SizedBox(height: 8),
@@ -601,9 +596,12 @@ class _Hero extends StatelessWidget {
                   VerticalDivider(color: colors.outline, width: 1),
                   _Gauge(
                     label: l.homeDailyLoad,
-                    value: e == null ? null : loadOf(e).toString(),
-                    progress: e == null ? 0 : loadOf(e) / 100,
+                    value: strain == null
+                        ? null
+                        : ltr(oneDecimal(strain!.score)),
+                    progress: (strain?.score ?? 0) / DayStrain.max,
                     color: HomeSky.green,
+                    onTap: () => open(StrainScreen(day: s.day)),
                   ),
                 ],
               ),
@@ -799,7 +797,6 @@ class _DotLinePainter extends CustomPainter {
       old.direction != direction;
 }
 
-/// Bugünkü AI analizi: rapor ekranına geçiş.
 /// Bugünkü AI analizi: günün kısa değerlendirmesi; açılıp kapanır.
 /// Altta verinin güncellendiği saat ve ayrıntılı rapora geçiş.
 class _AiCard extends StatefulWidget {
@@ -807,6 +804,7 @@ class _AiCard extends StatefulWidget {
     required this.s,
     required this.energy,
     required this.recovery,
+    required this.strain,
     required this.isToday,
     required this.onReport,
   });
@@ -814,6 +812,7 @@ class _AiCard extends StatefulWidget {
   final DaySummary s;
   final EnergyScore? energy;
   final DayRecovery? recovery;
+  final DayStrain? strain;
   final bool isToday;
   final VoidCallback onReport;
 
@@ -848,8 +847,8 @@ class _AiCardState extends State<_AiCard> {
       );
     }
     if (widget.recovery case final r?) out.add(r.level.comment);
-    if (widget.energy case final e?) {
-      out.add(l.homeAiLoad(_Hero.loadOf(e)));
+    if (widget.strain case final st?) {
+      out.add(l.homeAiLoad(ltr(oneDecimal(st.score))));
     }
     if (out.isEmpty) out.add(l.homeAiNoData);
     return out;

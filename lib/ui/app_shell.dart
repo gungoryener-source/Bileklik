@@ -155,8 +155,6 @@ class _AppShellState extends State<AppShell> {
       body: Stack(
         fit: StackFit.expand,
         children: [
-          // Ana Sayfa kendi gökyüzü zeminini kullanır.
-          if (_index == 0) const HomeSkyBackground(),
           SafeArea(
             bottom: false,
             child: IndexedStack(index: _index, children: _pages),
