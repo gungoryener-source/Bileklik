@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import '../../data/assistant.dart';
@@ -218,7 +219,12 @@ class _Header extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Icon(
-                online ? Icons.cloud_done_outlined : Icons.phone_android,
+                online
+                    ? Icons.cloud_done_outlined
+                    // Çevrimdışı: yanıt telefonda üretilir.
+                    : defaultTargetPlatform == TargetPlatform.iOS
+                    ? Icons.phone_iphone
+                    : Icons.phone_android,
                 size: 16,
                 color: c.muted,
               ),

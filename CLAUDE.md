@@ -64,6 +64,9 @@ UI (lib/ui)  ->  DeviceController (lib/state)  ->  WristbandClient  ->  DeviceTr
   tercihiyle de açılır (tanılama ekranındaki anahtar).
 - Android yayın imzası `android/app/build.gradle.kts` başındaki açıklamada;
   APK `.github/workflows/android.yml` ile GitHub sürümü olarak çıkar.
+- iOS `.github/workflows/ios.yml` ile macOS makinesinde derlenir: simülatörde
+  açılış denemesi ve imzasız telefon derlemesi; imza gizli değerleri varsa
+  TestFlight'a yükler. Adımlar ve V8 iOS SDK karşılaştırması `docs/ios-canli.md`.
 - FHIR R4: `FhirExporter` (`lib/data/fhir.dart`) depodaki kayıtları Bundle'a
   çevirir (Observation + LOINC/UCUM, EKG için SampledData). Hasta kaynağı takma
   kimliklidir (`AppSettings.patientId`), ad ya da TC kimlik yazılmaz.

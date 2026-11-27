@@ -4,3 +4,4 @@
 "NSHealthShareUsageDescription" = "تُنقل بيانات السوار إلى Apple Health، ولا يقرأ التطبيق البيانات الموجودة في Apple Health.";
 "NSHealthUpdateUsageDescription" = "تُكتب بيانات السوار التي تختارها (الخطوات ونبض القلب والنوم وغيرها) في Apple Health.";
 "NSLocationWhenInUseUsageDescription" = "يُرسل موقعك فقط عند تفعيل مشاركة الموقع، وفقط إلى الأشخاص الذين تختارهم.";
+"NSPhotoLibraryAddUsageDescription" = "يُستخدم فقط إذا اخترت حفظ تقرير أو صورة تشاركها في الصور.";

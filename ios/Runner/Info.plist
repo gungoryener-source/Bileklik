@@ -31,6 +31,8 @@
 	<string>????</string>
 	<key>CFBundleVersion</key>
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
+	<key>GMSApiKey</key>
+	<string>$(MAPS_API_KEY)</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSBluetoothAlwaysUsageDescription</key>
@@ -41,6 +43,8 @@
 	<string>Bileklik verileriniz Apple Sağlık'a aktarılır; uygulama Apple Sağlık'taki verileri okumaz.</string>
 	<key>NSHealthUpdateUsageDescription</key>
 	<string>Seçtiğiniz bileklik verileri (adım, nabız, uyku ve diğerleri) Apple Sağlık'a yazılır.</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>Paylaştığınız rapor ya da görüntüyü Fotoğraflar'a kaydetmeyi seçerseniz kullanılır.</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>
@@ -64,6 +68,10 @@
 	</dict>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>bluetooth-central</string>
+	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>

@@ -4,3 +4,4 @@
 "NSHealthShareUsageDescription" = "Bileklik verileriniz Apple Sağlık'a aktarılır; uygulama Apple Sağlık'taki verileri okumaz.";
 "NSHealthUpdateUsageDescription" = "Seçtiğiniz bileklik verileri (adım, nabız, uyku ve diğerleri) Apple Sağlık'a yazılır.";
 "NSLocationWhenInUseUsageDescription" = "Konum yalnızca konum paylaşımını açtığınızda, seçtiğiniz kişilere gönderilir.";
+"NSPhotoLibraryAddUsageDescription" = "Paylaştığınız rapor ya da görüntüyü Fotoğraflar'a kaydetmeyi seçerseniz kullanılır.";
