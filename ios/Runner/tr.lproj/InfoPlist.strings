@@ -3,3 +3,5 @@
 "NSCameraUsageDescription" = "Bilekliği eşleştirmek ve hekim ya da araştırma davetlerini okumak için QR kodu taranır.";
 "NSHealthShareUsageDescription" = "Bileklik verileriniz Apple Sağlık'a aktarılır; uygulama Apple Sağlık'taki verileri okumaz.";
 "NSHealthUpdateUsageDescription" = "Seçtiğiniz bileklik verileri (adım, nabız, uyku ve diğerleri) Apple Sağlık'a yazılır.";
+"NSLocationWhenInUseUsageDescription" = "Haritada bulunduğunuz yeri göstermek isterseniz konumunuz yalnızca uygulama açıkken kullanılır.";
+"NSPhotoLibraryAddUsageDescription" = "Paylaştığınız rapor ya da görüntüyü Fotoğraflar'a kaydetmeyi seçerseniz kullanılır.";
