@@ -27,6 +27,7 @@ class PrivacyScreen extends StatelessWidget {
       (l.privacyLegalTitle, l.privacyLegalBody),
       (l.privacySharingTitle, l.privacySharingBody),
       (l.privacyLocationTitle, l.privacyLocationBody),
+      (l.privacyAiTitle, l.privacyAiBody),
       (l.privacyAuditTitle, l.privacyAuditBody),
       (l.privacyRetentionTitle, l.privacyRetentionBody),
       (l.privacyRightsTitle, l.privacyRightsBody),

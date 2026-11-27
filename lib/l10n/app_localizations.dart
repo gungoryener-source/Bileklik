@@ -7083,6 +7083,18 @@ abstract class AppLocalizations {
   /// In tr, this message translates to:
   /// **'Sunucuya ulaşılamadı; bu yanıt telefonda hazırlandı.'**
   String get asstFailed;
+
+  /// No description provided for @privacyAiTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yapay zeka'**
+  String get privacyAiTitle;
+
+  /// No description provided for @privacyAiBody.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yapay zeka raporu ve sağlık asistanı Vita varsayılan olarak telefonda, kurallarla çalışır; veri dışarı gitmez. Yapay zeka rızası verirseniz rapor için haftalık özetler, asistan için de sorunuz, son mesajlarınız ve günün özet sayıları (uyku süresi, toparlanma, yük, nabız ortalaması, stres, adım, EKG ön değerlendirmesinin sonucu, yaş) takma kimliğinizle portalımıza gönderilir ve portal bunları yanıt üretmek için Anthropic\'in Claude yapay zeka hizmetine (ABD) iletir. Adınız, kimlik numaranız, cihaz adresiniz ve ham ölçümler gönderilmez. Rızayı istediğiniz an yapay zeka raporu ekranından geri alabilirsiniz. Yapay zeka teşhis koymaz ve ilaç önermez.'**
+  String get privacyAiBody;
 }
 
 class _AppLocalizationsDelegate

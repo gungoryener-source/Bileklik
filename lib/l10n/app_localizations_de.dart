@@ -4261,4 +4261,11 @@ class AppLocalizationsDe extends AppLocalizations {
   @override
   String get asstFailed =>
       'Server nicht erreichbar; diese Antwort wurde auf dem Telefon erstellt.';
+
+  @override
+  String get privacyAiTitle => 'Künstliche Intelligenz';
+
+  @override
+  String get privacyAiBody =>
+      'Der KI-Bericht und der Gesundheitsassistent Vita arbeiten standardmäßig regelbasiert auf Ihrem Telefon; es verlassen keine Daten das Telefon. Wenn Sie in die KI-Nutzung einwilligen, werden für den Bericht Wochenzusammenfassungen und für den Assistenten Ihre Frage, Ihre letzten Nachrichten und die Tageskennzahlen (Schlafdauer, Erholung, Belastung, Durchschnittspuls, Stress, Schritte, Ergebnis der EKG-Vorabeinschätzung, Alter) pseudonymisiert an unser Portal gesendet; das Portal leitet sie zur Beantwortung an den KI-Dienst Claude von Anthropic (USA) weiter. Name, Ausweisnummer, Geräteadresse und Rohmesswerte werden nicht gesendet. Sie können die Einwilligung jederzeit im Bildschirm KI-Bericht widerrufen. Die KI stellt keine Diagnosen und empfiehlt keine Medikamente.';
 }

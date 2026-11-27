@@ -4178,4 +4178,11 @@ class AppLocalizationsTr extends AppLocalizations {
   @override
   String get asstFailed =>
       'Sunucuya ulaşılamadı; bu yanıt telefonda hazırlandı.';
+
+  @override
+  String get privacyAiTitle => 'Yapay zeka';
+
+  @override
+  String get privacyAiBody =>
+      'Yapay zeka raporu ve sağlık asistanı Vita varsayılan olarak telefonda, kurallarla çalışır; veri dışarı gitmez. Yapay zeka rızası verirseniz rapor için haftalık özetler, asistan için de sorunuz, son mesajlarınız ve günün özet sayıları (uyku süresi, toparlanma, yük, nabız ortalaması, stres, adım, EKG ön değerlendirmesinin sonucu, yaş) takma kimliğinizle portalımıza gönderilir ve portal bunları yanıt üretmek için Anthropic\'in Claude yapay zeka hizmetine (ABD) iletir. Adınız, kimlik numaranız, cihaz adresiniz ve ham ölçümler gönderilmez. Rızayı istediğiniz an yapay zeka raporu ekranından geri alabilirsiniz. Yapay zeka teşhis koymaz ve ilaç önermez.';
 }

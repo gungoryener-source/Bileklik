@@ -4247,4 +4247,11 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get asstFailed =>
       'Couldn\'t reach the server; this answer was prepared on your phone.';
+
+  @override
+  String get privacyAiTitle => 'Artificial intelligence';
+
+  @override
+  String get privacyAiBody =>
+      'The AI report and the health assistant Vita work on your phone with rules by default; no data leaves the phone. If you give AI consent, weekly summaries for the report, and for the assistant your question, your recent messages and the day\'s summary numbers (sleep time, recovery, load, average heart rate, stress, steps, the result of the ECG pre-assessment, age), are sent to our portal under your pseudonym, and the portal passes them to Anthropic\'s Claude AI service (USA) to produce an answer. Your name, ID number, device address and raw measurements are not sent. You can withdraw consent at any time on the AI report screen. The AI does not diagnose or recommend medication.';
 }
