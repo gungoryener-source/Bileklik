@@ -3232,7 +3232,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get healthEstimated => 'Estimated';
 
   @override
-  String get homeLateNightTitle => 'It\'s late, try to rest';
+  String get homeLateNightTitle => 'It\'s late, try to relax';
 
   @override
   String get homeLateNightBody =>
@@ -4254,4 +4254,58 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get privacyAiBody =>
       'The AI report and the health assistant Vita work on your phone with rules by default; no data leaves the phone. If you give AI consent, weekly summaries for the report, and for the assistant your question, your recent messages and the day\'s summary numbers (sleep time, recovery, load, average heart rate, stress, steps, the result of the ECG pre-assessment, age), are sent to our portal under your pseudonym, and the portal passes them to Anthropic\'s Claude AI service (USA) to produce an answer. Your name, ID number, device address and raw measurements are not sent. You can withdraw consent at any time on the AI report screen. The AI does not diagnose or recommend medication.';
+
+  @override
+  String get homeNightMore => 'Learn more';
+
+  @override
+  String get bedtimeTitle => 'Bedtime routine';
+
+  @override
+  String get bedtimeWindDown => 'Time to wind down';
+
+  @override
+  String get bedtimeWindDownBody =>
+      'The day\'s work is done. Dim the lights, put the phone away and let your body slow down. Breathe in slowly through your nose and out even more slowly. Leave the rest to the night.';
+
+  @override
+  String get bedtimeChartTitle => 'Bedtime';
+
+  @override
+  String get bedtimeIdeal => 'Ideal bedtime';
+
+  @override
+  String get bedtimeIdealRange => 'Ideal range';
+
+  @override
+  String bedtimeRangeValue(String time, int minutes) {
+    return '$time ±$minutes min';
+  }
+
+  @override
+  String get bedtimeOnTrack => 'On track';
+
+  @override
+  String get bedtimeOff => 'Off track';
+
+  @override
+  String bedtimeWeekSummary(int count, int total) {
+    return 'Nights in the ideal range: $count/$total';
+  }
+
+  @override
+  String get bedtimeEmpty =>
+      'No bedtimes recorded this week. Wear the wristband at night; once your sleep is recorded, your bedtime appears here.';
+
+  @override
+  String bedtimePointSemantics(String day, String time, String status) {
+    return '$day: $time, $status';
+  }
+
+  @override
+  String get bedtimeTipTitle => 'How to find a steady bedtime';
+
+  @override
+  String get bedtimeTipBody =>
+      'Going to bed at about the same time every evening helps your internal clock settle. Recovery is usually better after nights in the ideal range. If your routine has drifted for a few nights, move your bedtime 15-30 minutes earlier each evening to ease back.';
 }

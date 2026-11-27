@@ -7,6 +7,7 @@ import 'package:bileklik/device/fake_device.dart';
 import 'package:bileklik/main.dart';
 import 'package:bileklik/state/app_settings.dart';
 import 'package:bileklik/state/device_controller.dart';
+import 'package:bileklik/ui/screens/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -24,6 +25,13 @@ Future<void> _reveal(WidgetTester tester, Finder f) async {
 }
 
 void main() {
+  // Gündüz görünümü denenir; gece görünümü bedtime_test.dart içinde.
+  setUp(() {
+    final n = DateTime.now();
+    HomeScreen.clock = () => DateTime(n.year, n.month, n.day, 12);
+  });
+  tearDown(() => HomeScreen.clock = DateTime.now);
+
   test('gece olayları eşiğe göre bulunur, yakın olanlar birleşir', () {
     final store = MemoryHealthStore();
     final t = DateTime(2026, 11, 25, 23);

@@ -3168,7 +3168,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get healthEstimated => 'Tahmini';
 
   @override
-  String get homeLateNightTitle => 'Gece geç oldu, dinlenmeyi deneyin';
+  String get homeLateNightTitle => 'Gece geç oldu, rahatlamayı deneyin';
 
   @override
   String get homeLateNightBody =>
@@ -4185,4 +4185,58 @@ class AppLocalizationsTr extends AppLocalizations {
   @override
   String get privacyAiBody =>
       'Yapay zeka raporu ve sağlık asistanı Vita varsayılan olarak telefonda, kurallarla çalışır; veri dışarı gitmez. Yapay zeka rızası verirseniz rapor için haftalık özetler, asistan için de sorunuz, son mesajlarınız ve günün özet sayıları (uyku süresi, toparlanma, yük, nabız ortalaması, stres, adım, EKG ön değerlendirmesinin sonucu, yaş) takma kimliğinizle portalımıza gönderilir ve portal bunları yanıt üretmek için Anthropic\'in Claude yapay zeka hizmetine (ABD) iletir. Adınız, kimlik numaranız, cihaz adresiniz ve ham ölçümler gönderilmez. Rızayı istediğiniz an yapay zeka raporu ekranından geri alabilirsiniz. Yapay zeka teşhis koymaz ve ilaç önermez.';
+
+  @override
+  String get homeNightMore => 'Daha fazla bilgi';
+
+  @override
+  String get bedtimeTitle => 'Yatma düzeni';
+
+  @override
+  String get bedtimeWindDown => 'Sakinleşme zamanı';
+
+  @override
+  String get bedtimeWindDownBody =>
+      'Günün işi bitti. Işığı azaltın, telefonu uzağa koyun ve bedeninizin yavaşlamasına izin verin. Burnunuzdan yavaşça nefes alın, ağzınızdan daha da yavaş verin. Gerisini geceye bırakın.';
+
+  @override
+  String get bedtimeChartTitle => 'Yatma saati';
+
+  @override
+  String get bedtimeIdeal => 'İdeal yatma saati';
+
+  @override
+  String get bedtimeIdealRange => 'İdeal aralık';
+
+  @override
+  String bedtimeRangeValue(String time, int minutes) {
+    return '$time ±$minutes dk';
+  }
+
+  @override
+  String get bedtimeOnTrack => 'Uygun';
+
+  @override
+  String get bedtimeOff => 'Sapma';
+
+  @override
+  String bedtimeWeekSummary(int count, int total) {
+    return 'İdeal aralıkta yatılan gece: $count/$total';
+  }
+
+  @override
+  String get bedtimeEmpty =>
+      'Bu hafta yatış kaydı yok. Bilekliği gece takın; uykunuz kaydedilince yatma saatiniz burada görünür.';
+
+  @override
+  String bedtimePointSemantics(String day, String time, String status) {
+    return '$day: $time, $status';
+  }
+
+  @override
+  String get bedtimeTipTitle => 'İstikrarlı bir yatma saati nasıl bulunur';
+
+  @override
+  String get bedtimeTipBody =>
+      'Her akşam aşağı yukarı aynı saatte yatmak iç saatinizin düzene girmesine yardım eder. İdeal aralıkta uyuduğunuz gecelerin ertesinde toparlanma genellikle daha iyidir. Düzeniniz birkaç gecedir kaydıysa yatış saatinizi her akşam 15-30 dakika öne alarak yavaş yavaş geri dönün.';
 }

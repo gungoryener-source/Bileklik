@@ -12,7 +12,9 @@ import 'package:bileklik/device/fake_device.dart';
 import 'package:bileklik/main.dart';
 import 'package:bileklik/state/app_settings.dart';
 import 'package:bileklik/state/device_controller.dart';
+import 'package:bileklik/ui/screens/bedtime_screen.dart';
 import 'package:bileklik/ui/screens/community_dialogs.dart';
+import 'package:bileklik/ui/screens/home_screen.dart';
 import 'package:bileklik/ui/screens/biological_age_screen.dart';
 import 'package:bileklik/ui/screens/ecg_screen.dart';
 import 'package:bileklik/ui/screens/workout_detail_screen.dart';
@@ -164,6 +166,27 @@ Future<void> _tab(WidgetTester tester, int i) async {
 void main() {
   setUpAll(() async {
     if (_enabled) await _loadFonts();
+  });
+  // Ana Sayfa gündüz görünümünde çekilir; gece görünümü ayrı testte.
+  setUp(() {
+    final n = DateTime.now();
+    HomeScreen.clock = () => DateTime(n.year, n.month, n.day, 12);
+  });
+  tearDown(() => HomeScreen.clock = DateTime.now);
+
+  testWidgets('gece ana sayfası ve yatma düzeni', skip: !_enabled, (
+    tester,
+  ) async {
+    final n = DateTime.now();
+    HomeScreen.clock = () => DateTime(n.year, n.month, n.day, 23, 30);
+    for (final lang in ['tr', 'ar']) {
+      await _app(tester, language: lang, connect: true);
+      await _shot(tester, 'gece-ana-$lang');
+      _push(tester, BedtimeScreen(day: n));
+      await _shot(tester, 'yatma-duzeni-1-$lang');
+      await tester.drag(find.byType(Scrollable).last, const Offset(0, -700));
+      await _shot(tester, 'yatma-duzeni-2-$lang');
+    }
   });
 
   testWidgets('ana sayfa', skip: !_enabled, (tester) async {
