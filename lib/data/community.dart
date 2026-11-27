@@ -3,6 +3,8 @@ import 'dart:math';
 
 import 'package:flutter/foundation.dart';
 
+import 'location_share.dart';
+
 /// Bir grupla paylaşılabilen veri türleri.
 ///
 /// Portala aktarımda her biri FHIR R4 Consent kaynağındaki
@@ -100,6 +102,7 @@ class GroupMember {
     this.shares = const {},
     this.alertsOn = false,
     this.alerts = const [],
+    this.location,
   });
 
   final String id;
@@ -117,6 +120,9 @@ class GroupMember {
   /// Son 24 saatteki acil durumlar, yeniden eskiye (kendi üyeliğinde boş).
   final List<FamilyAlert> alerts;
 
+  /// Üyenin kullanıcıyla paylaştığı son konum; paylaşmıyorsa null.
+  final SharedLocation? location;
+
   GroupMember copyWith({
     bool? pending,
     Set<ShareScope>? shares,
@@ -130,6 +136,7 @@ class GroupMember {
     shares: shares ?? this.shares,
     alertsOn: alertsOn ?? this.alertsOn,
     alerts: alerts,
+    location: location,
   );
 }
 
@@ -246,6 +253,90 @@ abstract class CommunityService extends ChangeNotifier {
     return out..sort((a, b) => b.alert.end.compareTo(a.alert.end));
   }
 
+  // Konum paylaşımı. Varsayılan kapalı; kullanıcı grup ya da kişi seçerek
+  // açar, istediği an kapatır. Ayar bellekte tutulur: uygulama yeniden
+  // açılınca paylaşım kapalı başlar.
+  final _locationTo = <String, Set<String>>{};
+  SharedLocation? _myLocation;
+  LocationProblem? _locationProblem;
+
+  /// Konumun gösterildiği üyeler, gruba göre (yalnızca hâlâ var olanlar).
+  Map<String, Set<String>> get locationShares => {
+    for (final e in _locationTo.entries)
+      if (group(e.key) case final g?)
+        e.key: {
+          for (final m in g.members)
+            if (!m.isMe && !m.pending && e.value.contains(m.id)) m.id,
+        },
+  }..removeWhere((_, v) => v.isEmpty);
+
+  /// Konum en az bir kişiyle paylaşılıyor.
+  bool get sharingLocation => locationShares.isNotEmpty;
+
+  /// Konumu gören farklı kişiler (aynı kişi iki grupta ise bir kez).
+  Set<String> get locationViewers => {
+    for (final e in locationShares.entries)
+      for (final m in group(e.key)!.members)
+        if (e.value.contains(m.id)) m.name,
+  };
+
+  /// Gönderilen son konum; paylaşım kapalıyken null.
+  SharedLocation? get myLocation => sharingLocation ? _myLocation : null;
+
+  /// Konum son denemede alınamadıysa nedeni.
+  LocationProblem? get locationProblem => _locationProblem;
+
+  /// [groupId] grubunda konumu görecek üyeleri belirler; boş küme o grupta
+  /// paylaşımı kapatır.
+  Future<void> setLocationShare(String groupId, Set<String> memberIds) async {
+    if (memberIds.isEmpty) {
+      _locationTo.remove(groupId);
+    } else {
+      _locationTo[groupId] = {...memberIds};
+    }
+    if (!sharingLocation) _myLocation = null;
+    notifyListeners();
+  }
+
+  /// Tüm konum paylaşımını kapatır.
+  Future<void> stopLocationSharing() async {
+    _locationTo.clear();
+    _myLocation = null;
+    _locationProblem = null;
+    notifyListeners();
+  }
+
+  /// Telefonun son konumunu paylaşılan kişilere gönderir. Sahte sunucuda
+  /// bellekte kalır; portal karşılığı henüz yok.
+  Future<void> updateMyLocation(SharedLocation location) async {
+    if (!sharingLocation) return;
+    _myLocation = location;
+    _locationProblem = null;
+    notifyListeners();
+  }
+
+  void reportLocationProblem(LocationProblem problem) {
+    _locationProblem = problem;
+    notifyListeners();
+  }
+
+  /// Konumunu kullanıcıyla paylaşan üyeler, en yeni konum önce. Aynı kişi
+  /// birden çok grupta ise bir kez.
+  List<({CareGroup group, GroupMember member, SharedLocation location})>
+  get sharedWithMe {
+    final seen = <String>{};
+    final out =
+        <({CareGroup group, GroupMember member, SharedLocation location})>[];
+    for (final g in [...myGroups, ...joinedGroups]) {
+      for (final m in g.members) {
+        final loc = m.location;
+        if (m.isMe || m.pending || loc == null) continue;
+        if (seen.add(m.name)) out.add((group: g, member: m, location: loc));
+      }
+    }
+    return out..sort((a, b) => b.location.time.compareTo(a.location.time));
+  }
+
   /// Kodla katılır; kod geçersizse null.
   Future<CareGroup?> joinWithCode(String code);
   Future<void> answerInvite(String messageId, {required bool accept});
@@ -305,6 +396,13 @@ class FakeCommunityServer extends CommunityService {
           isOwner: true,
           shares: {ShareScope.heartRate, ShareScope.sleep, ShareScope.activity},
           alertsOn: true,
+          // Elif konumunu bu grupla paylaşıyor (Kadıköy, 8 dk önce).
+          location: SharedLocation(
+            latitude: 40.9903,
+            longitude: 29.0290,
+            time: now.subtract(const Duration(minutes: 8)),
+            accuracyMeters: 20,
+          ),
           alerts: [
             FamilyAlert(
               kind: FamilyAlertKind.heartRateHigh,
@@ -317,7 +415,7 @@ class FakeCommunityServer extends CommunityService {
       ],
     );
     _others[elif.inviteCode] = elif;
-    _others[demoCode] = const CareGroup(
+    _others[demoCode] = CareGroup(
       id: 'g-kaya',
       name: 'Kaya ailesi',
       ownedByMe: false,
@@ -327,9 +425,19 @@ class FakeCommunityServer extends CommunityService {
           id: 'm-ahmet',
           name: 'Ahmet',
           isOwner: true,
-          shares: {ShareScope.heartRate, ShareScope.bloodPressure},
+          shares: const {ShareScope.heartRate, ShareScope.bloodPressure},
+          location: SharedLocation(
+            latitude: 41.0430,
+            longitude: 29.0050,
+            time: now.subtract(const Duration(minutes: 35)),
+            accuracyMeters: 40,
+          ),
         ),
-        GroupMember(id: 'm-zeynep', name: 'Zeynep', shares: {ShareScope.sleep}),
+        const GroupMember(
+          id: 'm-zeynep',
+          name: 'Zeynep',
+          shares: {ShareScope.sleep},
+        ),
       ],
     );
     _messages.add(

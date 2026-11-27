@@ -17,6 +17,8 @@ import 'package:bileklik/ui/screens/biological_age_screen.dart';
 import 'package:bileklik/ui/screens/ecg_screen.dart';
 import 'package:bileklik/ui/screens/workout_detail_screen.dart';
 import 'package:bileklik/device/protocol/exercise.dart';
+import 'package:bileklik/ui/screens/assistant_screen.dart';
+import 'package:bileklik/ui/screens/location_screen.dart';
 import 'package:bileklik/ui/screens/strain_screen.dart';
 import 'package:bileklik/ui/screens/recovery_screen.dart';
 import 'package:bileklik/ui/screens/sleep_screen.dart';
@@ -255,6 +257,41 @@ void main() {
     await _app(tester, connect: true);
     await _tab(tester, 2);
     await _shot(tester, 'egzersiz-ana');
+  });
+
+  testWidgets('konum paylaşımı', skip: !_enabled, (tester) async {
+    final community = FakeCommunityServer(
+      latency: Duration.zero,
+      acceptDelay: null,
+    );
+    await tester.runAsync(() async {
+      final g = await community.joinWithCode(FakeCommunityServer.demoCode);
+      await community.answerInvite('msg-elif', accept: true);
+      await community.setLocationShare(g!.id, {'m-ahmet'});
+    });
+    await _app(tester, community: community);
+    await tester.runAsync(
+      () => Future<void>.delayed(const Duration(milliseconds: 50)),
+    );
+    _push(tester, const LocationScreen());
+    await _shot(tester, 'konum-1');
+    await tester.drag(find.byType(Scrollable).last, const Offset(0, -600));
+    await _shot(tester, 'konum-2');
+  });
+
+  testWidgets('sağlık asistanı', skip: !_enabled, (tester) async {
+    await _app(tester, connect: true);
+    _push(tester, const AssistantScreen(typingDelay: Duration.zero));
+    await _shot(tester, 'asistan-1');
+    await tester.enterText(find.byType(TextField), 'Dün gece uykum nasıldı?');
+    await tester.tap(find.byTooltip('Gönder'));
+    await tester.pumpAndSettle();
+    await _shot(tester, 'asistan-2');
+    await tester.tap(
+      find.text('Sağlık durumuma göre bir antrenman programı önerir misin?'),
+    );
+    await tester.pumpAndSettle();
+    await _shot(tester, 'asistan-3');
   });
 
   testWidgets('sağlık sekmesi', skip: !_enabled, (tester) async {

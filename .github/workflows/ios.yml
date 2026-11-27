@@ -38,6 +38,11 @@ concurrency:
 
 env:
   BUNDLE_ID: com.bileklik.bileklik
+  # Uygulama konumu yalnızca açıkken ister. geolocator'ın "her zaman" izni
+  # çağrısını derlemeden çıkarır; yoksa App Store yüklemesi ITMS-90683 ile
+  # NSLocationAlwaysAndWhenInUseUsageDescription ister (Swift Package
+  # Manager yolu; CocoaPods yolu Podfile'da).
+  BYPASS_PERMISSION_LOCATION_ALWAYS: '1'
 
 jobs:
   ios:

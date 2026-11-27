@@ -3,5 +3,5 @@
 "NSCameraUsageDescription" = "Scans QR codes to pair the wristband and to read invitations from doctors or research institutions.";
 "NSHealthShareUsageDescription" = "Your wristband data is sent to Apple Health; the app does not read data from Apple Health.";
 "NSHealthUpdateUsageDescription" = "The wristband data you choose (steps, heart rate, sleep and more) is written to Apple Health.";
-"NSLocationWhenInUseUsageDescription" = "If you choose to show where you are on the map, your location is used only while the app is open.";
+"NSLocationWhenInUseUsageDescription" = "Your location is sent only when you turn on location sharing, and only to the people you choose.";
 "NSPhotoLibraryAddUsageDescription" = "Used only if you choose to save a shared report or image to Photos.";

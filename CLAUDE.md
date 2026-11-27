@@ -123,6 +123,20 @@ UI (lib/ui)  ->  DeviceController (lib/state)  ->  WristbandClient  ->  DeviceTr
   `android/key.properties` içinde `mapsApiKey`) ve
   `--dart-define=GOOGLE_MAPS=true`. Anahtar yoksa, web'de ve testlerde
   kodla çizilmiş zemin (`CityPainter`) görünür.
+- Konum paylaşımı (`LocationScreen`, `lib/data/location_share.dart`):
+  varsayılan kapalı, kişi/grup seçilerek açılır (`CommunityService.
+  setLocationShare`), ayar bellekte (yeniden açılışta kapalı). Açıkken
+  `LocationReporter` uygulama açıkken 5 dk'da bir konumu gönderir ve her
+  sekmenin üstünde `LocationSharingBanner` görünür. Telefonda
+  `PhoneLocationSource` (geolocator), web/testte sahte. Portal karşılığı
+  henüz yok; sahte sunucuda Elif ve Ahmet konum paylaşır.
+- Sağlık asistanı Vita (`AssistantScreen`, gezinme çubuğundaki AI
+  düğmesi): `AssistantFacts` (`lib/data/assistant.dart`) günün özet
+  sayılarını toplar. Portal ve yapay zeka rızası varsa soru portalın
+  `POST /assistant` ucuna gider (`portal/lib/src/assistant.dart`, Claude API
+  aracısı; `ANTHROPIC_API_KEY` yalnızca sunucuda). Yoksa ya da sunucuya
+  ulaşılamazsa `offlineReply` (`lib/ui/assistant_replies.dart`) dört dilde
+  anahtar sözcüklerle yanıtlar. Teşhis ve ilaç yok; acil belirtide önce 112.
 
 ## Portal (`portal/`)
 

@@ -3892,4 +3892,328 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get liveGoalReached => 'تم بلوغ الهدف';
+
+  @override
+  String get locationTitle => 'مشاركة الموقع';
+
+  @override
+  String get locationBanner => 'موقعك قيد المشاركة';
+
+  @override
+  String locationViewers(String names) {
+    return 'يرون موقعك: $names';
+  }
+
+  @override
+  String get locationOff => 'موقعك غير مشارك مع أحد.';
+
+  @override
+  String get locationOffShort => 'متوقف';
+
+  @override
+  String locationLastSent(String time) {
+    return 'آخر إرسال: $time';
+  }
+
+  @override
+  String get locationWaiting => 'جارٍ تحديد الموقع…';
+
+  @override
+  String get locationStart => 'بدء المشاركة';
+
+  @override
+  String get locationChoose => 'اختيار الأشخاص';
+
+  @override
+  String get locationStop => 'إيقاف المشاركة';
+
+  @override
+  String get locationNeedsGroup =>
+      'لمشاركة موقعك، أنشئ مجموعة أو انضم إلى واحدة أولاً.';
+
+  @override
+  String get locationSharedWithMe => 'يشاركون موقعهم معك';
+
+  @override
+  String get locationNoneShared => 'لا أحد يشارك موقعه معك بعد.';
+
+  @override
+  String locationUpdated(String time) {
+    return 'آخر موقع: $time';
+  }
+
+  @override
+  String get locationMe => 'أنا';
+
+  @override
+  String get locationNote =>
+      'يُرسل موقعك فقط إلى الأشخاص الذين تختارهم، وفقط أثناء فتح التطبيق. المشاركة متوقفة افتراضيًا ويمكنك إيقافها في أي وقت.';
+
+  @override
+  String get locationSheetTitle => 'من يمكنه رؤية موقعي؟';
+
+  @override
+  String get locationWholeGroup => 'المجموعة كلها';
+
+  @override
+  String get locationNoMembers => 'لم ينضم أحد إلى هذه المجموعة بعد.';
+
+  @override
+  String get locationSave => 'حفظ';
+
+  @override
+  String get locationProblemServiceOff => 'خدمات الموقع متوقفة في هاتفك.';
+
+  @override
+  String get locationProblemDenied => 'لم يُمنح إذن الموقع.';
+
+  @override
+  String get locationProblemDeniedForever =>
+      'إذن الموقع متوقف؛ يمكنك تفعيله من إعدادات الهاتف.';
+
+  @override
+  String get locationProblemFailed =>
+      'تعذّر تحديد الموقع؛ ستتم إعادة المحاولة قريبًا.';
+
+  @override
+  String get privacyLocationTitle => 'الموقع والخرائط';
+
+  @override
+  String get privacyLocationBody =>
+      'مشاركة الموقع متوقفة افتراضيًا. إذا فعّلتها، يُرسل موقع هاتفك فقط إلى أعضاء المجموعة الذين تختارهم، وفقط أثناء فتح التطبيق وكل بضع دقائق؛ ولا يُحتفظ بسجل للمواقع سوى آخر موقع ووقته. أثناء المشاركة يظهر مؤشر في كل شاشة من التطبيق، ويمكنك إيقاف المشاركة في أي وقت من الملف الشخصي > مجتمع الصحة > مشاركة الموقع. تُعرض الخرائط عبر خرائط Google: عند فتح خريطة يُرسل طلب لمربعات خريطة المنطقة المعروضة إلى Google؛ ولا تُرسل بياناتك الصحية إلى Google. تشرح سياسة خصوصية Google كيفية معالجة هذه البيانات.';
+
+  @override
+  String get asstName => 'Vita';
+
+  @override
+  String get asstTitle => 'Vita · المساعد الصحي';
+
+  @override
+  String get asstTagline => 'خطوات صغيرة، فرق كبير';
+
+  @override
+  String get asstHello => 'مرحبًا، أنا';
+
+  @override
+  String get asstIntro => 'أجيب عن أسئلتك بالاعتماد على بياناتك.';
+
+  @override
+  String get asstInputHint => 'اكتب رسالة…';
+
+  @override
+  String get asstSend => 'إرسال';
+
+  @override
+  String get asstTyping => 'Vita يكتب';
+
+  @override
+  String get asstOffline => 'دون اتصال: تُعدّ الإجابات على هاتفك وفق قواعد.';
+
+  @override
+  String get asstOnline =>
+      'الذكاء الاصطناعي متصل: يُرسل سؤالك والأرقام الموجزة إلى خادمنا باسم مستعار.';
+
+  @override
+  String get asstNote =>
+      'لا يقدّم Vita تشخيصًا طبيًا ولا يوصي بأدوية. في حالات الطوارئ اتصل بـ 112.';
+
+  @override
+  String get asstSuggestReport => 'هل يمكنك إعداد تقرير صحتي لليوم؟';
+
+  @override
+  String get asstSuggestTraining => 'هل تقترح برنامج تمرين يناسب حالتي الصحية؟';
+
+  @override
+  String get asstSuggestSleep => 'كيف كان نومي الليلة الماضية؟';
+
+  @override
+  String get asstSuggestHeart => 'كيف حال قلبي وتخطيط القلب؟';
+
+  @override
+  String get asstGreeting =>
+      'مرحبًا! أنا Vita، مساعدك الصحي. يمكنك سؤالي عن نومك ونبضك وتعافيك وحملك اليومي وتوترك وتسجيلات تخطيط القلب وعمرك البيولوجي وخطواتك وتمارينك.';
+
+  @override
+  String get asstThanks => 'على الرحب والسعة! أنا هنا إن كان لديك سؤال آخر.';
+
+  @override
+  String get asstUnknown =>
+      'لم أفهم ذلك تمامًا. يمكنك أن تسأل: كيف كان نومي، تقرير اليوم، نبضي، تعافيّ، حملي، توتري، تخطيط قلبي، عمري البيولوجي، خطواتي، أو تمرين يناسبني.';
+
+  @override
+  String get asstEmergency =>
+      'ما تصفه قد يكون حالة طارئة. اتصل بـ 112 فورًا أو توجّه إلى أقرب قسم طوارئ. لا يمكن للسوار ولا لهذا التطبيق تقييم حالة طارئة.';
+
+  @override
+  String get asstNoDiagnosis =>
+      'لا أستطيع التشخيص أو اقتراح أدوية أو جرعات؛ يُرجى استشارة طبيبك. يمكنني أن أخبرك بما أراه في بياناتك.';
+
+  @override
+  String get asstNoData =>
+      'لا توجد بيانات كافية حول هذا بعد. كلما ارتديت السوار وزامنته، استطعت أن أخبرك أكثر.';
+
+  @override
+  String asstSleep(String start, String end, String duration) {
+    return 'نمت الليلة الماضية $duration، من $start إلى $end.';
+  }
+
+  @override
+  String asstSleepScore(String score) {
+    return 'درجة نومك $score/100.';
+  }
+
+  @override
+  String asstSleepEfficiency(String value) {
+    return 'قضيت $value٪ من وقتك في السرير نائمًا.';
+  }
+
+  @override
+  String asstSleepDebt(String duration) {
+    return 'نمت أقل من حاجتك بمقدار $duration؛ حاول أن تنام أبكر قليلًا الليلة.';
+  }
+
+  @override
+  String get asstSleepGood =>
+      'مدة نومك ضمن النطاق الموصى به من 7 إلى 9 ساعات؛ استمر على ذلك.';
+
+  @override
+  String asstRecovery(String score, String level) {
+    return 'تعافيك اليوم $score/100 ($level).';
+  }
+
+  @override
+  String asstHrv(String value, String baseline) {
+    return 'تقلّب نبضك الليلي (HRV) $value مللي ثانية؛ والمعتاد لديك خلال 14 يومًا $baseline مللي ثانية.';
+  }
+
+  @override
+  String asstRestingHr(String value, String baseline) {
+    return 'نبضك أثناء الراحة $value نبضة/دقيقة؛ والمعتاد لديك $baseline.';
+  }
+
+  @override
+  String asstHeart(String avg, String min, String max) {
+    return 'متوسط نبضك اليوم $avg نبضة/دقيقة؛ الأدنى $min والأعلى $max.';
+  }
+
+  @override
+  String asstEcg(String date, String result) {
+    return 'آخر تخطيط لقلبك ($date): $result.';
+  }
+
+  @override
+  String get asstEcgNormal => 'نظم منتظم، ولا شيء لافت';
+
+  @override
+  String get asstEcgFlagged =>
+      'هناك ملاحظة تستحق الانتباه؛ أنصحك بعرض التسجيل على طبيبك';
+
+  @override
+  String get asstEcgUnknown => 'التسجيل غير كافٍ للتقييم';
+
+  @override
+  String get asstEcgNone =>
+      'لا توجد لديك تسجيلات تخطيط قلب بعد. يمكنك إجراء تسجيل من شاشة تخطيط القلب في تبويب الصحة.';
+
+  @override
+  String get asstEcgNote => 'تقييم تخطيط القلب تقييم أولي آلي وليس تشخيصًا.';
+
+  @override
+  String asstStrain(String value, String low, String high) {
+    return 'حملك اليوم $value/21؛ والنطاق المثالي لتعافيك $low–$high.';
+  }
+
+  @override
+  String asstStrainPlain(String value) {
+    return 'حملك اليوم $value/21.';
+  }
+
+  @override
+  String asstStress(String value) {
+    return 'متوسط توترك اليوم $value/100.';
+  }
+
+  @override
+  String get asstStressTip =>
+      'قد تساعد بضع دقائق من التنفس البطيء والمشي القصير خلال اليوم على خفض التوتر.';
+
+  @override
+  String asstSteps(String steps, String goal) {
+    return 'مشيت اليوم $steps خطوة؛ والهدف اليومي $goal.';
+  }
+
+  @override
+  String asstStepsLeft(String left) {
+    return 'تبقّى $left خطوة للوصول إلى الهدف؛ تكفي نزهة قصيرة.';
+  }
+
+  @override
+  String get asstStepsDone => 'لقد بلغت هدفك اليومي من الخطوات، أحسنت!';
+
+  @override
+  String asstBioAge(String bio, String age) {
+    return 'عمرك البيولوجي $bio، وعمرك الفعلي $age.';
+  }
+
+  @override
+  String get asstBioYounger => 'تُظهر بياناتك صورة أصغر سنًا من أقرانك.';
+
+  @override
+  String get asstBioOlder =>
+      'قد يساعد النوم المنتظم والمزيد من الحركة على تقليص هذا الفارق.';
+
+  @override
+  String asstBioCollecting(String days) {
+    return 'يجري جمع البيانات لتقرير العمر البيولوجي: $days/21 يومًا.';
+  }
+
+  @override
+  String get asstBioNeedsAge =>
+      'أدخل عمرك في ملفك الشخصي للحصول على العمر البيولوجي.';
+
+  @override
+  String asstWorkouts(String count, String duration) {
+    return 'في الأيام السبعة الماضية أجريت $count تمارين، بمجموع $duration.';
+  }
+
+  @override
+  String get asstTrainingHigh =>
+      'تعافيك مرتفع، لذا يناسبك اليوم تمرين مكثف. مثال: 10 دقائق إحماء، ثم 4 × 4 دقائق جري أو دراجة بإيقاع سريع (منطقة النبض 3–4) مع 3 دقائق خفيفة بينها، ثم 10 دقائق تهدئة.';
+
+  @override
+  String get asstTrainingMid =>
+      'تعافيك متوسط: يناسبك اليوم 30–45 دقيقة من المشي السريع أو الدراجة أو الجري الخفيف (منطقة النبض 2).';
+
+  @override
+  String get asstTrainingLow =>
+      'تعافيك منخفض: اجعل الراحة أولويتك اليوم. يكفي 20–30 دقيقة من المشي الخفيف أو التمدد.';
+
+  @override
+  String get asstTrainingUnknown =>
+      'لا يمكن حساب تعافيك بعد؛ ابدأ بمشي سريع لمدة 30 دقيقة وزِد تدريجيًا حسب شعورك.';
+
+  @override
+  String asstTrainingWeek(String duration) {
+    return 'الهدف الأسبوعي 150 دقيقة على الأقل من النشاط المعتدل؛ وأنجزت $duration في الأيام السبعة الماضية.';
+  }
+
+  @override
+  String get asstTrainingSafety =>
+      'توقف فورًا إذا شعرت بألم في الصدر أو دوار أو ضيق تنفس غير معتاد.';
+
+  @override
+  String asstReportIntro(String date) {
+    return 'ملخصك ليوم $date:';
+  }
+
+  @override
+  String get asstFailed =>
+      'تعذّر الوصول إلى الخادم؛ أُعدّت هذه الإجابة على هاتفك.';
+
+  @override
+  String get privacyAiTitle => 'الذكاء الاصطناعي';
+
+  @override
+  String get privacyAiBody =>
+      'يعمل تقرير الذكاء الاصطناعي والمساعد الصحي Vita افتراضيًا على هاتفك وفق قواعد، ولا تغادر أي بيانات الهاتف. إذا منحت موافقة الذكاء الاصطناعي، تُرسل إلى بوابتنا باسمك المستعار ملخصات أسبوعية للتقرير، وللمساعد سؤالك ورسائلك الأخيرة وأرقام اليوم الموجزة (مدة النوم، التعافي، الحمل، متوسط النبض، التوتر، الخطوات، نتيجة التقييم الأولي لتخطيط القلب، العمر)، وتنقلها البوابة إلى خدمة Claude للذكاء الاصطناعي من Anthropic (الولايات المتحدة) لإعداد الإجابة. لا يُرسل اسمك أو رقم هويتك أو عنوان جهازك أو القياسات الخام. يمكنك سحب الموافقة في أي وقت من شاشة تقرير الذكاء الاصطناعي. لا يقدّم الذكاء الاصطناعي تشخيصًا ولا يوصي بأدوية.';
 }

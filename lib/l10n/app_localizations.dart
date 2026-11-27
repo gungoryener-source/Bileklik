@@ -6585,6 +6585,516 @@ abstract class AppLocalizations {
   /// In tr, this message translates to:
   /// **'Hedef tamamlandı'**
   String get liveGoalReached;
+
+  /// No description provided for @locationTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Konum paylaşımı'**
+  String get locationTitle;
+
+  /// No description provided for @locationBanner.
+  ///
+  /// In tr, this message translates to:
+  /// **'Konumunuz paylaşılıyor'**
+  String get locationBanner;
+
+  /// No description provided for @locationViewers.
+  ///
+  /// In tr, this message translates to:
+  /// **'Konumunuzu görenler: {names}'**
+  String locationViewers(String names);
+
+  /// No description provided for @locationOff.
+  ///
+  /// In tr, this message translates to:
+  /// **'Konumunuz kimseyle paylaşılmıyor.'**
+  String get locationOff;
+
+  /// No description provided for @locationOffShort.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kapalı'**
+  String get locationOffShort;
+
+  /// No description provided for @locationLastSent.
+  ///
+  /// In tr, this message translates to:
+  /// **'Son gönderim: {time}'**
+  String locationLastSent(String time);
+
+  /// No description provided for @locationWaiting.
+  ///
+  /// In tr, this message translates to:
+  /// **'Konum alınıyor…'**
+  String get locationWaiting;
+
+  /// No description provided for @locationStart.
+  ///
+  /// In tr, this message translates to:
+  /// **'Paylaşımı aç'**
+  String get locationStart;
+
+  /// No description provided for @locationChoose.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kişileri seç'**
+  String get locationChoose;
+
+  /// No description provided for @locationStop.
+  ///
+  /// In tr, this message translates to:
+  /// **'Paylaşımı durdur'**
+  String get locationStop;
+
+  /// No description provided for @locationNeedsGroup.
+  ///
+  /// In tr, this message translates to:
+  /// **'Konum paylaşmak için önce bir grup kurun ya da bir gruba katılın.'**
+  String get locationNeedsGroup;
+
+  /// No description provided for @locationSharedWithMe.
+  ///
+  /// In tr, this message translates to:
+  /// **'Sizinle paylaşanlar'**
+  String get locationSharedWithMe;
+
+  /// No description provided for @locationNoneShared.
+  ///
+  /// In tr, this message translates to:
+  /// **'Henüz kimse konumunu sizinle paylaşmıyor.'**
+  String get locationNoneShared;
+
+  /// No description provided for @locationUpdated.
+  ///
+  /// In tr, this message translates to:
+  /// **'Son konum: {time}'**
+  String locationUpdated(String time);
+
+  /// No description provided for @locationMe.
+  ///
+  /// In tr, this message translates to:
+  /// **'Ben'**
+  String get locationMe;
+
+  /// No description provided for @locationNote.
+  ///
+  /// In tr, this message translates to:
+  /// **'Konumunuz yalnızca seçtiğiniz kişilere ve yalnızca uygulama açıkken gönderilir. Paylaşım varsayılan olarak kapalıdır; istediğiniz an durdurabilirsiniz.'**
+  String get locationNote;
+
+  /// No description provided for @locationSheetTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Konumumu kimler görsün?'**
+  String get locationSheetTitle;
+
+  /// No description provided for @locationWholeGroup.
+  ///
+  /// In tr, this message translates to:
+  /// **'Tüm grup'**
+  String get locationWholeGroup;
+
+  /// No description provided for @locationNoMembers.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bu grupta henüz katılmış kimse yok.'**
+  String get locationNoMembers;
+
+  /// No description provided for @locationSave.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kaydet'**
+  String get locationSave;
+
+  /// No description provided for @locationProblemServiceOff.
+  ///
+  /// In tr, this message translates to:
+  /// **'Telefonun konum hizmeti kapalı.'**
+  String get locationProblemServiceOff;
+
+  /// No description provided for @locationProblemDenied.
+  ///
+  /// In tr, this message translates to:
+  /// **'Konum izni verilmedi.'**
+  String get locationProblemDenied;
+
+  /// No description provided for @locationProblemDeniedForever.
+  ///
+  /// In tr, this message translates to:
+  /// **'Konum izni kapalı; telefon ayarlarından açabilirsiniz.'**
+  String get locationProblemDeniedForever;
+
+  /// No description provided for @locationProblemFailed.
+  ///
+  /// In tr, this message translates to:
+  /// **'Konum alınamadı; biraz sonra yeniden denenecek.'**
+  String get locationProblemFailed;
+
+  /// No description provided for @privacyLocationTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Konum ve harita'**
+  String get privacyLocationTitle;
+
+  /// No description provided for @privacyLocationBody.
+  ///
+  /// In tr, this message translates to:
+  /// **'Konum paylaşımı varsayılan olarak kapalıdır. Açarsanız telefonunuzun konumu yalnızca sizin seçtiğiniz grup üyelerine, yalnızca uygulama açıkken ve birkaç dakikada bir gönderilir; son konum ve zamanı dışında konum geçmişi tutulmaz. Paylaşım açıkken uygulamanın her ekranında bir gösterge görünür ve paylaşımı Profil > Sağlık topluluğu > Konum paylaşımı bölümünden istediğiniz an durdurabilirsiniz. Haritalar Google Haritalar ile gösterilir: harita açıldığında Google\'a gösterilen bölgenin harita parçaları için istek gider; sağlık verileriniz Google\'a gönderilmez. Google\'ın bu verileri nasıl işlediği Google Gizlilik Politikası\'nda anlatılır.'**
+  String get privacyLocationBody;
+
+  /// No description provided for @asstName.
+  ///
+  /// In tr, this message translates to:
+  /// **'Vita'**
+  String get asstName;
+
+  /// No description provided for @asstTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Vita · Sağlık asistanı'**
+  String get asstTitle;
+
+  /// No description provided for @asstTagline.
+  ///
+  /// In tr, this message translates to:
+  /// **'Küçük adımlar, büyük fark'**
+  String get asstTagline;
+
+  /// No description provided for @asstHello.
+  ///
+  /// In tr, this message translates to:
+  /// **'Merhaba, ben'**
+  String get asstHello;
+
+  /// No description provided for @asstIntro.
+  ///
+  /// In tr, this message translates to:
+  /// **'Sorularınızı verilerinize bakarak yanıtlarım.'**
+  String get asstIntro;
+
+  /// No description provided for @asstInputHint.
+  ///
+  /// In tr, this message translates to:
+  /// **'Mesaj yazın…'**
+  String get asstInputHint;
+
+  /// No description provided for @asstSend.
+  ///
+  /// In tr, this message translates to:
+  /// **'Gönder'**
+  String get asstSend;
+
+  /// No description provided for @asstTyping.
+  ///
+  /// In tr, this message translates to:
+  /// **'Vita yazıyor'**
+  String get asstTyping;
+
+  /// No description provided for @asstOffline.
+  ///
+  /// In tr, this message translates to:
+  /// **'Çevrimdışı: yanıtlar telefonunuzda, kurallarla hazırlanır.'**
+  String get asstOffline;
+
+  /// No description provided for @asstOnline.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yapay zeka bağlı: sorunuz ve özet sayılar takma kimlikle sunucumuza gider.'**
+  String get asstOnline;
+
+  /// No description provided for @asstNote.
+  ///
+  /// In tr, this message translates to:
+  /// **'Vita tıbbi teşhis koymaz ve ilaç önermez. Acil bir durumda 112\'yi arayın.'**
+  String get asstNote;
+
+  /// No description provided for @asstSuggestReport.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bugünün sağlık raporunu hazırlar mısın?'**
+  String get asstSuggestReport;
+
+  /// No description provided for @asstSuggestTraining.
+  ///
+  /// In tr, this message translates to:
+  /// **'Sağlık durumuma göre bir antrenman programı önerir misin?'**
+  String get asstSuggestTraining;
+
+  /// No description provided for @asstSuggestSleep.
+  ///
+  /// In tr, this message translates to:
+  /// **'Dün gece uykum nasıldı?'**
+  String get asstSuggestSleep;
+
+  /// No description provided for @asstSuggestHeart.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kalbim ve EKG\'m nasıl?'**
+  String get asstSuggestHeart;
+
+  /// No description provided for @asstGreeting.
+  ///
+  /// In tr, this message translates to:
+  /// **'Merhaba! Ben Vita, sağlık asistanınız. Uykunuz, nabzınız, toparlanmanız, günlük yükünüz, stresiniz, EKG kayıtlarınız, biyolojik yaşınız, adımlarınız ve egzersizleriniz hakkında sorabilirsiniz.'**
+  String get asstGreeting;
+
+  /// No description provided for @asstThanks.
+  ///
+  /// In tr, this message translates to:
+  /// **'Rica ederim! Başka bir sorunuz olursa buradayım.'**
+  String get asstThanks;
+
+  /// No description provided for @asstUnknown.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bunu tam anlayamadım. Şunları sorabilirsiniz: uykum nasıldı, bugünün raporu, nabzım, toparlanmam, yüküm, stresim, EKG\'m, biyolojik yaşım, adımlarım ya da bana uygun antrenman.'**
+  String get asstUnknown;
+
+  /// No description provided for @asstEmergency.
+  ///
+  /// In tr, this message translates to:
+  /// **'Anlattığınız belirtiler acil olabilir. Hemen 112\'yi arayın ya da en yakın acil servise gidin. Bileklik ve bu uygulama acil bir durumu değerlendiremez.'**
+  String get asstEmergency;
+
+  /// No description provided for @asstNoDiagnosis.
+  ///
+  /// In tr, this message translates to:
+  /// **'Teşhis koyamam, ilaç ya da doz öneremem; bunun için hekiminize danışın. Verilerinizde gördüklerimi anlatabilirim.'**
+  String get asstNoDiagnosis;
+
+  /// No description provided for @asstNoData.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bu konuda henüz yeterli veri yok. Bilekliği takıp eşitledikçe daha çok şey söyleyebilirim.'**
+  String get asstNoData;
+
+  /// No description provided for @asstSleep.
+  ///
+  /// In tr, this message translates to:
+  /// **'Dün gece {start}–{end} arasında {duration} uyudunuz.'**
+  String asstSleep(String start, String end, String duration);
+
+  /// No description provided for @asstSleepScore.
+  ///
+  /// In tr, this message translates to:
+  /// **'Uyku skorunuz {score}/100.'**
+  String asstSleepScore(String score);
+
+  /// No description provided for @asstSleepEfficiency.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yatakta geçen sürenin %{value} kadarı uykuyla geçti.'**
+  String asstSleepEfficiency(String value);
+
+  /// No description provided for @asstSleepDebt.
+  ///
+  /// In tr, this message translates to:
+  /// **'İhtiyacınızın {duration} altında uyudunuz; bu akşam biraz erken yatmayı deneyin.'**
+  String asstSleepDebt(String duration);
+
+  /// No description provided for @asstSleepGood.
+  ///
+  /// In tr, this message translates to:
+  /// **'Uyku süreniz önerilen 7–9 saat aralığında; böyle devam edin.'**
+  String get asstSleepGood;
+
+  /// No description provided for @asstRecovery.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bugünkü toparlanmanız {score}/100 ({level}).'**
+  String asstRecovery(String score, String level);
+
+  /// No description provided for @asstHrv.
+  ///
+  /// In tr, this message translates to:
+  /// **'Gece HRV\'niz {value} ms; 14 günlük olağanınız {baseline} ms.'**
+  String asstHrv(String value, String baseline);
+
+  /// No description provided for @asstRestingHr.
+  ///
+  /// In tr, this message translates to:
+  /// **'Dinlenik nabzınız {value} atım/dk; olağanınız {baseline} atım/dk.'**
+  String asstRestingHr(String value, String baseline);
+
+  /// No description provided for @asstHeart.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bugün ortalama nabzınız {avg} atım/dk; en düşük {min}, en yüksek {max}.'**
+  String asstHeart(String avg, String min, String max);
+
+  /// No description provided for @asstEcg.
+  ///
+  /// In tr, this message translates to:
+  /// **'Son EKG kaydınız ({date}): {result}.'**
+  String asstEcg(String date, String result);
+
+  /// No description provided for @asstEcgNormal.
+  ///
+  /// In tr, this message translates to:
+  /// **'düzenli ritim, belirgin bir bulgu yok'**
+  String get asstEcgNormal;
+
+  /// No description provided for @asstEcgFlagged.
+  ///
+  /// In tr, this message translates to:
+  /// **'dikkat edilmesi gereken bir bulgu var; kaydı hekiminize göstermenizi öneririm'**
+  String get asstEcgFlagged;
+
+  /// No description provided for @asstEcgUnknown.
+  ///
+  /// In tr, this message translates to:
+  /// **'kayıt değerlendirme için yeterli değil'**
+  String get asstEcgUnknown;
+
+  /// No description provided for @asstEcgNone.
+  ///
+  /// In tr, this message translates to:
+  /// **'Henüz EKG kaydınız yok. Sağlık sekmesindeki EKG ekranından bir kayıt alabilirsiniz.'**
+  String get asstEcgNone;
+
+  /// No description provided for @asstEcgNote.
+  ///
+  /// In tr, this message translates to:
+  /// **'EKG değerlendirmesi otomatik bir ön değerlendirmedir, tanı değildir.'**
+  String get asstEcgNote;
+
+  /// No description provided for @asstStrain.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bugünkü yükünüz {value}/21; toparlanmanıza göre ideal aralık {low}–{high}.'**
+  String asstStrain(String value, String low, String high);
+
+  /// No description provided for @asstStrainPlain.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bugünkü yükünüz {value}/21.'**
+  String asstStrainPlain(String value);
+
+  /// No description provided for @asstStress.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bugün ortalama stres düzeyiniz {value}/100.'**
+  String asstStress(String value);
+
+  /// No description provided for @asstStressTip.
+  ///
+  /// In tr, this message translates to:
+  /// **'Gün içinde birkaç dakikalık yavaş nefes egzersizi ve kısa yürüyüşler stresi azaltmaya yardımcı olabilir.'**
+  String get asstStressTip;
+
+  /// No description provided for @asstSteps.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bugün {steps} adım attınız; günlük hedef {goal}.'**
+  String asstSteps(String steps, String goal);
+
+  /// No description provided for @asstStepsLeft.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hedefe {left} adım kaldı; kısa bir yürüyüş yeter.'**
+  String asstStepsLeft(String left);
+
+  /// No description provided for @asstStepsDone.
+  ///
+  /// In tr, this message translates to:
+  /// **'Günlük adım hedefinizi tamamladınız, tebrikler!'**
+  String get asstStepsDone;
+
+  /// No description provided for @asstBioAge.
+  ///
+  /// In tr, this message translates to:
+  /// **'Biyolojik yaşınız {bio}, takvim yaşınız {age}.'**
+  String asstBioAge(String bio, String age);
+
+  /// No description provided for @asstBioYounger.
+  ///
+  /// In tr, this message translates to:
+  /// **'Verileriniz yaşıtlarınıza göre daha genç bir tablo gösteriyor.'**
+  String get asstBioYounger;
+
+  /// No description provided for @asstBioOlder.
+  ///
+  /// In tr, this message translates to:
+  /// **'Düzenli uyku ve daha çok hareket bu farkı kapatmaya yardımcı olabilir.'**
+  String get asstBioOlder;
+
+  /// No description provided for @asstBioCollecting.
+  ///
+  /// In tr, this message translates to:
+  /// **'Biyolojik yaş raporu için veri toplanıyor: {days}/21 gün.'**
+  String asstBioCollecting(String days);
+
+  /// No description provided for @asstBioNeedsAge.
+  ///
+  /// In tr, this message translates to:
+  /// **'Biyolojik yaş için profilde yaşınızı girin.'**
+  String get asstBioNeedsAge;
+
+  /// No description provided for @asstWorkouts.
+  ///
+  /// In tr, this message translates to:
+  /// **'Son 7 günde {count} egzersiz yaptınız, toplam {duration}.'**
+  String asstWorkouts(String count, String duration);
+
+  /// No description provided for @asstTrainingHigh.
+  ///
+  /// In tr, this message translates to:
+  /// **'Toparlanmanız yüksek, bugün yoğun bir antrenman uygun. Örnek: 10 dk ısınma, 3 dk yavaş aralarla 4 × 4 dk tempolu koşu ya da bisiklet (nabız bölgesi 3–4), 10 dk soğuma.'**
+  String get asstTrainingHigh;
+
+  /// No description provided for @asstTrainingMid.
+  ///
+  /// In tr, this message translates to:
+  /// **'Toparlanmanız orta düzeyde: bugün 30–45 dk orta tempolu yürüyüş, bisiklet ya da hafif koşu (nabız bölgesi 2) iyi olur.'**
+  String get asstTrainingMid;
+
+  /// No description provided for @asstTrainingLow.
+  ///
+  /// In tr, this message translates to:
+  /// **'Toparlanmanız düşük: bugün dinlenmeye öncelik verin. 20–30 dk hafif yürüyüş ya da esneme yeterli.'**
+  String get asstTrainingLow;
+
+  /// No description provided for @asstTrainingUnknown.
+  ///
+  /// In tr, this message translates to:
+  /// **'Toparlanmanız henüz hesaplanamadı; 30 dk orta tempolu yürüyüşle başlayın, nasıl hissettiğinize göre artırın.'**
+  String get asstTrainingUnknown;
+
+  /// No description provided for @asstTrainingWeek.
+  ///
+  /// In tr, this message translates to:
+  /// **'Haftalık hedef en az 150 dk orta yoğunlukta hareket; son 7 günde {duration} yaptınız.'**
+  String asstTrainingWeek(String duration);
+
+  /// No description provided for @asstTrainingSafety.
+  ///
+  /// In tr, this message translates to:
+  /// **'Göğüs ağrısı, baş dönmesi ya da olağandışı nefes darlığı olursa hemen durun.'**
+  String get asstTrainingSafety;
+
+  /// No description provided for @asstReportIntro.
+  ///
+  /// In tr, this message translates to:
+  /// **'{date} için özetiniz:'**
+  String asstReportIntro(String date);
+
+  /// No description provided for @asstFailed.
+  ///
+  /// In tr, this message translates to:
+  /// **'Sunucuya ulaşılamadı; bu yanıt telefonda hazırlandı.'**
+  String get asstFailed;
+
+  /// No description provided for @privacyAiTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yapay zeka'**
+  String get privacyAiTitle;
+
+  /// No description provided for @privacyAiBody.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yapay zeka raporu ve sağlık asistanı Vita varsayılan olarak telefonda, kurallarla çalışır; veri dışarı gitmez. Yapay zeka rızası verirseniz rapor için haftalık özetler, asistan için de sorunuz, son mesajlarınız ve günün özet sayıları (uyku süresi, toparlanma, yük, nabız ortalaması, stres, adım, EKG ön değerlendirmesinin sonucu, yaş) takma kimliğinizle portalımıza gönderilir ve portal bunları yanıt üretmek için Anthropic\'in Claude yapay zeka hizmetine (ABD) iletir. Adınız, kimlik numaranız, cihaz adresiniz ve ham ölçümler gönderilmez. Rızayı istediğiniz an yapay zeka raporu ekranından geri alabilirsiniz. Yapay zeka teşhis koymaz ve ilaç önermez.'**
+  String get privacyAiBody;
 }
 
 class _AppLocalizationsDelegate

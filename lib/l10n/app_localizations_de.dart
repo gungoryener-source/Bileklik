@@ -3933,4 +3933,339 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get liveGoalReached => 'Ziel erreicht';
+
+  @override
+  String get locationTitle => 'Standortfreigabe';
+
+  @override
+  String get locationBanner => 'Ihr Standort wird geteilt';
+
+  @override
+  String locationViewers(String names) {
+    return 'Sehen Ihren Standort: $names';
+  }
+
+  @override
+  String get locationOff => 'Ihr Standort wird mit niemandem geteilt.';
+
+  @override
+  String get locationOffShort => 'Aus';
+
+  @override
+  String locationLastSent(String time) {
+    return 'Zuletzt gesendet: $time';
+  }
+
+  @override
+  String get locationWaiting => 'Standort wird ermittelt…';
+
+  @override
+  String get locationStart => 'Freigabe starten';
+
+  @override
+  String get locationChoose => 'Personen wählen';
+
+  @override
+  String get locationStop => 'Freigabe beenden';
+
+  @override
+  String get locationNeedsGroup =>
+      'Um Ihren Standort zu teilen, erstellen Sie zuerst eine Gruppe oder treten Sie einer bei.';
+
+  @override
+  String get locationSharedWithMe => 'Mit Ihnen geteilt';
+
+  @override
+  String get locationNoneShared =>
+      'Noch teilt niemand seinen Standort mit Ihnen.';
+
+  @override
+  String locationUpdated(String time) {
+    return 'Letzter Standort: $time';
+  }
+
+  @override
+  String get locationMe => 'Ich';
+
+  @override
+  String get locationNote =>
+      'Ihr Standort wird nur an die von Ihnen gewählten Personen gesendet und nur, solange die App geöffnet ist. Die Freigabe ist standardmäßig aus und Sie können sie jederzeit beenden.';
+
+  @override
+  String get locationSheetTitle => 'Wer darf meinen Standort sehen?';
+
+  @override
+  String get locationWholeGroup => 'Ganze Gruppe';
+
+  @override
+  String get locationNoMembers => 'Dieser Gruppe ist noch niemand beigetreten.';
+
+  @override
+  String get locationSave => 'Speichern';
+
+  @override
+  String get locationProblemServiceOff =>
+      'Die Standortdienste Ihres Telefons sind aus.';
+
+  @override
+  String get locationProblemDenied =>
+      'Die Standortberechtigung wurde nicht erteilt.';
+
+  @override
+  String get locationProblemDeniedForever =>
+      'Die Standortberechtigung ist aus; Sie können sie in den Telefoneinstellungen aktivieren.';
+
+  @override
+  String get locationProblemFailed =>
+      'Standort konnte nicht ermittelt werden; neuer Versuch in Kürze.';
+
+  @override
+  String get privacyLocationTitle => 'Standort und Karten';
+
+  @override
+  String get privacyLocationBody =>
+      'Die Standortfreigabe ist standardmäßig aus. Wenn Sie sie einschalten, wird der Standort Ihres Telefons nur an die von Ihnen gewählten Gruppenmitglieder gesendet, nur solange die App geöffnet ist und alle paar Minuten; außer dem letzten Standort und seiner Zeit wird kein Standortverlauf gespeichert. Solange die Freigabe läuft, ist auf jedem Bildschirm der App ein Hinweis zu sehen, und Sie können sie jederzeit unter Profil > Gesundheitsgemeinschaft > Standortfreigabe beenden. Karten werden mit Google Maps angezeigt: Beim Öffnen einer Karte wird eine Anfrage für die Kartenkacheln des angezeigten Bereichs an Google gesendet; Ihre Gesundheitsdaten werden nicht an Google gesendet. Wie Google diese Daten verarbeitet, steht in der Google-Datenschutzerklärung.';
+
+  @override
+  String get asstName => 'Vita';
+
+  @override
+  String get asstTitle => 'Vita · Gesundheitsassistent';
+
+  @override
+  String get asstTagline => 'Kleine Schritte, großer Unterschied';
+
+  @override
+  String get asstHello => 'Hallo, ich bin';
+
+  @override
+  String get asstIntro => 'Ich beantworte Ihre Fragen anhand Ihrer Daten.';
+
+  @override
+  String get asstInputHint => 'Nachricht eingeben…';
+
+  @override
+  String get asstSend => 'Senden';
+
+  @override
+  String get asstTyping => 'Vita schreibt';
+
+  @override
+  String get asstOffline =>
+      'Offline: Antworten werden auf Ihrem Telefon nach Regeln erstellt.';
+
+  @override
+  String get asstOnline =>
+      'KI verbunden: Ihre Frage und Kennzahlen gehen pseudonymisiert an unseren Server.';
+
+  @override
+  String get asstNote =>
+      'Vita stellt keine Diagnosen und empfiehlt keine Medikamente. Rufen Sie im Notfall 112 an.';
+
+  @override
+  String get asstSuggestReport =>
+      'Kannst du den heutigen Gesundheitsbericht erstellen?';
+
+  @override
+  String get asstSuggestTraining =>
+      'Kannst du mir passend zu meiner Gesundheit einen Trainingsplan vorschlagen?';
+
+  @override
+  String get asstSuggestSleep => 'Wie habe ich letzte Nacht geschlafen?';
+
+  @override
+  String get asstSuggestHeart => 'Wie steht es um mein Herz und EKG?';
+
+  @override
+  String get asstGreeting =>
+      'Hallo! Ich bin Vita, Ihr Gesundheitsassistent. Fragen Sie mich zu Schlaf, Puls, Erholung, Tagesbelastung, Stress, EKG-Aufnahmen, biologischem Alter, Schritten und Trainings.';
+
+  @override
+  String get asstThanks =>
+      'Gern geschehen! Ich bin da, wenn Sie noch eine Frage haben.';
+
+  @override
+  String get asstUnknown =>
+      'Das habe ich nicht ganz verstanden. Sie können fragen: Wie habe ich geschlafen, heutiger Bericht, Puls, Erholung, Belastung, Stress, EKG, biologisches Alter, Schritte oder ein passendes Training.';
+
+  @override
+  String get asstEmergency =>
+      'Was Sie beschreiben, kann ein Notfall sein. Rufen Sie sofort 112 an oder gehen Sie in die nächste Notaufnahme. Armband und App können keinen Notfall beurteilen.';
+
+  @override
+  String get asstNoDiagnosis =>
+      'Ich kann keine Diagnose stellen und keine Medikamente oder Dosen empfehlen; fragen Sie bitte Ihren Arzt. Ich kann Ihnen sagen, was ich in Ihren Daten sehe.';
+
+  @override
+  String get asstNoData =>
+      'Dazu gibt es noch nicht genug Daten. Je mehr Sie das Armband tragen und synchronisieren, desto mehr kann ich sagen.';
+
+  @override
+  String asstSleep(String start, String end, String duration) {
+    return 'Letzte Nacht haben Sie $duration geschlafen, von $start bis $end.';
+  }
+
+  @override
+  String asstSleepScore(String score) {
+    return 'Ihr Schlafwert liegt bei $score/100.';
+  }
+
+  @override
+  String asstSleepEfficiency(String value) {
+    return 'Sie haben $value % der Zeit im Bett geschlafen.';
+  }
+
+  @override
+  String asstSleepDebt(String duration) {
+    return 'Sie haben $duration weniger geschlafen als nötig; gehen Sie heute etwas früher ins Bett.';
+  }
+
+  @override
+  String get asstSleepGood =>
+      'Ihre Schlafdauer liegt im empfohlenen Bereich von 7–9 Stunden; weiter so.';
+
+  @override
+  String asstRecovery(String score, String level) {
+    return 'Ihre Erholung heute: $score/100 ($level).';
+  }
+
+  @override
+  String asstHrv(String value, String baseline) {
+    return 'Ihre nächtliche HRV beträgt $value ms; Ihr 14-Tage-Normalwert $baseline ms.';
+  }
+
+  @override
+  String asstRestingHr(String value, String baseline) {
+    return 'Ihr Ruhepuls liegt bei $value Schlägen/min; normal sind $baseline.';
+  }
+
+  @override
+  String asstHeart(String avg, String min, String max) {
+    return 'Heute liegt Ihr Durchschnittspuls bei $avg Schlägen/min; niedrigster $min, höchster $max.';
+  }
+
+  @override
+  String asstEcg(String date, String result) {
+    return 'Ihr letztes EKG ($date): $result.';
+  }
+
+  @override
+  String get asstEcgNormal => 'regelmäßiger Rhythmus, nichts Auffälliges';
+
+  @override
+  String get asstEcgFlagged =>
+      'es gibt einen auffälligen Befund; zeigen Sie die Aufnahme am besten Ihrem Arzt';
+
+  @override
+  String get asstEcgUnknown =>
+      'die Aufnahme reicht für eine Bewertung nicht aus';
+
+  @override
+  String get asstEcgNone =>
+      'Sie haben noch keine EKG-Aufnahme. Sie können eine über den EKG-Bildschirm im Tab Gesundheit erstellen.';
+
+  @override
+  String get asstEcgNote =>
+      'Die EKG-Bewertung ist eine automatische Vorabeinschätzung, keine Diagnose.';
+
+  @override
+  String asstStrain(String value, String low, String high) {
+    return 'Ihre Belastung heute: $value/21; ideal für Ihre Erholung sind $low–$high.';
+  }
+
+  @override
+  String asstStrainPlain(String value) {
+    return 'Ihre Belastung heute: $value/21.';
+  }
+
+  @override
+  String asstStress(String value) {
+    return 'Ihr durchschnittlicher Stress heute: $value/100.';
+  }
+
+  @override
+  String get asstStressTip =>
+      'Einige Minuten langsames Atmen und kurze Spaziergänge über den Tag können Stress senken.';
+
+  @override
+  String asstSteps(String steps, String goal) {
+    return 'Sie sind heute $steps Schritte gegangen; das Tagesziel ist $goal.';
+  }
+
+  @override
+  String asstStepsLeft(String left) {
+    return 'Noch $left Schritte; ein kurzer Spaziergang reicht.';
+  }
+
+  @override
+  String get asstStepsDone =>
+      'Sie haben Ihr Tagesziel an Schritten erreicht, gut gemacht!';
+
+  @override
+  String asstBioAge(String bio, String age) {
+    return 'Ihr biologisches Alter ist $bio, Ihr Kalenderalter $age.';
+  }
+
+  @override
+  String get asstBioYounger =>
+      'Ihre Daten zeigen ein jüngeres Bild als Ihre Altersgruppe.';
+
+  @override
+  String get asstBioOlder =>
+      'Regelmäßiger Schlaf und mehr Bewegung können helfen, diesen Abstand zu verringern.';
+
+  @override
+  String asstBioCollecting(String days) {
+    return 'Daten für den Bericht zum biologischen Alter werden gesammelt: $days/21 Tage.';
+  }
+
+  @override
+  String get asstBioNeedsAge =>
+      'Geben Sie Ihr Alter im Profil an, um ein biologisches Alter zu erhalten.';
+
+  @override
+  String asstWorkouts(String count, String duration) {
+    return 'In den letzten 7 Tagen haben Sie $count Trainings gemacht, insgesamt $duration.';
+  }
+
+  @override
+  String get asstTrainingHigh =>
+      'Ihre Erholung ist hoch, heute passt ein intensives Training. Beispiel: 10 Min. Aufwärmen, 4 × 4 Min. zügig laufen oder radeln (Pulszone 3–4) mit 3 Min. locker dazwischen, 10 Min. Auslaufen.';
+
+  @override
+  String get asstTrainingMid =>
+      'Ihre Erholung ist mittel: Heute passen 30–45 Min. zügiges Gehen, Radfahren oder lockeres Laufen (Pulszone 2).';
+
+  @override
+  String get asstTrainingLow =>
+      'Ihre Erholung ist niedrig: Gönnen Sie sich heute Ruhe. 20–30 Min. leichtes Gehen oder Dehnen reichen.';
+
+  @override
+  String get asstTrainingUnknown =>
+      'Ihre Erholung lässt sich noch nicht berechnen; beginnen Sie mit 30 Min. zügigem Gehen und steigern Sie nach Gefühl.';
+
+  @override
+  String asstTrainingWeek(String duration) {
+    return 'Wochenziel: mindestens 150 Min. moderate Bewegung; in den letzten 7 Tagen waren es $duration.';
+  }
+
+  @override
+  String get asstTrainingSafety =>
+      'Hören Sie sofort auf, wenn Brustschmerzen, Schwindel oder ungewöhnliche Atemnot auftreten.';
+
+  @override
+  String asstReportIntro(String date) {
+    return 'Ihre Zusammenfassung für $date:';
+  }
+
+  @override
+  String get asstFailed =>
+      'Server nicht erreichbar; diese Antwort wurde auf dem Telefon erstellt.';
+
+  @override
+  String get privacyAiTitle => 'Künstliche Intelligenz';
+
+  @override
+  String get privacyAiBody =>
+      'Der KI-Bericht und der Gesundheitsassistent Vita arbeiten standardmäßig regelbasiert auf Ihrem Telefon; es verlassen keine Daten das Telefon. Wenn Sie in die KI-Nutzung einwilligen, werden für den Bericht Wochenzusammenfassungen und für den Assistenten Ihre Frage, Ihre letzten Nachrichten und die Tageskennzahlen (Schlafdauer, Erholung, Belastung, Durchschnittspuls, Stress, Schritte, Ergebnis der EKG-Vorabeinschätzung, Alter) pseudonymisiert an unser Portal gesendet; das Portal leitet sie zur Beantwortung an den KI-Dienst Claude von Anthropic (USA) weiter. Name, Ausweisnummer, Geräteadresse und Rohmesswerte werden nicht gesendet. Sie können die Einwilligung jederzeit im Bildschirm KI-Bericht widerrufen. Die KI stellt keine Diagnosen und empfiehlt keine Medikamente.';
 }

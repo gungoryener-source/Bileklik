@@ -7,12 +7,14 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'data/assistant.dart';
 import 'data/billing.dart';
 import 'data/community.dart';
 import 'data/connections.dart';
 import 'data/feedback.dart';
 import 'data/health_platform.dart';
 import 'data/health_store.dart';
+import 'data/location_share.dart';
 import 'data/plugin_health_platform.dart';
 import 'data/portal.dart';
 import 'data/secrets.dart';
@@ -59,6 +61,8 @@ Future<Widget> _start() async {
   final real =
       _usesRealDevices &&
       !(prefs.getBool(DeviceController.demoModeKey) ?? false);
+  // Telefon konumu yalnızca konum paylaşımı açıkken istenir.
+  if (_isPhone) LocationSource.instance = PhoneLocationSource();
   final log = DeviceLog();
   final controller = DeviceController(
     LoggingTransport(real ? BleTransport(prefs: prefs) : FakeDevice(), log),
@@ -179,6 +183,8 @@ _portal(AppSettings settings, DeviceController controller) {
   );
   final service = PortalConnectionService(client);
   final community = PortalCommunityService(client);
+  // Sağlık asistanı sunucudaki dil modelini (anahtar sunucuda) kullanır.
+  PortalAssistantService.instance = PortalAssistantService(client);
   // Uygulama açık kaldıkça yeni ölçümleri yükler.
   PortalUploader(
     client: client,
@@ -207,8 +213,9 @@ _portal(AppSettings settings, DeviceController controller) {
 /// sağlık platformuyla çalışır (bileklik elde yokken). Web'de her zaman demo.
 const _demo = bool.fromEnvironment('DEMO');
 
-bool get _usesRealDevices =>
-    !_demo &&
+bool get _usesRealDevices => !_demo && _isPhone;
+
+bool get _isPhone =>
     !kIsWeb &&
     (defaultTargetPlatform == TargetPlatform.android ||
         defaultTargetPlatform == TargetPlatform.iOS);

@@ -7,7 +7,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import '../theme.dart';
 
 export 'package:google_maps_flutter/google_maps_flutter.dart'
-    show GoogleMapController, LatLng;
+    show CameraUpdate, GoogleMapController, LatLng;
 
 /// Haritada gösterilecek bir kişi ya da yer.
 class CamMapMarker {

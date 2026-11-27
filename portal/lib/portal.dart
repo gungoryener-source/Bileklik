@@ -5,6 +5,7 @@ library;
 
 export 'src/alerts.dart';
 export 'src/api.dart';
+export 'src/assistant.dart';
 export 'src/demo.dart';
 export 'src/encrypted_store.dart';
 export 'src/hl7.dart';

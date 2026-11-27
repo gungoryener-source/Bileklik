@@ -43,8 +43,6 @@
 	<string>Bileklik verileriniz Apple Sağlık'a aktarılır; uygulama Apple Sağlık'taki verileri okumaz.</string>
 	<key>NSHealthUpdateUsageDescription</key>
 	<string>Seçtiğiniz bileklik verileri (adım, nabız, uyku ve diğerleri) Apple Sağlık'a yazılır.</string>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Haritada bulunduğunuz yeri göstermek isterseniz konumunuz yalnızca uygulama açıkken kullanılır.</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
 	<string>Paylaştığınız rapor ya da görüntüyü Fotoğraflar'a kaydetmeyi seçerseniz kullanılır.</string>
 	<key>UIApplicationSceneManifest</key>
@@ -91,5 +89,7 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Konum yalnızca konum paylaşımını açtığınızda, seçtiğiniz kişilere gönderilir.</string>
 </dict>
 </plist>

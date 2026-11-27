@@ -173,10 +173,15 @@ Yerelde (Mac'te) derlerken anahtarı `ios/Flutter/Secrets.xcconfig` dosyasına
 - En düşük sürüm iOS 15.0 (`health` eklentisi istiyor; Podfile ve Xcode
   projesinde aynı).
 - Info.plist izin metinleri dört dilde (`ios/Runner/*.lproj/InfoPlist.strings`):
-  Bluetooth, kamera (QR), Apple Sağlık okuma/yazma, konum (Google Haritalar
-  SDK'sı konum API'sine bağlandığı için App Store yüklemesi bu metni ister;
-  uygulama şu an konum istemiyor) ve Fotoğraflar'a kaydetme (paylaşım
-  menüsündeki "Görüntüyü Kaydet" metin olmadan uygulamayı kapatır).
+  Bluetooth, kamera (QR), Apple Sağlık okuma/yazma, konum (konum paylaşımı
+  için; Google Haritalar SDK'sı da bu metni gerektirir) ve Fotoğraflar'a
+  kaydetme (paylaşım menüsündeki "Görüntüyü Kaydet" metin olmadan
+  uygulamayı kapatır).
+- Konum yalnızca uygulama açıkken ve kullanıcı konum paylaşımını açınca
+  istenir. geolocator'ın "her zaman" izni çağrısı derlemeden çıkarılır
+  (`BYPASS_PERMISSION_LOCATION_ALWAYS`, ios.yml ve Podfile); yoksa App Store
+  yüklemesi ayrıca arka plan konum metni ister. Mac'te elle derlerken
+  `BYPASS_PERMISSION_LOCATION_ALWAYS=1 flutter build ios` kullanın.
 - Arka plan kipi `bluetooth-central`: uygulama arka plandayken bileklik
   bağlantısı ve bildirimleri sürer. App Store incelemesinde gerekçesi
   "bileklikten ölçüm almak"tır.

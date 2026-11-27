@@ -3,5 +3,5 @@
 "NSCameraUsageDescription" = "Scannt QR-Codes, um das Armband zu koppeln und Einladungen von Ärzten oder Forschungseinrichtungen zu lesen.";
 "NSHealthShareUsageDescription" = "Ihre Armbanddaten werden an Apple Health übertragen; die App liest keine Daten aus Apple Health.";
 "NSHealthUpdateUsageDescription" = "Die von Ihnen gewählten Armbanddaten (Schritte, Herzfrequenz, Schlaf und mehr) werden in Apple Health geschrieben.";
-"NSLocationWhenInUseUsageDescription" = "Wenn Sie Ihren Standort auf der Karte anzeigen möchten, wird er nur verwendet, während die App geöffnet ist.";
+"NSLocationWhenInUseUsageDescription" = "Ihr Standort wird nur gesendet, wenn Sie die Standortfreigabe einschalten, und nur an die von Ihnen gewählten Personen.";
 "NSPhotoLibraryAddUsageDescription" = "Wird nur verwendet, wenn Sie einen geteilten Bericht oder ein Bild in Fotos sichern.";
