@@ -66,10 +66,24 @@ jobs:
             echo "::notice::Yükleme anahtarı yok; deneme anahtarıyla imzalanıyor."
           fi
 
+      # Google Haritalar anahtarı (MAPS_API_KEY gizli değeri) varsa harita
+      # açılır; yoksa uygulama kodla çizilmiş zemini gösterir.
+      - name: Harita anahtarı (varsa)
+        env:
+          MAPS_API_KEY: ${{ secrets.MAPS_API_KEY }}
+        run: |
+          if [ -n "$MAPS_API_KEY" ]; then
+            echo "MAPS_API_KEY=$MAPS_API_KEY" >> "$GITHUB_ENV"
+            echo "MAPS_DEFINE=--dart-define=GOOGLE_MAPS=true" >> "$GITHUB_ENV"
+          else
+            echo "MAPS_DEFINE=--dart-define=GOOGLE_MAPS=false" >> "$GITHUB_ENV"
+            echo "::notice::MAPS_API_KEY yok; harita yerine çizilmiş zemin."
+          fi
+
       # Sürüm kodu her derlemede artar; telefondaki eski sürümün üstüne kurulur.
       - name: APK
         run: |
-          flutter build apk --release \
+          flutter build apk --release $MAPS_DEFINE \
             --build-number=${{ github.run_number }} \
             --build-name=0.1.${{ github.run_number }}
           cp build/app/outputs/flutter-apk/app-release.apk \
@@ -78,7 +92,7 @@ jobs:
       - name: Play paketi (yalnızca yükleme anahtarıyla)
         if: env.SIGNING == 'upload'
         run: |
-          flutter build appbundle --release \
+          flutter build appbundle --release $MAPS_DEFINE \
             --build-number=${{ github.run_number }} \
             --build-name=0.1.${{ github.run_number }}
           cp build/app/outputs/bundle/release/app-release.aab \

@@ -579,3 +579,14 @@ abstract final class HomeSky {
   static const gemDark = Color(0xFF0B4A40);
   static const gemGlow = Color(0x6633D1A8);
 }
+
+/// Kodla çizilmiş harita zemini ve harita üstü etiketler.
+abstract final class MapColors {
+  static const land = Color(0xFF151E2C);
+  static const water = Color(0xFF14324A);
+  static const park = Color(0xFF173A34);
+  static const street = Color(0x1FBFD0EA);
+  static const road = Color(0x5591A6C8);
+  static const label = Color(0xFFE6ECF5);
+  static const labelBackground = Color(0xB30B111B);
+}

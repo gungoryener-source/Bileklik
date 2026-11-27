@@ -112,6 +112,14 @@ UI (lib/ui)  ->  DeviceController (lib/state)  ->  WristbandClient  ->  DeviceTr
   gösterir. Egzersiz bitince bileklik geçmişe kayıt yazmadıysa ya da
   senkron sürüyorsa egzersiz son anlık veriden kaydedilir
   (`ActiveExercise.toWorkout`); bitir komutu süre sınırlıdır.
+- Egzersiz sekmesi (`ExerciseScreen`): toplam süre/sayı, Koşu/Bisiklet/
+  Yürüyüş/Daha fazla, harita zemininde GPS/iç mekan seçici, süre hedefi ve
+  GO; kayıtlar `WorkoutRecordsScreen`. Harita `CamMap`
+  (`lib/ui/widgets/cam_map.dart`, google_maps_flutter, koyu stil). Anahtar
+  depoya yazılmaz: `MAPS_API_KEY` (GitHub gizli değeri ya da
+  `android/key.properties` içinde `mapsApiKey`) ve
+  `--dart-define=GOOGLE_MAPS=true`. Anahtar yoksa, web'de ve testlerde
+  kodla çizilmiş zemin (`CityPainter`) görünür.
 
 ## Portal (`portal/`)
 

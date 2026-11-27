@@ -3830,4 +3830,66 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get wrNoHeartRate => 'لم يُسجَّل النبض خلال هذا التمرين.';
+
+  @override
+  String get exerciseRecords => 'عرض سجلات التمارين';
+
+  @override
+  String get exerciseRecordsTitle => 'سجلات التمارين';
+
+  @override
+  String get exerciseMinutesUnit => 'دقيقة';
+
+  @override
+  String get exerciseTotalTime => 'المدة الإجمالية';
+
+  @override
+  String get exerciseTotalCount => 'العدد الإجمالي';
+
+  @override
+  String get exerciseMore => 'المزيد';
+
+  @override
+  String get exerciseGps => 'تمرين GPS';
+
+  @override
+  String get exerciseIndoor => 'تمرين داخلي';
+
+  @override
+  String get exerciseGpsNote =>
+      'تسجيل المسار غير متاح بعد؛ المسافة تأتي من السوار.';
+
+  @override
+  String get exerciseGpsOff => 'إشارة GPS غير مستخدمة';
+
+  @override
+  String get exerciseGo => 'انطلق';
+
+  @override
+  String exerciseGoSemantics(String sport) {
+    return 'ابدأ تمرين $sport';
+  }
+
+  @override
+  String get exerciseResume => 'عودة';
+
+  @override
+  String get exerciseGoal => 'الهدف';
+
+  @override
+  String get exerciseGoalNone => 'بلا هدف';
+
+  @override
+  String get exerciseGoalTitle => 'هدف المدة';
+
+  @override
+  String get exerciseSportTitle => 'نوع الرياضة';
+
+  @override
+  String liveGoal(String value) {
+    return 'الهدف: $value';
+  }
+
+  @override
+  String get liveGoalReached => 'تم بلوغ الهدف';
 }

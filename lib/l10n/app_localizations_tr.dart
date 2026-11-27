@@ -3796,4 +3796,66 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get wrNoHeartRate => 'Bu egzersizde nabız ölçümü yok.';
+
+  @override
+  String get exerciseRecords => 'Egzersiz kayıtlarını görüntüle';
+
+  @override
+  String get exerciseRecordsTitle => 'Egzersiz kayıtları';
+
+  @override
+  String get exerciseMinutesUnit => 'dakika';
+
+  @override
+  String get exerciseTotalTime => 'Toplam süre';
+
+  @override
+  String get exerciseTotalCount => 'Toplam sayı';
+
+  @override
+  String get exerciseMore => 'Daha fazla';
+
+  @override
+  String get exerciseGps => 'GPS egzersizi';
+
+  @override
+  String get exerciseIndoor => 'İç mekan egzersizi';
+
+  @override
+  String get exerciseGpsNote =>
+      'Rota kaydı henüz yok; mesafe bileklikten gelir.';
+
+  @override
+  String get exerciseGpsOff => 'GPS sinyali kullanılmıyor';
+
+  @override
+  String get exerciseGo => 'GO';
+
+  @override
+  String exerciseGoSemantics(String sport) {
+    return '$sport egzersizini başlat';
+  }
+
+  @override
+  String get exerciseResume => 'Dön';
+
+  @override
+  String get exerciseGoal => 'Hedef';
+
+  @override
+  String get exerciseGoalNone => 'Hedef yok';
+
+  @override
+  String get exerciseGoalTitle => 'Süre hedefi';
+
+  @override
+  String get exerciseSportTitle => 'Spor türü';
+
+  @override
+  String liveGoal(String value) {
+    return 'Hedef: $value';
+  }
+
+  @override
+  String get liveGoalReached => 'Hedef tamamlandı';
 }

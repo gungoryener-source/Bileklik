@@ -39,6 +39,10 @@
         android:label="Bileklik"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
+        <!-- Google Haritalar; anahtar derlemede verilir (build.gradle.kts). -->
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="${mapsApiKey}" />
         <activity
             android:name=".MainActivity"
             android:exported="true"

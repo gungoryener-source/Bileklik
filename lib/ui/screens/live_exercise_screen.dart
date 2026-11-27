@@ -166,6 +166,10 @@ class _LiveExerciseScreenState extends State<LiveExerciseScreen> {
                     ),
                   ],
                 ),
+                if (ex.goalMinutes case final goal?) ...[
+                  const SizedBox(height: 16),
+                  _GoalProgress(elapsed: ex.elapsed, goalMinutes: goal),
+                ],
               ],
             ),
           ),
@@ -224,6 +228,43 @@ class _LiveExerciseScreenState extends State<LiveExerciseScreen> {
                 ),
               ),
             ],
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+/// Süre hedefine ilerleme.
+class _GoalProgress extends StatelessWidget {
+  const _GoalProgress({required this.elapsed, required this.goalMinutes});
+  final Duration elapsed;
+  final int goalMinutes;
+
+  @override
+  Widget build(BuildContext context) {
+    final l = context.l10n;
+    final done = elapsed.inSeconds / (goalMinutes * 60);
+    final reached = done >= 1;
+    return SizedBox(
+      width: 240,
+      child: Column(
+        children: [
+          ClipRRect(
+            borderRadius: BorderRadius.circular(4),
+            child: LinearProgressIndicator(
+              value: done.clamp(0, 1).toDouble(),
+              minHeight: 8,
+              color: DataColors.steps,
+              backgroundColor: context.colors.muted.withValues(alpha: 0.25),
+            ),
+          ),
+          const SizedBox(height: 6),
+          Text(
+            reached ? l.liveGoalReached : l.liveGoal(duration(goalMinutes)),
+            style: TextStyle(
+              color: reached ? DataColors.steps : context.colors.muted,
+            ),
           ),
         ],
       ),

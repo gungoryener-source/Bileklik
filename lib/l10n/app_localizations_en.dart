@@ -3859,4 +3859,66 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get wrNoHeartRate => 'No heart rate was recorded during this workout.';
+
+  @override
+  String get exerciseRecords => 'View workout records';
+
+  @override
+  String get exerciseRecordsTitle => 'Workout records';
+
+  @override
+  String get exerciseMinutesUnit => 'min';
+
+  @override
+  String get exerciseTotalTime => 'Total time';
+
+  @override
+  String get exerciseTotalCount => 'Total count';
+
+  @override
+  String get exerciseMore => 'More';
+
+  @override
+  String get exerciseGps => 'GPS workout';
+
+  @override
+  String get exerciseIndoor => 'Indoor workout';
+
+  @override
+  String get exerciseGpsNote =>
+      'Route tracking isn\'t available yet; distance comes from the wristband.';
+
+  @override
+  String get exerciseGpsOff => 'GPS signal not in use';
+
+  @override
+  String get exerciseGo => 'GO';
+
+  @override
+  String exerciseGoSemantics(String sport) {
+    return 'Start $sport workout';
+  }
+
+  @override
+  String get exerciseResume => 'Open';
+
+  @override
+  String get exerciseGoal => 'Goal';
+
+  @override
+  String get exerciseGoalNone => 'No goal';
+
+  @override
+  String get exerciseGoalTitle => 'Duration goal';
+
+  @override
+  String get exerciseSportTitle => 'Sport type';
+
+  @override
+  String liveGoal(String value) {
+    return 'Goal: $value';
+  }
+
+  @override
+  String get liveGoalReached => 'Goal reached';
 }

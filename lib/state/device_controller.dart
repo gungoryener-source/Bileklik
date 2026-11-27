@@ -826,6 +826,9 @@ class ActiveExercise {
   bool paused = false;
   bool endedByDevice = false;
   ExerciseLive? live;
+
+  /// Kullanıcının seçtiği süre hedefi (dakika); yoksa null.
+  int? goalMinutes;
   final heartRates = <int>[];
 
   /// Bilekliğin "uzun süredir hareketsizsiniz" uyarısı; kullanıcı yanıtlayınca null olur.

@@ -67,8 +67,7 @@ Future<void> _loadFonts() async {
   }
   final arabic = File('build/NotoSansArabic.ttf');
   if (arabic.existsSync()) {
-    await (FontLoader('Noto Sans Arabic')..addFont(_bytes(arabic.path)))
-        .load();
+    await (FontLoader('Noto Sans Arabic')..addFont(_bytes(arabic.path))).load();
   }
 }
 
@@ -104,7 +103,10 @@ class _Backend {
 
 Future<void> _shot(WidgetTester tester, String name) async {
   await tester.pumpAndSettle();
-  await expectLater(find.byType(MaterialApp), matchesGoldenFile('ekran/$name.png'));
+  await expectLater(
+    find.byType(MaterialApp),
+    matchesGoldenFile('ekran/$name.png'),
+  );
 }
 
 Future<DeviceController> _app(
@@ -147,10 +149,12 @@ void _push(WidgetTester tester, Widget screen) => unawaited(
 
 Future<void> _tab(WidgetTester tester, int i) async {
   await tester.tap(
-    find.descendant(
-      of: find.byType(GlassNavBar),
-      matching: find.byType(Pressable),
-    ).at(i),
+    find
+        .descendant(
+          of: find.byType(GlassNavBar),
+          matching: find.byType(Pressable),
+        )
+        .at(i),
   );
   await tester.pumpAndSettle();
 }
@@ -202,7 +206,12 @@ void main() {
 
   testWidgets('biyolojik yaş', skip: !_enabled, (tester) async {
     final c = await _app(tester, connect: true);
-    c.profile = const PersonalInfo(isMale: true, age: 40, heightCm: 178, weightKg: 75);
+    c.profile = const PersonalInfo(
+      isMale: true,
+      age: 40,
+      heightCm: 178,
+      weightKg: 75,
+    );
     await tester.pumpAndSettle();
     _push(tester, BiologicalAgeScreen(day: DateTime.now()));
     await _shot(tester, 'biyo-1');
@@ -242,9 +251,17 @@ void main() {
     await _shot(tester, 'egzersiz-2');
   });
 
+  testWidgets('egzersiz sekmesi', skip: !_enabled, (tester) async {
+    await _app(tester, connect: true);
+    await _tab(tester, 2);
+    await _shot(tester, 'egzersiz-ana');
+  });
+
   testWidgets('sağlık sekmesi', skip: !_enabled, (tester) async {
     final c = await _app(tester, connect: true);
-    c.store.addEcg(recording(DateTime.now().subtract(const Duration(hours: 2))));
+    c.store.addEcg(
+      recording(DateTime.now().subtract(const Duration(hours: 2))),
+    );
     await _tab(tester, 1);
     await _shot(tester, 'saglik-1');
     for (var i = 2; i <= 4; i++) {
@@ -366,8 +383,11 @@ void main() {
     );
     final login = await send('POST', '/panel/login', body: 'token=doctor');
     final cookie = login.headers['set-cookie']!.split(';').first;
-    final home = await (await send('GET', '/panel', cookie: cookie))
-        .readAsString();
+    final home = await (await send(
+      'GET',
+      '/panel',
+      cookie: cookie,
+    )).readAsString();
     final csrf = RegExp(r'name="csrf" value="([0-9a-f]+)"')
         .firstMatch(home)!
         .group(1)!;
@@ -375,7 +395,8 @@ void main() {
       'POST',
       '/panel/invites',
       cookie: cookie,
-      body: 'csrf=$csrf&purpose=Ritim+takibi&scope=heartRate&scope=spo2&days=90',
+      body:
+          'csrf=$csrf&purpose=Ritim+takibi&scope=heartRate&scope=spo2&days=90',
     )).readAsString();
     final code = RegExp(r'class="code">([A-Z2-9]{7})<')
         .firstMatch(created)!
@@ -391,26 +412,26 @@ void main() {
       'POST',
       '/fhir',
       bearer: 'patient',
-      body: '{"resourceType":"Bundle","type":"collection","entry":['
+      body:
+          '{"resourceType":"Bundle","type":"collection","entry":['
           '{"resource":{"resourceType":"Patient","id":"$patient"}}'
-          '${[
-            for (var i = 0; i < 14; i++)
-              ',{"resource":{"resourceType":"Observation","identifier":[{"system":"x","value":"hr$i"}],'
-                  '"status":"final","code":{"coding":[{"system":"http://loinc.org","code":"8867-4"}]},'
-                  '"subject":{"reference":"urn:uuid:$patient"},'
-                  '"effectiveDateTime":"${now.subtract(Duration(hours: i * 12)).toIso8601String()}",'
-                  '"valueQuantity":{"value":${68 + (i * 7) % 15},"unit":"beats/minute"}}}',
-            ',{"resource":{"resourceType":"Observation","identifier":[{"system":"x","value":"o1"}],'
-                '"status":"final","code":{"coding":[{"system":"http://loinc.org","code":"59408-5"}]},'
+          '${[for (var i = 0; i < 14; i++) ',{"resource":{"resourceType":"Observation","identifier":[{"system":"x","value":"hr$i"}],'
+                '"status":"final","code":{"coding":[{"system":"http://loinc.org","code":"8867-4"}]},'
                 '"subject":{"reference":"urn:uuid:$patient"},'
-                '"effectiveDateTime":"${now.toIso8601String()}",'
-                '"valueQuantity":{"value":97,"unit":"%"}}}',
-          ].join()}]}',
+                '"effectiveDateTime":"${now.subtract(Duration(hours: i * 12)).toIso8601String()}",'
+                '"valueQuantity":{"value":${68 + (i * 7) % 15},"unit":"beats/minute"}}}', ',{"resource":{"resourceType":"Observation","identifier":[{"system":"x","value":"o1"}],'
+              '"status":"final","code":{"coding":[{"system":"http://loinc.org","code":"59408-5"}]},'
+              '"subject":{"reference":"urn:uuid:$patient"},'
+              '"effectiveDateTime":"${now.toIso8601String()}",'
+              '"valueQuantity":{"value":97,"unit":"%"}}}'].join()}]}',
     );
     final dir = Directory('test/ekran')..createSync(recursive: true);
     Future<void> save(String name, String path) async {
-      final html = await (await send('GET', path, cookie: cookie))
-          .readAsString();
+      final html = await (await send(
+        'GET',
+        path,
+        cookie: cookie,
+      )).readAsString();
       File('${dir.path}/$name.html').writeAsStringSync(html);
     }
 

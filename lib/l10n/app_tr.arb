@@ -2082,5 +2082,38 @@
       }
     }
   },
-  "wrNoHeartRate": "Bu egzersizde nabız ölçümü yok."
+  "wrNoHeartRate": "Bu egzersizde nabız ölçümü yok.",
+  "exerciseRecords": "Egzersiz kayıtlarını görüntüle",
+  "exerciseRecordsTitle": "Egzersiz kayıtları",
+  "exerciseMinutesUnit": "dakika",
+  "exerciseTotalTime": "Toplam süre",
+  "exerciseTotalCount": "Toplam sayı",
+  "exerciseMore": "Daha fazla",
+  "exerciseGps": "GPS egzersizi",
+  "exerciseIndoor": "İç mekan egzersizi",
+  "exerciseGpsNote": "Rota kaydı henüz yok; mesafe bileklikten gelir.",
+  "exerciseGpsOff": "GPS sinyali kullanılmıyor",
+  "exerciseGo": "GO",
+  "exerciseGoSemantics": "{sport} egzersizini başlat",
+  "@exerciseGoSemantics": {
+    "placeholders": {
+      "sport": {
+        "type": "String"
+      }
+    }
+  },
+  "exerciseResume": "Dön",
+  "exerciseGoal": "Hedef",
+  "exerciseGoalNone": "Hedef yok",
+  "exerciseGoalTitle": "Süre hedefi",
+  "exerciseSportTitle": "Spor türü",
+  "liveGoal": "Hedef: {value}",
+  "@liveGoal": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "liveGoalReached": "Hedef tamamlandı"
 }

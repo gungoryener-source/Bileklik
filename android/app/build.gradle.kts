@@ -26,6 +26,12 @@ fun signingValue(prop: String, env: String): String? =
 
 val releaseStore = signingValue("storeFile", "BILEKLIK_KEYSTORE")
 
+// Google Haritalar anahtarı depoya yazılmaz: android/key.properties içinde
+// mapsApiKey=… ya da MAPS_API_KEY ortam değişkeni (GitHub Actions gizli
+// değeri). Anahtar yoksa uygulama haritayı açmaz, kodla çizilmiş zemini
+// gösterir (Dart tarafında --dart-define=GOOGLE_MAPS=true verilmez).
+val mapsApiKey = signingValue("mapsApiKey", "MAPS_API_KEY") ?: ""
+
 android {
     namespace = "com.bileklik.bileklik"
     compileSdk = flutter.compileSdkVersion
@@ -50,6 +56,7 @@ android {
         // flag during build.
         versionCode = flutter.versionCode
         versionName = flutter.versionName
+        manifestPlaceholders["mapsApiKey"] = mapsApiKey
     }
 
     signingConfigs {

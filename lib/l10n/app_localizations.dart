@@ -6471,6 +6471,120 @@ abstract class AppLocalizations {
   /// In tr, this message translates to:
   /// **'Bu egzersizde nabız ölçümü yok.'**
   String get wrNoHeartRate;
+
+  /// No description provided for @exerciseRecords.
+  ///
+  /// In tr, this message translates to:
+  /// **'Egzersiz kayıtlarını görüntüle'**
+  String get exerciseRecords;
+
+  /// No description provided for @exerciseRecordsTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Egzersiz kayıtları'**
+  String get exerciseRecordsTitle;
+
+  /// No description provided for @exerciseMinutesUnit.
+  ///
+  /// In tr, this message translates to:
+  /// **'dakika'**
+  String get exerciseMinutesUnit;
+
+  /// No description provided for @exerciseTotalTime.
+  ///
+  /// In tr, this message translates to:
+  /// **'Toplam süre'**
+  String get exerciseTotalTime;
+
+  /// No description provided for @exerciseTotalCount.
+  ///
+  /// In tr, this message translates to:
+  /// **'Toplam sayı'**
+  String get exerciseTotalCount;
+
+  /// No description provided for @exerciseMore.
+  ///
+  /// In tr, this message translates to:
+  /// **'Daha fazla'**
+  String get exerciseMore;
+
+  /// No description provided for @exerciseGps.
+  ///
+  /// In tr, this message translates to:
+  /// **'GPS egzersizi'**
+  String get exerciseGps;
+
+  /// No description provided for @exerciseIndoor.
+  ///
+  /// In tr, this message translates to:
+  /// **'İç mekan egzersizi'**
+  String get exerciseIndoor;
+
+  /// No description provided for @exerciseGpsNote.
+  ///
+  /// In tr, this message translates to:
+  /// **'Rota kaydı henüz yok; mesafe bileklikten gelir.'**
+  String get exerciseGpsNote;
+
+  /// No description provided for @exerciseGpsOff.
+  ///
+  /// In tr, this message translates to:
+  /// **'GPS sinyali kullanılmıyor'**
+  String get exerciseGpsOff;
+
+  /// No description provided for @exerciseGo.
+  ///
+  /// In tr, this message translates to:
+  /// **'GO'**
+  String get exerciseGo;
+
+  /// No description provided for @exerciseGoSemantics.
+  ///
+  /// In tr, this message translates to:
+  /// **'{sport} egzersizini başlat'**
+  String exerciseGoSemantics(String sport);
+
+  /// No description provided for @exerciseResume.
+  ///
+  /// In tr, this message translates to:
+  /// **'Dön'**
+  String get exerciseResume;
+
+  /// No description provided for @exerciseGoal.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hedef'**
+  String get exerciseGoal;
+
+  /// No description provided for @exerciseGoalNone.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hedef yok'**
+  String get exerciseGoalNone;
+
+  /// No description provided for @exerciseGoalTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Süre hedefi'**
+  String get exerciseGoalTitle;
+
+  /// No description provided for @exerciseSportTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Spor türü'**
+  String get exerciseSportTitle;
+
+  /// No description provided for @liveGoal.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hedef: {value}'**
+  String liveGoal(String value);
+
+  /// No description provided for @liveGoalReached.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hedef tamamlandı'**
+  String get liveGoalReached;
 }
 
 class _AppLocalizationsDelegate
