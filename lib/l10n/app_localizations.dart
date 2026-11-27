@@ -5401,7 +5401,7 @@ abstract class AppLocalizations {
   /// No description provided for @homeLateNightTitle.
   ///
   /// In tr, this message translates to:
-  /// **'Gece geç oldu, dinlenmeyi deneyin'**
+  /// **'Gece geç oldu, rahatlamayı deneyin'**
   String get homeLateNightTitle;
 
   /// No description provided for @homeLateNightBody.
@@ -7095,6 +7095,96 @@ abstract class AppLocalizations {
   /// In tr, this message translates to:
   /// **'Yapay zeka raporu ve sağlık asistanı Vita varsayılan olarak telefonda, kurallarla çalışır; veri dışarı gitmez. Yapay zeka rızası verirseniz rapor için haftalık özetler, asistan için de sorunuz, son mesajlarınız ve günün özet sayıları (uyku süresi, toparlanma, yük, nabız ortalaması, stres, adım, EKG ön değerlendirmesinin sonucu, yaş) takma kimliğinizle portalımıza gönderilir ve portal bunları yanıt üretmek için Anthropic\'in Claude yapay zeka hizmetine (ABD) iletir. Adınız, kimlik numaranız, cihaz adresiniz ve ham ölçümler gönderilmez. Rızayı istediğiniz an yapay zeka raporu ekranından geri alabilirsiniz. Yapay zeka teşhis koymaz ve ilaç önermez.'**
   String get privacyAiBody;
+
+  /// No description provided for @homeNightMore.
+  ///
+  /// In tr, this message translates to:
+  /// **'Daha fazla bilgi'**
+  String get homeNightMore;
+
+  /// No description provided for @bedtimeTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yatma düzeni'**
+  String get bedtimeTitle;
+
+  /// No description provided for @bedtimeWindDown.
+  ///
+  /// In tr, this message translates to:
+  /// **'Sakinleşme zamanı'**
+  String get bedtimeWindDown;
+
+  /// No description provided for @bedtimeWindDownBody.
+  ///
+  /// In tr, this message translates to:
+  /// **'Günün işi bitti. Işığı azaltın, telefonu uzağa koyun ve bedeninizin yavaşlamasına izin verin. Burnunuzdan yavaşça nefes alın, ağzınızdan daha da yavaş verin. Gerisini geceye bırakın.'**
+  String get bedtimeWindDownBody;
+
+  /// No description provided for @bedtimeChartTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yatma saati'**
+  String get bedtimeChartTitle;
+
+  /// No description provided for @bedtimeIdeal.
+  ///
+  /// In tr, this message translates to:
+  /// **'İdeal yatma saati'**
+  String get bedtimeIdeal;
+
+  /// No description provided for @bedtimeIdealRange.
+  ///
+  /// In tr, this message translates to:
+  /// **'İdeal aralık'**
+  String get bedtimeIdealRange;
+
+  /// No description provided for @bedtimeRangeValue.
+  ///
+  /// In tr, this message translates to:
+  /// **'{time} ±{minutes} dk'**
+  String bedtimeRangeValue(String time, int minutes);
+
+  /// No description provided for @bedtimeOnTrack.
+  ///
+  /// In tr, this message translates to:
+  /// **'Uygun'**
+  String get bedtimeOnTrack;
+
+  /// No description provided for @bedtimeOff.
+  ///
+  /// In tr, this message translates to:
+  /// **'Sapma'**
+  String get bedtimeOff;
+
+  /// No description provided for @bedtimeWeekSummary.
+  ///
+  /// In tr, this message translates to:
+  /// **'İdeal aralıkta yatılan gece: {count}/{total}'**
+  String bedtimeWeekSummary(int count, int total);
+
+  /// No description provided for @bedtimeEmpty.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bu hafta yatış kaydı yok. Bilekliği gece takın; uykunuz kaydedilince yatma saatiniz burada görünür.'**
+  String get bedtimeEmpty;
+
+  /// No description provided for @bedtimePointSemantics.
+  ///
+  /// In tr, this message translates to:
+  /// **'{day}: {time}, {status}'**
+  String bedtimePointSemantics(String day, String time, String status);
+
+  /// No description provided for @bedtimeTipTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'İstikrarlı bir yatma saati nasıl bulunur'**
+  String get bedtimeTipTitle;
+
+  /// No description provided for @bedtimeTipBody.
+  ///
+  /// In tr, this message translates to:
+  /// **'Her akşam aşağı yukarı aynı saatte yatmak iç saatinizin düzene girmesine yardım eder. İdeal aralıkta uyuduğunuz gecelerin ertesinde toparlanma genellikle daha iyidir. Düzeniniz birkaç gecedir kaydıysa yatış saatinizi her akşam 15-30 dakika öne alarak yavaş yavaş geri dönün.'**
+  String get bedtimeTipBody;
 }
 
 class _AppLocalizationsDelegate

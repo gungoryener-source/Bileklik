@@ -4216,4 +4216,58 @@ class AppLocalizationsAr extends AppLocalizations {
   @override
   String get privacyAiBody =>
       'يعمل تقرير الذكاء الاصطناعي والمساعد الصحي Vita افتراضيًا على هاتفك وفق قواعد، ولا تغادر أي بيانات الهاتف. إذا منحت موافقة الذكاء الاصطناعي، تُرسل إلى بوابتنا باسمك المستعار ملخصات أسبوعية للتقرير، وللمساعد سؤالك ورسائلك الأخيرة وأرقام اليوم الموجزة (مدة النوم، التعافي، الحمل، متوسط النبض، التوتر، الخطوات، نتيجة التقييم الأولي لتخطيط القلب، العمر)، وتنقلها البوابة إلى خدمة Claude للذكاء الاصطناعي من Anthropic (الولايات المتحدة) لإعداد الإجابة. لا يُرسل اسمك أو رقم هويتك أو عنوان جهازك أو القياسات الخام. يمكنك سحب الموافقة في أي وقت من شاشة تقرير الذكاء الاصطناعي. لا يقدّم الذكاء الاصطناعي تشخيصًا ولا يوصي بأدوية.';
+
+  @override
+  String get homeNightMore => 'مزيد من المعلومات';
+
+  @override
+  String get bedtimeTitle => 'روتين النوم';
+
+  @override
+  String get bedtimeWindDown => 'حان وقت الاسترخاء';
+
+  @override
+  String get bedtimeWindDownBody =>
+      'انتهى عمل اليوم. خفّف الإضاءة، وضع الهاتف بعيدًا، ودع جسمك يهدأ. تنفّس ببطء من أنفك وأخرج النفس بهدوء أكبر. اترك الباقي لليل.';
+
+  @override
+  String get bedtimeChartTitle => 'وقت النوم';
+
+  @override
+  String get bedtimeIdeal => 'وقت النوم المثالي';
+
+  @override
+  String get bedtimeIdealRange => 'النطاق المثالي';
+
+  @override
+  String bedtimeRangeValue(String time, int minutes) {
+    return '$time ±$minutes د';
+  }
+
+  @override
+  String get bedtimeOnTrack => 'ضمن النطاق';
+
+  @override
+  String get bedtimeOff => 'انحراف';
+
+  @override
+  String bedtimeWeekSummary(int count, int total) {
+    return 'الليالي ضمن النطاق المثالي: $count/$total';
+  }
+
+  @override
+  String get bedtimeEmpty =>
+      'لا توجد أوقات نوم مسجلة هذا الأسبوع. ارتدِ السوار ليلًا؛ عند تسجيل نومك يظهر وقت نومك هنا.';
+
+  @override
+  String bedtimePointSemantics(String day, String time, String status) {
+    return '$day: $time، $status';
+  }
+
+  @override
+  String get bedtimeTipTitle => 'كيف تجد وقت نوم ثابتًا';
+
+  @override
+  String get bedtimeTipBody =>
+      'النوم في الوقت نفسه تقريبًا كل مساء يساعد ساعتك الداخلية على الانتظام. يكون التعافي عادةً أفضل بعد الليالي ضمن النطاق المثالي. إذا انحرف روتينك لبضع ليالٍ، فقدّم وقت نومك 15-30 دقيقة كل مساء لتعود إليه تدريجيًا.';
 }

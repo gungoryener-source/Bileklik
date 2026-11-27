@@ -4268,4 +4268,58 @@ class AppLocalizationsDe extends AppLocalizations {
   @override
   String get privacyAiBody =>
       'Der KI-Bericht und der Gesundheitsassistent Vita arbeiten standardmäßig regelbasiert auf Ihrem Telefon; es verlassen keine Daten das Telefon. Wenn Sie in die KI-Nutzung einwilligen, werden für den Bericht Wochenzusammenfassungen und für den Assistenten Ihre Frage, Ihre letzten Nachrichten und die Tageskennzahlen (Schlafdauer, Erholung, Belastung, Durchschnittspuls, Stress, Schritte, Ergebnis der EKG-Vorabeinschätzung, Alter) pseudonymisiert an unser Portal gesendet; das Portal leitet sie zur Beantwortung an den KI-Dienst Claude von Anthropic (USA) weiter. Name, Ausweisnummer, Geräteadresse und Rohmesswerte werden nicht gesendet. Sie können die Einwilligung jederzeit im Bildschirm KI-Bericht widerrufen. Die KI stellt keine Diagnosen und empfiehlt keine Medikamente.';
+
+  @override
+  String get homeNightMore => 'Mehr erfahren';
+
+  @override
+  String get bedtimeTitle => 'Schlafenszeit-Routine';
+
+  @override
+  String get bedtimeWindDown => 'Zeit zum Abschalten';
+
+  @override
+  String get bedtimeWindDownBody =>
+      'Das Tagwerk ist getan. Dimmen Sie das Licht, legen Sie das Handy weg und lassen Sie Ihren Körper zur Ruhe kommen. Atmen Sie langsam durch die Nase ein und noch langsamer aus. Den Rest übernimmt die Nacht.';
+
+  @override
+  String get bedtimeChartTitle => 'Schlafenszeit';
+
+  @override
+  String get bedtimeIdeal => 'Ideale Schlafenszeit';
+
+  @override
+  String get bedtimeIdealRange => 'Idealer Bereich';
+
+  @override
+  String bedtimeRangeValue(String time, int minutes) {
+    return '$time ±$minutes Min.';
+  }
+
+  @override
+  String get bedtimeOnTrack => 'Im Plan';
+
+  @override
+  String get bedtimeOff => 'Abweichung';
+
+  @override
+  String bedtimeWeekSummary(int count, int total) {
+    return 'Nächte im idealen Bereich: $count/$total';
+  }
+
+  @override
+  String get bedtimeEmpty =>
+      'Diese Woche wurden keine Schlafenszeiten erfasst. Tragen Sie das Armband nachts; sobald Ihr Schlaf erfasst ist, erscheint Ihre Schlafenszeit hier.';
+
+  @override
+  String bedtimePointSemantics(String day, String time, String status) {
+    return '$day: $time, $status';
+  }
+
+  @override
+  String get bedtimeTipTitle => 'So finden Sie eine feste Schlafenszeit';
+
+  @override
+  String get bedtimeTipBody =>
+      'Jeden Abend etwa zur gleichen Zeit ins Bett zu gehen, hilft Ihrer inneren Uhr, sich einzupendeln. Nach Nächten im idealen Bereich ist die Erholung meist besser. Hat sich Ihr Rhythmus einige Nächte verschoben, gehen Sie jeden Abend 15-30 Minuten früher ins Bett, um schrittweise zurückzufinden.';
 }

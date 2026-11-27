@@ -103,6 +103,12 @@ UI (lib/ui)  ->  DeviceController (lib/state)  ->  WristbandClient  ->  DeviceTr
   yazılmaz; `test/theme_test.dart` kontrastı denetler. Dağ silueti
   `CamBackground` içinde ekranın altında sabittir (kısılmış renklerle);
   kartlar yarı saydamdır, dağ kartların içinden görünür.
+- Gece görünümü: 22:00-05:00 arası bugün açıksa Ana Sayfa'da enerji kristali
+  yerine yıldızlı sakinleşme çağrısı çıkar (`isWindDownTime`, saat
+  `HomeScreen.clock`; testler sabit saat verir). "Daha fazla bilgi"
+  `BedtimeScreen`'i açar: haftalık yatma saati grafiği `BedtimeWeek`
+  (`lib/data/bedtime.dart`; akşamın ilk uyku oturumu, şekerleme sayılmaz,
+  ideal 23:00 ±30 dk, şimdilik sabit).
 - Günlük yük `DayStrain` (`lib/data/strain.dart`), 0–21: uyanıkken nabzın
   dinlenik nabız üstündeki payı (TRIMP benzeri), egzersizler ve adımlar;
   ideal aralık toparlanma skoruna göre. Ana Sayfa "Günlük yük" göstergesi

@@ -1,7 +1,11 @@
+import 'dart:async';
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import '../../data/aggregate.dart';
+import '../../data/bedtime.dart';
 import '../../data/day_summary.dart';
 import '../../data/progress.dart';
 import '../../data/recovery.dart';
@@ -21,6 +25,7 @@ import '../widgets/home/home_card.dart';
 import '../widgets/family_alerts.dart';
 import '../widgets/insights.dart';
 import 'ai_report_screen.dart';
+import 'bedtime_screen.dart';
 import 'biological_age_screen.dart';
 import 'strain_screen.dart';
 import 'ecg_screen.dart';
@@ -38,6 +43,9 @@ import 'workout_detail_screen.dart';
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
+  /// Gece görünümü için saat; testler sabit bir an verir.
+  static DateTime Function() clock = DateTime.now;
+
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
@@ -52,6 +60,34 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   DateTime get day => _day ?? _today();
+
+  /// 22:00-05:00 arası bugün açıksa Ana Sayfa sakinleşme görünümüne geçer.
+  bool get windDown => isToday && isWindDownTime(HomeScreen.clock());
+
+  Timer? _windDownTimer;
+
+  @override
+  void initState() {
+    super.initState();
+    _scheduleWindDown();
+  }
+
+  /// Saat 22:00'yi ya da 05:00'i geçince görünüm kendiliğinden değişir.
+  void _scheduleWindDown() {
+    final now = HomeScreen.clock();
+    _windDownTimer = Timer(nextWindDownChange(now).difference(now), () {
+      if (!mounted) return;
+      setState(() {});
+      _scheduleWindDown();
+    });
+  }
+
+  @override
+  void dispose() {
+    _windDownTimer?.cancel();
+    super.dispose();
+  }
+
   bool get isToday => _day == null || _day == _today();
 
   void _shift(int by) {
@@ -123,6 +159,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 recovery: recovery,
                 strain: strain,
                 open: _open,
+                windDown: windDown,
               ),
               gap,
               _AiCard(
@@ -482,6 +519,7 @@ class _Hero extends StatelessWidget {
     required this.recovery,
     required this.strain,
     required this.open,
+    this.windDown = false,
   });
 
   final DaySummary s;
@@ -490,6 +528,9 @@ class _Hero extends StatelessWidget {
   final DayRecovery? recovery;
   final DayStrain? strain;
   final void Function(Widget) open;
+
+  /// Gece: enerji kristali yerine yıldızlı sakinleşme çağrısı.
+  final bool windDown;
 
   @override
   Widget build(BuildContext context) {
@@ -518,59 +559,67 @@ class _Hero extends StatelessWidget {
     return Stack(
       clipBehavior: Clip.none,
       children: [
+        if (windDown) const Positioned.fill(child: _StarField()),
         Column(
           children: [
             const SizedBox(height: 8),
-            Pressable(
-              semanticLabel: e == null
-                  ? l.energyEmpty
-                  : l.energySemantics(e.score, level!),
-              onTap: () => open(ProgressScreen(day: s.day)),
-              child: EnergyGem(
-                child: FittedBox(
-                  fit: BoxFit.scaleDown,
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      const Icon(Icons.bolt, color: HomeSky.snow, size: 22),
-                      Text(
-                        l.homeEnergyLabel,
-                        style: const TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                      Text(
-                        score,
-                        style: const TextStyle(
-                          fontSize: 60,
-                          height: 1.1,
-                          fontWeight: FontWeight.w800,
-                          fontFeatures: [FontFeature.tabularFigures()],
-                        ),
-                      ),
-                      if (level != null)
+            if (windDown)
+              _WindDownIntro(onMore: () => open(BedtimeScreen(day: s.day)))
+            else ...[
+              Pressable(
+                semanticLabel: e == null
+                    ? l.energyEmpty
+                    : l.energySemantics(e.score, level!),
+                onTap: () => open(ProgressScreen(day: s.day)),
+                child: EnergyGem(
+                  child: FittedBox(
+                    fit: BoxFit.scaleDown,
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        const Icon(Icons.bolt, color: HomeSky.snow, size: 22),
                         Text(
-                          level,
+                          l.homeEnergyLabel,
                           style: const TextStyle(
-                            fontSize: 16,
+                            fontSize: 18,
                             fontWeight: FontWeight.w600,
                           ),
                         ),
-                    ],
+                        Text(
+                          score,
+                          style: const TextStyle(
+                            fontSize: 60,
+                            height: 1.1,
+                            fontWeight: FontWeight.w800,
+                            fontFeatures: [FontFeature.tabularFigures()],
+                          ),
+                        ),
+                        if (level != null)
+                          Text(
+                            level,
+                            style: const TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                      ],
+                    ),
                   ),
                 ),
               ),
-            ),
-            const SizedBox(height: 14),
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 7),
-              decoration: BoxDecoration(
-                color: HomeSky.pill,
-                borderRadius: BorderRadius.circular(20),
+              const SizedBox(height: 14),
+              Container(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 7,
+                ),
+                decoration: BoxDecoration(
+                  color: HomeSky.pill,
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: Text(compare, style: const TextStyle(fontSize: 14)),
               ),
-              child: Text(compare, style: const TextStyle(fontSize: 14)),
-            ),
+            ],
             const SizedBox(height: 24),
             IntrinsicHeight(
               child: Row(
@@ -641,6 +690,133 @@ class _Hero extends StatelessWidget {
       ],
     );
   }
+}
+
+/// Gece görünümünün başı: ay ikonu, başlık, kısa açıklama ve Yatma
+/// Düzeni ekranına giden düğme.
+class _WindDownIntro extends StatelessWidget {
+  const _WindDownIntro({required this.onMore});
+
+  final VoidCallback onMore;
+
+  @override
+  Widget build(BuildContext context) {
+    final l = context.l10n;
+    final colors = context.colors;
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 8),
+      child: Column(
+        children: [
+          const SizedBox(height: 16),
+          ExcludeSemantics(
+            child: Container(
+              width: 64,
+              height: 64,
+              decoration: const BoxDecoration(
+                shape: BoxShape.circle,
+                color: HomeSky.pill,
+              ),
+              child: const Icon(
+                Icons.nights_stay_outlined,
+                color: HomeSky.snow,
+                size: 32,
+              ),
+            ),
+          ),
+          const SizedBox(height: 20),
+          Semantics(
+            header: true,
+            child: Text(
+              l.homeLateNightTitle,
+              textAlign: TextAlign.center,
+              style: const TextStyle(
+                fontSize: 26,
+                height: 1.2,
+                fontWeight: FontWeight.w800,
+              ),
+            ),
+          ),
+          const SizedBox(height: 12),
+          Text(
+            l.homeLateNightBody,
+            textAlign: TextAlign.center,
+            style: TextStyle(color: colors.muted, fontSize: 15, height: 1.45),
+          ),
+          const SizedBox(height: 20),
+          OutlinedButton(
+            onPressed: onMore,
+            style: OutlinedButton.styleFrom(
+              minimumSize: const Size(48, 48),
+              padding: const EdgeInsets.symmetric(horizontal: 24),
+              foregroundColor: colors.text,
+              backgroundColor: HomeSky.pill.withValues(alpha: 0.18),
+              side: const BorderSide(color: HomeSky.border),
+              shape: const StadiumBorder(),
+            ),
+            child: Text(
+              l.homeNightMore,
+              textAlign: TextAlign.center,
+              style: const TextStyle(fontWeight: FontWeight.w700),
+            ),
+          ),
+          const SizedBox(height: 8),
+        ],
+      ),
+    );
+  }
+}
+
+/// Gece görünümünün arkasındaki yıldızlar: kodla, sabit tohumla çizilir
+/// (her açılışta aynı gökyüzü); hareket etmez.
+class _StarField extends StatelessWidget {
+  const _StarField();
+
+  @override
+  Widget build(BuildContext context) => const IgnorePointer(
+    child: ExcludeSemantics(
+      child: RepaintBoundary(child: CustomPaint(painter: _StarPainter())),
+    ),
+  );
+}
+
+class _StarPainter extends CustomPainter {
+  const _StarPainter();
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final rnd = Random(22);
+    final dot = Paint();
+    // Aşağıya doğru seyrelir; dağın üstünde yıldız kalmaz.
+    for (var i = 0; i < 90; i++) {
+      final x = rnd.nextDouble() * size.width;
+      final y = pow(rnd.nextDouble(), 1.6) * size.height * 0.75;
+      final r = 0.4 + rnd.nextDouble() * 1.1;
+      final a = 0.25 + rnd.nextDouble() * 0.6;
+      canvas.drawCircle(
+        Offset(x, y.toDouble()),
+        r,
+        dot..color = HomeSky.snow.withValues(alpha: a),
+      );
+    }
+    // Birkaç parlak, dört kollu yıldız.
+    final glint = Paint()
+      ..color = HomeSky.snow.withValues(alpha: 0.85)
+      ..strokeWidth = 1.2
+      ..strokeCap = StrokeCap.round;
+    for (var i = 0; i < 6; i++) {
+      final c = Offset(
+        rnd.nextDouble() * size.width,
+        rnd.nextDouble() * size.height * 0.55,
+      );
+      final arm = 3.0 + rnd.nextDouble() * 2.5;
+      canvas
+        ..drawLine(c.translate(-arm, 0), c.translate(arm, 0), glint)
+        ..drawLine(c.translate(0, -arm), c.translate(0, arm), glint);
+    }
+  }
+
+  @override
+  bool shouldRepaint(_StarPainter old) => false;
 }
 
 /// Yarı saydam hap düğme.
@@ -826,14 +1002,10 @@ class _AiCardState extends State<_AiCard> {
   List<String> _lines(BuildContext context) {
     final l = context.l10n;
     final s = widget.s;
-    final now = DateTime.now();
     final night = s.night;
     final hrv = s.recoveryHrv;
     final hrvBand = hrv == null ? null : bandOf(MetricType.hrv, hrv);
     final out = <String>[];
-    if (widget.isToday && (now.hour >= 23 || now.hour < 5)) {
-      out.add(l.homeLateNightBody);
-    }
     if (night == null) {
       if (widget.isToday) out.add(l.homeNoSleepTonightHint);
     } else {
