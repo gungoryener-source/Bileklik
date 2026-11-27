@@ -57,13 +57,83 @@ UI (lib/ui)  ->  DeviceController (lib/state)  ->  WristbandClient  ->  DeviceTr
   `SecretStore` içinde; `SharedPreferences`'a yazılmaz. Android yedeklemesi
   kapalıdır, sağlık verisi telefondan yedekle çıkmaz.
 - Ekranlar `DeviceScope.of(context)` ile denetleyiciye, `.store` ile ölçümlere erişir.
+- Telefonda taşıyıcı `LoggingTransport` ile sarılır; her paket `DeviceLog`'a
+  (bellekte) yazılır ve `DiagnosticsScreen`'de görünür. Denetleyici
+  `autoReconnect` açıkken eşleştirilmiş bilekliğe açılışta bağlanır, kopunca
+  yeniden dener. Telefonda demo kipi `DeviceController.demoModeKey`
+  tercihiyle de açılır (tanılama ekranındaki anahtar).
+- Android yayın imzası `android/app/build.gradle.kts` başındaki açıklamada;
+  APK `.github/workflows/android.yml` ile GitHub sürümü olarak çıkar.
 - FHIR R4: `FhirExporter` (`lib/data/fhir.dart`) depodaki kayıtları Bundle'a
   çevirir (Observation + LOINC/UCUM, EKG için SampledData). Hasta kaynağı takma
   kimliklidir (`AppSettings.patientId`), ad ya da TC kimlik yazılmaz.
 
+- EKG raporu (`EcgScreen`) aylara göre kayıtları ve `EcgFindings`
+  (`lib/data/ecg_analysis.dart`) bulgularını gösterir: ritim, yüksek/düşük
+  kalp hızı, AF belirtisi. Ön değerlendirmedir, tanı değildir; eşikler
+  gerçek kayıtlarla ayarlanacak.
+- Gece olayları `NightEvent` (`lib/data/day_summary.dart`): uyku sırasında
+  düşük HRV, yüksek/düşük nabız ve SpO2 düşüşü Ana Sayfa zaman çizelgesinde
+  uyanma ve uykuya dalmayla birlikte saat sırasıyla görünür. Eşikler tarama
+  değeridir, gerçek kayıtlarla ayarlanacak.
 - HRV ayrıntısı ve VO2 Max `lib/data/hrv_analysis.dart` (0x63 PPI'dan);
   enerji skoru, haftalık rapor ve rozetler `lib/data/progress.dart`. Rozetler
   saklanmaz, her açılışta geçmişten hesaplanır. Adım hedefi `dailyStepGoal`.
+- Biyolojik yaş raporu, uyku, nabız ve adım verisinin eksiksiz olduğu 21 gün
+  üst üste toplanınca açılır (`BioAgeCollection`, `lib/data/insights.dart`);
+  o zamana kadar `BiologicalAgeScreen` veri toplama ilerlemesini gösterir.
+- Uyku ayrıntısı `SleepAnalysis` (`lib/data/sleep_analysis.dart`): skor,
+  örüntü (yatakta kalma, verimlilik, dalma süresi, uyku borcu), evre payları
+  ve ideal aralıklar, uyku sırasında nabız/SpO2/HRV, şekerlemeler. Günlük
+  toparlanma `DayRecovery` (`lib/data/recovery.dart`): HRV ve dinlenik nabzın
+  14 günlük olağana göre durumu, uyku skoru ve stres; Ana Sayfa'daki
+  "Günlük toparlanma" göstergesi `RecoveryScreen`'i açar. Olmayan veri gizlenir.
+- Ana Sayfa görünümü `HomeSky` (`lib/ui/theme.dart`) renkleriyle: gökyüzü
+  degradesi ve dağ (`lib/ui/widgets/home/sky.dart`), enerji kristali
+  (`energy_gem.dart`) ve gezinme çubuğundaki yuvarlak AI düğmesi. Görseller
+  kodla çizilir; üreticinin resim, logo ya da marka adı kullanılmaz. Gün serisi
+  `dataStreak`, antrenman planı `showTrainingPlan` (`training_plan.dart`,
+  toparlanma düzeyine göre yoğunluk ve nabız bölgesi).
+- Tüm ekranlar aynı gökyüzü paletini kullanır: `AppColors.cam` zemini
+  (lacivert-mavi-gece degradesi) ve koyu yarı saydam cam kartlar `HomeSky`
+  ile uyumludur. Renk değişikliği tokenlarda yapılır, ekrana sabit renk
+  yazılmaz; `test/theme_test.dart` kontrastı denetler. Dağ silueti
+  `CamBackground` içinde ekranın altında sabittir (kısılmış renklerle);
+  kartlar yarı saydamdır, dağ kartların içinden görünür.
+- Günlük yük `DayStrain` (`lib/data/strain.dart`), 0–21: uyanıkken nabzın
+  dinlenik nabız üstündeki payı (TRIMP benzeri), egzersizler ve adımlar;
+  ideal aralık toparlanma skoruna göre. Ana Sayfa "Günlük yük" göstergesi
+  `StrainScreen`'i açar. Toparlanma ve yük ekranları ortak parçaları
+  (`lib/ui/widgets/score_dial.dart`: halka, açıklama, AI kartı, eğilim)
+  paylaşır.
+- Egzersiz raporu `WorkoutReport` (`lib/data/workout_report.dart`):
+  egzersiz yükü (günlük yükle aynı TRIMP, 0–21), MET (kalori / kilo × saat),
+  günün toparlanması, nabız aralığı ve bölgeler; `WorkoutDetailScreen`
+  gösterir. Egzersiz bitince bileklik geçmişe kayıt yazmadıysa ya da
+  senkron sürüyorsa egzersiz son anlık veriden kaydedilir
+  (`ActiveExercise.toWorkout`); bitir komutu süre sınırlıdır.
+- Egzersiz sekmesi (`ExerciseScreen`): toplam süre/sayı, Koşu/Bisiklet/
+  Yürüyüş/Daha fazla, harita zemininde GPS/iç mekan seçici, süre hedefi ve
+  GO; kayıtlar `WorkoutRecordsScreen`. Harita `CamMap`
+  (`lib/ui/widgets/cam_map.dart`, google_maps_flutter, koyu stil). Anahtar
+  depoya yazılmaz: `MAPS_API_KEY` (GitHub gizli değeri ya da
+  `android/key.properties` içinde `mapsApiKey`) ve
+  `--dart-define=GOOGLE_MAPS=true`. Anahtar yoksa, web'de ve testlerde
+  kodla çizilmiş zemin (`CityPainter`) görünür.
+- Konum paylaşımı (`LocationScreen`, `lib/data/location_share.dart`):
+  varsayılan kapalı, kişi/grup seçilerek açılır (`CommunityService.
+  setLocationShare`), ayar bellekte (yeniden açılışta kapalı). Açıkken
+  `LocationReporter` uygulama açıkken 5 dk'da bir konumu gönderir ve her
+  sekmenin üstünde `LocationSharingBanner` görünür. Telefonda
+  `PhoneLocationSource` (geolocator), web/testte sahte. Portal karşılığı
+  henüz yok; sahte sunucuda Elif ve Ahmet konum paylaşır.
+- Sağlık asistanı Vita (`AssistantScreen`, gezinme çubuğundaki AI
+  düğmesi): `AssistantFacts` (`lib/data/assistant.dart`) günün özet
+  sayılarını toplar. Portal ve yapay zeka rızası varsa soru portalın
+  `POST /assistant` ucuna gider (`portal/lib/src/assistant.dart`, Claude API
+  aracısı; `ANTHROPIC_API_KEY` yalnızca sunucuda). Yoksa ya da sunucuya
+  ulaşılamazsa `offlineReply` (`lib/ui/assistant_replies.dart`) dört dilde
+  anahtar sözcüklerle yanıtlar. Teşhis ve ilaç yok; acil belirtide önce 112.
 
 ## Portal (`portal/`)
 

@@ -16,7 +16,11 @@ class GlassNavBar extends StatelessWidget {
     required this.selectedIndex,
     required this.onSelected,
     required this.semanticLabel,
+    this.trailing,
   });
+
+  /// Menünün yanında (sonda) duran yuvarlak düğme, ör. AI.
+  final Widget? trailing;
 
   static const height = 70.0;
 
@@ -41,48 +45,62 @@ class GlassNavBar extends StatelessWidget {
       maxScaleFactor: 1.3,
       child: Padding(
         padding: EdgeInsets.fromLTRB(20, 0, 20, bottom + 10),
-        child: Semantics(
-          container: true,
-          explicitChildNodes: true,
-          label: semanticLabel,
-          child: DecoratedBox(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(35),
-              boxShadow: [
-                BoxShadow(
-                  color: c.shadow,
-                  blurRadius: 36,
-                  offset: const Offset(0, 16),
-                ),
-              ],
-            ),
-            child: SizedBox(
-              height: height,
-              child: GlassCard(
-                radius: 35,
-                blur: true,
-                baseColor: c.navBase,
-                padding: const EdgeInsets.all(7),
-                child: Row(
-                  children: [
-                    for (var i = 0; i < items.length; i++)
-                      Expanded(
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 2),
-                          child: _NavButton(
-                            item: items[i],
-                            active: i == selectedIndex,
-                            onTap: () => onSelected(i),
+        child: _withTrailing(
+          Semantics(
+            container: true,
+            explicitChildNodes: true,
+            label: semanticLabel,
+            child: DecoratedBox(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(35),
+                boxShadow: [
+                  BoxShadow(
+                    color: c.shadow,
+                    blurRadius: 36,
+                    offset: const Offset(0, 16),
+                  ),
+                ],
+              ),
+              child: SizedBox(
+                height: height,
+                child: GlassCard(
+                  radius: 35,
+                  blur: true,
+                  baseColor: c.navBase,
+                  padding: const EdgeInsets.all(7),
+                  child: Row(
+                    children: [
+                      for (var i = 0; i < items.length; i++)
+                        Expanded(
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 2),
+                            child: _NavButton(
+                              item: items[i],
+                              active: i == selectedIndex,
+                              onTap: () => onSelected(i),
+                            ),
                           ),
                         ),
-                      ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),
           ),
         ),
       ),
+    );
+  }
+
+  Widget _withTrailing(Widget bar) {
+    final t = trailing;
+    if (t == null) return bar;
+    return Row(
+      children: [
+        Expanded(child: bar),
+        const SizedBox(width: 10),
+        SizedBox.square(dimension: height, child: t),
+      ],
     );
   }
 }

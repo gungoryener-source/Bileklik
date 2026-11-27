@@ -7,19 +7,21 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'data/assistant.dart';
 import 'data/billing.dart';
 import 'data/community.dart';
 import 'data/connections.dart';
 import 'data/feedback.dart';
 import 'data/health_platform.dart';
 import 'data/health_store.dart';
+import 'data/location_share.dart';
 import 'data/plugin_health_platform.dart';
 import 'data/portal.dart';
 import 'data/secrets.dart';
 import 'data/sqlite_health_store.dart';
 import 'device/ble_transport.dart';
+import 'device/device_log.dart';
 import 'device/fake_device.dart';
-import 'device/transport.dart';
 import 'l10n/l10n.dart';
 import 'state/app_settings.dart';
 import 'state/device_controller.dart';
@@ -35,6 +37,19 @@ Future<void> main() async {
   SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
   SystemChrome.setSystemUIOverlayStyle(camSystemOverlay);
   LicenseRegistry.addLicense(_fontLicense);
+  // Açılıştaki bir adım (güvenli depo, şifreli veritabanı…) hata verir ya da
+  // takılırsa uygulama açılış ekranında kalmasın; hatayı gösteren ekran açılır.
+  try {
+    runApp(await _start().timeout(const Duration(seconds: 20)));
+  } catch (e, s) {
+    FlutterError.reportError(
+      FlutterErrorDetails(exception: e, stack: s, library: 'bileklik'),
+    );
+    runApp(StartupErrorApp(error: e, stack: s));
+  }
+}
+
+Future<Widget> _start() async {
   // Web demosu portala bağlı değilse saklanacak gizli değer yok. Portala
   // bağlıysa oturum anahtarı sayfa yenilenince kaybolmasın diye tarayıcının
   // deposunda (flutter_secure_storage web, WebCrypto ile) tutulur.
@@ -42,26 +57,104 @@ Future<void> main() async {
       ? MemorySecretStore()
       : DeviceSecretStore();
   final settings = await AppSettings.load(secrets: secrets);
+  final prefs = await SharedPreferences.getInstance();
+  final real =
+      _usesRealDevices &&
+      !(prefs.getBool(DeviceController.demoModeKey) ?? false);
+  // Telefon konumu yalnızca konum paylaşımı açıkken istenir.
+  if (_isPhone) LocationSource.instance = PhoneLocationSource();
+  final log = DeviceLog();
   final controller = DeviceController(
-    await _transport(),
+    LoggingTransport(real ? BleTransport(prefs: prefs) : FakeDevice(), log),
     store: await _openStore(secrets),
     wearDetection: settings.wearDetection,
+    autoReconnect: real,
+    isDemo: !real,
+    log: log,
+  );
+  log.event(
+    'uygulama açıldı: ${real ? 'gerçek bileklik' : 'demo (sahte bileklik)'}',
   );
   // Tarayıcı demosunda sahte bileklik hemen bağlanır; veriler ilk ekranda
-  // görünsün. Telefonda kullanıcı eşleştirir.
-  if (kIsWeb) unawaited(controller.connect());
+  // görünsün. Telefonda eşleştirilmiş bileklik varsa ona bağlanılır, yoksa
+  // kullanıcı eşleştirir; bağlantı koparsa kendiliğinden yeniden denenir.
+  if (kIsWeb) {
+    unawaited(controller.connect());
+  } else if (real) {
+    unawaited(controller.start());
+    _lifecycle = AppLifecycleListener(onResume: controller.onResumed);
+  }
   final portal = _portal(settings, controller);
-  runApp(
-    BileklikApp(
-      controller: controller,
-      settings: settings,
-      healthExport: _healthExport(controller),
-      connections: portal?.connections,
-      community: portal?.community,
-      feedback: portal?.feedback,
-      account: portal?.account,
-    ),
+  return BileklikApp(
+    controller: controller,
+    settings: settings,
+    healthExport: _healthExport(controller),
+    connections: portal?.connections,
+    community: portal?.community,
+    feedback: portal?.feedback,
+    account: portal?.account,
   );
+}
+
+/// Açılış başarısız olunca gösterilen ekran: hata metni kopyalanıp bize
+/// gönderilebilir.
+class StartupErrorApp extends StatelessWidget {
+  const StartupErrorApp({super.key, required this.error, this.stack});
+
+  final Object error;
+  final StackTrace? stack;
+
+  @override
+  Widget build(BuildContext context) {
+    final details = '$error\n\n${stack ?? ''}';
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      theme: buildTheme(),
+      localizationsDelegates: AppLocalizations.localizationsDelegates,
+      supportedLocales: AppLocalizations.supportedLocales,
+      home: Builder(
+        builder: (context) {
+          final l = context.l10n;
+          return Scaffold(
+            body: SafeArea(
+              child: ListView(
+                padding: const EdgeInsets.all(24),
+                children: [
+                  Text(
+                    l.startupFailedTitle,
+                    style: Theme.of(context).textTheme.headlineSmall,
+                  ),
+                  const SizedBox(height: 12),
+                  Text(l.startupFailedBody),
+                  const SizedBox(height: 16),
+                  FilledButton.icon(
+                    onPressed: () =>
+                        Clipboard.setData(ClipboardData(text: details)),
+                    icon: const Icon(Icons.copy),
+                    label: Text(l.startupFailedCopy),
+                    style: FilledButton.styleFrom(
+                      minimumSize: const Size.fromHeight(48),
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  Directionality(
+                    textDirection: TextDirection.ltr,
+                    child: SelectableText(
+                      details,
+                      style: const TextStyle(
+                        fontFamily: 'monospace',
+                        fontSize: 12,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          );
+        },
+      ),
+    );
+  }
 }
 
 /// Portal adresi: `--dart-define=PORTAL_URL=https://portal.example/`; web
@@ -90,6 +183,8 @@ _portal(AppSettings settings, DeviceController controller) {
   );
   final service = PortalConnectionService(client);
   final community = PortalCommunityService(client);
+  // Sağlık asistanı sunucudaki dil modelini (anahtar sunucuda) kullanır.
+  PortalAssistantService.instance = PortalAssistantService(client);
   // Uygulama açık kaldıkça yeni ölçümleri yükler.
   PortalUploader(
     client: client,
@@ -118,21 +213,22 @@ _portal(AppSettings settings, DeviceController controller) {
 /// sağlık platformuyla çalışır (bileklik elde yokken). Web'de her zaman demo.
 const _demo = bool.fromEnvironment('DEMO');
 
-bool get _usesRealDevices =>
-    !_demo &&
+bool get _usesRealDevices => !_demo && _isPhone;
+
+bool get _isPhone =>
     !kIsWeb &&
     (defaultTargetPlatform == TargetPlatform.android ||
         defaultTargetPlatform == TargetPlatform.iOS);
 
-/// Telefonda gerçek BLE, demoda ve web'de sahte cihaz.
-Future<DeviceTransport> _transport() async => _usesRealDevices
-    ? BleTransport(prefs: await SharedPreferences.getInstance())
-    : FakeDevice();
+/// Uygulama öne gelince kopmuş bilekliğe yeniden bağlanmak için.
+// ignore: unused_element
+AppLifecycleListener? _lifecycle;
 
 /// Telefonda Health Connect / Apple Health'e gerçekten yazar; demoda null
 /// (BileklikApp sahte platformu kullanır).
 HealthExportService? _healthExport(DeviceController controller) =>
-    _usesRealDevices
+    // Demo kipinde sahte ölçümler Health Connect'e yazılmasın.
+    !controller.isDemo
     ? HealthExportService(PluginHealthPlatform(), controller.store)
     : null;
 

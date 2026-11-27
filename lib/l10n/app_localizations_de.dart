@@ -2923,4 +2923,1349 @@ class AppLocalizationsDe extends AppLocalizations {
   @override
   String get subscriptionFreeText =>
       'Messungen, Verlauf, Teilen und Warnungen sind kostenlos. Der KI-Bericht ist in Premium enthalten.';
+
+  @override
+  String get diagTitle => 'Verbindungsdiagnose';
+
+  @override
+  String get diagOpen => 'Verbindungsdiagnose';
+
+  @override
+  String get diagIntro =>
+      'Zeigt, was bei den ersten Tests mit dem Armband passiert. Wenn etwas nicht klappt, teilen Sie das Protokoll.';
+
+  @override
+  String get diagMode => 'Modus';
+
+  @override
+  String get diagModeReal => 'Echtes Armband';
+
+  @override
+  String get diagModeDemo => 'Demo (simuliertes Armband)';
+
+  @override
+  String get diagConnecting => 'Verbindung wird hergestellt';
+
+  @override
+  String get diagPaired => 'Gekoppelt mit';
+
+  @override
+  String get diagNone => 'Keines';
+
+  @override
+  String get diagWriteLength => 'Paketgröße';
+
+  @override
+  String diagWriteLengthValue(int bytes) {
+    return '$bytes Byte';
+  }
+
+  @override
+  String get diagNextRetry => 'Nächster Versuch';
+
+  @override
+  String diagNextRetryValue(int seconds) {
+    return 'in $seconds s';
+  }
+
+  @override
+  String get diagReconnect => 'Jetzt verbinden';
+
+  @override
+  String get diagForget => 'Armband vergessen';
+
+  @override
+  String get diagSectionTests => 'Testbefehle';
+
+  @override
+  String get diagTestsHint =>
+      'Im verbundenen Zustand tippen; gesendete und empfangene Pakete erscheinen unten im Protokoll.';
+
+  @override
+  String get diagTestBattery => 'Akku';
+
+  @override
+  String get diagTestTime => 'Uhrzeit';
+
+  @override
+  String get diagTestFirmware => 'Version';
+
+  @override
+  String get diagTestProfile => 'Persönliche Daten';
+
+  @override
+  String get diagTestRealtime => 'Live-Daten';
+
+  @override
+  String get diagRawLabel => 'Rohbefehl (hex)';
+
+  @override
+  String get diagRawHint => 'z. B. 13 — CRC wird automatisch ergänzt';
+
+  @override
+  String get diagRawSend => 'Senden';
+
+  @override
+  String get diagRawInvalid => 'Gültige Hex-Bytes eingeben (höchstens 15).';
+
+  @override
+  String get diagNotConnected => 'Verbinden Sie zuerst das Armband.';
+
+  @override
+  String get diagSectionScan => 'Alle Geräte suchen';
+
+  @override
+  String get diagScanHint =>
+      'Wenn das Armband beim Koppeln nicht erscheint, suchen Sie hier: Alle Bluetooth-Geräte in der Nähe werden ohne Namensfilter angezeigt.';
+
+  @override
+  String get diagScan => 'Suchen';
+
+  @override
+  String get diagScanning => 'Suche läuft…';
+
+  @override
+  String get diagScanEmpty => 'Keine Geräte gefunden.';
+
+  @override
+  String get diagConnectTo => 'Verbinden';
+
+  @override
+  String get diagSectionDeveloper => 'Entwickler';
+
+  @override
+  String get diagDemoSwitch => 'Demo-Modus (simuliertes Armband)';
+
+  @override
+  String get diagDemoHint =>
+      'Wirkt nach dem Schließen und erneuten Öffnen der App. Demodaten werden nicht in Health Connect geschrieben.';
+
+  @override
+  String get diagRestartNeeded => 'App schließen und erneut öffnen.';
+
+  @override
+  String get diagSectionLog => 'Protokoll';
+
+  @override
+  String get diagLogEmpty => 'Noch keine Einträge.';
+
+  @override
+  String get diagShare => 'Protokoll teilen';
+
+  @override
+  String get diagClear => 'Protokoll leeren';
+
+  @override
+  String diagLogCount(int count) {
+    return '$count Zeilen, neueste zuerst';
+  }
+
+  @override
+  String get startupFailedTitle => 'Die App konnte nicht starten';
+
+  @override
+  String get startupFailedBody =>
+      'Beim Start ist ein Fehler aufgetreten. Kopieren Sie den Text unten und senden Sie ihn uns, damit wir ihn in einer neuen Version beheben.';
+
+  @override
+  String get startupFailedCopy => 'Fehler kopieren';
+
+  @override
+  String get ecgPrepareTitle => 'EKG-Messung';
+
+  @override
+  String get ecgHandQuestion => 'An welchem Handgelenk tragen Sie das Armband?';
+
+  @override
+  String get ecgHandLeft => 'Linke Hand';
+
+  @override
+  String get ecgHandRight => 'Rechte Hand';
+
+  @override
+  String get ecgWearTip =>
+      'Tragen Sie das Armband für beste Ergebnisse etwa einen Finger breit über dem Handgelenkknochen mit vollem Hautkontakt. Halten Sie die Hand während der Messung locker und ruhig.';
+
+  @override
+  String get ecgStartMeasure => 'Messung starten';
+
+  @override
+  String get ecgTip1Title => 'Setzen Sie sich, Füße flach auf den Boden';
+
+  @override
+  String get ecgTip1Body =>
+      'Aufrechtes Sitzen verringert den Einfluss der Haltung.';
+
+  @override
+  String get ecgTip2Title => 'Legen Sie die Arme auf einen Tisch';
+
+  @override
+  String get ecgTip2Body =>
+      'Arme locker lassen; Muskelspannung stört das Signal.';
+
+  @override
+  String get ecgTip3Title => 'Nicht sprechen, nicht bewegen';
+
+  @override
+  String get ecgTip3Body => 'Das Signal wird klarer und stabiler.';
+
+  @override
+  String get ecgTip4Title =>
+      'Legen Sie einen Finger der anderen Hand auf den Metallkontakt des Armbands';
+
+  @override
+  String get ecgTip4Body =>
+      'Leichtes Berühren genügt; nicht drücken und bis zum Ende warten.';
+
+  @override
+  String get ecgWaitingTitle => 'Finger auf den Metallkontakt legen';
+
+  @override
+  String get ecgWaitingBody =>
+      'Der Countdown startet von selbst, sobald das Armband ein Signal erkennt.';
+
+  @override
+  String ecgWaitingElapsed(int seconds) {
+    return 'Warte auf Signal · $seconds s';
+  }
+
+  @override
+  String get ecgNoSignalYetTitle => 'Noch kein Signal';
+
+  @override
+  String get ecgNoSignalYetBody =>
+      'Achten Sie auf Hautkontakt des Armbands und darauf, dass Ihr Finger den Metallkontakt berührt. Wenn es so bleibt, senden Sie uns das Verbindungsprotokoll.';
+
+  @override
+  String get ecgSecondsUnit => 's';
+
+  @override
+  String get ecgLiveDisclaimer =>
+      'Die Live-Kurve dient nur der Information, nicht der Diagnose. Nach der Messung öffnet sich ein ausführlicher Bericht.';
+
+  @override
+  String get diagCleared => 'Protokoll geleert. Neue Pakete kommen weiter an.';
+
+  @override
+  String get ecgReportTitle => 'EKG-Bericht';
+
+  @override
+  String get ecgReportPickMonth => 'Monat wählen';
+
+  @override
+  String ecgReportMonthEmpty(String month) {
+    return 'Keine EKG-Aufnahmen im $month.';
+  }
+
+  @override
+  String ecgReportMonthCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count Aufnahmen',
+      one: '1 Aufnahme',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String ecgReportWhen(String date, String time) {
+    return '$date, $time';
+  }
+
+  @override
+  String get ecgFindingNormalOk => 'Normaler Herzrhythmus erkannt';
+
+  @override
+  String get ecgFindingNormalFlagged => 'Auffälligkeiten im Herzrhythmus';
+
+  @override
+  String get ecgFindingHighOk => 'Keine hohe Herzfrequenz erkannt';
+
+  @override
+  String get ecgFindingHighFlagged =>
+      'Hohe Herzfrequenz erkannt (über 100 bpm)';
+
+  @override
+  String get ecgFindingLowOk => 'Keine niedrige Herzfrequenz erkannt';
+
+  @override
+  String get ecgFindingLowFlagged =>
+      'Niedrige Herzfrequenz erkannt (unter 50 bpm)';
+
+  @override
+  String get ecgFindingAfibOk => 'Keine Anzeichen von Vorhofflimmern erkannt';
+
+  @override
+  String get ecgFindingAfibFlagged =>
+      'Unregelmäßiger Rhythmus: mögliches Vorhofflimmern, zeigen Sie die Aufnahme Ihrer Ärztin oder Ihrem Arzt';
+
+  @override
+  String get ecgFindingUnknown =>
+      'Aufnahme nicht auswertbar: zu wenige Schläge erkannt oder Signal gestört';
+
+  @override
+  String get ecgReportNote =>
+      'Die Befunde sind eine automatische Ersteinschätzung der App, keine Diagnose.';
+
+  @override
+  String get healthMeasure => 'Messen';
+
+  @override
+  String get healthAdd => 'Hinzufügen';
+
+  @override
+  String healthGoalValue(String goal) {
+    return '/$goal';
+  }
+
+  @override
+  String get healthSleepShort => 'Zu wenig Schlaf';
+
+  @override
+  String get healthSleepGood => 'Ausreichend Schlaf';
+
+  @override
+  String get healthSleepLong => 'Langer Schlaf';
+
+  @override
+  String get healthEcgUnassessed => 'Nicht auswertbar';
+
+  @override
+  String get healthVo2Unit => 'ml/kg/min';
+
+  @override
+  String get healthVo2NeedsData =>
+      'Benötigt Ihr Alter und einige Tage Herzfrequenz';
+
+  @override
+  String get healthEstimated => 'Geschätzt';
+
+  @override
+  String get homeLateNightTitle => 'Es ist spät, versuchen Sie sich auszuruhen';
+
+  @override
+  String get homeLateNightBody =>
+      'Früh zu ruhen ist wichtig dafür, wie Sie sich morgen fühlen. Legen Sie das Handy weg und entspannen Sie die Augen.';
+
+  @override
+  String get homeLowRecoveryTitle => 'Ihr Körper erholt sich heute';
+
+  @override
+  String get homeLowRecoveryBody =>
+      'Ihre nächtliche HRV ist niedriger als sonst. Wählen Sie leichte Bewegung und frühen Schlaf statt hartem Training.';
+
+  @override
+  String get homeSleepScore => 'Schlaf';
+
+  @override
+  String get homeDailyRecovery => 'Tägliche Erholung';
+
+  @override
+  String get homeDailyLoad => 'Tägliche Belastung';
+
+  @override
+  String homeGaugeSemantics(String label, String value) {
+    return '$label: $value';
+  }
+
+  @override
+  String get homeAiTitle => 'KI-Analyse von heute';
+
+  @override
+  String get homeAiBody =>
+      'Erstellen Sie aus den heutigen Daten eine persönliche Gesundheitsübersicht.';
+
+  @override
+  String get homeSleepExcellent => 'Ausgezeichnet';
+
+  @override
+  String get homeSleepGood => 'Gut';
+
+  @override
+  String get homeSleepFair => 'Ganz gut';
+
+  @override
+  String get homeSleepPoor => 'Schwach';
+
+  @override
+  String get homeSleepDuration => 'Dauer';
+
+  @override
+  String get homeActivity => 'Aktivität';
+
+  @override
+  String get homeActivityLow => 'Zu wenig Bewegung';
+
+  @override
+  String get homeActivityFair => 'Mäßige Bewegung';
+
+  @override
+  String get homeActivityGood => 'Gute Bewegung';
+
+  @override
+  String get homeActivityDone => 'Ziel erreicht';
+
+  @override
+  String get homeKilometers => 'Kilometer';
+
+  @override
+  String get homeFellAsleep => 'Eingeschlafen';
+
+  @override
+  String get homeFellAsleepSubtitle => 'Schlafbeginn';
+
+  @override
+  String get homeNightLowHrv => 'Niedrige HRV';
+
+  @override
+  String get homeNightHighHr => 'Hoher Puls im Schlaf';
+
+  @override
+  String get homeNightLowHr => 'Niedriger Puls im Schlaf';
+
+  @override
+  String get homeNightLowSpo2 => 'Abfall des Blutsauerstoffs';
+
+  @override
+  String get homeRestingLabel => 'Ruhepuls';
+
+  @override
+  String get homeAverageLabel => 'Durchschnitt';
+
+  @override
+  String get homeLowestLabel => 'Niedrigster';
+
+  @override
+  String get bioAgeCollectingTitle => 'Datenerfassung läuft';
+
+  @override
+  String bioAgeCollectingBody(int days) {
+    return 'Für Ihren ersten Bericht zum biologischen Alter sind mindestens $days aufeinanderfolgende Tage mit vollständigen Daten nötig.';
+  }
+
+  @override
+  String get bioAgeCollectingProgress => 'Erfasste Daten';
+
+  @override
+  String bioAgeCollectingDays(int done, int total) {
+    return '$done/$total Tage';
+  }
+
+  @override
+  String bioAgeRemaining(int days) {
+    return 'Noch $days Tage';
+  }
+
+  @override
+  String get bioAgeKeepGoing =>
+      'Tragen Sie das Armband weiter, bald sehen Sie Ihr biologisches Alter.';
+
+  @override
+  String get bioAgeDailyRequired => 'Täglich benötigte Daten';
+
+  @override
+  String get bioAgeDataSleep => 'Schlaf';
+
+  @override
+  String get bioAgeDataHeartRate => 'Herzfrequenz';
+
+  @override
+  String get bioAgeDataExercise => 'Training';
+
+  @override
+  String get bioAgeDataSteps => 'Schritte';
+
+  @override
+  String get bioAgeToday => 'Heute erhalten';
+
+  @override
+  String get bioAgeNotToday => 'Heute noch nicht';
+
+  @override
+  String get bioAgeOptional => 'Optional';
+
+  @override
+  String get bioAgeAgeCheckTitle =>
+      'Prüfen Sie, ob das Alter in Ihrem Profil stimmt.';
+
+  @override
+  String get bioAgeAgeCheckBody =>
+      'Ihr biologisches Alter und Ihre Gesundheitswerte werden aus Ihrem echten Alter berechnet.';
+
+  @override
+  String get bioAgeTipsTitle => 'Tipps zur Datenerfassung';
+
+  @override
+  String get bioAgeTipSleep =>
+      'Tragen Sie das Armband jede Nacht, damit Ihr Schlaf vollständig erfasst wird.';
+
+  @override
+  String get bioAgeTipHeart =>
+      'Tragen Sie das Armband den ganzen Tag für genaue Herzfrequenzwerte.';
+
+  @override
+  String get bioAgeTipActivity =>
+      'Erfassen Sie Ihre täglichen Schritte und Trainings.';
+
+  @override
+  String get sleepScoreLabel => 'Schlafwert';
+
+  @override
+  String get sleepBedTime => 'Eingeschlafen';
+
+  @override
+  String get sleepWakeTime => 'Aufgewacht';
+
+  @override
+  String get sleepDistribution => 'Schlafphasen';
+
+  @override
+  String get sleepIdealRange => 'Idealbereich';
+
+  @override
+  String sleepIdealValue(int low, int high) {
+    return 'Ideal $low–$high %';
+  }
+
+  @override
+  String get sleepPattern => 'Schlafmuster';
+
+  @override
+  String get sleepInBed => 'Zeit im Bett';
+
+  @override
+  String get sleepEfficiency => 'Schlafeffizienz';
+
+  @override
+  String get sleepLatency => 'Einschlafdauer';
+
+  @override
+  String get sleepDebt => 'Schlafdefizit';
+
+  @override
+  String get sleepNoDebt => 'Keins';
+
+  @override
+  String get sleepDuringHeartRate => 'Herzfrequenz im Schlaf';
+
+  @override
+  String get sleepDuringSpo2 => 'Blutsauerstoff im Schlaf';
+
+  @override
+  String get sleepDuringHrv => 'HRV im Schlaf';
+
+  @override
+  String get sleepNaps => 'Nickerchen';
+
+  @override
+  String get sleepNoNaps => 'Keine Nickerchen';
+
+  @override
+  String sleepSummaryDebt(String duration, String debt) {
+    return 'Sie haben $duration geschlafen; gemessen am Bedarf von 8 Stunden fehlen Ihnen $debt.';
+  }
+
+  @override
+  String sleepSummaryEnough(String duration) {
+    return 'Sie haben $duration geschlafen und Ihren Tagesbedarf gedeckt.';
+  }
+
+  @override
+  String get sleepSummaryLowDeep =>
+      'Ihr Tiefschlaf liegt unter dem empfohlenen Bereich; abends auf Koffein und schwere Mahlzeiten zu verzichten kann helfen.';
+
+  @override
+  String sleepSummaryLowEfficiency(int value) {
+    return 'Sie lagen lange wach im Bett; Ihre Schlafeffizienz beträgt $value %.';
+  }
+
+  @override
+  String get sleepSummaryNote =>
+      'Dies ist eine eigene Einschätzung der App aus den Armbanddaten, keine medizinische.';
+
+  @override
+  String sleepStagesChart(String start, String end) {
+    return 'Schlafphasen von $start bis $end';
+  }
+
+  @override
+  String get recoveryTitle => 'Erholung';
+
+  @override
+  String get recoveryExcellent => 'Ausgezeichnet';
+
+  @override
+  String get recoveryGood => 'Gut';
+
+  @override
+  String get recoveryNormal => 'Normal';
+
+  @override
+  String get recoveryPoor => 'Schwach';
+
+  @override
+  String get recoveryInadequate => 'Unzureichend';
+
+  @override
+  String get recoveryOptimal => 'Optimal';
+
+  @override
+  String get recoveryAssessment => 'Einschätzung';
+
+  @override
+  String get recoveryCommentExcellent =>
+      'Sie sind sehr gut erholt; ein guter Tag für intensives Training.';
+
+  @override
+  String get recoveryCommentGood =>
+      'Sie sind gut erholt; Ihr übliches Training passt.';
+
+  @override
+  String get recoveryCommentNormal =>
+      'Die Erholung ist mittel, leichte Müdigkeit ist vorhanden. Leichte Aktivität wird empfohlen.';
+
+  @override
+  String get recoveryCommentPoor =>
+      'Die Erholung ist schwach; machen Sie heute langsamer und ruhen Sie sich aus.';
+
+  @override
+  String get recoveryCommentInadequate =>
+      'Ihr Körper hat sich nicht ausreichend erholt; ruhen Sie sich heute aus und gehen Sie früh schlafen.';
+
+  @override
+  String get recoveryHrvLow =>
+      'Ihre HRV liegt unter Ihrem Normalwert; Ihr Körper erholt sich vielleicht noch.';
+
+  @override
+  String get recoveryRhrHigh => 'Ihr Ruhepuls ist höher als üblich.';
+
+  @override
+  String get recoveryNote =>
+      'Eigene Schätzung der App aus den Armbanddaten, keine medizinische.';
+
+  @override
+  String get recoveryIndicators => 'Erholungswerte';
+
+  @override
+  String get recoveryRestingHr => 'Ruhepuls';
+
+  @override
+  String get recoveryHrv => 'HRV';
+
+  @override
+  String get recoveryStress => 'Stress';
+
+  @override
+  String get recoverySleepScore => 'Schlafwert';
+
+  @override
+  String recoveryUsual(String value) {
+    return 'Üblich $value';
+  }
+
+  @override
+  String get recoveryTrend => 'Verlauf';
+
+  @override
+  String get recoveryWeek => 'Woche';
+
+  @override
+  String get recoveryMonth => 'Monat';
+
+  @override
+  String recoveryRange(String start, String end) {
+    return '$start – $end';
+  }
+
+  @override
+  String get recoveryEmpty =>
+      'Für die Erholung sind nächtliche HRV- oder Schlafdaten nötig. Tragen Sie das Armband heute Nacht.';
+
+  @override
+  String get recoveryTrendEmpty => 'Keine Daten in diesem Zeitraum';
+
+  @override
+  String recoveryRingSemantics(String value, String level) {
+    return 'Tägliche Erholung $value, $level';
+  }
+
+  @override
+  String recoveryTrendSemantics(String range, String value) {
+    return 'Erholungsverlauf $range, Durchschnitt $value';
+  }
+
+  @override
+  String homeStreakSemantics(int days) {
+    return '$days Tage Daten in Folge';
+  }
+
+  @override
+  String get homeEnergyLabel => 'Energie';
+
+  @override
+  String get homeEnergyHigh => 'Hoch';
+
+  @override
+  String get homeEnergyNormal => 'Normal';
+
+  @override
+  String get homeEnergyLow => 'Niedrig';
+
+  @override
+  String homeEnergyVsYesterday(String delta) {
+    return '$delta gegenüber gestern';
+  }
+
+  @override
+  String get homeEnergySame => 'Wie gestern';
+
+  @override
+  String get homeEnergyNoCompare => 'Kein Vergleich mit gestern';
+
+  @override
+  String get homeTrainingPlan => 'Trainingsplan';
+
+  @override
+  String get homeAiCollapse => 'Einklappen';
+
+  @override
+  String get homeAiExpand => 'Ausklappen';
+
+  @override
+  String homeAiUpdated(String time) {
+    return 'Daten aktualisiert um $time';
+  }
+
+  @override
+  String get homeAiReanalyze => 'Neu analysieren';
+
+  @override
+  String get homeAiNoData =>
+      'Für heute gibt es noch keine Daten. Tragen Sie das Armband und synchronisieren Sie.';
+
+  @override
+  String homeAiLoad(String value) {
+    return 'Ihre Tagesbelastung heute: $value/21.';
+  }
+
+  @override
+  String get navAi => 'KI-Analyse';
+
+  @override
+  String get planTitle => 'Trainingsplan für heute';
+
+  @override
+  String get planIntenseTitle => 'Intensives Training';
+
+  @override
+  String get planIntenseBody =>
+      '35–45 Minuten Lauf- oder Intervalltraining sind möglich.';
+
+  @override
+  String get planModerateTitle => 'Mittleres Training';
+
+  @override
+  String get planModerateBody =>
+      '30–40 Minuten zügiges Gehen, Radfahren oder lockeres Laufen.';
+
+  @override
+  String get planLightTitle => 'Leichte Aktivität';
+
+  @override
+  String get planLightBody => '20–30 Minuten lockeres Gehen oder Dehnen.';
+
+  @override
+  String get planRestTitle => 'Ruhetag';
+
+  @override
+  String get planRestBody =>
+      '10–15 Minuten Dehnen oder Atemübungen; meiden Sie intensives Training.';
+
+  @override
+  String planZone(String range, String zone) {
+    return 'Zielpuls: $range ($zone)';
+  }
+
+  @override
+  String planBasedOn(String value) {
+    return 'Empfohlen anhand Ihrer heutigen Erholung ($value).';
+  }
+
+  @override
+  String get planNeedsData =>
+      'Für den Plan sind nächtliche HRV- oder Schlafdaten nötig. Tragen Sie das Armband heute Nacht.';
+
+  @override
+  String get planNote =>
+      'Eigene Empfehlung der App; hören Sie bei Beschwerden auf.';
+
+  @override
+  String get planNeedsAge =>
+      'Geben Sie für den Zielpuls Ihr Alter unter Persönliche Daten ein.';
+
+  @override
+  String get bioAgeUnlockTitle => 'Biologisches Alter freischalten';
+
+  @override
+  String bioAgeUnlockIn(int days) {
+    return 'Ihr biologisches Alter wird in $days Tagen freigeschaltet.';
+  }
+
+  @override
+  String get strainVeryLow => 'Sehr niedrig';
+
+  @override
+  String get strainNormal => 'Normal';
+
+  @override
+  String get strainModerate => 'Mäßig';
+
+  @override
+  String get strainHigh => 'Hoch';
+
+  @override
+  String get strainOverloaded => 'Überlastet';
+
+  @override
+  String get strainAiTitle => 'KI-Analyse';
+
+  @override
+  String get strainCommentVeryLow =>
+      'Ihre Gesamtbelastung blieb heute niedrig, der Körper wurde kaum beansprucht.';
+
+  @override
+  String get strainCommentNormal =>
+      'Ihre Belastung war heute ausgewogen; die Alltagsaktivität ist gut.';
+
+  @override
+  String get strainCommentModerate =>
+      'Sie haben sich heute mäßig gefordert; diese Belastung stärkt die Fitness.';
+
+  @override
+  String get strainCommentHigh =>
+      'Ihre Belastung war heute hoch; unterstützen Sie die Erholung mit Schlaf und Flüssigkeit.';
+
+  @override
+  String get strainCommentOverloaded =>
+      'Ihr Körper wurde heute sehr stark belastet; planen Sie morgen einen leichten Tag und ruhen Sie sich gut aus.';
+
+  @override
+  String strainBelowOptimal(String low, String high) {
+    return 'Ihrer Erholung nach könnten Sie sich heute etwas mehr bewegen; Ihre optimale Belastung liegt bei $low–$high.';
+  }
+
+  @override
+  String strainAboveOptimal(String low, String high) {
+    return 'Ihre Belastung liegt über dem für Ihre Erholung optimalen Bereich ($low–$high); gönnen Sie sich Ruhe.';
+  }
+
+  @override
+  String get strainNote =>
+      'Eigene Schätzung der App aus Puls, Schritten und Training; keine medizinische Aussage.';
+
+  @override
+  String get strainIndicators => 'Belastungswerte';
+
+  @override
+  String get strainSleep => 'Schlaf';
+
+  @override
+  String get strainAvgHr => 'Ø Puls';
+
+  @override
+  String get strainSteps => 'Schritte';
+
+  @override
+  String get strainKcal => 'kcal';
+
+  @override
+  String get strainWorkout => 'Training';
+
+  @override
+  String get strainEmpty =>
+      'Für die Tagesbelastung braucht es Puls-, Schritt- oder Trainingsdaten. Tragen Sie das Armband über den Tag.';
+
+  @override
+  String strainRingSemantics(String value, String level) {
+    return 'Tagesbelastung $value, $level';
+  }
+
+  @override
+  String strainTrendSemantics(String range, String value) {
+    return 'Belastungsverlauf $range, Durchschnitt $value';
+  }
+
+  @override
+  String get strainOpen => 'Details zur Tagesbelastung';
+
+  @override
+  String get wrTitle => 'Trainingsbericht';
+
+  @override
+  String get wrLoad => 'Trainingsbelastung';
+
+  @override
+  String get wrAvgHr => 'Ø Puls';
+
+  @override
+  String get wrMaxHr => 'Max. Puls';
+
+  @override
+  String get wrMet => 'Metabolisches Äquivalent';
+
+  @override
+  String get wrMetLight => 'Leichte Aktivität';
+
+  @override
+  String get wrMetModerate => 'Fitness erhalten';
+
+  @override
+  String get wrMetVigorous => 'Ausdauer aufbauen';
+
+  @override
+  String get wrMetCommentLight =>
+      'Ein Training mit leichter Intensität; es regt den Kreislauf an und unterstützt die Erholung.';
+
+  @override
+  String get wrMetCommentModerate =>
+      'Ein Training mit mittlerer Intensität; es hält Herz und Muskeln fit.';
+
+  @override
+  String get wrMetCommentVigorous =>
+      'Ein Training mit hoher Intensität. Solche Aktivitäten erhöhen den Puls schnell und verbessern Herz-Lungen-Leistung, Muskelkraft und Ausdauer deutlich.';
+
+  @override
+  String get wrRecovery => 'Erholung';
+
+  @override
+  String wrHrChart(String unit) {
+    return 'Puls ($unit)';
+  }
+
+  @override
+  String get wrRange => 'Bereich';
+
+  @override
+  String get wrZones => 'Pulszonen';
+
+  @override
+  String get wrNote =>
+      'Eigene Schätzung der App aus Puls und Kalorien; keine medizinische Aussage.';
+
+  @override
+  String wrLoadSemantics(String value) {
+    return 'Trainingsbelastung $value von 21';
+  }
+
+  @override
+  String wrGaugeSemantics(String label, String value, String level) {
+    return '$label $value, $level';
+  }
+
+  @override
+  String wrChartSemantics(String range) {
+    return 'Puls während des Trainings $range';
+  }
+
+  @override
+  String get wrNoHeartRate =>
+      'Während dieses Trainings wurde kein Puls gemessen.';
+
+  @override
+  String get exerciseRecords => 'Trainingsaufzeichnungen ansehen';
+
+  @override
+  String get exerciseRecordsTitle => 'Trainingsaufzeichnungen';
+
+  @override
+  String get exerciseMinutesUnit => 'Min.';
+
+  @override
+  String get exerciseTotalTime => 'Gesamtzeit';
+
+  @override
+  String get exerciseTotalCount => 'Anzahl gesamt';
+
+  @override
+  String get exerciseMore => 'Mehr';
+
+  @override
+  String get exerciseGps => 'GPS-Training';
+
+  @override
+  String get exerciseIndoor => 'Indoor-Training';
+
+  @override
+  String get exerciseGpsNote =>
+      'Routenaufzeichnung gibt es noch nicht; die Distanz kommt vom Armband.';
+
+  @override
+  String get exerciseGpsOff => 'GPS-Signal wird nicht genutzt';
+
+  @override
+  String get exerciseGo => 'LOS';
+
+  @override
+  String exerciseGoSemantics(String sport) {
+    return '$sport-Training starten';
+  }
+
+  @override
+  String get exerciseResume => 'Öffnen';
+
+  @override
+  String get exerciseGoal => 'Ziel';
+
+  @override
+  String get exerciseGoalNone => 'Kein Ziel';
+
+  @override
+  String get exerciseGoalTitle => 'Zeitziel';
+
+  @override
+  String get exerciseSportTitle => 'Sportart';
+
+  @override
+  String liveGoal(String value) {
+    return 'Ziel: $value';
+  }
+
+  @override
+  String get liveGoalReached => 'Ziel erreicht';
+
+  @override
+  String get locationTitle => 'Standortfreigabe';
+
+  @override
+  String get locationBanner => 'Ihr Standort wird geteilt';
+
+  @override
+  String locationViewers(String names) {
+    return 'Sehen Ihren Standort: $names';
+  }
+
+  @override
+  String get locationOff => 'Ihr Standort wird mit niemandem geteilt.';
+
+  @override
+  String get locationOffShort => 'Aus';
+
+  @override
+  String locationLastSent(String time) {
+    return 'Zuletzt gesendet: $time';
+  }
+
+  @override
+  String get locationWaiting => 'Standort wird ermittelt…';
+
+  @override
+  String get locationStart => 'Freigabe starten';
+
+  @override
+  String get locationChoose => 'Personen wählen';
+
+  @override
+  String get locationStop => 'Freigabe beenden';
+
+  @override
+  String get locationNeedsGroup =>
+      'Um Ihren Standort zu teilen, erstellen Sie zuerst eine Gruppe oder treten Sie einer bei.';
+
+  @override
+  String get locationSharedWithMe => 'Mit Ihnen geteilt';
+
+  @override
+  String get locationNoneShared =>
+      'Noch teilt niemand seinen Standort mit Ihnen.';
+
+  @override
+  String locationUpdated(String time) {
+    return 'Letzter Standort: $time';
+  }
+
+  @override
+  String get locationMe => 'Ich';
+
+  @override
+  String get locationNote =>
+      'Ihr Standort wird nur an die von Ihnen gewählten Personen gesendet und nur, solange die App geöffnet ist. Die Freigabe ist standardmäßig aus und Sie können sie jederzeit beenden.';
+
+  @override
+  String get locationSheetTitle => 'Wer darf meinen Standort sehen?';
+
+  @override
+  String get locationWholeGroup => 'Ganze Gruppe';
+
+  @override
+  String get locationNoMembers => 'Dieser Gruppe ist noch niemand beigetreten.';
+
+  @override
+  String get locationSave => 'Speichern';
+
+  @override
+  String get locationProblemServiceOff =>
+      'Die Standortdienste Ihres Telefons sind aus.';
+
+  @override
+  String get locationProblemDenied =>
+      'Die Standortberechtigung wurde nicht erteilt.';
+
+  @override
+  String get locationProblemDeniedForever =>
+      'Die Standortberechtigung ist aus; Sie können sie in den Telefoneinstellungen aktivieren.';
+
+  @override
+  String get locationProblemFailed =>
+      'Standort konnte nicht ermittelt werden; neuer Versuch in Kürze.';
+
+  @override
+  String get privacyLocationTitle => 'Standort und Karten';
+
+  @override
+  String get privacyLocationBody =>
+      'Die Standortfreigabe ist standardmäßig aus. Wenn Sie sie einschalten, wird der Standort Ihres Telefons nur an die von Ihnen gewählten Gruppenmitglieder gesendet, nur solange die App geöffnet ist und alle paar Minuten; außer dem letzten Standort und seiner Zeit wird kein Standortverlauf gespeichert. Solange die Freigabe läuft, ist auf jedem Bildschirm der App ein Hinweis zu sehen, und Sie können sie jederzeit unter Profil > Gesundheitsgemeinschaft > Standortfreigabe beenden. Karten werden mit Google Maps angezeigt: Beim Öffnen einer Karte wird eine Anfrage für die Kartenkacheln des angezeigten Bereichs an Google gesendet; Ihre Gesundheitsdaten werden nicht an Google gesendet. Wie Google diese Daten verarbeitet, steht in der Google-Datenschutzerklärung.';
+
+  @override
+  String get asstName => 'Vita';
+
+  @override
+  String get asstTitle => 'Vita · Gesundheitsassistent';
+
+  @override
+  String get asstTagline => 'Kleine Schritte, großer Unterschied';
+
+  @override
+  String get asstHello => 'Hallo, ich bin';
+
+  @override
+  String get asstIntro => 'Ich beantworte Ihre Fragen anhand Ihrer Daten.';
+
+  @override
+  String get asstInputHint => 'Nachricht eingeben…';
+
+  @override
+  String get asstSend => 'Senden';
+
+  @override
+  String get asstTyping => 'Vita schreibt';
+
+  @override
+  String get asstOffline =>
+      'Offline: Antworten werden auf Ihrem Telefon nach Regeln erstellt.';
+
+  @override
+  String get asstOnline =>
+      'KI verbunden: Ihre Frage und Kennzahlen gehen pseudonymisiert an unseren Server.';
+
+  @override
+  String get asstNote =>
+      'Vita stellt keine Diagnosen und empfiehlt keine Medikamente. Rufen Sie im Notfall 112 an.';
+
+  @override
+  String get asstSuggestReport =>
+      'Kannst du den heutigen Gesundheitsbericht erstellen?';
+
+  @override
+  String get asstSuggestTraining =>
+      'Kannst du mir passend zu meiner Gesundheit einen Trainingsplan vorschlagen?';
+
+  @override
+  String get asstSuggestSleep => 'Wie habe ich letzte Nacht geschlafen?';
+
+  @override
+  String get asstSuggestHeart => 'Wie steht es um mein Herz und EKG?';
+
+  @override
+  String get asstGreeting =>
+      'Hallo! Ich bin Vita, Ihr Gesundheitsassistent. Fragen Sie mich zu Schlaf, Puls, Erholung, Tagesbelastung, Stress, EKG-Aufnahmen, biologischem Alter, Schritten und Trainings.';
+
+  @override
+  String get asstThanks =>
+      'Gern geschehen! Ich bin da, wenn Sie noch eine Frage haben.';
+
+  @override
+  String get asstUnknown =>
+      'Das habe ich nicht ganz verstanden. Sie können fragen: Wie habe ich geschlafen, heutiger Bericht, Puls, Erholung, Belastung, Stress, EKG, biologisches Alter, Schritte oder ein passendes Training.';
+
+  @override
+  String get asstEmergency =>
+      'Was Sie beschreiben, kann ein Notfall sein. Rufen Sie sofort 112 an oder gehen Sie in die nächste Notaufnahme. Armband und App können keinen Notfall beurteilen.';
+
+  @override
+  String get asstNoDiagnosis =>
+      'Ich kann keine Diagnose stellen und keine Medikamente oder Dosen empfehlen; fragen Sie bitte Ihren Arzt. Ich kann Ihnen sagen, was ich in Ihren Daten sehe.';
+
+  @override
+  String get asstNoData =>
+      'Dazu gibt es noch nicht genug Daten. Je mehr Sie das Armband tragen und synchronisieren, desto mehr kann ich sagen.';
+
+  @override
+  String asstSleep(String start, String end, String duration) {
+    return 'Letzte Nacht haben Sie $duration geschlafen, von $start bis $end.';
+  }
+
+  @override
+  String asstSleepScore(String score) {
+    return 'Ihr Schlafwert liegt bei $score/100.';
+  }
+
+  @override
+  String asstSleepEfficiency(String value) {
+    return 'Sie haben $value % der Zeit im Bett geschlafen.';
+  }
+
+  @override
+  String asstSleepDebt(String duration) {
+    return 'Sie haben $duration weniger geschlafen als nötig; gehen Sie heute etwas früher ins Bett.';
+  }
+
+  @override
+  String get asstSleepGood =>
+      'Ihre Schlafdauer liegt im empfohlenen Bereich von 7–9 Stunden; weiter so.';
+
+  @override
+  String asstRecovery(String score, String level) {
+    return 'Ihre Erholung heute: $score/100 ($level).';
+  }
+
+  @override
+  String asstHrv(String value, String baseline) {
+    return 'Ihre nächtliche HRV beträgt $value ms; Ihr 14-Tage-Normalwert $baseline ms.';
+  }
+
+  @override
+  String asstRestingHr(String value, String baseline) {
+    return 'Ihr Ruhepuls liegt bei $value Schlägen/min; normal sind $baseline.';
+  }
+
+  @override
+  String asstHeart(String avg, String min, String max) {
+    return 'Heute liegt Ihr Durchschnittspuls bei $avg Schlägen/min; niedrigster $min, höchster $max.';
+  }
+
+  @override
+  String asstEcg(String date, String result) {
+    return 'Ihr letztes EKG ($date): $result.';
+  }
+
+  @override
+  String get asstEcgNormal => 'regelmäßiger Rhythmus, nichts Auffälliges';
+
+  @override
+  String get asstEcgFlagged =>
+      'es gibt einen auffälligen Befund; zeigen Sie die Aufnahme am besten Ihrem Arzt';
+
+  @override
+  String get asstEcgUnknown =>
+      'die Aufnahme reicht für eine Bewertung nicht aus';
+
+  @override
+  String get asstEcgNone =>
+      'Sie haben noch keine EKG-Aufnahme. Sie können eine über den EKG-Bildschirm im Tab Gesundheit erstellen.';
+
+  @override
+  String get asstEcgNote =>
+      'Die EKG-Bewertung ist eine automatische Vorabeinschätzung, keine Diagnose.';
+
+  @override
+  String asstStrain(String value, String low, String high) {
+    return 'Ihre Belastung heute: $value/21; ideal für Ihre Erholung sind $low–$high.';
+  }
+
+  @override
+  String asstStrainPlain(String value) {
+    return 'Ihre Belastung heute: $value/21.';
+  }
+
+  @override
+  String asstStress(String value) {
+    return 'Ihr durchschnittlicher Stress heute: $value/100.';
+  }
+
+  @override
+  String get asstStressTip =>
+      'Einige Minuten langsames Atmen und kurze Spaziergänge über den Tag können Stress senken.';
+
+  @override
+  String asstSteps(String steps, String goal) {
+    return 'Sie sind heute $steps Schritte gegangen; das Tagesziel ist $goal.';
+  }
+
+  @override
+  String asstStepsLeft(String left) {
+    return 'Noch $left Schritte; ein kurzer Spaziergang reicht.';
+  }
+
+  @override
+  String get asstStepsDone =>
+      'Sie haben Ihr Tagesziel an Schritten erreicht, gut gemacht!';
+
+  @override
+  String asstBioAge(String bio, String age) {
+    return 'Ihr biologisches Alter ist $bio, Ihr Kalenderalter $age.';
+  }
+
+  @override
+  String get asstBioYounger =>
+      'Ihre Daten zeigen ein jüngeres Bild als Ihre Altersgruppe.';
+
+  @override
+  String get asstBioOlder =>
+      'Regelmäßiger Schlaf und mehr Bewegung können helfen, diesen Abstand zu verringern.';
+
+  @override
+  String asstBioCollecting(String days) {
+    return 'Daten für den Bericht zum biologischen Alter werden gesammelt: $days/21 Tage.';
+  }
+
+  @override
+  String get asstBioNeedsAge =>
+      'Geben Sie Ihr Alter im Profil an, um ein biologisches Alter zu erhalten.';
+
+  @override
+  String asstWorkouts(String count, String duration) {
+    return 'In den letzten 7 Tagen haben Sie $count Trainings gemacht, insgesamt $duration.';
+  }
+
+  @override
+  String get asstTrainingHigh =>
+      'Ihre Erholung ist hoch, heute passt ein intensives Training. Beispiel: 10 Min. Aufwärmen, 4 × 4 Min. zügig laufen oder radeln (Pulszone 3–4) mit 3 Min. locker dazwischen, 10 Min. Auslaufen.';
+
+  @override
+  String get asstTrainingMid =>
+      'Ihre Erholung ist mittel: Heute passen 30–45 Min. zügiges Gehen, Radfahren oder lockeres Laufen (Pulszone 2).';
+
+  @override
+  String get asstTrainingLow =>
+      'Ihre Erholung ist niedrig: Gönnen Sie sich heute Ruhe. 20–30 Min. leichtes Gehen oder Dehnen reichen.';
+
+  @override
+  String get asstTrainingUnknown =>
+      'Ihre Erholung lässt sich noch nicht berechnen; beginnen Sie mit 30 Min. zügigem Gehen und steigern Sie nach Gefühl.';
+
+  @override
+  String asstTrainingWeek(String duration) {
+    return 'Wochenziel: mindestens 150 Min. moderate Bewegung; in den letzten 7 Tagen waren es $duration.';
+  }
+
+  @override
+  String get asstTrainingSafety =>
+      'Hören Sie sofort auf, wenn Brustschmerzen, Schwindel oder ungewöhnliche Atemnot auftreten.';
+
+  @override
+  String asstReportIntro(String date) {
+    return 'Ihre Zusammenfassung für $date:';
+  }
+
+  @override
+  String get asstFailed =>
+      'Server nicht erreichbar; diese Antwort wurde auf dem Telefon erstellt.';
+
+  @override
+  String get privacyAiTitle => 'Künstliche Intelligenz';
+
+  @override
+  String get privacyAiBody =>
+      'Der KI-Bericht und der Gesundheitsassistent Vita arbeiten standardmäßig regelbasiert auf Ihrem Telefon; es verlassen keine Daten das Telefon. Wenn Sie in die KI-Nutzung einwilligen, werden für den Bericht Wochenzusammenfassungen und für den Assistenten Ihre Frage, Ihre letzten Nachrichten und die Tageskennzahlen (Schlafdauer, Erholung, Belastung, Durchschnittspuls, Stress, Schritte, Ergebnis der EKG-Vorabeinschätzung, Alter) pseudonymisiert an unser Portal gesendet; das Portal leitet sie zur Beantwortung an den KI-Dienst Claude von Anthropic (USA) weiter. Name, Ausweisnummer, Geräteadresse und Rohmesswerte werden nicht gesendet. Sie können die Einwilligung jederzeit im Bildschirm KI-Bericht widerrufen. Die KI stellt keine Diagnosen und empfiehlt keine Medikamente.';
 }

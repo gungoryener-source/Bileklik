@@ -14,10 +14,23 @@ abstract class DeviceTransport {
 
   /// Yakındaki bileklikleri arar. Bluetooth kapalıysa, izin yoksa ya da
   /// telefon BLE desteklemiyorsa [ScanException] fırlatır.
-  Future<List<DiscoveredDevice>> scan();
+  ///
+  /// [all] doğruysa ad ve servis süzgeci uygulanmaz; bilekliğin yayın adı
+  /// varsayılandan farklıysa tanılama ekranı onu da bulabilsin diye.
+  Future<List<DiscoveredDevice>> scan({bool all = false});
 
   /// [connect] çağrısının bağlanacağı bilekliği seçer (aramada bulunan).
   void select(DiscoveredDevice device);
+
+  /// Daha önce bir bileklik seçildi mi (uygulama açılınca kendiliğinden
+  /// bağlanmak için).
+  bool get hasPairedDevice;
+
+  /// Seçili bilekliğin platform kimliği (Android'de MAC adresi).
+  String? get pairedId;
+
+  /// Saklanan eşleştirmeyi siler.
+  void forget();
 
   Future<void> connect();
   Future<void> disconnect();
@@ -66,6 +79,7 @@ class DiscoveredDevice {
     required this.address,
     required this.rssi,
     this.platformId,
+    this.details,
   });
 
   final String name;
@@ -81,6 +95,9 @@ class DiscoveredDevice {
   final String? platformId;
 
   String get connectId => platformId ?? address;
+
+  /// Tanılama için yayındaki servisler ve üretici verisi (onaltılık).
+  final String? details;
 }
 
 /// Kullanıcının yazdığı adresi "A1:B2:C3:D4:E5:F6" biçimine getirir;

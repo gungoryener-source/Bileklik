@@ -40,7 +40,7 @@ class ActivityGauge extends StatelessWidget {
             alignment: Alignment.bottomCenter,
             child: Padding(
               padding: const EdgeInsets.only(bottom: 4),
-              child: child,
+              child: FittedBox(fit: BoxFit.scaleDown, child: child),
             ),
           ),
         ),

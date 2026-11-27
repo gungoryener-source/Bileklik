@@ -31,8 +31,8 @@ Future<void> main(List<String> args) async {
     stdout.writeln(EncryptedPortalStore.newKey());
     return;
   }
-  final demo = args.contains('--demo') ||
-      Platform.environment['PORTAL_DEMO'] == '1';
+  final demo =
+      args.contains('--demo') || Platform.environment['PORTAL_DEMO'] == '1';
   final key = Platform.environment['PORTAL_KEY'];
   final path = Platform.environment['PORTAL_DATA'];
   final PortalStore store;
@@ -70,8 +70,14 @@ Future<void> main(List<String> args) async {
   if (args.contains('--list-clinicians')) {
     for (final a in store.clinicians()) {
       stdout.writeln(
-        [a.id, a.role.name, a.email ?? '-', a.name, a.licenseNo ?? '-',
-          a.verified ? 'doğrulandı' : 'DOĞRULANMADI'].join('\t'),
+        [
+          a.id,
+          a.role.name,
+          a.email ?? '-',
+          a.name,
+          a.licenseNo ?? '-',
+          a.verified ? 'doğrulandı' : 'DOĞRULANMADI',
+        ].join('\t'),
       );
     }
     return;
@@ -117,6 +123,11 @@ Future<void> main(List<String> args) async {
     store,
     // HTTPS arkasında: panel çerezi yalnızca şifreli bağlantıda gider.
     secureCookie: Platform.environment['PORTAL_HTTPS'] == '1',
+    // Sağlık asistanı: anahtar yalnızca sunucuda; yoksa uygulama
+    // çevrimdışı kurallarla yanıtlar.
+    assistant: AssistantEndpoint(
+      apiKey: Platform.environment['ANTHROPIC_API_KEY'],
+    ),
   );
   // Deneme verisi bir kez kurulur; kalıcı depoda yeniden başlatınca
   // tekrarlanmaz.
@@ -130,13 +141,13 @@ Future<void> main(List<String> args) async {
   final Handler app = site == null
       ? api.handler
       : Cascade().add(_static(Directory(site))).add(api.handler).handler;
-  final handler = const Pipeline()
-      .addMiddleware(logRequests())
-      .addHandler(app);
+  final handler = const Pipeline().addMiddleware(logRequests()).addHandler(app);
   final port = int.tryParse(Platform.environment['PORT'] ?? '') ?? 8080;
   final server = await io.serve(handler, InternetAddress.anyIPv4, port);
   stdout.writeln('Portal http://${server.address.host}:${server.port}');
-  stdout.writeln('Hekim paneli http://${server.address.host}:${server.port}/panel');
+  stdout.writeln(
+    'Hekim paneli http://${server.address.host}:${server.port}/panel',
+  );
 }
 
 String? _arg(List<String> args, String name) {
@@ -178,7 +189,8 @@ Handler _static(Directory root) {
       return Response.notFound('');
     }
     var file = File([base, ...segments].join(Platform.pathSeparator));
-    if (r.url.path.isEmpty || r.url.path.endsWith('/') ||
+    if (r.url.path.isEmpty ||
+        r.url.path.endsWith('/') ||
         await Directory(file.path).exists()) {
       if (r.url.path.isNotEmpty && !r.url.path.endsWith('/')) {
         return Response.movedPermanently('/${r.url.path}/');

@@ -1511,5 +1511,887 @@
   },
   "subscriptionCancelled": "Abonelik iptal edildi.",
   "subscriptionKeep": "Aboneliği koru",
-  "subscriptionFreeText": "Ölçüm, geçmiş, paylaşım ve uyarılar ücretsiz. Yapay zeka raporu Premium ile açılır."
+  "subscriptionFreeText": "Ölçüm, geçmiş, paylaşım ve uyarılar ücretsiz. Yapay zeka raporu Premium ile açılır.",
+  "diagTitle": "Bağlantı tanılama",
+  "diagOpen": "Bağlantı tanılama",
+  "diagIntro": "Bileklikle ilk denemelerde ne olduğunu gösterir. Bir sorun olursa kaydı paylaşın.",
+  "diagMode": "Kip",
+  "diagModeReal": "Gerçek bileklik",
+  "diagModeDemo": "Demo (sahte bileklik)",
+  "diagConnecting": "Bağlanıyor",
+  "diagPaired": "Eşleştirilen",
+  "diagNone": "Yok",
+  "diagWriteLength": "Paket boyu",
+  "diagWriteLengthValue": "{bytes} bayt",
+  "@diagWriteLengthValue": {
+    "placeholders": {
+      "bytes": {
+        "type": "int"
+      }
+    }
+  },
+  "diagNextRetry": "Yeniden deneme",
+  "diagNextRetryValue": "{seconds} sn sonra",
+  "@diagNextRetryValue": {
+    "placeholders": {
+      "seconds": {
+        "type": "int"
+      }
+    }
+  },
+  "diagReconnect": "Şimdi bağlan",
+  "diagForget": "Eşleştirmeyi unut",
+  "diagSectionTests": "Test komutları",
+  "diagTestsHint": "Bağlıyken dokunun; gönderilen ve gelen paketler aşağıdaki kayıtta görünür.",
+  "diagTestBattery": "Pil",
+  "diagTestTime": "Saat",
+  "diagTestFirmware": "Sürüm",
+  "diagTestProfile": "Kişisel bilgi",
+  "diagTestRealtime": "Anlık veri",
+  "diagRawLabel": "Ham komut (onaltılık)",
+  "diagRawHint": "ör. 13 — CRC kendiliğinden eklenir",
+  "diagRawSend": "Gönder",
+  "diagRawInvalid": "Geçerli onaltılık bayt yazın (en çok 15).",
+  "diagNotConnected": "Önce bilekliğe bağlanın.",
+  "diagSectionScan": "Tüm cihazları ara",
+  "diagScanHint": "Bileklik eşleştirme ekranında çıkmıyorsa buradan arayın: ad süzgeci olmadan yakındaki tüm Bluetooth cihazları listelenir.",
+  "diagScan": "Ara",
+  "diagScanning": "Aranıyor…",
+  "diagScanEmpty": "Cihaz bulunamadı.",
+  "diagConnectTo": "Bağlan",
+  "diagSectionDeveloper": "Geliştirici",
+  "diagDemoSwitch": "Demo kipi (sahte bileklik)",
+  "diagDemoHint": "Uygulamayı kapatıp açınca geçerli olur. Demo verileri Health Connect'e yazılmaz.",
+  "diagRestartNeeded": "Uygulamayı kapatıp yeniden açın.",
+  "diagSectionLog": "Kayıt",
+  "diagLogEmpty": "Henüz kayıt yok.",
+  "diagShare": "Kaydı paylaş",
+  "diagClear": "Kaydı temizle",
+  "diagLogCount": "{count} satır, en yenisi üstte",
+  "@diagLogCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "startupFailedTitle": "Uygulama başlatılamadı",
+  "startupFailedBody": "Açılırken bir hata oluştu. Aşağıdaki metni kopyalayıp bize gönderin; düzeltip yeni sürüm çıkaracağız.",
+  "startupFailedCopy": "Hatayı kopyala",
+  "ecgPrepareTitle": "EKG ölçümü",
+  "ecgHandQuestion": "Bileklik hangi bileğinizde?",
+  "ecgHandLeft": "Sol el",
+  "ecgHandRight": "Sağ el",
+  "ecgWearTip": "En iyi sonuç için bilekliği bilek kemiğinin yaklaşık bir parmak üstüne takın ve ciltle tam temas ettiğinden emin olun. Ölçüm sırasında elinizi gevşek ve hareketsiz tutun.",
+  "ecgStartMeasure": "Ölçümü başlat",
+  "ecgTip1Title": "Oturun, ayaklarınızı yere düz basın",
+  "ecgTip1Body": "Dik oturmak duruşun ölçümü etkilemesini azaltır.",
+  "ecgTip2Title": "Kollarınızı masaya koyun",
+  "ecgTip2Body": "Kollarınız gevşek olsun; kas gerginliği sinyali bozar.",
+  "ecgTip3Title": "Konuşmayın, hareket etmeyin",
+  "ecgTip3Body": "Sinyal daha net ve kararlı olur.",
+  "ecgTip4Title": "Diğer elinizin parmağını bilekliğin metal temas noktasına koyun",
+  "ecgTip4Body": "Hafifçe dokunmanız yeterli; bastırmayın ve ölçüm bitene kadar bekleyin.",
+  "ecgWaitingTitle": "Parmağınızı metal temas noktasına koyun",
+  "ecgWaitingBody": "Bileklik sinyali algılayınca sayaç kendiliğinden başlar.",
+  "ecgWaitingElapsed": "Sinyal bekleniyor · {seconds} sn",
+  "@ecgWaitingElapsed": {
+    "placeholders": {
+      "seconds": {
+        "type": "int"
+      }
+    }
+  },
+  "ecgNoSignalYetTitle": "Sinyal henüz gelmedi",
+  "ecgNoSignalYetBody": "Bilekliğin cildinize tam değdiğinden ve parmağınızın metal noktaya dokunduğundan emin olun. Sorun sürerse bağlantı kaydını bize gönderin.",
+  "ecgSecondsUnit": "sn",
+  "ecgLiveDisclaimer": "Canlı dalga yalnızca bilgi içindir, tanı için kullanılmaz. Ölçüm bitince ayrıntılı kayıt açılır.",
+  "diagCleared": "Kayıt temizlendi. Yeni paketler gelmeye devam eder.",
+  "ecgReportTitle": "EKG raporu",
+  "ecgReportPickMonth": "Ay seçin",
+  "ecgReportMonthEmpty": "{month} ayında EKG kaydı yok.",
+  "@ecgReportMonthEmpty": {
+    "placeholders": {
+      "month": {
+        "type": "String"
+      }
+    }
+  },
+  "ecgReportMonthCount": "{count, plural, =1{1 kayıt} other{{count} kayıt}}",
+  "@ecgReportMonthCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "ecgReportWhen": "{date}, {time}",
+  "@ecgReportWhen": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      },
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "ecgFindingNormalOk": "Normal kalp ritmi görüldü",
+  "ecgFindingNormalFlagged": "Ritimde normal dışı bulgu var",
+  "ecgFindingHighOk": "Yüksek kalp hızı görülmedi",
+  "ecgFindingHighFlagged": "Yüksek kalp hızı görüldü (100 bpm üstü)",
+  "ecgFindingLowOk": "Düşük kalp hızı görülmedi",
+  "ecgFindingLowFlagged": "Düşük kalp hızı görüldü (50 bpm altı)",
+  "ecgFindingAfibOk": "Atriyal fibrilasyon belirtisi görülmedi",
+  "ecgFindingAfibFlagged": "Düzensiz ritim: atriyal fibrilasyon olabilir, kaydı hekiminize gösterin",
+  "ecgFindingUnknown": "Kayıt değerlendirilemedi: yeterli atım bulunamadı ya da sinyal gürültülü",
+  "ecgReportNote": "Bulgular uygulamanın otomatik ön değerlendirmesidir, tanı değildir.",
+  "healthMeasure": "Ölçüm",
+  "healthAdd": "Ekle",
+  "healthGoalValue": "/{goal}",
+  "@healthGoalValue": {
+    "placeholders": {
+      "goal": {
+        "type": "String"
+      }
+    }
+  },
+  "healthSleepShort": "Uyku süresi yetersiz",
+  "healthSleepGood": "Yeterli uyku",
+  "healthSleepLong": "Uzun uyku",
+  "healthEcgUnassessed": "Değerlendirilemedi",
+  "healthVo2Unit": "ml/kg/dk",
+  "healthVo2NeedsData": "Yaşınız ve birkaç günlük nabız gerekiyor",
+  "healthEstimated": "Tahmini",
+  "homeLateNightTitle": "Gece geç oldu, dinlenmeyi deneyin",
+  "homeLateNightBody": "Erken dinlenmek yarın nasıl hissedeceğiniz için önemli. Ekranı bırakıp gözlerinizi dinlendirin.",
+  "homeLowRecoveryTitle": "Bugün vücudunuz toparlanıyor",
+  "homeLowRecoveryBody": "Gece HRV'niz olağandan düşük. Yoğun antrenman yerine hafif hareket ve erken uyku seçin.",
+  "homeSleepScore": "Uyku",
+  "homeDailyRecovery": "Günlük toparlanma",
+  "homeDailyLoad": "Günlük yük",
+  "homeGaugeSemantics": "{label}: {value}",
+  "@homeGaugeSemantics": {
+    "placeholders": {
+      "label": {
+        "type": "String"
+      },
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "homeAiTitle": "Bugünkü AI analizi",
+  "homeAiBody": "Bugünkü verilerinizden kişisel bir sağlık özeti oluşturun.",
+  "homeSleepExcellent": "Mükemmel",
+  "homeSleepGood": "İyi",
+  "homeSleepFair": "Fena değil",
+  "homeSleepPoor": "Zayıf",
+  "homeSleepDuration": "Süre",
+  "homeActivity": "Aktivite",
+  "homeActivityLow": "Yetersiz hareket",
+  "homeActivityFair": "Orta hareket",
+  "homeActivityGood": "İyi hareket",
+  "homeActivityDone": "Hedefe ulaşıldı",
+  "homeKilometers": "Kilometre",
+  "homeFellAsleep": "Uykuya daldınız",
+  "homeFellAsleepSubtitle": "Uyku başlangıcı",
+  "homeNightLowHrv": "Düşük HRV",
+  "homeNightHighHr": "Uykuda yüksek nabız",
+  "homeNightLowHr": "Uykuda düşük nabız",
+  "homeNightLowSpo2": "Kan oksijeni düşüşü",
+  "homeRestingLabel": "Dinlenik nabız",
+  "homeAverageLabel": "Ortalama",
+  "homeLowestLabel": "En düşük",
+  "bioAgeCollectingTitle": "Veri toplanıyor",
+  "bioAgeCollectingBody": "İlk biyolojik yaş raporunuz için en az {days} gün kesintisiz ve eksiksiz veri gerekiyor.",
+  "@bioAgeCollectingBody": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "bioAgeCollectingProgress": "Toplanan veri",
+  "bioAgeCollectingDays": "{done}/{total} gün",
+  "@bioAgeCollectingDays": {
+    "placeholders": {
+      "done": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "bioAgeRemaining": "{days} gün kaldı",
+  "@bioAgeRemaining": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "bioAgeKeepGoing": "Bilekliği takmayı sürdürün; biyolojik yaşınızı yakında göreceksiniz.",
+  "bioAgeDailyRequired": "Her gün gereken veriler",
+  "bioAgeDataSleep": "Uyku",
+  "bioAgeDataHeartRate": "Nabız",
+  "bioAgeDataExercise": "Egzersiz",
+  "bioAgeDataSteps": "Adım",
+  "bioAgeToday": "Bugün geldi",
+  "bioAgeNotToday": "Bugün henüz yok",
+  "bioAgeOptional": "İsteğe bağlı",
+  "bioAgeAgeCheckTitle": "Profilinizdeki yaşın doğru olduğundan emin olun.",
+  "bioAgeAgeCheckBody": "Biyolojik yaşınız ve sağlık ölçütleriniz gerçek yaşınıza göre hesaplanır.",
+  "bioAgeTipsTitle": "Veri toplama ipuçları",
+  "bioAgeTipSleep": "Uykunuzun eksiksiz kaydedilmesi için her gece bilekliği takarak uyuyun.",
+  "bioAgeTipHeart": "Nabzın doğru ölçülmesi için bilekliği gün boyu takın.",
+  "bioAgeTipActivity": "Günlük adımınızı ve egzersizlerinizi kaydedin.",
+  "sleepScoreLabel": "Uyku skoru",
+  "sleepBedTime": "Uykuya dalma",
+  "sleepWakeTime": "Uyanma",
+  "sleepDistribution": "Uyku dağılımı",
+  "sleepIdealRange": "İdeal aralık",
+  "sleepIdealValue": "İdeal %{low}–{high}",
+  "@sleepIdealValue": {
+    "placeholders": {
+      "low": {
+        "type": "int"
+      },
+      "high": {
+        "type": "int"
+      }
+    }
+  },
+  "sleepPattern": "Uyku örüntüsü",
+  "sleepInBed": "Yatakta kalma süresi",
+  "sleepEfficiency": "Uyku verimliliği",
+  "sleepLatency": "Uykuya dalma süresi",
+  "sleepDebt": "Uyku borcu",
+  "sleepNoDebt": "Yok",
+  "sleepDuringHeartRate": "Uyku sırasında nabız",
+  "sleepDuringSpo2": "Uyku sırasında kan oksijeni",
+  "sleepDuringHrv": "Uyku sırasında HRV",
+  "sleepNaps": "Kısa şekerlemeler",
+  "sleepNoNaps": "Kısa şekerleme yok",
+  "sleepSummaryDebt": "Bu uykuda {duration} uyudunuz; günlük 8 saatlik ihtiyacınıza göre {debt} uyku borcunuz var.",
+  "@sleepSummaryDebt": {
+    "placeholders": {
+      "duration": {
+        "type": "String"
+      },
+      "debt": {
+        "type": "String"
+      }
+    }
+  },
+  "sleepSummaryEnough": "Bu uykuda {duration} uyudunuz; günlük ihtiyacınızı karşıladınız.",
+  "@sleepSummaryEnough": {
+    "placeholders": {
+      "duration": {
+        "type": "String"
+      }
+    }
+  },
+  "sleepSummaryLowDeep": "Derin uykunuz önerilen aralığın altında; akşam kafein ve ağır yemekten kaçınmak yardımcı olabilir.",
+  "sleepSummaryLowEfficiency": "Yatakta uyanık geçen süre uzun; uyku verimliliğiniz %{value}.",
+  "@sleepSummaryLowEfficiency": {
+    "placeholders": {
+      "value": {
+        "type": "int"
+      }
+    }
+  },
+  "sleepSummaryNote": "Bilekliğin ölçümlerinden uygulamanın kendi değerlendirmesidir; tıbbi değildir.",
+  "sleepStagesChart": "Uyku evreleri, {start} ile {end} arası",
+  "@sleepStagesChart": {
+    "placeholders": {
+      "start": {
+        "type": "String"
+      },
+      "end": {
+        "type": "String"
+      }
+    }
+  },
+  "recoveryTitle": "Toparlanma",
+  "recoveryExcellent": "Mükemmel",
+  "recoveryGood": "İyi",
+  "recoveryNormal": "Normal",
+  "recoveryPoor": "Zayıf",
+  "recoveryInadequate": "Yetersiz",
+  "recoveryOptimal": "İdeal",
+  "recoveryAssessment": "Değerlendirme",
+  "recoveryCommentExcellent": "Çok iyi toparlandınız; yoğun antrenman için uygun bir gün.",
+  "recoveryCommentGood": "İyi toparlandınız; olağan antrenmanınızı yapabilirsiniz.",
+  "recoveryCommentNormal": "Toparlanma orta düzeyde, hafif yorgunluk var. Hafif aktivite önerilir.",
+  "recoveryCommentPoor": "Toparlanma zayıf; bugün tempoyu düşürün ve dinlenmeye öncelik verin.",
+  "recoveryCommentInadequate": "Vücudunuz yeterince toparlanmadı; bugün dinlenin ve erken yatın.",
+  "recoveryHrvLow": "HRV'niz olağanın altında; vücudunuz hâlâ toparlanıyor olabilir.",
+  "recoveryRhrHigh": "Dinlenik nabzınız olağandan yüksek.",
+  "recoveryNote": "Bilekliğin ölçümlerinden uygulamanın kendi tahminidir; tıbbi değildir.",
+  "recoveryIndicators": "Toparlanma göstergeleri",
+  "recoveryRestingHr": "Dinlenik nabız",
+  "recoveryHrv": "HRV",
+  "recoveryStress": "Stres",
+  "recoverySleepScore": "Uyku skoru",
+  "recoveryUsual": "Olağan {value}",
+  "@recoveryUsual": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "recoveryTrend": "Eğilim",
+  "recoveryWeek": "Hafta",
+  "recoveryMonth": "Ay",
+  "recoveryRange": "{start} – {end}",
+  "@recoveryRange": {
+    "placeholders": {
+      "start": {
+        "type": "String"
+      },
+      "end": {
+        "type": "String"
+      }
+    }
+  },
+  "recoveryEmpty": "Toparlanma için gece HRV'si ya da uyku verisi gerekiyor. Bilekliği bu gece takın.",
+  "recoveryTrendEmpty": "Bu dönemde veri yok",
+  "recoveryRingSemantics": "Günlük toparlanma {value}, {level}",
+  "@recoveryRingSemantics": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      },
+      "level": {
+        "type": "String"
+      }
+    }
+  },
+  "recoveryTrendSemantics": "{range} toparlanma eğilimi, ortalama {value}",
+  "@recoveryTrendSemantics": {
+    "placeholders": {
+      "range": {
+        "type": "String"
+      },
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "homeStreakSemantics": "{days} gün üst üste veri",
+  "@homeStreakSemantics": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "homeEnergyLabel": "Enerji",
+  "homeEnergyHigh": "Yüksek",
+  "homeEnergyNormal": "Normal",
+  "homeEnergyLow": "Düşük",
+  "homeEnergyVsYesterday": "Düne göre {delta}",
+  "@homeEnergyVsYesterday": {
+    "placeholders": {
+      "delta": {
+        "type": "String"
+      }
+    }
+  },
+  "homeEnergySame": "Dünle aynı",
+  "homeEnergyNoCompare": "Dünle karşılaştırma yok",
+  "homeTrainingPlan": "Antrenman planı",
+  "homeAiCollapse": "Daralt",
+  "homeAiExpand": "Genişlet",
+  "homeAiUpdated": "Veriler {time} itibarıyla güncellendi",
+  "@homeAiUpdated": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "homeAiReanalyze": "Yeniden analiz et",
+  "homeAiNoData": "Bugün için analiz edilecek veri henüz yok. Bilekliği takıp eşitleyin.",
+  "homeAiLoad": "Bugünkü günlük yükünüz {value}/21.",
+  "@homeAiLoad": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "navAi": "AI analizi",
+  "planTitle": "Bugünkü antrenman planı",
+  "planIntenseTitle": "Yoğun antrenman",
+  "planIntenseBody": "35–45 dakika tempolu koşu ya da aralıklı antrenman yapabilirsiniz.",
+  "planModerateTitle": "Orta tempolu antrenman",
+  "planModerateBody": "30–40 dakika tempolu yürüyüş, bisiklet ya da hafif koşu.",
+  "planLightTitle": "Hafif aktivite",
+  "planLightBody": "20–30 dakika rahat yürüyüş ya da esneme.",
+  "planRestTitle": "Dinlenme günü",
+  "planRestBody": "10–15 dakika esneme ya da nefes egzersizi; yoğun antrenmandan kaçının.",
+  "planZone": "Hedef nabız: {range} ({zone})",
+  "@planZone": {
+    "placeholders": {
+      "range": {
+        "type": "String"
+      },
+      "zone": {
+        "type": "String"
+      }
+    }
+  },
+  "planBasedOn": "Bugünkü toparlanmanıza ({value}) göre önerilir.",
+  "@planBasedOn": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "planNeedsData": "Plan için gece HRV'si ya da uyku verisi gerekiyor. Bilekliği bu gece takın.",
+  "planNote": "Uygulamanın kendi önerisidir; rahatsızlık hissederseniz durun.",
+  "planNeedsAge": "Hedef nabız için Kişisel bilgiler'e yaşınızı girin.",
+  "bioAgeUnlockTitle": "Biyolojik yaşınızı açın",
+  "bioAgeUnlockIn": "{days} gün sonra kişisel biyolojik yaşınız açılır.",
+  "@bioAgeUnlockIn": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "strainVeryLow": "Çok düşük",
+  "strainNormal": "Normal",
+  "strainModerate": "Orta",
+  "strainHigh": "Yüksek",
+  "strainOverloaded": "Aşırı yüklü",
+  "strainAiTitle": "AI analizi",
+  "strainCommentVeryLow": "Bugün genel yükünüz düşük kaldı; vücudunuz üzerinde çok az zorlanma var.",
+  "strainCommentNormal": "Bugün dengeli bir yük taşıdınız; gündelik hareket iyi düzeyde.",
+  "strainCommentModerate": "Bugün orta düzeyde zorlandınız; bu yük kondisyonu geliştirir.",
+  "strainCommentHigh": "Bugün yüksek yük taşıdınız; iyi uyku ve sıvı ile toparlanmaya özen gösterin.",
+  "strainCommentOverloaded": "Bugün vücudunuz çok yoğun zorlandı; yarın hafif bir gün planlayın ve iyi dinlenin.",
+  "strainBelowOptimal": "Toparlanmanıza göre bugün biraz daha hareket edebilirsiniz; size uygun yük {low}–{high}.",
+  "@strainBelowOptimal": {
+    "placeholders": {
+      "low": {
+        "type": "String"
+      },
+      "high": {
+        "type": "String"
+      }
+    }
+  },
+  "strainAboveOptimal": "Yükünüz toparlanmanıza göre uygun aralığın ({low}–{high}) üstünde; dinlenmeye zaman ayırın.",
+  "@strainAboveOptimal": {
+    "placeholders": {
+      "low": {
+        "type": "String"
+      },
+      "high": {
+        "type": "String"
+      }
+    }
+  },
+  "strainNote": "Nabız, adım ve egzersiz verisinden uygulamanın kendi tahminidir; tıbbi değildir.",
+  "strainIndicators": "Yük göstergeleri",
+  "strainSleep": "Uyku",
+  "strainAvgHr": "Ort. nabız",
+  "strainSteps": "Adım",
+  "strainKcal": "kcal",
+  "strainWorkout": "Egzersiz",
+  "strainEmpty": "Günlük yük için nabız, adım ya da egzersiz verisi gerekiyor. Bilekliği gün boyu takın.",
+  "strainRingSemantics": "Günlük yük {value}, {level}",
+  "@strainRingSemantics": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      },
+      "level": {
+        "type": "String"
+      }
+    }
+  },
+  "strainTrendSemantics": "{range} günlük yük eğilimi, ortalama {value}",
+  "@strainTrendSemantics": {
+    "placeholders": {
+      "range": {
+        "type": "String"
+      },
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "strainOpen": "Günlük yük ayrıntısı",
+  "wrTitle": "Egzersiz raporu",
+  "wrLoad": "Egzersiz yükü",
+  "wrAvgHr": "Ortalama nabız",
+  "wrMaxHr": "Maksimum nabız",
+  "wrMet": "Metabolik eşdeğer",
+  "wrMetLight": "Hafif aktivite",
+  "wrMetModerate": "Kondisyonu koruma",
+  "wrMetVigorous": "Dayanıklılığı güçlendirme",
+  "wrMetCommentLight": "Hafif yoğunlukta bir egzersiz yaptınız; dolaşımı canlandırır ve toparlanmaya yardım eder.",
+  "wrMetCommentModerate": "Orta yoğunlukta egzersiz yaptınız; kalp ve kas kondisyonunuzu korur.",
+  "wrMetCommentVigorous": "Yüksek yoğunlukta egzersiz yaptınız. Bu tür aktiviteler nabzı hızla yükseltir; kalp-akciğer kapasitesini, kas gücünü ve dayanıklılığı belirgin biçimde artırır.",
+  "wrRecovery": "Toparlanma",
+  "wrHrChart": "Kalp atış hızı ({unit})",
+  "@wrHrChart": {
+    "placeholders": {
+      "unit": {
+        "type": "String"
+      }
+    }
+  },
+  "wrRange": "Aralık",
+  "wrZones": "Nabız bölgeleri",
+  "wrNote": "Nabız ve kaloriden uygulamanın kendi tahminidir; tıbbi değildir.",
+  "wrLoadSemantics": "Egzersiz yükü {value} / 21",
+  "@wrLoadSemantics": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "wrGaugeSemantics": "{label} {value}, {level}",
+  "@wrGaugeSemantics": {
+    "placeholders": {
+      "label": {
+        "type": "String"
+      },
+      "value": {
+        "type": "String"
+      },
+      "level": {
+        "type": "String"
+      }
+    }
+  },
+  "wrChartSemantics": "Egzersiz boyunca nabız {range}",
+  "@wrChartSemantics": {
+    "placeholders": {
+      "range": {
+        "type": "String"
+      }
+    }
+  },
+  "wrNoHeartRate": "Bu egzersizde nabız ölçümü yok.",
+  "exerciseRecords": "Egzersiz kayıtlarını görüntüle",
+  "exerciseRecordsTitle": "Egzersiz kayıtları",
+  "exerciseMinutesUnit": "dakika",
+  "exerciseTotalTime": "Toplam süre",
+  "exerciseTotalCount": "Toplam sayı",
+  "exerciseMore": "Daha fazla",
+  "exerciseGps": "GPS egzersizi",
+  "exerciseIndoor": "İç mekan egzersizi",
+  "exerciseGpsNote": "Rota kaydı henüz yok; mesafe bileklikten gelir.",
+  "exerciseGpsOff": "GPS sinyali kullanılmıyor",
+  "exerciseGo": "GO",
+  "exerciseGoSemantics": "{sport} egzersizini başlat",
+  "@exerciseGoSemantics": {
+    "placeholders": {
+      "sport": {
+        "type": "String"
+      }
+    }
+  },
+  "exerciseResume": "Dön",
+  "exerciseGoal": "Hedef",
+  "exerciseGoalNone": "Hedef yok",
+  "exerciseGoalTitle": "Süre hedefi",
+  "exerciseSportTitle": "Spor türü",
+  "liveGoal": "Hedef: {value}",
+  "@liveGoal": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "liveGoalReached": "Hedef tamamlandı",
+  "locationTitle": "Konum paylaşımı",
+  "locationBanner": "Konumunuz paylaşılıyor",
+  "locationViewers": "Konumunuzu görenler: {names}",
+  "@locationViewers": {
+    "placeholders": {
+      "names": {
+        "type": "String"
+      }
+    }
+  },
+  "locationOff": "Konumunuz kimseyle paylaşılmıyor.",
+  "locationOffShort": "Kapalı",
+  "locationLastSent": "Son gönderim: {time}",
+  "@locationLastSent": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "locationWaiting": "Konum alınıyor…",
+  "locationStart": "Paylaşımı aç",
+  "locationChoose": "Kişileri seç",
+  "locationStop": "Paylaşımı durdur",
+  "locationNeedsGroup": "Konum paylaşmak için önce bir grup kurun ya da bir gruba katılın.",
+  "locationSharedWithMe": "Sizinle paylaşanlar",
+  "locationNoneShared": "Henüz kimse konumunu sizinle paylaşmıyor.",
+  "locationUpdated": "Son konum: {time}",
+  "@locationUpdated": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "locationMe": "Ben",
+  "locationNote": "Konumunuz yalnızca seçtiğiniz kişilere ve yalnızca uygulama açıkken gönderilir. Paylaşım varsayılan olarak kapalıdır; istediğiniz an durdurabilirsiniz.",
+  "locationSheetTitle": "Konumumu kimler görsün?",
+  "locationWholeGroup": "Tüm grup",
+  "locationNoMembers": "Bu grupta henüz katılmış kimse yok.",
+  "locationSave": "Kaydet",
+  "locationProblemServiceOff": "Telefonun konum hizmeti kapalı.",
+  "locationProblemDenied": "Konum izni verilmedi.",
+  "locationProblemDeniedForever": "Konum izni kapalı; telefon ayarlarından açabilirsiniz.",
+  "locationProblemFailed": "Konum alınamadı; biraz sonra yeniden denenecek.",
+  "privacyLocationTitle": "Konum ve harita",
+  "privacyLocationBody": "Konum paylaşımı varsayılan olarak kapalıdır. Açarsanız telefonunuzun konumu yalnızca sizin seçtiğiniz grup üyelerine, yalnızca uygulama açıkken ve birkaç dakikada bir gönderilir; son konum ve zamanı dışında konum geçmişi tutulmaz. Paylaşım açıkken uygulamanın her ekranında bir gösterge görünür ve paylaşımı Profil > Sağlık topluluğu > Konum paylaşımı bölümünden istediğiniz an durdurabilirsiniz. Haritalar Google Haritalar ile gösterilir: harita açıldığında Google'a gösterilen bölgenin harita parçaları için istek gider; sağlık verileriniz Google'a gönderilmez. Google'ın bu verileri nasıl işlediği Google Gizlilik Politikası'nda anlatılır.",
+  "asstName": "Vita",
+  "asstTitle": "Vita · Sağlık asistanı",
+  "asstTagline": "Küçük adımlar, büyük fark",
+  "asstHello": "Merhaba, ben",
+  "asstIntro": "Sorularınızı verilerinize bakarak yanıtlarım.",
+  "asstInputHint": "Mesaj yazın…",
+  "asstSend": "Gönder",
+  "asstTyping": "Vita yazıyor",
+  "asstOffline": "Çevrimdışı: yanıtlar telefonunuzda, kurallarla hazırlanır.",
+  "asstOnline": "Yapay zeka bağlı: sorunuz ve özet sayılar takma kimlikle sunucumuza gider.",
+  "asstNote": "Vita tıbbi teşhis koymaz ve ilaç önermez. Acil bir durumda 112'yi arayın.",
+  "asstSuggestReport": "Bugünün sağlık raporunu hazırlar mısın?",
+  "asstSuggestTraining": "Sağlık durumuma göre bir antrenman programı önerir misin?",
+  "asstSuggestSleep": "Dün gece uykum nasıldı?",
+  "asstSuggestHeart": "Kalbim ve EKG'm nasıl?",
+  "asstGreeting": "Merhaba! Ben Vita, sağlık asistanınız. Uykunuz, nabzınız, toparlanmanız, günlük yükünüz, stresiniz, EKG kayıtlarınız, biyolojik yaşınız, adımlarınız ve egzersizleriniz hakkında sorabilirsiniz.",
+  "asstThanks": "Rica ederim! Başka bir sorunuz olursa buradayım.",
+  "asstUnknown": "Bunu tam anlayamadım. Şunları sorabilirsiniz: uykum nasıldı, bugünün raporu, nabzım, toparlanmam, yüküm, stresim, EKG'm, biyolojik yaşım, adımlarım ya da bana uygun antrenman.",
+  "asstEmergency": "Anlattığınız belirtiler acil olabilir. Hemen 112'yi arayın ya da en yakın acil servise gidin. Bileklik ve bu uygulama acil bir durumu değerlendiremez.",
+  "asstNoDiagnosis": "Teşhis koyamam, ilaç ya da doz öneremem; bunun için hekiminize danışın. Verilerinizde gördüklerimi anlatabilirim.",
+  "asstNoData": "Bu konuda henüz yeterli veri yok. Bilekliği takıp eşitledikçe daha çok şey söyleyebilirim.",
+  "asstSleep": "Dün gece {start}–{end} arasında {duration} uyudunuz.",
+  "@asstSleep": {
+    "placeholders": {
+      "start": {
+        "type": "String"
+      },
+      "end": {
+        "type": "String"
+      },
+      "duration": {
+        "type": "String"
+      }
+    }
+  },
+  "asstSleepScore": "Uyku skorunuz {score}/100.",
+  "@asstSleepScore": {
+    "placeholders": {
+      "score": {
+        "type": "String"
+      }
+    }
+  },
+  "asstSleepEfficiency": "Yatakta geçen sürenin %{value} kadarı uykuyla geçti.",
+  "@asstSleepEfficiency": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "asstSleepDebt": "İhtiyacınızın {duration} altında uyudunuz; bu akşam biraz erken yatmayı deneyin.",
+  "@asstSleepDebt": {
+    "placeholders": {
+      "duration": {
+        "type": "String"
+      }
+    }
+  },
+  "asstSleepGood": "Uyku süreniz önerilen 7–9 saat aralığında; böyle devam edin.",
+  "asstRecovery": "Bugünkü toparlanmanız {score}/100 ({level}).",
+  "@asstRecovery": {
+    "placeholders": {
+      "score": {
+        "type": "String"
+      },
+      "level": {
+        "type": "String"
+      }
+    }
+  },
+  "asstHrv": "Gece HRV'niz {value} ms; 14 günlük olağanınız {baseline} ms.",
+  "@asstHrv": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      },
+      "baseline": {
+        "type": "String"
+      }
+    }
+  },
+  "asstRestingHr": "Dinlenik nabzınız {value} atım/dk; olağanınız {baseline} atım/dk.",
+  "@asstRestingHr": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      },
+      "baseline": {
+        "type": "String"
+      }
+    }
+  },
+  "asstHeart": "Bugün ortalama nabzınız {avg} atım/dk; en düşük {min}, en yüksek {max}.",
+  "@asstHeart": {
+    "placeholders": {
+      "avg": {
+        "type": "String"
+      },
+      "min": {
+        "type": "String"
+      },
+      "max": {
+        "type": "String"
+      }
+    }
+  },
+  "asstEcg": "Son EKG kaydınız ({date}): {result}.",
+  "@asstEcg": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      },
+      "result": {
+        "type": "String"
+      }
+    }
+  },
+  "asstEcgNormal": "düzenli ritim, belirgin bir bulgu yok",
+  "asstEcgFlagged": "dikkat edilmesi gereken bir bulgu var; kaydı hekiminize göstermenizi öneririm",
+  "asstEcgUnknown": "kayıt değerlendirme için yeterli değil",
+  "asstEcgNone": "Henüz EKG kaydınız yok. Sağlık sekmesindeki EKG ekranından bir kayıt alabilirsiniz.",
+  "asstEcgNote": "EKG değerlendirmesi otomatik bir ön değerlendirmedir, tanı değildir.",
+  "asstStrain": "Bugünkü yükünüz {value}/21; toparlanmanıza göre ideal aralık {low}–{high}.",
+  "@asstStrain": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      },
+      "low": {
+        "type": "String"
+      },
+      "high": {
+        "type": "String"
+      }
+    }
+  },
+  "asstStrainPlain": "Bugünkü yükünüz {value}/21.",
+  "@asstStrainPlain": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "asstStress": "Bugün ortalama stres düzeyiniz {value}/100.",
+  "@asstStress": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "asstStressTip": "Gün içinde birkaç dakikalık yavaş nefes egzersizi ve kısa yürüyüşler stresi azaltmaya yardımcı olabilir.",
+  "asstSteps": "Bugün {steps} adım attınız; günlük hedef {goal}.",
+  "@asstSteps": {
+    "placeholders": {
+      "steps": {
+        "type": "String"
+      },
+      "goal": {
+        "type": "String"
+      }
+    }
+  },
+  "asstStepsLeft": "Hedefe {left} adım kaldı; kısa bir yürüyüş yeter.",
+  "@asstStepsLeft": {
+    "placeholders": {
+      "left": {
+        "type": "String"
+      }
+    }
+  },
+  "asstStepsDone": "Günlük adım hedefinizi tamamladınız, tebrikler!",
+  "asstBioAge": "Biyolojik yaşınız {bio}, takvim yaşınız {age}.",
+  "@asstBioAge": {
+    "placeholders": {
+      "bio": {
+        "type": "String"
+      },
+      "age": {
+        "type": "String"
+      }
+    }
+  },
+  "asstBioYounger": "Verileriniz yaşıtlarınıza göre daha genç bir tablo gösteriyor.",
+  "asstBioOlder": "Düzenli uyku ve daha çok hareket bu farkı kapatmaya yardımcı olabilir.",
+  "asstBioCollecting": "Biyolojik yaş raporu için veri toplanıyor: {days}/21 gün.",
+  "@asstBioCollecting": {
+    "placeholders": {
+      "days": {
+        "type": "String"
+      }
+    }
+  },
+  "asstBioNeedsAge": "Biyolojik yaş için profilde yaşınızı girin.",
+  "asstWorkouts": "Son 7 günde {count} egzersiz yaptınız, toplam {duration}.",
+  "@asstWorkouts": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      },
+      "duration": {
+        "type": "String"
+      }
+    }
+  },
+  "asstTrainingHigh": "Toparlanmanız yüksek, bugün yoğun bir antrenman uygun. Örnek: 10 dk ısınma, 3 dk yavaş aralarla 4 × 4 dk tempolu koşu ya da bisiklet (nabız bölgesi 3–4), 10 dk soğuma.",
+  "asstTrainingMid": "Toparlanmanız orta düzeyde: bugün 30–45 dk orta tempolu yürüyüş, bisiklet ya da hafif koşu (nabız bölgesi 2) iyi olur.",
+  "asstTrainingLow": "Toparlanmanız düşük: bugün dinlenmeye öncelik verin. 20–30 dk hafif yürüyüş ya da esneme yeterli.",
+  "asstTrainingUnknown": "Toparlanmanız henüz hesaplanamadı; 30 dk orta tempolu yürüyüşle başlayın, nasıl hissettiğinize göre artırın.",
+  "asstTrainingWeek": "Haftalık hedef en az 150 dk orta yoğunlukta hareket; son 7 günde {duration} yaptınız.",
+  "@asstTrainingWeek": {
+    "placeholders": {
+      "duration": {
+        "type": "String"
+      }
+    }
+  },
+  "asstTrainingSafety": "Göğüs ağrısı, baş dönmesi ya da olağandışı nefes darlığı olursa hemen durun.",
+  "asstReportIntro": "{date} için özetiniz:",
+  "@asstReportIntro": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "asstFailed": "Sunucuya ulaşılamadı; bu yanıt telefonda hazırlandı.",
+  "privacyAiTitle": "Yapay zeka",
+  "privacyAiBody": "Yapay zeka raporu ve sağlık asistanı Vita varsayılan olarak telefonda, kurallarla çalışır; veri dışarı gitmez. Yapay zeka rızası verirseniz rapor için haftalık özetler, asistan için de sorunuz, son mesajlarınız ve günün özet sayıları (uyku süresi, toparlanma, yük, nabız ortalaması, stres, adım, EKG ön değerlendirmesinin sonucu, yaş) takma kimliğinizle portalımıza gönderilir ve portal bunları yanıt üretmek için Anthropic'in Claude yapay zeka hizmetine (ABD) iletir. Adınız, kimlik numaranız, cihaz adresiniz ve ham ölçümler gönderilmez. Rızayı istediğiniz an yapay zeka raporu ekranından geri alabilirsiniz. Yapay zeka teşhis koymaz ve ilaç önermez."
 }

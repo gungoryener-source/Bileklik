@@ -10,6 +10,7 @@ import 'package:bileklik/device/protocol/history.dart';
 import 'package:bileklik/main.dart';
 import 'package:bileklik/state/app_settings.dart';
 import 'package:bileklik/state/device_controller.dart';
+import 'package:bileklik/ui/screens/biological_age_screen.dart';
 import 'package:bileklik/ui/screens/metric_detail_screen.dart';
 import 'package:bileklik/ui/screens/progress_screen.dart';
 import 'package:flutter/material.dart';
@@ -250,6 +251,50 @@ void main() {
     });
   });
 
+  group('biyolojik yaş veri toplama', () {
+    test('kesintisiz eksiksiz günleri sayar; bugün eksikse dünden', () {
+      final c = BioAgeCollection.of(_history(days: 5), _today);
+      expect(c.ready, isFalse);
+      expect(c.days, 5);
+      expect(c.remaining, 16);
+      expect(c.today, {
+        BioAgeData.sleep,
+        BioAgeData.heartRate,
+        BioAgeData.steps,
+      });
+      // Bugünün adımı yoksa seri dünden sayılır, bozulmaz.
+      final store = MemoryHealthStore();
+      for (var i = 1; i <= 3; i++) {
+        final d = _day(i);
+        store
+          ..addSleep([_night(d)])
+          ..addMeasurements([
+            ..._nightReadings(d),
+            Measurement(
+              MetricType.steps,
+              DateTime(d.year, d.month, d.day, 12),
+              5000,
+            ),
+          ]);
+      }
+      store.addMeasurements(_nightReadings(_today));
+      expect(BioAgeCollection.of(store, _today).days, 3);
+    });
+
+    test('boşluk seriyi sıfırlar; 21 gün dolunca açılır ve açık kalır', () {
+      final store = _history(days: 10);
+      // On günlük veri: seri on gün.
+      expect(BioAgeCollection.of(store, _today).days, 10);
+      final full = _history();
+      final c = BioAgeCollection.of(full, _today);
+      expect(c.ready, isTrue);
+      expect(c.days, 21);
+      // Beş gün sonra veri kesilse de rapor kilitlenmez.
+      final later = DateTime(_today.year, _today.month, _today.day + 5);
+      expect(BioAgeCollection.of(full, later).ready, isTrue);
+    });
+  });
+
   Future<DeviceController> pumpApp(
     WidgetTester tester,
     MemoryHealthStore store, {
@@ -306,6 +351,44 @@ void main() {
       scrollable: list,
     );
     expect(find.text('36'), findsWidgets);
+    expect(find.text('Takvim yaşınız 40'), findsOneWidget);
+    expect(tester.takeException(), isNull);
+  });
+
+  testWidgets('Biyolojik yaş: veri toplanırken ilerleme ekranı', (
+    tester,
+  ) async {
+    tester.view.physicalSize = const Size(1080, 2340);
+    tester.view.devicePixelRatio = 3;
+    addTearDown(tester.view.reset);
+    await pumpApp(tester, _history(days: 6));
+    await push(tester, BiologicalAgeScreen(day: _today));
+    expect(find.text('Veri toplanıyor'), findsOneWidget);
+    expect(find.text('6/21 gün'), findsOneWidget);
+    expect(find.text('15 gün kaldı'), findsOneWidget);
+    expect(find.text('Her gün gereken veriler'), findsOneWidget);
+    expect(find.text('Bugün geldi'), findsNWidgets(3));
+    expect(find.text('İsteğe bağlı'), findsOneWidget);
+    await tester.scrollUntilVisible(
+      find.text('Veri toplama ipuçları'),
+      200,
+      scrollable: find.byType(Scrollable).last,
+    );
+    expect(
+      find.text('Profilinizdeki yaşın doğru olduğundan emin olun.'),
+      findsOneWidget,
+    );
+    expect(tester.takeException(), isNull);
+  });
+
+  testWidgets('Biyolojik yaş: 21 gün dolunca rapor', (tester) async {
+    tester.view.physicalSize = const Size(1080, 2340);
+    tester.view.devicePixelRatio = 3;
+    addTearDown(tester.view.reset);
+    await pumpApp(tester, _history());
+    await push(tester, BiologicalAgeScreen(day: _today));
+    expect(find.text('Veri toplanıyor'), findsNothing);
+    expect(find.text('4 yaş daha genç'), findsOneWidget);
     expect(find.text('Takvim yaşınız 40'), findsOneWidget);
     expect(tester.takeException(), isNull);
   });

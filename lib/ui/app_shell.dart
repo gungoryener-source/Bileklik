@@ -5,16 +5,20 @@ import '../data/community.dart';
 import '../data/connections.dart';
 import '../data/feedback.dart';
 import '../data/health_platform.dart';
+import '../data/location_share.dart';
 import '../data/portal.dart';
 import '../l10n/l10n.dart';
 
 import '../state/app_settings.dart';
 import '../state/device_controller.dart';
+import 'screens/assistant_screen.dart';
 import 'screens/exercise_screen.dart';
 import 'screens/health_screen.dart';
 import 'screens/home_screen.dart';
+import 'screens/location_screen.dart';
 import 'screens/profile_screen.dart';
 import 'widgets/cam/cam.dart';
+import 'widgets/home/sky.dart';
 
 /// Ekranlara cihaz durumunu taşır; durum değişince dinleyenler yeniden çizilir.
 class DeviceScope extends InheritedNotifier<DeviceController> {
@@ -135,6 +139,25 @@ class AppShell extends StatefulWidget {
 class _AppShellState extends State<AppShell> {
   int _index = 0;
 
+  /// Konum paylaşımı açıkken konumu düzenli gönderir.
+  LocationReporter? _reporter;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (_reporter == null) {
+      if (CommunityScope.maybeOf(context) case final community?) {
+        _reporter = LocationReporter(community);
+      }
+    }
+  }
+
+  @override
+  void dispose() {
+    _reporter?.dispose();
+    super.dispose();
+  }
+
   void _select(int i) => setState(() => _index = i);
 
   static const _pages = [
@@ -150,12 +173,31 @@ class _AppShellState extends State<AppShell> {
     return CamScaffold(
       // Menü içeriğin üstünde yüzer; içerik altından kayar ve bulanık görünür.
       extendBody: true,
-      body: SafeArea(
-        bottom: false,
-        child: IndexedStack(index: _index, children: _pages),
+      body: Stack(
+        fit: StackFit.expand,
+        children: [
+          SafeArea(
+            bottom: false,
+            child: Column(
+              children: [
+                // Konum paylaşılırken her sekmede görünür.
+                const LocationSharingBanner(),
+                Expanded(
+                  child: IndexedStack(index: _index, children: _pages),
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
       bottomNavigationBar: GlassNavBar(
         semanticLabel: l.navSemantics,
+        trailing: AiNavButton(
+          label: l.navAi,
+          onTap: () => Navigator.of(context).push(
+            MaterialPageRoute<void>(builder: (_) => const AssistantScreen()),
+          ),
+        ),
         selectedIndex: _index,
         onSelected: _select,
         items: [

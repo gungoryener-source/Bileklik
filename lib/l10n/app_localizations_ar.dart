@@ -2891,4 +2891,1329 @@ class AppLocalizationsAr extends AppLocalizations {
   @override
   String get subscriptionFreeText =>
       'القياسات والسجل والمشاركة والتنبيهات مجانية. يتوفر تقرير الذكاء الاصطناعي مع Premium.';
+
+  @override
+  String get diagTitle => 'تشخيص الاتصال';
+
+  @override
+  String get diagOpen => 'تشخيص الاتصال';
+
+  @override
+  String get diagIntro =>
+      'يعرض ما يحدث مع السوار أثناء التجارب الأولى. إذا حدثت مشكلة، شارك السجل.';
+
+  @override
+  String get diagMode => 'الوضع';
+
+  @override
+  String get diagModeReal => 'سوار حقيقي';
+
+  @override
+  String get diagModeDemo => 'تجريبي (سوار محاكى)';
+
+  @override
+  String get diagConnecting => 'جارٍ الاتصال';
+
+  @override
+  String get diagPaired => 'مقترن بـ';
+
+  @override
+  String get diagNone => 'لا يوجد';
+
+  @override
+  String get diagWriteLength => 'حجم الحزمة';
+
+  @override
+  String diagWriteLengthValue(int bytes) {
+    return '$bytes بايت';
+  }
+
+  @override
+  String get diagNextRetry => 'المحاولة التالية';
+
+  @override
+  String diagNextRetryValue(int seconds) {
+    return 'بعد $seconds ث';
+  }
+
+  @override
+  String get diagReconnect => 'اتصل الآن';
+
+  @override
+  String get diagForget => 'انسَ السوار';
+
+  @override
+  String get diagSectionTests => 'أوامر الاختبار';
+
+  @override
+  String get diagTestsHint =>
+      'اضغط أثناء الاتصال؛ تظهر الحزم المرسلة والمستلمة في السجل أدناه.';
+
+  @override
+  String get diagTestBattery => 'البطارية';
+
+  @override
+  String get diagTestTime => 'الساعة';
+
+  @override
+  String get diagTestFirmware => 'الإصدار';
+
+  @override
+  String get diagTestProfile => 'المعلومات الشخصية';
+
+  @override
+  String get diagTestRealtime => 'بيانات مباشرة';
+
+  @override
+  String get diagRawLabel => 'أمر خام (ست عشري)';
+
+  @override
+  String get diagRawHint => 'مثال 13 — يُضاف CRC تلقائيًا';
+
+  @override
+  String get diagRawSend => 'إرسال';
+
+  @override
+  String get diagRawInvalid => 'أدخل بايتات ست عشرية صالحة (15 كحد أقصى).';
+
+  @override
+  String get diagNotConnected => 'اتصل بالسوار أولًا.';
+
+  @override
+  String get diagSectionScan => 'البحث عن كل الأجهزة';
+
+  @override
+  String get diagScanHint =>
+      'إذا لم يظهر السوار في شاشة الاقتران، ابحث هنا: تُعرض كل أجهزة البلوتوث القريبة دون تصفية بالاسم.';
+
+  @override
+  String get diagScan => 'ابحث';
+
+  @override
+  String get diagScanning => 'جارٍ البحث…';
+
+  @override
+  String get diagScanEmpty => 'لم يُعثر على أجهزة.';
+
+  @override
+  String get diagConnectTo => 'اتصل';
+
+  @override
+  String get diagSectionDeveloper => 'المطوّر';
+
+  @override
+  String get diagDemoSwitch => 'الوضع التجريبي (سوار محاكى)';
+
+  @override
+  String get diagDemoHint =>
+      'يسري بعد إغلاق التطبيق وفتحه من جديد. لا تُكتب البيانات التجريبية في Health Connect.';
+
+  @override
+  String get diagRestartNeeded => 'أغلق التطبيق وافتحه من جديد.';
+
+  @override
+  String get diagSectionLog => 'السجل';
+
+  @override
+  String get diagLogEmpty => 'لا توجد سجلات بعد.';
+
+  @override
+  String get diagShare => 'مشاركة السجل';
+
+  @override
+  String get diagClear => 'مسح السجل';
+
+  @override
+  String diagLogCount(int count) {
+    return '$count سطر، الأحدث أولًا';
+  }
+
+  @override
+  String get startupFailedTitle => 'تعذّر تشغيل التطبيق';
+
+  @override
+  String get startupFailedBody =>
+      'حدث خطأ أثناء التشغيل. انسخ النص أدناه وأرسله إلينا لنصلحه في إصدار جديد.';
+
+  @override
+  String get startupFailedCopy => 'نسخ الخطأ';
+
+  @override
+  String get ecgPrepareTitle => 'قياس تخطيط القلب';
+
+  @override
+  String get ecgHandQuestion => 'على أي معصم السوار؟';
+
+  @override
+  String get ecgHandLeft => 'اليد اليسرى';
+
+  @override
+  String get ecgHandRight => 'اليد اليمنى';
+
+  @override
+  String get ecgWearTip =>
+      'للحصول على أفضل نتيجة، ارتدِ السوار فوق عظمة المعصم بمقدار إصبع تقريبًا مع تلامس كامل مع الجلد. أبقِ يدك مسترخية وثابتة أثناء القياس.';
+
+  @override
+  String get ecgStartMeasure => 'ابدأ القياس';
+
+  @override
+  String get ecgTip1Title => 'اجلس وضع قدميك مسطحتين على الأرض';
+
+  @override
+  String get ecgTip1Body => 'الجلوس باستقامة يقلل تأثير الوضعية على القياس.';
+
+  @override
+  String get ecgTip2Title => 'ضع ذراعيك على طاولة';
+
+  @override
+  String get ecgTip2Body =>
+      'أبقِ ذراعيك مسترخيتين؛ توتر العضلات يشوّش الإشارة.';
+
+  @override
+  String get ecgTip3Title => 'لا تتحدث ولا تتحرك';
+
+  @override
+  String get ecgTip3Body => 'تصبح الإشارة أوضح وأكثر ثباتًا.';
+
+  @override
+  String get ecgTip4Title =>
+      'ضع إصبعًا من يدك الأخرى على نقطة التلامس المعدنية في السوار';
+
+  @override
+  String get ecgTip4Body => 'تكفي لمسة خفيفة؛ لا تضغط وانتظر حتى ينتهي القياس.';
+
+  @override
+  String get ecgWaitingTitle => 'ضع إصبعك على نقطة التلامس المعدنية';
+
+  @override
+  String get ecgWaitingBody =>
+      'يبدأ العد التنازلي تلقائيًا عندما يلتقط السوار الإشارة.';
+
+  @override
+  String ecgWaitingElapsed(int seconds) {
+    return 'بانتظار الإشارة · $seconds ث';
+  }
+
+  @override
+  String get ecgNoSignalYetTitle => 'لا توجد إشارة بعد';
+
+  @override
+  String get ecgNoSignalYetBody =>
+      'تأكد من ملامسة السوار لجلدك ومن أن إصبعك يلمس النقطة المعدنية. إذا استمرت المشكلة فأرسل إلينا سجل الاتصال.';
+
+  @override
+  String get ecgSecondsUnit => 'ث';
+
+  @override
+  String get ecgLiveDisclaimer =>
+      'الموجة المباشرة للمعلومات فقط وليست للتشخيص. يُفتح سجل مفصل عند انتهاء القياس.';
+
+  @override
+  String get diagCleared => 'تم مسح السجل. تستمر الحزم الجديدة في الوصول.';
+
+  @override
+  String get ecgReportTitle => 'تقرير تخطيط القلب';
+
+  @override
+  String get ecgReportPickMonth => 'اختر شهرًا';
+
+  @override
+  String ecgReportMonthEmpty(String month) {
+    return 'لا توجد تسجيلات تخطيط قلب في $month.';
+  }
+
+  @override
+  String ecgReportMonthCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count تسجيلات',
+      one: 'تسجيل واحد',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String ecgReportWhen(String date, String time) {
+    return '$date، $time';
+  }
+
+  @override
+  String get ecgFindingNormalOk => 'لوحظ نظم قلب طبيعي';
+
+  @override
+  String get ecgFindingNormalFlagged => 'توجد ملاحظات غير طبيعية في النظم';
+
+  @override
+  String get ecgFindingHighOk => 'لم يُلاحظ ارتفاع في معدل القلب';
+
+  @override
+  String get ecgFindingHighFlagged =>
+      'لوحظ ارتفاع معدل القلب (أكثر من 100 نبضة/دقيقة)';
+
+  @override
+  String get ecgFindingLowOk => 'لم يُلاحظ انخفاض في معدل القلب';
+
+  @override
+  String get ecgFindingLowFlagged =>
+      'لوحظ انخفاض معدل القلب (أقل من 50 نبضة/دقيقة)';
+
+  @override
+  String get ecgFindingAfibOk => 'لم تُلاحظ علامات رجفان أذيني';
+
+  @override
+  String get ecgFindingAfibFlagged =>
+      'نظم غير منتظم: قد يكون رجفانًا أذينيًا، اعرض التسجيل على طبيبك';
+
+  @override
+  String get ecgFindingUnknown =>
+      'تعذّر تقييم التسجيل: عدد النبضات قليل أو الإشارة مشوشة';
+
+  @override
+  String get ecgReportNote =>
+      'النتائج تقييم أولي تلقائي من التطبيق وليست تشخيصًا.';
+
+  @override
+  String get healthMeasure => 'قياس';
+
+  @override
+  String get healthAdd => 'إضافة';
+
+  @override
+  String healthGoalValue(String goal) {
+    return '/$goal';
+  }
+
+  @override
+  String get healthSleepShort => 'مدة النوم غير كافية';
+
+  @override
+  String get healthSleepGood => 'نوم كافٍ';
+
+  @override
+  String get healthSleepLong => 'نوم طويل';
+
+  @override
+  String get healthEcgUnassessed => 'تعذّر التقييم';
+
+  @override
+  String get healthVo2Unit => 'مل/كغ/د';
+
+  @override
+  String get healthVo2NeedsData => 'يتطلب عمرك وبيانات نبض لعدة أيام';
+
+  @override
+  String get healthEstimated => 'تقديري';
+
+  @override
+  String get homeLateNightTitle => 'الوقت متأخر، حاول أن ترتاح';
+
+  @override
+  String get homeLateNightBody =>
+      'الراحة المبكرة مهمة لشعورك غدًا. ضع الشاشة جانبًا وأرح عينيك.';
+
+  @override
+  String get homeLowRecoveryTitle => 'جسمك يتعافى اليوم';
+
+  @override
+  String get homeLowRecoveryBody =>
+      'تقلب نبضك الليلي أقل من المعتاد. اختر نشاطًا خفيفًا ونومًا مبكرًا بدل التمرين الشاق.';
+
+  @override
+  String get homeSleepScore => 'النوم';
+
+  @override
+  String get homeDailyRecovery => 'التعافي اليومي';
+
+  @override
+  String get homeDailyLoad => 'الحِمل اليومي';
+
+  @override
+  String homeGaugeSemantics(String label, String value) {
+    return '$label: $value';
+  }
+
+  @override
+  String get homeAiTitle => 'تحليل الذكاء الاصطناعي لليوم';
+
+  @override
+  String get homeAiBody => 'أنشئ ملخصًا صحيًا شخصيًا من بيانات اليوم.';
+
+  @override
+  String get homeSleepExcellent => 'ممتاز';
+
+  @override
+  String get homeSleepGood => 'جيد';
+
+  @override
+  String get homeSleepFair => 'مقبول';
+
+  @override
+  String get homeSleepPoor => 'ضعيف';
+
+  @override
+  String get homeSleepDuration => 'المدة';
+
+  @override
+  String get homeActivity => 'النشاط';
+
+  @override
+  String get homeActivityLow => 'نشاط غير كافٍ';
+
+  @override
+  String get homeActivityFair => 'نشاط متوسط';
+
+  @override
+  String get homeActivityGood => 'نشاط جيد';
+
+  @override
+  String get homeActivityDone => 'تم بلوغ الهدف';
+
+  @override
+  String get homeKilometers => 'كيلومتر';
+
+  @override
+  String get homeFellAsleep => 'غفوت';
+
+  @override
+  String get homeFellAsleepSubtitle => 'بداية النوم';
+
+  @override
+  String get homeNightLowHrv => 'تقلب نبض منخفض';
+
+  @override
+  String get homeNightHighHr => 'نبض مرتفع أثناء النوم';
+
+  @override
+  String get homeNightLowHr => 'نبض منخفض أثناء النوم';
+
+  @override
+  String get homeNightLowSpo2 => 'انخفاض أكسجين الدم';
+
+  @override
+  String get homeRestingLabel => 'معدل النبض أثناء الراحة';
+
+  @override
+  String get homeAverageLabel => 'المتوسط';
+
+  @override
+  String get homeLowestLabel => 'الأدنى';
+
+  @override
+  String get bioAgeCollectingTitle => 'جارٍ جمع البيانات';
+
+  @override
+  String bioAgeCollectingBody(int days) {
+    return 'يحتاج أول تقرير لعمرك البيولوجي إلى بيانات كاملة لمدة $days يومًا متتاليًا على الأقل.';
+  }
+
+  @override
+  String get bioAgeCollectingProgress => 'البيانات المجمّعة';
+
+  @override
+  String bioAgeCollectingDays(int done, int total) {
+    return '$done/$total يوم';
+  }
+
+  @override
+  String bioAgeRemaining(int days) {
+    return 'متبقٍ $days يوم';
+  }
+
+  @override
+  String get bioAgeKeepGoing =>
+      'استمر في ارتداء السوار وسترى عمرك البيولوجي قريبًا.';
+
+  @override
+  String get bioAgeDailyRequired => 'البيانات المطلوبة يوميًا';
+
+  @override
+  String get bioAgeDataSleep => 'النوم';
+
+  @override
+  String get bioAgeDataHeartRate => 'نبض القلب';
+
+  @override
+  String get bioAgeDataExercise => 'التمرين';
+
+  @override
+  String get bioAgeDataSteps => 'الخطوات';
+
+  @override
+  String get bioAgeToday => 'وصلت اليوم';
+
+  @override
+  String get bioAgeNotToday => 'لم تصل اليوم بعد';
+
+  @override
+  String get bioAgeOptional => 'اختياري';
+
+  @override
+  String get bioAgeAgeCheckTitle => 'تأكد من صحة العمر في ملفك الشخصي.';
+
+  @override
+  String get bioAgeAgeCheckBody =>
+      'يُحسب عمرك البيولوجي ومؤشراتك الصحية بناءً على عمرك الحقيقي.';
+
+  @override
+  String get bioAgeTipsTitle => 'نصائح لجمع البيانات';
+
+  @override
+  String get bioAgeTipSleep => 'ارتدِ السوار كل ليلة ليُسجَّل نومك كاملًا.';
+
+  @override
+  String get bioAgeTipHeart =>
+      'ارتدِ السوار طوال اليوم للحصول على قراءات نبض دقيقة.';
+
+  @override
+  String get bioAgeTipActivity => 'سجّل خطواتك وتمارينك اليومية.';
+
+  @override
+  String get sleepScoreLabel => 'درجة النوم';
+
+  @override
+  String get sleepBedTime => 'وقت النوم';
+
+  @override
+  String get sleepWakeTime => 'وقت الاستيقاظ';
+
+  @override
+  String get sleepDistribution => 'توزيع مراحل النوم';
+
+  @override
+  String get sleepIdealRange => 'النطاق المثالي';
+
+  @override
+  String sleepIdealValue(int low, int high) {
+    return 'المثالي $low–$high٪';
+  }
+
+  @override
+  String get sleepPattern => 'نمط النوم';
+
+  @override
+  String get sleepInBed => 'الوقت في السرير';
+
+  @override
+  String get sleepEfficiency => 'كفاءة النوم';
+
+  @override
+  String get sleepLatency => 'مدة الدخول في النوم';
+
+  @override
+  String get sleepDebt => 'دَين النوم';
+
+  @override
+  String get sleepNoDebt => 'لا يوجد';
+
+  @override
+  String get sleepDuringHeartRate => 'نبض القلب أثناء النوم';
+
+  @override
+  String get sleepDuringSpo2 => 'أكسجين الدم أثناء النوم';
+
+  @override
+  String get sleepDuringHrv => 'تقلب نبض القلب أثناء النوم';
+
+  @override
+  String get sleepNaps => 'القيلولات';
+
+  @override
+  String get sleepNoNaps => 'لا توجد قيلولات';
+
+  @override
+  String sleepSummaryDebt(String duration, String debt) {
+    return 'نمت $duration؛ مقارنةً بحاجتك اليومية البالغة 8 ساعات لديك دَين نوم قدره $debt.';
+  }
+
+  @override
+  String sleepSummaryEnough(String duration) {
+    return 'نمت $duration وغطّيت حاجتك اليومية.';
+  }
+
+  @override
+  String get sleepSummaryLowDeep =>
+      'نومك العميق أقل من النطاق الموصى به؛ قد يساعد تجنّب الكافيين والوجبات الثقيلة مساءً.';
+
+  @override
+  String sleepSummaryLowEfficiency(int value) {
+    return 'قضيت وقتًا طويلًا مستيقظًا في السرير؛ كفاءة نومك $value٪.';
+  }
+
+  @override
+  String get sleepSummaryNote =>
+      'هذا تقييم التطبيق لبيانات السوار، وليس تقييمًا طبيًا.';
+
+  @override
+  String sleepStagesChart(String start, String end) {
+    return 'مراحل النوم من $start إلى $end';
+  }
+
+  @override
+  String get recoveryTitle => 'التعافي';
+
+  @override
+  String get recoveryExcellent => 'ممتاز';
+
+  @override
+  String get recoveryGood => 'جيد';
+
+  @override
+  String get recoveryNormal => 'طبيعي';
+
+  @override
+  String get recoveryPoor => 'ضعيف';
+
+  @override
+  String get recoveryInadequate => 'غير كافٍ';
+
+  @override
+  String get recoveryOptimal => 'المثالي';
+
+  @override
+  String get recoveryAssessment => 'التقييم';
+
+  @override
+  String get recoveryCommentExcellent =>
+      'تعافيت جيدًا جدًا؛ يوم مناسب لتمرين مكثف.';
+
+  @override
+  String get recoveryCommentGood =>
+      'تعافيت جيدًا؛ يمكنك ممارسة تمرينك المعتاد.';
+
+  @override
+  String get recoveryCommentNormal =>
+      'التعافي متوسط مع إرهاق خفيف. يُنصح بنشاط خفيف.';
+
+  @override
+  String get recoveryCommentPoor =>
+      'التعافي ضعيف؛ خفّف الوتيرة اليوم وأعطِ الأولوية للراحة.';
+
+  @override
+  String get recoveryCommentInadequate =>
+      'لم يتعافَ جسمك بما يكفي؛ استرح اليوم ونم مبكرًا.';
+
+  @override
+  String get recoveryHrvLow =>
+      'تقلب نبض قلبك أقل من المعتاد؛ ربما لا يزال جسمك يتعافى.';
+
+  @override
+  String get recoveryRhrHigh => 'نبض قلبك أثناء الراحة أعلى من المعتاد.';
+
+  @override
+  String get recoveryNote =>
+      'تقدير التطبيق من بيانات السوار، وليس تقييمًا طبيًا.';
+
+  @override
+  String get recoveryIndicators => 'مؤشرات التعافي';
+
+  @override
+  String get recoveryRestingHr => 'نبض الراحة';
+
+  @override
+  String get recoveryHrv => 'تقلب نبض القلب';
+
+  @override
+  String get recoveryStress => 'التوتر';
+
+  @override
+  String get recoverySleepScore => 'درجة النوم';
+
+  @override
+  String recoveryUsual(String value) {
+    return 'المعتاد $value';
+  }
+
+  @override
+  String get recoveryTrend => 'الاتجاه';
+
+  @override
+  String get recoveryWeek => 'أسبوع';
+
+  @override
+  String get recoveryMonth => 'شهر';
+
+  @override
+  String recoveryRange(String start, String end) {
+    return '$start – $end';
+  }
+
+  @override
+  String get recoveryEmpty =>
+      'يحتاج التعافي إلى بيانات تقلب النبض الليلي أو النوم. ارتدِ السوار الليلة.';
+
+  @override
+  String get recoveryTrendEmpty => 'لا توجد بيانات في هذه الفترة';
+
+  @override
+  String recoveryRingSemantics(String value, String level) {
+    return 'تعافي اليوم $value، $level';
+  }
+
+  @override
+  String recoveryTrendSemantics(String range, String value) {
+    return 'اتجاه التعافي $range، المتوسط $value';
+  }
+
+  @override
+  String homeStreakSemantics(int days) {
+    return 'بيانات لمدة $days يومًا متتاليًا';
+  }
+
+  @override
+  String get homeEnergyLabel => 'الطاقة';
+
+  @override
+  String get homeEnergyHigh => 'مرتفعة';
+
+  @override
+  String get homeEnergyNormal => 'طبيعية';
+
+  @override
+  String get homeEnergyLow => 'منخفضة';
+
+  @override
+  String homeEnergyVsYesterday(String delta) {
+    return '$delta مقارنة بالأمس';
+  }
+
+  @override
+  String get homeEnergySame => 'مثل الأمس';
+
+  @override
+  String get homeEnergyNoCompare => 'لا مقارنة مع الأمس';
+
+  @override
+  String get homeTrainingPlan => 'خطة التمرين';
+
+  @override
+  String get homeAiCollapse => 'طيّ';
+
+  @override
+  String get homeAiExpand => 'توسيع';
+
+  @override
+  String homeAiUpdated(String time) {
+    return 'حُدّثت البيانات في $time';
+  }
+
+  @override
+  String get homeAiReanalyze => 'أعد التحليل';
+
+  @override
+  String get homeAiNoData =>
+      'لا توجد بيانات لتحليلها اليوم بعد. ارتدِ السوار وزامِن.';
+
+  @override
+  String homeAiLoad(String value) {
+    return 'حملك اليومي اليوم $value/21.';
+  }
+
+  @override
+  String get navAi => 'تحليل الذكاء الاصطناعي';
+
+  @override
+  String get planTitle => 'خطة تمرين اليوم';
+
+  @override
+  String get planIntenseTitle => 'تمرين مكثف';
+
+  @override
+  String get planIntenseBody =>
+      'يمكنك الجري أو التمرين المتقطع لمدة 35–45 دقيقة.';
+
+  @override
+  String get planModerateTitle => 'تمرين معتدل';
+
+  @override
+  String get planModerateBody =>
+      '30–40 دقيقة من المشي السريع أو ركوب الدراجة أو الجري الخفيف.';
+
+  @override
+  String get planLightTitle => 'نشاط خفيف';
+
+  @override
+  String get planLightBody => '20–30 دقيقة من المشي المريح أو التمدد.';
+
+  @override
+  String get planRestTitle => 'يوم راحة';
+
+  @override
+  String get planRestBody =>
+      '10–15 دقيقة من التمدد أو التنفس؛ تجنّب التمارين المكثفة.';
+
+  @override
+  String planZone(String range, String zone) {
+    return 'النبض المستهدف: $range ($zone)';
+  }
+
+  @override
+  String planBasedOn(String value) {
+    return 'مقترحة بناءً على تعافيك اليوم ($value).';
+  }
+
+  @override
+  String get planNeedsData =>
+      'تحتاج الخطة إلى بيانات تقلب النبض الليلي أو النوم. ارتدِ السوار الليلة.';
+
+  @override
+  String get planNote => 'هذا اقتراح من التطبيق؛ توقّف إذا شعرت بانزعاج.';
+
+  @override
+  String get planNeedsAge =>
+      'أدخل عمرك في المعلومات الشخصية لمعرفة النبض المستهدف.';
+
+  @override
+  String get bioAgeUnlockTitle => 'اكشف عمرك البيولوجي';
+
+  @override
+  String bioAgeUnlockIn(int days) {
+    return 'سيُكشف عمرك البيولوجي بعد $days يومًا.';
+  }
+
+  @override
+  String get strainVeryLow => 'منخفض جدًا';
+
+  @override
+  String get strainNormal => 'طبيعي';
+
+  @override
+  String get strainModerate => 'متوسط';
+
+  @override
+  String get strainHigh => 'مرتفع';
+
+  @override
+  String get strainOverloaded => 'حمل زائد';
+
+  @override
+  String get strainAiTitle => 'تحليل الذكاء الاصطناعي';
+
+  @override
+  String get strainCommentVeryLow =>
+      'بقي إجهادك العام منخفضًا اليوم، مع ضغط ضئيل على الجسم.';
+
+  @override
+  String get strainCommentNormal =>
+      'كان حملك اليوم متوازنًا؛ نشاطك اليومي بمستوى جيد.';
+
+  @override
+  String get strainCommentModerate =>
+      'بذلت جهدًا متوسطًا اليوم؛ هذا الحمل يحسّن لياقتك.';
+
+  @override
+  String get strainCommentHigh =>
+      'كان إجهادك مرتفعًا اليوم؛ ادعم تعافيك بنوم جيد وسوائل كافية.';
+
+  @override
+  String get strainCommentOverloaded =>
+      'تعرّض جسمك لإجهاد شديد اليوم؛ خطّط ليوم خفيف غدًا واسترح جيدًا.';
+
+  @override
+  String strainBelowOptimal(String low, String high) {
+    return 'وفقًا لتعافيك يمكنك أن تتحرك أكثر قليلًا اليوم؛ الحمل المثالي لك $low–$high.';
+  }
+
+  @override
+  String strainAboveOptimal(String low, String high) {
+    return 'حملك أعلى من النطاق المثالي لتعافيك ($low–$high)؛ خصّص وقتًا للراحة.';
+  }
+
+  @override
+  String get strainNote =>
+      'تقدير التطبيق الخاص من النبض والخطوات والتمارين؛ ليس تقييمًا طبيًا.';
+
+  @override
+  String get strainIndicators => 'مؤشرات الحمل';
+
+  @override
+  String get strainSleep => 'النوم';
+
+  @override
+  String get strainAvgHr => 'متوسط النبض';
+
+  @override
+  String get strainSteps => 'خطوات';
+
+  @override
+  String get strainKcal => 'سعرة';
+
+  @override
+  String get strainWorkout => 'تمرين';
+
+  @override
+  String get strainEmpty =>
+      'يحتاج الحمل اليومي إلى بيانات النبض أو الخطوات أو التمارين. ارتدِ السوار طوال اليوم.';
+
+  @override
+  String strainRingSemantics(String value, String level) {
+    return 'الحمل اليومي $value، $level';
+  }
+
+  @override
+  String strainTrendSemantics(String range, String value) {
+    return 'اتجاه الحمل اليومي $range، المتوسط $value';
+  }
+
+  @override
+  String get strainOpen => 'تفاصيل الحمل اليومي';
+
+  @override
+  String get wrTitle => 'تقرير التمرين';
+
+  @override
+  String get wrLoad => 'حمل التمرين';
+
+  @override
+  String get wrAvgHr => 'متوسط النبض';
+
+  @override
+  String get wrMaxHr => 'أقصى نبض';
+
+  @override
+  String get wrMet => 'المكافئ الأيضي';
+
+  @override
+  String get wrMetLight => 'نشاط خفيف';
+
+  @override
+  String get wrMetModerate => 'الحفاظ على اللياقة';
+
+  @override
+  String get wrMetVigorous => 'تعزيز التحمّل';
+
+  @override
+  String get wrMetCommentLight =>
+      'تمرين بشدة خفيفة؛ ينشّط الدورة الدموية ويساعد على التعافي.';
+
+  @override
+  String get wrMetCommentModerate =>
+      'تمرين بشدة متوسطة؛ يحافظ على لياقة القلب والعضلات.';
+
+  @override
+  String get wrMetCommentVigorous =>
+      'تمرين بشدة عالية. ترفع هذه الأنشطة النبض بسرعة وتحسّن بوضوح قدرة القلب والرئتين وقوة العضلات والتحمّل.';
+
+  @override
+  String get wrRecovery => 'التعافي';
+
+  @override
+  String wrHrChart(String unit) {
+    return 'معدل النبض ($unit)';
+  }
+
+  @override
+  String get wrRange => 'النطاق';
+
+  @override
+  String get wrZones => 'مناطق النبض';
+
+  @override
+  String get wrNote =>
+      'تقدير التطبيق الخاص من النبض والسعرات؛ ليس تقييمًا طبيًا.';
+
+  @override
+  String wrLoadSemantics(String value) {
+    return 'حمل التمرين $value من 21';
+  }
+
+  @override
+  String wrGaugeSemantics(String label, String value, String level) {
+    return '$label $value، $level';
+  }
+
+  @override
+  String wrChartSemantics(String range) {
+    return 'النبض أثناء التمرين $range';
+  }
+
+  @override
+  String get wrNoHeartRate => 'لم يُسجَّل النبض خلال هذا التمرين.';
+
+  @override
+  String get exerciseRecords => 'عرض سجلات التمارين';
+
+  @override
+  String get exerciseRecordsTitle => 'سجلات التمارين';
+
+  @override
+  String get exerciseMinutesUnit => 'دقيقة';
+
+  @override
+  String get exerciseTotalTime => 'المدة الإجمالية';
+
+  @override
+  String get exerciseTotalCount => 'العدد الإجمالي';
+
+  @override
+  String get exerciseMore => 'المزيد';
+
+  @override
+  String get exerciseGps => 'تمرين GPS';
+
+  @override
+  String get exerciseIndoor => 'تمرين داخلي';
+
+  @override
+  String get exerciseGpsNote =>
+      'تسجيل المسار غير متاح بعد؛ المسافة تأتي من السوار.';
+
+  @override
+  String get exerciseGpsOff => 'إشارة GPS غير مستخدمة';
+
+  @override
+  String get exerciseGo => 'انطلق';
+
+  @override
+  String exerciseGoSemantics(String sport) {
+    return 'ابدأ تمرين $sport';
+  }
+
+  @override
+  String get exerciseResume => 'عودة';
+
+  @override
+  String get exerciseGoal => 'الهدف';
+
+  @override
+  String get exerciseGoalNone => 'بلا هدف';
+
+  @override
+  String get exerciseGoalTitle => 'هدف المدة';
+
+  @override
+  String get exerciseSportTitle => 'نوع الرياضة';
+
+  @override
+  String liveGoal(String value) {
+    return 'الهدف: $value';
+  }
+
+  @override
+  String get liveGoalReached => 'تم بلوغ الهدف';
+
+  @override
+  String get locationTitle => 'مشاركة الموقع';
+
+  @override
+  String get locationBanner => 'موقعك قيد المشاركة';
+
+  @override
+  String locationViewers(String names) {
+    return 'يرون موقعك: $names';
+  }
+
+  @override
+  String get locationOff => 'موقعك غير مشارك مع أحد.';
+
+  @override
+  String get locationOffShort => 'متوقف';
+
+  @override
+  String locationLastSent(String time) {
+    return 'آخر إرسال: $time';
+  }
+
+  @override
+  String get locationWaiting => 'جارٍ تحديد الموقع…';
+
+  @override
+  String get locationStart => 'بدء المشاركة';
+
+  @override
+  String get locationChoose => 'اختيار الأشخاص';
+
+  @override
+  String get locationStop => 'إيقاف المشاركة';
+
+  @override
+  String get locationNeedsGroup =>
+      'لمشاركة موقعك، أنشئ مجموعة أو انضم إلى واحدة أولاً.';
+
+  @override
+  String get locationSharedWithMe => 'يشاركون موقعهم معك';
+
+  @override
+  String get locationNoneShared => 'لا أحد يشارك موقعه معك بعد.';
+
+  @override
+  String locationUpdated(String time) {
+    return 'آخر موقع: $time';
+  }
+
+  @override
+  String get locationMe => 'أنا';
+
+  @override
+  String get locationNote =>
+      'يُرسل موقعك فقط إلى الأشخاص الذين تختارهم، وفقط أثناء فتح التطبيق. المشاركة متوقفة افتراضيًا ويمكنك إيقافها في أي وقت.';
+
+  @override
+  String get locationSheetTitle => 'من يمكنه رؤية موقعي؟';
+
+  @override
+  String get locationWholeGroup => 'المجموعة كلها';
+
+  @override
+  String get locationNoMembers => 'لم ينضم أحد إلى هذه المجموعة بعد.';
+
+  @override
+  String get locationSave => 'حفظ';
+
+  @override
+  String get locationProblemServiceOff => 'خدمات الموقع متوقفة في هاتفك.';
+
+  @override
+  String get locationProblemDenied => 'لم يُمنح إذن الموقع.';
+
+  @override
+  String get locationProblemDeniedForever =>
+      'إذن الموقع متوقف؛ يمكنك تفعيله من إعدادات الهاتف.';
+
+  @override
+  String get locationProblemFailed =>
+      'تعذّر تحديد الموقع؛ ستتم إعادة المحاولة قريبًا.';
+
+  @override
+  String get privacyLocationTitle => 'الموقع والخرائط';
+
+  @override
+  String get privacyLocationBody =>
+      'مشاركة الموقع متوقفة افتراضيًا. إذا فعّلتها، يُرسل موقع هاتفك فقط إلى أعضاء المجموعة الذين تختارهم، وفقط أثناء فتح التطبيق وكل بضع دقائق؛ ولا يُحتفظ بسجل للمواقع سوى آخر موقع ووقته. أثناء المشاركة يظهر مؤشر في كل شاشة من التطبيق، ويمكنك إيقاف المشاركة في أي وقت من الملف الشخصي > مجتمع الصحة > مشاركة الموقع. تُعرض الخرائط عبر خرائط Google: عند فتح خريطة يُرسل طلب لمربعات خريطة المنطقة المعروضة إلى Google؛ ولا تُرسل بياناتك الصحية إلى Google. تشرح سياسة خصوصية Google كيفية معالجة هذه البيانات.';
+
+  @override
+  String get asstName => 'Vita';
+
+  @override
+  String get asstTitle => 'Vita · المساعد الصحي';
+
+  @override
+  String get asstTagline => 'خطوات صغيرة، فرق كبير';
+
+  @override
+  String get asstHello => 'مرحبًا، أنا';
+
+  @override
+  String get asstIntro => 'أجيب عن أسئلتك بالاعتماد على بياناتك.';
+
+  @override
+  String get asstInputHint => 'اكتب رسالة…';
+
+  @override
+  String get asstSend => 'إرسال';
+
+  @override
+  String get asstTyping => 'Vita يكتب';
+
+  @override
+  String get asstOffline => 'دون اتصال: تُعدّ الإجابات على هاتفك وفق قواعد.';
+
+  @override
+  String get asstOnline =>
+      'الذكاء الاصطناعي متصل: يُرسل سؤالك والأرقام الموجزة إلى خادمنا باسم مستعار.';
+
+  @override
+  String get asstNote =>
+      'لا يقدّم Vita تشخيصًا طبيًا ولا يوصي بأدوية. في حالات الطوارئ اتصل بـ 112.';
+
+  @override
+  String get asstSuggestReport => 'هل يمكنك إعداد تقرير صحتي لليوم؟';
+
+  @override
+  String get asstSuggestTraining => 'هل تقترح برنامج تمرين يناسب حالتي الصحية؟';
+
+  @override
+  String get asstSuggestSleep => 'كيف كان نومي الليلة الماضية؟';
+
+  @override
+  String get asstSuggestHeart => 'كيف حال قلبي وتخطيط القلب؟';
+
+  @override
+  String get asstGreeting =>
+      'مرحبًا! أنا Vita، مساعدك الصحي. يمكنك سؤالي عن نومك ونبضك وتعافيك وحملك اليومي وتوترك وتسجيلات تخطيط القلب وعمرك البيولوجي وخطواتك وتمارينك.';
+
+  @override
+  String get asstThanks => 'على الرحب والسعة! أنا هنا إن كان لديك سؤال آخر.';
+
+  @override
+  String get asstUnknown =>
+      'لم أفهم ذلك تمامًا. يمكنك أن تسأل: كيف كان نومي، تقرير اليوم، نبضي، تعافيّ، حملي، توتري، تخطيط قلبي، عمري البيولوجي، خطواتي، أو تمرين يناسبني.';
+
+  @override
+  String get asstEmergency =>
+      'ما تصفه قد يكون حالة طارئة. اتصل بـ 112 فورًا أو توجّه إلى أقرب قسم طوارئ. لا يمكن للسوار ولا لهذا التطبيق تقييم حالة طارئة.';
+
+  @override
+  String get asstNoDiagnosis =>
+      'لا أستطيع التشخيص أو اقتراح أدوية أو جرعات؛ يُرجى استشارة طبيبك. يمكنني أن أخبرك بما أراه في بياناتك.';
+
+  @override
+  String get asstNoData =>
+      'لا توجد بيانات كافية حول هذا بعد. كلما ارتديت السوار وزامنته، استطعت أن أخبرك أكثر.';
+
+  @override
+  String asstSleep(String start, String end, String duration) {
+    return 'نمت الليلة الماضية $duration، من $start إلى $end.';
+  }
+
+  @override
+  String asstSleepScore(String score) {
+    return 'درجة نومك $score/100.';
+  }
+
+  @override
+  String asstSleepEfficiency(String value) {
+    return 'قضيت $value٪ من وقتك في السرير نائمًا.';
+  }
+
+  @override
+  String asstSleepDebt(String duration) {
+    return 'نمت أقل من حاجتك بمقدار $duration؛ حاول أن تنام أبكر قليلًا الليلة.';
+  }
+
+  @override
+  String get asstSleepGood =>
+      'مدة نومك ضمن النطاق الموصى به من 7 إلى 9 ساعات؛ استمر على ذلك.';
+
+  @override
+  String asstRecovery(String score, String level) {
+    return 'تعافيك اليوم $score/100 ($level).';
+  }
+
+  @override
+  String asstHrv(String value, String baseline) {
+    return 'تقلّب نبضك الليلي (HRV) $value مللي ثانية؛ والمعتاد لديك خلال 14 يومًا $baseline مللي ثانية.';
+  }
+
+  @override
+  String asstRestingHr(String value, String baseline) {
+    return 'نبضك أثناء الراحة $value نبضة/دقيقة؛ والمعتاد لديك $baseline.';
+  }
+
+  @override
+  String asstHeart(String avg, String min, String max) {
+    return 'متوسط نبضك اليوم $avg نبضة/دقيقة؛ الأدنى $min والأعلى $max.';
+  }
+
+  @override
+  String asstEcg(String date, String result) {
+    return 'آخر تخطيط لقلبك ($date): $result.';
+  }
+
+  @override
+  String get asstEcgNormal => 'نظم منتظم، ولا شيء لافت';
+
+  @override
+  String get asstEcgFlagged =>
+      'هناك ملاحظة تستحق الانتباه؛ أنصحك بعرض التسجيل على طبيبك';
+
+  @override
+  String get asstEcgUnknown => 'التسجيل غير كافٍ للتقييم';
+
+  @override
+  String get asstEcgNone =>
+      'لا توجد لديك تسجيلات تخطيط قلب بعد. يمكنك إجراء تسجيل من شاشة تخطيط القلب في تبويب الصحة.';
+
+  @override
+  String get asstEcgNote => 'تقييم تخطيط القلب تقييم أولي آلي وليس تشخيصًا.';
+
+  @override
+  String asstStrain(String value, String low, String high) {
+    return 'حملك اليوم $value/21؛ والنطاق المثالي لتعافيك $low–$high.';
+  }
+
+  @override
+  String asstStrainPlain(String value) {
+    return 'حملك اليوم $value/21.';
+  }
+
+  @override
+  String asstStress(String value) {
+    return 'متوسط توترك اليوم $value/100.';
+  }
+
+  @override
+  String get asstStressTip =>
+      'قد تساعد بضع دقائق من التنفس البطيء والمشي القصير خلال اليوم على خفض التوتر.';
+
+  @override
+  String asstSteps(String steps, String goal) {
+    return 'مشيت اليوم $steps خطوة؛ والهدف اليومي $goal.';
+  }
+
+  @override
+  String asstStepsLeft(String left) {
+    return 'تبقّى $left خطوة للوصول إلى الهدف؛ تكفي نزهة قصيرة.';
+  }
+
+  @override
+  String get asstStepsDone => 'لقد بلغت هدفك اليومي من الخطوات، أحسنت!';
+
+  @override
+  String asstBioAge(String bio, String age) {
+    return 'عمرك البيولوجي $bio، وعمرك الفعلي $age.';
+  }
+
+  @override
+  String get asstBioYounger => 'تُظهر بياناتك صورة أصغر سنًا من أقرانك.';
+
+  @override
+  String get asstBioOlder =>
+      'قد يساعد النوم المنتظم والمزيد من الحركة على تقليص هذا الفارق.';
+
+  @override
+  String asstBioCollecting(String days) {
+    return 'يجري جمع البيانات لتقرير العمر البيولوجي: $days/21 يومًا.';
+  }
+
+  @override
+  String get asstBioNeedsAge =>
+      'أدخل عمرك في ملفك الشخصي للحصول على العمر البيولوجي.';
+
+  @override
+  String asstWorkouts(String count, String duration) {
+    return 'في الأيام السبعة الماضية أجريت $count تمارين، بمجموع $duration.';
+  }
+
+  @override
+  String get asstTrainingHigh =>
+      'تعافيك مرتفع، لذا يناسبك اليوم تمرين مكثف. مثال: 10 دقائق إحماء، ثم 4 × 4 دقائق جري أو دراجة بإيقاع سريع (منطقة النبض 3–4) مع 3 دقائق خفيفة بينها، ثم 10 دقائق تهدئة.';
+
+  @override
+  String get asstTrainingMid =>
+      'تعافيك متوسط: يناسبك اليوم 30–45 دقيقة من المشي السريع أو الدراجة أو الجري الخفيف (منطقة النبض 2).';
+
+  @override
+  String get asstTrainingLow =>
+      'تعافيك منخفض: اجعل الراحة أولويتك اليوم. يكفي 20–30 دقيقة من المشي الخفيف أو التمدد.';
+
+  @override
+  String get asstTrainingUnknown =>
+      'لا يمكن حساب تعافيك بعد؛ ابدأ بمشي سريع لمدة 30 دقيقة وزِد تدريجيًا حسب شعورك.';
+
+  @override
+  String asstTrainingWeek(String duration) {
+    return 'الهدف الأسبوعي 150 دقيقة على الأقل من النشاط المعتدل؛ وأنجزت $duration في الأيام السبعة الماضية.';
+  }
+
+  @override
+  String get asstTrainingSafety =>
+      'توقف فورًا إذا شعرت بألم في الصدر أو دوار أو ضيق تنفس غير معتاد.';
+
+  @override
+  String asstReportIntro(String date) {
+    return 'ملخصك ليوم $date:';
+  }
+
+  @override
+  String get asstFailed =>
+      'تعذّر الوصول إلى الخادم؛ أُعدّت هذه الإجابة على هاتفك.';
+
+  @override
+  String get privacyAiTitle => 'الذكاء الاصطناعي';
+
+  @override
+  String get privacyAiBody =>
+      'يعمل تقرير الذكاء الاصطناعي والمساعد الصحي Vita افتراضيًا على هاتفك وفق قواعد، ولا تغادر أي بيانات الهاتف. إذا منحت موافقة الذكاء الاصطناعي، تُرسل إلى بوابتنا باسمك المستعار ملخصات أسبوعية للتقرير، وللمساعد سؤالك ورسائلك الأخيرة وأرقام اليوم الموجزة (مدة النوم، التعافي، الحمل، متوسط النبض، التوتر، الخطوات، نتيجة التقييم الأولي لتخطيط القلب، العمر)، وتنقلها البوابة إلى خدمة Claude للذكاء الاصطناعي من Anthropic (الولايات المتحدة) لإعداد الإجابة. لا يُرسل اسمك أو رقم هويتك أو عنوان جهازك أو القياسات الخام. يمكنك سحب الموافقة في أي وقت من شاشة تقرير الذكاء الاصطناعي. لا يقدّم الذكاء الاصطناعي تشخيصًا ولا يوصي بأدوية.';
 }

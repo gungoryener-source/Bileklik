@@ -1,13 +1,19 @@
 import 'dart:math';
 
-import '../device/protocol/history.dart';
 import 'aggregate.dart';
 import 'day_summary.dart';
 import 'health_store.dart';
 import 'models.dart';
+import 'sleep_analysis.dart';
 
 /// Günlük adım hedefi.
 const dailyStepGoal = 10000;
+
+/// Günlük aktif kalori hedefi (kcal).
+const dailyCalorieGoal = 300;
+
+/// Günlük mesafe hedefi (km).
+const dailyDistanceGoalKm = 5.0;
 
 // ---------------------------------------------------------------------------
 // Enerji skoru
@@ -43,15 +49,7 @@ class EnergyScore {
   static EnergyScore? of(HealthStore store, DateTime day) {
     final s = DaySummary.of(store, day);
     final night = s.night;
-    int? sleep;
-    if (night != null && night.asleepMinutes > 0) {
-      final asleep = night.asleepMinutes;
-      final restorative =
-          night.minutesIn(SleepStage.deep) + night.minutesIn(SleepStage.rem);
-      sleep =
-          (min(asleep / 480, 1) * 70 + min(restorative / asleep / 0.4, 1) * 30)
-              .round();
-    }
+    final sleep = night == null ? null : sleepScoreOf(night);
     int? recovery;
     final hrv = s.recoveryHrv;
     if (hrv != null) {
@@ -77,7 +75,9 @@ class EnergyScore {
     if (charge == null) return null;
     final stepDrain = min(s.steps / 15000, 1) * 25;
     final stress = s.averageStress;
-    final stressDrain = stress == null ? 0 : ((stress - 30) / 70).clamp(0, 1) * 15;
+    final stressDrain = stress == null
+        ? 0
+        : ((stress - 30) / 70).clamp(0, 1) * 15;
     final drain = (stepDrain + stressDrain).round();
     return EnergyScore(
       score: (charge - drain).clamp(0, 100).round(),
@@ -149,19 +149,28 @@ class WeekStats {
     var goalDays = 0;
     var daysWithData = 0;
     final sleep = <double>[];
-    for (var d = week.start; d.isBefore(week.end); d = DateTime(d.year, d.month, d.day + 1)) {
+    for (
+      var d = week.start;
+      d.isBefore(week.end);
+      d = DateTime(d.year, d.month, d.day + 1)
+    ) {
       final next = DateTime(d.year, d.month, d.day + 1);
       final daySteps = store
           .measurements(MetricType.steps, d, next)
           .fold(0.0, (sum, m) => sum + m.value)
           .round();
-      final hasHr = store.measurements(MetricType.heartRate, d, next).isNotEmpty;
+      final hasHr = store
+          .measurements(MetricType.heartRate, d, next)
+          .isNotEmpty;
       if (daySteps > 0 || hasHr) daysWithData++;
       steps += daySteps;
       if (daySteps >= dailyStepGoal) goalDays++;
     }
     for (final n in NightSleep.group(
-      store.sleepBetween(week.start.subtract(const Duration(hours: 12)), week.end),
+      store.sleepBetween(
+        week.start.subtract(const Duration(hours: 12)),
+        week.end,
+      ),
     )) {
       if (week.contains(n.day)) sleep.add(n.asleepMinutes.toDouble());
     }
@@ -173,10 +182,14 @@ class WeekStats {
       daysWithData: daysWithData,
       averageSleepMinutes: Stats.of(sleep)?.average,
       averageHrv: Stats.of(
-        store.measurements(MetricType.hrv, week.start, week.end).map((m) => m.value),
+        store
+            .measurements(MetricType.hrv, week.start, week.end)
+            .map((m) => m.value),
       )?.average,
       averageStress: Stats.of(
-        store.measurements(MetricType.stress, week.start, week.end).map((m) => m.value),
+        store
+            .measurements(MetricType.stress, week.start, week.end)
+            .map((m) => m.value),
       )?.average,
       workouts: workouts.length,
       workoutMinutes: workouts.fold(0, (sum, w) => sum + w.duration.inMinutes),
@@ -256,7 +269,11 @@ class Achievement {
 
 /// Son [days] günün kayıtlarından rozetler. Rozetler saklanmaz; her açılışta
 /// geçmişten yeniden hesaplanır, böylece silinen veriyle birlikte giderler.
-List<Achievement> achievements(HealthStore store, DateTime now, {int days = 365}) {
+List<Achievement> achievements(
+  HealthStore store,
+  DateTime now, {
+  int days = 365,
+}) {
   final today = DateTime(now.year, now.month, now.day);
   final from = DateTime(today.year, today.month, today.day - days + 1);
   final to = today.add(const Duration(days: 1));
@@ -265,16 +282,25 @@ List<Achievement> achievements(HealthStore store, DateTime now, {int days = 365}
 
   final stepsByDay = <DateTime, double>{};
   for (final m in store.measurements(MetricType.steps, from, to)) {
-    stepsByDay.update(dayOf(m.time), (v) => v + m.value, ifAbsent: () => m.value);
+    stepsByDay.update(
+      dayOf(m.time),
+      (v) => v + m.value,
+      ifAbsent: () => m.value,
+    );
   }
   final distanceByDay = <DateTime, double>{};
   for (final m in store.measurements(MetricType.distance, from, to)) {
-    distanceByDay.update(dayOf(m.time), (v) => v + m.value, ifAbsent: () => m.value);
+    distanceByDay.update(
+      dayOf(m.time),
+      (v) => v + m.value,
+      ifAbsent: () => m.value,
+    );
   }
   final wornDays = <DateTime>{
     for (final e in stepsByDay.entries)
       if (e.value > 0) e.key,
-    for (final m in store.measurements(MetricType.heartRate, from, to)) dayOf(m.time),
+    for (final m in store.measurements(MetricType.heartRate, from, to))
+      dayOf(m.time),
   };
   final sleepByDay = <DateTime, int>{
     for (final n in NightSleep.group(store.sleepBetween(from, to)))
@@ -287,7 +313,8 @@ List<Achievement> achievements(HealthStore store, DateTime now, {int days = 365}
   ]..sort((a, b) => a.start.compareTo(b.start));
 
   final allDays = [
-    for (var d = from; d.isBefore(to); d = DateTime(d.year, d.month, d.day + 1)) d,
+    for (var d = from; d.isBefore(to); d = DateTime(d.year, d.month, d.day + 1))
+      d,
   ];
 
   /// Günlük ölçüt ilk kez ne zaman sağlandı; en iyi değerin hedefe oranı.
@@ -299,11 +326,19 @@ List<Achievement> achievements(HealthStore store, DateTime now, {int days = 365}
       best = max(best, v);
       if (on == null && v >= target) on = d;
     }
-    return Achievement(k, on != null ? 1 : min(best / target, 1).toDouble(), on);
+    return Achievement(
+      k,
+      on != null ? 1 : min(best / target, 1).toDouble(),
+      on,
+    );
   }
 
   /// [ok] art arda [length] gün sağlandığında kazanılır.
-  Achievement streak(AchievementKind k, bool Function(DateTime) ok, int length) {
+  Achievement streak(
+    AchievementKind k,
+    bool Function(DateTime) ok,
+    int length,
+  ) {
     var run = 0;
     var best = 0;
     DateTime? on;
@@ -316,16 +351,14 @@ List<Achievement> achievements(HealthStore store, DateTime now, {int days = 365}
   }
 
   /// Sıralı olaylardan [count]'uncusunun günü.
-  Achievement count(AchievementKind k, List<DateTime> times, int count) => Achievement(
-    k,
-    min(times.length / count, 1).toDouble(),
-    times.length >= count ? dayOf(times[count - 1]) : null,
-  );
+  Achievement count(AchievementKind k, List<DateTime> times, int count) =>
+      Achievement(
+        k,
+        min(times.length / count, 1).toDouble(),
+        times.length >= count ? dayOf(times[count - 1]) : null,
+      );
 
-  final firstData = [
-    ...wornDays,
-    ...sleepByDay.keys,
-  ]..sort();
+  final firstData = [...wornDays, ...sleepByDay.keys]..sort();
 
   // Haftalık mesafe: pazartesi başlayan haftalar.
   final weekDistance = <DateTime, double>{};
@@ -350,7 +383,11 @@ List<Achievement> achievements(HealthStore store, DateTime now, {int days = 365}
       (d) => (stepsByDay[d] ?? 0) >= dailyStepGoal,
       7,
     ),
-    streak(AchievementKind.sleepStreak7, (d) => (sleepByDay[d] ?? 0) >= 7 * 60, 7),
+    streak(
+      AchievementKind.sleepStreak7,
+      (d) => (sleepByDay[d] ?? 0) >= 7 * 60,
+      7,
+    ),
     count(
       AchievementKind.workouts10,
       [for (final w in workouts) w.start]..sort(),
@@ -364,4 +401,24 @@ List<Achievement> achievements(HealthStore store, DateTime now, {int days = 365}
     ),
     count(AchievementKind.wear30, wornDays.toList()..sort(), 30),
   ];
+}
+
+/// Bileklikten veri (adım ya da nabız) gelen üst üste gün sayısı, [day]
+/// dahil. Gün henüz bitmediği için [day]'de veri yoksa seri dünden sayılır.
+int dataStreak(HealthStore store, DateTime day, {int maxDays = 365}) {
+  final d0 = DateTime(day.year, day.month, day.day);
+  final start = DateTime(d0.year, d0.month, d0.day - maxDays);
+  final end = DateTime(d0.year, d0.month, d0.day + 1);
+  final days = <DateTime>{
+    for (final t in [MetricType.steps, MetricType.heartRate])
+      for (final m in store.measurements(t, start, end))
+        if (m.value > 0) DateTime(m.time.year, m.time.month, m.time.day),
+  };
+  var cursor = days.contains(d0) ? d0 : DateTime(d0.year, d0.month, d0.day - 1);
+  var n = 0;
+  while (days.contains(cursor)) {
+    n++;
+    cursor = DateTime(cursor.year, cursor.month, cursor.day - 1);
+  }
+  return n;
 }

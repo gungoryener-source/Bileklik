@@ -35,6 +35,27 @@ void main() {
     test('0x07 komut yanıtı veri sanılmaz', () {
       expect(EcgPacket.isData(ecgRawSwitch(true).bytes), isFalse);
     });
+
+    test('farklı boydaki veri paketleri de okunur', () {
+      // 16 bayt ama CRC tutmuyor: veri (4 örnek, sondaki 2 bayt atılır).
+      final sixteen = [0x07, 1, for (var i = 0; i < 14; i++) i + 1];
+      sixteen[15] = (Packet.crc(sixteen) + 1) & 0xFF;
+      expect(EcgPacket.isData(sixteen), isTrue);
+      expect(EcgPacket.parse(sixteen).samples, hasLength(4));
+      // 3'e bölünmeyen uzun paket.
+      final odd = [0x07, 2, for (var i = 0; i < 61; i++) 0];
+      expect(EcgPacket.isData(odd), isTrue);
+      expect(EcgPacket.parse(odd).samples, hasLength(20));
+      // Başka komut veri sayılmaz.
+      expect(EcgPacket.isData([0x09, 1, 2, 3, 4, 5]), isFalse);
+    });
+
+    test('örnekleme hızı yaygın değere yuvarlanır', () {
+      expect(EcgSession.snapSampleRate(247), 250);
+      expect(EcgSession.snapSampleRate(510), 512);
+      expect(EcgSession.snapSampleRate(129), 128);
+      expect(EcgSession.snapSampleRate(1500), 1500);
+    });
   });
 
   group('EKG çözümleme', () {
@@ -91,6 +112,52 @@ void main() {
       expect(r.samples.length, 30 * ecgSampleRate);
       expect(r.averageHeartRate, inInclusiveRange(55, 110));
       expect(controller.store.ecgRecordings(), [r]);
+    });
+
+    test('sağ el seçilince dalga ters çevrilir', () async {
+      final normal = <int>[];
+      for (final invert in [false, true]) {
+        final dev = FakeDevice(
+          random: Random(9),
+          realtimeInterval: const Duration(seconds: 30),
+          ecgPacketInterval: const Duration(milliseconds: 20),
+        );
+        final c = DeviceController(dev, store: MemoryHealthStore());
+        await c.connect();
+        await c.startEcg(invert: invert);
+        expect(c.ecg!.waiting, isTrue);
+        for (var i = 0; i < 50 && c.ecg!.samples.length < 10; i++) {
+          await Future<void>.delayed(const Duration(milliseconds: 10));
+        }
+        expect(c.ecg!.waiting, isFalse);
+        final first = c.ecg!.samples.take(10).toList();
+        if (invert) {
+          expect(first, [for (final v in normal) -v]);
+        } else {
+          normal.addAll(first);
+        }
+        await c.cancelEcg();
+        await c.disconnect();
+        dev.dispose();
+      }
+    });
+
+    test('veri hiç gelmezse sinyal yok ile biter', () async {
+      final quiet = FakeDevice(
+        random: Random(4),
+        realtimeInterval: const Duration(seconds: 30),
+        ecgPacketInterval: const Duration(milliseconds: 20),
+      );
+      final c = DeviceController(quiet, store: MemoryHealthStore());
+      await c.connect();
+      // Ham veri akışı açılmazsa sahte bileklik EKG göndermez.
+      quiet.ecgSilent = true;
+      await c.startEcg(waitForSignal: const Duration(milliseconds: 100));
+      await Future<void>.delayed(const Duration(milliseconds: 300));
+      expect(c.ecg, isNull);
+      expect(c.issue, DeviceIssue.noEcgSignal);
+      await c.disconnect();
+      quiet.dispose();
     });
 
     test('iptal edilen ölçüm kaydedilmez', () async {

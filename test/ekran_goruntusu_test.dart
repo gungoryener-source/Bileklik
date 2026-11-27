@@ -3,6 +3,9 @@ import 'dart:io';
 import 'dart:math';
 
 import 'package:bileklik/data/community.dart';
+import 'package:bileklik/data/day_summary.dart';
+import 'package:bileklik/data/models.dart';
+import 'package:bileklik/device/protocol/commands.dart';
 import 'package:bileklik/data/health_store.dart';
 import 'package:bileklik/data/portal.dart';
 import 'package:bileklik/device/fake_device.dart';
@@ -10,6 +13,15 @@ import 'package:bileklik/main.dart';
 import 'package:bileklik/state/app_settings.dart';
 import 'package:bileklik/state/device_controller.dart';
 import 'package:bileklik/ui/screens/community_dialogs.dart';
+import 'package:bileklik/ui/screens/biological_age_screen.dart';
+import 'package:bileklik/ui/screens/ecg_screen.dart';
+import 'package:bileklik/ui/screens/workout_detail_screen.dart';
+import 'package:bileklik/device/protocol/exercise.dart';
+import 'package:bileklik/ui/screens/assistant_screen.dart';
+import 'package:bileklik/ui/screens/location_screen.dart';
+import 'package:bileklik/ui/screens/strain_screen.dart';
+import 'package:bileklik/ui/screens/recovery_screen.dart';
+import 'package:bileklik/ui/screens/sleep_screen.dart';
 import 'package:bileklik/ui/screens/feedback_screen.dart';
 import 'package:bileklik/ui/screens/group_screen.dart';
 import 'package:bileklik/ui/screens/portal_account_screen.dart';
@@ -22,6 +34,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/testing.dart';
 import 'package:shelf/shelf.dart' as shelf;
+
+import 'ecg_report_test.dart' show recording;
 
 /// Ekran görüntüleri: yalnızca `EKRAN=1` ile çalışır.
 ///
@@ -55,8 +69,7 @@ Future<void> _loadFonts() async {
   }
   final arabic = File('build/NotoSansArabic.ttf');
   if (arabic.existsSync()) {
-    await (FontLoader('Noto Sans Arabic')..addFont(_bytes(arabic.path)))
-        .load();
+    await (FontLoader('Noto Sans Arabic')..addFont(_bytes(arabic.path))).load();
   }
 }
 
@@ -92,7 +105,10 @@ class _Backend {
 
 Future<void> _shot(WidgetTester tester, String name) async {
   await tester.pumpAndSettle();
-  await expectLater(find.byType(MaterialApp), matchesGoldenFile('ekran/$name.png'));
+  await expectLater(
+    find.byType(MaterialApp),
+    matchesGoldenFile('ekran/$name.png'),
+  );
 }
 
 Future<DeviceController> _app(
@@ -135,10 +151,12 @@ void _push(WidgetTester tester, Widget screen) => unawaited(
 
 Future<void> _tab(WidgetTester tester, int i) async {
   await tester.tap(
-    find.descendant(
-      of: find.byType(GlassNavBar),
-      matching: find.byType(Pressable),
-    ).at(i),
+    find
+        .descendant(
+          of: find.byType(GlassNavBar),
+          matching: find.byType(Pressable),
+        )
+        .at(i),
   );
   await tester.pumpAndSettle();
 }
@@ -151,6 +169,142 @@ void main() {
   testWidgets('ana sayfa', skip: !_enabled, (tester) async {
     await _app(tester, connect: true);
     await _shot(tester, '01-ana-sayfa');
+  });
+
+  testWidgets('EKG raporu', skip: !_enabled, (tester) async {
+    final c = await _app(tester);
+    c.store
+      ..addEcg(
+        recording(DateTime(2026, 11, 24, 21, 5), heartRate: 88, jitter: 0.3),
+      )
+      ..addEcg(recording(DateTime(2026, 11, 25, 18, 43)));
+    _push(tester, const EcgScreen());
+    await _shot(tester, 'ekg-raporu');
+    await tester.drag(find.byType(Scrollable).last, const Offset(0, -700));
+    await _shot(tester, 'ekg-raporu-2');
+  });
+
+  testWidgets('ana sayfa yeni düzen', skip: !_enabled, (tester) async {
+    final c = await _app(tester, connect: true);
+    // Dün gece için örnek bir düşük HRV olayı.
+    final now = DateTime.now();
+    final night = DaySummary.of(c.store, now).night;
+    if (night != null) {
+      c.store.addMeasurements([
+        Measurement(
+          MetricType.hrv,
+          night.start.add(const Duration(hours: 2, minutes: 36)),
+          8,
+        ),
+      ]);
+    }
+    await tester.pumpAndSettle();
+    await _shot(tester, 'ana-1');
+    for (var i = 2; i <= 6; i++) {
+      await tester.drag(find.byType(Scrollable).first, const Offset(0, -700));
+      await _shot(tester, 'ana-$i');
+    }
+  });
+
+  testWidgets('biyolojik yaş', skip: !_enabled, (tester) async {
+    final c = await _app(tester, connect: true);
+    c.profile = const PersonalInfo(
+      isMale: true,
+      age: 40,
+      heightCm: 178,
+      weightKg: 75,
+    );
+    await tester.pumpAndSettle();
+    _push(tester, BiologicalAgeScreen(day: DateTime.now()));
+    await _shot(tester, 'biyo-1');
+    await tester.drag(find.byType(Scrollable).last, const Offset(0, -700));
+    await _shot(tester, 'biyo-2');
+  });
+
+  testWidgets('uyku ve toparlanma', skip: !_enabled, (tester) async {
+    await _app(tester, connect: true);
+    _push(tester, SleepScreen(day: DateTime.now()));
+    await _shot(tester, 'uyku-1');
+    for (var i = 2; i <= 5; i++) {
+      await tester.drag(find.byType(Scrollable).last, const Offset(0, -700));
+      await _shot(tester, 'uyku-$i');
+    }
+    _push(tester, RecoveryScreen(day: DateTime.now()));
+    await _shot(tester, 'toparlanma-1');
+    await tester.drag(find.byType(Scrollable).last, const Offset(0, -900));
+    await _shot(tester, 'toparlanma-2');
+    _push(tester, StrainScreen(day: DateTime.now()));
+    await _shot(tester, 'yuk-1');
+    await tester.drag(find.byType(Scrollable).last, const Offset(0, -900));
+    await _shot(tester, 'yuk-2');
+  });
+
+  testWidgets('egzersiz raporu', skip: !_enabled, (tester) async {
+    final c = await _app(tester, connect: true);
+    final w = c.store
+        .workoutsBetween(
+          DateTime.now().subtract(const Duration(days: 7)),
+          DateTime.now(),
+        )
+        .firstWhere((w) => w.type != SportType.walk);
+    _push(tester, WorkoutDetailScreen(workout: w));
+    await _shot(tester, 'egzersiz-1');
+    await tester.drag(find.byType(Scrollable).last, const Offset(0, -800));
+    await _shot(tester, 'egzersiz-2');
+  });
+
+  testWidgets('egzersiz sekmesi', skip: !_enabled, (tester) async {
+    await _app(tester, connect: true);
+    await _tab(tester, 2);
+    await _shot(tester, 'egzersiz-ana');
+  });
+
+  testWidgets('konum paylaşımı', skip: !_enabled, (tester) async {
+    final community = FakeCommunityServer(
+      latency: Duration.zero,
+      acceptDelay: null,
+    );
+    await tester.runAsync(() async {
+      final g = await community.joinWithCode(FakeCommunityServer.demoCode);
+      await community.answerInvite('msg-elif', accept: true);
+      await community.setLocationShare(g!.id, {'m-ahmet'});
+    });
+    await _app(tester, community: community);
+    await tester.runAsync(
+      () => Future<void>.delayed(const Duration(milliseconds: 50)),
+    );
+    _push(tester, const LocationScreen());
+    await _shot(tester, 'konum-1');
+    await tester.drag(find.byType(Scrollable).last, const Offset(0, -600));
+    await _shot(tester, 'konum-2');
+  });
+
+  testWidgets('sağlık asistanı', skip: !_enabled, (tester) async {
+    await _app(tester, connect: true);
+    _push(tester, const AssistantScreen(typingDelay: Duration.zero));
+    await _shot(tester, 'asistan-1');
+    await tester.enterText(find.byType(TextField), 'Dün gece uykum nasıldı?');
+    await tester.tap(find.byTooltip('Gönder'));
+    await tester.pumpAndSettle();
+    await _shot(tester, 'asistan-2');
+    await tester.tap(
+      find.text('Sağlık durumuma göre bir antrenman programı önerir misin?'),
+    );
+    await tester.pumpAndSettle();
+    await _shot(tester, 'asistan-3');
+  });
+
+  testWidgets('sağlık sekmesi', skip: !_enabled, (tester) async {
+    final c = await _app(tester, connect: true);
+    c.store.addEcg(
+      recording(DateTime.now().subtract(const Duration(hours: 2))),
+    );
+    await _tab(tester, 1);
+    await _shot(tester, 'saglik-1');
+    for (var i = 2; i <= 4; i++) {
+      await tester.drag(find.byType(Scrollable).first, const Offset(0, -650));
+      await _shot(tester, 'saglik-$i');
+    }
   });
 
   testWidgets('profil', skip: !_enabled, (tester) async {
@@ -266,8 +420,11 @@ void main() {
     );
     final login = await send('POST', '/panel/login', body: 'token=doctor');
     final cookie = login.headers['set-cookie']!.split(';').first;
-    final home = await (await send('GET', '/panel', cookie: cookie))
-        .readAsString();
+    final home = await (await send(
+      'GET',
+      '/panel',
+      cookie: cookie,
+    )).readAsString();
     final csrf = RegExp(r'name="csrf" value="([0-9a-f]+)"')
         .firstMatch(home)!
         .group(1)!;
@@ -275,7 +432,8 @@ void main() {
       'POST',
       '/panel/invites',
       cookie: cookie,
-      body: 'csrf=$csrf&purpose=Ritim+takibi&scope=heartRate&scope=spo2&days=90',
+      body:
+          'csrf=$csrf&purpose=Ritim+takibi&scope=heartRate&scope=spo2&days=90',
     )).readAsString();
     final code = RegExp(r'class="code">([A-Z2-9]{7})<')
         .firstMatch(created)!
@@ -291,26 +449,26 @@ void main() {
       'POST',
       '/fhir',
       bearer: 'patient',
-      body: '{"resourceType":"Bundle","type":"collection","entry":['
+      body:
+          '{"resourceType":"Bundle","type":"collection","entry":['
           '{"resource":{"resourceType":"Patient","id":"$patient"}}'
-          '${[
-            for (var i = 0; i < 14; i++)
-              ',{"resource":{"resourceType":"Observation","identifier":[{"system":"x","value":"hr$i"}],'
-                  '"status":"final","code":{"coding":[{"system":"http://loinc.org","code":"8867-4"}]},'
-                  '"subject":{"reference":"urn:uuid:$patient"},'
-                  '"effectiveDateTime":"${now.subtract(Duration(hours: i * 12)).toIso8601String()}",'
-                  '"valueQuantity":{"value":${68 + (i * 7) % 15},"unit":"beats/minute"}}}',
-            ',{"resource":{"resourceType":"Observation","identifier":[{"system":"x","value":"o1"}],'
-                '"status":"final","code":{"coding":[{"system":"http://loinc.org","code":"59408-5"}]},'
+          '${[for (var i = 0; i < 14; i++) ',{"resource":{"resourceType":"Observation","identifier":[{"system":"x","value":"hr$i"}],'
+                '"status":"final","code":{"coding":[{"system":"http://loinc.org","code":"8867-4"}]},'
                 '"subject":{"reference":"urn:uuid:$patient"},'
-                '"effectiveDateTime":"${now.toIso8601String()}",'
-                '"valueQuantity":{"value":97,"unit":"%"}}}',
-          ].join()}]}',
+                '"effectiveDateTime":"${now.subtract(Duration(hours: i * 12)).toIso8601String()}",'
+                '"valueQuantity":{"value":${68 + (i * 7) % 15},"unit":"beats/minute"}}}', ',{"resource":{"resourceType":"Observation","identifier":[{"system":"x","value":"o1"}],'
+              '"status":"final","code":{"coding":[{"system":"http://loinc.org","code":"59408-5"}]},'
+              '"subject":{"reference":"urn:uuid:$patient"},'
+              '"effectiveDateTime":"${now.toIso8601String()}",'
+              '"valueQuantity":{"value":97,"unit":"%"}}}'].join()}]}',
     );
     final dir = Directory('test/ekran')..createSync(recursive: true);
     Future<void> save(String name, String path) async {
-      final html = await (await send('GET', path, cookie: cookie))
-          .readAsString();
+      final html = await (await send(
+        'GET',
+        path,
+        cookie: cookie,
+      )).readAsString();
       File('${dir.path}/$name.html').writeAsStringSync(html);
     }
 

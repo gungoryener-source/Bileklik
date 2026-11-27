@@ -2852,4 +2852,1337 @@ class AppLocalizationsTr extends AppLocalizations {
   @override
   String get subscriptionFreeText =>
       'Ölçüm, geçmiş, paylaşım ve uyarılar ücretsiz. Yapay zeka raporu Premium ile açılır.';
+
+  @override
+  String get diagTitle => 'Bağlantı tanılama';
+
+  @override
+  String get diagOpen => 'Bağlantı tanılama';
+
+  @override
+  String get diagIntro =>
+      'Bileklikle ilk denemelerde ne olduğunu gösterir. Bir sorun olursa kaydı paylaşın.';
+
+  @override
+  String get diagMode => 'Kip';
+
+  @override
+  String get diagModeReal => 'Gerçek bileklik';
+
+  @override
+  String get diagModeDemo => 'Demo (sahte bileklik)';
+
+  @override
+  String get diagConnecting => 'Bağlanıyor';
+
+  @override
+  String get diagPaired => 'Eşleştirilen';
+
+  @override
+  String get diagNone => 'Yok';
+
+  @override
+  String get diagWriteLength => 'Paket boyu';
+
+  @override
+  String diagWriteLengthValue(int bytes) {
+    return '$bytes bayt';
+  }
+
+  @override
+  String get diagNextRetry => 'Yeniden deneme';
+
+  @override
+  String diagNextRetryValue(int seconds) {
+    return '$seconds sn sonra';
+  }
+
+  @override
+  String get diagReconnect => 'Şimdi bağlan';
+
+  @override
+  String get diagForget => 'Eşleştirmeyi unut';
+
+  @override
+  String get diagSectionTests => 'Test komutları';
+
+  @override
+  String get diagTestsHint =>
+      'Bağlıyken dokunun; gönderilen ve gelen paketler aşağıdaki kayıtta görünür.';
+
+  @override
+  String get diagTestBattery => 'Pil';
+
+  @override
+  String get diagTestTime => 'Saat';
+
+  @override
+  String get diagTestFirmware => 'Sürüm';
+
+  @override
+  String get diagTestProfile => 'Kişisel bilgi';
+
+  @override
+  String get diagTestRealtime => 'Anlık veri';
+
+  @override
+  String get diagRawLabel => 'Ham komut (onaltılık)';
+
+  @override
+  String get diagRawHint => 'ör. 13 — CRC kendiliğinden eklenir';
+
+  @override
+  String get diagRawSend => 'Gönder';
+
+  @override
+  String get diagRawInvalid => 'Geçerli onaltılık bayt yazın (en çok 15).';
+
+  @override
+  String get diagNotConnected => 'Önce bilekliğe bağlanın.';
+
+  @override
+  String get diagSectionScan => 'Tüm cihazları ara';
+
+  @override
+  String get diagScanHint =>
+      'Bileklik eşleştirme ekranında çıkmıyorsa buradan arayın: ad süzgeci olmadan yakındaki tüm Bluetooth cihazları listelenir.';
+
+  @override
+  String get diagScan => 'Ara';
+
+  @override
+  String get diagScanning => 'Aranıyor…';
+
+  @override
+  String get diagScanEmpty => 'Cihaz bulunamadı.';
+
+  @override
+  String get diagConnectTo => 'Bağlan';
+
+  @override
+  String get diagSectionDeveloper => 'Geliştirici';
+
+  @override
+  String get diagDemoSwitch => 'Demo kipi (sahte bileklik)';
+
+  @override
+  String get diagDemoHint =>
+      'Uygulamayı kapatıp açınca geçerli olur. Demo verileri Health Connect\'e yazılmaz.';
+
+  @override
+  String get diagRestartNeeded => 'Uygulamayı kapatıp yeniden açın.';
+
+  @override
+  String get diagSectionLog => 'Kayıt';
+
+  @override
+  String get diagLogEmpty => 'Henüz kayıt yok.';
+
+  @override
+  String get diagShare => 'Kaydı paylaş';
+
+  @override
+  String get diagClear => 'Kaydı temizle';
+
+  @override
+  String diagLogCount(int count) {
+    return '$count satır, en yenisi üstte';
+  }
+
+  @override
+  String get startupFailedTitle => 'Uygulama başlatılamadı';
+
+  @override
+  String get startupFailedBody =>
+      'Açılırken bir hata oluştu. Aşağıdaki metni kopyalayıp bize gönderin; düzeltip yeni sürüm çıkaracağız.';
+
+  @override
+  String get startupFailedCopy => 'Hatayı kopyala';
+
+  @override
+  String get ecgPrepareTitle => 'EKG ölçümü';
+
+  @override
+  String get ecgHandQuestion => 'Bileklik hangi bileğinizde?';
+
+  @override
+  String get ecgHandLeft => 'Sol el';
+
+  @override
+  String get ecgHandRight => 'Sağ el';
+
+  @override
+  String get ecgWearTip =>
+      'En iyi sonuç için bilekliği bilek kemiğinin yaklaşık bir parmak üstüne takın ve ciltle tam temas ettiğinden emin olun. Ölçüm sırasında elinizi gevşek ve hareketsiz tutun.';
+
+  @override
+  String get ecgStartMeasure => 'Ölçümü başlat';
+
+  @override
+  String get ecgTip1Title => 'Oturun, ayaklarınızı yere düz basın';
+
+  @override
+  String get ecgTip1Body => 'Dik oturmak duruşun ölçümü etkilemesini azaltır.';
+
+  @override
+  String get ecgTip2Title => 'Kollarınızı masaya koyun';
+
+  @override
+  String get ecgTip2Body =>
+      'Kollarınız gevşek olsun; kas gerginliği sinyali bozar.';
+
+  @override
+  String get ecgTip3Title => 'Konuşmayın, hareket etmeyin';
+
+  @override
+  String get ecgTip3Body => 'Sinyal daha net ve kararlı olur.';
+
+  @override
+  String get ecgTip4Title =>
+      'Diğer elinizin parmağını bilekliğin metal temas noktasına koyun';
+
+  @override
+  String get ecgTip4Body =>
+      'Hafifçe dokunmanız yeterli; bastırmayın ve ölçüm bitene kadar bekleyin.';
+
+  @override
+  String get ecgWaitingTitle => 'Parmağınızı metal temas noktasına koyun';
+
+  @override
+  String get ecgWaitingBody =>
+      'Bileklik sinyali algılayınca sayaç kendiliğinden başlar.';
+
+  @override
+  String ecgWaitingElapsed(int seconds) {
+    return 'Sinyal bekleniyor · $seconds sn';
+  }
+
+  @override
+  String get ecgNoSignalYetTitle => 'Sinyal henüz gelmedi';
+
+  @override
+  String get ecgNoSignalYetBody =>
+      'Bilekliğin cildinize tam değdiğinden ve parmağınızın metal noktaya dokunduğundan emin olun. Sorun sürerse bağlantı kaydını bize gönderin.';
+
+  @override
+  String get ecgSecondsUnit => 'sn';
+
+  @override
+  String get ecgLiveDisclaimer =>
+      'Canlı dalga yalnızca bilgi içindir, tanı için kullanılmaz. Ölçüm bitince ayrıntılı kayıt açılır.';
+
+  @override
+  String get diagCleared =>
+      'Kayıt temizlendi. Yeni paketler gelmeye devam eder.';
+
+  @override
+  String get ecgReportTitle => 'EKG raporu';
+
+  @override
+  String get ecgReportPickMonth => 'Ay seçin';
+
+  @override
+  String ecgReportMonthEmpty(String month) {
+    return '$month ayında EKG kaydı yok.';
+  }
+
+  @override
+  String ecgReportMonthCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count kayıt',
+      one: '1 kayıt',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String ecgReportWhen(String date, String time) {
+    return '$date, $time';
+  }
+
+  @override
+  String get ecgFindingNormalOk => 'Normal kalp ritmi görüldü';
+
+  @override
+  String get ecgFindingNormalFlagged => 'Ritimde normal dışı bulgu var';
+
+  @override
+  String get ecgFindingHighOk => 'Yüksek kalp hızı görülmedi';
+
+  @override
+  String get ecgFindingHighFlagged => 'Yüksek kalp hızı görüldü (100 bpm üstü)';
+
+  @override
+  String get ecgFindingLowOk => 'Düşük kalp hızı görülmedi';
+
+  @override
+  String get ecgFindingLowFlagged => 'Düşük kalp hızı görüldü (50 bpm altı)';
+
+  @override
+  String get ecgFindingAfibOk => 'Atriyal fibrilasyon belirtisi görülmedi';
+
+  @override
+  String get ecgFindingAfibFlagged =>
+      'Düzensiz ritim: atriyal fibrilasyon olabilir, kaydı hekiminize gösterin';
+
+  @override
+  String get ecgFindingUnknown =>
+      'Kayıt değerlendirilemedi: yeterli atım bulunamadı ya da sinyal gürültülü';
+
+  @override
+  String get ecgReportNote =>
+      'Bulgular uygulamanın otomatik ön değerlendirmesidir, tanı değildir.';
+
+  @override
+  String get healthMeasure => 'Ölçüm';
+
+  @override
+  String get healthAdd => 'Ekle';
+
+  @override
+  String healthGoalValue(String goal) {
+    return '/$goal';
+  }
+
+  @override
+  String get healthSleepShort => 'Uyku süresi yetersiz';
+
+  @override
+  String get healthSleepGood => 'Yeterli uyku';
+
+  @override
+  String get healthSleepLong => 'Uzun uyku';
+
+  @override
+  String get healthEcgUnassessed => 'Değerlendirilemedi';
+
+  @override
+  String get healthVo2Unit => 'ml/kg/dk';
+
+  @override
+  String get healthVo2NeedsData => 'Yaşınız ve birkaç günlük nabız gerekiyor';
+
+  @override
+  String get healthEstimated => 'Tahmini';
+
+  @override
+  String get homeLateNightTitle => 'Gece geç oldu, dinlenmeyi deneyin';
+
+  @override
+  String get homeLateNightBody =>
+      'Erken dinlenmek yarın nasıl hissedeceğiniz için önemli. Ekranı bırakıp gözlerinizi dinlendirin.';
+
+  @override
+  String get homeLowRecoveryTitle => 'Bugün vücudunuz toparlanıyor';
+
+  @override
+  String get homeLowRecoveryBody =>
+      'Gece HRV\'niz olağandan düşük. Yoğun antrenman yerine hafif hareket ve erken uyku seçin.';
+
+  @override
+  String get homeSleepScore => 'Uyku';
+
+  @override
+  String get homeDailyRecovery => 'Günlük toparlanma';
+
+  @override
+  String get homeDailyLoad => 'Günlük yük';
+
+  @override
+  String homeGaugeSemantics(String label, String value) {
+    return '$label: $value';
+  }
+
+  @override
+  String get homeAiTitle => 'Bugünkü AI analizi';
+
+  @override
+  String get homeAiBody =>
+      'Bugünkü verilerinizden kişisel bir sağlık özeti oluşturun.';
+
+  @override
+  String get homeSleepExcellent => 'Mükemmel';
+
+  @override
+  String get homeSleepGood => 'İyi';
+
+  @override
+  String get homeSleepFair => 'Fena değil';
+
+  @override
+  String get homeSleepPoor => 'Zayıf';
+
+  @override
+  String get homeSleepDuration => 'Süre';
+
+  @override
+  String get homeActivity => 'Aktivite';
+
+  @override
+  String get homeActivityLow => 'Yetersiz hareket';
+
+  @override
+  String get homeActivityFair => 'Orta hareket';
+
+  @override
+  String get homeActivityGood => 'İyi hareket';
+
+  @override
+  String get homeActivityDone => 'Hedefe ulaşıldı';
+
+  @override
+  String get homeKilometers => 'Kilometre';
+
+  @override
+  String get homeFellAsleep => 'Uykuya daldınız';
+
+  @override
+  String get homeFellAsleepSubtitle => 'Uyku başlangıcı';
+
+  @override
+  String get homeNightLowHrv => 'Düşük HRV';
+
+  @override
+  String get homeNightHighHr => 'Uykuda yüksek nabız';
+
+  @override
+  String get homeNightLowHr => 'Uykuda düşük nabız';
+
+  @override
+  String get homeNightLowSpo2 => 'Kan oksijeni düşüşü';
+
+  @override
+  String get homeRestingLabel => 'Dinlenik nabız';
+
+  @override
+  String get homeAverageLabel => 'Ortalama';
+
+  @override
+  String get homeLowestLabel => 'En düşük';
+
+  @override
+  String get bioAgeCollectingTitle => 'Veri toplanıyor';
+
+  @override
+  String bioAgeCollectingBody(int days) {
+    return 'İlk biyolojik yaş raporunuz için en az $days gün kesintisiz ve eksiksiz veri gerekiyor.';
+  }
+
+  @override
+  String get bioAgeCollectingProgress => 'Toplanan veri';
+
+  @override
+  String bioAgeCollectingDays(int done, int total) {
+    return '$done/$total gün';
+  }
+
+  @override
+  String bioAgeRemaining(int days) {
+    return '$days gün kaldı';
+  }
+
+  @override
+  String get bioAgeKeepGoing =>
+      'Bilekliği takmayı sürdürün; biyolojik yaşınızı yakında göreceksiniz.';
+
+  @override
+  String get bioAgeDailyRequired => 'Her gün gereken veriler';
+
+  @override
+  String get bioAgeDataSleep => 'Uyku';
+
+  @override
+  String get bioAgeDataHeartRate => 'Nabız';
+
+  @override
+  String get bioAgeDataExercise => 'Egzersiz';
+
+  @override
+  String get bioAgeDataSteps => 'Adım';
+
+  @override
+  String get bioAgeToday => 'Bugün geldi';
+
+  @override
+  String get bioAgeNotToday => 'Bugün henüz yok';
+
+  @override
+  String get bioAgeOptional => 'İsteğe bağlı';
+
+  @override
+  String get bioAgeAgeCheckTitle =>
+      'Profilinizdeki yaşın doğru olduğundan emin olun.';
+
+  @override
+  String get bioAgeAgeCheckBody =>
+      'Biyolojik yaşınız ve sağlık ölçütleriniz gerçek yaşınıza göre hesaplanır.';
+
+  @override
+  String get bioAgeTipsTitle => 'Veri toplama ipuçları';
+
+  @override
+  String get bioAgeTipSleep =>
+      'Uykunuzun eksiksiz kaydedilmesi için her gece bilekliği takarak uyuyun.';
+
+  @override
+  String get bioAgeTipHeart =>
+      'Nabzın doğru ölçülmesi için bilekliği gün boyu takın.';
+
+  @override
+  String get bioAgeTipActivity =>
+      'Günlük adımınızı ve egzersizlerinizi kaydedin.';
+
+  @override
+  String get sleepScoreLabel => 'Uyku skoru';
+
+  @override
+  String get sleepBedTime => 'Uykuya dalma';
+
+  @override
+  String get sleepWakeTime => 'Uyanma';
+
+  @override
+  String get sleepDistribution => 'Uyku dağılımı';
+
+  @override
+  String get sleepIdealRange => 'İdeal aralık';
+
+  @override
+  String sleepIdealValue(int low, int high) {
+    return 'İdeal %$low–$high';
+  }
+
+  @override
+  String get sleepPattern => 'Uyku örüntüsü';
+
+  @override
+  String get sleepInBed => 'Yatakta kalma süresi';
+
+  @override
+  String get sleepEfficiency => 'Uyku verimliliği';
+
+  @override
+  String get sleepLatency => 'Uykuya dalma süresi';
+
+  @override
+  String get sleepDebt => 'Uyku borcu';
+
+  @override
+  String get sleepNoDebt => 'Yok';
+
+  @override
+  String get sleepDuringHeartRate => 'Uyku sırasında nabız';
+
+  @override
+  String get sleepDuringSpo2 => 'Uyku sırasında kan oksijeni';
+
+  @override
+  String get sleepDuringHrv => 'Uyku sırasında HRV';
+
+  @override
+  String get sleepNaps => 'Kısa şekerlemeler';
+
+  @override
+  String get sleepNoNaps => 'Kısa şekerleme yok';
+
+  @override
+  String sleepSummaryDebt(String duration, String debt) {
+    return 'Bu uykuda $duration uyudunuz; günlük 8 saatlik ihtiyacınıza göre $debt uyku borcunuz var.';
+  }
+
+  @override
+  String sleepSummaryEnough(String duration) {
+    return 'Bu uykuda $duration uyudunuz; günlük ihtiyacınızı karşıladınız.';
+  }
+
+  @override
+  String get sleepSummaryLowDeep =>
+      'Derin uykunuz önerilen aralığın altında; akşam kafein ve ağır yemekten kaçınmak yardımcı olabilir.';
+
+  @override
+  String sleepSummaryLowEfficiency(int value) {
+    return 'Yatakta uyanık geçen süre uzun; uyku verimliliğiniz %$value.';
+  }
+
+  @override
+  String get sleepSummaryNote =>
+      'Bilekliğin ölçümlerinden uygulamanın kendi değerlendirmesidir; tıbbi değildir.';
+
+  @override
+  String sleepStagesChart(String start, String end) {
+    return 'Uyku evreleri, $start ile $end arası';
+  }
+
+  @override
+  String get recoveryTitle => 'Toparlanma';
+
+  @override
+  String get recoveryExcellent => 'Mükemmel';
+
+  @override
+  String get recoveryGood => 'İyi';
+
+  @override
+  String get recoveryNormal => 'Normal';
+
+  @override
+  String get recoveryPoor => 'Zayıf';
+
+  @override
+  String get recoveryInadequate => 'Yetersiz';
+
+  @override
+  String get recoveryOptimal => 'İdeal';
+
+  @override
+  String get recoveryAssessment => 'Değerlendirme';
+
+  @override
+  String get recoveryCommentExcellent =>
+      'Çok iyi toparlandınız; yoğun antrenman için uygun bir gün.';
+
+  @override
+  String get recoveryCommentGood =>
+      'İyi toparlandınız; olağan antrenmanınızı yapabilirsiniz.';
+
+  @override
+  String get recoveryCommentNormal =>
+      'Toparlanma orta düzeyde, hafif yorgunluk var. Hafif aktivite önerilir.';
+
+  @override
+  String get recoveryCommentPoor =>
+      'Toparlanma zayıf; bugün tempoyu düşürün ve dinlenmeye öncelik verin.';
+
+  @override
+  String get recoveryCommentInadequate =>
+      'Vücudunuz yeterince toparlanmadı; bugün dinlenin ve erken yatın.';
+
+  @override
+  String get recoveryHrvLow =>
+      'HRV\'niz olağanın altında; vücudunuz hâlâ toparlanıyor olabilir.';
+
+  @override
+  String get recoveryRhrHigh => 'Dinlenik nabzınız olağandan yüksek.';
+
+  @override
+  String get recoveryNote =>
+      'Bilekliğin ölçümlerinden uygulamanın kendi tahminidir; tıbbi değildir.';
+
+  @override
+  String get recoveryIndicators => 'Toparlanma göstergeleri';
+
+  @override
+  String get recoveryRestingHr => 'Dinlenik nabız';
+
+  @override
+  String get recoveryHrv => 'HRV';
+
+  @override
+  String get recoveryStress => 'Stres';
+
+  @override
+  String get recoverySleepScore => 'Uyku skoru';
+
+  @override
+  String recoveryUsual(String value) {
+    return 'Olağan $value';
+  }
+
+  @override
+  String get recoveryTrend => 'Eğilim';
+
+  @override
+  String get recoveryWeek => 'Hafta';
+
+  @override
+  String get recoveryMonth => 'Ay';
+
+  @override
+  String recoveryRange(String start, String end) {
+    return '$start – $end';
+  }
+
+  @override
+  String get recoveryEmpty =>
+      'Toparlanma için gece HRV\'si ya da uyku verisi gerekiyor. Bilekliği bu gece takın.';
+
+  @override
+  String get recoveryTrendEmpty => 'Bu dönemde veri yok';
+
+  @override
+  String recoveryRingSemantics(String value, String level) {
+    return 'Günlük toparlanma $value, $level';
+  }
+
+  @override
+  String recoveryTrendSemantics(String range, String value) {
+    return '$range toparlanma eğilimi, ortalama $value';
+  }
+
+  @override
+  String homeStreakSemantics(int days) {
+    return '$days gün üst üste veri';
+  }
+
+  @override
+  String get homeEnergyLabel => 'Enerji';
+
+  @override
+  String get homeEnergyHigh => 'Yüksek';
+
+  @override
+  String get homeEnergyNormal => 'Normal';
+
+  @override
+  String get homeEnergyLow => 'Düşük';
+
+  @override
+  String homeEnergyVsYesterday(String delta) {
+    return 'Düne göre $delta';
+  }
+
+  @override
+  String get homeEnergySame => 'Dünle aynı';
+
+  @override
+  String get homeEnergyNoCompare => 'Dünle karşılaştırma yok';
+
+  @override
+  String get homeTrainingPlan => 'Antrenman planı';
+
+  @override
+  String get homeAiCollapse => 'Daralt';
+
+  @override
+  String get homeAiExpand => 'Genişlet';
+
+  @override
+  String homeAiUpdated(String time) {
+    return 'Veriler $time itibarıyla güncellendi';
+  }
+
+  @override
+  String get homeAiReanalyze => 'Yeniden analiz et';
+
+  @override
+  String get homeAiNoData =>
+      'Bugün için analiz edilecek veri henüz yok. Bilekliği takıp eşitleyin.';
+
+  @override
+  String homeAiLoad(String value) {
+    return 'Bugünkü günlük yükünüz $value/21.';
+  }
+
+  @override
+  String get navAi => 'AI analizi';
+
+  @override
+  String get planTitle => 'Bugünkü antrenman planı';
+
+  @override
+  String get planIntenseTitle => 'Yoğun antrenman';
+
+  @override
+  String get planIntenseBody =>
+      '35–45 dakika tempolu koşu ya da aralıklı antrenman yapabilirsiniz.';
+
+  @override
+  String get planModerateTitle => 'Orta tempolu antrenman';
+
+  @override
+  String get planModerateBody =>
+      '30–40 dakika tempolu yürüyüş, bisiklet ya da hafif koşu.';
+
+  @override
+  String get planLightTitle => 'Hafif aktivite';
+
+  @override
+  String get planLightBody => '20–30 dakika rahat yürüyüş ya da esneme.';
+
+  @override
+  String get planRestTitle => 'Dinlenme günü';
+
+  @override
+  String get planRestBody =>
+      '10–15 dakika esneme ya da nefes egzersizi; yoğun antrenmandan kaçının.';
+
+  @override
+  String planZone(String range, String zone) {
+    return 'Hedef nabız: $range ($zone)';
+  }
+
+  @override
+  String planBasedOn(String value) {
+    return 'Bugünkü toparlanmanıza ($value) göre önerilir.';
+  }
+
+  @override
+  String get planNeedsData =>
+      'Plan için gece HRV\'si ya da uyku verisi gerekiyor. Bilekliği bu gece takın.';
+
+  @override
+  String get planNote =>
+      'Uygulamanın kendi önerisidir; rahatsızlık hissederseniz durun.';
+
+  @override
+  String get planNeedsAge =>
+      'Hedef nabız için Kişisel bilgiler\'e yaşınızı girin.';
+
+  @override
+  String get bioAgeUnlockTitle => 'Biyolojik yaşınızı açın';
+
+  @override
+  String bioAgeUnlockIn(int days) {
+    return '$days gün sonra kişisel biyolojik yaşınız açılır.';
+  }
+
+  @override
+  String get strainVeryLow => 'Çok düşük';
+
+  @override
+  String get strainNormal => 'Normal';
+
+  @override
+  String get strainModerate => 'Orta';
+
+  @override
+  String get strainHigh => 'Yüksek';
+
+  @override
+  String get strainOverloaded => 'Aşırı yüklü';
+
+  @override
+  String get strainAiTitle => 'AI analizi';
+
+  @override
+  String get strainCommentVeryLow =>
+      'Bugün genel yükünüz düşük kaldı; vücudunuz üzerinde çok az zorlanma var.';
+
+  @override
+  String get strainCommentNormal =>
+      'Bugün dengeli bir yük taşıdınız; gündelik hareket iyi düzeyde.';
+
+  @override
+  String get strainCommentModerate =>
+      'Bugün orta düzeyde zorlandınız; bu yük kondisyonu geliştirir.';
+
+  @override
+  String get strainCommentHigh =>
+      'Bugün yüksek yük taşıdınız; iyi uyku ve sıvı ile toparlanmaya özen gösterin.';
+
+  @override
+  String get strainCommentOverloaded =>
+      'Bugün vücudunuz çok yoğun zorlandı; yarın hafif bir gün planlayın ve iyi dinlenin.';
+
+  @override
+  String strainBelowOptimal(String low, String high) {
+    return 'Toparlanmanıza göre bugün biraz daha hareket edebilirsiniz; size uygun yük $low–$high.';
+  }
+
+  @override
+  String strainAboveOptimal(String low, String high) {
+    return 'Yükünüz toparlanmanıza göre uygun aralığın ($low–$high) üstünde; dinlenmeye zaman ayırın.';
+  }
+
+  @override
+  String get strainNote =>
+      'Nabız, adım ve egzersiz verisinden uygulamanın kendi tahminidir; tıbbi değildir.';
+
+  @override
+  String get strainIndicators => 'Yük göstergeleri';
+
+  @override
+  String get strainSleep => 'Uyku';
+
+  @override
+  String get strainAvgHr => 'Ort. nabız';
+
+  @override
+  String get strainSteps => 'Adım';
+
+  @override
+  String get strainKcal => 'kcal';
+
+  @override
+  String get strainWorkout => 'Egzersiz';
+
+  @override
+  String get strainEmpty =>
+      'Günlük yük için nabız, adım ya da egzersiz verisi gerekiyor. Bilekliği gün boyu takın.';
+
+  @override
+  String strainRingSemantics(String value, String level) {
+    return 'Günlük yük $value, $level';
+  }
+
+  @override
+  String strainTrendSemantics(String range, String value) {
+    return '$range günlük yük eğilimi, ortalama $value';
+  }
+
+  @override
+  String get strainOpen => 'Günlük yük ayrıntısı';
+
+  @override
+  String get wrTitle => 'Egzersiz raporu';
+
+  @override
+  String get wrLoad => 'Egzersiz yükü';
+
+  @override
+  String get wrAvgHr => 'Ortalama nabız';
+
+  @override
+  String get wrMaxHr => 'Maksimum nabız';
+
+  @override
+  String get wrMet => 'Metabolik eşdeğer';
+
+  @override
+  String get wrMetLight => 'Hafif aktivite';
+
+  @override
+  String get wrMetModerate => 'Kondisyonu koruma';
+
+  @override
+  String get wrMetVigorous => 'Dayanıklılığı güçlendirme';
+
+  @override
+  String get wrMetCommentLight =>
+      'Hafif yoğunlukta bir egzersiz yaptınız; dolaşımı canlandırır ve toparlanmaya yardım eder.';
+
+  @override
+  String get wrMetCommentModerate =>
+      'Orta yoğunlukta egzersiz yaptınız; kalp ve kas kondisyonunuzu korur.';
+
+  @override
+  String get wrMetCommentVigorous =>
+      'Yüksek yoğunlukta egzersiz yaptınız. Bu tür aktiviteler nabzı hızla yükseltir; kalp-akciğer kapasitesini, kas gücünü ve dayanıklılığı belirgin biçimde artırır.';
+
+  @override
+  String get wrRecovery => 'Toparlanma';
+
+  @override
+  String wrHrChart(String unit) {
+    return 'Kalp atış hızı ($unit)';
+  }
+
+  @override
+  String get wrRange => 'Aralık';
+
+  @override
+  String get wrZones => 'Nabız bölgeleri';
+
+  @override
+  String get wrNote =>
+      'Nabız ve kaloriden uygulamanın kendi tahminidir; tıbbi değildir.';
+
+  @override
+  String wrLoadSemantics(String value) {
+    return 'Egzersiz yükü $value / 21';
+  }
+
+  @override
+  String wrGaugeSemantics(String label, String value, String level) {
+    return '$label $value, $level';
+  }
+
+  @override
+  String wrChartSemantics(String range) {
+    return 'Egzersiz boyunca nabız $range';
+  }
+
+  @override
+  String get wrNoHeartRate => 'Bu egzersizde nabız ölçümü yok.';
+
+  @override
+  String get exerciseRecords => 'Egzersiz kayıtlarını görüntüle';
+
+  @override
+  String get exerciseRecordsTitle => 'Egzersiz kayıtları';
+
+  @override
+  String get exerciseMinutesUnit => 'dakika';
+
+  @override
+  String get exerciseTotalTime => 'Toplam süre';
+
+  @override
+  String get exerciseTotalCount => 'Toplam sayı';
+
+  @override
+  String get exerciseMore => 'Daha fazla';
+
+  @override
+  String get exerciseGps => 'GPS egzersizi';
+
+  @override
+  String get exerciseIndoor => 'İç mekan egzersizi';
+
+  @override
+  String get exerciseGpsNote =>
+      'Rota kaydı henüz yok; mesafe bileklikten gelir.';
+
+  @override
+  String get exerciseGpsOff => 'GPS sinyali kullanılmıyor';
+
+  @override
+  String get exerciseGo => 'GO';
+
+  @override
+  String exerciseGoSemantics(String sport) {
+    return '$sport egzersizini başlat';
+  }
+
+  @override
+  String get exerciseResume => 'Dön';
+
+  @override
+  String get exerciseGoal => 'Hedef';
+
+  @override
+  String get exerciseGoalNone => 'Hedef yok';
+
+  @override
+  String get exerciseGoalTitle => 'Süre hedefi';
+
+  @override
+  String get exerciseSportTitle => 'Spor türü';
+
+  @override
+  String liveGoal(String value) {
+    return 'Hedef: $value';
+  }
+
+  @override
+  String get liveGoalReached => 'Hedef tamamlandı';
+
+  @override
+  String get locationTitle => 'Konum paylaşımı';
+
+  @override
+  String get locationBanner => 'Konumunuz paylaşılıyor';
+
+  @override
+  String locationViewers(String names) {
+    return 'Konumunuzu görenler: $names';
+  }
+
+  @override
+  String get locationOff => 'Konumunuz kimseyle paylaşılmıyor.';
+
+  @override
+  String get locationOffShort => 'Kapalı';
+
+  @override
+  String locationLastSent(String time) {
+    return 'Son gönderim: $time';
+  }
+
+  @override
+  String get locationWaiting => 'Konum alınıyor…';
+
+  @override
+  String get locationStart => 'Paylaşımı aç';
+
+  @override
+  String get locationChoose => 'Kişileri seç';
+
+  @override
+  String get locationStop => 'Paylaşımı durdur';
+
+  @override
+  String get locationNeedsGroup =>
+      'Konum paylaşmak için önce bir grup kurun ya da bir gruba katılın.';
+
+  @override
+  String get locationSharedWithMe => 'Sizinle paylaşanlar';
+
+  @override
+  String get locationNoneShared => 'Henüz kimse konumunu sizinle paylaşmıyor.';
+
+  @override
+  String locationUpdated(String time) {
+    return 'Son konum: $time';
+  }
+
+  @override
+  String get locationMe => 'Ben';
+
+  @override
+  String get locationNote =>
+      'Konumunuz yalnızca seçtiğiniz kişilere ve yalnızca uygulama açıkken gönderilir. Paylaşım varsayılan olarak kapalıdır; istediğiniz an durdurabilirsiniz.';
+
+  @override
+  String get locationSheetTitle => 'Konumumu kimler görsün?';
+
+  @override
+  String get locationWholeGroup => 'Tüm grup';
+
+  @override
+  String get locationNoMembers => 'Bu grupta henüz katılmış kimse yok.';
+
+  @override
+  String get locationSave => 'Kaydet';
+
+  @override
+  String get locationProblemServiceOff => 'Telefonun konum hizmeti kapalı.';
+
+  @override
+  String get locationProblemDenied => 'Konum izni verilmedi.';
+
+  @override
+  String get locationProblemDeniedForever =>
+      'Konum izni kapalı; telefon ayarlarından açabilirsiniz.';
+
+  @override
+  String get locationProblemFailed =>
+      'Konum alınamadı; biraz sonra yeniden denenecek.';
+
+  @override
+  String get privacyLocationTitle => 'Konum ve harita';
+
+  @override
+  String get privacyLocationBody =>
+      'Konum paylaşımı varsayılan olarak kapalıdır. Açarsanız telefonunuzun konumu yalnızca sizin seçtiğiniz grup üyelerine, yalnızca uygulama açıkken ve birkaç dakikada bir gönderilir; son konum ve zamanı dışında konum geçmişi tutulmaz. Paylaşım açıkken uygulamanın her ekranında bir gösterge görünür ve paylaşımı Profil > Sağlık topluluğu > Konum paylaşımı bölümünden istediğiniz an durdurabilirsiniz. Haritalar Google Haritalar ile gösterilir: harita açıldığında Google\'a gösterilen bölgenin harita parçaları için istek gider; sağlık verileriniz Google\'a gönderilmez. Google\'ın bu verileri nasıl işlediği Google Gizlilik Politikası\'nda anlatılır.';
+
+  @override
+  String get asstName => 'Vita';
+
+  @override
+  String get asstTitle => 'Vita · Sağlık asistanı';
+
+  @override
+  String get asstTagline => 'Küçük adımlar, büyük fark';
+
+  @override
+  String get asstHello => 'Merhaba, ben';
+
+  @override
+  String get asstIntro => 'Sorularınızı verilerinize bakarak yanıtlarım.';
+
+  @override
+  String get asstInputHint => 'Mesaj yazın…';
+
+  @override
+  String get asstSend => 'Gönder';
+
+  @override
+  String get asstTyping => 'Vita yazıyor';
+
+  @override
+  String get asstOffline =>
+      'Çevrimdışı: yanıtlar telefonunuzda, kurallarla hazırlanır.';
+
+  @override
+  String get asstOnline =>
+      'Yapay zeka bağlı: sorunuz ve özet sayılar takma kimlikle sunucumuza gider.';
+
+  @override
+  String get asstNote =>
+      'Vita tıbbi teşhis koymaz ve ilaç önermez. Acil bir durumda 112\'yi arayın.';
+
+  @override
+  String get asstSuggestReport => 'Bugünün sağlık raporunu hazırlar mısın?';
+
+  @override
+  String get asstSuggestTraining =>
+      'Sağlık durumuma göre bir antrenman programı önerir misin?';
+
+  @override
+  String get asstSuggestSleep => 'Dün gece uykum nasıldı?';
+
+  @override
+  String get asstSuggestHeart => 'Kalbim ve EKG\'m nasıl?';
+
+  @override
+  String get asstGreeting =>
+      'Merhaba! Ben Vita, sağlık asistanınız. Uykunuz, nabzınız, toparlanmanız, günlük yükünüz, stresiniz, EKG kayıtlarınız, biyolojik yaşınız, adımlarınız ve egzersizleriniz hakkında sorabilirsiniz.';
+
+  @override
+  String get asstThanks => 'Rica ederim! Başka bir sorunuz olursa buradayım.';
+
+  @override
+  String get asstUnknown =>
+      'Bunu tam anlayamadım. Şunları sorabilirsiniz: uykum nasıldı, bugünün raporu, nabzım, toparlanmam, yüküm, stresim, EKG\'m, biyolojik yaşım, adımlarım ya da bana uygun antrenman.';
+
+  @override
+  String get asstEmergency =>
+      'Anlattığınız belirtiler acil olabilir. Hemen 112\'yi arayın ya da en yakın acil servise gidin. Bileklik ve bu uygulama acil bir durumu değerlendiremez.';
+
+  @override
+  String get asstNoDiagnosis =>
+      'Teşhis koyamam, ilaç ya da doz öneremem; bunun için hekiminize danışın. Verilerinizde gördüklerimi anlatabilirim.';
+
+  @override
+  String get asstNoData =>
+      'Bu konuda henüz yeterli veri yok. Bilekliği takıp eşitledikçe daha çok şey söyleyebilirim.';
+
+  @override
+  String asstSleep(String start, String end, String duration) {
+    return 'Dün gece $start–$end arasında $duration uyudunuz.';
+  }
+
+  @override
+  String asstSleepScore(String score) {
+    return 'Uyku skorunuz $score/100.';
+  }
+
+  @override
+  String asstSleepEfficiency(String value) {
+    return 'Yatakta geçen sürenin %$value kadarı uykuyla geçti.';
+  }
+
+  @override
+  String asstSleepDebt(String duration) {
+    return 'İhtiyacınızın $duration altında uyudunuz; bu akşam biraz erken yatmayı deneyin.';
+  }
+
+  @override
+  String get asstSleepGood =>
+      'Uyku süreniz önerilen 7–9 saat aralığında; böyle devam edin.';
+
+  @override
+  String asstRecovery(String score, String level) {
+    return 'Bugünkü toparlanmanız $score/100 ($level).';
+  }
+
+  @override
+  String asstHrv(String value, String baseline) {
+    return 'Gece HRV\'niz $value ms; 14 günlük olağanınız $baseline ms.';
+  }
+
+  @override
+  String asstRestingHr(String value, String baseline) {
+    return 'Dinlenik nabzınız $value atım/dk; olağanınız $baseline atım/dk.';
+  }
+
+  @override
+  String asstHeart(String avg, String min, String max) {
+    return 'Bugün ortalama nabzınız $avg atım/dk; en düşük $min, en yüksek $max.';
+  }
+
+  @override
+  String asstEcg(String date, String result) {
+    return 'Son EKG kaydınız ($date): $result.';
+  }
+
+  @override
+  String get asstEcgNormal => 'düzenli ritim, belirgin bir bulgu yok';
+
+  @override
+  String get asstEcgFlagged =>
+      'dikkat edilmesi gereken bir bulgu var; kaydı hekiminize göstermenizi öneririm';
+
+  @override
+  String get asstEcgUnknown => 'kayıt değerlendirme için yeterli değil';
+
+  @override
+  String get asstEcgNone =>
+      'Henüz EKG kaydınız yok. Sağlık sekmesindeki EKG ekranından bir kayıt alabilirsiniz.';
+
+  @override
+  String get asstEcgNote =>
+      'EKG değerlendirmesi otomatik bir ön değerlendirmedir, tanı değildir.';
+
+  @override
+  String asstStrain(String value, String low, String high) {
+    return 'Bugünkü yükünüz $value/21; toparlanmanıza göre ideal aralık $low–$high.';
+  }
+
+  @override
+  String asstStrainPlain(String value) {
+    return 'Bugünkü yükünüz $value/21.';
+  }
+
+  @override
+  String asstStress(String value) {
+    return 'Bugün ortalama stres düzeyiniz $value/100.';
+  }
+
+  @override
+  String get asstStressTip =>
+      'Gün içinde birkaç dakikalık yavaş nefes egzersizi ve kısa yürüyüşler stresi azaltmaya yardımcı olabilir.';
+
+  @override
+  String asstSteps(String steps, String goal) {
+    return 'Bugün $steps adım attınız; günlük hedef $goal.';
+  }
+
+  @override
+  String asstStepsLeft(String left) {
+    return 'Hedefe $left adım kaldı; kısa bir yürüyüş yeter.';
+  }
+
+  @override
+  String get asstStepsDone => 'Günlük adım hedefinizi tamamladınız, tebrikler!';
+
+  @override
+  String asstBioAge(String bio, String age) {
+    return 'Biyolojik yaşınız $bio, takvim yaşınız $age.';
+  }
+
+  @override
+  String get asstBioYounger =>
+      'Verileriniz yaşıtlarınıza göre daha genç bir tablo gösteriyor.';
+
+  @override
+  String get asstBioOlder =>
+      'Düzenli uyku ve daha çok hareket bu farkı kapatmaya yardımcı olabilir.';
+
+  @override
+  String asstBioCollecting(String days) {
+    return 'Biyolojik yaş raporu için veri toplanıyor: $days/21 gün.';
+  }
+
+  @override
+  String get asstBioNeedsAge => 'Biyolojik yaş için profilde yaşınızı girin.';
+
+  @override
+  String asstWorkouts(String count, String duration) {
+    return 'Son 7 günde $count egzersiz yaptınız, toplam $duration.';
+  }
+
+  @override
+  String get asstTrainingHigh =>
+      'Toparlanmanız yüksek, bugün yoğun bir antrenman uygun. Örnek: 10 dk ısınma, 3 dk yavaş aralarla 4 × 4 dk tempolu koşu ya da bisiklet (nabız bölgesi 3–4), 10 dk soğuma.';
+
+  @override
+  String get asstTrainingMid =>
+      'Toparlanmanız orta düzeyde: bugün 30–45 dk orta tempolu yürüyüş, bisiklet ya da hafif koşu (nabız bölgesi 2) iyi olur.';
+
+  @override
+  String get asstTrainingLow =>
+      'Toparlanmanız düşük: bugün dinlenmeye öncelik verin. 20–30 dk hafif yürüyüş ya da esneme yeterli.';
+
+  @override
+  String get asstTrainingUnknown =>
+      'Toparlanmanız henüz hesaplanamadı; 30 dk orta tempolu yürüyüşle başlayın, nasıl hissettiğinize göre artırın.';
+
+  @override
+  String asstTrainingWeek(String duration) {
+    return 'Haftalık hedef en az 150 dk orta yoğunlukta hareket; son 7 günde $duration yaptınız.';
+  }
+
+  @override
+  String get asstTrainingSafety =>
+      'Göğüs ağrısı, baş dönmesi ya da olağandışı nefes darlığı olursa hemen durun.';
+
+  @override
+  String asstReportIntro(String date) {
+    return '$date için özetiniz:';
+  }
+
+  @override
+  String get asstFailed =>
+      'Sunucuya ulaşılamadı; bu yanıt telefonda hazırlandı.';
+
+  @override
+  String get privacyAiTitle => 'Yapay zeka';
+
+  @override
+  String get privacyAiBody =>
+      'Yapay zeka raporu ve sağlık asistanı Vita varsayılan olarak telefonda, kurallarla çalışır; veri dışarı gitmez. Yapay zeka rızası verirseniz rapor için haftalık özetler, asistan için de sorunuz, son mesajlarınız ve günün özet sayıları (uyku süresi, toparlanma, yük, nabız ortalaması, stres, adım, EKG ön değerlendirmesinin sonucu, yaş) takma kimliğinizle portalımıza gönderilir ve portal bunları yanıt üretmek için Anthropic\'in Claude yapay zeka hizmetine (ABD) iletir. Adınız, kimlik numaranız, cihaz adresiniz ve ham ölçümler gönderilmez. Rızayı istediğiniz an yapay zeka raporu ekranından geri alabilirsiniz. Yapay zeka teşhis koymaz ve ilaç önermez.';
 }

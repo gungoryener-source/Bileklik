@@ -118,7 +118,7 @@ class FakeDevice implements DeviceTransport {
   Stream<List<int>> get incoming => _incoming.stream;
 
   @override
-  Future<List<DiscoveredDevice>> scan() async {
+  Future<List<DiscoveredDevice>> scan({bool all = false}) async {
     await Future<void>.delayed(scanDelay);
     if (scanProblem case final p?) throw ScanException(p);
     return [
@@ -137,12 +137,27 @@ class FakeDevice implements DeviceTransport {
 
   /// Sahte cihazda tek bileklik var; seçim bağlantıyı etkilemez.
   @override
-  void select(DiscoveredDevice device) {}
+  void select(DiscoveredDevice device) => _paired = true;
+
+  bool _paired = false;
+
+  @override
+  bool get hasPairedDevice => _paired;
+
+  @override
+  String? get pairedId => _paired ? 'FAKE' : null;
+
+  @override
+  void forget() => _paired = false;
 
   @override
   Future<void> connect() async {
     _state.add(DeviceConnectionState.connecting);
     await Future<void>.delayed(const Duration(milliseconds: 300));
+    if (connectError case final e?) {
+      _state.add(DeviceConnectionState.disconnected);
+      throw e;
+    }
     _connected = true;
     _state.add(DeviceConnectionState.connected);
   }
@@ -299,7 +314,13 @@ class FakeDevice implements DeviceTransport {
         // 1.0.2.5, derleme 2026-07-31.
         _reply(
           Packet.build(Cmd.firmwareVersion, [
-            0x01, 0x00, 0x02, 0x05, 0x26, 0x07, 0x31,
+            0x01,
+            0x00,
+            0x02,
+            0x05,
+            0x26,
+            0x07,
+            0x31,
           ]).bytes,
         );
       case ExerciseCmd.control:
@@ -509,7 +530,9 @@ class FakeDevice implements DeviceTransport {
     final start = d[1] == 1;
     _ecgMode = start ? d[0] : 0;
     _reply(Packet.build(EcgCmd.measure, [d[0]]).bytes);
-    if (!start || d[0] != MeasureMode.ecg.code || !_ecgRaw) return;
+    if (!start || d[0] != MeasureMode.ecg.code || !_ecgRaw || ecgSilent) {
+      return;
+    }
 
     final seconds = max(30, d[3] | (d[4] << 8));
     final synth = EcgSynth(
@@ -583,6 +606,20 @@ class FakeDevice implements DeviceTransport {
     _spotMode = 0;
     if (_realtimeOn && _connected) _startRealtimeTimer();
   }
+
+  /// Bileklik uzaklaştı ya da kapandı: bağlantı kendiliğinden kopar.
+  void simulateDropout() {
+    _realtimeTimer?.cancel();
+    _realtimeOn = false;
+    _connected = false;
+    _state.add(DeviceConnectionState.disconnected);
+  }
+
+  /// Doğruysa EKG başlatılır ama veri gelmez (parmak elektrotta değil).
+  bool ecgSilent = false;
+
+  /// Sonraki [connect] çağrıları bu hatayla başarısız olur (null: başarılı).
+  Object? connectError;
 
   void dispose() {
     _spotTimer?.cancel();

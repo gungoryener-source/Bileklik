@@ -412,3 +412,12 @@ class _DisplaySyncState extends State<DisplaySync> {
     );
   }
 }
+
+/// Günlük yük gibi bir ondalıklı değer; Türkçe ve Almancada virgülle.
+String oneDecimal(double v) {
+  final s = v.toStringAsFixed(1);
+  return switch (currentL10n.localeName) {
+    'tr' || 'de' => s.replaceAll('.', ','),
+    _ => s,
+  };
+}

@@ -4845,6 +4845,2256 @@ abstract class AppLocalizations {
   /// In tr, this message translates to:
   /// **'Ölçüm, geçmiş, paylaşım ve uyarılar ücretsiz. Yapay zeka raporu Premium ile açılır.'**
   String get subscriptionFreeText;
+
+  /// No description provided for @diagTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bağlantı tanılama'**
+  String get diagTitle;
+
+  /// No description provided for @diagOpen.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bağlantı tanılama'**
+  String get diagOpen;
+
+  /// No description provided for @diagIntro.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bileklikle ilk denemelerde ne olduğunu gösterir. Bir sorun olursa kaydı paylaşın.'**
+  String get diagIntro;
+
+  /// No description provided for @diagMode.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kip'**
+  String get diagMode;
+
+  /// No description provided for @diagModeReal.
+  ///
+  /// In tr, this message translates to:
+  /// **'Gerçek bileklik'**
+  String get diagModeReal;
+
+  /// No description provided for @diagModeDemo.
+  ///
+  /// In tr, this message translates to:
+  /// **'Demo (sahte bileklik)'**
+  String get diagModeDemo;
+
+  /// No description provided for @diagConnecting.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bağlanıyor'**
+  String get diagConnecting;
+
+  /// No description provided for @diagPaired.
+  ///
+  /// In tr, this message translates to:
+  /// **'Eşleştirilen'**
+  String get diagPaired;
+
+  /// No description provided for @diagNone.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yok'**
+  String get diagNone;
+
+  /// No description provided for @diagWriteLength.
+  ///
+  /// In tr, this message translates to:
+  /// **'Paket boyu'**
+  String get diagWriteLength;
+
+  /// No description provided for @diagWriteLengthValue.
+  ///
+  /// In tr, this message translates to:
+  /// **'{bytes} bayt'**
+  String diagWriteLengthValue(int bytes);
+
+  /// No description provided for @diagNextRetry.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yeniden deneme'**
+  String get diagNextRetry;
+
+  /// No description provided for @diagNextRetryValue.
+  ///
+  /// In tr, this message translates to:
+  /// **'{seconds} sn sonra'**
+  String diagNextRetryValue(int seconds);
+
+  /// No description provided for @diagReconnect.
+  ///
+  /// In tr, this message translates to:
+  /// **'Şimdi bağlan'**
+  String get diagReconnect;
+
+  /// No description provided for @diagForget.
+  ///
+  /// In tr, this message translates to:
+  /// **'Eşleştirmeyi unut'**
+  String get diagForget;
+
+  /// No description provided for @diagSectionTests.
+  ///
+  /// In tr, this message translates to:
+  /// **'Test komutları'**
+  String get diagSectionTests;
+
+  /// No description provided for @diagTestsHint.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bağlıyken dokunun; gönderilen ve gelen paketler aşağıdaki kayıtta görünür.'**
+  String get diagTestsHint;
+
+  /// No description provided for @diagTestBattery.
+  ///
+  /// In tr, this message translates to:
+  /// **'Pil'**
+  String get diagTestBattery;
+
+  /// No description provided for @diagTestTime.
+  ///
+  /// In tr, this message translates to:
+  /// **'Saat'**
+  String get diagTestTime;
+
+  /// No description provided for @diagTestFirmware.
+  ///
+  /// In tr, this message translates to:
+  /// **'Sürüm'**
+  String get diagTestFirmware;
+
+  /// No description provided for @diagTestProfile.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kişisel bilgi'**
+  String get diagTestProfile;
+
+  /// No description provided for @diagTestRealtime.
+  ///
+  /// In tr, this message translates to:
+  /// **'Anlık veri'**
+  String get diagTestRealtime;
+
+  /// No description provided for @diagRawLabel.
+  ///
+  /// In tr, this message translates to:
+  /// **'Ham komut (onaltılık)'**
+  String get diagRawLabel;
+
+  /// No description provided for @diagRawHint.
+  ///
+  /// In tr, this message translates to:
+  /// **'ör. 13 — CRC kendiliğinden eklenir'**
+  String get diagRawHint;
+
+  /// No description provided for @diagRawSend.
+  ///
+  /// In tr, this message translates to:
+  /// **'Gönder'**
+  String get diagRawSend;
+
+  /// No description provided for @diagRawInvalid.
+  ///
+  /// In tr, this message translates to:
+  /// **'Geçerli onaltılık bayt yazın (en çok 15).'**
+  String get diagRawInvalid;
+
+  /// No description provided for @diagNotConnected.
+  ///
+  /// In tr, this message translates to:
+  /// **'Önce bilekliğe bağlanın.'**
+  String get diagNotConnected;
+
+  /// No description provided for @diagSectionScan.
+  ///
+  /// In tr, this message translates to:
+  /// **'Tüm cihazları ara'**
+  String get diagSectionScan;
+
+  /// No description provided for @diagScanHint.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bileklik eşleştirme ekranında çıkmıyorsa buradan arayın: ad süzgeci olmadan yakındaki tüm Bluetooth cihazları listelenir.'**
+  String get diagScanHint;
+
+  /// No description provided for @diagScan.
+  ///
+  /// In tr, this message translates to:
+  /// **'Ara'**
+  String get diagScan;
+
+  /// No description provided for @diagScanning.
+  ///
+  /// In tr, this message translates to:
+  /// **'Aranıyor…'**
+  String get diagScanning;
+
+  /// No description provided for @diagScanEmpty.
+  ///
+  /// In tr, this message translates to:
+  /// **'Cihaz bulunamadı.'**
+  String get diagScanEmpty;
+
+  /// No description provided for @diagConnectTo.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bağlan'**
+  String get diagConnectTo;
+
+  /// No description provided for @diagSectionDeveloper.
+  ///
+  /// In tr, this message translates to:
+  /// **'Geliştirici'**
+  String get diagSectionDeveloper;
+
+  /// No description provided for @diagDemoSwitch.
+  ///
+  /// In tr, this message translates to:
+  /// **'Demo kipi (sahte bileklik)'**
+  String get diagDemoSwitch;
+
+  /// No description provided for @diagDemoHint.
+  ///
+  /// In tr, this message translates to:
+  /// **'Uygulamayı kapatıp açınca geçerli olur. Demo verileri Health Connect\'e yazılmaz.'**
+  String get diagDemoHint;
+
+  /// No description provided for @diagRestartNeeded.
+  ///
+  /// In tr, this message translates to:
+  /// **'Uygulamayı kapatıp yeniden açın.'**
+  String get diagRestartNeeded;
+
+  /// No description provided for @diagSectionLog.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kayıt'**
+  String get diagSectionLog;
+
+  /// No description provided for @diagLogEmpty.
+  ///
+  /// In tr, this message translates to:
+  /// **'Henüz kayıt yok.'**
+  String get diagLogEmpty;
+
+  /// No description provided for @diagShare.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kaydı paylaş'**
+  String get diagShare;
+
+  /// No description provided for @diagClear.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kaydı temizle'**
+  String get diagClear;
+
+  /// No description provided for @diagLogCount.
+  ///
+  /// In tr, this message translates to:
+  /// **'{count} satır, en yenisi üstte'**
+  String diagLogCount(int count);
+
+  /// No description provided for @startupFailedTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Uygulama başlatılamadı'**
+  String get startupFailedTitle;
+
+  /// No description provided for @startupFailedBody.
+  ///
+  /// In tr, this message translates to:
+  /// **'Açılırken bir hata oluştu. Aşağıdaki metni kopyalayıp bize gönderin; düzeltip yeni sürüm çıkaracağız.'**
+  String get startupFailedBody;
+
+  /// No description provided for @startupFailedCopy.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hatayı kopyala'**
+  String get startupFailedCopy;
+
+  /// No description provided for @ecgPrepareTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'EKG ölçümü'**
+  String get ecgPrepareTitle;
+
+  /// No description provided for @ecgHandQuestion.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bileklik hangi bileğinizde?'**
+  String get ecgHandQuestion;
+
+  /// No description provided for @ecgHandLeft.
+  ///
+  /// In tr, this message translates to:
+  /// **'Sol el'**
+  String get ecgHandLeft;
+
+  /// No description provided for @ecgHandRight.
+  ///
+  /// In tr, this message translates to:
+  /// **'Sağ el'**
+  String get ecgHandRight;
+
+  /// No description provided for @ecgWearTip.
+  ///
+  /// In tr, this message translates to:
+  /// **'En iyi sonuç için bilekliği bilek kemiğinin yaklaşık bir parmak üstüne takın ve ciltle tam temas ettiğinden emin olun. Ölçüm sırasında elinizi gevşek ve hareketsiz tutun.'**
+  String get ecgWearTip;
+
+  /// No description provided for @ecgStartMeasure.
+  ///
+  /// In tr, this message translates to:
+  /// **'Ölçümü başlat'**
+  String get ecgStartMeasure;
+
+  /// No description provided for @ecgTip1Title.
+  ///
+  /// In tr, this message translates to:
+  /// **'Oturun, ayaklarınızı yere düz basın'**
+  String get ecgTip1Title;
+
+  /// No description provided for @ecgTip1Body.
+  ///
+  /// In tr, this message translates to:
+  /// **'Dik oturmak duruşun ölçümü etkilemesini azaltır.'**
+  String get ecgTip1Body;
+
+  /// No description provided for @ecgTip2Title.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kollarınızı masaya koyun'**
+  String get ecgTip2Title;
+
+  /// No description provided for @ecgTip2Body.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kollarınız gevşek olsun; kas gerginliği sinyali bozar.'**
+  String get ecgTip2Body;
+
+  /// No description provided for @ecgTip3Title.
+  ///
+  /// In tr, this message translates to:
+  /// **'Konuşmayın, hareket etmeyin'**
+  String get ecgTip3Title;
+
+  /// No description provided for @ecgTip3Body.
+  ///
+  /// In tr, this message translates to:
+  /// **'Sinyal daha net ve kararlı olur.'**
+  String get ecgTip3Body;
+
+  /// No description provided for @ecgTip4Title.
+  ///
+  /// In tr, this message translates to:
+  /// **'Diğer elinizin parmağını bilekliğin metal temas noktasına koyun'**
+  String get ecgTip4Title;
+
+  /// No description provided for @ecgTip4Body.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hafifçe dokunmanız yeterli; bastırmayın ve ölçüm bitene kadar bekleyin.'**
+  String get ecgTip4Body;
+
+  /// No description provided for @ecgWaitingTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Parmağınızı metal temas noktasına koyun'**
+  String get ecgWaitingTitle;
+
+  /// No description provided for @ecgWaitingBody.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bileklik sinyali algılayınca sayaç kendiliğinden başlar.'**
+  String get ecgWaitingBody;
+
+  /// No description provided for @ecgWaitingElapsed.
+  ///
+  /// In tr, this message translates to:
+  /// **'Sinyal bekleniyor · {seconds} sn'**
+  String ecgWaitingElapsed(int seconds);
+
+  /// No description provided for @ecgNoSignalYetTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Sinyal henüz gelmedi'**
+  String get ecgNoSignalYetTitle;
+
+  /// No description provided for @ecgNoSignalYetBody.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bilekliğin cildinize tam değdiğinden ve parmağınızın metal noktaya dokunduğundan emin olun. Sorun sürerse bağlantı kaydını bize gönderin.'**
+  String get ecgNoSignalYetBody;
+
+  /// No description provided for @ecgSecondsUnit.
+  ///
+  /// In tr, this message translates to:
+  /// **'sn'**
+  String get ecgSecondsUnit;
+
+  /// No description provided for @ecgLiveDisclaimer.
+  ///
+  /// In tr, this message translates to:
+  /// **'Canlı dalga yalnızca bilgi içindir, tanı için kullanılmaz. Ölçüm bitince ayrıntılı kayıt açılır.'**
+  String get ecgLiveDisclaimer;
+
+  /// No description provided for @diagCleared.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kayıt temizlendi. Yeni paketler gelmeye devam eder.'**
+  String get diagCleared;
+
+  /// No description provided for @ecgReportTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'EKG raporu'**
+  String get ecgReportTitle;
+
+  /// No description provided for @ecgReportPickMonth.
+  ///
+  /// In tr, this message translates to:
+  /// **'Ay seçin'**
+  String get ecgReportPickMonth;
+
+  /// No description provided for @ecgReportMonthEmpty.
+  ///
+  /// In tr, this message translates to:
+  /// **'{month} ayında EKG kaydı yok.'**
+  String ecgReportMonthEmpty(String month);
+
+  /// No description provided for @ecgReportMonthCount.
+  ///
+  /// In tr, this message translates to:
+  /// **'{count, plural, =1{1 kayıt} other{{count} kayıt}}'**
+  String ecgReportMonthCount(int count);
+
+  /// No description provided for @ecgReportWhen.
+  ///
+  /// In tr, this message translates to:
+  /// **'{date}, {time}'**
+  String ecgReportWhen(String date, String time);
+
+  /// No description provided for @ecgFindingNormalOk.
+  ///
+  /// In tr, this message translates to:
+  /// **'Normal kalp ritmi görüldü'**
+  String get ecgFindingNormalOk;
+
+  /// No description provided for @ecgFindingNormalFlagged.
+  ///
+  /// In tr, this message translates to:
+  /// **'Ritimde normal dışı bulgu var'**
+  String get ecgFindingNormalFlagged;
+
+  /// No description provided for @ecgFindingHighOk.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yüksek kalp hızı görülmedi'**
+  String get ecgFindingHighOk;
+
+  /// No description provided for @ecgFindingHighFlagged.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yüksek kalp hızı görüldü (100 bpm üstü)'**
+  String get ecgFindingHighFlagged;
+
+  /// No description provided for @ecgFindingLowOk.
+  ///
+  /// In tr, this message translates to:
+  /// **'Düşük kalp hızı görülmedi'**
+  String get ecgFindingLowOk;
+
+  /// No description provided for @ecgFindingLowFlagged.
+  ///
+  /// In tr, this message translates to:
+  /// **'Düşük kalp hızı görüldü (50 bpm altı)'**
+  String get ecgFindingLowFlagged;
+
+  /// No description provided for @ecgFindingAfibOk.
+  ///
+  /// In tr, this message translates to:
+  /// **'Atriyal fibrilasyon belirtisi görülmedi'**
+  String get ecgFindingAfibOk;
+
+  /// No description provided for @ecgFindingAfibFlagged.
+  ///
+  /// In tr, this message translates to:
+  /// **'Düzensiz ritim: atriyal fibrilasyon olabilir, kaydı hekiminize gösterin'**
+  String get ecgFindingAfibFlagged;
+
+  /// No description provided for @ecgFindingUnknown.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kayıt değerlendirilemedi: yeterli atım bulunamadı ya da sinyal gürültülü'**
+  String get ecgFindingUnknown;
+
+  /// No description provided for @ecgReportNote.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bulgular uygulamanın otomatik ön değerlendirmesidir, tanı değildir.'**
+  String get ecgReportNote;
+
+  /// No description provided for @healthMeasure.
+  ///
+  /// In tr, this message translates to:
+  /// **'Ölçüm'**
+  String get healthMeasure;
+
+  /// No description provided for @healthAdd.
+  ///
+  /// In tr, this message translates to:
+  /// **'Ekle'**
+  String get healthAdd;
+
+  /// No description provided for @healthGoalValue.
+  ///
+  /// In tr, this message translates to:
+  /// **'/{goal}'**
+  String healthGoalValue(String goal);
+
+  /// No description provided for @healthSleepShort.
+  ///
+  /// In tr, this message translates to:
+  /// **'Uyku süresi yetersiz'**
+  String get healthSleepShort;
+
+  /// No description provided for @healthSleepGood.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yeterli uyku'**
+  String get healthSleepGood;
+
+  /// No description provided for @healthSleepLong.
+  ///
+  /// In tr, this message translates to:
+  /// **'Uzun uyku'**
+  String get healthSleepLong;
+
+  /// No description provided for @healthEcgUnassessed.
+  ///
+  /// In tr, this message translates to:
+  /// **'Değerlendirilemedi'**
+  String get healthEcgUnassessed;
+
+  /// No description provided for @healthVo2Unit.
+  ///
+  /// In tr, this message translates to:
+  /// **'ml/kg/dk'**
+  String get healthVo2Unit;
+
+  /// No description provided for @healthVo2NeedsData.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yaşınız ve birkaç günlük nabız gerekiyor'**
+  String get healthVo2NeedsData;
+
+  /// No description provided for @healthEstimated.
+  ///
+  /// In tr, this message translates to:
+  /// **'Tahmini'**
+  String get healthEstimated;
+
+  /// No description provided for @homeLateNightTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Gece geç oldu, dinlenmeyi deneyin'**
+  String get homeLateNightTitle;
+
+  /// No description provided for @homeLateNightBody.
+  ///
+  /// In tr, this message translates to:
+  /// **'Erken dinlenmek yarın nasıl hissedeceğiniz için önemli. Ekranı bırakıp gözlerinizi dinlendirin.'**
+  String get homeLateNightBody;
+
+  /// No description provided for @homeLowRecoveryTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bugün vücudunuz toparlanıyor'**
+  String get homeLowRecoveryTitle;
+
+  /// No description provided for @homeLowRecoveryBody.
+  ///
+  /// In tr, this message translates to:
+  /// **'Gece HRV\'niz olağandan düşük. Yoğun antrenman yerine hafif hareket ve erken uyku seçin.'**
+  String get homeLowRecoveryBody;
+
+  /// No description provided for @homeSleepScore.
+  ///
+  /// In tr, this message translates to:
+  /// **'Uyku'**
+  String get homeSleepScore;
+
+  /// No description provided for @homeDailyRecovery.
+  ///
+  /// In tr, this message translates to:
+  /// **'Günlük toparlanma'**
+  String get homeDailyRecovery;
+
+  /// No description provided for @homeDailyLoad.
+  ///
+  /// In tr, this message translates to:
+  /// **'Günlük yük'**
+  String get homeDailyLoad;
+
+  /// No description provided for @homeGaugeSemantics.
+  ///
+  /// In tr, this message translates to:
+  /// **'{label}: {value}'**
+  String homeGaugeSemantics(String label, String value);
+
+  /// No description provided for @homeAiTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bugünkü AI analizi'**
+  String get homeAiTitle;
+
+  /// No description provided for @homeAiBody.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bugünkü verilerinizden kişisel bir sağlık özeti oluşturun.'**
+  String get homeAiBody;
+
+  /// No description provided for @homeSleepExcellent.
+  ///
+  /// In tr, this message translates to:
+  /// **'Mükemmel'**
+  String get homeSleepExcellent;
+
+  /// No description provided for @homeSleepGood.
+  ///
+  /// In tr, this message translates to:
+  /// **'İyi'**
+  String get homeSleepGood;
+
+  /// No description provided for @homeSleepFair.
+  ///
+  /// In tr, this message translates to:
+  /// **'Fena değil'**
+  String get homeSleepFair;
+
+  /// No description provided for @homeSleepPoor.
+  ///
+  /// In tr, this message translates to:
+  /// **'Zayıf'**
+  String get homeSleepPoor;
+
+  /// No description provided for @homeSleepDuration.
+  ///
+  /// In tr, this message translates to:
+  /// **'Süre'**
+  String get homeSleepDuration;
+
+  /// No description provided for @homeActivity.
+  ///
+  /// In tr, this message translates to:
+  /// **'Aktivite'**
+  String get homeActivity;
+
+  /// No description provided for @homeActivityLow.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yetersiz hareket'**
+  String get homeActivityLow;
+
+  /// No description provided for @homeActivityFair.
+  ///
+  /// In tr, this message translates to:
+  /// **'Orta hareket'**
+  String get homeActivityFair;
+
+  /// No description provided for @homeActivityGood.
+  ///
+  /// In tr, this message translates to:
+  /// **'İyi hareket'**
+  String get homeActivityGood;
+
+  /// No description provided for @homeActivityDone.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hedefe ulaşıldı'**
+  String get homeActivityDone;
+
+  /// No description provided for @homeKilometers.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kilometre'**
+  String get homeKilometers;
+
+  /// No description provided for @homeFellAsleep.
+  ///
+  /// In tr, this message translates to:
+  /// **'Uykuya daldınız'**
+  String get homeFellAsleep;
+
+  /// No description provided for @homeFellAsleepSubtitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Uyku başlangıcı'**
+  String get homeFellAsleepSubtitle;
+
+  /// No description provided for @homeNightLowHrv.
+  ///
+  /// In tr, this message translates to:
+  /// **'Düşük HRV'**
+  String get homeNightLowHrv;
+
+  /// No description provided for @homeNightHighHr.
+  ///
+  /// In tr, this message translates to:
+  /// **'Uykuda yüksek nabız'**
+  String get homeNightHighHr;
+
+  /// No description provided for @homeNightLowHr.
+  ///
+  /// In tr, this message translates to:
+  /// **'Uykuda düşük nabız'**
+  String get homeNightLowHr;
+
+  /// No description provided for @homeNightLowSpo2.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kan oksijeni düşüşü'**
+  String get homeNightLowSpo2;
+
+  /// No description provided for @homeRestingLabel.
+  ///
+  /// In tr, this message translates to:
+  /// **'Dinlenik nabız'**
+  String get homeRestingLabel;
+
+  /// No description provided for @homeAverageLabel.
+  ///
+  /// In tr, this message translates to:
+  /// **'Ortalama'**
+  String get homeAverageLabel;
+
+  /// No description provided for @homeLowestLabel.
+  ///
+  /// In tr, this message translates to:
+  /// **'En düşük'**
+  String get homeLowestLabel;
+
+  /// No description provided for @bioAgeCollectingTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Veri toplanıyor'**
+  String get bioAgeCollectingTitle;
+
+  /// No description provided for @bioAgeCollectingBody.
+  ///
+  /// In tr, this message translates to:
+  /// **'İlk biyolojik yaş raporunuz için en az {days} gün kesintisiz ve eksiksiz veri gerekiyor.'**
+  String bioAgeCollectingBody(int days);
+
+  /// No description provided for @bioAgeCollectingProgress.
+  ///
+  /// In tr, this message translates to:
+  /// **'Toplanan veri'**
+  String get bioAgeCollectingProgress;
+
+  /// No description provided for @bioAgeCollectingDays.
+  ///
+  /// In tr, this message translates to:
+  /// **'{done}/{total} gün'**
+  String bioAgeCollectingDays(int done, int total);
+
+  /// No description provided for @bioAgeRemaining.
+  ///
+  /// In tr, this message translates to:
+  /// **'{days} gün kaldı'**
+  String bioAgeRemaining(int days);
+
+  /// No description provided for @bioAgeKeepGoing.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bilekliği takmayı sürdürün; biyolojik yaşınızı yakında göreceksiniz.'**
+  String get bioAgeKeepGoing;
+
+  /// No description provided for @bioAgeDailyRequired.
+  ///
+  /// In tr, this message translates to:
+  /// **'Her gün gereken veriler'**
+  String get bioAgeDailyRequired;
+
+  /// No description provided for @bioAgeDataSleep.
+  ///
+  /// In tr, this message translates to:
+  /// **'Uyku'**
+  String get bioAgeDataSleep;
+
+  /// No description provided for @bioAgeDataHeartRate.
+  ///
+  /// In tr, this message translates to:
+  /// **'Nabız'**
+  String get bioAgeDataHeartRate;
+
+  /// No description provided for @bioAgeDataExercise.
+  ///
+  /// In tr, this message translates to:
+  /// **'Egzersiz'**
+  String get bioAgeDataExercise;
+
+  /// No description provided for @bioAgeDataSteps.
+  ///
+  /// In tr, this message translates to:
+  /// **'Adım'**
+  String get bioAgeDataSteps;
+
+  /// No description provided for @bioAgeToday.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bugün geldi'**
+  String get bioAgeToday;
+
+  /// No description provided for @bioAgeNotToday.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bugün henüz yok'**
+  String get bioAgeNotToday;
+
+  /// No description provided for @bioAgeOptional.
+  ///
+  /// In tr, this message translates to:
+  /// **'İsteğe bağlı'**
+  String get bioAgeOptional;
+
+  /// No description provided for @bioAgeAgeCheckTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Profilinizdeki yaşın doğru olduğundan emin olun.'**
+  String get bioAgeAgeCheckTitle;
+
+  /// No description provided for @bioAgeAgeCheckBody.
+  ///
+  /// In tr, this message translates to:
+  /// **'Biyolojik yaşınız ve sağlık ölçütleriniz gerçek yaşınıza göre hesaplanır.'**
+  String get bioAgeAgeCheckBody;
+
+  /// No description provided for @bioAgeTipsTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Veri toplama ipuçları'**
+  String get bioAgeTipsTitle;
+
+  /// No description provided for @bioAgeTipSleep.
+  ///
+  /// In tr, this message translates to:
+  /// **'Uykunuzun eksiksiz kaydedilmesi için her gece bilekliği takarak uyuyun.'**
+  String get bioAgeTipSleep;
+
+  /// No description provided for @bioAgeTipHeart.
+  ///
+  /// In tr, this message translates to:
+  /// **'Nabzın doğru ölçülmesi için bilekliği gün boyu takın.'**
+  String get bioAgeTipHeart;
+
+  /// No description provided for @bioAgeTipActivity.
+  ///
+  /// In tr, this message translates to:
+  /// **'Günlük adımınızı ve egzersizlerinizi kaydedin.'**
+  String get bioAgeTipActivity;
+
+  /// No description provided for @sleepScoreLabel.
+  ///
+  /// In tr, this message translates to:
+  /// **'Uyku skoru'**
+  String get sleepScoreLabel;
+
+  /// No description provided for @sleepBedTime.
+  ///
+  /// In tr, this message translates to:
+  /// **'Uykuya dalma'**
+  String get sleepBedTime;
+
+  /// No description provided for @sleepWakeTime.
+  ///
+  /// In tr, this message translates to:
+  /// **'Uyanma'**
+  String get sleepWakeTime;
+
+  /// No description provided for @sleepDistribution.
+  ///
+  /// In tr, this message translates to:
+  /// **'Uyku dağılımı'**
+  String get sleepDistribution;
+
+  /// No description provided for @sleepIdealRange.
+  ///
+  /// In tr, this message translates to:
+  /// **'İdeal aralık'**
+  String get sleepIdealRange;
+
+  /// No description provided for @sleepIdealValue.
+  ///
+  /// In tr, this message translates to:
+  /// **'İdeal %{low}–{high}'**
+  String sleepIdealValue(int low, int high);
+
+  /// No description provided for @sleepPattern.
+  ///
+  /// In tr, this message translates to:
+  /// **'Uyku örüntüsü'**
+  String get sleepPattern;
+
+  /// No description provided for @sleepInBed.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yatakta kalma süresi'**
+  String get sleepInBed;
+
+  /// No description provided for @sleepEfficiency.
+  ///
+  /// In tr, this message translates to:
+  /// **'Uyku verimliliği'**
+  String get sleepEfficiency;
+
+  /// No description provided for @sleepLatency.
+  ///
+  /// In tr, this message translates to:
+  /// **'Uykuya dalma süresi'**
+  String get sleepLatency;
+
+  /// No description provided for @sleepDebt.
+  ///
+  /// In tr, this message translates to:
+  /// **'Uyku borcu'**
+  String get sleepDebt;
+
+  /// No description provided for @sleepNoDebt.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yok'**
+  String get sleepNoDebt;
+
+  /// No description provided for @sleepDuringHeartRate.
+  ///
+  /// In tr, this message translates to:
+  /// **'Uyku sırasında nabız'**
+  String get sleepDuringHeartRate;
+
+  /// No description provided for @sleepDuringSpo2.
+  ///
+  /// In tr, this message translates to:
+  /// **'Uyku sırasında kan oksijeni'**
+  String get sleepDuringSpo2;
+
+  /// No description provided for @sleepDuringHrv.
+  ///
+  /// In tr, this message translates to:
+  /// **'Uyku sırasında HRV'**
+  String get sleepDuringHrv;
+
+  /// No description provided for @sleepNaps.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kısa şekerlemeler'**
+  String get sleepNaps;
+
+  /// No description provided for @sleepNoNaps.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kısa şekerleme yok'**
+  String get sleepNoNaps;
+
+  /// No description provided for @sleepSummaryDebt.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bu uykuda {duration} uyudunuz; günlük 8 saatlik ihtiyacınıza göre {debt} uyku borcunuz var.'**
+  String sleepSummaryDebt(String duration, String debt);
+
+  /// No description provided for @sleepSummaryEnough.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bu uykuda {duration} uyudunuz; günlük ihtiyacınızı karşıladınız.'**
+  String sleepSummaryEnough(String duration);
+
+  /// No description provided for @sleepSummaryLowDeep.
+  ///
+  /// In tr, this message translates to:
+  /// **'Derin uykunuz önerilen aralığın altında; akşam kafein ve ağır yemekten kaçınmak yardımcı olabilir.'**
+  String get sleepSummaryLowDeep;
+
+  /// No description provided for @sleepSummaryLowEfficiency.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yatakta uyanık geçen süre uzun; uyku verimliliğiniz %{value}.'**
+  String sleepSummaryLowEfficiency(int value);
+
+  /// No description provided for @sleepSummaryNote.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bilekliğin ölçümlerinden uygulamanın kendi değerlendirmesidir; tıbbi değildir.'**
+  String get sleepSummaryNote;
+
+  /// No description provided for @sleepStagesChart.
+  ///
+  /// In tr, this message translates to:
+  /// **'Uyku evreleri, {start} ile {end} arası'**
+  String sleepStagesChart(String start, String end);
+
+  /// No description provided for @recoveryTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Toparlanma'**
+  String get recoveryTitle;
+
+  /// No description provided for @recoveryExcellent.
+  ///
+  /// In tr, this message translates to:
+  /// **'Mükemmel'**
+  String get recoveryExcellent;
+
+  /// No description provided for @recoveryGood.
+  ///
+  /// In tr, this message translates to:
+  /// **'İyi'**
+  String get recoveryGood;
+
+  /// No description provided for @recoveryNormal.
+  ///
+  /// In tr, this message translates to:
+  /// **'Normal'**
+  String get recoveryNormal;
+
+  /// No description provided for @recoveryPoor.
+  ///
+  /// In tr, this message translates to:
+  /// **'Zayıf'**
+  String get recoveryPoor;
+
+  /// No description provided for @recoveryInadequate.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yetersiz'**
+  String get recoveryInadequate;
+
+  /// No description provided for @recoveryOptimal.
+  ///
+  /// In tr, this message translates to:
+  /// **'İdeal'**
+  String get recoveryOptimal;
+
+  /// No description provided for @recoveryAssessment.
+  ///
+  /// In tr, this message translates to:
+  /// **'Değerlendirme'**
+  String get recoveryAssessment;
+
+  /// No description provided for @recoveryCommentExcellent.
+  ///
+  /// In tr, this message translates to:
+  /// **'Çok iyi toparlandınız; yoğun antrenman için uygun bir gün.'**
+  String get recoveryCommentExcellent;
+
+  /// No description provided for @recoveryCommentGood.
+  ///
+  /// In tr, this message translates to:
+  /// **'İyi toparlandınız; olağan antrenmanınızı yapabilirsiniz.'**
+  String get recoveryCommentGood;
+
+  /// No description provided for @recoveryCommentNormal.
+  ///
+  /// In tr, this message translates to:
+  /// **'Toparlanma orta düzeyde, hafif yorgunluk var. Hafif aktivite önerilir.'**
+  String get recoveryCommentNormal;
+
+  /// No description provided for @recoveryCommentPoor.
+  ///
+  /// In tr, this message translates to:
+  /// **'Toparlanma zayıf; bugün tempoyu düşürün ve dinlenmeye öncelik verin.'**
+  String get recoveryCommentPoor;
+
+  /// No description provided for @recoveryCommentInadequate.
+  ///
+  /// In tr, this message translates to:
+  /// **'Vücudunuz yeterince toparlanmadı; bugün dinlenin ve erken yatın.'**
+  String get recoveryCommentInadequate;
+
+  /// No description provided for @recoveryHrvLow.
+  ///
+  /// In tr, this message translates to:
+  /// **'HRV\'niz olağanın altında; vücudunuz hâlâ toparlanıyor olabilir.'**
+  String get recoveryHrvLow;
+
+  /// No description provided for @recoveryRhrHigh.
+  ///
+  /// In tr, this message translates to:
+  /// **'Dinlenik nabzınız olağandan yüksek.'**
+  String get recoveryRhrHigh;
+
+  /// No description provided for @recoveryNote.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bilekliğin ölçümlerinden uygulamanın kendi tahminidir; tıbbi değildir.'**
+  String get recoveryNote;
+
+  /// No description provided for @recoveryIndicators.
+  ///
+  /// In tr, this message translates to:
+  /// **'Toparlanma göstergeleri'**
+  String get recoveryIndicators;
+
+  /// No description provided for @recoveryRestingHr.
+  ///
+  /// In tr, this message translates to:
+  /// **'Dinlenik nabız'**
+  String get recoveryRestingHr;
+
+  /// No description provided for @recoveryHrv.
+  ///
+  /// In tr, this message translates to:
+  /// **'HRV'**
+  String get recoveryHrv;
+
+  /// No description provided for @recoveryStress.
+  ///
+  /// In tr, this message translates to:
+  /// **'Stres'**
+  String get recoveryStress;
+
+  /// No description provided for @recoverySleepScore.
+  ///
+  /// In tr, this message translates to:
+  /// **'Uyku skoru'**
+  String get recoverySleepScore;
+
+  /// No description provided for @recoveryUsual.
+  ///
+  /// In tr, this message translates to:
+  /// **'Olağan {value}'**
+  String recoveryUsual(String value);
+
+  /// No description provided for @recoveryTrend.
+  ///
+  /// In tr, this message translates to:
+  /// **'Eğilim'**
+  String get recoveryTrend;
+
+  /// No description provided for @recoveryWeek.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hafta'**
+  String get recoveryWeek;
+
+  /// No description provided for @recoveryMonth.
+  ///
+  /// In tr, this message translates to:
+  /// **'Ay'**
+  String get recoveryMonth;
+
+  /// No description provided for @recoveryRange.
+  ///
+  /// In tr, this message translates to:
+  /// **'{start} – {end}'**
+  String recoveryRange(String start, String end);
+
+  /// No description provided for @recoveryEmpty.
+  ///
+  /// In tr, this message translates to:
+  /// **'Toparlanma için gece HRV\'si ya da uyku verisi gerekiyor. Bilekliği bu gece takın.'**
+  String get recoveryEmpty;
+
+  /// No description provided for @recoveryTrendEmpty.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bu dönemde veri yok'**
+  String get recoveryTrendEmpty;
+
+  /// No description provided for @recoveryRingSemantics.
+  ///
+  /// In tr, this message translates to:
+  /// **'Günlük toparlanma {value}, {level}'**
+  String recoveryRingSemantics(String value, String level);
+
+  /// No description provided for @recoveryTrendSemantics.
+  ///
+  /// In tr, this message translates to:
+  /// **'{range} toparlanma eğilimi, ortalama {value}'**
+  String recoveryTrendSemantics(String range, String value);
+
+  /// No description provided for @homeStreakSemantics.
+  ///
+  /// In tr, this message translates to:
+  /// **'{days} gün üst üste veri'**
+  String homeStreakSemantics(int days);
+
+  /// No description provided for @homeEnergyLabel.
+  ///
+  /// In tr, this message translates to:
+  /// **'Enerji'**
+  String get homeEnergyLabel;
+
+  /// No description provided for @homeEnergyHigh.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yüksek'**
+  String get homeEnergyHigh;
+
+  /// No description provided for @homeEnergyNormal.
+  ///
+  /// In tr, this message translates to:
+  /// **'Normal'**
+  String get homeEnergyNormal;
+
+  /// No description provided for @homeEnergyLow.
+  ///
+  /// In tr, this message translates to:
+  /// **'Düşük'**
+  String get homeEnergyLow;
+
+  /// No description provided for @homeEnergyVsYesterday.
+  ///
+  /// In tr, this message translates to:
+  /// **'Düne göre {delta}'**
+  String homeEnergyVsYesterday(String delta);
+
+  /// No description provided for @homeEnergySame.
+  ///
+  /// In tr, this message translates to:
+  /// **'Dünle aynı'**
+  String get homeEnergySame;
+
+  /// No description provided for @homeEnergyNoCompare.
+  ///
+  /// In tr, this message translates to:
+  /// **'Dünle karşılaştırma yok'**
+  String get homeEnergyNoCompare;
+
+  /// No description provided for @homeTrainingPlan.
+  ///
+  /// In tr, this message translates to:
+  /// **'Antrenman planı'**
+  String get homeTrainingPlan;
+
+  /// No description provided for @homeAiCollapse.
+  ///
+  /// In tr, this message translates to:
+  /// **'Daralt'**
+  String get homeAiCollapse;
+
+  /// No description provided for @homeAiExpand.
+  ///
+  /// In tr, this message translates to:
+  /// **'Genişlet'**
+  String get homeAiExpand;
+
+  /// No description provided for @homeAiUpdated.
+  ///
+  /// In tr, this message translates to:
+  /// **'Veriler {time} itibarıyla güncellendi'**
+  String homeAiUpdated(String time);
+
+  /// No description provided for @homeAiReanalyze.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yeniden analiz et'**
+  String get homeAiReanalyze;
+
+  /// No description provided for @homeAiNoData.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bugün için analiz edilecek veri henüz yok. Bilekliği takıp eşitleyin.'**
+  String get homeAiNoData;
+
+  /// No description provided for @homeAiLoad.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bugünkü günlük yükünüz {value}/21.'**
+  String homeAiLoad(String value);
+
+  /// No description provided for @navAi.
+  ///
+  /// In tr, this message translates to:
+  /// **'AI analizi'**
+  String get navAi;
+
+  /// No description provided for @planTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bugünkü antrenman planı'**
+  String get planTitle;
+
+  /// No description provided for @planIntenseTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yoğun antrenman'**
+  String get planIntenseTitle;
+
+  /// No description provided for @planIntenseBody.
+  ///
+  /// In tr, this message translates to:
+  /// **'35–45 dakika tempolu koşu ya da aralıklı antrenman yapabilirsiniz.'**
+  String get planIntenseBody;
+
+  /// No description provided for @planModerateTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Orta tempolu antrenman'**
+  String get planModerateTitle;
+
+  /// No description provided for @planModerateBody.
+  ///
+  /// In tr, this message translates to:
+  /// **'30–40 dakika tempolu yürüyüş, bisiklet ya da hafif koşu.'**
+  String get planModerateBody;
+
+  /// No description provided for @planLightTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hafif aktivite'**
+  String get planLightTitle;
+
+  /// No description provided for @planLightBody.
+  ///
+  /// In tr, this message translates to:
+  /// **'20–30 dakika rahat yürüyüş ya da esneme.'**
+  String get planLightBody;
+
+  /// No description provided for @planRestTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Dinlenme günü'**
+  String get planRestTitle;
+
+  /// No description provided for @planRestBody.
+  ///
+  /// In tr, this message translates to:
+  /// **'10–15 dakika esneme ya da nefes egzersizi; yoğun antrenmandan kaçının.'**
+  String get planRestBody;
+
+  /// No description provided for @planZone.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hedef nabız: {range} ({zone})'**
+  String planZone(String range, String zone);
+
+  /// No description provided for @planBasedOn.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bugünkü toparlanmanıza ({value}) göre önerilir.'**
+  String planBasedOn(String value);
+
+  /// No description provided for @planNeedsData.
+  ///
+  /// In tr, this message translates to:
+  /// **'Plan için gece HRV\'si ya da uyku verisi gerekiyor. Bilekliği bu gece takın.'**
+  String get planNeedsData;
+
+  /// No description provided for @planNote.
+  ///
+  /// In tr, this message translates to:
+  /// **'Uygulamanın kendi önerisidir; rahatsızlık hissederseniz durun.'**
+  String get planNote;
+
+  /// No description provided for @planNeedsAge.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hedef nabız için Kişisel bilgiler\'e yaşınızı girin.'**
+  String get planNeedsAge;
+
+  /// No description provided for @bioAgeUnlockTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Biyolojik yaşınızı açın'**
+  String get bioAgeUnlockTitle;
+
+  /// No description provided for @bioAgeUnlockIn.
+  ///
+  /// In tr, this message translates to:
+  /// **'{days} gün sonra kişisel biyolojik yaşınız açılır.'**
+  String bioAgeUnlockIn(int days);
+
+  /// No description provided for @strainVeryLow.
+  ///
+  /// In tr, this message translates to:
+  /// **'Çok düşük'**
+  String get strainVeryLow;
+
+  /// No description provided for @strainNormal.
+  ///
+  /// In tr, this message translates to:
+  /// **'Normal'**
+  String get strainNormal;
+
+  /// No description provided for @strainModerate.
+  ///
+  /// In tr, this message translates to:
+  /// **'Orta'**
+  String get strainModerate;
+
+  /// No description provided for @strainHigh.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yüksek'**
+  String get strainHigh;
+
+  /// No description provided for @strainOverloaded.
+  ///
+  /// In tr, this message translates to:
+  /// **'Aşırı yüklü'**
+  String get strainOverloaded;
+
+  /// No description provided for @strainAiTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'AI analizi'**
+  String get strainAiTitle;
+
+  /// No description provided for @strainCommentVeryLow.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bugün genel yükünüz düşük kaldı; vücudunuz üzerinde çok az zorlanma var.'**
+  String get strainCommentVeryLow;
+
+  /// No description provided for @strainCommentNormal.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bugün dengeli bir yük taşıdınız; gündelik hareket iyi düzeyde.'**
+  String get strainCommentNormal;
+
+  /// No description provided for @strainCommentModerate.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bugün orta düzeyde zorlandınız; bu yük kondisyonu geliştirir.'**
+  String get strainCommentModerate;
+
+  /// No description provided for @strainCommentHigh.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bugün yüksek yük taşıdınız; iyi uyku ve sıvı ile toparlanmaya özen gösterin.'**
+  String get strainCommentHigh;
+
+  /// No description provided for @strainCommentOverloaded.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bugün vücudunuz çok yoğun zorlandı; yarın hafif bir gün planlayın ve iyi dinlenin.'**
+  String get strainCommentOverloaded;
+
+  /// No description provided for @strainBelowOptimal.
+  ///
+  /// In tr, this message translates to:
+  /// **'Toparlanmanıza göre bugün biraz daha hareket edebilirsiniz; size uygun yük {low}–{high}.'**
+  String strainBelowOptimal(String low, String high);
+
+  /// No description provided for @strainAboveOptimal.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yükünüz toparlanmanıza göre uygun aralığın ({low}–{high}) üstünde; dinlenmeye zaman ayırın.'**
+  String strainAboveOptimal(String low, String high);
+
+  /// No description provided for @strainNote.
+  ///
+  /// In tr, this message translates to:
+  /// **'Nabız, adım ve egzersiz verisinden uygulamanın kendi tahminidir; tıbbi değildir.'**
+  String get strainNote;
+
+  /// No description provided for @strainIndicators.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yük göstergeleri'**
+  String get strainIndicators;
+
+  /// No description provided for @strainSleep.
+  ///
+  /// In tr, this message translates to:
+  /// **'Uyku'**
+  String get strainSleep;
+
+  /// No description provided for @strainAvgHr.
+  ///
+  /// In tr, this message translates to:
+  /// **'Ort. nabız'**
+  String get strainAvgHr;
+
+  /// No description provided for @strainSteps.
+  ///
+  /// In tr, this message translates to:
+  /// **'Adım'**
+  String get strainSteps;
+
+  /// No description provided for @strainKcal.
+  ///
+  /// In tr, this message translates to:
+  /// **'kcal'**
+  String get strainKcal;
+
+  /// No description provided for @strainWorkout.
+  ///
+  /// In tr, this message translates to:
+  /// **'Egzersiz'**
+  String get strainWorkout;
+
+  /// No description provided for @strainEmpty.
+  ///
+  /// In tr, this message translates to:
+  /// **'Günlük yük için nabız, adım ya da egzersiz verisi gerekiyor. Bilekliği gün boyu takın.'**
+  String get strainEmpty;
+
+  /// No description provided for @strainRingSemantics.
+  ///
+  /// In tr, this message translates to:
+  /// **'Günlük yük {value}, {level}'**
+  String strainRingSemantics(String value, String level);
+
+  /// No description provided for @strainTrendSemantics.
+  ///
+  /// In tr, this message translates to:
+  /// **'{range} günlük yük eğilimi, ortalama {value}'**
+  String strainTrendSemantics(String range, String value);
+
+  /// No description provided for @strainOpen.
+  ///
+  /// In tr, this message translates to:
+  /// **'Günlük yük ayrıntısı'**
+  String get strainOpen;
+
+  /// No description provided for @wrTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Egzersiz raporu'**
+  String get wrTitle;
+
+  /// No description provided for @wrLoad.
+  ///
+  /// In tr, this message translates to:
+  /// **'Egzersiz yükü'**
+  String get wrLoad;
+
+  /// No description provided for @wrAvgHr.
+  ///
+  /// In tr, this message translates to:
+  /// **'Ortalama nabız'**
+  String get wrAvgHr;
+
+  /// No description provided for @wrMaxHr.
+  ///
+  /// In tr, this message translates to:
+  /// **'Maksimum nabız'**
+  String get wrMaxHr;
+
+  /// No description provided for @wrMet.
+  ///
+  /// In tr, this message translates to:
+  /// **'Metabolik eşdeğer'**
+  String get wrMet;
+
+  /// No description provided for @wrMetLight.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hafif aktivite'**
+  String get wrMetLight;
+
+  /// No description provided for @wrMetModerate.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kondisyonu koruma'**
+  String get wrMetModerate;
+
+  /// No description provided for @wrMetVigorous.
+  ///
+  /// In tr, this message translates to:
+  /// **'Dayanıklılığı güçlendirme'**
+  String get wrMetVigorous;
+
+  /// No description provided for @wrMetCommentLight.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hafif yoğunlukta bir egzersiz yaptınız; dolaşımı canlandırır ve toparlanmaya yardım eder.'**
+  String get wrMetCommentLight;
+
+  /// No description provided for @wrMetCommentModerate.
+  ///
+  /// In tr, this message translates to:
+  /// **'Orta yoğunlukta egzersiz yaptınız; kalp ve kas kondisyonunuzu korur.'**
+  String get wrMetCommentModerate;
+
+  /// No description provided for @wrMetCommentVigorous.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yüksek yoğunlukta egzersiz yaptınız. Bu tür aktiviteler nabzı hızla yükseltir; kalp-akciğer kapasitesini, kas gücünü ve dayanıklılığı belirgin biçimde artırır.'**
+  String get wrMetCommentVigorous;
+
+  /// No description provided for @wrRecovery.
+  ///
+  /// In tr, this message translates to:
+  /// **'Toparlanma'**
+  String get wrRecovery;
+
+  /// No description provided for @wrHrChart.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kalp atış hızı ({unit})'**
+  String wrHrChart(String unit);
+
+  /// No description provided for @wrRange.
+  ///
+  /// In tr, this message translates to:
+  /// **'Aralık'**
+  String get wrRange;
+
+  /// No description provided for @wrZones.
+  ///
+  /// In tr, this message translates to:
+  /// **'Nabız bölgeleri'**
+  String get wrZones;
+
+  /// No description provided for @wrNote.
+  ///
+  /// In tr, this message translates to:
+  /// **'Nabız ve kaloriden uygulamanın kendi tahminidir; tıbbi değildir.'**
+  String get wrNote;
+
+  /// No description provided for @wrLoadSemantics.
+  ///
+  /// In tr, this message translates to:
+  /// **'Egzersiz yükü {value} / 21'**
+  String wrLoadSemantics(String value);
+
+  /// No description provided for @wrGaugeSemantics.
+  ///
+  /// In tr, this message translates to:
+  /// **'{label} {value}, {level}'**
+  String wrGaugeSemantics(String label, String value, String level);
+
+  /// No description provided for @wrChartSemantics.
+  ///
+  /// In tr, this message translates to:
+  /// **'Egzersiz boyunca nabız {range}'**
+  String wrChartSemantics(String range);
+
+  /// No description provided for @wrNoHeartRate.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bu egzersizde nabız ölçümü yok.'**
+  String get wrNoHeartRate;
+
+  /// No description provided for @exerciseRecords.
+  ///
+  /// In tr, this message translates to:
+  /// **'Egzersiz kayıtlarını görüntüle'**
+  String get exerciseRecords;
+
+  /// No description provided for @exerciseRecordsTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Egzersiz kayıtları'**
+  String get exerciseRecordsTitle;
+
+  /// No description provided for @exerciseMinutesUnit.
+  ///
+  /// In tr, this message translates to:
+  /// **'dakika'**
+  String get exerciseMinutesUnit;
+
+  /// No description provided for @exerciseTotalTime.
+  ///
+  /// In tr, this message translates to:
+  /// **'Toplam süre'**
+  String get exerciseTotalTime;
+
+  /// No description provided for @exerciseTotalCount.
+  ///
+  /// In tr, this message translates to:
+  /// **'Toplam sayı'**
+  String get exerciseTotalCount;
+
+  /// No description provided for @exerciseMore.
+  ///
+  /// In tr, this message translates to:
+  /// **'Daha fazla'**
+  String get exerciseMore;
+
+  /// No description provided for @exerciseGps.
+  ///
+  /// In tr, this message translates to:
+  /// **'GPS egzersizi'**
+  String get exerciseGps;
+
+  /// No description provided for @exerciseIndoor.
+  ///
+  /// In tr, this message translates to:
+  /// **'İç mekan egzersizi'**
+  String get exerciseIndoor;
+
+  /// No description provided for @exerciseGpsNote.
+  ///
+  /// In tr, this message translates to:
+  /// **'Rota kaydı henüz yok; mesafe bileklikten gelir.'**
+  String get exerciseGpsNote;
+
+  /// No description provided for @exerciseGpsOff.
+  ///
+  /// In tr, this message translates to:
+  /// **'GPS sinyali kullanılmıyor'**
+  String get exerciseGpsOff;
+
+  /// No description provided for @exerciseGo.
+  ///
+  /// In tr, this message translates to:
+  /// **'GO'**
+  String get exerciseGo;
+
+  /// No description provided for @exerciseGoSemantics.
+  ///
+  /// In tr, this message translates to:
+  /// **'{sport} egzersizini başlat'**
+  String exerciseGoSemantics(String sport);
+
+  /// No description provided for @exerciseResume.
+  ///
+  /// In tr, this message translates to:
+  /// **'Dön'**
+  String get exerciseResume;
+
+  /// No description provided for @exerciseGoal.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hedef'**
+  String get exerciseGoal;
+
+  /// No description provided for @exerciseGoalNone.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hedef yok'**
+  String get exerciseGoalNone;
+
+  /// No description provided for @exerciseGoalTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Süre hedefi'**
+  String get exerciseGoalTitle;
+
+  /// No description provided for @exerciseSportTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Spor türü'**
+  String get exerciseSportTitle;
+
+  /// No description provided for @liveGoal.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hedef: {value}'**
+  String liveGoal(String value);
+
+  /// No description provided for @liveGoalReached.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hedef tamamlandı'**
+  String get liveGoalReached;
+
+  /// No description provided for @locationTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Konum paylaşımı'**
+  String get locationTitle;
+
+  /// No description provided for @locationBanner.
+  ///
+  /// In tr, this message translates to:
+  /// **'Konumunuz paylaşılıyor'**
+  String get locationBanner;
+
+  /// No description provided for @locationViewers.
+  ///
+  /// In tr, this message translates to:
+  /// **'Konumunuzu görenler: {names}'**
+  String locationViewers(String names);
+
+  /// No description provided for @locationOff.
+  ///
+  /// In tr, this message translates to:
+  /// **'Konumunuz kimseyle paylaşılmıyor.'**
+  String get locationOff;
+
+  /// No description provided for @locationOffShort.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kapalı'**
+  String get locationOffShort;
+
+  /// No description provided for @locationLastSent.
+  ///
+  /// In tr, this message translates to:
+  /// **'Son gönderim: {time}'**
+  String locationLastSent(String time);
+
+  /// No description provided for @locationWaiting.
+  ///
+  /// In tr, this message translates to:
+  /// **'Konum alınıyor…'**
+  String get locationWaiting;
+
+  /// No description provided for @locationStart.
+  ///
+  /// In tr, this message translates to:
+  /// **'Paylaşımı aç'**
+  String get locationStart;
+
+  /// No description provided for @locationChoose.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kişileri seç'**
+  String get locationChoose;
+
+  /// No description provided for @locationStop.
+  ///
+  /// In tr, this message translates to:
+  /// **'Paylaşımı durdur'**
+  String get locationStop;
+
+  /// No description provided for @locationNeedsGroup.
+  ///
+  /// In tr, this message translates to:
+  /// **'Konum paylaşmak için önce bir grup kurun ya da bir gruba katılın.'**
+  String get locationNeedsGroup;
+
+  /// No description provided for @locationSharedWithMe.
+  ///
+  /// In tr, this message translates to:
+  /// **'Sizinle paylaşanlar'**
+  String get locationSharedWithMe;
+
+  /// No description provided for @locationNoneShared.
+  ///
+  /// In tr, this message translates to:
+  /// **'Henüz kimse konumunu sizinle paylaşmıyor.'**
+  String get locationNoneShared;
+
+  /// No description provided for @locationUpdated.
+  ///
+  /// In tr, this message translates to:
+  /// **'Son konum: {time}'**
+  String locationUpdated(String time);
+
+  /// No description provided for @locationMe.
+  ///
+  /// In tr, this message translates to:
+  /// **'Ben'**
+  String get locationMe;
+
+  /// No description provided for @locationNote.
+  ///
+  /// In tr, this message translates to:
+  /// **'Konumunuz yalnızca seçtiğiniz kişilere ve yalnızca uygulama açıkken gönderilir. Paylaşım varsayılan olarak kapalıdır; istediğiniz an durdurabilirsiniz.'**
+  String get locationNote;
+
+  /// No description provided for @locationSheetTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Konumumu kimler görsün?'**
+  String get locationSheetTitle;
+
+  /// No description provided for @locationWholeGroup.
+  ///
+  /// In tr, this message translates to:
+  /// **'Tüm grup'**
+  String get locationWholeGroup;
+
+  /// No description provided for @locationNoMembers.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bu grupta henüz katılmış kimse yok.'**
+  String get locationNoMembers;
+
+  /// No description provided for @locationSave.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kaydet'**
+  String get locationSave;
+
+  /// No description provided for @locationProblemServiceOff.
+  ///
+  /// In tr, this message translates to:
+  /// **'Telefonun konum hizmeti kapalı.'**
+  String get locationProblemServiceOff;
+
+  /// No description provided for @locationProblemDenied.
+  ///
+  /// In tr, this message translates to:
+  /// **'Konum izni verilmedi.'**
+  String get locationProblemDenied;
+
+  /// No description provided for @locationProblemDeniedForever.
+  ///
+  /// In tr, this message translates to:
+  /// **'Konum izni kapalı; telefon ayarlarından açabilirsiniz.'**
+  String get locationProblemDeniedForever;
+
+  /// No description provided for @locationProblemFailed.
+  ///
+  /// In tr, this message translates to:
+  /// **'Konum alınamadı; biraz sonra yeniden denenecek.'**
+  String get locationProblemFailed;
+
+  /// No description provided for @privacyLocationTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Konum ve harita'**
+  String get privacyLocationTitle;
+
+  /// No description provided for @privacyLocationBody.
+  ///
+  /// In tr, this message translates to:
+  /// **'Konum paylaşımı varsayılan olarak kapalıdır. Açarsanız telefonunuzun konumu yalnızca sizin seçtiğiniz grup üyelerine, yalnızca uygulama açıkken ve birkaç dakikada bir gönderilir; son konum ve zamanı dışında konum geçmişi tutulmaz. Paylaşım açıkken uygulamanın her ekranında bir gösterge görünür ve paylaşımı Profil > Sağlık topluluğu > Konum paylaşımı bölümünden istediğiniz an durdurabilirsiniz. Haritalar Google Haritalar ile gösterilir: harita açıldığında Google\'a gösterilen bölgenin harita parçaları için istek gider; sağlık verileriniz Google\'a gönderilmez. Google\'ın bu verileri nasıl işlediği Google Gizlilik Politikası\'nda anlatılır.'**
+  String get privacyLocationBody;
+
+  /// No description provided for @asstName.
+  ///
+  /// In tr, this message translates to:
+  /// **'Vita'**
+  String get asstName;
+
+  /// No description provided for @asstTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Vita · Sağlık asistanı'**
+  String get asstTitle;
+
+  /// No description provided for @asstTagline.
+  ///
+  /// In tr, this message translates to:
+  /// **'Küçük adımlar, büyük fark'**
+  String get asstTagline;
+
+  /// No description provided for @asstHello.
+  ///
+  /// In tr, this message translates to:
+  /// **'Merhaba, ben'**
+  String get asstHello;
+
+  /// No description provided for @asstIntro.
+  ///
+  /// In tr, this message translates to:
+  /// **'Sorularınızı verilerinize bakarak yanıtlarım.'**
+  String get asstIntro;
+
+  /// No description provided for @asstInputHint.
+  ///
+  /// In tr, this message translates to:
+  /// **'Mesaj yazın…'**
+  String get asstInputHint;
+
+  /// No description provided for @asstSend.
+  ///
+  /// In tr, this message translates to:
+  /// **'Gönder'**
+  String get asstSend;
+
+  /// No description provided for @asstTyping.
+  ///
+  /// In tr, this message translates to:
+  /// **'Vita yazıyor'**
+  String get asstTyping;
+
+  /// No description provided for @asstOffline.
+  ///
+  /// In tr, this message translates to:
+  /// **'Çevrimdışı: yanıtlar telefonunuzda, kurallarla hazırlanır.'**
+  String get asstOffline;
+
+  /// No description provided for @asstOnline.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yapay zeka bağlı: sorunuz ve özet sayılar takma kimlikle sunucumuza gider.'**
+  String get asstOnline;
+
+  /// No description provided for @asstNote.
+  ///
+  /// In tr, this message translates to:
+  /// **'Vita tıbbi teşhis koymaz ve ilaç önermez. Acil bir durumda 112\'yi arayın.'**
+  String get asstNote;
+
+  /// No description provided for @asstSuggestReport.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bugünün sağlık raporunu hazırlar mısın?'**
+  String get asstSuggestReport;
+
+  /// No description provided for @asstSuggestTraining.
+  ///
+  /// In tr, this message translates to:
+  /// **'Sağlık durumuma göre bir antrenman programı önerir misin?'**
+  String get asstSuggestTraining;
+
+  /// No description provided for @asstSuggestSleep.
+  ///
+  /// In tr, this message translates to:
+  /// **'Dün gece uykum nasıldı?'**
+  String get asstSuggestSleep;
+
+  /// No description provided for @asstSuggestHeart.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kalbim ve EKG\'m nasıl?'**
+  String get asstSuggestHeart;
+
+  /// No description provided for @asstGreeting.
+  ///
+  /// In tr, this message translates to:
+  /// **'Merhaba! Ben Vita, sağlık asistanınız. Uykunuz, nabzınız, toparlanmanız, günlük yükünüz, stresiniz, EKG kayıtlarınız, biyolojik yaşınız, adımlarınız ve egzersizleriniz hakkında sorabilirsiniz.'**
+  String get asstGreeting;
+
+  /// No description provided for @asstThanks.
+  ///
+  /// In tr, this message translates to:
+  /// **'Rica ederim! Başka bir sorunuz olursa buradayım.'**
+  String get asstThanks;
+
+  /// No description provided for @asstUnknown.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bunu tam anlayamadım. Şunları sorabilirsiniz: uykum nasıldı, bugünün raporu, nabzım, toparlanmam, yüküm, stresim, EKG\'m, biyolojik yaşım, adımlarım ya da bana uygun antrenman.'**
+  String get asstUnknown;
+
+  /// No description provided for @asstEmergency.
+  ///
+  /// In tr, this message translates to:
+  /// **'Anlattığınız belirtiler acil olabilir. Hemen 112\'yi arayın ya da en yakın acil servise gidin. Bileklik ve bu uygulama acil bir durumu değerlendiremez.'**
+  String get asstEmergency;
+
+  /// No description provided for @asstNoDiagnosis.
+  ///
+  /// In tr, this message translates to:
+  /// **'Teşhis koyamam, ilaç ya da doz öneremem; bunun için hekiminize danışın. Verilerinizde gördüklerimi anlatabilirim.'**
+  String get asstNoDiagnosis;
+
+  /// No description provided for @asstNoData.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bu konuda henüz yeterli veri yok. Bilekliği takıp eşitledikçe daha çok şey söyleyebilirim.'**
+  String get asstNoData;
+
+  /// No description provided for @asstSleep.
+  ///
+  /// In tr, this message translates to:
+  /// **'Dün gece {start}–{end} arasında {duration} uyudunuz.'**
+  String asstSleep(String start, String end, String duration);
+
+  /// No description provided for @asstSleepScore.
+  ///
+  /// In tr, this message translates to:
+  /// **'Uyku skorunuz {score}/100.'**
+  String asstSleepScore(String score);
+
+  /// No description provided for @asstSleepEfficiency.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yatakta geçen sürenin %{value} kadarı uykuyla geçti.'**
+  String asstSleepEfficiency(String value);
+
+  /// No description provided for @asstSleepDebt.
+  ///
+  /// In tr, this message translates to:
+  /// **'İhtiyacınızın {duration} altında uyudunuz; bu akşam biraz erken yatmayı deneyin.'**
+  String asstSleepDebt(String duration);
+
+  /// No description provided for @asstSleepGood.
+  ///
+  /// In tr, this message translates to:
+  /// **'Uyku süreniz önerilen 7–9 saat aralığında; böyle devam edin.'**
+  String get asstSleepGood;
+
+  /// No description provided for @asstRecovery.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bugünkü toparlanmanız {score}/100 ({level}).'**
+  String asstRecovery(String score, String level);
+
+  /// No description provided for @asstHrv.
+  ///
+  /// In tr, this message translates to:
+  /// **'Gece HRV\'niz {value} ms; 14 günlük olağanınız {baseline} ms.'**
+  String asstHrv(String value, String baseline);
+
+  /// No description provided for @asstRestingHr.
+  ///
+  /// In tr, this message translates to:
+  /// **'Dinlenik nabzınız {value} atım/dk; olağanınız {baseline} atım/dk.'**
+  String asstRestingHr(String value, String baseline);
+
+  /// No description provided for @asstHeart.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bugün ortalama nabzınız {avg} atım/dk; en düşük {min}, en yüksek {max}.'**
+  String asstHeart(String avg, String min, String max);
+
+  /// No description provided for @asstEcg.
+  ///
+  /// In tr, this message translates to:
+  /// **'Son EKG kaydınız ({date}): {result}.'**
+  String asstEcg(String date, String result);
+
+  /// No description provided for @asstEcgNormal.
+  ///
+  /// In tr, this message translates to:
+  /// **'düzenli ritim, belirgin bir bulgu yok'**
+  String get asstEcgNormal;
+
+  /// No description provided for @asstEcgFlagged.
+  ///
+  /// In tr, this message translates to:
+  /// **'dikkat edilmesi gereken bir bulgu var; kaydı hekiminize göstermenizi öneririm'**
+  String get asstEcgFlagged;
+
+  /// No description provided for @asstEcgUnknown.
+  ///
+  /// In tr, this message translates to:
+  /// **'kayıt değerlendirme için yeterli değil'**
+  String get asstEcgUnknown;
+
+  /// No description provided for @asstEcgNone.
+  ///
+  /// In tr, this message translates to:
+  /// **'Henüz EKG kaydınız yok. Sağlık sekmesindeki EKG ekranından bir kayıt alabilirsiniz.'**
+  String get asstEcgNone;
+
+  /// No description provided for @asstEcgNote.
+  ///
+  /// In tr, this message translates to:
+  /// **'EKG değerlendirmesi otomatik bir ön değerlendirmedir, tanı değildir.'**
+  String get asstEcgNote;
+
+  /// No description provided for @asstStrain.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bugünkü yükünüz {value}/21; toparlanmanıza göre ideal aralık {low}–{high}.'**
+  String asstStrain(String value, String low, String high);
+
+  /// No description provided for @asstStrainPlain.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bugünkü yükünüz {value}/21.'**
+  String asstStrainPlain(String value);
+
+  /// No description provided for @asstStress.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bugün ortalama stres düzeyiniz {value}/100.'**
+  String asstStress(String value);
+
+  /// No description provided for @asstStressTip.
+  ///
+  /// In tr, this message translates to:
+  /// **'Gün içinde birkaç dakikalık yavaş nefes egzersizi ve kısa yürüyüşler stresi azaltmaya yardımcı olabilir.'**
+  String get asstStressTip;
+
+  /// No description provided for @asstSteps.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bugün {steps} adım attınız; günlük hedef {goal}.'**
+  String asstSteps(String steps, String goal);
+
+  /// No description provided for @asstStepsLeft.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hedefe {left} adım kaldı; kısa bir yürüyüş yeter.'**
+  String asstStepsLeft(String left);
+
+  /// No description provided for @asstStepsDone.
+  ///
+  /// In tr, this message translates to:
+  /// **'Günlük adım hedefinizi tamamladınız, tebrikler!'**
+  String get asstStepsDone;
+
+  /// No description provided for @asstBioAge.
+  ///
+  /// In tr, this message translates to:
+  /// **'Biyolojik yaşınız {bio}, takvim yaşınız {age}.'**
+  String asstBioAge(String bio, String age);
+
+  /// No description provided for @asstBioYounger.
+  ///
+  /// In tr, this message translates to:
+  /// **'Verileriniz yaşıtlarınıza göre daha genç bir tablo gösteriyor.'**
+  String get asstBioYounger;
+
+  /// No description provided for @asstBioOlder.
+  ///
+  /// In tr, this message translates to:
+  /// **'Düzenli uyku ve daha çok hareket bu farkı kapatmaya yardımcı olabilir.'**
+  String get asstBioOlder;
+
+  /// No description provided for @asstBioCollecting.
+  ///
+  /// In tr, this message translates to:
+  /// **'Biyolojik yaş raporu için veri toplanıyor: {days}/21 gün.'**
+  String asstBioCollecting(String days);
+
+  /// No description provided for @asstBioNeedsAge.
+  ///
+  /// In tr, this message translates to:
+  /// **'Biyolojik yaş için profilde yaşınızı girin.'**
+  String get asstBioNeedsAge;
+
+  /// No description provided for @asstWorkouts.
+  ///
+  /// In tr, this message translates to:
+  /// **'Son 7 günde {count} egzersiz yaptınız, toplam {duration}.'**
+  String asstWorkouts(String count, String duration);
+
+  /// No description provided for @asstTrainingHigh.
+  ///
+  /// In tr, this message translates to:
+  /// **'Toparlanmanız yüksek, bugün yoğun bir antrenman uygun. Örnek: 10 dk ısınma, 3 dk yavaş aralarla 4 × 4 dk tempolu koşu ya da bisiklet (nabız bölgesi 3–4), 10 dk soğuma.'**
+  String get asstTrainingHigh;
+
+  /// No description provided for @asstTrainingMid.
+  ///
+  /// In tr, this message translates to:
+  /// **'Toparlanmanız orta düzeyde: bugün 30–45 dk orta tempolu yürüyüş, bisiklet ya da hafif koşu (nabız bölgesi 2) iyi olur.'**
+  String get asstTrainingMid;
+
+  /// No description provided for @asstTrainingLow.
+  ///
+  /// In tr, this message translates to:
+  /// **'Toparlanmanız düşük: bugün dinlenmeye öncelik verin. 20–30 dk hafif yürüyüş ya da esneme yeterli.'**
+  String get asstTrainingLow;
+
+  /// No description provided for @asstTrainingUnknown.
+  ///
+  /// In tr, this message translates to:
+  /// **'Toparlanmanız henüz hesaplanamadı; 30 dk orta tempolu yürüyüşle başlayın, nasıl hissettiğinize göre artırın.'**
+  String get asstTrainingUnknown;
+
+  /// No description provided for @asstTrainingWeek.
+  ///
+  /// In tr, this message translates to:
+  /// **'Haftalık hedef en az 150 dk orta yoğunlukta hareket; son 7 günde {duration} yaptınız.'**
+  String asstTrainingWeek(String duration);
+
+  /// No description provided for @asstTrainingSafety.
+  ///
+  /// In tr, this message translates to:
+  /// **'Göğüs ağrısı, baş dönmesi ya da olağandışı nefes darlığı olursa hemen durun.'**
+  String get asstTrainingSafety;
+
+  /// No description provided for @asstReportIntro.
+  ///
+  /// In tr, this message translates to:
+  /// **'{date} için özetiniz:'**
+  String asstReportIntro(String date);
+
+  /// No description provided for @asstFailed.
+  ///
+  /// In tr, this message translates to:
+  /// **'Sunucuya ulaşılamadı; bu yanıt telefonda hazırlandı.'**
+  String get asstFailed;
+
+  /// No description provided for @privacyAiTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yapay zeka'**
+  String get privacyAiTitle;
+
+  /// No description provided for @privacyAiBody.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yapay zeka raporu ve sağlık asistanı Vita varsayılan olarak telefonda, kurallarla çalışır; veri dışarı gitmez. Yapay zeka rızası verirseniz rapor için haftalık özetler, asistan için de sorunuz, son mesajlarınız ve günün özet sayıları (uyku süresi, toparlanma, yük, nabız ortalaması, stres, adım, EKG ön değerlendirmesinin sonucu, yaş) takma kimliğinizle portalımıza gönderilir ve portal bunları yanıt üretmek için Anthropic\'in Claude yapay zeka hizmetine (ABD) iletir. Adınız, kimlik numaranız, cihaz adresiniz ve ham ölçümler gönderilmez. Rızayı istediğiniz an yapay zeka raporu ekranından geri alabilirsiniz. Yapay zeka teşhis koymaz ve ilaç önermez.'**
+  String get privacyAiBody;
 }
 
 class _AppLocalizationsDelegate

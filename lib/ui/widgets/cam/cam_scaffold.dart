@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import '../../theme.dart';
+import '../home/sky.dart';
 
-/// Cam zemini: gece mavisi degrade, üstünde yumuşak renkli ışıklar
-/// (aurora) ve metin karşıtlığını koruyan koyu perde.
+/// Cam zemini: lacivertten maviye gökyüzü degradesi, yumuşak ışıklar,
+/// metin karşıtlığını koruyan ince perde ve altta sabit dağ silueti.
 ///
 /// Bulanıklık filtresi yerine kenarı saydama giden radyal degrade kullanır;
 /// tek katmanda çizilir ve dokunmaları geçirir.
@@ -14,9 +15,31 @@ class CamBackground extends StatelessWidget {
   @override
   Widget build(BuildContext context) => IgnorePointer(
     child: RepaintBoundary(
-      child: CustomPaint(
-        painter: _AuroraPainter(context.colors),
-        size: Size.infinite,
+      child: Stack(
+        fit: StackFit.expand,
+        children: [
+          CustomPaint(
+            painter: _AuroraPainter(context.colors),
+            size: Size.infinite,
+          ),
+          // Kodla çizilen dağ ekranın alt yarısında sabit durur; kartlar
+          // üstünden kayar ve yarı saydam dolgularından görünür.
+          // Karlı tepe metnin arkasında parlamasın diye renkler kısılır.
+          const FractionallySizedBox(
+            alignment: Alignment.bottomCenter,
+            heightFactor: 0.46,
+            widthFactor: 1.08,
+            child: ColorFiltered(
+              colorFilter: ColorFilter.matrix([
+                0.55, 0, 0, 0, 0, //
+                0, 0.58, 0, 0, 0, //
+                0, 0, 0.64, 0, 0, //
+                0, 0, 0, 1, 0,
+              ]),
+              child: MountainSilhouette(),
+            ),
+          ),
+        ],
       ),
     ),
   );

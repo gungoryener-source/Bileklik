@@ -7,6 +7,7 @@ import '../data/ecg_analysis.dart';
 import '../data/health_store.dart';
 import '../data/sync_service.dart';
 import '../data/models.dart';
+import '../device/device_log.dart';
 import '../device/protocol/commands.dart';
 import '../device/protocol/ecg.dart';
 import '../device/protocol/exercise.dart';
@@ -41,11 +42,27 @@ class DeviceController extends ChangeNotifier {
     this._transport, {
     HealthStore? store,
     this.wearDetection = true,
+    this.autoReconnect = false,
+    this.reconnectDelays = const [
+      Duration(seconds: 3),
+      Duration(seconds: 10),
+      Duration(seconds: 30),
+      Duration(seconds: 60),
+    ],
+    this.isDemo = false,
+    DeviceLog? log,
   }) : _client = WristbandClient(_transport),
+       log = log ?? DeviceLog(),
        store = store ?? MemoryHealthStore() {
     _sync = SyncService(_client, this.store);
     _stateSub = _transport.state.listen((s) {
+      final was = connection;
       connection = s;
+      if (s == DeviceConnectionState.connected) _reconnectAttempt = 0;
+      if (s == DeviceConnectionState.disconnected &&
+          was != DeviceConnectionState.disconnected) {
+        _scheduleReconnect();
+      }
       notifyListeners();
     });
     _realtimeSub = _client.realtime.listen((d) {
@@ -108,29 +125,115 @@ class DeviceController extends ChangeNotifier {
   String get deviceName => _transport.name;
   bool get isConnected => connection == DeviceConnectionState.connected;
 
+  /// Bağlantı tanılama ekranındaki "Demo kipi" anahtarının tercih adı. Açıksa
+  /// telefonda da sahte bileklik kullanılır; uygulama yeniden açılınca
+  /// geçerli olur.
+  static const demoModeKey = 'demo_mode';
+
+  /// Bileklik trafiğinin kaydı (Bağlantı tanılama ekranı).
+  final DeviceLog log;
+
+  /// Sahte bileklikle mi çalışılıyor (demo kipi).
+  final bool isDemo;
+
+  /// Bağlantı kendiliğinden koparsa yeniden bağlanılsın mı. Telefonda
+  /// açık; testlerde kapalı.
+  final bool autoReconnect;
+
+  /// Art arda başarısız denemeler arasındaki bekleme; son değer tekrarlanır.
+  final List<Duration> reconnectDelays;
+
+  bool get hasPairedDevice => _transport.hasPairedDevice;
+  String? get pairedId => _transport.pairedId;
+  int get maxWriteLength => _transport.maxWriteLength;
+
+  /// Kullanıcı "Bağlantıyı kes" dediyse kendiliğinden bağlanılmaz.
+  bool _userDisconnected = false;
+  bool _connecting = false;
+  Timer? _reconnectTimer;
+  int _reconnectAttempt = 0;
+  bool _disposed = false;
+
+  /// Bir sonraki otomatik deneme zamanı; bekleyen yoksa null.
+  DateTime? nextReconnect;
+
+  /// Uygulama açılınca: eşleştirilmiş bileklik varsa bağlanır.
+  Future<void> start() async {
+    if (hasPairedDevice && !isConnected) await connect();
+  }
+
+  /// Uygulama öne gelince: kopmuşsa beklemeden yeniden dener.
+  void onResumed() {
+    if (!autoReconnect || _userDisconnected || !hasPairedDevice) return;
+    if (isConnected || _connecting) return;
+    _reconnectTimer?.cancel();
+    _reconnectAttempt = 0;
+    unawaited(connect());
+  }
+
+  void _scheduleReconnect() {
+    if (!autoReconnect || _userDisconnected || _disposed) return;
+    if (!hasPairedDevice || _connecting) return;
+    if (_reconnectTimer?.isActive ?? false) return;
+    final delays = reconnectDelays;
+    final wait = delays[min(_reconnectAttempt, delays.length - 1)];
+    _reconnectAttempt++;
+    nextReconnect = DateTime.now().add(wait);
+    log.event(
+      'yeniden bağlanma ${wait.inSeconds} sn sonra '
+      '(deneme $_reconnectAttempt)',
+    );
+    _reconnectTimer = Timer(wait, () {
+      nextReconnect = null;
+      if (!isConnected && !_connecting) unawaited(connect());
+    });
+  }
+
   Future<void> connect() async {
+    if (_connecting || _disposed) return;
+    _connecting = true;
+    _userDisconnected = false;
+    _reconnectTimer?.cancel();
+    nextReconnect = null;
     error = null;
     try {
       await _transport.connect();
-      await _client.syncTime(DateTime.now());
-      battery = await _client.getBattery();
-      profile = await _client.getPersonalInfo();
-      await _client.startRealtime();
+      // Bağlantı kurulduktan sonraki ilk komutlar birbirinden bağımsızdır:
+      // biri yanıtsız kalırsa (ör. gerçek cihazda belgeden farklı bir
+      // yanıt) bağlantı kesilmez, kayda yazılır ve diğerleri denenir.
+      await _step('saat (0x01)', () => _client.syncTime(DateTime.now()));
+      await _step('pil (0x13)', () async {
+        battery = await _client.getBattery();
+      });
+      await _step('kişisel bilgi (0x42)', () async {
+        profile = await _client.getPersonalInfo();
+      });
+      await _step('anlık veri (0x09)', _client.startRealtime);
     } on DeviceNotPairedException catch (e) {
       error = e.toString();
       issue = DeviceIssue.notPaired;
     } catch (e) {
       error = e.toString();
-      // Bağlandıktan sonra bir komut başarısız olduysa yarım bağlantı kalmasın.
-      if (isConnected) {
-        try {
-          await _transport.disconnect();
-        } catch (_) {}
-      }
     }
+    _connecting = false;
+    if (_disposed) return;
     notifyListeners();
-    if (isConnected) await _loadDeviceSettings();
+    if (!isConnected) {
+      // Bağlantı hiç kurulamadıysa durum değişmemiş olabilir; yine dene.
+      if (issue != DeviceIssue.notPaired) _scheduleReconnect();
+      return;
+    }
+    await _loadDeviceSettings();
     if (isConnected) await sync();
+  }
+
+  /// Bağlanınca çalışan bir adım; hata bağlantıyı düşürmez, kayda yazılır.
+  Future<void> _step(String what, Future<void> Function() run) async {
+    try {
+      await run();
+    } catch (e) {
+      log.error('$what başarısız: $e');
+    }
   }
 
   /// Bileklikteki otomatik ölçüm ayarları; bağlanınca okunur.
@@ -318,14 +421,14 @@ class DeviceController extends ChangeNotifier {
   ScanProblem? scanProblem;
 
   /// Yakındaki bileklikleri arar.
-  Future<List<DiscoveredDevice>> scan() async {
+  Future<List<DiscoveredDevice>> scan({bool all = false}) async {
     if (scanning) return found;
     scanning = true;
     error = null;
     scanProblem = null;
     notifyListeners();
     try {
-      found = await _transport.scan();
+      found = await _transport.scan(all: all);
     } on ScanException catch (e) {
       scanProblem = e.problem;
       found = const [];
@@ -350,7 +453,21 @@ class DeviceController extends ChangeNotifier {
   /// En son tamamlanan elle ölçüm.
   Measurement? lastSpot;
 
+  /// Tanılama: baytları olduğu gibi gönderir; yanıt [log]'da görünür.
+  Future<void> sendRaw(List<int> bytes) => _transport.send(bytes);
+
+  /// Eşleştirmeyi unutur: bağlantı kesilir, açılışta bağlanılmaz.
+  Future<void> forgetDevice() async {
+    await disconnect();
+    _transport.forget();
+    found = const [];
+    notifyListeners();
+  }
+
   Future<void> disconnect() async {
+    _userDisconnected = true;
+    _reconnectTimer?.cancel();
+    nextReconnect = null;
     spot?.watchdog?.cancel();
     await _transport.disconnect();
     live = null;
@@ -445,32 +562,48 @@ class DeviceController extends ChangeNotifier {
   Future<void> stopExercise() async {
     final ex = exercise;
     if (ex == null) return;
+    // Bileklik yanıt vermezse "Bitir" takılı kalmasın.
     try {
-      await _client.controlExercise(ExerciseAction.end, ex.type);
+      await _client
+          .controlExercise(ExerciseAction.end, ex.type)
+          .timeout(exerciseTimeout);
     } catch (e) {
       error = e.toString();
     }
     await _finishExercise(ex);
   }
 
+  /// Egzersizi bitirirken bileklikten yanıt ve geçmiş için en uzun bekleme.
+  static const exerciseTimeout = Duration(seconds: 8);
+
   Future<void> _finishExercise(ActiveExercise ex) async {
+    // "Bitir" ile bilekliğin bitti bildirimi üst üste gelebilir.
+    if (ex.finishing) return;
+    ex.finishing = true;
     exercise = null;
     lastWorkout = null;
     notifyListeners();
     // Bileklik biten egzersizi 0x5C geçmişine yazar; oradan çekiyoruz.
+    // Senkron sürüyorsa ya da kayıt gelmezse egzersiz, süren ölçümlerden
+    // kaydedilir; özet ekranı hiçbir durumda beklemede kalmaz.
     if (!syncing) {
       try {
-        await _sync.workouts();
+        await _sync.workouts().timeout(exerciseTimeout * 2);
       } catch (e) {
         error = e.toString();
       }
     }
-    lastWorkout = store
+    var w = store
         .workoutsBetween(
           ex.startedAt.subtract(const Duration(minutes: 1)),
           DateTime.now().add(const Duration(days: 1)),
         )
         .firstOrNull;
+    if (w == null) {
+      w = ex.toWorkout(DateTime.now());
+      store.addWorkouts([w]);
+    }
+    lastWorkout = w;
     notifyListeners();
   }
 
@@ -492,18 +625,32 @@ class DeviceController extends ChangeNotifier {
   }
 
   /// EKG ölçümünü başlatır. Bileklik [seconds] boyunca ham veri gönderir.
-  Future<bool> startEcg({int seconds = 30}) async {
+  /// EKG ölçümünü başlatır.
+  ///
+  /// Bileklik parmak elektroda değince veri göndermeye başlar (üreticinin
+  /// uygulaması bu süreye "kalibrasyon" diyor). Sayaç ilk örnek gelince
+  /// başlar; [waitForSignal] içinde hiç veri gelmezse ölçüm "sinyal yok"
+  /// ile biter. [invert]: bileklik sağ bilekteyse dalga ters çıkar
+  /// (I. derivasyon), çizim ve kayıt için çevrilir (gerçek cihazda
+  /// doğrulanacak).
+  Future<bool> startEcg({
+    int seconds = 30,
+    bool invert = false,
+    Duration waitForSignal = const Duration(seconds: 60),
+  }) async {
     if (ecg != null) return true;
     error = null;
     lastEcg = null;
-    final session = EcgSession(DateTime.now(), seconds);
+    final session = EcgSession(DateTime.now(), seconds, invert: invert);
     ecg = session;
     notifyListeners();
     try {
       await _client.startEcg(seconds: seconds);
-      // Paketler gelmezse ölçüm süresi ve 10 sn pay sonunda bitir.
-      session.watchdog = Timer(Duration(seconds: seconds + 10), () {
-        if (ecg == session) _completeEcg(session);
+      session.watchdog = Timer(waitForSignal, () {
+        if (ecg == session && session.samples.isEmpty) {
+          log.error('EKG: ${waitForSignal.inSeconds} sn içinde veri gelmedi');
+          _completeEcg(session);
+        }
       });
     } catch (e) {
       error = e.toString();
@@ -528,7 +675,20 @@ class DeviceController extends ChangeNotifier {
   void _onEcg(EcgPacket p) {
     final session = ecg;
     if (session == null) return;
-    session.samples.addAll(p.samples);
+    final now = DateTime.now();
+    if (session.firstSample == null) {
+      session.firstSample = now;
+      log.event('EKG: ilk veri geldi (${p.samples.length} örnek/paket)');
+    }
+    session.samples.addAll(
+      session.invert ? [for (final v in p.samples) -v] : p.samples,
+    );
+    session.updateRate(now);
+    // Paketler kesilirse (parmak kalktı, ölçüm bitti) beklemeden bitir.
+    session.watchdog?.cancel();
+    session.watchdog = Timer(const Duration(seconds: 5), () {
+      if (ecg == session) _completeEcg(session);
+    });
     if (session.samples.length >= session.target) {
       _completeEcg(session);
     } else {
@@ -542,11 +702,15 @@ class DeviceController extends ChangeNotifier {
     final samples = session.samples.length > session.target
         ? session.samples.sublist(0, session.target)
         : session.samples;
-    if (samples.length >= ecgSampleRate * 5) {
-      final s = EcgSummary.analyze(samples, ecgSampleRate);
+    final rate = session.rate;
+    if (samples.isNotEmpty) {
+      log.event('EKG bitti: ${samples.length} örnek, $rate Hz');
+    }
+    if (samples.length >= rate * 5) {
+      final s = EcgSummary.analyze(samples, rate);
       final r = EcgRecording(
-        start: session.start,
-        sampleRate: ecgSampleRate,
+        start: session.firstSample ?? session.start,
+        sampleRate: rate,
         samples: List.unmodifiable(samples),
         averageHeartRate: s.averageHeartRate,
         minHeartRate: s.minHeartRate,
@@ -639,6 +803,8 @@ class DeviceController extends ChangeNotifier {
 
   @override
   void dispose() {
+    _disposed = true;
+    _reconnectTimer?.cancel();
     spot?.watchdog?.cancel();
     ecg?.watchdog?.cancel();
     _ecgSub.cancel();
@@ -660,6 +826,9 @@ class ActiveExercise {
   bool paused = false;
   bool endedByDevice = false;
   ExerciseLive? live;
+
+  /// Kullanıcının seçtiği süre hedefi (dakika); yoksa null.
+  int? goalMinutes;
   final heartRates = <int>[];
 
   /// Bilekliğin "uzun süredir hareketsizsiniz" uyarısı; kullanıcı yanıtlayınca null olur.
@@ -670,21 +839,74 @@ class ActiveExercise {
   int? get averageHeartRate => heartRates.isEmpty
       ? null
       : (heartRates.reduce((a, b) => a + b) / heartRates.length).round();
+
+  /// Bitirme bir kez işlenir.
+  bool finishing = false;
+
+  /// Bileklik geçmişe kayıt yazmadıysa egzersiz, son anlık veriden
+  /// kaydedilir. Anlık veri hiç gelmediyse süre başlangıçtan [now]'a kadar.
+  Workout toWorkout(DateTime now) {
+    final l = live;
+    final seconds = l != null && l.durationSeconds > 0
+        ? l.durationSeconds
+        : now.difference(startedAt).inSeconds;
+    final km = l?.distanceKm ?? 0;
+    return Workout(
+      type: type,
+      start: startedAt,
+      duration: Duration(seconds: seconds),
+      steps: l?.steps ?? 0,
+      distanceKm: km,
+      calories: l?.calories ?? 0,
+      averageHeartRate: averageHeartRate ?? 0,
+      pace: km > 0.01 ? Duration(seconds: (seconds / km).round()) : null,
+    );
+  }
 }
 
 /// Süren EKG ölçümü.
 class EcgSession {
-  EcgSession(this.start, this.seconds);
+  EcgSession(this.start, this.seconds, {this.invert = false});
 
   final DateTime start;
   final int seconds;
+  final bool invert;
   final samples = <int>[];
   Timer? watchdog;
 
-  int get target => seconds * ecgSampleRate;
+  /// İlk örneğin geldiği an; o zamana kadar bileklik "kalibrasyon" yapar.
+  DateTime? firstSample;
+
+  /// Örnekleme hızı. Belgede yok; 250 Hz ile başlanır, 3 sn veri gelince
+  /// gelen örnek sayısından ölçülüp yaygın bir değere yuvarlanır.
+  int rate = ecgSampleRate;
+
+  bool get waiting => firstSample == null;
+  int get target => seconds * rate;
   double get progress => (samples.length / target).clamp(0, 1);
   Duration get remaining =>
-      Duration(seconds: seconds - samples.length ~/ ecgSampleRate);
+      Duration(seconds: (seconds - samples.length ~/ rate).clamp(0, seconds));
+
+  static const _commonRates = [100, 125, 128, 200, 250, 256, 300, 500, 512];
+
+  void updateRate(DateTime now) {
+    final first = firstSample;
+    if (first == null) return;
+    final ms = now.difference(first).inMilliseconds;
+    if (ms < 3000) return;
+    rate = snapSampleRate(samples.length * 1000 / ms);
+  }
+
+  /// Ölçülen hızı en yakın yaygın değere yuvarlar (%15 içindeyse).
+  static int snapSampleRate(double measured) {
+    var best = _commonRates.first;
+    for (final r in _commonRates) {
+      if ((r - measured).abs() < (best - measured).abs()) best = r;
+    }
+    return (best - measured).abs() <= best * 0.15
+        ? best
+        : measured.round().clamp(50, 2000);
+  }
 }
 
 /// Süren elle nabız ya da SpO2 ölçümü. Bileklik saniyede bir anlık veri

@@ -235,6 +235,24 @@ class OpenApi {
     ),
     _Op(
       'post',
+      '/assistant',
+      'Other',
+      'Ask the in-app health assistant',
+      'Proxy to the Claude API; the key stays on the server. Only summary numbers are sent, no name or raw measurements. 30 per hour per account; 503 when no key is configured.',
+      roles: 'patient',
+      body: {
+        'lang': 'tr | en | de | ar',
+        'messages': '[{role: user | assistant, content: string}]',
+        'facts': 'object',
+      },
+      responses: {
+        '200': '{reply}',
+        '429': 'throttled',
+        '503': 'not configured',
+      },
+    ),
+    _Op(
+      'post',
       '/inquiry',
       'Other',
       'Partnership inquiry from the website',

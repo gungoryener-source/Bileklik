@@ -152,41 +152,41 @@ class AppColors extends ThemeExtension<AppColors> {
   final Color shadow;
 
   static const cam = AppColors(
-    background: Color(0xFF0B0A22),
-    surface: Color(0x66141030),
+    background: Color(0xFF0C1016),
+    surface: Color(0x990E1218),
     surfaceHigh: Color(0x14FFFFFF),
     outline: Color(0x2EFFFFFF),
-    glow: Color(0x338F7BFF),
-    accent: Color(0xFFA996FF),
-    onAccent: Color(0xFF0B0A22),
+    glow: Color(0x3345D6B8),
+    accent: Color(0xFF45D6B8),
+    onAccent: Color(0xFF0C1016),
     text: Color(0xFFFFFFFF),
     muted: Color(0xBFFFFFFF),
     danger: Color(0xFFFFB8C8),
-    bgTop: Color(0xFF140D38),
-    bgMid: Color(0xFF0B0A22),
-    bgBottom: Color(0xFF08142E),
-    auroraPink: Color(0xF2FF2E88),
-    auroraViolet: Color(0xFF6C4BFF),
-    auroraCyan: Color(0xBF00C8FF),
-    auroraLime: Color(0x739DFF3D),
-    scrim: Color(0x730B0A22),
-    glassBase: Color(0x66141030),
-    glassSheenStart: Color(0x29FFFFFF),
-    glassSheenEnd: Color(0x0AFFFFFF),
+    bgTop: Color(0xFF1F2E4D),
+    bgMid: Color(0xFF34507A),
+    bgBottom: Color(0xFF0C1016),
+    auroraPink: Color(0x4D4C8DFF),
+    auroraViolet: Color(0x407D8BA0),
+    auroraCyan: Color(0x2E45D6B8),
+    auroraLime: Color(0x26E8B978),
+    scrim: Color(0x330C1016),
+    glassBase: Color(0x8C161A22),
+    glassSheenStart: Color(0x1FFFFFFF),
+    glassSheenEnd: Color(0x05FFFFFF),
     glassBorder: Color(0x2EFFFFFF),
-    floating: Color(0xB8161234),
-    heroTintStart: Color(0x61FF408C),
-    heroTintEnd: Color(0x297828C8),
-    sleepTintStart: Color(0x6B7C5CFF),
-    sleepTintEnd: Color(0x2E281E78),
-    ctaStart: Color(0xFFD9225F),
-    ctaEnd: Color(0xFF6A3DF0),
-    ctaGlow: Color(0x80D9225F),
-    navBase: Color(0x8C161234),
-    navActiveStart: Color(0xFF7B5CFF),
-    navActiveEnd: Color(0xFFD9225F),
-    navActiveGlow: Color(0x8C9646FF),
-    online: Color(0xFF9DFF3D),
+    floating: Color(0xE6161A22),
+    heroTintStart: Color(0x5245D6B8),
+    heroTintEnd: Color(0x294C8DFF),
+    sleepTintStart: Color(0x614C8DFF),
+    sleepTintEnd: Color(0x2E1F2E4D),
+    ctaStart: Color(0xFF17735E),
+    ctaEnd: Color(0xFF2C5FC4),
+    ctaGlow: Color(0x4033D1A8),
+    navBase: Color(0xCC161A22),
+    navActiveStart: Color(0xFF454C5A),
+    navActiveEnd: Color(0xFF2A303B),
+    navActiveGlow: Color(0x00000000),
+    online: Color(0xFF5BE37D),
     offline: Color(0x80FFFFFF),
     grid: Color(0x14FFFFFF),
     shadow: Color(0x73000000),
@@ -539,4 +539,54 @@ class OrbPalette {
   const OrbPalette(this.colors, this.glow);
   final List<Color> colors;
   final Color glow;
+}
+
+/// Ana Sayfa'nın gökyüzü görünümü: lacivertten maviye gökyüzü, kodla
+/// çizilen dağ silueti, koyu cam kartlar ve skor renkleri. Resim dosyası
+/// kullanılmaz; her şey degrade ve yol çizimidir.
+abstract final class HomeSky {
+  static const top = Color(0xFF1F2E4D);
+  static const mid = Color(0xFF3F5A80);
+  static const horizon = Color(0xFF7D8BA0);
+  static const bottom = Color(0xFF0C1016);
+  static const ridgeFar = Color(0xFF52627C);
+  static const ridgeMid = Color(0xFF3A4352);
+  static const ridgeNear = Color(0xFF1B1F27);
+  static const rockLight = Color(0xFFB59A78);
+  static const snow = Color(0xFFEEF2F8);
+  static const sunGlow = Color(0xFFE8B978);
+
+  /// Koyu yarı saydam kart ve iç kutu.
+  static const card = Color(0x8C161A22);
+  static const inner = Color(0x590E1218);
+  static const border = Color(0x38FFFFFF);
+  static const pill = Color(0x40FFFFFF);
+
+  /// Skor renkleri.
+  static const green = Color(0xFF5BE37D);
+  static const blue = Color(0xFF4C8DFF);
+  static const yellow = Color(0xFFF3C85A);
+  static const ai = Color(0xFF45D6B8);
+  static const aiBlue = Color(0xFF4AA8FF);
+
+  /// Grafiklerde beyaz çizgi ve soluk çubuk.
+  static const chart = Color(0xFFF2F4F7);
+  static const chartDim = Color(0x33FFFFFF);
+
+  /// Zümrüt kristal.
+  static const gemLight = Color(0xFF9DF2D8);
+  static const gem = Color(0xFF2E9E86);
+  static const gemDark = Color(0xFF0B4A40);
+  static const gemGlow = Color(0x6633D1A8);
+}
+
+/// Kodla çizilmiş harita zemini ve harita üstü etiketler.
+abstract final class MapColors {
+  static const land = Color(0xFF151E2C);
+  static const water = Color(0xFF14324A);
+  static const park = Color(0xFF173A34);
+  static const street = Color(0x1FBFD0EA);
+  static const road = Color(0x5591A6C8);
+  static const label = Color(0xFFE6ECF5);
+  static const labelBackground = Color(0xB30B111B);
 }

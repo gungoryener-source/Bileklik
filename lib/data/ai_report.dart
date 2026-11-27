@@ -58,7 +58,9 @@ class AiReportInput {
   }) {
     final report = WeeklyReport.of(store, day);
     final w = report.current.range;
-    final bio = age == null ? null : BiologicalAge.of(store, day, age);
+    final bio = age == null || !BioAgeCollection.of(store, day).ready
+        ? null
+        : BiologicalAge.of(store, day, age);
     final radar = HealthRadar.of(store, day);
     return AiReportInput(
       ageGroup: age == null || age < 18
