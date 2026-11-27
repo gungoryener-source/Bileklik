@@ -3892,4 +3892,93 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get liveGoalReached => 'تم بلوغ الهدف';
+
+  @override
+  String get locationTitle => 'مشاركة الموقع';
+
+  @override
+  String get locationBanner => 'موقعك قيد المشاركة';
+
+  @override
+  String locationViewers(String names) {
+    return 'يرون موقعك: $names';
+  }
+
+  @override
+  String get locationOff => 'موقعك غير مشارك مع أحد.';
+
+  @override
+  String get locationOffShort => 'متوقف';
+
+  @override
+  String locationLastSent(String time) {
+    return 'آخر إرسال: $time';
+  }
+
+  @override
+  String get locationWaiting => 'جارٍ تحديد الموقع…';
+
+  @override
+  String get locationStart => 'بدء المشاركة';
+
+  @override
+  String get locationChoose => 'اختيار الأشخاص';
+
+  @override
+  String get locationStop => 'إيقاف المشاركة';
+
+  @override
+  String get locationNeedsGroup =>
+      'لمشاركة موقعك، أنشئ مجموعة أو انضم إلى واحدة أولاً.';
+
+  @override
+  String get locationSharedWithMe => 'يشاركون موقعهم معك';
+
+  @override
+  String get locationNoneShared => 'لا أحد يشارك موقعه معك بعد.';
+
+  @override
+  String locationUpdated(String time) {
+    return 'آخر موقع: $time';
+  }
+
+  @override
+  String get locationMe => 'أنا';
+
+  @override
+  String get locationNote =>
+      'يُرسل موقعك فقط إلى الأشخاص الذين تختارهم، وفقط أثناء فتح التطبيق. المشاركة متوقفة افتراضيًا ويمكنك إيقافها في أي وقت.';
+
+  @override
+  String get locationSheetTitle => 'من يمكنه رؤية موقعي؟';
+
+  @override
+  String get locationWholeGroup => 'المجموعة كلها';
+
+  @override
+  String get locationNoMembers => 'لم ينضم أحد إلى هذه المجموعة بعد.';
+
+  @override
+  String get locationSave => 'حفظ';
+
+  @override
+  String get locationProblemServiceOff => 'خدمات الموقع متوقفة في هاتفك.';
+
+  @override
+  String get locationProblemDenied => 'لم يُمنح إذن الموقع.';
+
+  @override
+  String get locationProblemDeniedForever =>
+      'إذن الموقع متوقف؛ يمكنك تفعيله من إعدادات الهاتف.';
+
+  @override
+  String get locationProblemFailed =>
+      'تعذّر تحديد الموقع؛ ستتم إعادة المحاولة قريبًا.';
+
+  @override
+  String get privacyLocationTitle => 'الموقع والخرائط';
+
+  @override
+  String get privacyLocationBody =>
+      'مشاركة الموقع متوقفة افتراضيًا. إذا فعّلتها، يُرسل موقع هاتفك فقط إلى أعضاء المجموعة الذين تختارهم، وفقط أثناء فتح التطبيق وكل بضع دقائق؛ ولا يُحتفظ بسجل للمواقع سوى آخر موقع ووقته. أثناء المشاركة يظهر مؤشر في كل شاشة من التطبيق، ويمكنك إيقاف المشاركة في أي وقت من الملف الشخصي > مجتمع الصحة > مشاركة الموقع. تُعرض الخرائط عبر خرائط Google: عند فتح خريطة يُرسل طلب لمربعات خريطة المنطقة المعروضة إلى Google؛ ولا تُرسل بياناتك الصحية إلى Google. تشرح سياسة خصوصية Google كيفية معالجة هذه البيانات.';
 }

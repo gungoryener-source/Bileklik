@@ -6585,6 +6585,162 @@ abstract class AppLocalizations {
   /// In tr, this message translates to:
   /// **'Hedef tamamlandı'**
   String get liveGoalReached;
+
+  /// No description provided for @locationTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Konum paylaşımı'**
+  String get locationTitle;
+
+  /// No description provided for @locationBanner.
+  ///
+  /// In tr, this message translates to:
+  /// **'Konumunuz paylaşılıyor'**
+  String get locationBanner;
+
+  /// No description provided for @locationViewers.
+  ///
+  /// In tr, this message translates to:
+  /// **'Konumunuzu görenler: {names}'**
+  String locationViewers(String names);
+
+  /// No description provided for @locationOff.
+  ///
+  /// In tr, this message translates to:
+  /// **'Konumunuz kimseyle paylaşılmıyor.'**
+  String get locationOff;
+
+  /// No description provided for @locationOffShort.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kapalı'**
+  String get locationOffShort;
+
+  /// No description provided for @locationLastSent.
+  ///
+  /// In tr, this message translates to:
+  /// **'Son gönderim: {time}'**
+  String locationLastSent(String time);
+
+  /// No description provided for @locationWaiting.
+  ///
+  /// In tr, this message translates to:
+  /// **'Konum alınıyor…'**
+  String get locationWaiting;
+
+  /// No description provided for @locationStart.
+  ///
+  /// In tr, this message translates to:
+  /// **'Paylaşımı aç'**
+  String get locationStart;
+
+  /// No description provided for @locationChoose.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kişileri seç'**
+  String get locationChoose;
+
+  /// No description provided for @locationStop.
+  ///
+  /// In tr, this message translates to:
+  /// **'Paylaşımı durdur'**
+  String get locationStop;
+
+  /// No description provided for @locationNeedsGroup.
+  ///
+  /// In tr, this message translates to:
+  /// **'Konum paylaşmak için önce bir grup kurun ya da bir gruba katılın.'**
+  String get locationNeedsGroup;
+
+  /// No description provided for @locationSharedWithMe.
+  ///
+  /// In tr, this message translates to:
+  /// **'Sizinle paylaşanlar'**
+  String get locationSharedWithMe;
+
+  /// No description provided for @locationNoneShared.
+  ///
+  /// In tr, this message translates to:
+  /// **'Henüz kimse konumunu sizinle paylaşmıyor.'**
+  String get locationNoneShared;
+
+  /// No description provided for @locationUpdated.
+  ///
+  /// In tr, this message translates to:
+  /// **'Son konum: {time}'**
+  String locationUpdated(String time);
+
+  /// No description provided for @locationMe.
+  ///
+  /// In tr, this message translates to:
+  /// **'Ben'**
+  String get locationMe;
+
+  /// No description provided for @locationNote.
+  ///
+  /// In tr, this message translates to:
+  /// **'Konumunuz yalnızca seçtiğiniz kişilere ve yalnızca uygulama açıkken gönderilir. Paylaşım varsayılan olarak kapalıdır; istediğiniz an durdurabilirsiniz.'**
+  String get locationNote;
+
+  /// No description provided for @locationSheetTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Konumumu kimler görsün?'**
+  String get locationSheetTitle;
+
+  /// No description provided for @locationWholeGroup.
+  ///
+  /// In tr, this message translates to:
+  /// **'Tüm grup'**
+  String get locationWholeGroup;
+
+  /// No description provided for @locationNoMembers.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bu grupta henüz katılmış kimse yok.'**
+  String get locationNoMembers;
+
+  /// No description provided for @locationSave.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kaydet'**
+  String get locationSave;
+
+  /// No description provided for @locationProblemServiceOff.
+  ///
+  /// In tr, this message translates to:
+  /// **'Telefonun konum hizmeti kapalı.'**
+  String get locationProblemServiceOff;
+
+  /// No description provided for @locationProblemDenied.
+  ///
+  /// In tr, this message translates to:
+  /// **'Konum izni verilmedi.'**
+  String get locationProblemDenied;
+
+  /// No description provided for @locationProblemDeniedForever.
+  ///
+  /// In tr, this message translates to:
+  /// **'Konum izni kapalı; telefon ayarlarından açabilirsiniz.'**
+  String get locationProblemDeniedForever;
+
+  /// No description provided for @locationProblemFailed.
+  ///
+  /// In tr, this message translates to:
+  /// **'Konum alınamadı; biraz sonra yeniden denenecek.'**
+  String get locationProblemFailed;
+
+  /// No description provided for @privacyLocationTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Konum ve harita'**
+  String get privacyLocationTitle;
+
+  /// No description provided for @privacyLocationBody.
+  ///
+  /// In tr, this message translates to:
+  /// **'Konum paylaşımı varsayılan olarak kapalıdır. Açarsanız telefonunuzun konumu yalnızca sizin seçtiğiniz grup üyelerine, yalnızca uygulama açıkken ve birkaç dakikada bir gönderilir; son konum ve zamanı dışında konum geçmişi tutulmaz. Paylaşım açıkken uygulamanın her ekranında bir gösterge görünür ve paylaşımı Profil > Sağlık topluluğu > Konum paylaşımı bölümünden istediğiniz an durdurabilirsiniz. Haritalar Google Haritalar ile gösterilir: harita açıldığında Google\'a gösterilen bölgenin harita parçaları için istek gider; sağlık verileriniz Google\'a gönderilmez. Google\'ın bu verileri nasıl işlediği Google Gizlilik Politikası\'nda anlatılır.'**
+  String get privacyLocationBody;
 }
 
 class _AppLocalizationsDelegate

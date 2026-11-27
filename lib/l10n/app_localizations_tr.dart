@@ -3858,4 +3858,93 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get liveGoalReached => 'Hedef tamamlandı';
+
+  @override
+  String get locationTitle => 'Konum paylaşımı';
+
+  @override
+  String get locationBanner => 'Konumunuz paylaşılıyor';
+
+  @override
+  String locationViewers(String names) {
+    return 'Konumunuzu görenler: $names';
+  }
+
+  @override
+  String get locationOff => 'Konumunuz kimseyle paylaşılmıyor.';
+
+  @override
+  String get locationOffShort => 'Kapalı';
+
+  @override
+  String locationLastSent(String time) {
+    return 'Son gönderim: $time';
+  }
+
+  @override
+  String get locationWaiting => 'Konum alınıyor…';
+
+  @override
+  String get locationStart => 'Paylaşımı aç';
+
+  @override
+  String get locationChoose => 'Kişileri seç';
+
+  @override
+  String get locationStop => 'Paylaşımı durdur';
+
+  @override
+  String get locationNeedsGroup =>
+      'Konum paylaşmak için önce bir grup kurun ya da bir gruba katılın.';
+
+  @override
+  String get locationSharedWithMe => 'Sizinle paylaşanlar';
+
+  @override
+  String get locationNoneShared => 'Henüz kimse konumunu sizinle paylaşmıyor.';
+
+  @override
+  String locationUpdated(String time) {
+    return 'Son konum: $time';
+  }
+
+  @override
+  String get locationMe => 'Ben';
+
+  @override
+  String get locationNote =>
+      'Konumunuz yalnızca seçtiğiniz kişilere ve yalnızca uygulama açıkken gönderilir. Paylaşım varsayılan olarak kapalıdır; istediğiniz an durdurabilirsiniz.';
+
+  @override
+  String get locationSheetTitle => 'Konumumu kimler görsün?';
+
+  @override
+  String get locationWholeGroup => 'Tüm grup';
+
+  @override
+  String get locationNoMembers => 'Bu grupta henüz katılmış kimse yok.';
+
+  @override
+  String get locationSave => 'Kaydet';
+
+  @override
+  String get locationProblemServiceOff => 'Telefonun konum hizmeti kapalı.';
+
+  @override
+  String get locationProblemDenied => 'Konum izni verilmedi.';
+
+  @override
+  String get locationProblemDeniedForever =>
+      'Konum izni kapalı; telefon ayarlarından açabilirsiniz.';
+
+  @override
+  String get locationProblemFailed =>
+      'Konum alınamadı; biraz sonra yeniden denenecek.';
+
+  @override
+  String get privacyLocationTitle => 'Konum ve harita';
+
+  @override
+  String get privacyLocationBody =>
+      'Konum paylaşımı varsayılan olarak kapalıdır. Açarsanız telefonunuzun konumu yalnızca sizin seçtiğiniz grup üyelerine, yalnızca uygulama açıkken ve birkaç dakikada bir gönderilir; son konum ve zamanı dışında konum geçmişi tutulmaz. Paylaşım açıkken uygulamanın her ekranında bir gösterge görünür ve paylaşımı Profil > Sağlık topluluğu > Konum paylaşımı bölümünden istediğiniz an durdurabilirsiniz. Haritalar Google Haritalar ile gösterilir: harita açıldığında Google\'a gösterilen bölgenin harita parçaları için istek gider; sağlık verileriniz Google\'a gönderilmez. Google\'ın bu verileri nasıl işlediği Google Gizlilik Politikası\'nda anlatılır.';
 }

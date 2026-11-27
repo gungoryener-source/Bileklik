@@ -3921,4 +3921,95 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get liveGoalReached => 'Goal reached';
+
+  @override
+  String get locationTitle => 'Location sharing';
+
+  @override
+  String get locationBanner => 'Your location is being shared';
+
+  @override
+  String locationViewers(String names) {
+    return 'Can see your location: $names';
+  }
+
+  @override
+  String get locationOff => 'Your location isn\'t shared with anyone.';
+
+  @override
+  String get locationOffShort => 'Off';
+
+  @override
+  String locationLastSent(String time) {
+    return 'Last sent: $time';
+  }
+
+  @override
+  String get locationWaiting => 'Getting location…';
+
+  @override
+  String get locationStart => 'Start sharing';
+
+  @override
+  String get locationChoose => 'Choose people';
+
+  @override
+  String get locationStop => 'Stop sharing';
+
+  @override
+  String get locationNeedsGroup =>
+      'To share your location, create or join a group first.';
+
+  @override
+  String get locationSharedWithMe => 'Shared with you';
+
+  @override
+  String get locationNoneShared =>
+      'No one is sharing their location with you yet.';
+
+  @override
+  String locationUpdated(String time) {
+    return 'Last location: $time';
+  }
+
+  @override
+  String get locationMe => 'Me';
+
+  @override
+  String get locationNote =>
+      'Your location is sent only to the people you choose, and only while the app is open. Sharing is off by default and you can stop it at any time.';
+
+  @override
+  String get locationSheetTitle => 'Who can see my location?';
+
+  @override
+  String get locationWholeGroup => 'Whole group';
+
+  @override
+  String get locationNoMembers => 'No one has joined this group yet.';
+
+  @override
+  String get locationSave => 'Save';
+
+  @override
+  String get locationProblemServiceOff =>
+      'Location services are off on your phone.';
+
+  @override
+  String get locationProblemDenied => 'Location permission was not granted.';
+
+  @override
+  String get locationProblemDeniedForever =>
+      'Location permission is off; you can turn it on in phone settings.';
+
+  @override
+  String get locationProblemFailed =>
+      'Couldn\'t get your location; will retry shortly.';
+
+  @override
+  String get privacyLocationTitle => 'Location and maps';
+
+  @override
+  String get privacyLocationBody =>
+      'Location sharing is off by default. If you turn it on, your phone\'s location is sent only to the group members you choose, only while the app is open and every few minutes; apart from the last location and its time, no location history is kept. While sharing is on, an indicator is shown on every screen of the app, and you can stop sharing at any time under Profile > Health community > Location sharing. Maps are shown with Google Maps: when a map opens, a request for the map tiles of the area shown goes to Google; your health data is not sent to Google. How Google processes this data is described in the Google Privacy Policy.';
 }

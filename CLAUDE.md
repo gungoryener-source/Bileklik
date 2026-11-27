@@ -120,6 +120,13 @@ UI (lib/ui)  ->  DeviceController (lib/state)  ->  WristbandClient  ->  DeviceTr
   `android/key.properties` içinde `mapsApiKey`) ve
   `--dart-define=GOOGLE_MAPS=true`. Anahtar yoksa, web'de ve testlerde
   kodla çizilmiş zemin (`CityPainter`) görünür.
+- Konum paylaşımı (`LocationScreen`, `lib/data/location_share.dart`):
+  varsayılan kapalı, kişi/grup seçilerek açılır (`CommunityService.
+  setLocationShare`), ayar bellekte (yeniden açılışta kapalı). Açıkken
+  `LocationReporter` uygulama açıkken 5 dk'da bir konumu gönderir ve her
+  sekmenin üstünde `LocationSharingBanner` görünür. Telefonda
+  `PhoneLocationSource` (geolocator), web/testte sahte. Portal karşılığı
+  henüz yok; sahte sunucuda Elif ve Ahmet konum paylaşır.
 
 ## Portal (`portal/`)
 

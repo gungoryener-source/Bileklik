@@ -2115,5 +2115,52 @@
       }
     }
   },
-  "liveGoalReached": "Hedef tamamlandı"
+  "liveGoalReached": "Hedef tamamlandı",
+  "locationTitle": "Konum paylaşımı",
+  "locationBanner": "Konumunuz paylaşılıyor",
+  "locationViewers": "Konumunuzu görenler: {names}",
+  "@locationViewers": {
+    "placeholders": {
+      "names": {
+        "type": "String"
+      }
+    }
+  },
+  "locationOff": "Konumunuz kimseyle paylaşılmıyor.",
+  "locationOffShort": "Kapalı",
+  "locationLastSent": "Son gönderim: {time}",
+  "@locationLastSent": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "locationWaiting": "Konum alınıyor…",
+  "locationStart": "Paylaşımı aç",
+  "locationChoose": "Kişileri seç",
+  "locationStop": "Paylaşımı durdur",
+  "locationNeedsGroup": "Konum paylaşmak için önce bir grup kurun ya da bir gruba katılın.",
+  "locationSharedWithMe": "Sizinle paylaşanlar",
+  "locationNoneShared": "Henüz kimse konumunu sizinle paylaşmıyor.",
+  "locationUpdated": "Son konum: {time}",
+  "@locationUpdated": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "locationMe": "Ben",
+  "locationNote": "Konumunuz yalnızca seçtiğiniz kişilere ve yalnızca uygulama açıkken gönderilir. Paylaşım varsayılan olarak kapalıdır; istediğiniz an durdurabilirsiniz.",
+  "locationSheetTitle": "Konumumu kimler görsün?",
+  "locationWholeGroup": "Tüm grup",
+  "locationNoMembers": "Bu grupta henüz katılmış kimse yok.",
+  "locationSave": "Kaydet",
+  "locationProblemServiceOff": "Telefonun konum hizmeti kapalı.",
+  "locationProblemDenied": "Konum izni verilmedi.",
+  "locationProblemDeniedForever": "Konum izni kapalı; telefon ayarlarından açabilirsiniz.",
+  "locationProblemFailed": "Konum alınamadı; biraz sonra yeniden denenecek.",
+  "privacyLocationTitle": "Konum ve harita",
+  "privacyLocationBody": "Konum paylaşımı varsayılan olarak kapalıdır. Açarsanız telefonunuzun konumu yalnızca sizin seçtiğiniz grup üyelerine, yalnızca uygulama açıkken ve birkaç dakikada bir gönderilir; son konum ve zamanı dışında konum geçmişi tutulmaz. Paylaşım açıkken uygulamanın her ekranında bir gösterge görünür ve paylaşımı Profil > Sağlık topluluğu > Konum paylaşımı bölümünden istediğiniz an durdurabilirsiniz. Haritalar Google Haritalar ile gösterilir: harita açıldığında Google'a gösterilen bölgenin harita parçaları için istek gider; sağlık verileriniz Google'a gönderilmez. Google'ın bu verileri nasıl işlediği Google Gizlilik Politikası'nda anlatılır."
 }

@@ -9,6 +9,7 @@ import '../widgets/cam/cam.dart';
 import 'community_dialogs.dart';
 import 'community_messages_screen.dart';
 import 'group_screen.dart';
+import 'location_screen.dart';
 
 /// Sağlık topluluğu: kullanıcının kurduğu ve katıldığı aile grupları.
 ///
@@ -71,6 +72,24 @@ class CommunityScreen extends StatelessWidget {
                 padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
                 children: [
                   _PrivacyNote(text: l.communityPrivacyNote),
+                  MenuGroup(
+                    children: [
+                      MenuTile(
+                        icon: service.sharingLocation
+                            ? Icons.share_location
+                            : Icons.location_on_outlined,
+                        title: l.locationTitle,
+                        subtitle: service.sharingLocation
+                            ? l.locationBanner
+                            : l.locationOffShort,
+                        onTap: () => Navigator.of(context).push(
+                          MaterialPageRoute<void>(
+                            builder: (_) => const LocationScreen(),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                   MenuHeader(l.communityMyGroups),
                   if (service.myGroups.isEmpty)
                     _Empty(text: l.communityMyGroupsEmpty)

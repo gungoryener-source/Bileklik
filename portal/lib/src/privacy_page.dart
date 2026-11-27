@@ -112,6 +112,10 @@ nav { color: var(--muted); font-size: .9rem; }
         'Yalnızca rıza verdiğiniz hekim, araştırma kurumu ya da aile grubu üyeleri, yalnızca seçtiğiniz türleri ve rıza süresince görür. Kilo ve vücut kompozisyonu gibi elle girdiğiniz değerler yalnızca “Vücut ölçüleri”ni ayrıca seçerseniz paylaşılır. Apple Sağlık ya da Health Connect\'e yalnızca seçtiğiniz türler yazılır; uygulama oradan veri okumaz. Geri bildirimler kimliğinize bağlanmaz. Hekiminize, paylaştığınız türlerde belirgin bir değişiklik olduğunda (örneğin SpO2 uzun süre düşükse ya da bir gündür veri gelmiyorsa) portal otomatik uyarı gösterir; bu uyarılar tanı değildir ve portaldaki verinizi silince onlar da silinir. Bir aile grubu için "Acil durumda grubu uyar"ı ayrıca açarsanız, o grupla paylaştığınız türlerdeki aynı uyarılar grup üyelerine de gösterilir.',
       ),
       (
+        'Konum ve harita',
+        'Konum paylaşımı varsayılan olarak kapalıdır. Açarsanız telefonunuzun konumu yalnızca sizin seçtiğiniz grup üyelerine, yalnızca uygulama açıkken ve birkaç dakikada bir gönderilir; son konum ve zamanı dışında konum geçmişi tutulmaz. Paylaşım açıkken uygulamanın her ekranında bir gösterge görünür ve paylaşımı Profil > Sağlık topluluğu > Konum paylaşımı bölümünden istediğiniz an durdurabilirsiniz. Haritalar Google Haritalar ile gösterilir: harita açıldığında Google\'a gösterilen bölgenin harita parçaları için istek gider; sağlık verileriniz Google\'a gönderilmez. Google\'ın bu verileri nasıl işlediği Google Gizlilik Politikası\'nda anlatılır.',
+      ),
+      (
         'Erişim kayıtları',
         'Portalda verinize yapılan her erişim, reddedilen denemeler dahil, kaydedilir. Kimin ne zaman baktığını uygulamadan görebilirsiniz.',
       ),
@@ -154,6 +158,10 @@ nav { color: var(--muted); font-size: .9rem; }
       (
         'Who is it shared with?',
         'Only the doctors, research institutions or family group members you consent to, only the types you choose and only for the consent period. Values you enter yourself, such as weight and body composition, are shared only if you separately choose “Body measurements”. Only the types you choose are written to Apple Health or Health Connect; the app does not read data from them. Feedback is not linked to your identity. When something stands out in the types you share (for example SpO2 stays low or no data has arrived for a day), the portal shows your doctor an automatic alert; these alerts are not a diagnosis and are deleted when you delete your portal data. If you also turn on “Alert the group in an emergency” for a family group, the same alerts for the types you share with that group are shown to its members.',
+      ),
+      (
+        'Location and maps',
+        'Location sharing is off by default. If you turn it on, your phone\'s location is sent only to the group members you choose, only while the app is open and every few minutes; apart from the last location and its time, no location history is kept. While sharing is on, an indicator is shown on every screen of the app, and you can stop sharing at any time under Profile > Health community > Location sharing. Maps are shown with Google Maps: when a map opens, a request for the map tiles of the area shown goes to Google; your health data is not sent to Google. How Google processes this data is described in the Google Privacy Policy.',
       ),
       (
         'Access log',
@@ -200,6 +208,10 @@ nav { color: var(--muted); font-size: .9rem; }
         'فقط مع الأطباء أو مؤسسات البحث أو أفراد مجموعة العائلة الذين توافق عليهم، وللأنواع التي تختارها فقط وطوال مدة الموافقة. القيم التي تدخلها بنفسك مثل الوزن وتكوين الجسم لا تُشارك إلا إذا اخترت «قياسات الجسم» صراحةً. لا يُكتب في Apple Health أو Health Connect إلا ما تختاره، ولا يقرأ التطبيق منهما. الملاحظات لا ترتبط بهويتك. عندما يظهر تغيّر واضح في الأنواع التي تشاركها (مثلًا انخفاض SpO2 لفترة طويلة أو عدم وصول بيانات منذ يوم)، تعرض البوابة على طبيبك تنبيهًا تلقائيًا؛ هذه التنبيهات ليست تشخيصًا وتُحذف عند حذف بياناتك من البوابة. إذا فعّلت أيضًا «نبّه المجموعة في حالة طارئة» لمجموعة عائلية، تظهر التنبيهات نفسها للأنواع التي تشاركها مع تلك المجموعة لأعضائها.',
       ),
       (
+        'الموقع والخرائط',
+        'مشاركة الموقع متوقفة افتراضيًا. إذا فعّلتها، يُرسل موقع هاتفك فقط إلى أعضاء المجموعة الذين تختارهم، وفقط أثناء فتح التطبيق وكل بضع دقائق؛ ولا يُحتفظ بسجل للمواقع سوى آخر موقع ووقته. أثناء المشاركة يظهر مؤشر في كل شاشة من التطبيق، ويمكنك إيقاف المشاركة في أي وقت من الملف الشخصي > مجتمع الصحة > مشاركة الموقع. تُعرض الخرائط عبر خرائط Google: عند فتح خريطة يُرسل طلب لمربعات خريطة المنطقة المعروضة إلى Google؛ ولا تُرسل بياناتك الصحية إلى Google. تشرح سياسة خصوصية Google كيفية معالجة هذه البيانات.',
+      ),
+      (
         'سجل الوصول',
         'يُسجَّل كل وصول إلى بياناتك في البوابة، بما في ذلك المحاولات المرفوضة. يمكنك أن ترى في التطبيق من اطلع ومتى.',
       ),
@@ -242,6 +254,10 @@ nav { color: var(--muted); font-size: .9rem; }
       (
         'Mit wem wird geteilt?',
         'Nur mit den Ärzten, Forschungseinrichtungen oder Mitgliedern einer Familiengruppe, denen Sie zustimmen, nur die gewählten Datentypen und nur für die Dauer der Einwilligung. Selbst eingegebene Werte wie Gewicht und Körperzusammensetzung werden nur geteilt, wenn Sie „Körpermaße“ ausdrücklich auswählen. In Apple Health oder Health Connect werden nur die gewählten Datentypen geschrieben; die App liest dort nichts. Feedback wird nicht mit Ihrer Identität verknüpft. Fällt in den geteilten Datentypen etwas auf (zum Beispiel bleibt die SpO2 lange niedrig oder seit einem Tag kommen keine Daten), zeigt das Portal Ihrem Arzt einen automatischen Hinweis; diese Hinweise sind keine Diagnose und werden mit Ihren Portaldaten gelöscht. Wenn Sie für eine Familiengruppe zusätzlich „Gruppe im Notfall benachrichtigen“ einschalten, sehen deren Mitglieder dieselben Hinweise zu den mit der Gruppe geteilten Datentypen.',
+      ),
+      (
+        'Standort und Karten',
+        'Die Standortfreigabe ist standardmäßig aus. Wenn Sie sie einschalten, wird der Standort Ihres Telefons nur an die von Ihnen gewählten Gruppenmitglieder gesendet, nur solange die App geöffnet ist und alle paar Minuten; außer dem letzten Standort und seiner Zeit wird kein Standortverlauf gespeichert. Solange die Freigabe läuft, ist auf jedem Bildschirm der App ein Hinweis zu sehen, und Sie können sie jederzeit unter Profil > Gesundheitsgemeinschaft > Standortfreigabe beenden. Karten werden mit Google Maps angezeigt: Beim Öffnen einer Karte wird eine Anfrage für die Kartenkacheln des angezeigten Bereichs an Google gesendet; Ihre Gesundheitsdaten werden nicht an Google gesendet. Wie Google diese Daten verarbeitet, steht in der Google-Datenschutzerklärung.',
       ),
       (
         'Zugriffsprotokoll',

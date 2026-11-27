@@ -3933,4 +3933,96 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get liveGoalReached => 'Ziel erreicht';
+
+  @override
+  String get locationTitle => 'Standortfreigabe';
+
+  @override
+  String get locationBanner => 'Ihr Standort wird geteilt';
+
+  @override
+  String locationViewers(String names) {
+    return 'Sehen Ihren Standort: $names';
+  }
+
+  @override
+  String get locationOff => 'Ihr Standort wird mit niemandem geteilt.';
+
+  @override
+  String get locationOffShort => 'Aus';
+
+  @override
+  String locationLastSent(String time) {
+    return 'Zuletzt gesendet: $time';
+  }
+
+  @override
+  String get locationWaiting => 'Standort wird ermittelt…';
+
+  @override
+  String get locationStart => 'Freigabe starten';
+
+  @override
+  String get locationChoose => 'Personen wählen';
+
+  @override
+  String get locationStop => 'Freigabe beenden';
+
+  @override
+  String get locationNeedsGroup =>
+      'Um Ihren Standort zu teilen, erstellen Sie zuerst eine Gruppe oder treten Sie einer bei.';
+
+  @override
+  String get locationSharedWithMe => 'Mit Ihnen geteilt';
+
+  @override
+  String get locationNoneShared =>
+      'Noch teilt niemand seinen Standort mit Ihnen.';
+
+  @override
+  String locationUpdated(String time) {
+    return 'Letzter Standort: $time';
+  }
+
+  @override
+  String get locationMe => 'Ich';
+
+  @override
+  String get locationNote =>
+      'Ihr Standort wird nur an die von Ihnen gewählten Personen gesendet und nur, solange die App geöffnet ist. Die Freigabe ist standardmäßig aus und Sie können sie jederzeit beenden.';
+
+  @override
+  String get locationSheetTitle => 'Wer darf meinen Standort sehen?';
+
+  @override
+  String get locationWholeGroup => 'Ganze Gruppe';
+
+  @override
+  String get locationNoMembers => 'Dieser Gruppe ist noch niemand beigetreten.';
+
+  @override
+  String get locationSave => 'Speichern';
+
+  @override
+  String get locationProblemServiceOff =>
+      'Die Standortdienste Ihres Telefons sind aus.';
+
+  @override
+  String get locationProblemDenied =>
+      'Die Standortberechtigung wurde nicht erteilt.';
+
+  @override
+  String get locationProblemDeniedForever =>
+      'Die Standortberechtigung ist aus; Sie können sie in den Telefoneinstellungen aktivieren.';
+
+  @override
+  String get locationProblemFailed =>
+      'Standort konnte nicht ermittelt werden; neuer Versuch in Kürze.';
+
+  @override
+  String get privacyLocationTitle => 'Standort und Karten';
+
+  @override
+  String get privacyLocationBody =>
+      'Die Standortfreigabe ist standardmäßig aus. Wenn Sie sie einschalten, wird der Standort Ihres Telefons nur an die von Ihnen gewählten Gruppenmitglieder gesendet, nur solange die App geöffnet ist und alle paar Minuten; außer dem letzten Standort und seiner Zeit wird kein Standortverlauf gespeichert. Solange die Freigabe läuft, ist auf jedem Bildschirm der App ein Hinweis zu sehen, und Sie können sie jederzeit unter Profil > Gesundheitsgemeinschaft > Standortfreigabe beenden. Karten werden mit Google Maps angezeigt: Beim Öffnen einer Karte wird eine Anfrage für die Kartenkacheln des angezeigten Bereichs an Google gesendet; Ihre Gesundheitsdaten werden nicht an Google gesendet. Wie Google diese Daten verarbeitet, steht in der Google-Datenschutzerklärung.';
 }
