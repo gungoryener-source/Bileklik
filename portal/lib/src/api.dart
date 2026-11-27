@@ -7,6 +7,7 @@ import 'package:shelf/shelf.dart';
 import 'package:shelf_router/shelf_router.dart';
 
 import 'alerts.dart';
+import 'assistant.dart';
 import 'ingest.dart';
 import 'inquiry.dart';
 import 'model.dart';
@@ -43,6 +44,7 @@ import 'store.dart';
 /// | `PUT /groups/<id>/consent` | üye | Grupla paylaşılan türleri değiştirir |
 /// | `DELETE /groups/<id>` | üye | Sahipse grubu siler, değilse ayrılır |
 /// | `/panel` | hekim, araştırmacı | Tarayıcı paneli ([PanelApi]) |
+/// | `POST /assistant` | hasta | Sağlık asistanı; Claude API aracısı ([AssistantEndpoint]) |
 /// | `GET /gizlilik`, `GET /privacy` | herkes | Gizlilik politikası ([PrivacyPage]) |
 /// | `GET /openapi.json`, `GET /developers` | herkes | Geliştirici belgesi ([OpenApi]) |
 ///
@@ -55,7 +57,9 @@ class PortalApi {
     Random? random,
     bool secureCookie = false,
     PasswordHasher passwords = const PasswordHasher(),
+    AssistantEndpoint? assistant,
   }) : _now = clock ?? DateTime.now,
+       assistant = assistant ?? AssistantEndpoint(),
        _random = random ?? Random.secure(),
        panel = PanelApi(
          store,
@@ -76,6 +80,9 @@ class PortalApi {
 
   /// Hekim paneli (`/panel`); tarayıcı oturumuyla çalışır.
   final PanelApi panel;
+
+  /// Sağlık asistanı için Claude API aracısı; anahtar yoksa 503 döner.
+  final AssistantEndpoint assistant;
 
   /// Önce panel, panel yolu değilse anahtarla korunan API.
   Handler get handler => Cascade()
@@ -112,22 +119,47 @@ class PortalApi {
     ..post('/groups/<id>/members', _inviteMember)
     ..delete('/groups/<id>/members/<mid>', _removeMember)
     ..put('/groups/<id>/consent', _groupConsent)
-    ..delete('/groups/<id>', _leaveGroup);
+    ..delete('/groups/<id>', _leaveGroup)
+    ..post('/assistant', _assistant);
+
+  Future<Response> _assistant(Request r) async {
+    final me = _me(r);
+    if (me.role != Role.patient) {
+      return _outcome(403, 'error', 'forbidden', 'Yalnızca hasta hesabı');
+    }
+    return assistant.handle(r, me.id);
+  }
 
   Handler _authenticate(Handler inner) => (request) {
     if (request.method == 'GET' &&
-        const {'health', 'gizlilik', 'privacy', 'openapi.json', 'developers'}.contains(request.url.path)) {
+        const {
+          'health',
+          'gizlilik',
+          'privacy',
+          'openapi.json',
+          'developers',
+        }.contains(request.url.path)) {
       return inner(request);
     }
     if (request.method == 'POST' &&
-        const {'patients', 'feedback', 'recover', 'inquiry'}.contains(request.url.path)) {
+        const {
+          'patients',
+          'feedback',
+          'recover',
+          'inquiry',
+        }.contains(request.url.path)) {
       return inner(request);
     }
     final header = request.headers['authorization'] ?? '';
     final token = header.startsWith('Bearer ') ? header.substring(7) : '';
     final account = store.accountByToken(token);
     if (account == null) {
-      return _outcome(401, 'error', 'login', 'Geçerli bir oturum anahtarı gerekli');
+      return _outcome(
+        401,
+        'error',
+        'login',
+        'Geçerli bir oturum anahtarı gerekli',
+      );
     }
     return inner(request.change(context: {'account': account}));
   };
@@ -173,14 +205,14 @@ class PortalApi {
       (_) => _codeAlphabet[_random.nextInt(_codeAlphabet.length)],
     ).join();
     store.setRecovery(accountId, _recoveryHash(raw));
-    return [
-      for (var i = 0; i < 16; i += 4) raw.substring(i, i + 4),
-    ].join('-');
+    return [for (var i = 0; i < 16; i += 4) raw.substring(i, i + 4)].join('-');
   }
 
   /// Boşluk, tire ve küçük harf fark etmez.
   static String _recoveryHash(String code) => crypto.sha256
-      .convert(utf8.encode(code.toUpperCase().replaceAll(RegExp('[^A-Z0-9]'), '')))
+      .convert(
+        utf8.encode(code.toUpperCase().replaceAll(RegExp('[^A-Z0-9]'), '')),
+      )
       .toString();
 
   /// Kurtarmada dakikada en çok bu kadar hatalı deneme kabul edilir.
@@ -207,7 +239,12 @@ class PortalApi {
       (t) => now.difference(t) >= const Duration(minutes: 1),
     );
     if (_recoveryFailures.length >= recoveryFailuresPerMinute) {
-      return _outcome(429, 'error', 'throttled', 'Çok fazla deneme; sonra deneyin');
+      return _outcome(
+        429,
+        'error',
+        'throttled',
+        'Çok fazla deneme; sonra deneyin',
+      );
     }
     final code = (await _body(request))?['recoveryCode'];
     final account = code is String && code.length <= 64
@@ -220,7 +257,13 @@ class PortalApi {
     final token = _newToken();
     store.replaceToken(account.id, token);
     final next = _issueRecovery(account.id);
-    _audit(account.id, account.id, AuditAction.update, true, 'Hesap kurtarma koduyla yeni telefona alındı');
+    _audit(
+      account.id,
+      account.id,
+      AuditAction.update,
+      true,
+      'Hesap kurtarma koduyla yeni telefona alındı',
+    );
     return _json(200, {
       'patientId': account.id,
       'token': token,
@@ -277,7 +320,12 @@ class PortalApi {
       (t) => now.difference(t) >= const Duration(minutes: 1),
     );
     if (_feedbackTimes.length >= feedbackPerMinute) {
-      return _outcome(429, 'error', 'throttled', 'Çok fazla istek; sonra deneyin');
+      return _outcome(
+        429,
+        'error',
+        'throttled',
+        'Çok fazla istek; sonra deneyin',
+      );
     }
     final body = await _body(request);
     final category = switch (body?['category']) {
@@ -296,8 +344,9 @@ class PortalApi {
         'category (bug, idea, other) ve message (1-$feedbackMaxLength) gerekli',
       );
     }
-    String? short(Object? v) =>
-        v is String && v.isNotEmpty ? (v.length > 40 ? v.substring(0, 40) : v) : null;
+    String? short(Object? v) => v is String && v.isNotEmpty
+        ? (v.length > 40 ? v.substring(0, 40) : v)
+        : null;
     _feedbackTimes.add(now);
     store.addFeedback(
       FeedbackEntry(
@@ -346,10 +395,8 @@ class PortalApi {
       : _outcome(403, 'error', 'forbidden', 'Yalnızca hasta');
 
   /// Hesabın bu gruptaki üyeliği; yoksa null.
-  GroupMember? _membership(String groupId, String accountId) => store
-      .members(groupId)
-      .where((m) => m.accountId == accountId)
-      .firstOrNull;
+  GroupMember? _membership(String groupId, String accountId) =>
+      store.members(groupId).where((m) => m.accountId == accountId).firstOrNull;
 
   Map<String, Object?> _groupJson(CareGroupRecord g, String meId) {
     final owner = g.ownerId == meId;
@@ -378,11 +425,14 @@ class PortalApi {
             if (owner) 'inviteCode': ?m.inviteCode,
             'shares': [for (final s in m.scopes) s.name],
             'alertsOn': m.alerts,
-            if (m.accountId != meId && m.alerts) 'alerts': _familyAlerts(g, m, meId),
+            if (m.accountId != meId && m.alerts)
+              'alerts': _familyAlerts(g, m, meId),
           },
       ],
       'myConsent': {
-        'scopes': [for (final s in mine?.scopes ?? const <ShareScope>{}) s.name],
+        'scopes': [
+          for (final s in mine?.scopes ?? const <ShareScope>{}) s.name,
+        ],
         'grantedAt': mine?.consentAt?.toUtc().toIso8601String(),
         'alerts': mine?.alerts ?? false,
       },
@@ -407,7 +457,13 @@ class PortalApi {
       since: const Duration(hours: 24),
     );
     if (found.isEmpty) return const [];
-    _audit(meId, patientId, AuditAction.read, true, 'Grup acil uyarısı gösterildi: ${g.id} (${found.length})');
+    _audit(
+      meId,
+      patientId,
+      AuditAction.read,
+      true,
+      'Grup acil uyarısı gösterildi: ${g.id} (${found.length})',
+    );
     return [
       for (final e in [...found]..sort((a, b) => b.end.compareTo(a.end)))
         {
@@ -536,11 +592,22 @@ class PortalApi {
       return _outcome(404, 'error', 'not-found', 'Üye bulunamadı');
     }
     if (member.accountId == me.id) {
-      return _outcome(400, 'error', 'invalid', 'Sahip kendini çıkaramaz; grubu siler');
+      return _outcome(
+        400,
+        'error',
+        'invalid',
+        'Sahip kendini çıkaramaz; grubu siler',
+      );
     }
     store.removeMember(member.id);
     if (member.accountId case final a? when member.scopes.isNotEmpty) {
-      _audit(me.id, a, AuditAction.update, true, 'Gruptan çıkarıldı, paylaşım bitti: ${g.id}');
+      _audit(
+        me.id,
+        a,
+        AuditAction.update,
+        true,
+        'Gruptan çıkarıldı, paylaşım bitti: ${g.id}',
+      );
     }
     return _json(200, _groupJson(g, me.id));
   }
@@ -556,7 +623,12 @@ class PortalApi {
     final scopes = _scopes(body?['scopes']);
     final rawAlerts = body?['alerts'];
     if (scopes == null || (rawAlerts != null && rawAlerts is! bool)) {
-      return _outcome(400, 'error', 'invalid', 'scopes listesi gerekli; alerts true/false');
+      return _outcome(
+        400,
+        'error',
+        'invalid',
+        'scopes listesi gerekli; alerts true/false',
+      );
     }
     // Acil uyarı yalnızca paylaşılan türlerden çıkar; paylaşım yoksa kapanır.
     final alerts = scopes.isNotEmpty && ((rawAlerts as bool?) ?? mine.alerts);
@@ -586,14 +658,26 @@ class PortalApi {
     if (g.ownerId == me.id) {
       for (final m in store.members(g.id)) {
         if (m.accountId case final a? when m.scopes.isNotEmpty) {
-          _audit(me.id, a, AuditAction.update, true, 'Grup silindi, paylaşım bitti: ${g.id}');
+          _audit(
+            me.id,
+            a,
+            AuditAction.update,
+            true,
+            'Grup silindi, paylaşım bitti: ${g.id}',
+          );
         }
       }
       store.deleteGroup(g.id);
     } else {
       store.removeMember(mine.id);
       if (mine.scopes.isNotEmpty) {
-        _audit(me.id, me.id, AuditAction.update, true, 'Gruptan ayrıldı, paylaşım bitti: ${g.id}');
+        _audit(
+          me.id,
+          me.id,
+          AuditAction.update,
+          true,
+          'Gruptan ayrıldı, paylaşım bitti: ${g.id}',
+        );
       }
     }
     return _json(200, {'left': g.id});
@@ -610,7 +694,13 @@ class PortalApi {
     try {
       result = parseBundle(jsonDecode(await request.readAsString()), me.id);
     } on FormatException catch (e) {
-      _audit(me.id, me.id, AuditAction.create, false, 'Bundle reddedildi: ${e.message}');
+      _audit(
+        me.id,
+        me.id,
+        AuditAction.create,
+        false,
+        'Bundle reddedildi: ${e.message}',
+      );
       return _outcome(400, 'error', 'invalid', e.message);
     }
     var created = 0;
@@ -627,7 +717,11 @@ class PortalApi {
     return _json(200, {
       'resourceType': 'OperationOutcome',
       'issue': [
-        {'severity': 'information', 'code': 'informational', 'diagnostics': summary},
+        {
+          'severity': 'information',
+          'code': 'informational',
+          'diagnostics': summary,
+        },
         for (final r in result.rejected)
           {
             'severity': 'warning',
@@ -660,7 +754,13 @@ class PortalApi {
         for (final s in _groupScopes(patientId, me.id)) ...s.codes,
       };
       if (allowed.isEmpty) {
-        _audit(me.id, patientId, AuditAction.read, false, 'Rıza olmadan erişim denemesi');
+        _audit(
+          me.id,
+          patientId,
+          AuditAction.read,
+          false,
+          'Rıza olmadan erişim denemesi',
+        );
         return _outcome(403, 'error', 'forbidden', 'Bu hastanın rızası yok');
       }
     }
@@ -679,7 +779,12 @@ class PortalApi {
     for (final d in q['date'] ?? const <String>[]) {
       final at = d.length > 2 ? DateTime.tryParse(d.substring(2)) : null;
       if (at == null) {
-        return _outcome(400, 'error', 'invalid', 'date: ge<zaman> ya da le<zaman>');
+        return _outcome(
+          400,
+          'error',
+          'invalid',
+          'date: ge<zaman> ya da le<zaman>',
+        );
       }
       switch (d.substring(0, 2)) {
         case 'ge' || 'gt':
@@ -687,12 +792,28 @@ class PortalApi {
         case 'le' || 'lt':
           to = at;
         default:
-          return _outcome(400, 'error', 'invalid', 'date: ge<zaman> ya da le<zaman>');
+          return _outcome(
+            400,
+            'error',
+            'invalid',
+            'date: ge<zaman> ya da le<zaman>',
+          );
       }
     }
-    final found = store.observations(patientId, codes: codes, from: from, to: to);
+    final found = store.observations(
+      patientId,
+      codes: codes,
+      from: from,
+      to: to,
+    );
     if (me.id != patientId) {
-      _audit(me.id, patientId, AuditAction.read, true, '${found.length} ölçüm okundu');
+      _audit(
+        me.id,
+        patientId,
+        AuditAction.read,
+        true,
+        '${found.length} ölçüm okundu',
+      );
     }
     return _json(200, _searchset([for (final o in found) o.resource]));
   }
@@ -709,9 +830,17 @@ class PortalApi {
   Response _searchAudit(Request request) {
     final me = _me(request);
     if (me.role != Role.patient) {
-      return _outcome(403, 'error', 'forbidden', 'Erişim kayıtlarını yalnızca hasta görür');
+      return _outcome(
+        403,
+        'error',
+        'forbidden',
+        'Erişim kayıtlarını yalnızca hasta görür',
+      );
     }
-    return _json(200, _searchset([for (final e in store.auditForPatient(me.id)) e.toFhir()]));
+    return _json(
+      200,
+      _searchset([for (final e in store.auditForPatient(me.id)) e.toFhir()]),
+    );
   }
 
   // ----------------------------------------------------------- davet, rıza
@@ -719,14 +848,30 @@ class PortalApi {
   Future<Response> _createInvite(Request request) async {
     final me = _me(request);
     if (me.role != Role.clinician && me.role != Role.researcher) {
-      return _outcome(403, 'error', 'forbidden', 'Davet yalnızca hekim ya da araştırmacı oluşturur');
+      return _outcome(
+        403,
+        'error',
+        'forbidden',
+        'Davet yalnızca hekim ya da araştırmacı oluşturur',
+      );
     }
     final body = await _body(request);
     final purpose = body?['purpose'];
     final scopes = _scopes(body?['scopes']);
     final days = body?['days'];
-    if (purpose is! String || purpose.trim().isEmpty || scopes == null || scopes.isEmpty || days is! int || days < 1 || days > 730) {
-      return _outcome(400, 'error', 'invalid', 'purpose, scopes ve days (1-730) gerekli');
+    if (purpose is! String ||
+        purpose.trim().isEmpty ||
+        scopes == null ||
+        scopes.isEmpty ||
+        days is! int ||
+        days < 1 ||
+        days > 730) {
+      return _outcome(
+        400,
+        'error',
+        'invalid',
+        'purpose, scopes ve days (1-730) gerekli',
+      );
     }
     final code = List.generate(
       7,
@@ -758,7 +903,12 @@ class PortalApi {
     final invite = _liveInvite(code);
     final actor = invite == null ? null : store.account(invite.actorId);
     if (invite == null || actor == null) {
-      return _outcome(404, 'error', 'not-found', 'Kod geçersiz ya da süresi dolmuş');
+      return _outcome(
+        404,
+        'error',
+        'not-found',
+        'Kod geçersiz ya da süresi dolmuş',
+      );
     }
     return _json(200, _inviteJson(invite, actor));
   }
@@ -770,11 +920,23 @@ class PortalApi {
     }
     final invite = _liveInvite(code);
     if (invite == null) {
-      return _outcome(404, 'error', 'not-found', 'Kod geçersiz ya da süresi dolmuş');
+      return _outcome(
+        404,
+        'error',
+        'not-found',
+        'Kod geçersiz ya da süresi dolmuş',
+      );
     }
     final scopes = _scopes((await _body(request))?['scopes']);
-    if (scopes == null || scopes.isEmpty || !invite.requested.containsAll(scopes)) {
-      return _outcome(400, 'error', 'invalid', 'scopes istenen türlerden en az biri olmalı');
+    if (scopes == null ||
+        scopes.isEmpty ||
+        !invite.requested.containsAll(scopes)) {
+      return _outcome(
+        400,
+        'error',
+        'invalid',
+        'scopes istenen türlerden en az biri olmalı',
+      );
     }
     final now = _now();
     // Aynı takipçiye verilmiş eski rıza yenisiyle değişir.
@@ -824,7 +986,13 @@ class PortalApi {
     }
     final now = _now();
     store.revokeConsent(consent.id, now);
-    _audit(me.id, me.id, AuditAction.update, true, 'Rıza geri alındı: ${consent.actorId}');
+    _audit(
+      me.id,
+      me.id,
+      AuditAction.update,
+      true,
+      'Rıza geri alındı: ${consent.actorId}',
+    );
     return _json(200, consent.toFhir(now));
   }
 
@@ -833,7 +1001,12 @@ class PortalApi {
   Response _erase(Request request, String id) {
     final me = _me(request);
     if (me.role != Role.patient || me.id != id) {
-      return _outcome(403, 'error', 'forbidden', 'Yalnızca hasta kendi verisini siler');
+      return _outcome(
+        403,
+        'error',
+        'forbidden',
+        'Yalnızca hasta kendi verisini siler',
+      );
     }
     final now = _now();
     final count = store.deleteObservations(id);
@@ -904,7 +1077,9 @@ class PortalApi {
     ),
   );
 
-  static Map<String, Object?> _searchset(List<Map<String, Object?>> resources) => {
+  static Map<String, Object?> _searchset(
+    List<Map<String, Object?>> resources,
+  ) => {
     'resourceType': 'Bundle',
     'type': 'searchset',
     'total': resources.length,

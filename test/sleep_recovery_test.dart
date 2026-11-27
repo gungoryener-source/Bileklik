@@ -14,7 +14,10 @@ import 'package:bileklik/state/device_controller.dart';
 import 'package:bileklik/ui/screens/recovery_screen.dart';
 import 'package:bileklik/ui/screens/sleep_screen.dart';
 import 'package:bileklik/ui/screens/strain_screen.dart';
+import 'package:bileklik/ui/screens/assistant_screen.dart';
+import 'package:bileklik/ui/screens/location_screen.dart';
 import 'package:bileklik/ui/screens/workout_detail_screen.dart';
+import 'package:bileklik/ui/screens/workout_records_screen.dart';
 import 'package:bileklik/device/protocol/exercise.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -319,6 +322,9 @@ void main() {
         RecoveryScreen(day: _today, now: _today),
         StrainScreen(day: _today, now: _today),
         WorkoutDetailScreen(workout: _workout),
+        const WorkoutRecordsScreen(),
+        const LocationScreen(),
+        const AssistantScreen(typingDelay: Duration.zero),
       ]) {
         await pump(
           tester,

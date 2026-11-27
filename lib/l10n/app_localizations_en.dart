@@ -4012,4 +4012,239 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get privacyLocationBody =>
       'Location sharing is off by default. If you turn it on, your phone\'s location is sent only to the group members you choose, only while the app is open and every few minutes; apart from the last location and its time, no location history is kept. While sharing is on, an indicator is shown on every screen of the app, and you can stop sharing at any time under Profile > Health community > Location sharing. Maps are shown with Google Maps: when a map opens, a request for the map tiles of the area shown goes to Google; your health data is not sent to Google. How Google processes this data is described in the Google Privacy Policy.';
+
+  @override
+  String get asstName => 'Vita';
+
+  @override
+  String get asstTitle => 'Vita · Health assistant';
+
+  @override
+  String get asstTagline => 'Small steps, big difference';
+
+  @override
+  String get asstHello => 'Hi, I\'m';
+
+  @override
+  String get asstIntro => 'I answer your questions using your data.';
+
+  @override
+  String get asstInputHint => 'Type a message…';
+
+  @override
+  String get asstSend => 'Send';
+
+  @override
+  String get asstTyping => 'Vita is typing';
+
+  @override
+  String get asstOffline =>
+      'Offline: answers are prepared on your phone using rules.';
+
+  @override
+  String get asstOnline =>
+      'AI connected: your question and summary numbers go to our server under a pseudonym.';
+
+  @override
+  String get asstNote =>
+      'Vita does not diagnose or recommend medication. In an emergency, call 112.';
+
+  @override
+  String get asstSuggestReport => 'Can you prepare today\'s health report?';
+
+  @override
+  String get asstSuggestTraining =>
+      'Can you suggest a training plan based on my health?';
+
+  @override
+  String get asstSuggestSleep => 'How did I sleep last night?';
+
+  @override
+  String get asstSuggestHeart => 'How are my heart and ECG?';
+
+  @override
+  String get asstGreeting =>
+      'Hi! I\'m Vita, your health assistant. You can ask me about your sleep, heart rate, recovery, daily load, stress, ECG recordings, biological age, steps and workouts.';
+
+  @override
+  String get asstThanks =>
+      'You\'re welcome! I\'m here if you have another question.';
+
+  @override
+  String get asstUnknown =>
+      'I didn\'t quite get that. You can ask: how did I sleep, today\'s report, my heart rate, recovery, load, stress, ECG, biological age, steps, or a workout that suits me.';
+
+  @override
+  String get asstEmergency =>
+      'What you describe could be an emergency. Call 112 now or go to the nearest emergency department. The wristband and this app cannot assess an emergency.';
+
+  @override
+  String get asstNoDiagnosis =>
+      'I can\'t diagnose or suggest medication or doses; please ask your doctor. I can tell you what I see in your data.';
+
+  @override
+  String get asstNoData =>
+      'There isn\'t enough data on this yet. The more you wear and sync the wristband, the more I can tell you.';
+
+  @override
+  String asstSleep(String start, String end, String duration) {
+    return 'Last night you slept $duration, from $start to $end.';
+  }
+
+  @override
+  String asstSleepScore(String score) {
+    return 'Your sleep score is $score/100.';
+  }
+
+  @override
+  String asstSleepEfficiency(String value) {
+    return 'You were asleep for $value% of your time in bed.';
+  }
+
+  @override
+  String asstSleepDebt(String duration) {
+    return 'You slept $duration less than you need; try going to bed a little earlier tonight.';
+  }
+
+  @override
+  String get asstSleepGood =>
+      'Your sleep is within the recommended 7–9 hours; keep it up.';
+
+  @override
+  String asstRecovery(String score, String level) {
+    return 'Your recovery today is $score/100 ($level).';
+  }
+
+  @override
+  String asstHrv(String value, String baseline) {
+    return 'Your overnight HRV is $value ms; your 14-day usual is $baseline ms.';
+  }
+
+  @override
+  String asstRestingHr(String value, String baseline) {
+    return 'Your resting heart rate is $value bpm; your usual is $baseline bpm.';
+  }
+
+  @override
+  String asstHeart(String avg, String min, String max) {
+    return 'Today your average heart rate is $avg bpm; lowest $min, highest $max.';
+  }
+
+  @override
+  String asstEcg(String date, String result) {
+    return 'Your latest ECG ($date): $result.';
+  }
+
+  @override
+  String get asstEcgNormal => 'regular rhythm, nothing notable';
+
+  @override
+  String get asstEcgFlagged =>
+      'there is a finding worth attention; I suggest showing the recording to your doctor';
+
+  @override
+  String get asstEcgUnknown =>
+      'the recording isn\'t sufficient for an assessment';
+
+  @override
+  String get asstEcgNone =>
+      'You have no ECG recordings yet. You can take one from the ECG screen on the Health tab.';
+
+  @override
+  String get asstEcgNote =>
+      'The ECG assessment is an automatic pre-assessment, not a diagnosis.';
+
+  @override
+  String asstStrain(String value, String low, String high) {
+    return 'Your load today is $value/21; the ideal range for your recovery is $low–$high.';
+  }
+
+  @override
+  String asstStrainPlain(String value) {
+    return 'Your load today is $value/21.';
+  }
+
+  @override
+  String asstStress(String value) {
+    return 'Your average stress today is $value/100.';
+  }
+
+  @override
+  String get asstStressTip =>
+      'A few minutes of slow breathing and short walks during the day can help lower stress.';
+
+  @override
+  String asstSteps(String steps, String goal) {
+    return 'You\'ve walked $steps steps today; the daily goal is $goal.';
+  }
+
+  @override
+  String asstStepsLeft(String left) {
+    return '$left steps to go; a short walk will do it.';
+  }
+
+  @override
+  String get asstStepsDone =>
+      'You\'ve reached your daily step goal, well done!';
+
+  @override
+  String asstBioAge(String bio, String age) {
+    return 'Your biological age is $bio; your calendar age is $age.';
+  }
+
+  @override
+  String get asstBioYounger =>
+      'Your data shows a younger picture than your age group.';
+
+  @override
+  String get asstBioOlder =>
+      'Regular sleep and more movement can help close this gap.';
+
+  @override
+  String asstBioCollecting(String days) {
+    return 'Collecting data for the biological age report: $days/21 days.';
+  }
+
+  @override
+  String get asstBioNeedsAge =>
+      'Enter your age in your profile to get a biological age.';
+
+  @override
+  String asstWorkouts(String count, String duration) {
+    return 'In the last 7 days you did $count workouts, $duration in total.';
+  }
+
+  @override
+  String get asstTrainingHigh =>
+      'Your recovery is high, so a hard session suits today. Example: 10 min warm-up, 4 × 4 min at a brisk pace running or cycling (heart rate zone 3–4) with 3 min easy between, 10 min cool-down.';
+
+  @override
+  String get asstTrainingMid =>
+      'Your recovery is moderate: 30–45 min of brisk walking, cycling or an easy run (heart rate zone 2) is a good choice today.';
+
+  @override
+  String get asstTrainingLow =>
+      'Your recovery is low: put rest first today. 20–30 min of light walking or stretching is enough.';
+
+  @override
+  String get asstTrainingUnknown =>
+      'Your recovery can\'t be calculated yet; start with a 30-minute brisk walk and build up based on how you feel.';
+
+  @override
+  String asstTrainingWeek(String duration) {
+    return 'The weekly target is at least 150 min of moderate activity; you did $duration in the last 7 days.';
+  }
+
+  @override
+  String get asstTrainingSafety =>
+      'Stop at once if you get chest pain, dizziness or unusual shortness of breath.';
+
+  @override
+  String asstReportIntro(String date) {
+    return 'Your summary for $date:';
+  }
+
+  @override
+  String get asstFailed =>
+      'Couldn\'t reach the server; this answer was prepared on your phone.';
 }

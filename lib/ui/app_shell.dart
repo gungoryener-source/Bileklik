@@ -11,7 +11,7 @@ import '../l10n/l10n.dart';
 
 import '../state/app_settings.dart';
 import '../state/device_controller.dart';
-import 'screens/ai_report_screen.dart';
+import 'screens/assistant_screen.dart';
 import 'screens/exercise_screen.dart';
 import 'screens/health_screen.dart';
 import 'screens/home_screen.dart';
@@ -195,9 +195,7 @@ class _AppShellState extends State<AppShell> {
         trailing: AiNavButton(
           label: l.navAi,
           onTap: () => Navigator.of(context).push(
-            MaterialPageRoute<void>(
-              builder: (_) => AiReportScreen(day: DateTime.now()),
-            ),
+            MaterialPageRoute<void>(builder: (_) => const AssistantScreen()),
           ),
         ),
         selectedIndex: _index,

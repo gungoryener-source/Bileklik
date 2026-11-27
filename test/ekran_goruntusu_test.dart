@@ -17,6 +17,7 @@ import 'package:bileklik/ui/screens/biological_age_screen.dart';
 import 'package:bileklik/ui/screens/ecg_screen.dart';
 import 'package:bileklik/ui/screens/workout_detail_screen.dart';
 import 'package:bileklik/device/protocol/exercise.dart';
+import 'package:bileklik/ui/screens/assistant_screen.dart';
 import 'package:bileklik/ui/screens/location_screen.dart';
 import 'package:bileklik/ui/screens/strain_screen.dart';
 import 'package:bileklik/ui/screens/recovery_screen.dart';
@@ -276,6 +277,21 @@ void main() {
     await _shot(tester, 'konum-1');
     await tester.drag(find.byType(Scrollable).last, const Offset(0, -600));
     await _shot(tester, 'konum-2');
+  });
+
+  testWidgets('sağlık asistanı', skip: !_enabled, (tester) async {
+    await _app(tester, connect: true);
+    _push(tester, const AssistantScreen(typingDelay: Duration.zero));
+    await _shot(tester, 'asistan-1');
+    await tester.enterText(find.byType(TextField), 'Dün gece uykum nasıldı?');
+    await tester.tap(find.byTooltip('Gönder'));
+    await tester.pumpAndSettle();
+    await _shot(tester, 'asistan-2');
+    await tester.tap(
+      find.text('Sağlık durumuma göre bir antrenman programı önerir misin?'),
+    );
+    await tester.pumpAndSettle();
+    await _shot(tester, 'asistan-3');
   });
 
   testWidgets('sağlık sekmesi', skip: !_enabled, (tester) async {

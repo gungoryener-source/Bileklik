@@ -7,6 +7,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'data/assistant.dart';
 import 'data/billing.dart';
 import 'data/community.dart';
 import 'data/connections.dart';
@@ -182,6 +183,8 @@ _portal(AppSettings settings, DeviceController controller) {
   );
   final service = PortalConnectionService(client);
   final community = PortalCommunityService(client);
+  // Sağlık asistanı sunucudaki dil modelini (anahtar sunucuda) kullanır.
+  PortalAssistantService.instance = PortalAssistantService(client);
   // Uygulama açık kaldıkça yeni ölçümleri yükler.
   PortalUploader(
     client: client,
