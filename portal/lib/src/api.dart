@@ -40,6 +40,7 @@ import 'store.dart';
 /// | `GET /groups` | hasta | Aile grupları, üyeler, paylaşımlar ve bildirimler |
 /// | `POST /groups` | hasta | Grup açar |
 /// | `POST /groups/join` | hasta | Grup ya da kişiye özel kodla katılır |
+/// | `PUT /groups/<id>/me` | üye | Grupta görünen kendi adını değiştirir |
 /// | `POST /groups/<id>/members` | grup sahibi | Kişiye özel davet kodu üretir |
 /// | `DELETE /groups/<id>/members/<mid>` | grup sahibi | Üyeyi çıkarır |
 /// | `PUT /groups/<id>/consent` | üye | Grupla paylaşılan türleri değiştirir |
@@ -129,6 +130,7 @@ class PortalApi {
     ..post('/groups/<id>/members', _inviteMember)
     ..delete('/groups/<id>/members/<mid>', _removeMember)
     ..put('/groups/<id>/consent', _groupConsent)
+    ..put('/groups/<id>/me', _renameMe)
     ..delete('/groups/<id>', _leaveGroup)
     ..post('/assistant', _assistant);
 
@@ -227,6 +229,11 @@ class PortalApi {
 
   /// Kurtarmada dakikada en çok bu kadar hatalı deneme kabul edilir.
   static const recoveryFailuresPerMinute = 10;
+
+  /// Bir hesabın dakikada en çok hatalı grup kodu denemesi (6 karakterlik
+  /// kodların tahminle bulunmasını önler).
+  static const joinFailuresPerMinute = 10;
+  final _joinFailures = <String, List<DateTime>>{};
   final _recoveryFailures = <DateTime>[];
 
   /// Hasta yeni kurtarma kodu ister (ör. eskisini kaybetti ya da kodu
@@ -516,9 +523,14 @@ class PortalApi {
   Future<Response> _createGroup(Request request) async {
     final me = _me(request);
     if (_patientOnly(me) case final r?) return r;
-    final name = (await _body(request))?['name'];
+    final body = await _body(request);
+    final name = body?['name'];
     if (name is! String || name.trim().isEmpty || name.trim().length > 40) {
       return _outcome(400, 'error', 'invalid', 'name (1-40) gerekli');
+    }
+    final displayName = _displayName(body?['displayName']);
+    if (displayName == null) {
+      return _outcome(400, 'error', 'invalid', 'displayName en çok 40');
     }
     final now = _now();
     final g = CareGroupRecord(
@@ -534,7 +546,7 @@ class PortalApi {
         GroupMember(
           id: store.nextId('member'),
           groupId: g.id,
-          name: '',
+          name: displayName,
           accountId: me.id,
           joined: now,
         ),
@@ -567,8 +579,24 @@ class PortalApi {
   Future<Response> _joinGroup(Request request) async {
     final me = _me(request);
     if (_patientOnly(me) case final r?) return r;
-    final raw = (await _body(request))?['code'];
-    final code = raw is String ? raw.trim().toUpperCase() : '';
+    final now = _now();
+    final fails = (_joinFailures[me.id] ?? [])
+      ..removeWhere((t) => now.difference(t) >= const Duration(minutes: 1));
+    if (fails.isEmpty) _joinFailures.remove(me.id);
+    if (fails.length >= joinFailuresPerMinute) {
+      return _outcome(
+        429,
+        'error',
+        'throttled',
+        'Çok fazla deneme; sonra deneyin',
+      );
+    }
+    final body = await _body(request);
+    final raw = body?['code'];
+    final code = raw is String && raw.length <= 16
+        ? raw.trim().toUpperCase()
+        : '';
+    final displayName = _displayName(body?['displayName']) ?? '';
     final invited = code.isEmpty ? null : store.memberByInvite(code);
     final g = invited != null
         ? store.group(invited.groupId)
@@ -576,16 +604,23 @@ class PortalApi {
         ? null
         : store.groupByCode(code);
     if (g == null) {
+      _joinFailures[me.id] = fails..add(now);
       return _outcome(404, 'error', 'not-found', 'Kod geçersiz');
     }
     if (_membership(g.id, me.id) == null) {
-      final now = _now();
+      // Kişiye özel davette sahibin yazdığı ad kalır; grup koduyla
+      // katılan kendi yazdığı adla görünür.
       store.putMember(
-        invited?.copyWith(accountId: me.id, joined: now, clearInvite: true) ??
+        invited?.copyWith(
+              name: invited.name.isEmpty ? displayName : null,
+              accountId: me.id,
+              joined: now,
+              clearInvite: true,
+            ) ??
             GroupMember(
               id: store.nextId('member'),
               groupId: g.id,
-              name: '',
+              name: displayName,
               accountId: me.id,
               joined: now,
             ),
@@ -619,6 +654,30 @@ class PortalApi {
         'Gruptan çıkarıldı, paylaşım bitti: ${g.id}',
       );
     }
+    return _json(200, _groupJson(g, me.id));
+  }
+
+  /// Görünen ad: boşluklar kırpılır, en çok 40 karakter. Uygun değilse null.
+  static String? _displayName(Object? raw) {
+    if (raw == null) return '';
+    if (raw is! String) return null;
+    final name = raw.trim();
+    return name.length > 40 ? null : name;
+  }
+
+  /// Üyenin grupta görünen kendi adı (yalnızca o grubun üyeleri görür).
+  Future<Response> _renameMe(Request request, String id) async {
+    final me = _me(request);
+    final g = store.group(id);
+    final mine = g == null ? null : _membership(g.id, me.id);
+    if (g == null || mine == null) {
+      return _outcome(404, 'error', 'not-found', 'Grup bulunamadı');
+    }
+    final name = _displayName((await _body(request))?['displayName']);
+    if (name == null) {
+      return _outcome(400, 'error', 'invalid', 'displayName en çok 40');
+    }
+    store.putMember(mine.copyWith(name: name));
     return _json(200, _groupJson(g, me.id));
   }
 

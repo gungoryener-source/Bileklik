@@ -416,6 +416,56 @@ void main() {
     expect(mine.myGroups, isEmpty);
   });
 
+  test('grup koduyla iki telefon: görünen adlar, ad değişikliği ve ayrılma', () async {
+    final b = _Backend();
+    final yener = PortalCommunityService(_client(b, AppSettings.memory()));
+    final elif = PortalCommunityService(_client(b, AppSettings.memory()));
+    await yener.setDisplayName(' Yener ');
+    expect(yener.displayName, 'Yener');
+    await elif.setDisplayName('Elif');
+
+    final g = await yener.createGroup('Ailem');
+    final joined = (await elif.joinWithCode(g.inviteCode))!;
+    expect(joined.inviteCode, '', reason: 'grup kodu yalnızca sahibine');
+    expect(joined.members.firstWhere((m) => m.isOwner).name, 'Yener');
+
+    await yener.refresh();
+    expect(yener.group(g.id)!.members.map((m) => m.name), ['Yener', 'Elif']);
+    expect(yener.messages.single.from, 'Elif');
+
+    // Ad sonradan değişince üye olunan gruplarda da değişir.
+    await elif.setDisplayName('Elif K.');
+    await yener.refresh();
+    expect(yener.group(g.id)!.members.last.name, 'Elif K.');
+
+    // Paylaşım varsayılan kapalı; ayrılınca üye listeden çıkar.
+    expect(yener.group(g.id)!.members.last.shares, isEmpty);
+    await elif.leave(g.id);
+    await yener.refresh();
+    expect(yener.group(g.id)!.members, hasLength(1));
+  });
+
+  test('sunucu anahtarı unutursa hesap yeniden açılır; ulaşılamazsa uyarı', () async {
+    final b = _Backend();
+    final phone = AppSettings.memory();
+    await PortalCommunityService(_client(b, phone)).refresh();
+
+    // Test portalı yeniden başladı: bellek boş.
+    final fresh = _Backend();
+    final restarted = PortalCommunityService(_client(fresh, phone));
+    await restarted.refresh();
+    expect(fresh.store.account(phone.patientId), isNotNull);
+    expect(fresh.store.accountByToken(phone.portalToken!), isNotNull);
+    expect(restarted.unreachable, isFalse);
+
+    fresh.offline = true;
+    await expectLater(restarted.refresh(), throwsA(isA<ConnectionUnavailable>()));
+    expect(restarted.unreachable, isTrue);
+    fresh.offline = false;
+    await restarted.refresh();
+    expect(restarted.unreachable, isFalse);
+  });
+
   test('portaldaki veriler silinir; rızalar ve grup paylaşımları biter', () async {
     final b = _Backend();
     final settings = AppSettings.memory();

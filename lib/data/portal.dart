@@ -24,6 +24,11 @@ abstract class PortalCredentials {
   /// Topluluk bildirimlerinin okunduğu son an (rozet sayısı için).
   DateTime? get communityReadUntil;
   Future<void> setCommunityReadUntil(DateTime t);
+
+  /// Aile gruplarında görünen ad (gruba katılırken ya da grup açarken
+  /// gönderilir).
+  String get communityName;
+  Future<void> setCommunityName(String name);
 }
 
 /// Portal API'sinin HTTP istemcisi (`portal/` paketi).
@@ -108,7 +113,16 @@ class PortalClient {
     Set<int> ok = const {200, 201},
     bool auth = true,
   }) async {
-    final r = await _send(method, path, body: body, auth: auth);
+    var r = await _send(method, path, body: body, auth: auth);
+    if (r.statusCode == 401 && auth) {
+      // Sunucu oturum anahtarını tanımıyor: test portalı belleği sıfırlanmış
+      // olabilir. Aynı takma kimlikle hesap yeniden açılır ve istek bir kez
+      // yinelenir (kimlik sunucuda kayıtlıysa 409 döner; kullanıcı kurtarma
+      // koduyla hesabını alır).
+      await credentials.setPortalToken(null);
+      await credentials.setRecoveryCode(null);
+      r = await _send(method, path, body: body, auth: auth);
+    }
     if (!ok.contains(r.statusCode)) {
       throw ConnectionUnavailable('$method $path → ${r.statusCode}');
     }
@@ -385,10 +399,25 @@ class PortalCommunityService extends CommunityService {
     );
   }
 
+  var _unreachable = false;
+
+  @override
+  bool get unreachable => _unreachable;
+
   /// Grupları ve bildirimleri portaldan yeniden okur.
   @override
   Future<void> refresh() async {
-    final r = await client.request('GET', '/groups');
+    final http.Response r;
+    try {
+      r = await client.request('GET', '/groups');
+    } on ConnectionUnavailable {
+      if (!_unreachable) {
+        _unreachable = true;
+        notifyListeners();
+      }
+      rethrow;
+    }
+    _unreachable = false;
     final j = jsonDecode(r.body) as Map;
     _groups = List.unmodifiable([
       for (final g in j['groups'] as List? ?? const [])
@@ -415,11 +444,25 @@ class PortalCommunityService extends CommunityService {
       '/groups/${Uri.encodeComponent(groupId)}$rest';
 
   @override
+  String get displayName => client.credentials.communityName;
+
+  /// Adı saklar ve kullanıcının üye olduğu tüm gruplarda günceller.
+  @override
+  Future<void> setDisplayName(String name) async {
+    final n = name.trim();
+    await client.credentials.setCommunityName(n);
+    for (final g in _groups) {
+      await client.request('PUT', _path(g.id, '/me'), body: {'displayName': n});
+    }
+    await refresh();
+  }
+
+  @override
   Future<CareGroup> createGroup(String name) async {
     final r = await client.request(
       'POST',
       '/groups',
-      body: {'name': name.trim()},
+      body: {'name': name.trim(), 'displayName': displayName},
     );
     final id = (jsonDecode(r.body) as Map)['id'] as String;
     await refresh();
@@ -479,7 +522,7 @@ class PortalCommunityService extends CommunityService {
     final r = await client.request(
       'POST',
       '/groups/join',
-      body: {'code': c},
+      body: {'code': c, 'displayName': displayName},
       ok: const {200, 404},
     );
     if (r.statusCode == 404) return null;

@@ -150,7 +150,12 @@ Uygulama `--dart-define=PORTAL_URL=https://…/` verilirse portala bağlanır
 (`lib/data/portal.dart`): ilk istekte takma kimlikle hesap açar, davet ve
 rızaları ve aile gruplarını portaldan alır (`PortalCommunityService`),
 yalnızca süren rızalardaki ve gruplarla paylaşılan türleri yükler. Adres
-verilmezse `FakeConnectionServer` kullanılır. Uygulama testleri gerçek portal
+verilmezse `FakeConnectionServer` kullanılır. Telefon sürümleri adresi `PORTAL_URL`
+GitHub depo değişkeninden alır (`android.yml`, `ios.yml`). Topluluk ekranları
+açıkken 15 sn'de bir yenilenir (`CommunityAutoRefresh`); gruplarda görünen ad
+`CommunityService.displayName`. Sunucu anahtarı tanımazsa (bellekteki test
+portalı sıfırlandı) istemci hesabı bir kez yeniden açar. İki telefonla deneme
+ve Render adımları `docs/topluluk-canli.md`. Uygulama testleri gerçek portal
 API'sini bellekte, `MockClient` üzerinden çalıştırır (`test/portal_test.dart`).
 
 Ayrı bir Dart paketi (shelf): FHIR Bundle alır, takipçilere yalnızca rızadaki

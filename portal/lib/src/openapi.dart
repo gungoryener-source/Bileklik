@@ -173,7 +173,10 @@ class OpenApi {
       'Create a group',
       '',
       roles: 'patient',
-      body: {'name': 'string 1-40'},
+      body: {
+        'name': 'string 1-40',
+        'displayName': 'optional, my name in the group, up to 40',
+      },
       responses: {'201': 'group'},
     ),
     _Op(
@@ -181,9 +184,23 @@ class OpenApi {
       '/groups/join',
       'Care groups',
       'Join a group',
-      'With a personal invite code or the group code.',
+      'With a personal invite code or the group code. At most 10 wrong '
+          'codes per minute per account.',
       roles: 'patient',
-      body: {'code': 'string'},
+      body: {
+        'code': 'string',
+        'displayName': 'optional; used when joining with the group code',
+      },
+      responses: {'200': 'group', '404': 'invalid code', '429': 'throttled'},
+    ),
+    _Op(
+      'put',
+      '/groups/{id}/me',
+      'Care groups',
+      'Change my name in a group',
+      'Only members of that group see it.',
+      roles: 'member',
+      body: {'displayName': 'string up to 40'},
       responses: {'200': 'group'},
     ),
     _Op(

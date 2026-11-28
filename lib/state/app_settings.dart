@@ -111,6 +111,7 @@ class AppSettings extends ChangeNotifier implements PortalCredentials {
   static const _recoveryKey = 'portal_recovery_code';
   static const _portalUploadKey = 'portal_last_upload';
   static const _communityReadKey = 'community_read_until';
+  static const _communityNameKey = 'community_display_name';
   static const _aiConsentKey = 'ai_report_consent_at';
 
   final SharedPreferences? _prefs;
@@ -187,6 +188,19 @@ class AppSettings extends ChangeNotifier implements PortalCredentials {
   Future<void> setCommunityReadUntil(DateTime t) async {
     _communityRead = t.microsecondsSinceEpoch;
     await _prefs?.setInt(_communityReadKey, t.microsecondsSinceEpoch);
+  }
+
+  String? _communityName;
+
+  /// Aile gruplarında görünen ad (kullanıcı yazar; boş olabilir).
+  @override
+  String get communityName =>
+      _prefs?.getString(_communityNameKey) ?? _communityName ?? '';
+
+  @override
+  Future<void> setCommunityName(String name) async {
+    _communityName = name;
+    await _prefs?.setString(_communityNameKey, name);
   }
 
   /// Portala son başarılı yüklemenin anı.

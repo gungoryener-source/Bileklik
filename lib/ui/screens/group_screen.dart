@@ -85,130 +85,133 @@ class GroupScreen extends StatelessWidget {
       if (left) navigator.pop();
     }
 
-    return CamScaffold(
-      appBar: AppBar(),
-      body: SafeArea(
-        top: false,
-        child: ListView(
-          padding: const EdgeInsets.fromLTRB(16, 8, 16, 32),
-          children: [
-            Row(
-              children: [
-                GroupAvatar(name: g.name, size: 56),
-                const SizedBox(width: 14),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        g.name,
-                        style: Theme.of(context).textTheme.titleLarge,
-                      ),
-                      Text(
-                        l.communityMemberCount(g.memberCount),
-                        style: TextStyle(color: colors.muted),
-                      ),
-                    ],
+    return CommunityAutoRefresh(
+      child: CamScaffold(
+        appBar: AppBar(),
+        body: SafeArea(
+          top: false,
+          child: ListView(
+            padding: const EdgeInsets.fromLTRB(16, 8, 16, 32),
+            children: [
+              Row(
+                children: [
+                  GroupAvatar(name: g.name, size: 56),
+                  const SizedBox(width: 14),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          g.name,
+                          style: Theme.of(context).textTheme.titleLarge,
+                        ),
+                        Text(
+                          l.communityMemberCount(g.memberCount),
+                          style: TextStyle(color: colors.muted),
+                        ),
+                      ],
+                    ),
                   ),
+                ],
+              ),
+              MenuHeader(l.communityMyShareTitle),
+              MenuGroup(
+                children: [
+                  for (final s in ShareScope.values)
+                    SwitchListTile(
+                      contentPadding: const EdgeInsetsDirectional.only(
+                        start: 16,
+                        end: 12,
+                      ),
+                      secondary: Icon(s.icon, color: s.color),
+                      title: Text(s.label),
+                      value: consent.scopes.contains(s),
+                      onChanged: (on) => toggle(s, on),
+                    ),
+                ],
+              ),
+              Padding(
+                padding: const EdgeInsetsDirectional.fromSTEB(4, 8, 4, 0),
+                child: Text(
+                  [
+                    l.communityMyShareNote,
+                    if (consent.grantedAt case final t?)
+                      l.communityConsentSince('${dayMonth(t)} ${ltr(hhmm(t))}'),
+                  ].join('\n'),
+                  style: TextStyle(color: colors.muted, fontSize: 13),
                 ),
-              ],
-            ),
-            MenuHeader(l.communityMyShareTitle),
-            MenuGroup(
-              children: [
-                for (final s in ShareScope.values)
+              ),
+              const SizedBox(height: 16),
+              MenuGroup(
+                children: [
                   SwitchListTile(
                     contentPadding: const EdgeInsetsDirectional.only(
                       start: 16,
                       end: 12,
                     ),
-                    secondary: Icon(s.icon, color: s.color),
-                    title: Text(s.label),
-                    value: consent.scopes.contains(s),
-                    onChanged: (on) => toggle(s, on),
-                  ),
-              ],
-            ),
-            Padding(
-              padding: const EdgeInsetsDirectional.fromSTEB(4, 8, 4, 0),
-              child: Text(
-                [
-                  l.communityMyShareNote,
-                  if (consent.grantedAt case final t?)
-                    l.communityConsentSince('${dayMonth(t)} ${ltr(hhmm(t))}'),
-                ].join('\n'),
-                style: TextStyle(color: colors.muted, fontSize: 13),
-              ),
-            ),
-            const SizedBox(height: 16),
-            MenuGroup(
-              children: [
-                SwitchListTile(
-                  contentPadding: const EdgeInsetsDirectional.only(
-                    start: 16,
-                    end: 12,
-                  ),
-                  secondary: Icon(
-                    Icons.notification_important_outlined,
-                    color: colors.danger,
-                  ),
-                  title: Text(l.communityAlertsTitle),
-                  subtitle: Text(
-                    consent.canAlert
-                        ? l.communityAlertsBody
-                        : l.communityAlertsNeedScope,
-                    style: TextStyle(color: colors.muted, fontSize: 13),
-                  ),
-                  isThreeLine: true,
-                  value: consent.alerts && consent.canAlert,
-                  onChanged: consent.canAlert
-                      ? (on) => guarded(() => service.setAlerts(g.id, on: on))
-                      : null,
-                ),
-              ],
-            ),
-            MenuHeader(l.communityMembers),
-            MenuGroup(
-              children: [
-                for (final m in g.members)
-                  _MemberTile(
-                    member: m,
-                    onRemove: g.ownedByMe && !m.isMe
-                        ? () => guarded(() => service.removeMember(g.id, m.id))
+                    secondary: Icon(
+                      Icons.notification_important_outlined,
+                      color: colors.danger,
+                    ),
+                    title: Text(l.communityAlertsTitle),
+                    subtitle: Text(
+                      consent.canAlert
+                          ? l.communityAlertsBody
+                          : l.communityAlertsNeedScope,
+                      style: TextStyle(color: colors.muted, fontSize: 13),
+                    ),
+                    isThreeLine: true,
+                    value: consent.alerts && consent.canAlert,
+                    onChanged: consent.canAlert
+                        ? (on) => guarded(() => service.setAlerts(g.id, on: on))
                         : null,
                   ),
-                if (g.ownedByMe) ...[
-                  MenuTile(
-                    icon: Icons.person_add_alt,
-                    title: l.communityInvite,
-                    onTap: () => showInviteDialog(context, g),
-                  ),
-                  // Grup kodu bilinmiyorsa satır gizlenir.
-                  if (g.inviteCode.isNotEmpty)
-                    MenuTile(
-                      icon: Icons.pin_outlined,
-                      title: l.communityCodeLabel,
-                      value: ltr(g.inviteCode),
-                      onTap: () => showCamDialog<void>(
-                        context: context,
-                        builder: (_) => InviteCodeDialog(code: g.inviteCode),
-                      ),
-                    ),
                 ],
-              ],
-            ),
-            const SizedBox(height: 24),
-            OutlinedButton.icon(
-              style: OutlinedButton.styleFrom(
-                foregroundColor: colors.danger,
-                side: BorderSide(color: colors.outline),
-                minimumSize: const Size.fromHeight(52),
               ),
-              onPressed: leave,
-              icon: Icon(g.ownedByMe ? Icons.delete_outline : Icons.logout),
-              label: Text(g.ownedByMe ? l.communityDelete : l.communityLeave),
-            ),
-          ],
+              MenuHeader(l.communityMembers),
+              MenuGroup(
+                children: [
+                  for (final m in g.members)
+                    _MemberTile(
+                      member: m,
+                      onRemove: g.ownedByMe && !m.isMe
+                          ? () =>
+                                guarded(() => service.removeMember(g.id, m.id))
+                          : null,
+                    ),
+                  if (g.ownedByMe) ...[
+                    MenuTile(
+                      icon: Icons.person_add_alt,
+                      title: l.communityInvite,
+                      onTap: () => showInviteDialog(context, g),
+                    ),
+                    // Grup kodu bilinmiyorsa satır gizlenir.
+                    if (g.inviteCode.isNotEmpty)
+                      MenuTile(
+                        icon: Icons.pin_outlined,
+                        title: l.communityCodeLabel,
+                        value: ltr(g.inviteCode),
+                        onTap: () => showCamDialog<void>(
+                          context: context,
+                          builder: (_) => InviteCodeDialog(code: g.inviteCode),
+                        ),
+                      ),
+                  ],
+                ],
+              ),
+              const SizedBox(height: 24),
+              OutlinedButton.icon(
+                style: OutlinedButton.styleFrom(
+                  foregroundColor: colors.danger,
+                  side: BorderSide(color: colors.outline),
+                  minimumSize: const Size.fromHeight(52),
+                ),
+                onPressed: leave,
+                icon: Icon(g.ownedByMe ? Icons.delete_outline : Icons.logout),
+                label: Text(g.ownedByMe ? l.communityDelete : l.communityLeave),
+              ),
+            ],
+          ),
         ),
       ),
     );

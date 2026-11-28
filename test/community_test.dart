@@ -81,6 +81,19 @@ Future<void> _scrollTo(WidgetTester tester, Finder f) =>
       scrollable: _inGroup(find.byType(Scrollable)).first,
     );
 
+/// Topluluk listesinde öğe görünene kadar kaydırır (liste tembel kurulur).
+Future<void> _scrollCommunity(WidgetTester tester, Finder f) =>
+    tester.scrollUntilVisible(
+      f,
+      200,
+      scrollable: find
+          .descendant(
+            of: find.byType(CommunityScreen),
+            matching: find.byType(Scrollable),
+          )
+          .first,
+    );
+
 /// Öğeyi görünür alana getirip dokunur (liste alttaki düğmenin arkasında
 /// kalabilir).
 Future<void> _tap(WidgetTester tester, Finder f) async {
@@ -249,8 +262,16 @@ void main() {
       findsOneWidget,
     );
 
+    expect(find.text('Henüz yazılmadı'), findsOneWidget);
     await tester.tap(find.text('Yeni grup oluştur'));
     await tester.pumpAndSettle();
+    // Önce gruplarda görünecek ad sorulur (bir kez).
+    expect(find.text('Görünen adınız'), findsWidgets);
+    await tester.enterText(find.byType(TextField), 'Yener');
+    await tester.pump();
+    await tester.tap(find.widgetWithText(FilledButton, 'Kaydet'));
+    await tester.pumpAndSettle();
+    expect(server.displayName, 'Yener');
     await tester.enterText(find.byType(TextField), 'Ailem');
     await tester.pump();
     await tester.tap(find.text('Oluştur'));
@@ -282,6 +303,7 @@ void main() {
     await tester.pumpAndSettle();
     expect(find.text('Davet kodu'), findsOneWidget);
     expect(find.textContaining('Bu kodu Ayşe ile paylaşın.'), findsOneWidget);
+    expect(find.text('Paylaş'), findsOneWidget);
     await tester.tap(find.text('Kapat'));
     await tester.pumpAndSettle();
     expect(_inGroup(find.text('Ayşe · Davet bekleniyor')), findsOneWidget);
@@ -314,10 +336,16 @@ void main() {
     await tester.tap(find.byTooltip('Geri'));
     await tester.pumpAndSettle();
     expect(server.unreadCount, 0);
+    await _scrollCommunity(tester, find.text('Grup sahibi: Elif · 2 üye'));
     expect(find.text('Grup sahibi: Elif · 2 üye'), findsOneWidget);
 
-    // Yanlış kod hata verir, doğru kod gruba katar.
+    // Ad yazılmadıysa önce sorulur; yanlış kod hata verir, doğru kod gruba
+    // katar.
     await _tap(tester, find.text('Kodla katıl'));
+    await tester.pumpAndSettle();
+    await tester.enterText(find.byType(TextField), 'Elif');
+    await tester.pump();
+    await tester.tap(find.widgetWithText(FilledButton, 'Kaydet'));
     await tester.pumpAndSettle();
     await tester.enterText(find.byType(TextField), 'abc123');
     await tester.pump();
@@ -382,7 +410,19 @@ void main() {
       expect(tester.takeException(), isNull);
 
       for (final g in [mine, kaya!, elif]) {
-        await _tap(tester, find.text(g.name, skipOffstage: false).first);
+        // Önceki gruptan dönünce liste aşağıda kalmış olabilir; başa dön.
+        await tester.drag(
+          find
+              .descendant(
+                of: find.byType(CommunityScreen),
+                matching: find.byType(Scrollable),
+              )
+              .first,
+          const Offset(0, 3000),
+        );
+        await tester.pumpAndSettle();
+        await _scrollCommunity(tester, find.text(g.name));
+        await _tap(tester, find.text(g.name).first);
         await tester.pumpAndSettle();
         await tester.drag(
           _inGroup(find.byType(Scrollable)).first,

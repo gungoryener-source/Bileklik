@@ -71,9 +71,10 @@ curl -H 'Authorization: Bearer demo-doctor' -H 'content-type: application/json' 
 | `DELETE /consents/<id>` | hasta | Rızayı geri alır; erişim hemen biter. |
 | `DELETE /patients/<id>/data` | hasta | Ölçümleri siler ve rızaları bitirir (unutulma hakkı). |
 | `GET /groups` | hasta | Aile grupları, üyeler, her üyenin paylaştığı türler ve "katıldı" bildirimleri. Grup kodu ve bekleyen davet kodları yalnızca sahibine gösterilir. |
-| `POST /groups` | hasta | Grup açar (ad 1-40 karakter). |
+| `POST /groups` | hasta | Grup açar (ad 1-40 karakter). İsteğe bağlı `displayName`: sahibin grupta görünen adı. |
 | `POST /groups/<id>/members` | grup sahibi | Davet edilenin adıyla kişiye özel 6 karakterlik kod üretir. |
-| `POST /groups/join` | hasta | Kişiye özel kodla (verilen adla) ya da grup koduyla (adsız) katılır. |
+| `POST /groups/join` | hasta | Kişiye özel kodla (sahibin yazdığı adla) ya da grup koduyla (`displayName` ile, yoksa adsız) katılır. Hesap başına dakikada en çok 10 hatalı kod; fazlası 429. |
+| `PUT /groups/<id>/me` | üye | Grupta görünen kendi adını (`displayName`, en çok 40) değiştirir; yalnızca o grubun üyeleri görür. |
 | `PUT /groups/<id>/consent` | üye | Grupla paylaşılan türleri ve isteğe bağlı `alerts` (acil uyarı izni) değiştirir; erişim kaydına geçer. Paylaşım boşsa izin kapanır. İzin veren üyenin paylaştığı türlerde son 24 saatteki olaylar (hekim uyarılarıyla aynı kurallar) `GET /groups` yanıtında diğer üyelere `alerts` olarak gider; gösterim erişim kaydına geçer. |
 | `DELETE /groups/<id>/members/<mid>` | grup sahibi | Üyeyi ya da bekleyen daveti çıkarır; paylaşımı biter. |
 | `DELETE /groups/<id>` | üye | Sahipse grubu siler (dosyadan da çıkar), değilse ayrılır. |
