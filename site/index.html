@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="tr" data-source-lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bileklik · test portalı</title>
+<style>
+:root { color-scheme: dark; }
+body { margin: 0; font: 16px/1.55 system-ui, sans-serif; background: #0b0d14; color: #e9ebf0; }
+main { max-width: 720px; margin: 0 auto; padding: 40px 16px 64px; }
+h1 { font-size: 1.9rem; margin: 0 0 6px; }
+p.lead { color: #9aa3b2; margin: 0 0 28px; }
+a.card { display: block; padding: 18px 20px; margin: 12px 0; border-radius: 16px; background: #171a24; border: 1px solid #2c313b; color: inherit; text-decoration: none; }
+a.card:hover { border-color: #7a6cff; }
+a.card strong { display: block; font-size: 1.1rem; color: #b9a7ff; margin-bottom: 4px; }
+.muted { color: #9aa3b2; font-size: .92rem; }
+code { background: #ffffff14; padding: 1px 6px; border-radius: 4px; }
+.top { display: flex; justify-content: flex-end; margin-bottom: 8px; }
+.lang { display: inline-flex; align-items: center; min-height: 44px; padding-inline: 12px 10px; border-radius: 999px; background: #171a24; border: 1px solid #2c313b; }
+.lang select { background: transparent; border: 0; color: inherit; font: 600 15px/1 system-ui, sans-serif; min-height: 40px; }
+.lang select option { background: #171a24; }
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+.bk-i18n-wait body { visibility: hidden; }
+</style>
+<script>
+// Bu sayfanın sözlükleri; dil katmanı website/i18n.js (CI buraya kopyalar).
+window.BK_I18N = {
+"en": {
+"Bileklik · test portalı": "Bileklik · test portal",
+"Uygulama ve hekim paneli aynı test sunucusuna bağlı: panelde oluşturduğunuz davet kodunu uygulamaya girdiğinizde bağlantı kurulur, uygulamanın ölçümleri panelde görünür. Veriler örnektir; sunucu yeniden başlayınca sıfırlanır.": "The app and the doctor panel are connected to the same test server: when you enter an invite code created in the panel in the app, the connection is made and the app's measurements appear in the panel. The data is sample data and is reset when the server restarts.",
+"Uygulama": "App",
+"Hekim paneli": "Doctor panel",
+"Gizlilik politikası": "Privacy policy",
+"Portalın herkese açık sayfası (taslak, dört dil).": "The portal's public page (draft, four languages).",
+"Aile grubunu denemek için uygulamayı iki ayrı tarayıcıda (ya da biri telefonda) açın: birinde grup kurup kişiye özel kod alın, diğerinde Kodla katıl ile girin.": "To try a family group, open the app in two browsers (or one on a phone): create a group and get a personal code in one, then use Join with code in the other.",
+"Sahte bileklikle çalışır, portala bağlıdır. Profil > Hekim ve araştırma kurumu'ndan panelin verdiği kodu, Profil > Sağlık topluluğu'ndan aile kodunu girin. Telefonda açıp ana ekrana ekleyebilirsiniz. Uygulama ilk açılışta dilini sorar.": "Works with a simulated wristband and is connected to the portal. Enter the panel's code under Profile > Doctors and research, and a family code under Profile > Health community. You can open it on a phone and add it to the home screen. The app asks for its language on first launch.",
+"Hekim girişi <code>demo@bileklik.app</code> / <code>demo-sifre-2026</code> (ya da anahtar <code>demo-doctor</code>): hasta kayıtları, bilekliğe bağlama, tarih aralıklı rapor (yazdırma/PDF, CSV, FHIR). Araştırma kurumu için <code>demo-research</code>.": "Doctor sign-in <code>demo@bileklik.app</code> / <code>demo-sifre-2026</code> (or the key <code>demo-doctor</code>): patient records, linking to a wristband, date-range report (print/PDF, CSV, FHIR). For a research institution use <code>demo-research</code>."
+},
+"ar": {
+"Bileklik · test portalı": "Bileklik · بوابة الاختبار",
+"Uygulama ve hekim paneli aynı test sunucusuna bağlı: panelde oluşturduğunuz davet kodunu uygulamaya girdiğinizde bağlantı kurulur, uygulamanın ölçümleri panelde görünür. Veriler örnektir; sunucu yeniden başlayınca sıfırlanır.": "يرتبط التطبيق ولوحة الطبيب بخادم الاختبار نفسه: عندما تُدخل في التطبيق رمز الدعوة الذي أنشأته في اللوحة يتم الاتصال وتظهر قياسات التطبيق في اللوحة. البيانات تجريبية وتُمحى عند إعادة تشغيل الخادم.",
+"Uygulama": "التطبيق",
+"Hekim paneli": "لوحة الطبيب",
+"Gizlilik politikası": "سياسة الخصوصية",
+"Portalın herkese açık sayfası (taslak, dört dil).": "الصفحة العامة للبوابة (مسودة، بأربع لغات).",
+"Aile grubunu denemek için uygulamayı iki ayrı tarayıcıda (ya da biri telefonda) açın: birinde grup kurup kişiye özel kod alın, diğerinde Kodla katıl ile girin.": "لتجربة المجموعة العائلية افتح التطبيق في متصفحين (أو أحدهما على الهاتف): أنشئ مجموعة واحصل على رمز خاص في أحدهما، ثم انضم بالرمز في الآخر.",
+"Sahte bileklikle çalışır, portala bağlıdır. Profil > Hekim ve araştırma kurumu'ndan panelin verdiği kodu, Profil > Sağlık topluluğu'ndan aile kodunu girin. Telefonda açıp ana ekrana ekleyebilirsiniz. Uygulama ilk açılışta dilini sorar.": "يعمل مع سوار محاكى ومتصل بالبوابة. أدخل رمز اللوحة من الملف الشخصي > الأطباء والبحث، ورمز العائلة من الملف الشخصي > مجتمع الصحة. يمكنك فتحه على الهاتف وإضافته إلى الشاشة الرئيسية. يسأل التطبيق عن لغته عند أول تشغيل.",
+"Hekim girişi <code>demo@bileklik.app</code> / <code>demo-sifre-2026</code> (ya da anahtar <code>demo-doctor</code>): hasta kayıtları, bilekliğe bağlama, tarih aralıklı rapor (yazdırma/PDF, CSV, FHIR). Araştırma kurumu için <code>demo-research</code>.": "دخول الطبيب <code>demo@bileklik.app</code> / <code>demo-sifre-2026</code> (أو المفتاح <code>demo-doctor</code>): سجلات المرضى، والربط بالسوار، وتقرير لفترة زمنية (طباعة/PDF وCSV وFHIR). ولمؤسسة البحث استخدم <code>demo-research</code>."
+},
+"de": {
+"Bileklik · test portalı": "Bileklik · Testportal",
+"Uygulama ve hekim paneli aynı test sunucusuna bağlı: panelde oluşturduğunuz davet kodunu uygulamaya girdiğinizde bağlantı kurulur, uygulamanın ölçümleri panelde görünür. Veriler örnektir; sunucu yeniden başlayınca sıfırlanır.": "App und Arztpanel sind mit demselben Testserver verbunden: Geben Sie einen im Panel erstellten Einladungscode in der App ein, entsteht die Verbindung und die Messwerte der App erscheinen im Panel. Die Daten sind Beispieldaten und werden beim Neustart des Servers zurückgesetzt.",
+"Uygulama": "App",
+"Hekim paneli": "Arztpanel",
+"Gizlilik politikası": "Datenschutzerklärung",
+"Portalın herkese açık sayfası (taslak, dört dil).": "Die öffentliche Seite des Portals (Entwurf, vier Sprachen).",
+"Aile grubunu denemek için uygulamayı iki ayrı tarayıcıda (ya da biri telefonda) açın: birinde grup kurup kişiye özel kod alın, diğerinde Kodla katıl ile girin.": "Um eine Familiengruppe zu testen, öffnen Sie die App in zwei Browsern (oder einen auf dem Telefon): In einem gründen Sie eine Gruppe und holen einen persönlichen Code, im anderen treten Sie mit „Mit Code beitreten“ bei.",
+"Sahte bileklikle çalışır, portala bağlıdır. Profil > Hekim ve araştırma kurumu'ndan panelin verdiği kodu, Profil > Sağlık topluluğu'ndan aile kodunu girin. Telefonda açıp ana ekrana ekleyebilirsiniz. Uygulama ilk açılışta dilini sorar.": "Läuft mit simuliertem Armband und ist mit dem Portal verbunden. Geben Sie den Code aus dem Panel unter Profil > Ärzte und Forschung ein, einen Familiencode unter Profil > Gesundheitsgemeinschaft. Sie können es auf dem Telefon öffnen und zum Startbildschirm hinzufügen. Die App fragt beim ersten Start nach der Sprache.",
+"Hekim girişi <code>demo@bileklik.app</code> / <code>demo-sifre-2026</code> (ya da anahtar <code>demo-doctor</code>): hasta kayıtları, bilekliğe bağlama, tarih aralıklı rapor (yazdırma/PDF, CSV, FHIR). Araştırma kurumu için <code>demo-research</code>.": "Arzt-Login <code>demo@bileklik.app</code> / <code>demo-sifre-2026</code> (oder der Schlüssel <code>demo-doctor</code>): Patientenakten, Verknüpfung mit dem Armband, Bericht für einen Zeitraum (Drucken/PDF, CSV, FHIR). Für eine Forschungseinrichtung <code>demo-research</code>."
+}
+};
+</script>
+<script src="/i18n.js"></script>
+</head>
+<body>
+<main>
+<div class="top"><label class="lang" translate="no"><span class="sr">Dil / Language</span><select data-lang-picker aria-label="Dil / Language / اللغة / Sprache"></select></label></div>
+<h1>Bileklik · test portalı</h1>
+<p class="lead">Uygulama ve hekim paneli aynı test sunucusuna bağlı: panelde oluşturduğunuz davet kodunu uygulamaya girdiğinizde bağlantı kurulur, uygulamanın ölçümleri panelde görünür. Veriler örnektir; sunucu yeniden başlayınca sıfırlanır.</p>
+<a class="card" href="/uygulama/">
+<strong>Uygulama</strong>
+<span>Sahte bileklikle çalışır, portala bağlıdır. Profil &gt; Hekim ve araştırma kurumu'ndan panelin verdiği kodu, Profil &gt; Sağlık topluluğu'ndan aile kodunu girin. Telefonda açıp ana ekrana ekleyebilirsiniz. Uygulama ilk açılışta dilini sorar.</span>
+</a>
+<a class="card" href="/panel" data-lang-link>
+<strong>Hekim paneli</strong>
+<span>Hekim girişi <code>demo@bileklik.app</code> / <code>demo-sifre-2026</code> (ya da anahtar <code>demo-doctor</code>): hasta kayıtları, bilekliğe bağlama, tarih aralıklı rapor (yazdırma/PDF, CSV, FHIR). Araştırma kurumu için <code>demo-research</code>.</span>
+</a>
+<a class="card" href="/gizlilik" data-lang-link>
+<strong>Gizlilik politikası</strong>
+<span>Portalın herkese açık sayfası (taslak, dört dil).</span>
+</a>
+<p class="muted">Aile grubunu denemek için uygulamayı iki ayrı tarayıcıda (ya da biri telefonda) açın: birinde grup kurup kişiye özel kod alın, diğerinde Kodla katıl ile girin.</p>
+</main>
+</body>
+</html>

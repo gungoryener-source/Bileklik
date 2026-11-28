@@ -1,0 +1,27 @@
+# Render şablonu: portal-deploy dalından ücretsiz web servisi.
+services:
+  - type: web
+    name: bileklik-test
+    runtime: docker
+    plan: free
+    branch: portal-deploy
+    dockerfilePath: ./Dockerfile
+    healthCheckPath: /health
+    autoDeploy: true
+    # Ücretsiz planda veri bellekte; uyuyunca sıfırlanır. Kalıcı olsun
+    # diye (ücretli plan): disk ekleyin ve PORTAL_KEY ile PORTAL_DATA
+    # verin. Ayrıntı docs/topluluk-canli.md.
+    # disk:
+    #   name: portal-data
+    #   mountPath: /var/data
+    #   sizeGB: 1
+    envVars:
+      - key: PORTAL_DEMO
+        value: "1"
+      - key: PORTAL_HTTPS
+        value: "1"
+      # Kalıcı kip için (anahtar Render panelinde girilir, depoya yazılmaz):
+      # - key: PORTAL_KEY
+      #   sync: false
+      # - key: PORTAL_DATA
+      #   value: /var/data/portal.log
