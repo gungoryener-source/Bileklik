@@ -410,22 +410,21 @@ ${op.body.isEmpty ? '' : '<p class="muted">Body</p><dl>${op.body.entries.map((e)
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Bileklik API</title>
 <style>
-:root { color-scheme: light dark; --bg: #f6f7fb; --fg: #16181d; --muted: #5d6472; --line: #dfe3ea; --card: #fff; }
-@media (prefers-color-scheme: dark) { :root { --bg: #111318; --fg: #e9ebf0; --muted: #9aa3b2; --line: #2c313b; --card: #191c22; } }
-body { margin: 0; font: 16px/1.6 system-ui, sans-serif; background: var(--bg); color: var(--fg); }
+:root { color-scheme: dark; --fg: #FFFFFF; --muted: rgba(255,255,255,.75); --line: rgba(255,255,255,.16); --card: rgba(22,26,34,.62); }
+body { margin: 0; font: 16px/1.6 Manrope, "Segoe UI", system-ui, sans-serif; background: radial-gradient(55vmax 55vmax at 14% 10%, rgba(76,141,255,.28), transparent 70%), radial-gradient(55vmax 55vmax at 10% 88%, rgba(69,214,184,.16), transparent 70%), linear-gradient(180deg, #1F2E4D 0%, #34507A 45%, #0C1016 100%) fixed, #0C1016; color: var(--fg); -webkit-font-smoothing: antialiased; }
+a { color: #45D6B8; }
 main { max-width: 860px; margin: 0 auto; padding: 24px 16px 64px; }
 h1 { margin: 16px 0 8px; } h2 { margin: 36px 0 8px; }
 h3 { font-size: 1rem; margin: 0 0 6px; overflow-wrap: anywhere; }
-.op { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; margin: 10px 0; }
+.op { background: linear-gradient(135deg, rgba(255,255,255,.1), rgba(255,255,255,.02)), var(--card); border: 1px solid var(--line); border-radius: 22px; padding: 14px 16px; margin: 10px 0; }
 .op p { margin: 4px 0; }
 .m { display: inline-block; min-width: 4.2em; text-align: center; border-radius: 6px; padding: 1px 6px; font: 700 12px/1.6 ui-monospace, monospace; border: 1px solid currentColor; }
-.get { color: #1f7a3a; } .post { color: #2457d6; } .put { color: #a35a00; } .delete { color: #b42318; }
-@media (prefers-color-scheme: dark) { .get { color: #6fd08c; } .post { color: #8fb0ff; } .put { color: #f0b35a; } .delete { color: #ff8a80; } }
+.get { color: #5BE37D; } .post { color: #4FC3FF; } .put { color: #FFAA5C; } .delete { color: #FFB8C8; }
 .muted { color: var(--muted); font-size: .92rem; }
 dl { display: grid; grid-template-columns: max-content 1fr; gap: 2px 12px; margin: 6px 0; font-size: .92rem; }
 dd { margin: 0; } code { font-family: ui-monospace, monospace; overflow-wrap: anywhere; }
 table { border-collapse: collapse; width: 100%; font-size: .92rem; } td { border-top: 1px solid var(--line); padding: 6px 8px 6px 0; vertical-align: top; }
-pre { background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 12px; overflow-x: auto; font-size: .85rem; }
+pre { background: rgba(12,16,22,.6); border: 1px solid var(--line); border-radius: 16px; padding: 12px; overflow-x: auto; font-size: .85rem; }
 </style>
 </head>
 <body><main>
