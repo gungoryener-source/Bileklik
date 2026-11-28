@@ -182,8 +182,16 @@
     var links = document.querySelectorAll("a[data-lang-link]");
     for (var j = 0; j < links.length; j++) {
       var a = links[j];
+      var href = a.getAttribute("href");
+      var hash = href.indexOf("#/");
+      if (hash >= 0) {
+        // Tarayıcıdaki portal demosu: yol adresin # kısmında (#/panel?lang=ar).
+        var route = href.slice(hash).replace(/([?&])lang=[a-z]{2}(&|$)/, "$1").replace(/[?&]$/, "");
+        a.setAttribute("href", href.slice(0, hash) + route + (route.indexOf("?") >= 0 ? "&" : "?") + "lang=" + lang);
+        continue;
+      }
       try {
-        var u = new URL(a.getAttribute("href"), location.href);
+        var u = new URL(href, location.href);
         u.searchParams.set("lang", lang);
         a.setAttribute("href", u.toString());
       } catch (e) {}
