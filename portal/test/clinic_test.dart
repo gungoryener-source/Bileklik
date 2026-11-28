@@ -437,11 +437,11 @@ void main() {
         expect(html, contains('Bağlı değil'));
 
         expect(
-          await p.page('/panel?q=p-77', cookie),
+          await p.page('/panel/patients?q=p-77', cookie),
           contains('Ali &lt;Veli&gt;'),
         );
         expect(
-          await p.page('/panel?q=zzz', cookie),
+          await p.page('/panel/patients?q=zzz', cookie),
           contains('Aramaya uyan kayıt yok'),
         );
 
@@ -497,7 +497,10 @@ void main() {
         expect(inv.statusCode, 201);
         final code = p.store.record(id)!.inviteCode!;
         expect(await inv.readAsString(), contains(code));
-        expect(await p.page('/panel', cookie), contains('Davet bekliyor'));
+        expect(
+          await p.page('/panel/patients', cookie),
+          contains('Hasta kodu henüz girmedi'),
+        );
 
         final accept = await p.send(
           'POST',
@@ -510,8 +513,9 @@ void main() {
         expect(accept.statusCode, 201);
         expect(p.store.record(id)!.patientId, _patientId);
         expect(p.store.record(id)!.inviteCode, isNull);
-        final home = await p.page('/panel', cookie);
-        expect(home, contains('>Bağlı<'));
+        final home = await p.page('/panel/patients', cookie);
+        expect(home, isNot(contains('Hasta kodu henüz girmedi')));
+        expect(home, contains('/panel/patients/$_patientId'));
         expect(
           home,
           isNot(contains('>6f1c2a3e</a>')),
@@ -528,7 +532,10 @@ void main() {
           form: {'csrf': _Portal.csrfOf(html)},
         );
         expect(p.store.record(id)!.patientId, isNull);
-        expect(await p.page('/panel', cookie), contains('>6f1c2a3e</a>'));
+        expect(
+          await p.page('/panel/patients', cookie),
+          contains('>6f1c2a3e</a>'),
+        );
 
         // Elle yeniden bağla; rızası olmayanı bağlayamaz.
         html = await p.page(path, cookie);
@@ -1119,8 +1126,9 @@ void main() {
         isTrue,
       );
       final records = store.recordsOf(dr.id);
-      expect(records, hasLength(3));
-      expect(records.where((r) => r.patientId != null), hasLength(2));
+      // Üç ayrıntılı kayıt ve genel bakış için sekiz ek örnek hasta.
+      expect(records, hasLength(11));
+      expect(records.where((r) => r.patientId != null), hasLength(10));
       expect(
         records.where((r) => r.inviteCode != null && r.patientId == null),
         hasLength(1),

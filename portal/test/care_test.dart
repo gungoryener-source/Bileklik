@@ -170,7 +170,7 @@ void main() {
       form: {'token': 'stranger'},
       auth: false,
     )).headers['set-cookie']!.split(';').first;
-    expect(await page('/panel'), isNot(contains('Gizli')));
+    expect(await page('/panel'), isNot(contains('>Gizli<')));
     final other = RegExp(
       r'name="csrf" value="([0-9a-f]+)"',
     ).firstMatch(await page('/panel/records/new'))!.group(1)!;

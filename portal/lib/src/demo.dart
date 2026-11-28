@@ -28,6 +28,7 @@ abstract final class DemoTokens {
 /// Adlar uydurmadır.
 Future<void> seedDemo(PortalApi api, {DateTime? now, Random? random}) async {
   final store = api.store;
+  api.panel.demoData = true;
   final t = (now ?? DateTime.now()).toUtc();
   final r = random ?? Random(42);
   store
@@ -252,6 +253,71 @@ Future<void> seedDemo(PortalApi api, {DateTime? now, Random? random}) async {
       _bundle(ids[i], t, r, profile: _DemoProfile.values[i]),
     );
   }
+
+  // Panelin genel tablosu, listesi ve sayfalaması için daha çok örnek hasta:
+  // çoğu düzenli veri gönderir, bazılarında veri kesilmesi, düşük uyum,
+  // yükselen tansiyon, ateş ya da azalan hareket vardır. Hepsi uydurma
+  // adlı deneme hastalarıdır ("Örnek" soyadı, DEMO- dosya numarası).
+  final extra = [
+    ('Zeynep Örnek', DateTime.utc(1984, 5, 9), Sex.female, _DemoProfile.stable),
+    (
+      'Ahmet Örnek',
+      DateTime.utc(1961, 1, 27),
+      Sex.male,
+      _DemoProfile.stableOlder,
+    ),
+    ('Leyla Örnek', DateTime.utc(1949, 8, 3), Sex.female, _DemoProfile.silent),
+    (
+      'Hasan Örnek',
+      DateTime.utc(1972, 12, 11),
+      Sex.male,
+      _DemoProfile.lowAdherence,
+    ),
+    (
+      'Selin Örnek',
+      DateTime.utc(1966, 4, 30),
+      Sex.female,
+      _DemoProfile.hypertension,
+    ),
+    ('Can Örnek', DateTime.utc(1990, 9, 18), Sex.male, _DemoProfile.fever),
+    (
+      'Nermin Örnek',
+      DateTime.utc(1958, 2, 6),
+      Sex.female,
+      _DemoProfile.slowing,
+    ),
+    ('Oğuz Örnek', DateTime.utc(1987, 7, 22), Sex.male, _DemoProfile.athlete),
+  ];
+  for (var i = 0; i < extra.length; i++) {
+    final (name, birth, sex, profile) = extra[i];
+    final id =
+        '00000000-0000-4000-8000-${(100 + i).toString().padLeft(12, '0')}';
+    final token = 'demo-patient-x$i';
+    store.addAccount(Account(id: id, role: Role.patient, name: '-'), token);
+    final scopes = profile == _DemoProfile.fever ? hf : all;
+    final code = await invite(DemoTokens.doctor, scopes, profile.purpose);
+    record('rec-demo-x$i', name, birth, sex, 'DEMO-${1004 + i}', invite: code);
+    await accept(code, token, scopes);
+    await call('POST', '/fhir', token, _bundle(id, t, r, profile: profile));
+  }
+
+  // Rızalar deneme verisinin başladığı güne çekilir: uyum ve kapsama 30
+  // günlük geçmişle hesaplanır.
+  for (final k in store.consentsForActor('dr-demo')) {
+    store.addConsent(
+      Consent(
+        id: k.id,
+        patientId: k.patientId,
+        actorId: k.actorId,
+        scopes: k.scopes,
+        start: t.subtract(const Duration(days: 31)),
+        end: t.add(const Duration(days: 334)),
+        purpose: k.purpose,
+        inviteCode: k.inviteCode,
+        requested: k.requested,
+      ),
+    );
+  }
 }
 
 /// Deneme hastalarının farklı bulgular gösteren veri profilleri.
@@ -263,19 +329,124 @@ enum _DemoProfile {
   heartFailure(restingRate: 74, steps: 3200, weight: 84.0, height: 1.76),
 
   /// Uyku apnesi şüphesi: gece SpO2 düşüşleri, kısa uyku.
-  apnea(restingRate: 70, steps: 6000, weight: 97.0, height: 1.80);
+  apnea(restingRate: 70, steps: 6000, weight: 97.0, height: 1.80),
+
+  /// Düzenli veri, bulgu yok.
+  stable(
+    restingRate: 62,
+    steps: 9000,
+    weight: 61.0,
+    height: 1.68,
+    feverDay: null,
+    purpose: 'Rutin kardiyak izlem',
+  ),
+  stableOlder(
+    restingRate: 64,
+    steps: 6500,
+    weight: 79.0,
+    height: 1.77,
+    feverDay: null,
+    purpose: 'Bypass sonrası izlem',
+  ),
+
+  /// Bileklik 38 saattir veri göndermiyor.
+  silent(
+    restingRate: 68,
+    steps: 4200,
+    weight: 66.0,
+    height: 1.58,
+    feverDay: null,
+    silentHours: 38,
+    purpose: 'Atriyal fibrilasyon izlemi',
+  ),
+
+  /// Bilekliği gün aşırı takıyor.
+  lowAdherence(
+    restingRate: 72,
+    steps: 5500,
+    weight: 88.0,
+    height: 1.74,
+    feverDay: null,
+    everyOtherDay: true,
+    purpose: 'Hipertansiyon takibi',
+  ),
+
+  /// Dönem içinde yükselen tansiyon.
+  hypertension(
+    restingRate: 70,
+    steps: 6000,
+    weight: 74.0,
+    height: 1.62,
+    feverDay: null,
+    bpBase: 128,
+    bpRise: 26,
+    purpose: 'Tansiyon ilaç ayarı sonrası takip',
+  ),
+
+  /// Dün ateş.
+  fever(
+    restingRate: 66,
+    steps: 8000,
+    weight: 77.0,
+    height: 1.81,
+    feverDay: 0,
+    purpose: 'Miyokardit sonrası izlem',
+  ),
+
+  /// Son haftada azalan hareket ve yükselen dinlenik nabız.
+  slowing(
+    restingRate: 67,
+    steps: 7000,
+    weight: 70.0,
+    height: 1.60,
+    feverDay: null,
+    declining: true,
+    purpose: 'Kalp kapak ameliyatı sonrası izlem',
+  ),
+  athlete(
+    restingRate: 54,
+    steps: 12000,
+    weight: 72.0,
+    height: 1.79,
+    feverDay: null,
+    purpose: 'Sporcu ritim taraması',
+  );
 
   const _DemoProfile({
     required this.restingRate,
     required this.steps,
     required this.weight,
     required this.height,
+    this.feverDay = 9,
+    this.silentHours = 0,
+    this.everyOtherDay = false,
+    this.bpBase,
+    this.bpRise = 0,
+    this.declining = false,
+    this.purpose = '',
   });
 
   final int restingRate;
   final int steps;
   final double weight;
   final double height;
+
+  /// Ateşli günün kaç gün önce olduğu; yoksa null.
+  final int? feverDay;
+
+  /// Son bu kadar saatte veri yok.
+  final int silentHours;
+
+  /// Tek günlerde veri yok (bileklik takılmamış).
+  final bool everyOtherDay;
+
+  /// Sistolik taban ve 30 günde artış.
+  final int? bpBase;
+  final int bpRise;
+
+  /// Son 7 günde adım yarıya iner, dinlenik nabız 7 artar.
+  final bool declining;
+  final String purpose;
 }
 
 Map<String, Object?> _obs(
@@ -333,7 +504,8 @@ Map<String, Object?> _bundle(
   for (var h = 0; h < days * 24; h += 2) {
     final at = now.subtract(Duration(hours: h));
     final night = at.hour < 6;
-    var hr = rest + (night ? -6 : 8) + r.nextInt(12);
+    final rise = profile.declining && h < 7 * 24 ? 7 : 0;
+    var hr = rest + rise + (night ? -6 : 8) + r.nextInt(12);
     if (palp && !night && r.nextInt(14) == 0) hr = 104 + r.nextInt(18);
     list.add(
       _obs(patientId, 'hr-$h', '8867-4', at, value: hr, unit: 'beats/minute'),
@@ -453,7 +625,8 @@ Map<String, Object?> _bundle(
           unit: 'ms',
         ),
       );
-    final steps = profile.steps ~/ 2 + r.nextInt(profile.steps);
+    var steps = profile.steps ~/ 2 + r.nextInt(profile.steps);
+    if (profile.declining && d < 7) steps ~/= 2;
     list
       ..add(
         _obs(
@@ -491,7 +664,7 @@ Map<String, Object?> _bundle(
           'temp-$d',
           '8310-5',
           morning,
-          value: 36.2 + r.nextInt(8) / 10 + (d == 9 ? 1.6 : 0),
+          value: 36.2 + r.nextInt(8) / 10 + (d == profile.feverDay ? 1.6 : 0),
           unit: 'Cel',
         ),
       )
@@ -504,10 +677,18 @@ Map<String, Object?> _bundle(
           components: [
             (
               '8480-6',
-              (palp ? 124 : 115) + r.nextInt(palp ? 26 : 20),
+              (profile.bpBase ?? (palp ? 124 : 115)) +
+                  profile.bpRise * (days - d) ~/ days +
+                  r.nextInt(palp ? 26 : 20),
               'mm[Hg]',
             ),
-            ('8462-4', (palp ? 78 : 72) + r.nextInt(14), 'mm[Hg]'),
+            (
+              '8462-4',
+              (palp ? 78 : 72) +
+                  profile.bpRise * (days - d) ~/ (days * 2) +
+                  r.nextInt(14),
+              'mm[Hg]',
+            ),
           ],
         ),
       );
@@ -626,6 +807,22 @@ Map<String, Object?> _bundle(
       });
     }
   }
+  // Veri kesilmesi ve takılmayan günler: o zamanlardaki kayıtlar çıkarılır.
+  final quietFrom = now.subtract(Duration(hours: profile.silentHours));
+  bool kept(Map<String, Object?> o) {
+    final at = DateTime.parse(
+      (o['effectiveDateTime'] ?? (o['effectivePeriod'] as Map)['start'])
+          as String,
+    );
+    if (profile.silentHours > 0 && at.isAfter(quietFrom)) return false;
+    final ago = DateTime(
+      now.year,
+      now.month,
+      now.day,
+    ).difference(DateTime(at.year, at.month, at.day)).inDays;
+    return !(profile.everyOtherDay && ago.isOdd);
+  }
+
   return {
     'resourceType': 'Bundle',
     'type': 'collection',
@@ -633,7 +830,8 @@ Map<String, Object?> _bundle(
       {
         'resource': {'resourceType': 'Patient', 'id': patientId},
       },
-      for (final o in list) {'resource': o},
+      for (final o in list)
+        if (kept(o)) {'resource': o},
     ],
   };
 }

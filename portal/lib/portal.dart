@@ -13,6 +13,8 @@ export 'src/ingest.dart';
 export 'src/inquiry.dart';
 export 'src/locale.dart';
 export 'src/model.dart';
+export 'src/monitor.dart';
+export 'src/monitor_text.dart';
 export 'src/openapi.dart';
 export 'src/panel.dart';
 export 'src/clinic_text.dart';

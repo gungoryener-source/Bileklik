@@ -11,6 +11,9 @@ import 'clinic_text.dart';
 import 'hl7.dart';
 import 'locale.dart';
 import 'model.dart';
+import 'monitor.dart';
+import 'monitor_text.dart';
+import 'panel_style.dart';
 import 'panel_text.dart';
 import 'passwords.dart';
 import 'qr_svg.dart';
@@ -20,8 +23,11 @@ import 'store.dart';
 part 'panel_account.dart';
 part 'panel_alerts.dart';
 part 'panel_care.dart';
+part 'panel_monitor.dart';
+part 'panel_overview.dart';
 part 'panel_records.dart';
 part 'panel_report.dart';
+part 'panel_ui.dart';
 
 /// Hekim ve araştırmacı için tarayıcı paneli (`/panel`).
 ///
@@ -55,6 +61,10 @@ class PanelApi {
 
   final PortalStore store;
   final DateTime Function() _now;
+
+  /// Deneme verisiyle açıldı ([seedDemo]); sayfalarda "Deneme verisi"
+  /// etiketi görünür.
+  bool demoData = false;
   final Random _random;
 
   /// HTTPS arkasında çalışırken true: çerez yalnızca şifreli bağlantıda gider.
@@ -82,13 +92,17 @@ class PanelApi {
 
   static ClinicText _c(Request r) => ClinicText.of(_t(r).lang);
 
+  static MonitorText _m(Request r) => MonitorText.of(_t(r).lang);
+
   late final Router _router = Router()
-    ..get('/panel', _home)
+    ..get('/panel', (Request r) => _home(r))
     ..post('/panel/login', _login)
     ..post('/panel/logout', _logout)
     ..get('/panel/register', (Request r) => _registerPage(r))
     ..post('/panel/register', (Request r) => _register(r))
     ..get('/panel/account', (Request r) => _accountPage(r))
+    ..get('/panel/patients', (Request r) => _patientsPage(r))
+    ..get('/panel/activity', (Request r) => _activityPage(r))
     ..get('/panel/alerts', (Request r) => _alertsPage(r))
     ..post('/panel/alerts/<id>/ack', (Request r, String id) => _ackAlert(r, id))
     ..post('/panel/account/password', (Request r) => _changePassword(r))
@@ -124,7 +138,7 @@ class PanelApi {
       '/panel/records/<id>/care/<entry>/done',
       (Request r, String id, String entry) => _careDone(r, id, entry),
     )
-    ..get('/panel/patients/<id>', _patient)
+    ..get('/panel/patients/<id>', (Request r, String id) => _patient(r, id))
     ..get(
       '/panel/patients/<id>/report',
       (Request r, String id) => _report(r, id),
@@ -255,144 +269,6 @@ class PanelApi {
 
   // ------------------------------------------------------------- sayfalar
 
-  Response _home(Request r) {
-    final t = _t(r);
-    final c = _c(r);
-    final auth = _auth(r);
-    if (auth == null) return _html(200, _loginPage(t));
-    final (s, me) = auth;
-    final now = _now();
-    // Veri gelmemesi gibi zamana bağlı uyarılar panel açılınca da taranır.
-    _engine.scan(now, ownerId: me.id);
-    final openAlerts = _openAlerts(me.id, now);
-    final alerted = {
-      for (final a in openAlerts)
-        if (a.kind.severity == AlertSeverity.critical) a.patientId,
-    };
-    // Kritik uyarısı açık olan hastalar başa; kendi aralarında sıra korunur.
-    final all = store.recordsOf(me.id);
-    final records = [
-      for (final rec in all)
-        if (alerted.contains(rec.patientId)) rec,
-      for (final rec in all)
-        if (!alerted.contains(rec.patientId)) rec,
-    ];
-    final linked = {for (final rec in records) ?rec.patientId};
-    final consents = [
-      for (final k in store.consentsForActor(me.id))
-        if (k.activeAt(now) && !linked.contains(k.patientId)) k,
-    ]..sort((a, b) => b.start.compareTo(a.start));
-
-    DateTime? lastData(String patientId, Consent k) => store
-        .observations(patientId, codes: k.codes)
-        .map((o) => o.effective)
-        .fold<DateTime?>(null, (a, b) => a == null || b.isAfter(a) ? b : a);
-
-    // Ad ya da dosya numarasında arama (büyük/küçük harf fark etmez).
-    final q = (r.url.queryParameters['q'] ?? '').trim();
-    final needle = q.toLowerCase();
-    final shown = [
-      for (final rec in records)
-        if (needle.isEmpty ||
-            rec.name.toLowerCase().contains(needle) ||
-            (rec.fileNo ?? '').toLowerCase().contains(needle))
-          rec,
-    ];
-    final recordRows = StringBuffer();
-    for (final rec in shown) {
-      final (label, cls) = _recordStatus(c, rec);
-      final k = rec.patientId == null
-          ? null
-          : _activeConsent(me.id, rec.patientId!);
-      final last = k == null ? null : lastData(rec.patientId!, k);
-      final age = rec.ageAt(now);
-      recordRows.write(
-        '<tr><td><a href="/panel/records/${_h(Uri.encodeComponent(rec.id))}">'
-        '${_h(rec.name)}</a>'
-        '${alerted.contains(rec.patientId) ? ' <span class="badge alert">${_h(c['severityCritical'])}</span>' : ''}</td>'
-        '<td dir="ltr" class="nowrap">${_h(rec.fileNo ?? '—')}</td>'
-        '<td>${age == null ? '—' : _h('$age')}</td>'
-        '<td><span class="badge $cls">${_h(label)}</span></td>'
-        '<td>${k == null ? '—' : _h(_scopes(t, k.scopes))}</td>'
-        '<td>${last == null ? '—' : _h(_dateTime(t, last))}</td></tr>',
-      );
-    }
-    final rows = StringBuffer();
-    for (final k in consents) {
-      final last = lastData(k.patientId, k);
-      rows.write(
-        '<tr><td><a href="/panel/patients/${_h(Uri.encodeComponent(k.patientId))}">'
-        '${_h(_shortId(k.patientId))}</a></td>'
-        '<td>${_h(_scopes(t, k.scopes))}</td>'
-        '<td>${_h(_date(t, k.end))}</td>'
-        '<td>${last == null ? '—' : _h(_dateTime(t, last))}</td></tr>',
-      );
-    }
-    // Özet kartları: kayıtlar, veri paylaşanlar, bekleyen davetler ve son
-    // 24 saatte verisi gelenler (kayda bağlı olsun olmasın).
-    final active = [
-      for (final k in store.consentsForActor(me.id))
-        if (k.activeAt(now)) k,
-    ];
-    final sharing = {for (final k in active) k.patientId}.length;
-    final pending = [
-      for (final rec in records)
-        if (_recordStatus(c, rec).$1 == c['statusPending']) rec,
-    ].length;
-    final dayAgo = now.subtract(const Duration(hours: 24));
-    final fresh = {
-      for (final k in active)
-        if (lastData(k.patientId, k)?.isAfter(dayAgo) ?? false) k.patientId,
-    }.length;
-    final scopeBoxes = _scopeBoxes(t, ShareScope.values, checked: const {});
-    final recordsHtml = records.isEmpty
-        ? '<p class="muted">${_h(c['noRecords'])}</p>'
-        : '''
-<form method="get" action="/panel" class="row" role="search">
-<label>${_h(c['search'])}<input type="search" name="q" value="${_h(q)}" placeholder="${_h(c['searchHint'])}" maxlength="80"></label>
-<button type="submit" class="secondary">${_h(c['search'])}</button>
-</form>
-${shown.isEmpty ? '<p class="muted">${_h(c['noMatch'])}</p>' : '''
-<div class="table-wrap"><table>
-<thead><tr><th>${_h(c['colName'])}</th><th>${_h(c['colFileNo'])}</th><th>${_h(c['colAge'])}</th><th>${_h(c['colStatus'])}</th><th>${_h(t.colShared)}</th><th>${_h(t.colLastData)}</th></tr></thead>
-<tbody>$recordRows</tbody>
-</table></div>'''}''';
-    return _html(
-      200,
-      _page(t, me, s, t.myPatients, active: '/panel', '''
-<div class="row"><h1 style="flex:1">${_h(t.myPatients)}</h1><a class="button" href="/panel/records/new">+ ${_h(c['newPatient'])}</a></div>
-<div class="stats">
-<div class="stat accent"><b>${records.length}</b><span>${_h(c['statRecords'])}</span></div>
-<div class="stat ok"><b>$sharing</b><span>${_h(c['statLinked'])}</span></div>
-<div class="stat wait"><b>$pending</b><span>${_h(c['statPending'])}</span></div>
-<div class="stat heart"><b>$fresh</b><span>${_h(c['statFresh'])}</span></div>
-<div class="stat ${openAlerts.isEmpty ? 'ok' : 'danger'}"><b>${openAlerts.length}</b><span>${_h(c['statAlerts'])}</span></div>
-</div>
-${_openAlertsHtml(t, c, s, me, openAlerts, now)}
-${_myTasksHtml(t, c, s, me, now)}
-<h2>${_h(c['recordsTitle'])}</h2>
-$recordsHtml
-<h2>${_h(c['unlinkedTitle'])}</h2>
-${consents.isEmpty ? '<p class="muted">${_h(t.noPatients)}</p>' : '''
-<p class="muted small">${_h(c['unlinkedIntro'])}</p>
-<div class="table-wrap"><table>
-<thead><tr><th>${_h(t.colPatient)}</th><th>${_h(t.colShared)}</th><th>${_h(t.colConsentEnd)}</th><th>${_h(t.colLastData)}</th></tr></thead>
-<tbody>$rows</tbody>
-</table></div>'''}
-<details class="card">
-<summary><strong>${_h(t.createInvite)}</strong></summary>
-<form method="post" action="/panel/invites">
-<input type="hidden" name="csrf" value="${_h(s.csrf)}">
-<label>${_h(t.purpose)}<textarea name="purpose" required maxlength="500" rows="3"></textarea></label>
-<fieldset><legend>${_h(t.requestedData)}</legend>$scopeBoxes</fieldset>
-<label>${_h(t.durationDays)}<input type="number" name="days" value="90" min="1" max="730" required></label>
-<button type="submit">${_h(t.createCode)}</button>
-</form>
-</details>
-'''),
-    );
-  }
-
   static String _scopeBoxes(
     PanelText t,
     Iterable<ShareScope> scopes, {
@@ -461,127 +337,6 @@ ${consents.isEmpty ? '<p class="muted">${_h(t.noPatients)}</p>' : '''
     );
   }
 
-  Response _patient(Request r, String id) {
-    final t = _t(r);
-    final s = _session(r);
-    final me = s == null ? null : store.account(s.accountId);
-    if (s == null || me == null) return _html(401, _loginPage(t));
-    final now = _now();
-    final consent = store
-        .consentsForPatient(id)
-        .where((c) => c.actorId == me.id && c.activeAt(now))
-        .firstOrNull;
-    if (consent == null) {
-      _audit(me.id, id, false, 'Panel: rıza olmadan erişim denemesi');
-      return _html(
-        403,
-        _page(t, me, s, t.noAccess, '<p>${_h(t.noAccessBody)}</p>'),
-      );
-    }
-    final c = _c(r);
-    final days = switch (r.url.queryParameters['days']) {
-      '30' => 30,
-      '90' => 90,
-      _ => 7,
-    };
-    final from = now.subtract(Duration(days: days));
-    final items = store.observations(id, codes: consent.codes, from: from);
-    _audit(
-      me.id,
-      id,
-      true,
-      'Panel: ${items.length} ölçüm görüntülendi ($days gün)',
-    );
-    final record = _recordFor(me.id, id);
-
-    final byCode = <String, List<StoredObservation>>{};
-    for (final o in items) {
-      byCode.putIfAbsent(o.code, () => []).add(o);
-    }
-    final sections = StringBuffer();
-    for (final code in _codeOrder.where(byCode.containsKey)) {
-      final list = byCode[code]!;
-      final latest = list.last;
-      final values = [for (final o in list) ?_number(o.resource)];
-      final avg = values.isEmpty
-          ? null
-          : values.reduce((a, b) => a + b) / values.length;
-      final unit = _unit(t, latest.resource);
-      sections.write(
-        '<section class="card"><h2>${_h(t.codeLabels[code] ?? code)}</h2>',
-      );
-      sections.write(
-        '<p class="big">${_h(_summary(t, latest.resource))}</p>'
-        '<p class="muted">${_h(t.last)}: ${_h(_dateTime(t, latest.effective))} · '
-        '${_h(days == 7 ? t.recordsIn7Days.replaceAll('{n}', '${list.length}') : c.f('recordsInPeriod', {'n': list.length}))}'
-        '${avg == null ? '' : ' · ${_h(t.average)} ${_h(t.number(avg))} ${_h(unit)}'}</p>',
-      );
-      if (code == '8867-4' && days == 7) {
-        sections.write(_sparkline(t, list, from, now));
-      }
-      sections.write(
-        '<table><thead><tr><th>${_h(t.colTime)}</th><th>${_h(t.colValue)}</th></tr></thead><tbody>',
-      );
-      for (final o in list.reversed.take(20)) {
-        sections.write(
-          '<tr><td>${_h(_dateTime(t, o.effective))}</td>'
-          '<td>${_h(_summary(t, o.resource))}</td></tr>',
-        );
-      }
-      sections.write('</tbody></table></section>');
-    }
-    return _html(
-      200,
-      _page(t, me, s, '${t.patient} ${_shortId(id)}', '''
-<p><a href="${record == null ? '/panel' : '/panel/records/${_h(Uri.encodeComponent(record.id))}'}">${t.rtl ? '→' : '←'} ${_h(record?.name ?? t.myPatients)}</a></p>
-<h1>${record == null ? '${_h(t.patient)} <span dir="ltr">${_h(_shortId(id))}</span>' : '${_h(record.name)} <span class="muted small" dir="ltr">${_h(_shortId(id))}</span>'}</h1>
-<p class="muted">${_h(t.shared)}: ${_h(_scopes(t, consent.scopes))} · ${_h(t.consentEnd)} ${_h(_date(t, consent.end))}</p>
-<nav class="row noprint" aria-label="${_h(c['period'])}">
-${[
-        for (final d in const [7, 30, 90]) d == days ? '<strong>${_h(c['last$d'])}</strong>' : '<a href="/panel/patients/${_h(Uri.encodeComponent(id))}?days=$d">${_h(c['last$d'])}</a>',
-      ].join(' · ')}
-<span style="flex:1"></span>
-<a class="button" href="/panel/patients/${_h(Uri.encodeComponent(id))}/report">${_h(c['createReport'])}</a>
-</nav>
-${sections.isEmpty ? '<p class="muted">${_h(days == 7 ? t.noRecentData : c['noData'])}</p>' : sections}
-<p class="muted small">${_h(t.disclaimer)}</p>
-'''),
-    );
-  }
-
-  /// Son 7 günün günlük nabız ortalamaları, satır içi SVG.
-  static String _sparkline(
-    PanelText t,
-    List<StoredObservation> list,
-    DateTime from,
-    DateTime to,
-  ) {
-    final days = <int, List<double>>{};
-    for (final o in list) {
-      final v = _number(o.resource);
-      if (v == null) continue;
-      final d = o.effective.difference(from).inDays.clamp(0, 6);
-      days.putIfAbsent(d, () => []).add(v);
-    }
-    if (days.length < 2) return '';
-    final avgs = {
-      for (final e in days.entries)
-        e.key: e.value.reduce((a, b) => a + b) / e.value.length,
-    };
-    final lo = avgs.values.reduce(min) - 5;
-    final hi = avgs.values.reduce(max) + 5;
-    final keys = avgs.keys.toList()..sort();
-    final pts = [
-      for (final k in keys)
-        '${(k * 50).toStringAsFixed(0)},'
-            '${(60 - (avgs[k]! - lo) / (hi - lo) * 60).toStringAsFixed(1)}',
-    ].join(' ');
-    return '<svg class="spark" viewBox="-4 -4 308 68" role="img" '
-        'aria-label="${_h(t.sparkLabel)}">'
-        '<polyline fill="none" stroke="currentColor" stroke-width="2" '
-        'points="$pts"/></svg>';
-  }
-
   // ----------------------------------------------------------- yardımcılar
 
   void _audit(String actorId, String patientId, bool ok, String text) =>
@@ -616,75 +371,6 @@ ${sections.isEmpty ? '<p class="muted">${_h(days == 7 ? t.noRecentData : c['noDa
 
   static String _scopes(PanelText t, Iterable<ShareScope> scopes) =>
       scopes.map((s) => t.scopeLabels[s]!).join(t.rtl ? '، ' : ', ');
-
-  static const _codeOrder = [
-    '8867-4',
-    '80404-7',
-    '59408-5',
-    '85354-9',
-    '11524-6',
-    '93832-4',
-    '55423-8',
-    '55430-3',
-    '41981-2',
-    'workout',
-    '8310-5',
-    '9279-1',
-    'stress',
-    '29463-7',
-    '39156-5',
-    '41982-0',
-    'muscle-mass',
-  ];
-
-  static Map? _quantity(Map<String, Object?> r) => r['valueQuantity'] as Map?;
-
-  static double? _number(Map<String, Object?> r) =>
-      (_quantity(r)?['value'] as num?)?.toDouble();
-
-  static String _unit(PanelText t, Map<String, Object?> r) =>
-      switch (_quantity(r)?['unit']) {
-        final String u => t.units[u] ?? u,
-        _ => '',
-      };
-
-  /// Bir kaydın tek satırlık özeti.
-  static String _summary(PanelText t, Map<String, Object?> r) {
-    final components = (r['component'] as List?)?.cast<Map>() ?? const [];
-    double? component(String code) {
-      for (final c in components) {
-        final coding = ((c['code'] as Map)['coding'] as List).first as Map;
-        if (coding['code'] == code) {
-          return ((c['valueQuantity'] as Map?)?['value'] as num?)?.toDouble();
-        }
-      }
-      return null;
-    }
-
-    final code =
-        (((r['code'] as Map)['coding'] as List).first as Map)['code'] as String;
-    switch (code) {
-      case '85354-9':
-        final sys = component('8480-6'), dia = component('8462-4');
-        return '${t.number(sys ?? 0)}/${t.number(dia ?? 0)} mmHg';
-      case '11524-6':
-        final hr = component('8867-4');
-        return hr == null
-            ? t.ecgRecording
-            : '${t.ecgRecording} · ${t.average} ${t.number(hr)} '
-                  '${t.units['beats/minute']}';
-      case 'workout':
-        final minutes = component('workout-duration');
-        return minutes == null
-            ? t.workout
-            : '${t.workout} · ${t.number(minutes)} ${t.units['min']}';
-    }
-    final v = _number(r);
-    if (v == null) return '—';
-    if (code == '93832-4') return t.duration(v.round());
-    final unit = _unit(t, r);
-    return unit.isEmpty ? t.number(v) : '${t.number(v)} $unit';
-  }
 
   /// HTML kaçışı: metin ve öznitelik değerleri için.
   static String _h(String s) => const HtmlEscape(
@@ -721,7 +407,8 @@ ${sections.isEmpty ? '<p class="muted">${_h(days == 7 ? t.noRecentData : c['noDa
 
   String _loginPage(PanelText t, {String? error, String email = ''}) {
     final c = ClinicText.of(t.lang);
-    return _document(t, t.signIn, '''
+    final m = MonitorText.of(t.lang);
+    return _document(t, t.signIn, """
 <div class="auth">
 <section class="auth-hero">
 ${_brand(large: true)}
@@ -732,55 +419,45 @@ ${_brand(large: true)}
 <li>${_h(c['loginPoint2'])}</li>
 <li>${_h(c['loginPoint3'])}</li>
 </ul>
+<div class="auth-preview" aria-hidden="true">
+<div><b class="c-critical">${_PanelUi.icon('alerts', size: 18)}</b><span>${_h(m['loginPrevAlerts'])}</span></div>
+<div><b class="c-stable">${_PanelUi.icon('trend', size: 18)}</b><span>${_h(m['loginPrevTrends'])}</span></div>
+<div><b class="c-watch">${_PanelUi.icon('report', size: 18)}</b><span>${_h(m['loginPrevReports'])}</span></div>
+</div>
 <svg class="ecg" viewBox="0 0 440 60" preserveAspectRatio="none" aria-hidden="true"><polyline points="0,30 60,30 70,26 78,30 92,30 98,34 104,4 111,46 118,30 140,30 152,22 164,30 220,30 230,26 238,30 252,30 258,34 264,4 271,46 278,30 300,30 312,22 324,30 440,30"/></svg>
 </section>
 <main class="narrow">
-${_languages(t)}
+<div>${_languages(t)}</div>
 <h2>${_h(t.signIn)}</h2>
+<p class="muted small" style="margin-top:0">${_h(m['loginSub'])}</p>
 ${error == null ? '' : '<p class="error" role="alert">${_h(error)}</p>'}
 <form method="post" action="/panel/login" class="card">
 <label>${_h(c['email'])}<input type="email" name="email" value="${_h(email)}" autocomplete="username" required maxlength="120"></label>
 <label>${_h(c['password'])}<input type="password" name="password" autocomplete="current-password" required></label>
 <button type="submit" class="wide">${_h(t.signIn)}</button>
 </form>
-<p>${_h(c['noAccount'])} <a href="/panel/register">${_h(c['register'])}</a></p>
+<p class="small">${_h(c['noAccount'])} <a href="/panel/register">${_h(c['register'])}</a></p>
 <details class="card">
 <summary>${_h(c['signInWithKey'])}</summary>
-<p class="muted">${_h(t.signInIntro)}</p>
+<p class="muted small">${_h(t.signInIntro)}</p>
 <form method="post" action="/panel/login">
 <label>${_h(t.tokenLabel)}<input type="password" name="token" autocomplete="off" required></label>
 <button type="submit" class="secondary">${_h(t.signIn)}</button>
 </form>
 </details>
+<p class="faint tiny" style="margin-top:24px"><a href="/gizlilik" style="color:inherit">${_h(m['privacy'])}</a> · <a href="/developers" style="color:inherit">${_h(m['developers'])}</a></p>
 </main>
 </div>
-''');
+""");
   }
-
-  /// Menü ikonları (çizgi SVG, metin rengini alır).
-  static const _icons = {
-    '/panel':
-        'M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75',
-    '/panel/records/new':
-        'M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM19 8v6M22 11h-6',
-    '/panel/alerts':
-        'M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 0 1-3.46 0',
-    '/panel/account':
-        'M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z',
-  };
-
-  static String _icon(String path, {int size = 20}) =>
-      '<svg width="$size" height="$size" viewBox="0 0 24 24" fill="none" '
-      'stroke="currentColor" stroke-width="1.9" stroke-linecap="round" '
-      'stroke-linejoin="round" aria-hidden="true"><path d="$path"/></svg>';
 
   /// Marka işareti: nabız çizgisi.
   static String _brand({bool large = false}) =>
       '<span class="brand${large ? ' large' : ''}"><span class="mark">'
-      '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" '
+      '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" '
       'stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" '
       'aria-hidden="true"><path d="M2 12h4l2-5 4 10 2-5h8"/></svg></span>'
-      '<span>Bileklik <small>Klinik</small></span></span>';
+      '<span>Bileklik<small>Klinik</small></span></span>';
 
   /// Avatar için baş harfler; unvan (Dr., Prof., Doç.) atlanır.
   static String _initials(String name) {
@@ -799,6 +476,9 @@ ${error == null ? '' : '<p class="error" role="alert">${_h(error)}</p>'}
     return (a + b).toUpperCase();
   }
 
+  /// Panel sayfası: yan menü, üst çubuk (yol, hasta arama, dil) ve içerik.
+  /// [bare] verilmezse içerik eski sayfalardaki gibi tek sütundur; başlık
+  /// ve yol çubuğu yine eklenir.
   String _page(
     PanelText t,
     Account me,
@@ -808,30 +488,63 @@ ${error == null ? '' : '<p class="error" role="alert">${_h(error)}</p>'}
     String? active,
     Map<String, String> query = const {},
     String head = '',
+    bool bare = false,
+    List<(String?, String)>? crumbs,
+    String search = '',
   }) {
     final c = ClinicText.of(t.lang);
-    String nav(String href, String key) =>
+    final m = MonitorText.of(t.lang);
+    final openAlerts = store.alertsOf(me.id).where((a) => a.open).length;
+    String nav(String href, String icon, String label, {String extra = ''}) =>
         '<a href="$href"${href == active ? ' aria-current="page"' : ''}>'
-        '${_icon(_icons[href]!)}<span>${_h(c[key])}</span></a>';
-    return _document(t, title, '''
+        '${_PanelUi.icon(icon)}<span>${_h(label)}</span>$extra</a>';
+    final trail = crumbs ??
+        [
+          if (active != '/panel') ('/panel', m['navOverview']),
+          (null, title),
+        ];
+    final crumbHtml = [
+      for (final (href, label) in trail)
+        href == null
+            ? '<span aria-current="page">${_h(label)}</span>'
+            : '<a href="$href">${_h(label)}</a>',
+    ].join('<span class="sep" aria-hidden="true">›</span>');
+    final lang = PortalLocale.names[t.lang] ?? t.lang;
+    return _document(t, title, """
+<input type="checkbox" id="navtoggle" class="navtoggle" aria-hidden="true" tabindex="-1">
 <div class="shell">
-<aside class="side noprint">
-<div class="side-top">
-${_brand()}
-${_languages(t, query)}
-<nav class="menu" aria-label="${_h(t.myPatients)}">${nav('/panel', 'navPatients')}${nav('/panel/alerts', 'navAlerts')}${nav('/panel/records/new', 'navNewPatient')}${nav('/panel/account', 'navAccount')}</nav>
-</div>
-<div class="side-bottom">
+<label for="navtoggle" class="scrim" aria-hidden="true"></label>
+<aside class="side noprint" aria-label="${_h(m['navLabel'])}">
+<a href="/panel" style="text-decoration:none">${_brand()}</a>
+<nav class="menu" aria-label="${_h(m['navLabel'])}">
+${nav('/panel', 'overview', m['navOverview'])}
+${nav('/panel/patients', 'patients', m['navPatients'])}
+${nav('/panel/alerts', 'alerts', c['navAlerts'], extra: openAlerts == 0 ? '' : '<span class="count">$openAlerts</span>')}
+${nav('/panel/activity', 'activity', m['navActivity'])}
+<div class="menu-label">${_h(m['navManage'])}</div>
+${nav('/panel/records/new', 'newPatient', c['navNewPatient'])}
+${nav('/panel/account', 'account', c['navAccount'])}
+</nav>
+<div class="side-foot">
 <div class="who"><span class="avatar" aria-hidden="true">${_h(_initials(me.name))}</span><span><strong>${_h(me.name)}</strong>${me.organization == null ? '' : '<small>${_h(me.organization!)}</small>'}</span></div>
 <form method="post" action="/panel/logout"><input type="hidden" name="csrf" value="${_h(s.csrf)}"><button class="link" type="submit">${_h(t.signOut)}</button></form>
+<div class="side-links"><a href="/gizlilik">${_h(m['privacy'])}</a><a href="/developers">${_h(m['developers'])}</a></div>
 </div>
 </aside>
+<div class="content">
+<header class="topbar noprint">
+<label for="navtoggle" class="burger" title="${_h(m['navLabel'])}">${_PanelUi.icon('menu', size: 20)}<span class="sr">${_h(m['navLabel'])}</span></label>
+<nav class="crumbs" aria-label="${_h(m['breadcrumbs'])}">$crumbHtml</nav>
+<form class="gsearch" method="get" action="/panel/patients" role="search">${_PanelUi.icon('search', size: 16)}<input type="search" name="q" value="${_h(search)}" placeholder="${_h(m['searchPatients'])}" aria-label="${_h(m['searchPatients'])}" maxlength="80"></form>
+<details class="pop"><summary title="${_h(m['language'])}">${_PanelUi.icon('globe', size: 16)} ${_h(lang)}</summary><div class="pop-body">${_languages(t, query)}</div></details>
+</header>
 <main>
-${me.verified ? '' : '<p class="warn noprint" role="status">${_h(c['unverified'])}</p>'}
-$body
+${bare || me.verified ? '' : '<p class="warn noprint" role="status">${_h(c['unverified'])}</p>'}
+${bare ? body : '<div class="legacy">$body</div>'}
 </main>
 </div>
-''', head: head);
+</div>
+""", head: head);
   }
 
   static String _document(
@@ -840,201 +553,22 @@ $body
     String body, {
     String head = '',
   }) =>
-      '''<!doctype html>
+      """<!doctype html>
 <html lang="${t.lang}" dir="${t.rtl ? 'rtl' : 'ltr'}">
 <head>
 <meta charset="utf-8">$head
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#1F2E4D">
+<meta name="theme-color" content="#0B0F15">
 <title>${_h(title)} · Bileklik</title>
 <style>
-/* Uygulamanın Cam görünümü (yalnızca koyu): AppColors.cam, HomeSky, DataColors. */
-:root { color-scheme: dark; --bg: rgba(12,16,22,.45); --page: #0C1016; --fg: #FFFFFF; --muted: rgba(255,255,255,.75); --card: rgba(22,26,34,.62); --solid: #161A22; --field: rgba(12,16,22,.55); --line: rgba(255,255,255,.14); --edge: rgba(255,255,255,.18); --soft: rgba(255,255,255,.08); --accent: #45D6B8; --accent-ink: #9DF2D8; --heart: #FF5C84; --danger: #FFB8C8; --danger-bg: #B4294F; --ok: #5BE37D; --wait: #F3C85A; --sheen: linear-gradient(135deg, rgba(255,255,255,.12), rgba(255,255,255,.02)); --cta: linear-gradient(120deg, #17735E, #2C5FC4); --shadow: 0 14px 36px rgba(0,0,0,.32); }
-* { box-sizing: border-box; }
-html { background: var(--page); }
-body { margin: 0; font: 16px/1.55 Manrope, "Segoe UI", system-ui, -apple-system, sans-serif; background: transparent; color: var(--fg); -webkit-font-smoothing: antialiased; position: relative; min-height: 100vh; }
-/* Gökyüzü degradesi, yumuşak ışıklar ve altta sabit, kısılmış dağ (kodla çizilmiş). */
-body::before { content: ""; position: fixed; inset: 0; z-index: -2; pointer-events: none; background: linear-gradient(rgba(12,16,22,.25), rgba(12,16,22,.25)), radial-gradient(55vmax 55vmax at 14% 10%, rgba(76,141,255,.28), transparent 70%), radial-gradient(60vmax 60vmax at 90% 40%, rgba(125,139,160,.22), transparent 70%), radial-gradient(55vmax 55vmax at 10% 88%, rgba(69,214,184,.16), transparent 70%), linear-gradient(180deg, #1F2E4D 0%, #34507A 45%, #0C1016 100%); }
-body::after { content: ""; position: fixed; left: -4vw; right: -4vw; bottom: 0; height: 42vh; z-index: -1; pointer-events: none; opacity: .38; background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1000 500' preserveAspectRatio='none'%3E%3Cdefs%3E%3ClinearGradient id='r' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='.1' stop-color='%23B59A78'/%3E%3Cstop offset='.45' stop-color='%233A4352'/%3E%3Cstop offset='.9' stop-color='%231B1F27'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cpath d='M0 500L0 290 120 250 220 280 330 235 700 250 820 220 920 260 1000 240 1000 500Z' fill='%2352627C' fill-opacity='.7'/%3E%3Cpath d='M0 500L0 360 180 300 300 210 400 130 500 30 580 100 660 165 780 225 900 290 1000 320 1000 500Z' fill='url(%23r)'/%3E%3Cpath d='M500 30 580 100 660 165 780 225 620 350 520 200Z' fill='%231B1F27' fill-opacity='.45'/%3E%3Cpath d='M500 30 580 100 660 165 640 182 625 150 600 190 575 160 548 200 520 168 490 205 465 170 440 196 420 160 400 182 375 160 300 210 400 130Z' fill='%23EEF2F8' fill-opacity='.8'/%3E%3C/svg%3E") center bottom / 100% 100% no-repeat; -webkit-mask-image: linear-gradient(#000 50%, transparent); mask-image: linear-gradient(#000 50%, transparent); }
-a { color: var(--accent); }
-a:hover { color: var(--accent-ink); }
-a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible, summary:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
-::selection { background: rgba(69,214,184,.35); }
-.shell { display: flex; min-height: 100vh; }
-/* Yan menü: uygulamadaki yüzen gezinme çubuğu gibi bulanık koyu cam */
-.side { flex: 0 0 256px; display: flex; flex-direction: column; justify-content: space-between; gap: 24px; padding: 22px 14px; margin: 14px 0 14px 14px; border-radius: 28px; background: rgba(22,26,34,.78); border: 1px solid var(--edge); backdrop-filter: saturate(1.3) blur(18px); -webkit-backdrop-filter: saturate(1.3) blur(18px); box-shadow: var(--shadow); position: sticky; top: 14px; height: calc(100vh - 28px); overflow-y: auto; }
-[dir="rtl"] .side { margin: 14px 14px 14px 0; }
-.brand { display: inline-flex; align-items: center; gap: 10px; font-weight: 800; font-size: 19px; letter-spacing: -.01em; color: var(--fg); padding: 0 8px; }
-.brand small { font-weight: 700; font-size: 11px; color: var(--muted); letter-spacing: .1em; text-transform: uppercase; margin-inline-start: 4px; }
-.brand .mark { display: grid; place-items: center; width: 36px; height: 36px; border-radius: 11px; background: radial-gradient(circle at 30% 25%, #9DF2D8, #2E9E86 55%, #0B4A40); box-shadow: 0 6px 18px rgba(51,209,168,.4), inset 0 1px 0 rgba(255,255,255,.4); }
-.brand.large { font-size: 22px; padding: 0; }
-.menu { display: grid; gap: 4px; margin-top: 26px; }
-.menu a { display: flex; align-items: center; gap: 12px; min-height: 48px; padding: 8px 14px; border-radius: 999px; color: var(--muted); text-decoration: none; font-weight: 700; }
-.menu a:hover { background: var(--soft); color: var(--fg); }
-.menu a[aria-current] { background: linear-gradient(135deg, #454C5A, #2A303B); color: var(--fg); box-shadow: inset 0 1px 0 rgba(255,255,255,.14); }
-.menu a[aria-current] svg { color: var(--accent); }
-.who { display: flex; align-items: center; gap: 10px; padding: 10px; border-radius: 18px; background: var(--soft); border: 1px solid var(--line); }
-.who strong { display: block; font-size: 14px; line-height: 1.3; }
-.who small { display: block; color: var(--muted); font-size: 12px; line-height: 1.3; }
-.avatar { flex: 0 0 auto; display: grid; place-items: center; width: 38px; height: 38px; border-radius: 50%; background: #5BE37D; color: #0C1016; font-weight: 800; font-size: 14px; box-shadow: 0 4px 14px rgba(91,227,125,.35); }
-.side-bottom { display: grid; gap: 8px; }
-.side-bottom form { margin: 0; }
-main { flex: 1 1 0; min-width: 0; max-width: 1180px; margin: 0 auto; padding: 32px clamp(16px, 4vw, 48px) 64px; }
-main.narrow { max-width: 440px; }
-h1 { font-size: clamp(1.7rem, 2.6vw, 2.1rem); line-height: 1.15; font-weight: 800; letter-spacing: -.02em; margin: 4px 0 18px; }
-h2 { font-size: 1.15rem; font-weight: 800; letter-spacing: -.01em; margin: 32px 0 12px; }
-h3 { font-size: 1rem; margin: 16px 0 8px; }
-/* Cam kart: koyu yarı saydam taban, çapraz parlaklık, ince açık kenar */
-.card { background: var(--sheen), var(--card); border: 1px solid var(--edge); border-radius: 24px; padding: 20px; margin: 14px 0; box-shadow: var(--shadow); }
-.muted { color: var(--muted); }
-.small { font-size: .875rem; }
-.error { color: var(--danger); font-weight: 600; }
-.big { font-size: 2rem; font-weight: 800; letter-spacing: -.02em; margin: 4px 0; font-variant-numeric: tabular-nums; }
-.codebox { display: flex; flex-wrap: wrap; align-items: center; gap: 20px; }
-.qr { display: block; width: 168px; height: 168px; border-radius: 12px; }
-.code { font: 800 2.6rem/1.2 ui-monospace, "SF Mono", Menlo, monospace; letter-spacing: .22em; color: var(--accent-ink); background: var(--soft); border: 1px solid var(--edge); border-radius: 18px; padding: 16px 20px; display: inline-block; }
-.stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin: 8px 0; }
-.stat { background: var(--sheen), var(--card); border: 1px solid var(--edge); border-radius: 22px; padding: 16px 18px; box-shadow: var(--shadow); display: grid; gap: 2px; }
-.stat b { font-size: 2.1rem; line-height: 1.1; font-weight: 800; letter-spacing: -.02em; font-variant-numeric: tabular-nums; }
-.stat span { color: var(--muted); font-size: .9rem; font-weight: 600; }
-.stat.danger b { color: var(--danger); } .stat.accent b { color: var(--accent); } .stat.heart b { color: var(--heart); } .stat.wait b { color: var(--wait); } .stat.ok b { color: var(--ok); }
-table { width: 100%; border-collapse: separate; border-spacing: 0; background: transparent; }
-th, td { text-align: start; padding: 12px 14px; border-bottom: 1px solid var(--line); vertical-align: middle; }
-thead th { font-size: .75rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); background: var(--bg); }
-tbody tr:hover td { background: var(--soft); }
-tbody tr:last-child td { border-bottom: 0; }
-td a { font-weight: 700; text-decoration: none; }
-tbody td:first-child { white-space: nowrap; }
-td a:hover { text-decoration: underline; }
-.table-wrap { overflow-x: auto; border: 1px solid var(--edge); border-radius: 22px; background: var(--sheen), var(--card); box-shadow: var(--shadow); }
-label { display: block; margin: 10px 0; font-weight: 600; font-size: .92rem; }
-label.check { display: inline-flex; align-items: center; gap: 8px; margin: 4px 8px 4px 0; min-height: 44px; padding: 6px 14px; border: 1px solid var(--edge); border-radius: 999px; font-weight: 600; cursor: pointer; background: var(--soft); }
-label.check:has(input:checked) { border-color: var(--accent); background: rgba(69,214,184,.16); color: var(--accent-ink); }
-input, textarea, select { display: block; min-height: 48px; width: 100%; margin-top: 6px; padding: 10px 14px; font: inherit; font-weight: 500; border: 1px solid var(--edge); border-radius: 14px; background: var(--field); color: var(--fg); color-scheme: dark; }
-input::placeholder, textarea::placeholder { color: rgba(255,255,255,.55); }
-select option { background: var(--solid); color: var(--fg); }
-input:focus, textarea:focus, select:focus { border-color: var(--accent); }
-label.check input { display: inline; width: auto; min-height: 0; margin: 0; accent-color: var(--accent); }
-fieldset { border: 1px solid var(--line); border-radius: 18px; margin: 12px 0; padding: 12px 14px; }
-legend { font-weight: 700; padding: 0 6px; }
-/* Ana düğme: yeşilden maviye, üstte ışık, renkli parıltı */
-button, a.button { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 48px; padding: 10px 22px; font: inherit; font-weight: 700; border: 0; border-radius: 999px; background: var(--cta); color: #fff; cursor: pointer; text-decoration: none; box-shadow: 0 8px 22px rgba(51,209,168,.25), inset 0 1px 0 rgba(255,255,255,.25); transition: transform .16s cubic-bezier(.2,.8,.2,1), filter .16s; }
-button:hover, a.button:hover { filter: brightness(1.1); color: #fff; }
-button:active, a.button:active { transform: scale(.96); }
-@media (prefers-reduced-motion: reduce) { button:active, a.button:active { transform: none; } }
-button.wide { width: 100%; }
-button.link { background: none; color: var(--muted); padding: 8px 10px; min-height: 44px; box-shadow: none; font-weight: 600; }
-button.link:hover { color: var(--danger); filter: none; }
-a.button.secondary, button.secondary { background: rgba(255,255,255,.1); color: var(--fg); border: 1px solid var(--edge); box-shadow: none; }
-a.button.secondary:hover, button.secondary:hover { background: rgba(255,255,255,.16); color: var(--fg); }
-button.danger { background: var(--danger-bg); box-shadow: 0 8px 22px rgba(180,41,79,.3); }
-${PortalLocale.switcherCss}
-.spark { width: 100%; max-width: 320px; height: 72px; color: var(--accent); }
-.nav { display: flex; flex-wrap: wrap; gap: 4px 16px; }
-.nav a { text-decoration: none; padding: 10px 2px; color: var(--muted); }
-.nav a:hover { color: var(--fg); }
-.nav a[aria-current] { font-weight: 700; color: var(--fg); border-bottom: 2px solid var(--accent); }
-.warn { background: rgba(243,200,90,.14); color: #FFE7A6; border: 1px solid rgba(243,200,90,.45); border-radius: 18px; padding: 12px 16px; font-weight: 600; }
-.ok { color: var(--ok); }
-.nowrap { white-space: nowrap; }
-.row { display: flex; flex-wrap: wrap; gap: 10px 16px; align-items: flex-end; }
-.row > label { flex: 1 1 200px; }
-.row > button, .row > a.button { flex: 0 0 auto; margin-bottom: 10px; }
-.row > h1 { margin-bottom: 0; }
-.badge { display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; border-radius: 999px; font-size: .78rem; font-weight: 700; white-space: nowrap; background: var(--soft); color: var(--muted); border: 1px solid var(--line); }
-.badge::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: currentColor; opacity: .9; }
-.badge.on { color: var(--ok); border-color: currentColor; }
-.badge.on::before { box-shadow: 0 0 8px currentColor; }
-.badge.wait { color: var(--wait); border-color: currentColor; }
-.badge.alert { color: var(--danger); border-color: currentColor; }
-.badge.alert.strong { background: var(--danger-bg); color: #fff; border-color: var(--danger-bg); }
-tr.row-alert td:first-child { box-shadow: inset 3px 0 0 var(--heart); }
-[dir="rtl"] tr.row-alert td:first-child { box-shadow: inset -3px 0 0 var(--heart); }
-form.ack { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; margin: 0; }
-form.ack input { min-width: 0; flex: 1 1 140px; }
-ul.care, ol.care { list-style: none; padding: 0; margin: 8px 0 16px; display: grid; gap: 8px; }
-.care li { display: flex; gap: 12px; align-items: center; justify-content: space-between; flex-wrap: wrap; padding: 10px 14px; border: 1px solid var(--line); border-radius: 16px; background: var(--soft); }
-.care li p { margin: 4px 0 0; }
-.pre { white-space: pre-wrap; overflow-wrap: anywhere; }
-dl.facts { display: grid; grid-template-columns: max-content 1fr; gap: 8px 20px; margin: 0; }
-dl.facts dt { color: var(--muted); font-weight: 600; }
-dl.facts dd { margin: 0; overflow-wrap: anywhere; font-weight: 600; }
-details summary { cursor: pointer; padding: 6px 0; font-weight: 700; }
-.grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 0 18px; }
-td.num, th.num { text-align: end; font-variant-numeric: tabular-nums; white-space: nowrap; }
-th[scope=row] { font-weight: 600; }
-table.compact th, table.compact td { padding: 6px 10px; font-size: .9rem; }
-/* Grafikler: çizgi veri renginde ve hafif parıltılı, ızgara beyaz %8 */
-.chart { width: 100%; height: auto; max-height: 240px; margin: 8px 0; color: var(--accent); }
-.chart text { font: 11px Manrope, system-ui, sans-serif; fill: var(--muted); }
-.chart .grid { stroke: rgba(255,255,255,.08); stroke-width: 1; }
-.chart .band { fill: currentColor; opacity: .14; }
-.chart .line { fill: none; stroke: currentColor; stroke-width: 2.2; stroke-linejoin: round; filter: drop-shadow(0 0 4px rgba(69,214,184,.55)); }
-.chart circle.line { fill: currentColor; stroke: none; }
-.chart .line2 { fill: none; stroke: var(--heart); stroke-width: 2.2; filter: drop-shadow(0 0 4px rgba(255,92,132,.55)); }
-.chart circle.line2 { fill: var(--heart); stroke: none; }
-.chart .bar { fill: currentColor; opacity: .7; }
-.report-head h1 { margin-top: 0; }
-ul.findings { padding-inline-start: 20px; }
-ul.findings li { margin: 6px 0; }
-.sign { margin-top: 32px; display: flex; justify-content: flex-end; }
-.sign span { border-top: 1px solid var(--fg); padding-top: 4px; min-width: 240px; text-align: center; }
-details.daily > summary { font-weight: 700; }
-/* Giriş sayfası: solda gökyüzü, sağda cam kart */
-.auth { display: flex; flex-wrap: wrap; min-height: 100vh; }
-.auth-hero { flex: 1 1 420px; display: flex; flex-direction: column; justify-content: center; gap: 18px; padding: clamp(32px, 6vw, 80px); color: #fff; }
-.auth-hero .brand { color: #fff; } .auth-hero .brand small { color: rgba(255,255,255,.75); }
-.auth-hero h1 { color: #fff; font-size: clamp(2rem, 3.6vw, 2.9rem); margin: 12px 0 0; max-width: 520px; text-wrap: balance; }
-.auth-hero p { margin: 0; font-size: 1.1rem; color: rgba(255,255,255,.86); max-width: 480px; }
-.auth-hero ul { margin: 8px 0 0; padding: 0; list-style: none; display: grid; gap: 10px; }
-.auth-hero li { display: flex; gap: 10px; align-items: center; font-weight: 600; }
-.auth-hero li::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 10px var(--accent); flex: 0 0 auto; }
-.auth-hero .ecg { width: 100%; max-width: 440px; height: 60px; margin-top: 16px; overflow: visible; }
-.auth-hero .ecg polyline { fill: none; stroke: var(--heart); stroke-width: 2.4; stroke-linejoin: round; filter: drop-shadow(0 0 6px rgba(255,92,132,.6)); }
-.auth main.narrow { flex: 1 1 380px; align-self: center; margin: 24px; padding: 32px 28px; max-width: 460px; background: var(--sheen), rgba(22,26,34,.72); border: 1px solid var(--edge); border-radius: 32px; box-shadow: var(--shadow); }
-.auth main.narrow h2 { font-size: 1.6rem; margin: 18px 0 6px; }
-.auth main.narrow .card { background: var(--soft); box-shadow: none; }
-@page { size: A4; margin: 14mm 12mm; }
-@media (max-width: 900px) {
-  .shell { flex-direction: column; }
-  .side { position: static; height: auto; flex: 0 0 auto; flex-direction: row; flex-wrap: wrap; align-items: center; gap: 12px; padding: 12px 14px; margin: 10px; border-radius: 24px; }
-  [dir="rtl"] .side { margin: 10px; }
-  .side-top { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 16px; flex: 1 1 100%; min-width: 0; }
-  .menu { display: flex; margin-top: 0; overflow-x: auto; gap: 4px; flex: 1 1 100%; min-width: 0; }
-  .menu a { white-space: nowrap; }
-  .side-bottom { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; flex: 1 1 100%; }
-  .who { padding: 6px 10px; }
-  main { width: 100%; max-width: none; margin: 0; padding-top: 20px; }
-  .auth-hero { padding: 28px 20px; }
-  .auth-hero ul, .auth-hero .ecg { display: none; }
-  .auth main.narrow { margin: 0 12px 24px; padding: 24px 18px; }
-}
-@media print {
-  :root { color-scheme: light; --bg: #fff; --page: #fff; --fg: #000; --muted: #444; --card: #fff; --line: #bbb; --edge: #bbb; --accent: #0B6B58; --accent-ink: #0B6B58; --heart: #B4294F; --danger: #9B1C1C; --ok: #1A7F37; --wait: #8A5A00; --soft: #fff; --sheen: none; --shadow: none; }
-  html, body { background: #fff; }
-  body::before, body::after { display: none; }
-  body { font-size: 11pt; color: #000; }
-  .noprint, .side, header.noprint, .warn { display: none !important; }
-  .shell { display: block; }
-  main { max-width: none; padding: 0; }
-  .card, .stat, .table-wrap { border: 0; border-top: 1px solid #bbb; border-radius: 0; padding: 8px 0; margin: 8px 0; box-shadow: none; background: none; }
-  .chart .line, .chart .line2 { filter: none; }
-  thead th { background: none; }
-  .avoid, tr, .chart { break-inside: avoid; }
-  h2 { break-after: avoid; }
-  details.daily > summary { display: none; }
-  details.daily:not([open]) { display: none; }
-  .table-wrap { overflow: visible; }
-  a { color: inherit; text-decoration: none; }
-}
-@media (max-width: 600px) { table { font-size: .9rem; } th, td { padding: 8px; } dl.facts { grid-template-columns: 1fr; gap: 0; } dl.facts dd { margin-bottom: 8px; } }
+${panelCss()}
 </style>
 </head>
 <body>
 $body
 </body>
 </html>
-''';
+""";
 }
 
 class _Session {

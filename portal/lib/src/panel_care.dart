@@ -54,7 +54,7 @@ extension _PanelCare on PanelApi {
     final id = _h(Uri.encodeComponent(e.id));
     return '<form method="post" action="/panel/records/$rid/care/$id/done" class="ack">'
         '<input type="hidden" name="csrf" value="${_h(s.csrf)}">'
-        '<button type="submit" class="secondary">${_h(c['taskDone'])}</button></form>';
+        '<button type="submit" class="secondary small">${_PanelUi.icon('check', size: 14)} ${_h(c['taskDone'])}</button></form>';
   }
 
   /// Kayıt sayfasındaki bölüm.
@@ -80,9 +80,10 @@ extension _PanelCare on PanelApi {
         ? '<p class="muted">${_h(c['notesNone'])}</p>'
         : '<ol class="care">${[for (final e in history) e.kind == CareKind.note ? '<li><div><span class="small muted">${_h(PanelApi._dateTime(t, e.created))} · ${_h(c['noteLabel'])}</span><p class="pre">${_h(e.text)}</p></div></li>' : '<li><div><span class="small muted">${_h(PanelApi._dateTime(t, e.doneAt!))} · ${_h(c['taskDoneLabel'])}</span><p>${_h(e.text)}</p></div></li>'].join()}</ol>';
     return '''
-<section class="card" aria-labelledby="care-h">
-<h2 id="care-h">${_h(c['careTitle'])}</h2>
-<h3>${_h(c['tasksTitle'])}</h3>
+<section class="panel" aria-labelledby="care-h">
+<div class="panel-head"><h2 id="care-h">${_h(c['careTitle'])}</h2></div>
+<div class="panel-body">
+<h3 style="margin-top:0">${_h(c['tasksTitle'])}</h3>
 $taskList
 <form method="post" action="/panel/records/$enc/care" class="row">
 $csrf
@@ -99,10 +100,11 @@ $csrf
 <button type="submit">${_h(c['noteAdd'])}</button>
 </form>
 $timeline
+</div>
 </section>''';
   }
 
-  /// Ana sayfadaki "Görevlerim" bölümü; açık görev yoksa boş.
+  /// Genel bakıştaki "Görevlerim": açık görevler, gecikenler önce.
   String _myTasksHtml(
     PanelText t,
     ClinicText c,
@@ -110,29 +112,24 @@ $timeline
     Account me,
     DateTime now,
   ) {
+    final m = MonitorText.of(t.lang);
     final tasks = _sortTasks(store.openTasksOf(me.id));
-    if (tasks.isEmpty) return '';
     final rows = StringBuffer();
     for (final e in tasks.take(20)) {
       final rec = store.record(e.recordId);
       if (rec == null) continue;
       rows.write(
-        '<tr${e.overdueAt(now) ? ' class="row-alert"' : ''}>'
-        '<td><a href="/panel/records/${_h(Uri.encodeComponent(rec.id))}">${_h(rec.name)}</a></td>'
-        '<td>${_h(e.text)}</td>'
-        '<td>${_dueBadge(t, c, e, now)}</td>'
-        '<td>${_doneForm(s, c, e)}</td></tr>',
+        '<li class="c-${e.overdueAt(now) ? 'attention' : 'watch'}"><span><span class="what">${_h(e.text)}</span>'
+        '<span class="why"><a href="/panel/records/${_h(Uri.encodeComponent(rec.id))}">${_h(rec.name)}</a> ${_dueBadge(t, c, e, now)}</span></span>'
+        '${_doneForm(s, c, e)}</li>',
       );
     }
-    return '''
-<section aria-labelledby="tasks-h">
-<h2 id="tasks-h">${_h(c['myTasks'])}</h2>
-<div class="table-wrap"><table>
-<thead><tr><th>${_h(c['colName'])}</th><th>${_h(c['taskText'])}</th><th>${_h(c['taskDueLabel'])}</th><th>${_h(c['alertColAction'])}</th></tr></thead>
-<tbody>$rows</tbody>
-</table></div>
-${tasks.length > 20 ? '<p class="small muted">${_h(c.f('tasksMore', {'n': tasks.length - 20}))}</p>' : ''}
-</section>''';
+    return """
+<section class="panel" aria-labelledby="tasks-h">
+<div class="panel-head"><h2 id="tasks-h">${_h(c['myTasks'])}${tasks.isEmpty ? '' : ' <span class="tag">${tasks.length}</span>'}</h2></div>
+${tasks.isEmpty ? _PanelUi.empty('check', c['tasksNone'], m['tasksNoneBody']) : '<ul class="signals">$rows</ul>'}
+${tasks.length > 20 ? '<div class="panel-foot">${_h(c.f('tasksMore', {'n': tasks.length - 20}))}</div>' : ''}
+</section>""";
   }
 
   /// Not ya da görev ekler.
