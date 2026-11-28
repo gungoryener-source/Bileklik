@@ -28,4 +28,27 @@ test/ekran_goruntusu_test.dart` ile üretilip 780x1688 WebP'ye küçültülür.
 - Yayın öncesi eklenecekler: App Store ve Google Play bağlantıları, iletişim
   adresi, şirket adı, kayış ölçü aralığı ("Nasıl ölçer" bölümü).
 
+## Diller
+
+Site dört dilde: Türkçe (`index.html`in kendisi), English, العربية (sağdan
+sola), Deutsch. Üst çubuktaki seçiciyle değişir; seçim tarayıcıda kalır
+(`localStorage` `bk-lang`) ve otomatik seçimin önüne geçer.
+
+- `i18n.js` dil katmanıdır. İlk dil: `?lang=` > elle seçim > bağlanılan
+  ülke > tarayıcı dili > İngilizce. Statik sitede sunucu olmadığından ülke
+  tarayıcının saat diliminden bulunur (Europe/Istanbul -> tr, Europe/Berlin ->
+  de, Asia/Riyadh -> ar…). Tablolar portaldaki `PortalLocale` ile aynıdır.
+- Sözlükler `i18n/en.js`, `i18n/ar.js`, `i18n/de.js`. Anahtar sayfadaki Türkçe
+  metnin kendisidir (boşluklar teke indirilir); bağlantı ya da kalın yazı
+  içeren paragraflar bütün olarak çevrilir. Türkçe bir metni değiştirince üç
+  sözlükteki anahtarı da değiştirin. Eksikleri görmek için
+  `?lang=en&i18n=eksik` açıp konsola bakın; `test/website_i18n_test.dart`
+  sözlüklerin tutarlılığını denetler.
+- Betiklerdeki anlık metinler `bkI18n.t("Türkçe {ad}", {ad: …})` ile çevrilir;
+  dil değişince `bk:lang` olayı gelir.
+- Portala giden bağlantılar (`data-lang-link`) seçilen dili `?lang=` ile
+  taşır; panel ve gizlilik sayfası aynı dilde açılır. Formlar gizli `lang`
+  alanı gönderir.
+- Uygulama ekran görüntüleri şimdilik Türkçe; dil bölümündeki görsel Arapça.
+
 Yerelde bakmak için: `python3 -m http.server -d website 8080`.

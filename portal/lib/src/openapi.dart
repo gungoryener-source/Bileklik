@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:shelf/shelf.dart';
 
+import 'locale.dart';
 import 'model.dart';
 
 /// Geliştirici belgesi: `GET /openapi.json` (OpenAPI 3.1) ve `GET /developers`
@@ -372,11 +373,82 @@ class OpenApi {
     },
   );
 
+  /// Geliştirici sayfasının çerçeve metinleri (güvenilir HTML; kullanıcı
+  /// girdisi yok).
+  static const _pageText = {
+    'en': {
+      'title': 'Bileklik portal API',
+      'intro':
+          'FHIR R4 portal for the JCV8 ECG wristband. Patients are pseudonymous. Clinicians, research institutions and care groups see only the data types a patient consented to, for as long as the consent lasts, and every access is logged.',
+      'machine': 'Machine-readable',
+      'english':
+          'Endpoint descriptions are in English, the same as in openapi.json.',
+      'auth': 'Authentication',
+      'authText':
+          'Send <code>Authorization: Bearer &lt;token&gt;</code>. Patient tokens come from <code>POST /patients</code>. Clinician and researcher tokens are issued by the portal administrator; use them from your own system to pull consented data.',
+      'types': 'Data types',
+      'who': 'Who',
+      'body': 'Body',
+      'panel':
+          'The browser panel for clinicians is at <a href="/panel">/panel</a>; it also exports reports as CSV, FHIR and HL7 v2.5.1 ORU^R01.',
+    },
+    'tr': {
+      'title': 'Bileklik portal API',
+      'intro':
+          'JCV8 EKG bileklik için FHIR R4 portalı. Hastalar takma kimliklidir. Hekimler, araştırma kurumları ve aile grupları yalnızca hastanın rıza verdiği veri türlerini, rıza sürdüğü sürece görür; her erişim kaydedilir.',
+      'machine': 'Makinenin okuyacağı biçim',
+      'english':
+          'Uç açıklamaları openapi.json ile aynı olsun diye İngilizcedir.',
+      'auth': 'Kimlik doğrulama',
+      'authText':
+          '<code>Authorization: Bearer &lt;anahtar&gt;</code> gönderin. Hasta anahtarı <code>POST /patients</code> ile alınır. Hekim ve araştırmacı anahtarlarını portal yöneticisi verir; rızalı veriyi kendi sisteminizden çekmek için kullanın.',
+      'types': 'Veri türleri',
+      'who': 'Kim',
+      'body': 'Gövde',
+      'panel':
+          'Hekimler için tarayıcı paneli <a href="/panel">/panel</a> adresinde; raporları CSV, FHIR ve HL7 v2.5.1 ORU^R01 olarak da verir.',
+    },
+    'ar': {
+      'title': 'واجهة برمجة بوابة Bileklik',
+      'intro':
+          'بوابة FHIR R4 لسوار JCV8 لتخطيط القلب. المرضى بأسماء مستعارة. لا يرى الأطباء ومؤسسات البحث ومجموعات الرعاية إلا أنواع البيانات التي وافق عليها المريض، وطوال مدة الموافقة فقط، ويُسجَّل كل وصول.',
+      'machine': 'بصيغة قابلة للقراءة آليًا',
+      'english': 'أوصاف نقاط النهاية بالإنجليزية، كما في openapi.json.',
+      'auth': 'المصادقة',
+      'authText':
+          'أرسل <code>Authorization: Bearer &lt;token&gt;</code>. يحصل المريض على مفتاحه من <code>POST /patients</code>. ويصدر مدير البوابة مفاتيح الأطباء والباحثين؛ استخدمها من نظامك لجلب البيانات الموافق عليها.',
+      'types': 'أنواع البيانات',
+      'who': 'من',
+      'body': 'المحتوى',
+      'panel':
+          'لوحة الأطباء في المتصفح على <a href="/panel">/panel</a>؛ وتصدّر التقارير أيضًا بصيغ CSV وFHIR وHL7 v2.5.1 ORU^R01.',
+    },
+    'de': {
+      'title': 'Bileklik-Portal-API',
+      'intro':
+          'FHIR-R4-Portal für das JCV8-EKG-Armband. Patienten sind pseudonymisiert. Ärzte, Forschungseinrichtungen und Betreuungsgruppen sehen nur die Datentypen, in die ein Patient eingewilligt hat, und nur so lange die Einwilligung gilt; jeder Zugriff wird protokolliert.',
+      'machine': 'Maschinenlesbar',
+      'english':
+          'Die Beschreibungen der Endpunkte sind wie in openapi.json auf Englisch.',
+      'auth': 'Authentifizierung',
+      'authText':
+          'Senden Sie <code>Authorization: Bearer &lt;Token&gt;</code>. Patienten-Tokens kommen von <code>POST /patients</code>. Tokens für Ärzte und Forschende vergibt der Portaladministrator; damit rufen Sie freigegebene Daten aus Ihrem eigenen System ab.',
+      'types': 'Datentypen',
+      'who': 'Wer',
+      'body': 'Body',
+      'panel':
+          'Das Browser-Panel für Ärzte liegt unter <a href="/panel">/panel</a>; es exportiert Berichte auch als CSV, FHIR und HL7 v2.5.1 ORU^R01.',
+    },
+  };
+
   static String _h(String s) =>
       const HtmlEscape(HtmlEscapeMode.element).convert(s);
 
-  /// Okunur belge sayfası.
-  static Response page(Request _) {
+  /// Okunur belge sayfası. Sayfanın çerçevesi dört dilde ([PortalLocale]);
+  /// uç açıklamaları `openapi.json` ile aynı kalsın diye İngilizcedir.
+  static Response page(Request r) {
+    final lang = PortalLocale.of(r);
+    final t = _pageText[lang] ?? _pageText['en']!;
     final tags = <String, List<_Op>>{};
     for (final op in endpoints) {
       tags.putIfAbsent(op.tag, () => []).add(op);
@@ -386,12 +458,12 @@ class OpenApi {
       body.writeln('<h2>${_h(tag)}</h2>');
       for (final op in ops) {
         body.writeln('''
-<section class="op">
+<section class="op" lang="en" dir="ltr">
 <h3><span class="m ${op.method}">${op.method.toUpperCase()}</span> <code>${_h(op.path)}</code></h3>
 <p><strong>${_h(op.summary)}</strong>${op.description.isEmpty ? '' : ' ${_h(op.description)}'}</p>
-<p class="muted">Who: ${_h(op.roles)}</p>
+<p class="muted">${t['who']}: ${_h(op.roles)}</p>
 ${op.query.isEmpty ? '' : '<dl>${op.query.entries.map((e) => '<dt><code>${_h(e.key)}</code></dt><dd>${_h(e.value)}</dd>').join()}</dl>'}
-${op.body.isEmpty ? '' : '<p class="muted">Body</p><dl>${op.body.entries.map((e) => '<dt><code>${_h(e.key)}</code></dt><dd>${_h(e.value)}</dd>').join()}</dl>'}
+${op.body.isEmpty ? '' : '<p class="muted">${t['body']}</p><dl>${op.body.entries.map((e) => '<dt><code>${_h(e.key)}</code></dt><dd>${_h(e.value)}</dd>').join()}</dl>'}
 <p class="muted">${op.responses.entries.map((e) => '${_h(e.key)}: ${_h(e.value)}').join(' · ')}</p>
 </section>''');
       }
@@ -404,11 +476,11 @@ ${op.body.isEmpty ? '' : '<p class="muted">Body</p><dl>${op.body.entries.map((e)
         .join();
     return Response.ok(
       '''<!doctype html>
-<html lang="en">
+<html lang="$lang" dir="${lang == 'ar' ? 'rtl' : 'ltr'}">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Bileklik API</title>
+<title>${t['title']}</title>
 <style>
 :root { color-scheme: dark; --fg: #FFFFFF; --muted: rgba(255,255,255,.75); --line: rgba(255,255,255,.16); --card: rgba(22,26,34,.62); }
 body { margin: 0; font: 16px/1.6 Manrope, "Segoe UI", system-ui, sans-serif; background: radial-gradient(55vmax 55vmax at 14% 10%, rgba(76,141,255,.28), transparent 70%), radial-gradient(55vmax 55vmax at 10% 88%, rgba(69,214,184,.16), transparent 70%), linear-gradient(180deg, #1F2E4D 0%, #34507A 45%, #0C1016 100%) fixed, #0C1016; color: var(--fg); -webkit-font-smoothing: antialiased; }
@@ -424,21 +496,25 @@ h3 { font-size: 1rem; margin: 0 0 6px; overflow-wrap: anywhere; }
 dl { display: grid; grid-template-columns: max-content 1fr; gap: 2px 12px; margin: 6px 0; font-size: .92rem; }
 dd { margin: 0; } code { font-family: ui-monospace, monospace; overflow-wrap: anywhere; }
 table { border-collapse: collapse; width: 100%; font-size: .92rem; } td { border-top: 1px solid var(--line); padding: 6px 8px 6px 0; vertical-align: top; }
-pre { background: rgba(12,16,22,.6); border: 1px solid var(--line); border-radius: 16px; padding: 12px; overflow-x: auto; font-size: .85rem; }
+pre { background: rgba(12,16,22,.6); border: 1px solid var(--line); border-radius: 16px; padding: 12px; overflow-x: auto; font-size: .85rem; direction: ltr; text-align: left; }
+.op h3, dl code, td code { direction: ltr; unicode-bidi: isolate; }
+${PortalLocale.switcherCss}
 </style>
 </head>
 <body><main>
-<h1>Bileklik portal API</h1>
-<p>FHIR R4 portal for the JCV8 ECG wristband. Patients are pseudonymous. Clinicians, research institutions and care groups see only the data types a patient consented to, for as long as the consent lasts, and every access is logged.</p>
-<p>Machine-readable: <a href="/openapi.json">/openapi.json</a> (OpenAPI 3.1).</p>
-<h2>Authentication</h2>
-<p>Send <code>Authorization: Bearer &lt;token&gt;</code>. Patient tokens come from <code>POST /patients</code>. Clinician and researcher tokens are issued by the portal administrator; use them from your own system to pull consented data.</p>
+${PortalLocale.switcher(lang)}
+<h1>${t['title']}</h1>
+<p>${t['intro']}</p>
+<p>${t['machine']}: <a href="/openapi.json">/openapi.json</a> (OpenAPI 3.1).</p>
+<p class="muted">${t['english']}</p>
+<h2>${t['auth']}</h2>
+<p>${t['authText']}</p>
 <pre>curl -H "Authorization: Bearer \$TOKEN" \\
   "https://…/fhir/Observation?patient=\$PATIENT&amp;code=8867-4&amp;date=ge2026-10-01T00:00:00Z"</pre>
-<h2>Data types</h2>
+<h2>${t['types']}</h2>
 <table><tbody>$scopes</tbody></table>
 $body
-<p class="muted">The browser panel for clinicians is at <a href="/panel">/panel</a>; it also exports reports as CSV, FHIR and HL7 v2.5.1 ORU^R01.</p>
+<p class="muted">${t['panel']}</p>
 </main></body>
 </html>
 ''',

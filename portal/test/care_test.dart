@@ -25,6 +25,7 @@ void main() {
       method,
       Uri.parse('http://portal.test$path'),
       headers: {
+        'accept-language': 'tr',
         if (auth) 'cookie': cookie,
         'referer': ?referer,
         if (form != null) 'content-type': 'application/x-www-form-urlencoded',

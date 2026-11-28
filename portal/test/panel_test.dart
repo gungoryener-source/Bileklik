@@ -46,6 +46,7 @@ class _Portal {
       method,
       Uri.parse('http://portal.test$path'),
       headers: {
+        'accept-language': 'tr',
         'cookie': ?cookie,
         if (bearer != null) 'authorization': 'Bearer $bearer',
         if (form != null) 'content-type': 'application/x-www-form-urlencoded',
@@ -258,7 +259,7 @@ void main() {
           Request(
             m,
             Uri.parse('http://portal.test$path'),
-            headers: {'cookie': ?cookie},
+            headers: {'accept-language': 'tr', 'cookie': ?cookie},
             body: body,
           ),
         );
@@ -326,8 +327,6 @@ void main() {
     expect(home, contains('Heart rate and HRV'));
     expect(home, contains('Sign out'));
 
-    expect(PanelText.fromAcceptLanguage(null), 'tr');
-    expect(PanelText.fromAcceptLanguage('ja, ar;q=0'), 'tr');
     expect(PanelText.de.number(36.6), '36,6');
     expect(PanelText.en.number(36.6), '36.6');
     expect(PanelText.en.duration(452), '7 h 32 min');

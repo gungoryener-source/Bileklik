@@ -10,7 +10,18 @@ body { margin: 0; font: 16px/1.5 system-ui, sans-serif; background: linear-gradi
 </style>
 </head>
 <body>
-<p class="boot">Portal tarayıcıda başlatılıyor…</p>
+<p class="boot" id="boot">Portal tarayıcıda başlatılıyor…</p>
+<script>
+// Açılış yazısı: elle seçilen dil, yoksa tarayıcının dili (asıl seçim portalda).
+(function () {
+  var t = { en: "Starting the portal in your browser…", ar: "جارٍ تشغيل البوابة في المتصفح…", de: "Portal wird im Browser gestartet …" };
+  var l = null;
+  try { l = localStorage.getItem("bk-lang"); } catch (e) {}
+  l = l || (navigator.language || "").slice(0, 2);
+  if (t[l]) { document.getElementById("boot").textContent = t[l]; document.documentElement.lang = l; }
+  if (l === "ar") document.documentElement.dir = "rtl";
+})();
+</script>
 <script defer src="main.dart.js"></script>
 </body>
 </html>

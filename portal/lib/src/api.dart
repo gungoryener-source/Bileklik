@@ -10,6 +10,7 @@ import 'alerts.dart';
 import 'assistant.dart';
 import 'ingest.dart';
 import 'inquiry.dart';
+import 'locale.dart';
 import 'model.dart';
 import 'openapi.dart';
 import 'panel.dart';
@@ -84,13 +85,22 @@ class PortalApi {
   /// Sağlık asistanı için Claude API aracısı; anahtar yoksa 503 döner.
   final AssistantEndpoint assistant;
 
-  /// Önce panel, panel yolu değilse anahtarla korunan API.
-  Handler get handler => Cascade()
-      .add(panel.handler)
-      .add(
-        const Pipeline().addMiddleware(_authenticate).addHandler(_router.call),
-      )
-      .handler;
+  /// Önce panel, panel yolu değilse anahtarla korunan API. Dil seçimi
+  /// (`?lang=`) bütün portal için çereze yazılır; ülkesi bilinmeyen
+  /// ziyaretçinin sayfasına saat dilimi betiği eklenir ([PortalLocale]).
+  Handler get handler => const Pipeline()
+      .addMiddleware(rememberLanguage(secure: panel.secureCookie))
+      .addMiddleware(detectCountry())
+      .addHandler(
+        Cascade()
+            .add(panel.handler)
+            .add(
+              const Pipeline()
+                  .addMiddleware(_authenticate)
+                  .addHandler(_router.call),
+            )
+            .handler,
+      );
 
   late final Router _router = Router()
     ..get('/health', (Request _) => Response.ok('ok'))

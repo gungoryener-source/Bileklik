@@ -37,6 +37,7 @@ void main() {
       Uri.parse('http://localhost/inquiry'),
       body: Uri(queryParameters: form).query,
       headers: {
+        'accept-language': 'tr',
         'content-type': 'application/x-www-form-urlencoded',
         if (json) 'accept': 'application/json',
         'referer': ?referer,

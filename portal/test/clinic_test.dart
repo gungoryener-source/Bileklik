@@ -50,6 +50,7 @@ class _Portal {
       method,
       Uri.parse('http://portal.test$path'),
       headers: {
+        'accept-language': 'tr',
         'cookie': ?cookie,
         if (bearer != null) 'authorization': 'Bearer $bearer',
         if (form != null) 'content-type': 'application/x-www-form-urlencoded',

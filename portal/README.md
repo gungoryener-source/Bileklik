@@ -84,8 +84,31 @@ curl -H 'Authorization: Bearer demo-doctor' -H 'content-type: application/json' 
 ## Hekim paneli
 
 Sunucu çalışırken `http://…/panel` adresinden açılır. Dört dilde (Türkçe,
-İngilizce, Arapça, Almanca; `PanelText`, `ClinicText`); dil `?lang=` ile
-seçilir ve çerezde kalır, Arapçada sayfa sağdan sola.
+İngilizce, Arapça, Almanca; `PanelText`, `ClinicText`); Arapçada sayfa
+sağdan sola.
+
+### Dil seçimi (`PortalLocale`, `lib/src/locale.dart`)
+
+Panel, gizlilik sayfası, `/developers` ve başvuru yanıt sayfası aynı kuralı
+izler: `?lang=` > elle seçilen dil (`bk_lang` çerezi, `Path=/`, bir yıl) >
+bağlanılan ülke > tarayıcı dili (`Accept-Language`) > İngilizce.
+
+- Ülke önce CDN başlığından okunur (`CF-IPCountry`, `CloudFront-Viewer-Country`,
+  `X-Vercel-IP-Country`, `X-AppEngine-Country`, `X-Country-Code`). Türkiye ->
+  tr; Almanya, Avusturya, İsviçre, Lihtenştayn -> de; Arap Birliği ülkeleri ->
+  ar; tabloda olmayan ülkede tarayıcı dili, o da yoksa İngilizce.
+- Render ülke başlığı vermez. Ülke bilinmiyorsa `detectCountry` katmanı
+  HTML sayfaya küçük bir betik ekler (CSP'de özetiyle izinli): betik ülkeyi
+  tarayıcının saat diliminden bulur, `bk_geo` çerezine yazar ve dil
+  değişiyorsa sayfayı bir kez yeniden yükler. Cloudflare gibi bir CDN
+  arkasına alınınca betik kendiliğinden devreden çıkar.
+- Her sayfanın üstünde dil seçici var (`PortalLocale.switcher`, betiksiz
+  bağlantılar). Rapor sayfasında seçilen tarih aralığı korunur; yazdırılan
+  rapor (PDF) seçilen dilde ve Arapçada sağdan soladır.
+- Ülke ve saat dilimi tabloları tanıtım sitesindeki `website/i18n.js` ile
+  aynıdır; `test/locale_test.dart` karşılaştırır.
+- Sitedeki formlar gizli `lang` alanı gönderir; başvuru bu dille saklanır
+  (`Inquiry.lang`) ve betiksiz yanıt sayfası bu dildedir.
 
 ### Hekim hesabı
 

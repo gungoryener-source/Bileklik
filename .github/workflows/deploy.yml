@@ -47,7 +47,7 @@ jobs:
         run: |
           mkdir -p pkg/site
           cp server deploy/Dockerfile deploy/render.yaml pkg/
-          cp deploy/index.html pkg/site/
+          cp deploy/index.html website/i18n.js pkg/site/
           cp -r build/web pkg/site/uygulama
           du -sh pkg
       - name: portal-deploy dalına yaz

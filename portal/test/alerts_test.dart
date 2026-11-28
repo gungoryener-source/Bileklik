@@ -285,6 +285,8 @@ void main() {
         method,
         Uri.parse('http://portal.test$path'),
         headers: {
+          // Testler Türkçe metinleri denetler; dil açıkça verilir.
+          'accept-language': 'tr',
           'cookie': ?cookie,
           'referer': ?referer,
           if (bearer != null) 'authorization': 'Bearer $bearer',

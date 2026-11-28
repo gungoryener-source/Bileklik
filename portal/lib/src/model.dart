@@ -665,6 +665,7 @@ class Inquiry {
     required this.message,
     this.country,
     this.phone,
+    this.lang,
   });
 
   final String id;
@@ -677,6 +678,9 @@ class Inquiry {
   final String? country;
   final String? phone;
 
+  /// Başvurunun gönderildiği sitenin dili (tr, en, ar, de); yanıt bu dilde.
+  final String? lang;
+
   Map<String, Object?> toJson() => {
     'id': id,
     'time': time.toUtc().toIso8601String(),
@@ -687,6 +691,7 @@ class Inquiry {
     'message': message,
     'country': country,
     'phone': phone,
+    'lang': ?lang,
   };
 
   factory Inquiry.fromJson(Map<String, Object?> j) => Inquiry(
@@ -699,6 +704,7 @@ class Inquiry {
     message: j['message']! as String,
     country: j['country'] as String?,
     phone: j['phone'] as String?,
+    lang: j['lang'] as String?,
   );
 }
 

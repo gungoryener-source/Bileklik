@@ -51,7 +51,7 @@ jobs:
       - name: Siteyi birleştir
         run: |
           mkdir -p site/portal
-          cp demo/site/index.html site/
+          cp demo/site/index.html website/i18n.js site/
           cp -r build/web site/uygulama
           # Hata ayıklama sembolleri ve kullanılmayan wasm çeşitleri gerekmez.
           find site/uygulama -name '*.symbols' -delete
