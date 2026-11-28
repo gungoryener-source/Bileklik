@@ -68,6 +68,23 @@ jobs:
 
       # Google Haritalar anahtarı (MAPS_API_KEY gizli değeri) varsa harita
       # açılır; yoksa uygulama kodla çizilmiş zemini gösterir.
+      # Portal adresi (PORTAL_URL depo değişkeni) varsa uygulama gerçek
+      # sunucuya bağlanır: aile grupları ve davet kodları iki telefon
+      # arasında çalışır. Yoksa topluluk ve bağlantılar sahte sunucuyla.
+      - name: Portal adresi (varsa)
+        env:
+          PORTAL_URL: ${{ vars.PORTAL_URL }}
+        run: |
+          if [ -z "$PORTAL_URL" ]; then
+            echo "PORTAL_DEFINE=" >> "$GITHUB_ENV"
+            echo "::notice::PORTAL_URL yok; topluluk sahte sunucuyla çalışır."
+          elif echo "$PORTAL_URL" | grep -Eq '^https://[A-Za-z0-9.-]+(:[0-9]+)?(/[A-Za-z0-9._/-]*)?$'; then
+            echo "PORTAL_DEFINE=--dart-define=PORTAL_URL=$PORTAL_URL" >> "$GITHUB_ENV"
+          else
+            echo "::error::PORTAL_URL https:// ile başlayan bir adres olmalı."
+            exit 1
+          fi
+
       - name: Harita anahtarı (varsa)
         env:
           MAPS_API_KEY: ${{ secrets.MAPS_API_KEY }}
@@ -83,7 +100,7 @@ jobs:
       # Sürüm kodu her derlemede artar; telefondaki eski sürümün üstüne kurulur.
       - name: APK
         run: |
-          flutter build apk --release $MAPS_DEFINE \
+          flutter build apk --release $MAPS_DEFINE $PORTAL_DEFINE \
             --build-number=${{ github.run_number }} \
             --build-name=0.1.${{ github.run_number }}
           cp build/app/outputs/flutter-apk/app-release.apk \
@@ -92,7 +109,7 @@ jobs:
       - name: Play paketi (yalnızca yükleme anahtarıyla)
         if: env.SIGNING == 'upload'
         run: |
-          flutter build appbundle --release $MAPS_DEFINE \
+          flutter build appbundle --release $MAPS_DEFINE $PORTAL_DEFINE \
             --build-number=${{ github.run_number }} \
             --build-name=0.1.${{ github.run_number }}
           cp build/app/outputs/bundle/release/app-release.aab \

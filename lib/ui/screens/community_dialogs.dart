@@ -1,5 +1,8 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:share_plus/share_plus.dart';
 
 import '../../data/community.dart';
 import '../../l10n/l10n.dart';
@@ -8,8 +11,39 @@ import '../format.dart';
 import '../theme.dart';
 import '../widgets/cam/cam.dart';
 
+/// Gruplarda görünen adı sorar ve kaydeder; vazgeçilirse false.
+Future<bool> showDisplayNameDialog(BuildContext context) async {
+  final service = CommunityScope.of(context);
+  final l = context.l10n;
+  final saved = await showCamDialog<bool>(
+    context: context,
+    builder: (_) => TextEntryDialog<bool>(
+      title: l.communityDisplayName,
+      label: l.communityDisplayNameLabel,
+      hint: l.communityDisplayNameHint,
+      helper: l.communityDisplayNameNote,
+      action: l.profileSave,
+      maxLength: 40,
+      initial: service.displayName,
+      submit: (name) async {
+        await service.setDisplayName(name);
+        return (true, null);
+      },
+    ),
+  );
+  return saved ?? false;
+}
+
+/// Ad henüz yazılmadıysa önce sorar (gruptakiler kişiyi adıyla görsün).
+/// Vazgeçilirse false.
+Future<bool> _ensureDisplayName(BuildContext context) async {
+  if (CommunityScope.of(context).displayName.isNotEmpty) return true;
+  return showDisplayNameDialog(context);
+}
+
 /// Grup adı sorar ve grubu oluşturur; vazgeçilirse null.
-Future<CareGroup?> showCreateGroupDialog(BuildContext context) {
+Future<CareGroup?> showCreateGroupDialog(BuildContext context) async {
+  if (!await _ensureDisplayName(context) || !context.mounted) return null;
   final service = CommunityScope.of(context);
   final l = context.l10n;
   return showCamDialog<CareGroup>(
@@ -26,7 +60,8 @@ Future<CareGroup?> showCreateGroupDialog(BuildContext context) {
 }
 
 /// Grup kodu sorar ve gruba katılır; kod geçersizse diyalogda hata gösterir.
-Future<CareGroup?> showJoinWithCodeDialog(BuildContext context) {
+Future<CareGroup?> showJoinWithCodeDialog(BuildContext context) async {
+  if (!await _ensureDisplayName(context) || !context.mounted) return null;
   final service = CommunityScope.of(context);
   final l = context.l10n;
   return showCamDialog<CareGroup>(
@@ -117,6 +152,13 @@ class InviteCodeDialog extends StatelessWidget {
       ),
       actions: [
         TextButton.icon(
+          onPressed: () => SharePlus.instance.share(
+            ShareParams(text: l.communityShareCodeText(code)),
+          ),
+          icon: const Icon(Icons.ios_share, size: 18),
+          label: Text(l.communityShareCode),
+        ),
+        TextButton.icon(
           onPressed: () {
             Clipboard.setData(ClipboardData(text: code));
             ScaffoldMessenger.of(context)
@@ -145,6 +187,8 @@ class TextEntryDialog<T> extends StatefulWidget {
     required this.action,
     required this.submit,
     this.hint,
+    this.helper,
+    this.initial,
     this.maxLength,
     this.code = false,
     this.minLength = 6,
@@ -152,6 +196,12 @@ class TextEntryDialog<T> extends StatefulWidget {
 
   final String title, label, action;
   final String? hint;
+
+  /// Alanın altındaki kısa açıklama.
+  final String? helper;
+
+  /// Alanın ilk değeri.
+  final String? initial;
   final int? maxLength;
 
   /// Büyük harf, boşluksuz kod alanı.
@@ -166,7 +216,7 @@ class TextEntryDialog<T> extends StatefulWidget {
 }
 
 class _TextEntryDialogState<T> extends State<TextEntryDialog<T>> {
-  final _text = TextEditingController();
+  late final _text = TextEditingController(text: widget.initial);
   String? _error;
   var _busy = false;
 
@@ -235,6 +285,8 @@ class _TextEntryDialogState<T> extends State<TextEntryDialog<T>> {
         decoration: InputDecoration(
           labelText: widget.label,
           hintText: widget.hint,
+          helperText: widget.helper,
+          helperMaxLines: 3,
           errorText: _error,
         ),
       ),
@@ -261,4 +313,65 @@ class _UpperCase extends TextInputFormatter {
   @override
   TextEditingValue formatEditUpdate(TextEditingValue old, TextEditingValue v) =>
       v.copyWith(text: v.text.toUpperCase());
+}
+
+/// Topluluk ekranı açıkken grupları sunucudan yeniler: açılışta, uygulama
+/// öne gelince ve [interval] aralıkla. Böylece öteki telefonda katılan ya da
+/// paylaşımını değiştiren kişi birkaç saniye içinde görünür. Hatalar
+/// sessizce geçilir; ulaşılamıyorsa ekran `CommunityService.unreachable`
+/// ile uyarır.
+class CommunityAutoRefresh extends StatefulWidget {
+  const CommunityAutoRefresh({
+    super.key,
+    required this.child,
+    this.interval = const Duration(seconds: 15),
+  });
+
+  final Widget child;
+  final Duration interval;
+
+  @override
+  State<CommunityAutoRefresh> createState() => _CommunityAutoRefreshState();
+}
+
+class _CommunityAutoRefreshState extends State<CommunityAutoRefresh>
+    with WidgetsBindingObserver {
+  Timer? _timer;
+  CommunityService? _service;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+    _timer = Timer.periodic(widget.interval, (_) => _refresh());
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final s = CommunityScope.of(context);
+    if (!identical(s, _service)) {
+      _service = s;
+      _refresh();
+    }
+  }
+
+  void _refresh() => unawaited(
+    _service?.refresh().catchError((Object _) {}) ?? Future.value(),
+  );
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed) _refresh();
+  }
+
+  @override
+  void dispose() {
+    _timer?.cancel();
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) => widget.child;
 }

@@ -858,6 +858,54 @@ abstract class AppLocalizations {
   /// **'Kodu kopyala'**
   String get communityCopyCode;
 
+  /// No description provided for @communityDisplayName.
+  ///
+  /// In tr, this message translates to:
+  /// **'Görünen adınız'**
+  String get communityDisplayName;
+
+  /// No description provided for @communityDisplayNameEmpty.
+  ///
+  /// In tr, this message translates to:
+  /// **'Henüz yazılmadı'**
+  String get communityDisplayNameEmpty;
+
+  /// No description provided for @communityDisplayNameHint.
+  ///
+  /// In tr, this message translates to:
+  /// **'Örn. Ayşe'**
+  String get communityDisplayNameHint;
+
+  /// No description provided for @communityDisplayNameLabel.
+  ///
+  /// In tr, this message translates to:
+  /// **'Adınız'**
+  String get communityDisplayNameLabel;
+
+  /// No description provided for @communityDisplayNameNote.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yalnızca gruplarınızdaki kişiler görür. İstediğiniz zaman değiştirebilirsiniz.'**
+  String get communityDisplayNameNote;
+
+  /// No description provided for @communityOffline.
+  ///
+  /// In tr, this message translates to:
+  /// **'Sunucuya ulaşılamadı. Gruplar ve davetler internet bağlantısı gelince güncellenir.'**
+  String get communityOffline;
+
+  /// No description provided for @communityShareCode.
+  ///
+  /// In tr, this message translates to:
+  /// **'Paylaş'**
+  String get communityShareCode;
+
+  /// No description provided for @communityShareCodeText.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bileklik sağlık grubuma katıl: uygulamada Profil > Sağlık topluluğu > Kodla katıl bölümüne {code} kodunu gir.'**
+  String communityShareCodeText(Object code);
+
   /// No description provided for @communityCreate.
   ///
   /// In tr, this message translates to:
@@ -3115,7 +3163,7 @@ abstract class AppLocalizations {
   /// No description provided for @privacySharingBody.
   ///
   /// In tr, this message translates to:
-  /// **'Yalnızca rıza verdiğiniz hekim, araştırma kurumu ya da aile grubu üyeleri, yalnızca seçtiğiniz türleri ve rıza süresince görür. Kilo ve vücut kompozisyonu gibi elle girdiğiniz değerler yalnızca “Vücut ölçüleri”ni ayrıca seçerseniz paylaşılır. Apple Sağlık ya da Health Connect\'e yalnızca seçtiğiniz türler yazılır; uygulama oradan veri okumaz. Geri bildirimler kimliğinize bağlanmaz. Hekiminize, paylaştığınız türlerde belirgin bir değişiklik olduğunda (örneğin SpO2 uzun süre düşükse ya da bir gündür veri gelmiyorsa) portal otomatik uyarı gösterir; bu uyarılar tanı değildir ve portaldaki verinizi silince onlar da silinir. Bir aile grubu için \"Acil durumda grubu uyar\"ı ayrıca açarsanız, o grupla paylaştığınız türlerdeki aynı uyarılar grup üyelerine de gösterilir.'**
+  /// **'Yalnızca rıza verdiğiniz hekim, araştırma kurumu ya da aile grubu üyeleri, yalnızca seçtiğiniz türleri ve rıza süresince görür. Kilo ve vücut kompozisyonu gibi elle girdiğiniz değerler yalnızca “Vücut ölçüleri”ni ayrıca seçerseniz paylaşılır. Apple Sağlık ya da Health Connect\'e yalnızca seçtiğiniz türler yazılır; uygulama oradan veri okumaz. Geri bildirimler kimliğinize bağlanmaz. Hekiminize, paylaştığınız türlerde belirgin bir değişiklik olduğunda (örneğin SpO2 uzun süre düşükse ya da bir gündür veri gelmiyorsa) portal otomatik uyarı gösterir; bu uyarılar tanı değildir ve portaldaki verinizi silince onlar da silinir. Bir aile grubu için \"Acil durumda grubu uyar\"ı ayrıca açarsanız, o grupla paylaştığınız türlerdeki aynı uyarılar grup üyelerine de gösterilir. Gruplarda görünen adınızı siz yazarsınız; yalnızca o grupların üyeleri görür.'**
   String get privacySharingBody;
 
   /// No description provided for @privacySharingTitle.

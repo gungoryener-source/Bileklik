@@ -499,6 +499,52 @@ void main() {
           .firstWhere((g) => g['id'] == id);
     }
 
+    test('görünen ad: sahip ve grup koduyla katılan kendi adıyla görünür', () async {
+      final (_, g) = await p.call('POST', '/groups', token: 'patient', body: {
+        'name': 'Kaya ailesi',
+        'displayName': '  Yener  ',
+      });
+      final id = g['id']! as String;
+      final (s, joined) = await p.call('POST', '/groups/join', token: 'sister', body: {
+        'code': g['inviteCode'],
+        'displayName': 'Elif',
+      });
+      expect(s, 200);
+      final names = [for (final m in (joined['members']! as List).cast<Map>()) m['name']];
+      expect(names, ['Yener', 'Elif']);
+
+      // Kişiye özel davette sahibin yazdığı ad kalır.
+      const third = '7a7a7a7a-2222-4222-8333-944455556666';
+      p.store.addAccount(const Account(id: third, role: Role.patient, name: '-'), 'third');
+      final (_, inv) = await p.call('POST', '/groups/$id/members', token: 'patient', body: {'name': 'Annem'});
+      final (_, j3) = await p.call('POST', '/groups/join', token: 'third', body: {
+        'code': inv['code'],
+        'displayName': 'Ayşe',
+      });
+      expect((j3['members']! as List).cast<Map>().last['name'], 'Annem');
+
+      // Üye kendi adını değiştirir; 40 karakterden uzunu reddedilir.
+      final (s2, renamed) = await p.call('PUT', '/groups/$id/me', token: 'sister', body: {'displayName': 'Elif K.'});
+      expect(s2, 200);
+      expect([for (final m in (renamed['members']! as List).cast<Map>()) m['name']], contains('Elif K.'));
+      expect((await p.call('PUT', '/groups/$id/me', token: 'sister', body: {'displayName': 'x' * 41})).$1, 400);
+      // Üye olmayan değiştiremez.
+      const outsider = '7a7a7a7a-3333-4222-8333-944455556666';
+      p.store.addAccount(const Account(id: outsider, role: Role.patient, name: '-'), 'outsider');
+      expect((await p.call('PUT', '/groups/$id/me', token: 'outsider', body: {'displayName': 'x'})).$1, 404);
+    });
+
+    test('hatalı grup kodu denemesi hesap başına dakikada 10 ile sınırlı', () async {
+      final (_, g) = await p.call('POST', '/groups', token: 'patient', body: {'name': 'Aile'});
+      for (var i = 0; i < PortalApi.joinFailuresPerMinute; i++) {
+        expect((await p.call('POST', '/groups/join', token: 'sister', body: {'code': 'YOK$i'})).$1, 404);
+      }
+      // Doğru kod bile bir dakika bekler.
+      expect((await p.call('POST', '/groups/join', token: 'sister', body: {'code': g['inviteCode']})).$1, 429);
+      p.now = p.now.add(const Duration(minutes: 1));
+      expect((await p.call('POST', '/groups/join', token: 'sister', body: {'code': g['inviteCode']})).$1, 200);
+    });
+
     test('kişiye özel kodla katılan davetteki adı alır; paylaşım rızayla', () async {
       final (s1, g) = await p.call('POST', '/groups', token: 'patient', body: {'name': 'Kaya ailesi'});
       expect(s1, 201);

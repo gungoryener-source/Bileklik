@@ -223,6 +223,15 @@ abstract class CommunityService extends ChangeNotifier {
   /// Sunucudan yeniden okur (sahte sunucuda bir şey yapmaz).
   Future<void> refresh() async {}
 
+  /// Son yenilemede sunucuya ulaşılamadı (sahte sunucuda hep false).
+  bool get unreachable => false;
+
+  /// Gruplarda görünen ad; kullanıcı yazar, boş olabilir.
+  String get displayName;
+
+  /// Adı değiştirir; üye olunan gruplarda da güncellenir.
+  Future<void> setDisplayName(String name);
+
   Future<CareGroup> createGroup(String name);
 
   /// Bir kişiyi davet eder; üye "davet bekleniyor" olarak eklenir. Davet
@@ -488,6 +497,18 @@ class FakeCommunityServer extends CommunityService {
       final i = list.indexWhere((g) => g.id == id);
       if (i >= 0) list[i] = update(list[i]);
     }
+  }
+
+  var _displayName = '';
+
+  @override
+  String get displayName => _displayName;
+
+  @override
+  Future<void> setDisplayName(String name) async {
+    await _wait();
+    _displayName = name.trim();
+    notifyListeners();
   }
 
   @override

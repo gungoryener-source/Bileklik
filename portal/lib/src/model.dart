@@ -483,6 +483,7 @@ class GroupMember {
   bool get pending => accountId == null;
 
   GroupMember copyWith({
+    String? name,
     String? accountId,
     DateTime? joined,
     Set<ShareScope>? scopes,
@@ -492,7 +493,7 @@ class GroupMember {
   }) => GroupMember(
     id: id,
     groupId: groupId,
-    name: name,
+    name: name ?? this.name,
     accountId: accountId ?? this.accountId,
     inviteCode: clearInvite ? null : inviteCode,
     joined: joined ?? this.joined,

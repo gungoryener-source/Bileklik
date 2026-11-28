@@ -438,6 +438,34 @@ class AppLocalizationsDe extends AppLocalizations {
   String get communityCopyCode => 'Code kopieren';
 
   @override
+  String get communityDisplayName => 'Ihr Anzeigename';
+
+  @override
+  String get communityDisplayNameEmpty => 'Noch nicht festgelegt';
+
+  @override
+  String get communityDisplayNameHint => 'z. B. Anna';
+
+  @override
+  String get communityDisplayNameLabel => 'Ihr Name';
+
+  @override
+  String get communityDisplayNameNote =>
+      'Nur Personen in Ihren Gruppen sehen ihn. Sie können ihn jederzeit ändern.';
+
+  @override
+  String get communityOffline =>
+      'Server nicht erreichbar. Gruppen und Einladungen werden aktualisiert, sobald Sie wieder online sind.';
+
+  @override
+  String get communityShareCode => 'Teilen';
+
+  @override
+  String communityShareCodeText(Object code) {
+    return 'Tritt meiner Bileklik-Gesundheitsgruppe bei: Gehe in der App zu Profil > Gesundheitsgemeinschaft > Mit Code beitreten und gib $code ein.';
+  }
+
+  @override
   String get communityCreate => 'Erstellen';
 
   @override
@@ -1846,7 +1874,7 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get privacySharingBody =>
-      'Nur mit den Ärzten, Forschungseinrichtungen oder Mitgliedern einer Familiengruppe, denen Sie zustimmen, nur die gewählten Datentypen und nur für die Dauer der Einwilligung. Selbst eingegebene Werte wie Gewicht und Körperzusammensetzung werden nur geteilt, wenn Sie „Körpermaße“ ausdrücklich auswählen. In Apple Health oder Health Connect werden nur die gewählten Datentypen geschrieben; die App liest dort nichts. Feedback wird nicht mit Ihrer Identität verknüpft. Fällt in den geteilten Datentypen etwas auf (zum Beispiel bleibt die SpO2 lange niedrig oder seit einem Tag kommen keine Daten), zeigt das Portal Ihrem Arzt einen automatischen Hinweis; diese Hinweise sind keine Diagnose und werden mit Ihren Portaldaten gelöscht. Wenn Sie für eine Familiengruppe zusätzlich „Gruppe im Notfall benachrichtigen“ einschalten, sehen deren Mitglieder dieselben Hinweise zu den mit der Gruppe geteilten Datentypen.';
+      'Nur mit den Ärzten, Forschungseinrichtungen oder Mitgliedern einer Familiengruppe, denen Sie zustimmen, nur die gewählten Datentypen und nur für die Dauer der Einwilligung. Selbst eingegebene Werte wie Gewicht und Körperzusammensetzung werden nur geteilt, wenn Sie „Körpermaße“ ausdrücklich auswählen. In Apple Health oder Health Connect werden nur die gewählten Datentypen geschrieben; die App liest dort nichts. Feedback wird nicht mit Ihrer Identität verknüpft. Fällt in den geteilten Datentypen etwas auf (zum Beispiel bleibt die SpO2 lange niedrig oder seit einem Tag kommen keine Daten), zeigt das Portal Ihrem Arzt einen automatischen Hinweis; diese Hinweise sind keine Diagnose und werden mit Ihren Portaldaten gelöscht. Wenn Sie für eine Familiengruppe zusätzlich „Gruppe im Notfall benachrichtigen“ einschalten, sehen deren Mitglieder dieselben Hinweise zu den mit der Gruppe geteilten Datentypen. Den in Ihren Gruppen angezeigten Namen legen Sie selbst fest; nur die Mitglieder dieser Gruppen sehen ihn.';
 
   @override
   String get privacySharingTitle => 'Mit wem wird geteilt?';

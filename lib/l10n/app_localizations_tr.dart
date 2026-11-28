@@ -430,6 +430,34 @@ class AppLocalizationsTr extends AppLocalizations {
   String get communityCopyCode => 'Kodu kopyala';
 
   @override
+  String get communityDisplayName => 'Görünen adınız';
+
+  @override
+  String get communityDisplayNameEmpty => 'Henüz yazılmadı';
+
+  @override
+  String get communityDisplayNameHint => 'Örn. Ayşe';
+
+  @override
+  String get communityDisplayNameLabel => 'Adınız';
+
+  @override
+  String get communityDisplayNameNote =>
+      'Yalnızca gruplarınızdaki kişiler görür. İstediğiniz zaman değiştirebilirsiniz.';
+
+  @override
+  String get communityOffline =>
+      'Sunucuya ulaşılamadı. Gruplar ve davetler internet bağlantısı gelince güncellenir.';
+
+  @override
+  String get communityShareCode => 'Paylaş';
+
+  @override
+  String communityShareCodeText(Object code) {
+    return 'Bileklik sağlık grubuma katıl: uygulamada Profil > Sağlık topluluğu > Kodla katıl bölümüne $code kodunu gir.';
+  }
+
+  @override
   String get communityCreate => 'Oluştur';
 
   @override
@@ -1808,7 +1836,7 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get privacySharingBody =>
-      'Yalnızca rıza verdiğiniz hekim, araştırma kurumu ya da aile grubu üyeleri, yalnızca seçtiğiniz türleri ve rıza süresince görür. Kilo ve vücut kompozisyonu gibi elle girdiğiniz değerler yalnızca “Vücut ölçüleri”ni ayrıca seçerseniz paylaşılır. Apple Sağlık ya da Health Connect\'e yalnızca seçtiğiniz türler yazılır; uygulama oradan veri okumaz. Geri bildirimler kimliğinize bağlanmaz. Hekiminize, paylaştığınız türlerde belirgin bir değişiklik olduğunda (örneğin SpO2 uzun süre düşükse ya da bir gündür veri gelmiyorsa) portal otomatik uyarı gösterir; bu uyarılar tanı değildir ve portaldaki verinizi silince onlar da silinir. Bir aile grubu için \"Acil durumda grubu uyar\"ı ayrıca açarsanız, o grupla paylaştığınız türlerdeki aynı uyarılar grup üyelerine de gösterilir.';
+      'Yalnızca rıza verdiğiniz hekim, araştırma kurumu ya da aile grubu üyeleri, yalnızca seçtiğiniz türleri ve rıza süresince görür. Kilo ve vücut kompozisyonu gibi elle girdiğiniz değerler yalnızca “Vücut ölçüleri”ni ayrıca seçerseniz paylaşılır. Apple Sağlık ya da Health Connect\'e yalnızca seçtiğiniz türler yazılır; uygulama oradan veri okumaz. Geri bildirimler kimliğinize bağlanmaz. Hekiminize, paylaştığınız türlerde belirgin bir değişiklik olduğunda (örneğin SpO2 uzun süre düşükse ya da bir gündür veri gelmiyorsa) portal otomatik uyarı gösterir; bu uyarılar tanı değildir ve portaldaki verinizi silince onlar da silinir. Bir aile grubu için \"Acil durumda grubu uyar\"ı ayrıca açarsanız, o grupla paylaştığınız türlerdeki aynı uyarılar grup üyelerine de gösterilir. Gruplarda görünen adınızı siz yazarsınız; yalnızca o grupların üyeleri görür.';
 
   @override
   String get privacySharingTitle => 'Kimlerle paylaşılır?';

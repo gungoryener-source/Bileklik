@@ -43,94 +43,140 @@ class CommunityScreen extends StatelessWidget {
         );
     }
 
-    return CamScaffold(
-      appBar: AppBar(
-        title: Text(l.profileMenuCommunity),
-        actions: [
-          IconButton(
-            tooltip: l.communityMessages,
-            onPressed: () => Navigator.of(context).push(
-              MaterialPageRoute<void>(
-                builder: (_) => const CommunityMessagesScreen(),
-              ),
-            ),
-            icon: Badge(
-              isLabelVisible: unread > 0,
-              label: Text('$unread'),
-              child: const Icon(Icons.mail_outline),
-            ),
-          ),
-          const SizedBox(width: 4),
-        ],
-      ),
-      body: SafeArea(
-        top: false,
-        child: Column(
-          children: [
-            Expanded(
-              child: ListView(
-                padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
-                children: [
-                  _PrivacyNote(text: l.communityPrivacyNote),
-                  MenuGroup(
-                    children: [
-                      MenuTile(
-                        icon: service.sharingLocation
-                            ? Icons.share_location
-                            : Icons.location_on_outlined,
-                        title: l.locationTitle,
-                        subtitle: service.sharingLocation
-                            ? l.locationBanner
-                            : l.locationOffShort,
-                        onTap: () => Navigator.of(context).push(
-                          MaterialPageRoute<void>(
-                            builder: (_) => const LocationScreen(),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  MenuHeader(l.communityMyGroups),
-                  if (service.myGroups.isEmpty)
-                    _Empty(text: l.communityMyGroupsEmpty)
-                  else
-                    MenuGroup(
-                      children: [
-                        for (final g in service.myGroups)
-                          _GroupTile(group: g, onTap: () => openGroup(g)),
-                      ],
-                    ),
-                  MenuHeader(l.communityJoinedGroups),
-                  MenuGroup(
-                    children: [
-                      for (final g in service.joinedGroups)
-                        _GroupTile(group: g, onTap: () => openGroup(g)),
-                      MenuTile(
-                        icon: Icons.pin_outlined,
-                        title: l.communityJoinWithCode,
-                        subtitle: service.joinedGroups.isEmpty
-                            ? l.communityJoinedEmpty
-                            : null,
-                        onTap: join,
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
-              child: SizedBox(
-                width: double.infinity,
-                child: GlowButton(
-                  onTap: create,
-                  icon: Icons.group_add,
-                  label: l.communityCreateGroup,
+    return CommunityAutoRefresh(
+      child: CamScaffold(
+        appBar: AppBar(
+          title: Text(l.profileMenuCommunity),
+          actions: [
+            IconButton(
+              tooltip: l.communityMessages,
+              onPressed: () => Navigator.of(context).push(
+                MaterialPageRoute<void>(
+                  builder: (_) => const CommunityMessagesScreen(),
                 ),
               ),
+              icon: Badge(
+                isLabelVisible: unread > 0,
+                label: Text('$unread'),
+                child: const Icon(Icons.mail_outline),
+              ),
             ),
+            const SizedBox(width: 4),
           ],
         ),
+        body: SafeArea(
+          top: false,
+          child: Column(
+            children: [
+              Expanded(
+                child: RefreshIndicator(
+                  onRefresh: () => service.refresh().catchError((Object _) {}),
+                  child: ListView(
+                    physics: const AlwaysScrollableScrollPhysics(),
+                    padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
+                    children: [
+                      if (service.unreachable) ...[
+                        _OfflineNote(text: l.communityOffline),
+                        const SizedBox(height: 12),
+                      ],
+                      _PrivacyNote(text: l.communityPrivacyNote),
+                      MenuGroup(
+                        children: [
+                          MenuTile(
+                            icon: Icons.badge_outlined,
+                            title: l.communityDisplayName,
+                            subtitle: service.displayName.isEmpty
+                                ? l.communityDisplayNameEmpty
+                                : service.displayName,
+                            onTap: () => showDisplayNameDialog(context),
+                          ),
+                          MenuTile(
+                            icon: service.sharingLocation
+                                ? Icons.share_location
+                                : Icons.location_on_outlined,
+                            title: l.locationTitle,
+                            subtitle: service.sharingLocation
+                                ? l.locationBanner
+                                : l.locationOffShort,
+                            onTap: () => Navigator.of(context).push(
+                              MaterialPageRoute<void>(
+                                builder: (_) => const LocationScreen(),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      MenuHeader(l.communityMyGroups),
+                      if (service.myGroups.isEmpty)
+                        _Empty(text: l.communityMyGroupsEmpty)
+                      else
+                        MenuGroup(
+                          children: [
+                            for (final g in service.myGroups)
+                              _GroupTile(group: g, onTap: () => openGroup(g)),
+                          ],
+                        ),
+                      MenuHeader(l.communityJoinedGroups),
+                      MenuGroup(
+                        children: [
+                          for (final g in service.joinedGroups)
+                            _GroupTile(group: g, onTap: () => openGroup(g)),
+                          MenuTile(
+                            icon: Icons.pin_outlined,
+                            title: l.communityJoinWithCode,
+                            subtitle: service.joinedGroups.isEmpty
+                                ? l.communityJoinedEmpty
+                                : null,
+                            onTap: join,
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
+                child: SizedBox(
+                  width: double.infinity,
+                  child: GlowButton(
+                    onTap: create,
+                    icon: Icons.group_add,
+                    label: l.communityCreateGroup,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+/// Sunucuya ulaşılamadığında listenin üstünde görünür.
+class _OfflineNote extends StatelessWidget {
+  const _OfflineNote({required this.text});
+  final String text;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.colors;
+    return Container(
+      padding: const EdgeInsets.all(14),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: colors.danger),
+      ),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Icon(Icons.cloud_off, color: colors.danger, size: 22),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Text(text, style: TextStyle(color: colors.text)),
+          ),
+        ],
       ),
     );
   }
