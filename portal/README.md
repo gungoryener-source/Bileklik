@@ -65,8 +65,8 @@ curl -H 'Authorization: Bearer demo-doctor' -H 'content-type: application/json' 
 | `GET /fhir/Observation?patient=&code=&date=ge…&date=le…` | hasta, rızalı takipçi | Ölçümleri `searchset` Bundle olarak döner. |
 | `GET /fhir/Consent` | hasta, takipçi | Hasta kendi rızalarını, takipçi kendisine verilenleri görür. |
 | `GET /fhir/AuditEvent` | hasta | Verisine kimin, ne zaman eriştiği; reddedilen denemeler dahil. |
-| `POST /invites` | hekim, araştırmacı | Amaç, istenen türler ve süreyle 7 haneli davet kodu üretir (30 gün geçerli). |
-| `GET /invites/<kod>` | hasta | Uygulamanın açık rıza ekranındaki bilgileri döner. |
+| `POST /invites` | hekim, araştırmacı | Amaç, istenen türler ve süreyle 7 haneli davet kodu üretir. Hekim kodu 24 saat geçerli ve tek kullanımlık, araştırma kodu 30 gün herkese açık. |
+| `GET /invites/<kod>` | hasta | Uygulamanın açık rıza ekranındaki bilgileri döner. Hatalı kod hesap başına dakikada 10 denemeyle sınırlı (429). |
 | `POST /invites/<kod>/accept` | hasta | Seçilen türlerle Consent oluşturur. Aynı takipçiye verilmiş eski rıza biter. |
 | `DELETE /consents/<id>` | hasta | Rızayı geri alır; erişim hemen biter. |
 | `DELETE /patients/<id>/data` | hasta | Ölçümleri siler ve rızaları bitirir (unutulma hakkı). |
@@ -138,8 +138,12 @@ bağlanılan ülke > tarayıcı dili (`Accept-Language`) > İngilizce.
   açan hekime görünür; bileklik verisi her zaman takma kimlikle gelir.
 - **Bilekliğe bağlama:** kayıt sayfasından kayda özel davet kodu üretilir.
   Hasta kodu uygulamada girip türleri seçince portal kaydı o takma kimliğe
-  bağlar. Hekim, kendisine zaten rıza vermiş bir bağlantıyı da kayda
-  bağlayabilir. Bağ kaldırılınca rıza sürer.
+  bağlar. Kod sayfada büyük harflerle ve QR karesi olarak görünür (QR'da
+  yalnızca kod yazar; uygulamadaki "QR kodu tara" okur), 24 saat geçerli ve
+  tek kullanımlıktır. Kod beklerken sayfa 10 saniyede bir yenilenir; telefon
+  bağlanınca "Telefon bağlandı" görünür. Hekim, kendisine zaten rıza vermiş
+  bir bağlantıyı da kayda bağlayabilir. Bağ kaldırılınca rıza sürer. Canlı
+  deneme adımları `docs/hekim-canli.md`.
 - Hasta listesi: kayıtlar (ad, dosya no, yaş, bağlantı durumu, paylaşılan
   türler, son veri) ve ad/dosya no araması; ayrıca kayda bağlanmamış
   rızalı bağlantılar.

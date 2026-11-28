@@ -51,6 +51,8 @@ class ConnectionsScreen extends StatelessWidget {
             try {
               final o = await service.lookup(code);
               return (o, o == null ? l.connCodeInvalid : null);
+            } on ConnectionThrottled {
+              return (null, l.connTooManyTries);
             } on ConnectionUnavailable {
               return (null, l.connServerError);
             }
@@ -83,6 +85,8 @@ class ConnectionsScreen extends StatelessWidget {
       try {
         offer = await service.lookup(code);
         if (offer == null) problem = l.connCodeInvalid;
+      } on ConnectionThrottled {
+        problem = l.connTooManyTries;
       } on ConnectionUnavailable {
         problem = l.connServerError;
       }

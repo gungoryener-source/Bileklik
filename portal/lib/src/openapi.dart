@@ -108,8 +108,11 @@ class OpenApi {
       '/invites',
       'Consent',
       'Create an invite code',
-      'A 7-character code valid for 30 days. The patient enters it in the '
-          'app, sees the purpose and requested types, and consents.',
+      'A 7-character code. A clinician code is valid for 24 hours and '
+          'single-use; a research code is valid for 30 days for every '
+          'participant. The patient enters it in the app, sees the purpose '
+          'and requested types, and consents. Wrong codes are limited to 10 '
+          'per account per minute (429).',
       roles: 'clinician, researcher',
       body: {
         'purpose': 'string',

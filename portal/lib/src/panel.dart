@@ -13,6 +13,7 @@ import 'locale.dart';
 import 'model.dart';
 import 'panel_text.dart';
 import 'passwords.dart';
+import 'qr_svg.dart';
 import 'report.dart';
 import 'store.dart';
 
@@ -445,7 +446,7 @@ ${consents.isEmpty ? '<p class="muted">${_h(t.noPatients)}</p>' : '''
         purpose: purpose,
         requested: scopes,
         duration: Duration(days: days),
-        expires: _now().add(const Duration(days: 30)),
+        expires: _now().add(Invite.lifetimeFor(me.role)),
       ),
     );
     return _html(
@@ -806,6 +807,7 @@ ${error == null ? '' : '<p class="error" role="alert">${_h(error)}</p>'}
     String body, {
     String? active,
     Map<String, String> query = const {},
+    String head = '',
   }) {
     final c = ClinicText.of(t.lang);
     String nav(String href, String key) =>
@@ -829,14 +831,19 @@ ${me.verified ? '' : '<p class="warn noprint" role="status">${_h(c['unverified']
 $body
 </main>
 </div>
-''');
+''', head: head);
   }
 
-  static String _document(PanelText t, String title, String body) =>
+  static String _document(
+    PanelText t,
+    String title,
+    String body, {
+    String head = '',
+  }) =>
       '''<!doctype html>
 <html lang="${t.lang}" dir="${t.rtl ? 'rtl' : 'ltr'}">
 <head>
-<meta charset="utf-8">
+<meta charset="utf-8">$head
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#1F2E4D">
 <title>${_h(title)} · Bileklik</title>
@@ -883,6 +890,8 @@ h3 { font-size: 1rem; margin: 16px 0 8px; }
 .small { font-size: .875rem; }
 .error { color: var(--danger); font-weight: 600; }
 .big { font-size: 2rem; font-weight: 800; letter-spacing: -.02em; margin: 4px 0; font-variant-numeric: tabular-nums; }
+.codebox { display: flex; flex-wrap: wrap; align-items: center; gap: 20px; }
+.qr { display: block; width: 168px; height: 168px; border-radius: 12px; }
 .code { font: 800 2.6rem/1.2 ui-monospace, "SF Mono", Menlo, monospace; letter-spacing: .22em; color: var(--accent-ink); background: var(--soft); border: 1px solid var(--edge); border-radius: 18px; padding: 16px 20px; display: inline-block; }
 .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin: 8px 0; }
 .stat { background: var(--sheen), var(--card); border: 1px solid var(--edge); border-radius: 22px; padding: 16px 18px; box-shadow: var(--shadow); display: grid; gap: 2px; }

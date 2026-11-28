@@ -234,6 +234,29 @@ class PortalApi {
   /// kodların tahminle bulunmasını önler).
   static const joinFailuresPerMinute = 10;
   final _joinFailures = <String, List<DateTime>>{};
+
+  /// Hekim ya da araştırma kodu tahminine karşı: hesap başına dakikada
+  /// en çok bu kadar hatalı kod.
+  static const inviteFailuresPerMinute = 10;
+  final _inviteFailures = <String, List<DateTime>>{};
+
+  /// Sınır aşıldıysa 429 yanıtı.
+  Response? _inviteThrottled(String accountId) {
+    final now = _now();
+    final fails = (_inviteFailures[accountId] ?? [])
+      ..removeWhere((t) => now.difference(t) >= const Duration(minutes: 1));
+    if (fails.isEmpty) _inviteFailures.remove(accountId);
+    if (fails.length < inviteFailuresPerMinute) return null;
+    return _outcome(
+      429,
+      'error',
+      'throttled',
+      'Çok fazla deneme; sonra deneyin',
+    );
+  }
+
+  void _inviteFailed(String accountId) =>
+      (_inviteFailures[accountId] ??= []).add(_now());
   final _recoveryFailures = <DateTime>[];
 
   /// Hasta yeni kurtarma kodu ister (ör. eskisini kaybetti ya da kodu
@@ -952,8 +975,7 @@ class PortalApi {
       purpose: purpose.trim(),
       requested: scopes,
       duration: Duration(days: days),
-      // Kod 30 gün kullanılabilir.
-      expires: _now().add(const Duration(days: 30)),
+      expires: _now().add(Invite.lifetimeFor(me.role)),
     );
     store.addInvite(invite);
     return _json(201, _inviteJson(invite, me));
@@ -966,12 +988,15 @@ class PortalApi {
   }
 
   Response _getInvite(Request request, String code) {
-    if (_me(request).role != Role.patient) {
+    final me = _me(request);
+    if (me.role != Role.patient) {
       return _outcome(403, 'error', 'forbidden', 'Daveti hasta açar');
     }
+    if (_inviteThrottled(me.id) case final r?) return r;
     final invite = _liveInvite(code);
     final actor = invite == null ? null : store.account(invite.actorId);
     if (invite == null || actor == null) {
+      _inviteFailed(me.id);
       return _outcome(
         404,
         'error',
@@ -987,8 +1012,11 @@ class PortalApi {
     if (me.role != Role.patient) {
       return _outcome(403, 'error', 'forbidden', 'Daveti hasta kabul eder');
     }
+    if (_inviteThrottled(me.id) case final r?) return r;
     final invite = _liveInvite(code);
-    if (invite == null) {
+    final actor = invite == null ? null : store.account(invite.actorId);
+    if (invite == null || actor == null) {
+      _inviteFailed(me.id);
       return _outcome(
         404,
         'error',
@@ -1037,6 +1065,8 @@ class PortalApi {
       }
       store.putRecord(rec.copyWith(patientId: me.id, clearInvite: true));
     }
+    // Hekim kodu tek kullanımlık: ikinci telefon aynı kodla bağlanamaz.
+    if (Invite.singleUseFor(actor.role)) store.removeInvite(invite.code);
     _audit(
       me.id,
       me.id,

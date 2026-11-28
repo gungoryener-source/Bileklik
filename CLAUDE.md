@@ -155,7 +155,10 @@ GitHub depo değişkeninden alır (`android.yml`, `ios.yml`). Topluluk ekranlar�
 açıkken 15 sn'de bir yenilenir (`CommunityAutoRefresh`); gruplarda görünen ad
 `CommunityService.displayName`. Sunucu anahtarı tanımazsa (bellekteki test
 portalı sıfırlandı) istemci hesabı bir kez yeniden açar. İki telefonla deneme
-ve Render adımları `docs/topluluk-canli.md`. Uygulama testleri gerçek portal
+ve Render adımları `docs/topluluk-canli.md`. Hekim portalında hasta kaydı için
+üretilen kod (24 saat, tek kullanımlık, QR karesiyle; araştırma kodu 30 gün
+ortak) telefonda girilince kayıt bilekliğe bağlanır; hatalı kod hesap başına
+dakikada 10 (`ConnectionThrottled`). Adımlar `docs/hekim-canli.md`. Uygulama testleri gerçek portal
 API'sini bellekte, `MockClient` üzerinden çalıştırır (`test/portal_test.dart`).
 
 Ayrı bir Dart paketi (shelf): FHIR Bundle alır, takipçilere yalnızca rızadaki

@@ -613,7 +613,12 @@ class AppLocalizationsDe extends AppLocalizations {
   }
 
   @override
-  String get connCodeInvalid => 'Dieser Code ist ungültig oder abgelaufen.';
+  String get connCodeInvalid =>
+      'Dieser Code ist ungültig, bereits benutzt oder abgelaufen. Bitten Sie Ihren Arzt um einen neuen Code.';
+
+  @override
+  String get connTooManyTries =>
+      'Zu viele falsche Codes. Warten Sie eine Minute und versuchen Sie es erneut.';
 
   @override
   String get connConfirm => 'Zustimmen und verbinden';

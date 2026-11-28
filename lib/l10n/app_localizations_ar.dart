@@ -606,7 +606,12 @@ class AppLocalizationsAr extends AppLocalizations {
   }
 
   @override
-  String get connCodeInvalid => 'هذا الرمز غير صالح أو منتهي الصلاحية.';
+  String get connCodeInvalid =>
+      'هذا الرمز غير صالح أو مستخدم أو منتهي الصلاحية. اطلب رمزًا جديدًا من طبيبك.';
+
+  @override
+  String get connTooManyTries =>
+      'تمت تجربة رموز خاطئة كثيرة. انتظر دقيقة ثم حاول مرة أخرى.';
 
   @override
   String get connConfirm => 'الموافقة والاتصال';

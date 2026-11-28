@@ -101,7 +101,8 @@ class ClinicText {
     'statLinked': 'Veri paylaşan',
     'statPending': 'Bekleyen davet',
     'statFresh': 'Son 24 saatte veri',
-    'loginTagline': 'Hastalarınızın paylaştığı bileklik verileri, rızayla ve kayıt altında.',
+    'loginTagline':
+        'Hastalarınızın paylaştığı bileklik verileri, rızayla ve kayıt altında.',
     'loginPoint1': 'Yalnızca hastanın seçtiği veriler',
     'loginPoint2': 'Her görüntüleme erişim kaydına geçer',
     'loginPoint3': 'FHIR R4, PDF ve CSV rapor',
@@ -139,6 +140,16 @@ class ClinicText {
     'viewData': 'Verileri gör',
     'createReport': 'Rapor oluştur',
     'pendingCode': 'Bekleyen davet kodu',
+    'codeSingleUse':
+        '{time} saatine kadar geçerli ve tek kullanımlık: bir telefon bağlanınca kod silinir.',
+    'codeShared':
+        '{time} saatine kadar geçerli; çalışmaya katılan herkes aynı kodu kullanabilir.',
+    'codeScan':
+        'Hasta kodu elle yazabilir ya da uygulamadaki QR okutma düğmesiyle bu kareyi okutabilir.',
+    'codeWaiting':
+        'Telefonun bağlanması bekleniyor. Bu sayfa kendiliğinden yenilenir.',
+    'phoneLinked': 'Telefon bağlandı. Kayıt artık bileklik verisini gösterir.',
+    'codeQrLabel': 'Davet kodunun QR karesi',
     'ageYears': '{n} yaş',
     'errBirthDate': 'Doğum tarihi geçersiz.',
     'recordNotFound': 'Kayıt bulunamadı.',
@@ -403,7 +414,8 @@ class ClinicText {
     'statLinked': 'Sharing data',
     'statPending': 'Pending invitations',
     'statFresh': 'Data in last 24 h',
-    'loginTagline': 'Wristband data your patients share, with consent and an audit trail.',
+    'loginTagline':
+        'Wristband data your patients share, with consent and an audit trail.',
     'loginPoint1': 'Only the data the patient chooses',
     'loginPoint2': 'Every view is logged',
     'loginPoint3': 'FHIR R4, PDF and CSV reports',
@@ -441,6 +453,16 @@ class ClinicText {
     'viewData': 'View data',
     'createReport': 'Create report',
     'pendingCode': 'Pending invitation code',
+    'codeSingleUse':
+        'Valid until {time} and single-use: the code is deleted once a phone connects.',
+    'codeShared':
+        'Valid until {time}; everyone joining the study can use the same code.',
+    'codeScan':
+        'The patient can type the code or scan this square with the QR button in the app.',
+    'codeWaiting':
+        'Waiting for the phone to connect. This page refreshes by itself.',
+    'phoneLinked': 'Phone connected. This record now shows the wristband data.',
+    'codeQrLabel': 'QR square of the invitation code',
     'ageYears': '{n} years',
     'errBirthDate': 'Invalid date of birth.',
     'recordNotFound': 'Record not found.',
@@ -738,6 +760,15 @@ class ClinicText {
     'viewData': 'عرض البيانات',
     'createReport': 'إنشاء تقرير',
     'pendingCode': 'رمز دعوة بانتظار القبول',
+    'codeSingleUse':
+        'صالح حتى {time} ولاستخدام واحد: يُحذف الرمز عند اتصال هاتف.',
+    'codeShared':
+        'صالح حتى {time}؛ يمكن لكل المشاركين في الدراسة استخدام الرمز نفسه.',
+    'codeScan':
+        'يمكن للمريض كتابة الرمز أو مسح هذا المربع بزر رمز QR في التطبيق.',
+    'codeWaiting': 'بانتظار اتصال الهاتف. تتحدث هذه الصفحة تلقائيًا.',
+    'phoneLinked': 'اتصل الهاتف. يعرض هذا السجل الآن بيانات السوار.',
+    'codeQrLabel': 'مربع QR لرمز الدعوة',
     'ageYears': '{n} سنة',
     'errBirthDate': 'تاريخ الميلاد غير صالح.',
     'recordNotFound': 'السجل غير موجود.',
@@ -996,7 +1027,8 @@ class ClinicText {
     'statLinked': 'Teilen Daten',
     'statPending': 'Offene Einladungen',
     'statFresh': 'Daten der letzten 24 Std.',
-    'loginTagline': 'Armbanddaten, die Ihre Patienten teilen, mit Einwilligung und Protokoll.',
+    'loginTagline':
+        'Armbanddaten, die Ihre Patienten teilen, mit Einwilligung und Protokoll.',
     'loginPoint1': 'Nur die Daten, die der Patient wählt',
     'loginPoint2': 'Jeder Zugriff wird protokolliert',
     'loginPoint3': 'Berichte als FHIR R4, PDF und CSV',
@@ -1034,6 +1066,17 @@ class ClinicText {
     'viewData': 'Daten ansehen',
     'createReport': 'Bericht erstellen',
     'pendingCode': 'Offener Einladungscode',
+    'codeSingleUse':
+        'Gültig bis {time} und nur einmal nutzbar: Der Code wird gelöscht, sobald sich ein Telefon verbindet.',
+    'codeShared':
+        'Gültig bis {time}; alle Studienteilnehmer können denselben Code nutzen.',
+    'codeScan':
+        'Der Patient kann den Code eintippen oder dieses Quadrat mit der QR-Taste in der App scannen.',
+    'codeWaiting':
+        'Warten auf die Verbindung des Telefons. Diese Seite aktualisiert sich selbst.',
+    'phoneLinked':
+        'Telefon verbunden. Dieser Datensatz zeigt jetzt die Armbanddaten.',
+    'codeQrLabel': 'QR-Quadrat des Einladungscodes',
     'ageYears': '{n} Jahre',
     'errBirthDate': 'Ungültiges Geburtsdatum.',
     'recordNotFound': 'Akte nicht gefunden.',

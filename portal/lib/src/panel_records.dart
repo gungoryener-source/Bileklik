@@ -300,6 +300,29 @@ $csrf
     final pendingCode =
         newCode ??
         (cls == 'wait' && rec.patientId == null ? rec.inviteCode : null);
+    final pendingInvite = pendingCode == null
+        ? null
+        : store.invite(pendingCode);
+    // Kod bekliyorken sayfa kendiliğinden yenilenir; telefon bağlanınca
+    // hekim "Telefon bağlandı" görür (?w=1 bunu işaretler).
+    final waiting = pendingInvite != null;
+    final linkedNow =
+        notice == null &&
+        r.url.queryParameters['w'] == '1' &&
+        rec.patientId != null &&
+        consent != null;
+    final shownNotice = linkedNow ? c['phoneLinked'] : notice;
+    final codeBlock = pendingInvite == null
+        ? ''
+        : '''
+<p>${esc(c['pendingCode'])}</p>
+<div class="codebox">
+<p dir="ltr" class="code">${esc(pendingInvite.code)}</p>
+${qrSvg(pendingInvite.code, label: c['codeQrLabel'])}
+</div>
+<p class="muted small">${esc(c.f(Invite.singleUseFor(me.role) ? 'codeSingleUse' : 'codeShared', {'time': PanelApi._dateTime(t, pendingInvite.expires)}))}</p>
+<p class="muted small">${esc(t.inviteCodeBody)} ${esc(c['codeScan'])}</p>
+<p class="small" role="status">${esc(c['codeWaiting'])}</p>''';
     final String wristband;
     if (rec.patientId != null && consent != null) {
       final pid = esc(Uri.encodeComponent(rec.patientId!));
@@ -321,18 +344,26 @@ $inviteForm
     } else {
       wristband =
           '''
-${pendingCode == null ? '' : '<p>${esc(c['pendingCode'])}</p><p dir="ltr" class="code">${esc(pendingCode)}</p><p class="muted small">${esc(t.inviteCodeBody)}</p>'}
+$codeBlock
 <p class="muted">${esc(c['linkIntro'])}</p>
-${pendingCode == null ? inviteForm : '<details><summary>${esc(t.createInvite)}</summary>$inviteForm</details>'}
+${pendingInvite == null ? inviteForm : '<details><summary>${esc(t.createInvite)}</summary>$inviteForm</details>'}
 $linkExisting''';
     }
 
     return _html(
       status,
-      _page(t, me, s, rec.name, '''
+      _page(
+        t,
+        me,
+        s,
+        rec.name,
+        head: waiting
+            ? '\n<meta http-equiv="refresh" content="10;url=/panel/records/$enc?w=1">'
+            : '',
+        '''
 <p><a href="/panel">${t.rtl ? '→' : '←'} ${esc(t.myPatients)}</a></p>
 <h1>${esc(rec.name)} <span class="badge $cls">${esc(label)}</span></h1>
-${notice == null ? '' : '<p class="ok" role="status">${esc(notice)}</p>'}
+${shownNotice == null ? '' : '<p class="ok" role="status">${esc(shownNotice)}</p>'}
 ${error == null ? '' : '<p class="error" role="alert">${esc(error)}</p>'}
 <section class="card">
 <dl class="facts">
@@ -362,7 +393,8 @@ $csrf
 <button type="submit" class="danger">${esc(c['deleteRecord'])}</button>
 </form>
 </details>
-'''),
+''',
+      ),
     );
   }
 
@@ -399,7 +431,7 @@ $csrf
         purpose: purpose,
         requested: scopes,
         duration: Duration(days: days),
-        expires: _now().add(const Duration(days: 30)),
+        expires: _now().add(Invite.lifetimeFor(me.role)),
       ),
     );
     // Eski bekleyen kod artık bu kayda bağlamaz.

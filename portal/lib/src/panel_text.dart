@@ -134,7 +134,7 @@ class PanelText {
     back: 'Geri dön',
     inviteCode: 'Davet kodu',
     inviteCodeBody:
-        'Bu kodu hastanıza verin. Hasta Bileklik uygulamasında Profil > Hekim ve araştırma kurumu bölümünden kodu girer, istenen verileri görür ve kendisi seçer. Kod 30 gün geçerlidir.',
+        'Bu kodu hastanıza verin. Hasta Bileklik uygulamasında Profil > Hekim ve araştırma kurumu bölümünden kodu girer, istenen verileri görür ve kendisi seçer.',
     requested: 'İstenen',
     days: 'gün',
     noAccess: 'Erişim yok',
@@ -225,7 +225,7 @@ class PanelText {
     back: 'Go back',
     inviteCode: 'Invitation code',
     inviteCodeBody:
-        'Give this code to your patient. In the Bileklik app they enter it under Profile > Doctor and research institution, see the requested data and choose what to share. The code is valid for 30 days.',
+        'Give this code to your patient. In the Bileklik app they enter it under Profile > Doctor and research institution, see the requested data and choose what to share.',
     requested: 'Requested',
     days: 'days',
     noAccess: 'No access',
@@ -316,7 +316,7 @@ class PanelText {
     back: 'رجوع',
     inviteCode: 'رمز الدعوة',
     inviteCodeBody:
-        'أعطِ هذا الرمز لمريضك. يدخله المريض في تطبيق Bileklik من الملف الشخصي > الطبيب ومؤسسة البحث، ويرى البيانات المطلوبة ويختار ما يشاركه. الرمز صالح لمدة 30 يومًا.',
+        'أعطِ هذا الرمز لمريضك. يدخله المريض في تطبيق Bileklik من الملف الشخصي > الطبيب ومؤسسة البحث، ويرى البيانات المطلوبة ويختار ما يشاركه.',
     requested: 'المطلوب',
     days: 'يومًا',
     noAccess: 'لا يوجد وصول',
@@ -408,7 +408,7 @@ class PanelText {
     back: 'Zurück',
     inviteCode: 'Einladungscode',
     inviteCodeBody:
-        'Geben Sie diesen Code Ihrem Patienten. In der Bileklik-App gibt er ihn unter Profil > Arzt und Forschungseinrichtung ein, sieht die angefragten Daten und wählt selbst aus. Der Code ist 30 Tage gültig.',
+        'Geben Sie diesen Code Ihrem Patienten. In der Bileklik-App gibt er ihn unter Profil > Arzt und Forschungseinrichtung ein, sieht die angefragten Daten und wählt selbst aus.',
     requested: 'Angefragt',
     days: 'Tage',
     noAccess: 'Kein Zugriff',

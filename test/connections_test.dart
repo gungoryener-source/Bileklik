@@ -138,7 +138,12 @@ void main() {
     await _tap(tester, find.text('Davet kodu gir').last);
     await tester.pumpAndSettle();
     await _enterCode(tester, 'abc123');
-    expect(find.text('Bu kod geçersiz ya da süresi dolmuş.'), findsOneWidget);
+    expect(
+      find.text(
+        'Bu kod geçersiz, kullanılmış ya da süresi dolmuş. Hekiminizden yeni kod isteyin.',
+      ),
+      findsOneWidget,
+    );
     await _enterCode(tester, 'drk482');
     expect(find.byType(ConsentScreen), findsOneWidget);
     expect(_inConsent(find.text(_dr)), findsOneWidget);
@@ -204,7 +209,10 @@ void main() {
     expect(inviteCodeFromQr('drk482'), 'DRK482');
     expect(inviteCodeFromQr(' RTM2026 '), 'RTM2026');
     expect(inviteCodeFromQr('https://portal.example/davet/drk482'), 'DRK482');
-    expect(inviteCodeFromQr('https://portal.example/d?code=RTM2026'), 'RTM2026');
+    expect(
+      inviteCodeFromQr('https://portal.example/d?code=RTM2026'),
+      'RTM2026',
+    );
     expect(inviteCodeFromQr('https://portal.example/'), isNull);
     expect(inviteCodeFromQr('merhaba dünya'), isNull);
     expect(inviteCodeFromQr('AB'), isNull);

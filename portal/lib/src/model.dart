@@ -303,6 +303,15 @@ class Invite {
 
   /// Kodun kullanılabileceği son an.
   final DateTime expires;
+
+  /// Hekim kodu tek bir hastaya verilir: kısa ömürlüdür ve kabul edilince
+  /// silinir. Araştırma kodu çalışmaya katılan herkes için ortaktır.
+  static Duration lifetimeFor(Role role) => role == Role.researcher
+      ? const Duration(days: 30)
+      : const Duration(hours: 24);
+
+  /// Kabulden sonra kod silinir mi?
+  static bool singleUseFor(Role role) => role != Role.researcher;
 }
 
 /// Ayrıştırılmış ve saklanan bir Observation.
