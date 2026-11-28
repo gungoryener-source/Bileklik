@@ -2,8 +2,8 @@ import 'model.dart';
 
 /// Hekim panelinin metinleri: Türkçe (kaynak), İngilizce, Arapça, Almanca.
 ///
-/// Dil `?lang=` ile seçilir ve çerezde kalır; seçilmediyse tarayıcının
-/// `Accept-Language` başlığı, o da yoksa Türkçe. Arapçada sayfa sağdan sola.
+/// Dil [PortalLocale] ile seçilir (`?lang=`, elle seçim, bağlanılan ülke,
+/// tarayıcı dili, İngilizce). Arapçada sayfa sağdan sola.
 /// Erişim kayıtlarının açıklamaları dilden bağımsız (Türkçe) kalır.
 class PanelText {
   const PanelText._({
@@ -94,27 +94,6 @@ class PanelText {
     'de' => de,
     _ => tr,
   };
-
-  /// `Accept-Language` başlığından desteklenen ilk dil; yoksa Türkçe.
-  static String fromAcceptLanguage(String? header) {
-    final ranked = <(String, double)>[];
-    for (final part in (header ?? '').split(',')) {
-      final pieces = part.trim().split(';');
-      final tag = pieces.first.trim().toLowerCase();
-      if (tag.isEmpty) continue;
-      var q = 1.0;
-      for (final p in pieces.skip(1)) {
-        final kv = p.trim().split('=');
-        if (kv.length == 2 && kv[0] == 'q') q = double.tryParse(kv[1]) ?? 0;
-      }
-      ranked.add((tag.split('-').first, q));
-    }
-    ranked.sort((a, b) => b.$2.compareTo(a.$2));
-    for (final (lang, q) in ranked) {
-      if (q > 0 && supported.contains(lang)) return lang;
-    }
-    return 'tr';
-  }
 
   String number(double v) => v == v.roundToDouble()
       ? v.round().toString()

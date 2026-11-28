@@ -157,7 +157,11 @@ Ayrı bir Dart paketi (shelf): FHIR Bundle alır, takipçilere yalnızca rızada
 türleri gösterir, her erişimi `AuditEvent` olarak kaydeder. Hekim panelinin, gizlilik
 ve geliştirici sayfalarının görünümü ile tanıtım sitesi (`website/`) uygulamanın
 koyu Cam tasarımını izler; renkler `AppColors.cam`/`HomeSky` ile aynı tutulur,
-yazdırma (PDF rapor) açık zeminde kalır. Ayrıntı `website/README.md`. Kökteki
+yazdırma (PDF rapor) açık zeminde kalır. Ayrıntı `website/README.md`.
+Site ve portal da dört dilde: ilk dil bağlanılan ülkeye göre (portalda CDN
+ülke başlığı ya da saat dilimi, sitede saat dilimi), elle seçim her zaman
+önce gelir (`PortalLocale`, `website/i18n.js`; tablolar aynı tutulur). Sitede
+Türkçe metin değişirse `website/i18n/<dil>.js` sözlükleri de güncellenir. Kökteki
 `flutter analyze` bu klasörü taramaz; CI'da ayrı işte `dart analyze
 --fatal-infos` ve `dart test` çalışır. Ayrıntılar `portal/README.md`.
 

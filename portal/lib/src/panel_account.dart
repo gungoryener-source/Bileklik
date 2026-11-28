@@ -73,7 +73,7 @@ extension _PanelAccount on PanelApi {
     final researcher = form['type']?.firstOrNull == 'researcher';
     return PanelApi._document(t, c['registerTitle'], '''
 <main class="narrow">
-<nav class="langs small">${PanelApi._languages(t)}</nav>
+${PanelApi._languages(t)}
 <h1>${PanelApi._h(c['registerTitle'])}</h1>
 <p class="muted">${PanelApi._h(c['registerIntro'])}</p>
 ${error == null ? '' : '<p class="error" role="alert">${PanelApi._h(error)}</p>'}

@@ -666,7 +666,7 @@ void main() {
       return (r.statusCode, await r.readAsString(), r.headers);
     }
 
-    final (s, tr, headers) = await get('/gizlilik');
+    final (s, tr, headers) = await get('/gizlilik', 'tr');
     expect(s, 200);
     expect(headers['content-type'], startsWith('text/html'));
     expect(headers['content-security-policy'], contains("default-src 'none'"));

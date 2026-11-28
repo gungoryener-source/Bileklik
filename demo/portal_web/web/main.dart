@@ -12,6 +12,7 @@ import 'dart:js_interop';
 
 import 'package:bileklik_portal/src/api.dart';
 import 'package:bileklik_portal/src/demo.dart';
+import 'package:bileklik_portal/src/locale.dart';
 import 'package:bileklik_portal/src/passwords.dart';
 import 'package:bileklik_portal/src/store.dart';
 import 'package:shelf/shelf.dart';
@@ -21,6 +22,37 @@ late final PortalApi _api;
 final _cookies = <String, String>{};
 var _path = '/panel';
 
+/// Sitedeki dil seçimiyle aynı anahtar (website/i18n.js): elle seçilen dil
+/// demo sitesinin bütün sayfalarında geçerli kalır.
+const _langKey = 'bk-lang';
+
+@JS('Intl.DateTimeFormat')
+extension type _DateTimeFormat._(JSObject _) implements JSObject {
+  external _DateTimeFormat();
+  external _ResolvedOptions resolvedOptions();
+}
+
+extension type _ResolvedOptions._(JSObject _) implements JSObject {
+  external String? get timeZone;
+}
+
+/// Sunucu yok, ülke başlığı da yok: ülke tarayıcının saat diliminden
+/// bulunur (gerçek portaldaki betiğin yaptığı gibi) ve `bk_geo` çerezine
+/// konur. Daha önce elle seçilen dil `bk_lang` olarak eklenir.
+void _seedLanguage() {
+  String? zone;
+  try {
+    zone = _DateTimeFormat().resolvedOptions().timeZone;
+  } catch (_) {}
+  _cookies[PortalLocale.geoCookie] =
+      PortalLocale.timeZoneCountry[zone] ?? 'ZZ';
+  String? saved;
+  try {
+    saved = web.window.localStorage.getItem(_langKey);
+  } catch (_) {}
+  if (PortalLocale.isSupported(saved)) _cookies[PortalLocale.cookie] = saved!;
+}
+
 Future<void> main() async {
   // Şifre özeti tarayıcıda yavaş olmasın diye az turla (deneme verisi).
   _api = PortalApi(
@@ -28,6 +60,7 @@ Future<void> main() async {
     passwords: const PasswordHasher(iterations: 2000),
   );
   await seedDemo(_api);
+  _seedLanguage();
   web.document.addEventListener('click', _onClick.toJS);
   web.document.addEventListener('submit', _onSubmit.toJS);
   web.window.addEventListener(
@@ -50,7 +83,9 @@ Future<void> _fromHash() async {
 
 Future<void> _go(String method, String path, {String? form}) async {
   final headers = <String, String>{
-    'accept-language': web.window.navigator.language,
+    'accept-language': [
+      for (final l in web.window.navigator.languages.toDart) l.toDart,
+    ].join(', '),
     if (_cookies.isNotEmpty)
       'cookie': [for (final e in _cookies.entries) '${e.key}=${e.value}']
           .join('; '),
@@ -74,6 +109,11 @@ Future<void> _go(String method, String path, {String? form}) async {
       _cookies.remove(name);
     } else {
       _cookies[name] = value;
+      if (name == PortalLocale.cookie) {
+        try {
+          web.window.localStorage.setItem(_langKey, value);
+        } catch (_) {}
+      }
     }
   }
   final location = res.headers['location'];
@@ -118,8 +158,50 @@ void _render(String html) {
   web.window.scrollTo(0.toJS, 0);
 }
 
+/// Deneme bandının metinleri (sayfanın dilinde).
+const _bannerText = {
+  'tr': (
+    'Deneme',
+    'Tarayıcıda çalışır, veriler örnektir ve yenileyince sıfırlanır.',
+    'Hekim girişi',
+    'ya da anahtar',
+    'Araştırma',
+    'Gizlilik politikası',
+  ),
+  'en': (
+    'Demo',
+    'Runs in your browser; the data is sample data and resets when you reload.',
+    'Doctor sign-in',
+    'or the key',
+    'Research',
+    'Privacy policy',
+  ),
+  'ar': (
+    'تجربة',
+    'يعمل في المتصفح؛ البيانات تجريبية وتُمحى عند إعادة التحميل.',
+    'دخول الطبيب',
+    'أو المفتاح',
+    'البحث',
+    'سياسة الخصوصية',
+  ),
+  'de': (
+    'Demo',
+    'Läuft im Browser; die Daten sind Beispieldaten und werden beim Neuladen zurückgesetzt.',
+    'Arzt-Login',
+    'oder der Schlüssel',
+    'Forschung',
+    'Datenschutzerklärung',
+  ),
+};
+
 /// Sayfanın üstündeki deneme bandı.
 web.Element _banner(web.Document doc) {
+  final lang = doc.documentElement?.getAttribute('lang') ?? 'en';
+  final (demo, note, signIn, orKey, research, privacy) =
+      _bannerText[lang] ?? _bannerText['en']!;
+  const code =
+      '<code dir="ltr" style="background:#ffffff1a;padding:1px 6px;'
+      'border-radius:4px">';
   final b = doc.createElement('div')
     ..setAttribute('data-demo', '')
     ..setAttribute(
@@ -130,20 +212,14 @@ web.Element _banner(web.Document doc) {
           'align-items:center',
     );
   b.innerHTML =
-      ('<strong>Deneme</strong>'
-              '<span>Tarayıcıda çalışır, veriler örnektir ve yenileyince '
-              'sıfırlanır.</span>'
-              '<span>Hekim girişi: <code style="background:#ffffff1a;'
-              'padding:1px 6px;border-radius:4px">demo@bileklik.app</code> / '
-              '<code style="background:#ffffff1a;padding:1px 6px;'
-              'border-radius:4px">demo-sifre-2026</code> (ya da anahtar '
-              '<code style="background:#ffffff1a;padding:1px 6px;'
-              'border-radius:4px">demo-doctor</code>) · '
-              'Araştırma: <code style="background:#ffffff1a;padding:1px 6px;'
-              'border-radius:4px">demo-research</code></span>'
+      ('<strong>$demo</strong>'
+              '<span>$note</span>'
+              '<span>$signIn: ${code}demo@bileklik.app</code> / '
+              '${code}demo-sifre-2026</code> ($orKey '
+              '${code}demo-doctor</code>) · '
+              '$research: ${code}demo-research</code></span>'
               '<span><a style="color:#45D6B8" href="/panel">Panel</a> · '
-              '<a style="color:#45D6B8" href="/gizlilik">Gizlilik '
-              'politikası</a></span>')
+              '<a style="color:#45D6B8" href="/gizlilik">$privacy</a></span>')
           .toJS;
   return b;
 }

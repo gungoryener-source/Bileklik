@@ -152,6 +152,8 @@ extension _PanelReport on PanelApi {
         s,
         '${c['reportTitle']} · ${record?.name ?? PanelApi._shortId(id)}',
         html.toString(),
+        // Dil değişince seçilen tarih aralığı kalsın.
+        query: {...r.url.queryParameters}..remove('lang'),
       ),
       printScript: true,
     );

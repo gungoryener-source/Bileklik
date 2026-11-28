@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:shelf/shelf.dart';
 
-import 'panel_text.dart';
+import 'locale.dart';
 
 /// Gizlilik politikası sayfası (`/gizlilik`, `/privacy`): herkese açık.
 ///
@@ -11,7 +11,7 @@ import 'panel_text.dart';
 /// (`lib/l10n`, `privacy…` anahtarları) ve `docs/gizlilik-politikasi.md`
 /// ile aynıdır; birini değiştirirken ötekileri de güncelleyin.
 ///
-/// Dil: `?lang=`, yoksa `Accept-Language`, o da yoksa Türkçe.
+/// Dil: [PortalLocale] (`?lang=`, elle seçim, ülke, tarayıcı dili, İngilizce).
 class PrivacyPage {
   const PrivacyPage._(this.title, this.draft, this.intro, this.sections);
 
@@ -33,20 +33,10 @@ class PrivacyPage {
 
   /// `GET /gizlilik` ve `GET /privacy`.
   static Response handle(Request r) {
-    final q = r.url.queryParameters['lang'];
-    final lang = q != null && PanelText.supported.contains(q)
-        ? q
-        : PanelText.fromAcceptLanguage(r.headers['accept-language']);
+    final lang = PortalLocale.of(r);
     final p = of(lang);
-    final links = [
-      for (final l in PanelText.supported)
-        l == lang
-            ? '<strong>${_h(PanelText.of(l).language)}</strong>'
-            : '<a href="?lang=$l" hreflang="$l" lang="$l">'
-                  '${_h(PanelText.of(l).language)}</a>',
-    ].join(' · ');
     final body = StringBuffer()
-      ..write('<nav>$links</nav>')
+      ..write(PortalLocale.switcher(lang))
       ..write('<h1>${_h(p.title)}</h1>')
       ..write('<p class="note">${_h(p.draft)}</p>')
       ..write('<p>${_h(p.intro)}</p>');
@@ -69,7 +59,7 @@ main { max-width: 760px; margin: 16px auto 48px; padding: 24px clamp(16px, 4vw, 
 h1 { font-size: 1.8rem; margin: 16px 0; }
 h2 { font-size: 1.2rem; margin: 28px 0 8px; }
 a { color: var(--accent); }
-nav { color: var(--muted); font-size: .9rem; }
+${PortalLocale.switcherCss}
 .note { border-inline-start: 4px solid var(--line); padding-inline-start: 12px; color: var(--muted); }
 </style>
 </head>

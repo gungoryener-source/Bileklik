@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="tr">
+<html lang="tr" data-source-lang="tr">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
@@ -14,6 +14,12 @@
 <meta property="og:image" content="img/paylasim.png">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="alternate" hreflang="tr" href="?lang=tr">
+<link rel="alternate" hreflang="en" href="?lang=en">
+<link rel="alternate" hreflang="ar" href="?lang=ar">
+<link rel="alternate" hreflang="de" href="?lang=de">
+<link rel="alternate" hreflang="x-default" href="./">
+<script src="i18n.js"></script>
 <link rel="preload" href="fonts/Manrope-ExtraBold.ttf" as="font" type="font/ttf" crossorigin>
 <style>
 @font-face { font-family: "Manrope"; src: url("fonts/Manrope-Regular.ttf") format("truetype"); font-weight: 400 500; font-display: swap; }
@@ -60,8 +66,8 @@ a:hover { color: var(--violet-ink); }
 :focus-visible { outline: 3px solid var(--violet); outline-offset: 3px; border-radius: 6px; }
 ::selection { background: rgba(69,214,184,.35); }
 .wrap { width: 100%; max-width: 1200px; margin: 0 auto; padding-left: max(20px, env(safe-area-inset-left)); padding-right: max(20px, env(safe-area-inset-right)); }
-.skip { position: absolute; left: -999px; top: 8px; background: var(--floating); color: var(--ink); padding: 10px 16px; border-radius: 12px; z-index: 50; }
-.skip:focus { left: 12px; }
+.skip { position: absolute; inset-inline-start: -999px; top: 8px; background: var(--floating); color: var(--ink); padding: 10px 16px; border-radius: 12px; z-index: 50; }
+.skip:focus { inset-inline-start: 12px; }
 
 /* Üst çubuk: uygulamadaki yüzen gezinme çubuğu gibi bulanık koyu cam */
 .top { position: sticky; top: 0; z-index: 20; background: rgba(22,26,34,.72); backdrop-filter: saturate(1.3) blur(18px); -webkit-backdrop-filter: saturate(1.3) blur(18px); border-bottom: 1px solid var(--line); }
@@ -73,6 +79,18 @@ a:hover { color: var(--violet-ink); }
 .nav::-webkit-scrollbar { display: none; }
 .nav a { color: var(--muted); text-decoration: none; font-weight: 600; font-size: 15px; padding: 10px 2px; white-space: nowrap; }
 .nav a:hover { color: var(--ink); }
+.top-end { display: flex; align-items: center; gap: 10px; flex: 0 0 auto; }
+/* Dil seçici: her genişlikte görünür, cam hap; yerel seçim listesi (erişilebilir, telefonda kendi seçicisi açılır) */
+.lang { position: relative; display: inline-flex; align-items: center; gap: 6px; min-height: 44px; padding-inline: 12px 8px; border-radius: 999px; background: rgba(255,255,255,.1); border: 1px solid var(--edge); color: var(--ink); cursor: pointer; }
+.lang:hover { background: rgba(255,255,255,.16); border-color: rgba(255,255,255,.3); }
+.lang:focus-within { outline: 3px solid var(--violet); outline-offset: 2px; }
+.lang select { appearance: none; -webkit-appearance: none; background: transparent; border: 0; color: inherit; font: 600 15px/1 var(--font); min-height: 42px; padding-inline: 0 18px; cursor: pointer; outline: none;
+  background-image: linear-gradient(45deg, transparent 50%, currentColor 50%), linear-gradient(135deg, currentColor 50%, transparent 50%); background-position: calc(100% - 9px) 52%, calc(100% - 4px) 52%; background-size: 5px 5px; background-repeat: no-repeat; }
+[dir="rtl"] .lang select { background-position: 4px 52%, 9px 52%; }
+.lang select option { background: #161A22; color: #fff; }
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+/* Sözlük yüklenirken Türkçe metin görünüp değişmesin (en çok 2 sn) */
+.bk-i18n-wait body { visibility: hidden; }
 
 /* Düğmeler: ana düğme yeşilden maviye parıltılı; ikincil düğme cam hap */
 .btn { position: relative; display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 52px; padding: 0 26px; border-radius: 999px; font: 700 16px/1 var(--font); text-decoration: none; border: 1px solid transparent; white-space: nowrap; transition: transform .16s cubic-bezier(.2,.8,.2,1), filter .16s; }
@@ -205,7 +223,7 @@ input, select, textarea { color-scheme: dark; }
 .form [aria-invalid="true"] { border-color: var(--heart-ink); }
 .form .check { display: flex; gap: 12px; align-items: flex-start; font-weight: 500; color: var(--body); font-size: 15px; }
 .form .check input { width: 22px; min-height: 22px; height: 22px; margin: 2px 0 0; flex: 0 0 auto; accent-color: var(--violet); }
-.hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+.hp { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap; }
 .form .btn { justify-self: start; border: 0; cursor: pointer; }
 .form .btn[disabled] { opacity: .45; cursor: progress; box-shadow: none; }
 .status { margin: 0; font-weight: 600; min-height: 1.6em; }
@@ -261,6 +279,17 @@ footer nav { display: flex; flex-wrap: wrap; gap: 8px 20px; }
 .pay-dialog .btn { border: 0; cursor: pointer; }
 .order-ok { background: rgba(91,227,125,.14); border: 1px solid rgba(91,227,125,.4); color: var(--green); border-radius: 16px; padding: 14px; font-weight: 600; margin: 0 0 12px; }
 
+/* Arapça: sağdan sola. Manrope Arapça harf içermez; sistemin Arapça yazı tipine geçilir.
+   Arap yazısı bitişik olduğu için harf aralığı ve büyük harf kullanılmaz. */
+[lang="ar"] body, [lang="ar"] .btn, [lang="ar"] input, [lang="ar"] select, [lang="ar"] textarea { font-family: "Manrope", "Noto Sans Arabic", "Noto Naskh Arabic", "Segoe UI", Tahoma, "Geeza Pro", sans-serif; }
+[lang="ar"] h1, [lang="ar"] h2, [lang="ar"] h3, [lang="ar"] .h2, [lang="ar"] .h3, [lang="ar"] .brand, [lang="ar"] .eyebrow { letter-spacing: 0; }
+[lang="ar"] .eyebrow { font-family: inherit; font-size: 14px; }
+[lang="ar"] .hero h1 { line-height: 1.2; }
+[lang="ar"] body { line-height: 1.75; }
+.code, .cred, .ecg { direction: ltr; }
+.shots .shot:nth-child(2) { margin-left: 0; margin-inline-start: auto; }
+
+@media (max-width: 1180px) { .top .btn { display: none; } }
 @media (max-width: 760px) {
   body { font-size: 16px; }
   .sec { padding-top: 76px; }
@@ -270,6 +299,9 @@ footer nav { display: flex; flex-wrap: wrap; gap: 8px 20px; }
   .lead, .hero .lead { font-size: 17px; }
   .top .btn { display: none; }
   .nav { -webkit-mask-image: linear-gradient(90deg, #000 85%, transparent); mask-image: linear-gradient(90deg, #000 85%, transparent); padding-right: 24px; }
+  [dir="rtl"] .nav { -webkit-mask-image: linear-gradient(270deg, #000 85%, transparent); mask-image: linear-gradient(270deg, #000 85%, transparent); padding-right: 0; padding-left: 24px; }
+  .top .wrap { gap: 10px; }
+  .brand { font-size: 19px; }
   .shots .shot:nth-child(2) { width: 100%; margin-top: 0; }
   .card { border-radius: 24px; padding: 20px; }
 }
@@ -296,7 +328,10 @@ footer nav { display: flex; flex-wrap: wrap; gap: 8px 20px; }
       <a href="#is-birligi">İş birliği</a>
       <a href="#sss">SSS</a>
     </nav>
-    <a class="btn btn-ghost btn-sm" href="#dene">Demoyu dene</a>
+    <div class="top-end">
+      <label class="lang" translate="no"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg><span class="sr">Dil / Language</span><select data-lang-picker aria-label="Dil / Language / اللغة / Sprache"></select></label>
+      <a class="btn btn-ghost btn-sm" href="#dene">Demoyu dene</a>
+    </div>
   </div>
 </header>
 
@@ -530,7 +565,7 @@ footer nav { display: flex; flex-wrap: wrap; gap: 8px 20px; }
         <p class="eyebrow" style="margin: 0; color: var(--heart-ink)">Hekim</p>
         <h3>Davet koduyla bağlanın</h3>
         <p>Hekiminiz panelden 7 haneli bir kod verir. Kodu girince amaç, istenen veriler ve süre ekranda görünür; hangilerini paylaşacağınızı siz seçersiniz.</p>
-        <div class="code" aria-label="Örnek davet kodu K7PQM2X"><span>K</span><span>7</span><span>P</span><span>Q</span><span>M</span><span>2</span><span>X</span></div>
+        <div class="code" translate="no" aria-label="Örnek davet kodu K7PQM2X"><span>K</span><span>7</span><span>P</span><span>Q</span><span>M</span><span>2</span><span>X</span></div>
       </div>
       <div class="card who">
         <p class="eyebrow" style="margin: 0; color: var(--violet)">Araştırma kurumu</p>
@@ -591,7 +626,7 @@ footer nav { display: flex; flex-wrap: wrap; gap: 8px 20px; }
             <div><strong>Unutulma hakkı</strong><span>Portaldaki verilerinizi tek dokunuşla silersiniz.</span></div>
             <div><strong>Kurtarma kodu</strong><span>Telefon değişince bağlantılarınızı kodla geri alırsınız.</span></div>
           </div>
-          <p class="note"><a href="https://bileklik-test.onrender.com/gizlilik">Gizlilik politikasının tamamı</a> (taslak, dört dil)</p>
+          <p class="note"><a href="https://bileklik-test.onrender.com/gizlilik" data-lang-link>Gizlilik politikasının tamamı</a> (taslak, dört dil)</p>
         </div>
         <div class="phone sm"><img src="img/portal-hesabi.webp" width="780" height="1688" loading="lazy" alt="Portal hesabı: kurtarma kodu, hesabı geri yükleme, portaldaki verileri silme"></div>
       </div>
@@ -604,7 +639,7 @@ footer nav { display: flex; flex-wrap: wrap; gap: 8px 20px; }
     <div class="txt">
       <p class="eyebrow">Dört dil</p>
       <h2 id="dil-baslik" class="h2">Türkçe, English, <span lang="ar">العربية</span>, Deutsch</h2>
-      <p class="lead">Arapçada ekran sağdan sola aynalanır; sayılar ve birimler okunaklı kalır. Dil ilk açılışta seçilir, Profil'den değiştirilir. Hekim paneli de dört dildedir.</p>
+      <p class="lead">Arapçada ekran sağdan sola aynalanır; sayılar ve birimler okunaklı kalır. Dil ilk açılışta seçilir, Profil'den değiştirilir. Hekim paneli ve bu site de dört dildedir.</p>
     </div>
     <div class="media"><div class="phone sm"><img src="img/arapca.webp" width="780" height="1688" loading="lazy" alt="Arapça geri bildirim ekranı, sağdan sola yerleşim"></div></div>
   </div>
@@ -628,8 +663,8 @@ footer nav { display: flex; flex-wrap: wrap; gap: 8px 20px; }
         <p class="eyebrow" style="margin: 0; color: var(--violet)">Hekim paneli</p>
         <h3>Örnek hastalarla giriş yapın</h3>
         <p>Hastalarım &gt; Davet oluştur ile kod alın ya da kendi hekim hesabınızı açın.</p>
-        <div class="cred"><code>demo@bileklik.app</code><code>demo-sifre-2026</code></div>
-        <div><a class="btn btn-ghost" href="https://bileklik-test.onrender.com/panel">Paneli aç</a></div>
+        <div class="cred" translate="no"><code>demo@bileklik.app</code><code>demo-sifre-2026</code></div>
+        <div><a class="btn btn-ghost" href="https://bileklik-test.onrender.com/panel" data-lang-link>Paneli aç</a></div>
       </div>
     </div>
   </div>
@@ -659,13 +694,13 @@ footer nav { display: flex; flex-wrap: wrap; gap: 8px 20px; }
       <div class="card cart" id="cart" aria-labelledby="sepet-baslik">
         <h3 id="sepet-baslik">Sepetiniz</h3>
         <noscript><p class="empty-cart">Sepet için tarayıcınızda JavaScript açık olmalı.</p></noscript>
-        <p class="order-ok" id="order-ok" role="status" hidden></p>
+        <p class="order-ok" id="order-ok" role="status" hidden data-i18n-skip></p>
         <p class="empty-cart" id="cart-empty">Sepetiniz boş.</p>
-        <ul class="cart-lines" id="cart-lines" aria-live="polite"></ul>
+        <ul class="cart-lines" id="cart-lines" aria-live="polite" data-i18n-skip></ul>
         <div class="totals" id="cart-totals" hidden>
-          <span>Ara toplam</span><span id="t-sub"></span>
+          <span>Ara toplam</span><span id="t-sub" data-i18n-skip></span>
           <span>Kargo</span><span>Ücretsiz</span>
-          <span class="grand">Toplam</span><span class="grand" id="t-total"></span>
+          <span class="grand">Toplam</span><span class="grand" id="t-total" data-i18n-skip></span>
         </div>
         <form id="checkout" class="form" novalidate hidden>
           <label>Adınız soyadınız<input name="name" autocomplete="name" maxlength="120" required></label>
@@ -680,7 +715,7 @@ footer nav { display: flex; flex-wrap: wrap; gap: 8px 20px; }
           </div>
           <label class="check"><input type="checkbox" name="terms" required><span>Ön bilgilendirme formunu ve mesafeli satış sözleşmesini okudum, onaylıyorum. <small>(Metinler yayın öncesi eklenecek.)</small></span></label>
           <button class="btn btn-primary" type="submit">Ödemeye geç</button>
-          <p class="status" role="status" aria-live="polite"></p>
+          <p class="status" role="status" aria-live="polite" data-i18n-skip></p>
         </form>
       </div>
     </div>
@@ -688,7 +723,7 @@ footer nav { display: flex; flex-wrap: wrap; gap: 8px 20px; }
   <dialog class="pay-dialog" id="pay-dialog" aria-labelledby="pay-baslik">
     <h3 id="pay-baslik">Demo ödeme sayfası</h3>
     <p>Yayında burada ödeme kuruluşunun (ör. iyzico) güvenli sayfası açılır ve kart bilgileri orada girilir.</p>
-    <p><strong>Ödenecek tutar: <span id="pay-total"></span></strong></p>
+    <p><strong>Ödenecek tutar:</strong> <strong id="pay-total" data-i18n-skip></strong></p>
     <div class="actions">
       <button class="btn btn-primary" type="button" id="pay-ok">Ödemeyi onayla</button>
       <button class="btn btn-ghost" type="button" id="pay-fail">Başarısız ödemeyi dene</button>
@@ -711,6 +746,7 @@ footer nav { display: flex; flex-wrap: wrap; gap: 8px 20px; }
     </div>
     <div class="card">
       <form id="b2b-form" class="form" action="https://bileklik-test.onrender.com/inquiry" method="post" novalidate>
+        <input type="hidden" name="lang" value="tr">
         <label>Başvuru türü
           <select name="kind" required>
             <option value="distributor">Distribütörlük</option>
@@ -731,9 +767,9 @@ footer nav { display: flex; flex-wrap: wrap; gap: 8px 20px; }
         <label><span>Ülke / bölge <small>(isteğe bağlı)</small></span><input name="country" autocomplete="country-name" maxlength="120"></label>
         <label>Mesajınız<textarea name="message" maxlength="2000" required placeholder="Hedef pazar, tahmini adet, ihtiyacınız…"></textarea></label>
         <label class="hp" aria-hidden="true">Web sitesi<input name="website" tabindex="-1" autocomplete="off"></label>
-        <label class="check"><input type="checkbox" name="consent" required><span>Bilgilerimin yalnızca başvuruma dönülmesi için saklanacağını ve sağlık verisiyle birleştirilmeyeceğini okudum (<a href="https://bileklik-test.onrender.com/gizlilik">gizlilik politikası</a>).</span></label>
+        <label class="check"><input type="checkbox" name="consent" required><span>Bilgilerimin yalnızca başvuruma dönülmesi için saklanacağını ve sağlık verisiyle birleştirilmeyeceğini okudum (<a href="https://bileklik-test.onrender.com/gizlilik" data-lang-link>gizlilik politikası</a>).</span></label>
         <button class="btn btn-primary" type="submit">Başvuruyu gönder</button>
-        <p class="status" role="status" aria-live="polite"></p>
+        <p class="status" role="status" aria-live="polite" data-i18n-skip></p>
       </form>
     </div>
   </div>
@@ -760,16 +796,17 @@ footer nav { display: flex; flex-wrap: wrap; gap: 8px 20px; }
     <p class="lead" style="margin: 0 auto 28px">Uygulamayı ve hekim panelini bileklik olmadan tarayıcıda deneyin.</p>
     <div class="actions">
       <a class="btn btn-primary" href="https://bileklik-test.onrender.com/uygulama/">Uygulamayı dene</a>
-      <a class="btn btn-ghost" href="https://bileklik-test.onrender.com/panel">Hekim panelini aç</a>
+      <a class="btn btn-ghost" href="https://bileklik-test.onrender.com/panel" data-lang-link>Hekim panelini aç</a>
     </div>
     <form id="wait-form" class="wait js-inquiry" action="https://bileklik-test.onrender.com/inquiry" method="post" novalidate aria-labelledby="wait-baslik">
       <p id="wait-baslik" style="flex: 1 1 100%; margin: 0 0 4px; text-align: center; font-weight: 700">Mağazalara çıkınca haber verelim</p>
       <input type="hidden" name="kind" value="waitlist">
+      <input type="hidden" name="lang" value="tr">
       <input type="email" name="email" autocomplete="email" maxlength="200" required placeholder="E-posta adresiniz" aria-label="E-posta adresiniz">
       <button class="btn btn-primary" type="submit">Haber ver</button>
       <label class="hp" aria-hidden="true">Web sitesi<input name="website" tabindex="-1" autocomplete="off"></label>
-      <label class="check"><input type="checkbox" name="consent" required><span>E-postamın yalnızca bu duyuru için saklanacağını okudum (<a href="https://bileklik-test.onrender.com/gizlilik">gizlilik politikası</a>).</span></label>
-      <p class="status" role="status" aria-live="polite"></p>
+      <label class="check"><input type="checkbox" name="consent" required><span>E-postamın yalnızca bu duyuru için saklanacağını okudum (<a href="https://bileklik-test.onrender.com/gizlilik" data-lang-link>gizlilik politikası</a>).</span></label>
+      <p class="status" role="status" aria-live="polite" data-i18n-skip></p>
     </form>
   </div>
 </section>
@@ -780,9 +817,9 @@ footer nav { display: flex; flex-wrap: wrap; gap: 8px 20px; }
   <div class="wrap">
     <p>Bileklik bir tıbbi cihaz değildir; tanı ve tedavi için kullanılmaz. Tansiyon değeri tahminidir. Şikâyetiniz varsa hekiminize başvurun.</p>
     <nav aria-label="Alt bağlantılar">
-      <a href="https://bileklik-test.onrender.com/gizlilik">Gizlilik politikası</a>
+      <a href="https://bileklik-test.onrender.com/gizlilik" data-lang-link>Gizlilik politikası</a>
       <a href="#sss">SSS</a>
-      <a href="https://bileklik-test.onrender.com/panel">Hekim girişi</a>
+      <a href="https://bileklik-test.onrender.com/panel" data-lang-link>Hekim girişi</a>
       <span>© 2026 Bileklik</span>
     </nav>
   </div>
@@ -792,6 +829,7 @@ footer nav { display: flex; flex-wrap: wrap; gap: 8px 20px; }
 // yoksa form portala normal yoldan gider ve portal kısa bir sayfa gösterir.
 (function () {
   if (!window.fetch) return;
+  var T = window.bkI18n ? window.bkI18n.t : function (s, v) { return s.replace(/\{(\w+)\}/g, function (m, k) { return v && v[k] != null ? v[k] : m; }); };
   var labels = { kind: "başvuru türü", name: "ad soyad", company: "kurum", email: "e-posta", message: "mesaj", consent: "aydınlatma onayı" };
   function setup(form, required, okText) {
     if (!form) return;
@@ -803,24 +841,26 @@ footer nav { display: flex; flex-wrap: wrap; gap: 8px 20px; }
       fields.forEach(function (f) { var el = form.elements[f]; if (el) el.setAttribute("aria-invalid", "true"); });
       if (fields.length && form.elements[fields[0]]) form.elements[fields[0]].focus();
     }
-    function list(fields) { return fields.map(function (f) { return labels[f] || f; }).join(", "); }
+    function list(fields) { return fields.map(function (f) { return labels[f] ? T(labels[f]) : f; }).join(", "); }
+    // Dil değişince eski dildeki durum yazısı kalmasın.
+    document.addEventListener("bk:lang", function () { status.textContent = ""; status.className = "status"; });
     form.addEventListener("submit", function (e) {
       e.preventDefault();
       var missing = required.filter(function (f) { return !form.elements[f].value.trim(); });
       if (form.elements.email.value && !form.elements.email.checkValidity() && missing.indexOf("email") < 0) missing.push("email");
       if (!form.elements.consent.checked) missing.push("consent");
-      if (missing.length) { mark(missing); show("Eksik ya da hatalı: " + list(missing) + ".", false); return; }
+      if (missing.length) { mark(missing); show(T("Eksik ya da hatalı: {alanlar}.", { alanlar: list(missing) }), false); return; }
       mark([]);
       button.disabled = true;
-      show("Gönderiliyor…", true);
+      show(T("Gönderiliyor…"), true);
       fetch(form.action, { method: "POST", body: new URLSearchParams(new FormData(form)), headers: { "Accept": "application/json" } })
         .then(function (r) { return r.json().catch(function () { return {}; }).then(function (b) { return { status: r.status, body: b }; }); })
         .then(function (r) {
-          if (r.status === 201) { form.reset(); show(okText, true); }
-          else if (r.status === 429) { show("Şu an çok fazla istek geliyor; birkaç dakika sonra yeniden deneyin.", false); }
-          else { var f = (r.body && r.body.fields) || []; mark(f); show("Eksik ya da hatalı: " + (list(f) || "form") + ".", false); }
+          if (r.status === 201) { form.reset(); show(T(okText), true); }
+          else if (r.status === 429) { show(T("Şu an çok fazla istek geliyor; birkaç dakika sonra yeniden deneyin."), false); }
+          else { var f = (r.body && r.body.fields) || []; mark(f); show(T("Eksik ya da hatalı: {alanlar}.", { alanlar: list(f) || T("form") }), false); }
         })
-        .catch(function () { show("Bağlantı kurulamadı. Sunucu uyuyorsa ilk açılış bir dakika sürebilir; biraz sonra yeniden deneyin.", false); })
+        .catch(function () { show(T("Bağlantı kurulamadı. Sunucu uyuyorsa ilk açılış bir dakika sürebilir; biraz sonra yeniden deneyin."), false); })
         .then(function () { button.disabled = false; });
     });
   }
@@ -834,7 +874,17 @@ footer nav { display: flex; flex-wrap: wrap; gap: 8px 20px; }
   var root = document.getElementById("satin-al");
   if (!root) return;
   var KEY = "bileklik-sepet";
-  var money = function (n) { return n.toLocaleString("tr-TR", { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + " TL"; };
+  var I = window.bkI18n;
+  var T = I ? I.t : function (s, v) { return s.replace(/\{(\w+)\}/g, function (m, k) { return v && v[k] != null ? v[k] : m; }); };
+  // Tutar seçilen dilin sayı biçimiyle (Arapçada da Latin rakamları, uygulamadaki gibi).
+  var LOCALES = { tr: "tr-TR", en: "en-GB", ar: "ar-u-nu-latn", de: "de-DE" };
+  var money = function (n) {
+    var l = (I && I.lang) || "tr";
+    var s;
+    try { s = n.toLocaleString(LOCALES[l] || "tr-TR", { minimumFractionDigits: 2, maximumFractionDigits: 2 }); }
+    catch (e) { s = n.toFixed(2); }
+    return s + " TL";
+  };
   var products = {};
   root.querySelectorAll(".product").forEach(function (el) {
     products[el.dataset.id] = { name: el.dataset.name, price: Number(el.dataset.price) };
@@ -859,11 +909,11 @@ footer nav { display: flex; flex-wrap: wrap; gap: 8px 20px; }
       var p = products[id];
       var li = document.createElement("li");
       li.className = "cart-line";
-      var name = document.createElement("span"); name.className = "name"; name.textContent = p.name;
+      var name = document.createElement("span"); name.className = "name"; name.textContent = T(p.name);
       var qty = document.createElement("span"); qty.className = "qty";
-      var minus = document.createElement("button"); minus.type = "button"; minus.textContent = "−"; minus.setAttribute("aria-label", p.name + ": bir azalt");
-      var out = document.createElement("output"); out.textContent = cart[id]; out.setAttribute("aria-label", "Adet");
-      var plus = document.createElement("button"); plus.type = "button"; plus.textContent = "+"; plus.setAttribute("aria-label", p.name + ": bir artır");
+      var minus = document.createElement("button"); minus.type = "button"; minus.textContent = "−"; minus.setAttribute("aria-label", T("{urun}: bir azalt", { urun: T(p.name) }));
+      var out = document.createElement("output"); out.textContent = cart[id]; out.setAttribute("aria-label", T("Adet"));
+      var plus = document.createElement("button"); plus.type = "button"; plus.textContent = "+"; plus.setAttribute("aria-label", T("{urun}: bir artır", { urun: T(p.name) }));
       minus.addEventListener("click", function () { change(id, -1); });
       plus.addEventListener("click", function () { change(id, 1); });
       qty.append(minus, out, plus);
@@ -901,7 +951,7 @@ footer nav { display: flex; flex-wrap: wrap; gap: 8px 20px; }
     missing.forEach(function (f) { form.elements[f].setAttribute("aria-invalid", "true"); });
     if (missing.length) {
       form.elements[missing[0]].focus();
-      show("Eksik ya da hatalı: " + missing.map(function (f) { return labels[f]; }).join(", ") + ".", false);
+      show(T("Eksik ya da hatalı: {alanlar}.", { alanlar: missing.map(function (f) { return T(labels[f]); }).join(", ") }), false);
       return;
     }
     show("", true);
@@ -912,15 +962,16 @@ footer nav { display: flex; flex-wrap: wrap; gap: 8px 20px; }
   document.getElementById("pay-ok").addEventListener("click", function () {
     close();
     var no = "BLK-" + Math.floor(100000 + Math.random() * 900000);
-    ok.textContent = "Teşekkürler! Demo siparişiniz alındı: " + no + ". Gerçek ödeme alınmadı, ürün gönderilmeyecek.";
+    ok.textContent = T("Teşekkürler! Demo siparişiniz alındı: {no}. Gerçek ödeme alınmadı, ürün gönderilmeyecek.", { no: no });
     ok.hidden = false;
     cart = {}; save(); form.reset(); render();
     ok.focus && ok.setAttribute("tabindex", "-1"); ok.focus();
   });
   document.getElementById("pay-fail").addEventListener("click", function () {
     close();
-    show("Ödeme alınamadı, kartınızdan para çekilmedi. Bilgilerinizi kontrol edip yeniden deneyin.", false);
+    show(T("Ödeme alınamadı, kartınızdan para çekilmedi. Bilgilerinizi kontrol edip yeniden deneyin."), false);
   });
+  document.addEventListener("bk:lang", function () { show("", true); ok.hidden = true; render(); });
   render();
 })();
 </script>

@@ -9,6 +9,7 @@ import 'package:crypto/crypto.dart' as crypto;
 import 'alerts.dart';
 import 'clinic_text.dart';
 import 'hl7.dart';
+import 'locale.dart';
 import 'model.dart';
 import 'panel_text.dart';
 import 'passwords.dart';
@@ -59,7 +60,7 @@ class PanelApi {
   final bool secureCookie;
 
   static const cookieName = 'bk_panel';
-  static const langCookie = 'bk_lang';
+  static const langCookie = PortalLocale.cookie;
   static const sessionLength = Duration(hours: 8);
 
   final _sessions = <String, _Session>{};
@@ -70,31 +71,13 @@ class PanelApi {
   /// E-posta başına son hatalı giriş zamanları.
   final _loginFailures = <String, List<DateTime>>{};
 
-  /// `?lang=` verilirse seçim çerezde saklanır.
-  Handler get handler => (r) async {
-    final res = await _router.call(r);
-    final lang = r.url.queryParameters['lang'];
-    if (lang == null || !PanelText.supported.contains(lang)) return res;
-    return res.change(
-      headers: {
-        'set-cookie': [
-          ...?res.headersAll['set-cookie'],
-          '$langCookie=$lang; Path=/panel; SameSite=Strict; Max-Age=31536000',
-        ],
-      },
-    );
-  };
+  /// Panelin yönlendiricisi. `?lang=` seçimini çereze yazan katman
+  /// [PortalApi.handler] içindedir ([rememberLanguage]), bütün portal için.
+  Handler get handler => _router.call;
 
-  /// Sayfanın dili: `?lang=`, sonra çerez, sonra `Accept-Language`.
-  static PanelText _t(Request r) {
-    final q = r.url.queryParameters['lang'];
-    if (q != null && PanelText.supported.contains(q)) return PanelText.of(q);
-    final c = _cookies(r)[langCookie];
-    if (c != null && PanelText.supported.contains(c)) return PanelText.of(c);
-    return PanelText.of(
-      PanelText.fromAcceptLanguage(r.headers['accept-language']),
-    );
-  }
+  /// Sayfanın dili: `?lang=`, elle seçim (çerez), bağlanılan ülke, tarayıcı
+  /// dili, İngilizce ([PortalLocale]).
+  static PanelText _t(Request r) => PanelText.of(PortalLocale.of(r));
 
   static ClinicText _c(Request r) => ClinicText.of(_t(r).lang);
 
@@ -728,14 +711,12 @@ ${sections.isEmpty ? '<p class="muted">${_h(days == 7 ? t.noRecentData : c['noDa
     },
   );
 
-  /// Dil seçici: aynı sayfayı başka dilde açar.
-  static String _languages(PanelText t) => [
-    for (final l in PanelText.supported)
-      l == t.lang
-          ? '<strong lang="$l">${_h(PanelText.of(l).language)}</strong>'
-          : '<a href="?lang=$l" lang="$l" hreflang="$l">'
-                '${_h(PanelText.of(l).language)}</a>',
-  ].join(' · ');
+  /// Dil seçici: aynı sayfayı başka dilde açar; [query] korunur (ör. rapor
+  /// tarih aralığı).
+  static String _languages(
+    PanelText t, [
+    Map<String, String> query = const {},
+  ]) => PortalLocale.switcher(t.lang, query: query);
 
   String _loginPage(PanelText t, {String? error, String email = ''}) {
     final c = ClinicText.of(t.lang);
@@ -753,7 +734,7 @@ ${_brand(large: true)}
 <svg class="ecg" viewBox="0 0 440 60" preserveAspectRatio="none" aria-hidden="true"><polyline points="0,30 60,30 70,26 78,30 92,30 98,34 104,4 111,46 118,30 140,30 152,22 164,30 220,30 230,26 238,30 252,30 258,34 264,4 271,46 278,30 300,30 312,22 324,30 440,30"/></svg>
 </section>
 <main class="narrow">
-<nav class="langs small">${_languages(t)}</nav>
+${_languages(t)}
 <h2>${_h(t.signIn)}</h2>
 ${error == null ? '' : '<p class="error" role="alert">${_h(error)}</p>'}
 <form method="post" action="/panel/login" class="card">
@@ -824,6 +805,7 @@ ${error == null ? '' : '<p class="error" role="alert">${_h(error)}</p>'}
     String title,
     String body, {
     String? active,
+    Map<String, String> query = const {},
   }) {
     final c = ClinicText.of(t.lang);
     String nav(String href, String key) =>
@@ -834,11 +816,11 @@ ${error == null ? '' : '<p class="error" role="alert">${_h(error)}</p>'}
 <aside class="side noprint">
 <div class="side-top">
 ${_brand()}
+${_languages(t, query)}
 <nav class="menu" aria-label="${_h(t.myPatients)}">${nav('/panel', 'navPatients')}${nav('/panel/alerts', 'navAlerts')}${nav('/panel/records/new', 'navNewPatient')}${nav('/panel/account', 'navAccount')}</nav>
 </div>
 <div class="side-bottom">
 <div class="who"><span class="avatar" aria-hidden="true">${_h(_initials(me.name))}</span><span><strong>${_h(me.name)}</strong>${me.organization == null ? '' : '<small>${_h(me.organization!)}</small>'}</span></div>
-<p class="langs small">${_languages(t)}</p>
 <form method="post" action="/panel/logout"><input type="hidden" name="csrf" value="${_h(s.csrf)}"><button class="link" type="submit">${_h(t.signOut)}</button></form>
 </div>
 </aside>
@@ -937,8 +919,7 @@ button.link:hover { color: var(--danger); filter: none; }
 a.button.secondary, button.secondary { background: rgba(255,255,255,.1); color: var(--fg); border: 1px solid var(--edge); box-shadow: none; }
 a.button.secondary:hover, button.secondary:hover { background: rgba(255,255,255,.16); color: var(--fg); }
 button.danger { background: var(--danger-bg); box-shadow: 0 8px 22px rgba(180,41,79,.3); }
-.langs { margin: 0; color: var(--muted); }
-.langs a { color: var(--muted); } .langs strong { color: var(--fg); }
+${PortalLocale.switcherCss}
 .spark { width: 100%; max-width: 320px; height: 72px; color: var(--accent); }
 .nav { display: flex; flex-wrap: wrap; gap: 4px 16px; }
 .nav a { text-decoration: none; padding: 10px 2px; color: var(--muted); }
