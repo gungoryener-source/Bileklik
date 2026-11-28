@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="tr" data-source-lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bileklik · deneme</title>
+<style>
+:root { color-scheme: dark; }
+body { margin: 0; font: 16px/1.55 Manrope, system-ui, sans-serif; background: radial-gradient(55vmax 55vmax at 14% 10%, rgba(76,141,255,.28), transparent 70%), radial-gradient(55vmax 55vmax at 10% 88%, rgba(69,214,184,.16), transparent 70%), linear-gradient(180deg, #1F2E4D 0%, #34507A 45%, #0C1016 100%) fixed, #0C1016; color: #fff; min-height: 100vh; }
+main { max-width: 720px; margin: 0 auto; padding: 40px 16px 64px; }
+h1 { font-size: 1.9rem; margin: 0 0 6px; }
+p.lead { color: rgba(255,255,255,.75); margin: 0 0 28px; }
+a.card { display: block; padding: 18px 20px; margin: 12px 0; border-radius: 28px; background: linear-gradient(135deg, rgba(255,255,255,.12), rgba(255,255,255,.02)), rgba(22,26,34,.62); border: 1px solid rgba(255,255,255,.18); color: inherit; text-decoration: none; }
+a.card:hover { border-color: #45D6B8; }
+a.card strong { display: block; font-size: 1.1rem; color: #45D6B8; margin-bottom: 4px; }
+.muted { color: rgba(255,255,255,.75); font-size: .92rem; }
+code { background: #ffffff14; padding: 1px 6px; border-radius: 4px; }
+.top { display: flex; justify-content: flex-end; margin-bottom: 8px; }
+.lang { display: inline-flex; align-items: center; gap: 6px; min-height: 44px; padding-inline: 12px 10px; border-radius: 999px; background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.18); }
+.lang select { background: transparent; border: 0; color: #fff; font: 600 15px/1 inherit; min-height: 40px; }
+.lang select option { background: #161A22; }
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+.bk-i18n-wait body { visibility: hidden; }
+[lang="ar"] body { font-family: Manrope, "Noto Sans Arabic", "Segoe UI", Tahoma, "Geeza Pro", sans-serif; }
+</style>
+<script>
+// Bu sayfanın sözlükleri; dil katmanı website/i18n.js (CI buraya kopyalar).
+window.BK_I18N = {
+"en": {
+"Bileklik · deneme": "Bileklik · demo",
+"Telefon ve bileklik olmadan denemek için. Her şey tarayıcıda çalışır; veriler örnektir ve hiçbir yere gönderilmez.": "Try it without a phone or wristband. Everything runs in the browser; the data is sample data and is not sent anywhere.",
+"Uygulama": "App",
+"Hekim paneli": "Doctor panel",
+"Gizlilik politikası": "Privacy policy",
+"Portalın herkese açık sayfası (taslak, dört dil).": "The portal's public page (draft, four languages).",
+"Uygulama demosu portala bağlanmaz; hekim bağlantıları ve aile grupları uygulamanın içindeki sahte sunucuyla çalışır.": "The app demo does not connect to the portal; doctor connections and family groups run on a simulated server inside the app.",
+"Sahte bileklikle: Ana Sayfa, Sağlık, Egzersiz, Profil. Telefon genişliğinde en iyi görünür. Uygulama ilk açılışta dilini sorar.": "With a simulated wristband: Home, Health, Exercise, Profile. Looks best at phone width. The app asks for its language on first launch.",
+"Hekim girişi <code>demo@bileklik.app</code> / <code>demo-sifre-2026</code> (ya da anahtar <code>demo-doctor</code>): hasta kayıtları, bilekliğe bağlama, tarih aralıklı rapor (yazdırma/PDF, CSV, FHIR). Araştırma kurumu için <code>demo-research</code>.": "Doctor sign-in <code>demo@bileklik.app</code> / <code>demo-sifre-2026</code> (or the key <code>demo-doctor</code>): patient records, linking to a wristband, date-range report (print/PDF, CSV, FHIR). For a research institution use <code>demo-research</code>."
+},
+"ar": {
+"Bileklik · deneme": "Bileklik · تجربة",
+"Telefon ve bileklik olmadan denemek için. Her şey tarayıcıda çalışır; veriler örnektir ve hiçbir yere gönderilmez.": "للتجربة دون هاتف أو سوار. كل شيء يعمل في المتصفح؛ والبيانات تجريبية ولا تُرسل إلى أي مكان.",
+"Uygulama": "التطبيق",
+"Hekim paneli": "لوحة الطبيب",
+"Gizlilik politikası": "سياسة الخصوصية",
+"Portalın herkese açık sayfası (taslak, dört dil).": "الصفحة العامة للبوابة (مسودة، بأربع لغات).",
+"Uygulama demosu portala bağlanmaz; hekim bağlantıları ve aile grupları uygulamanın içindeki sahte sunucuyla çalışır.": "لا يتصل العرض التجريبي للتطبيق بالبوابة؛ وتعمل اتصالات الأطباء والمجموعات العائلية مع خادم محاكى داخل التطبيق.",
+"Sahte bileklikle: Ana Sayfa, Sağlık, Egzersiz, Profil. Telefon genişliğinde en iyi görünür. Uygulama ilk açılışta dilini sorar.": "مع سوار محاكى: الصفحة الرئيسية والصحة والتمارين والملف الشخصي. يظهر بأفضل شكل بعرض الهاتف. يسأل التطبيق عن لغته عند أول تشغيل.",
+"Hekim girişi <code>demo@bileklik.app</code> / <code>demo-sifre-2026</code> (ya da anahtar <code>demo-doctor</code>): hasta kayıtları, bilekliğe bağlama, tarih aralıklı rapor (yazdırma/PDF, CSV, FHIR). Araştırma kurumu için <code>demo-research</code>.": "دخول الطبيب <code>demo@bileklik.app</code> / <code>demo-sifre-2026</code> (أو المفتاح <code>demo-doctor</code>): سجلات المرضى، والربط بالسوار، وتقرير لفترة زمنية (طباعة/PDF وCSV وFHIR). ولمؤسسة البحث استخدم <code>demo-research</code>."
+},
+"de": {
+"Bileklik · deneme": "Bileklik · Demo",
+"Telefon ve bileklik olmadan denemek için. Her şey tarayıcıda çalışır; veriler örnektir ve hiçbir yere gönderilmez.": "Zum Ausprobieren ohne Telefon und Armband. Alles läuft im Browser; die Daten sind Beispieldaten und werden nirgendwohin gesendet.",
+"Uygulama": "App",
+"Hekim paneli": "Arztpanel",
+"Gizlilik politikası": "Datenschutzerklärung",
+"Portalın herkese açık sayfası (taslak, dört dil).": "Die öffentliche Seite des Portals (Entwurf, vier Sprachen).",
+"Uygulama demosu portala bağlanmaz; hekim bağlantıları ve aile grupları uygulamanın içindeki sahte sunucuyla çalışır.": "Die App-Demo verbindet sich nicht mit dem Portal; Arztverbindungen und Familiengruppen laufen über einen simulierten Server in der App.",
+"Sahte bileklikle: Ana Sayfa, Sağlık, Egzersiz, Profil. Telefon genişliğinde en iyi görünür. Uygulama ilk açılışta dilini sorar.": "Mit simuliertem Armband: Start, Gesundheit, Training, Profil. Am besten in Telefonbreite. Die App fragt beim ersten Start nach der Sprache.",
+"Hekim girişi <code>demo@bileklik.app</code> / <code>demo-sifre-2026</code> (ya da anahtar <code>demo-doctor</code>): hasta kayıtları, bilekliğe bağlama, tarih aralıklı rapor (yazdırma/PDF, CSV, FHIR). Araştırma kurumu için <code>demo-research</code>.": "Arzt-Login <code>demo@bileklik.app</code> / <code>demo-sifre-2026</code> (oder der Schlüssel <code>demo-doctor</code>): Patientenakten, Verknüpfung mit dem Armband, Bericht für einen Zeitraum (Drucken/PDF, CSV, FHIR). Für eine Forschungseinrichtung <code>demo-research</code>."
+}
+};
+</script>
+<script src="i18n.js"></script>
+<script>
+// Portal demosuna giden bağlantılar seçilen dili taşır (#/panel?lang=ar).
+document.addEventListener("bk:lang", update);
+document.addEventListener("DOMContentLoaded", update);
+function update() {
+  var l = window.bkI18n && window.bkI18n.lang;
+  document.querySelectorAll("a[data-hash-lang]").forEach(function (a) {
+    a.setAttribute("href", a.getAttribute("href").replace(/\?lang=\w+$/, "") + (l ? "?lang=" + l : ""));
+  });
+}
+</script>
+</head>
+<body>
+<main>
+<h1>Bileklik · deneme</h1>
+<div class="top"><label class="lang" translate="no"><span class="sr">Dil / Language</span><select data-lang-picker aria-label="Dil / Language / اللغة / Sprache"></select></label></div>
+<p class="lead">Telefon ve bileklik olmadan denemek için. Her şey tarayıcıda çalışır; veriler örnektir ve hiçbir yere gönderilmez.</p>
+<a class="card" href="uygulama/index.html">
+<strong>Uygulama</strong>
+<span>Sahte bileklikle: Ana Sayfa, Sağlık, Egzersiz, Profil. Telefon genişliğinde en iyi görünür. Uygulama ilk açılışta dilini sorar.</span>
+</a>
+<a class="card" href="portal/index.html#/panel" data-hash-lang>
+<strong>Hekim paneli</strong>
+<span>Hekim girişi <code>demo@bileklik.app</code> / <code>demo-sifre-2026</code> (ya da anahtar <code>demo-doctor</code>): hasta kayıtları, bilekliğe bağlama, tarih aralıklı rapor (yazdırma/PDF, CSV, FHIR). Araştırma kurumu için <code>demo-research</code>.</span>
+</a>
+<a class="card" href="portal/index.html#/gizlilik" data-hash-lang>
+<strong>Gizlilik politikası</strong>
+<span>Portalın herkese açık sayfası (taslak, dört dil).</span>
+</a>
+<p class="muted">Uygulama demosu portala bağlanmaz; hekim bağlantıları ve aile grupları uygulamanın içindeki sahte sunucuyla çalışır.</p>
+</main>
+</body>
+</html>

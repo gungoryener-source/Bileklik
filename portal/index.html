@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bileklik portalı · deneme</title>
+<style>
+body { margin: 0; font: 16px/1.5 system-ui, sans-serif; background: linear-gradient(180deg, #1F2E4D, #34507A 45%, #0C1016) fixed, #0C1016; color: #fff; min-height: 100vh; }
+.boot { max-width: 420px; margin: 20vh auto; padding: 16px; text-align: center; color: rgba(255,255,255,.75); }
+</style>
+</head>
+<body>
+<p class="boot" id="boot">Portal tarayıcıda başlatılıyor…</p>
+<script>
+// Açılış yazısı: elle seçilen dil, yoksa tarayıcının dili (asıl seçim portalda).
+(function () {
+  var t = { en: "Starting the portal in your browser…", ar: "جارٍ تشغيل البوابة في المتصفح…", de: "Portal wird im Browser gestartet …" };
+  var l = null;
+  try { l = localStorage.getItem("bk-lang"); } catch (e) {}
+  l = l || (navigator.language || "").slice(0, 2);
+  if (t[l]) { document.getElementById("boot").textContent = t[l]; document.documentElement.lang = l; }
+  if (l === "ar") document.documentElement.dir = "rtl";
+})();
+</script>
+<script defer src="main.dart.js"></script>
+</body>
+</html>
