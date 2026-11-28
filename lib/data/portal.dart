@@ -272,8 +272,9 @@ class PortalConnectionService extends ConnectionService {
     final r = await client.request(
       'GET',
       '/invites/${Uri.encodeComponent(c)}',
-      ok: const {200, 404},
+      ok: const {200, 404, 429},
     );
+    if (r.statusCode == 429) throw const ConnectionThrottled();
     if (r.statusCode == 404) return null;
     return _offer(jsonDecode(r.body) as Map, code: c);
   }
@@ -289,7 +290,11 @@ class PortalConnectionService extends ConnectionService {
       body: {
         'scopes': [for (final s in scopes) s.name],
       },
+      ok: const {201, 404, 429},
     );
+    if (r.statusCode == 429) throw const ConnectionThrottled();
+    // Kod bu arada doldu ya da başka telefon kullandı.
+    if (r.statusCode == 404) throw const ConnectionCodeGone();
     final id = (jsonDecode(r.body) as Map)['id'] as String;
     await refresh();
     return _list.firstWhere(

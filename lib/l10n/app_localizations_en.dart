@@ -607,7 +607,12 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get connCodeInvalid => 'This code is invalid or has expired.';
+  String get connCodeInvalid =>
+      'This code is invalid, already used or expired. Ask your doctor for a new code.';
+
+  @override
+  String get connTooManyTries =>
+      'Too many wrong codes. Wait a minute and try again.';
 
   @override
   String get connConfirm => 'Agree and connect';

@@ -45,12 +45,7 @@ class _Backend {
   http.Client get client => MockClient((r) async {
     if (offline) throw http.ClientException('bağlantı yok');
     final response = await api.handler(
-      shelf.Request(
-        r.method,
-        r.url,
-        headers: r.headers,
-        body: r.bodyBytes,
-      ),
+      shelf.Request(r.method, r.url, headers: r.headers, body: r.bodyBytes),
     );
     return http.Response.bytes(
       await response.read().expand((b) => b).toList(),
@@ -78,7 +73,8 @@ class _DoctorClient {
         'authorization': 'Bearer doctor',
         'content-type': 'application/json',
       },
-      body: '{"purpose":"Ritim takibi","scopes":[${scopes.map((s) => '"$s"').join(',')}],"days":90}',
+      body:
+          '{"purpose":"Ritim takibi","scopes":[${scopes.map((s) => '"$s"').join(',')}],"days":90}',
     );
     expect(r.statusCode, 201);
     return RegExp(r'"code":"([A-Z0-9]+)"').firstMatch(r.body)!.group(1)!;
@@ -129,6 +125,39 @@ void main() {
     expect(service.connections, isEmpty);
   });
 
+  test(
+    'hekim kodu iki telefonda: ikinci telefon kullanılmış kodla bağlanamaz',
+    () async {
+      final b = _Backend();
+      final first = PortalConnectionService(_client(b, AppSettings.memory()));
+      final second = PortalConnectionService(_client(b, AppSettings.memory()));
+      final code = await b.invite(['heartRate']);
+
+      // İkisi de kodu açar; önce onaylayan bağlanır.
+      final o1 = (await first.lookup(code))!;
+      final o2 = (await second.lookup(code))!;
+      await first.connect(o1, {ShareScope.heartRate});
+      await expectLater(
+        second.connect(o2, {ShareScope.heartRate}),
+        throwsA(isA<ConnectionCodeGone>()),
+      );
+      expect(await second.lookup(code), isNull);
+      expect(second.connections, isEmpty);
+    },
+  );
+
+  test('çok hatalı kod denenince ConnectionThrottled', () async {
+    final b = _Backend();
+    final service = PortalConnectionService(_client(b, AppSettings.memory()));
+    for (var i = 0; i < portal.PortalApi.inviteFailuresPerMinute; i++) {
+      expect(await service.lookup('YANLIS$i'), isNull);
+    }
+    await expectLater(
+      service.lookup('YANLIS'),
+      throwsA(isA<ConnectionThrottled>()),
+    );
+  });
+
   test('oturum anahtarı güvenli depoda; eski sürümünkü taşınır', () async {
     SharedPreferences.setMockInitialValues({'portal_token': 'eski'});
     final secrets = MemorySecretStore();
@@ -170,9 +199,21 @@ void main() {
     final now = DateTime(2026, 10, 20, 12);
     final store = MemoryHealthStore()
       ..addMeasurements([
-        Measurement(MetricType.heartRate, now.subtract(const Duration(hours: 1)), 70),
-        Measurement(MetricType.spo2, now.subtract(const Duration(hours: 1)), 97),
-        Measurement(MetricType.weight, now.subtract(const Duration(hours: 1)), 80),
+        Measurement(
+          MetricType.heartRate,
+          now.subtract(const Duration(hours: 1)),
+          70,
+        ),
+        Measurement(
+          MetricType.spo2,
+          now.subtract(const Duration(hours: 1)),
+          97,
+        ),
+        Measurement(
+          MetricType.weight,
+          now.subtract(const Duration(hours: 1)),
+          80,
+        ),
       ]);
     final uploader = PortalUploader(
       client: client,
@@ -183,10 +224,16 @@ void main() {
     addTearDown(uploader.dispose);
 
     expect(await uploader.uploadNow(), 0);
-    expect(settings.portalToken, isNull, reason: 'bağlantı yokken hesap bile açılmaz');
+    expect(
+      settings.portalToken,
+      isNull,
+      reason: 'bağlantı yokken hesap bile açılmaz',
+    );
 
     final code = await b.invite(['heartRate', 'spo2']);
-    await service.connect((await service.lookup(code))!, {ShareScope.heartRate});
+    await service.connect((await service.lookup(code))!, {
+      ShareScope.heartRate,
+    });
     expect(await uploader.uploadNow(), 1);
     final saved = b.store.observations(settings.patientId);
     expect(saved.map((o) => o.code), ['8867-4']);
@@ -228,7 +275,9 @@ void main() {
     await tester.pumpAndSettle();
     tester
         .state<NavigatorState>(find.byType(Navigator).first)
-        .push(MaterialPageRoute<void>(builder: (_) => const ConnectionsScreen()));
+        .push(
+          MaterialPageRoute<void>(builder: (_) => const ConnectionsScreen()),
+        );
     await tester.pumpAndSettle();
     await tester.tap(find.byIcon(Icons.pin_outlined));
     await tester.pumpAndSettle();
@@ -240,14 +289,20 @@ void main() {
     });
     await tester.pumpAndSettle();
     expect(find.textContaining('Sunucuya ulaşılamadı'), findsOneWidget);
-    expect(find.text('Bu kod geçersiz ya da süresi dolmuş.'), findsNothing);
+    expect(
+      find.text(
+        'Bu kod geçersiz, kullanılmış ya da süresi dolmuş. Hekiminizden yeni kod isteyin.',
+      ),
+      findsNothing,
+    );
   });
 
   test('kurtarma koduyla hesap yeni telefona geçer', () async {
     final b = _Backend();
     final oldPhone = AppSettings.memory();
     final oldService = PortalConnectionService(_client(b, oldPhone));
-    final code = await PortalAccountService(_client(b, oldPhone)).recoveryCode();
+    final code = await PortalAccountService(_client(b, oldPhone))
+        .recoveryCode();
     expect(code, oldPhone.recoveryCode);
     final offer = (await oldService.lookup(await b.invite(['heartRate'])))!;
     await oldService.connect(offer, {ShareScope.heartRate});
@@ -277,7 +332,10 @@ void main() {
     expect(newService.connections.single.offer.name, 'Dr. Ayşe Kaya');
 
     // Eski telefonun anahtarı artık geçmez.
-    await expectLater(oldService.refresh(), throwsA(isA<ConnectionUnavailable>()));
+    await expectLater(
+      oldService.refresh(),
+      throwsA(isA<ConnectionUnavailable>()),
+    );
   });
 
   test('kodu olmayan eski hesap ilk istekte yeni kod alır', () async {
@@ -340,7 +398,10 @@ void main() {
       await Future<void>.delayed(const Duration(milliseconds: 100));
     });
     await tester.pumpAndSettle();
-    expect(find.text('Kod geçersiz ya da daha önce kullanılmış.'), findsOneWidget);
+    expect(
+      find.text('Kod geçersiz ya da daha önce kullanılmış.'),
+      findsOneWidget,
+    );
     expect(settings.recoveryCode, code);
   });
 
@@ -393,20 +454,30 @@ void main() {
       community: hers,
       store: MemoryHealthStore()
         ..addMeasurements([
-          Measurement(MetricType.heartRate, now.subtract(const Duration(hours: 1)), 70),
-          Measurement(MetricType.spo2, now.subtract(const Duration(hours: 1)), 97),
+          Measurement(
+            MetricType.heartRate,
+            now.subtract(const Duration(hours: 1)),
+            70,
+          ),
+          Measurement(
+            MetricType.spo2,
+            now.subtract(const Duration(hours: 1)),
+            97,
+          ),
         ]),
       clock: () => now,
     );
     addTearDown(uploader.dispose);
     expect(await uploader.uploadNow(), 1);
-    expect(
-      b.store.observations(sisterPhone.patientId).map((o) => o.code),
-      ['8867-4'],
-    );
+    expect(b.store.observations(sisterPhone.patientId).map((o) => o.code), [
+      '8867-4',
+    ]);
 
     // Sahip üyeyi çıkarır; abla için grup kalmaz.
-    final sisterMember = mine.group(g.id)!.members.firstWhere((m) => m.name == 'Ablam');
+    final sisterMember = mine
+        .group(g.id)!
+        .members
+        .firstWhere((m) => m.name == 'Ablam');
     await mine.removeMember(g.id, sisterMember.id);
     await hers.refresh();
     expect(hers.joinedGroups, isEmpty);
@@ -416,95 +487,115 @@ void main() {
     expect(mine.myGroups, isEmpty);
   });
 
-  test('grup koduyla iki telefon: görünen adlar, ad değişikliği ve ayrılma', () async {
-    final b = _Backend();
-    final yener = PortalCommunityService(_client(b, AppSettings.memory()));
-    final elif = PortalCommunityService(_client(b, AppSettings.memory()));
-    await yener.setDisplayName(' Yener ');
-    expect(yener.displayName, 'Yener');
-    await elif.setDisplayName('Elif');
+  test(
+    'grup koduyla iki telefon: görünen adlar, ad değişikliği ve ayrılma',
+    () async {
+      final b = _Backend();
+      final yener = PortalCommunityService(_client(b, AppSettings.memory()));
+      final elif = PortalCommunityService(_client(b, AppSettings.memory()));
+      await yener.setDisplayName(' Yener ');
+      expect(yener.displayName, 'Yener');
+      await elif.setDisplayName('Elif');
 
-    final g = await yener.createGroup('Ailem');
-    final joined = (await elif.joinWithCode(g.inviteCode))!;
-    expect(joined.inviteCode, '', reason: 'grup kodu yalnızca sahibine');
-    expect(joined.members.firstWhere((m) => m.isOwner).name, 'Yener');
+      final g = await yener.createGroup('Ailem');
+      final joined = (await elif.joinWithCode(g.inviteCode))!;
+      expect(joined.inviteCode, '', reason: 'grup kodu yalnızca sahibine');
+      expect(joined.members.firstWhere((m) => m.isOwner).name, 'Yener');
 
-    await yener.refresh();
-    expect(yener.group(g.id)!.members.map((m) => m.name), ['Yener', 'Elif']);
-    expect(yener.messages.single.from, 'Elif');
+      await yener.refresh();
+      expect(yener.group(g.id)!.members.map((m) => m.name), ['Yener', 'Elif']);
+      expect(yener.messages.single.from, 'Elif');
 
-    // Ad sonradan değişince üye olunan gruplarda da değişir.
-    await elif.setDisplayName('Elif K.');
-    await yener.refresh();
-    expect(yener.group(g.id)!.members.last.name, 'Elif K.');
+      // Ad sonradan değişince üye olunan gruplarda da değişir.
+      await elif.setDisplayName('Elif K.');
+      await yener.refresh();
+      expect(yener.group(g.id)!.members.last.name, 'Elif K.');
 
-    // Paylaşım varsayılan kapalı; ayrılınca üye listeden çıkar.
-    expect(yener.group(g.id)!.members.last.shares, isEmpty);
-    await elif.leave(g.id);
-    await yener.refresh();
-    expect(yener.group(g.id)!.members, hasLength(1));
-  });
+      // Paylaşım varsayılan kapalı; ayrılınca üye listeden çıkar.
+      expect(yener.group(g.id)!.members.last.shares, isEmpty);
+      await elif.leave(g.id);
+      await yener.refresh();
+      expect(yener.group(g.id)!.members, hasLength(1));
+    },
+  );
 
-  test('sunucu anahtarı unutursa hesap yeniden açılır; ulaşılamazsa uyarı', () async {
-    final b = _Backend();
-    final phone = AppSettings.memory();
-    await PortalCommunityService(_client(b, phone)).refresh();
+  test(
+    'sunucu anahtarı unutursa hesap yeniden açılır; ulaşılamazsa uyarı',
+    () async {
+      final b = _Backend();
+      final phone = AppSettings.memory();
+      await PortalCommunityService(_client(b, phone)).refresh();
 
-    // Test portalı yeniden başladı: bellek boş.
-    final fresh = _Backend();
-    final restarted = PortalCommunityService(_client(fresh, phone));
-    await restarted.refresh();
-    expect(fresh.store.account(phone.patientId), isNotNull);
-    expect(fresh.store.accountByToken(phone.portalToken!), isNotNull);
-    expect(restarted.unreachable, isFalse);
+      // Test portalı yeniden başladı: bellek boş.
+      final fresh = _Backend();
+      final restarted = PortalCommunityService(_client(fresh, phone));
+      await restarted.refresh();
+      expect(fresh.store.account(phone.patientId), isNotNull);
+      expect(fresh.store.accountByToken(phone.portalToken!), isNotNull);
+      expect(restarted.unreachable, isFalse);
 
-    fresh.offline = true;
-    await expectLater(restarted.refresh(), throwsA(isA<ConnectionUnavailable>()));
-    expect(restarted.unreachable, isTrue);
-    fresh.offline = false;
-    await restarted.refresh();
-    expect(restarted.unreachable, isFalse);
-  });
+      fresh.offline = true;
+      await expectLater(
+        restarted.refresh(),
+        throwsA(isA<ConnectionUnavailable>()),
+      );
+      expect(restarted.unreachable, isTrue);
+      fresh.offline = false;
+      await restarted.refresh();
+      expect(restarted.unreachable, isFalse);
+    },
+  );
 
-  test('portaldaki veriler silinir; rızalar ve grup paylaşımları biter', () async {
-    final b = _Backend();
-    final settings = AppSettings.memory();
-    final client = _client(b, settings);
-    final service = PortalConnectionService(client);
-    final community = PortalCommunityService(client);
-    final now = DateTime(2026, 10, 20, 12);
-    final uploader = PortalUploader(
-      client: client,
-      connections: service,
-      store: MemoryHealthStore()
-        ..addMeasurements([
-          Measurement(MetricType.heartRate, now.subtract(const Duration(hours: 1)), 70),
-          Measurement(MetricType.heartRate, now.subtract(const Duration(hours: 2)), 72),
-        ]),
-      clock: () => now,
-    );
-    addTearDown(uploader.dispose);
-    await service.connect(
-      (await service.lookup(await b.invite(['heartRate'])))!,
-      {ShareScope.heartRate},
-    );
-    final g = await community.createGroup('Ev');
-    await community.setConsent(g.id, {ShareScope.sleep});
-    expect(await uploader.uploadNow(), 2);
+  test(
+    'portaldaki veriler silinir; rızalar ve grup paylaşımları biter',
+    () async {
+      final b = _Backend();
+      final settings = AppSettings.memory();
+      final client = _client(b, settings);
+      final service = PortalConnectionService(client);
+      final community = PortalCommunityService(client);
+      final now = DateTime(2026, 10, 20, 12);
+      final uploader = PortalUploader(
+        client: client,
+        connections: service,
+        store: MemoryHealthStore()
+          ..addMeasurements([
+            Measurement(
+              MetricType.heartRate,
+              now.subtract(const Duration(hours: 1)),
+              70,
+            ),
+            Measurement(
+              MetricType.heartRate,
+              now.subtract(const Duration(hours: 2)),
+              72,
+            ),
+          ]),
+        clock: () => now,
+      );
+      addTearDown(uploader.dispose);
+      await service.connect(
+        (await service.lookup(await b.invite(['heartRate'])))!,
+        {ShareScope.heartRate},
+      );
+      final g = await community.createGroup('Ev');
+      await community.setConsent(g.id, {ShareScope.sleep});
+      expect(await uploader.uploadNow(), 2);
 
-    var refreshed = 0;
-    final account = PortalAccountService(
-      client,
-      onRecovered: () async {
-        refreshed++;
-        await service.refresh();
-        await community.refresh();
-      },
-    );
-    expect(await account.eraseData(), 2);
-    expect(b.store.observations(settings.patientId), isEmpty);
-    expect(refreshed, 1);
-    expect(service.connections, isEmpty);
-    expect(community.sharedScopes, isEmpty);
-  });
+      var refreshed = 0;
+      final account = PortalAccountService(
+        client,
+        onRecovered: () async {
+          refreshed++;
+          await service.refresh();
+          await community.refresh();
+        },
+      );
+      expect(await account.eraseData(), 2);
+      expect(b.store.observations(settings.patientId), isEmpty);
+      expect(refreshed, 1);
+      expect(service.connections, isEmpty);
+      expect(community.sharedScopes, isEmpty);
+    },
+  );
 }

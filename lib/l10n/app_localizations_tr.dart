@@ -605,7 +605,12 @@ class AppLocalizationsTr extends AppLocalizations {
   }
 
   @override
-  String get connCodeInvalid => 'Bu kod geçersiz ya da süresi dolmuş.';
+  String get connCodeInvalid =>
+      'Bu kod geçersiz, kullanılmış ya da süresi dolmuş. Hekiminizden yeni kod isteyin.';
+
+  @override
+  String get connTooManyTries =>
+      'Çok fazla hatalı kod denendi. Bir dakika bekleyip yeniden deneyin.';
 
   @override
   String get connConfirm => 'Onayla ve bağlan';

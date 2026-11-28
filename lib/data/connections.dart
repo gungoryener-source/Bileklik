@@ -47,14 +47,15 @@ class ConnectionOffer {
 
 /// QR kodundan davet kodunu çıkarır. QR'da kodun kendisi ("DRK482") ya da
 /// portal bağlantısı ("https://…/davet/DRK482", "…?code=DRK482") olabilir.
-/// Kod 4–10 harf/rakamdır; değilse null. Portalın QR biçimi arka uçla
-/// (ROADMAP 19) kesinleşecek.
+/// Kod 4–10 harf/rakamdır; değilse null. Hekim portalının kayıt sayfasındaki
+/// QR karesinde yalnızca kodun kendisi yazar.
 String? inviteCodeFromQr(String raw) {
   var text = raw.trim();
   final uri = Uri.tryParse(text);
   if (uri != null && uri.hasScheme && uri.host.isNotEmpty) {
     final segments = uri.pathSegments.where((s) => s.isNotEmpty);
-    text = uri.queryParameters['code'] ?? (segments.isEmpty ? '' : segments.last);
+    text =
+        uri.queryParameters['code'] ?? (segments.isEmpty ? '' : segments.last);
   }
   final code = text.toUpperCase();
   if (!RegExp(r'^[A-Z0-9]{4,10}$').hasMatch(code)) return null;
@@ -109,6 +110,17 @@ class ConnectionUnavailable implements Exception {
 
   @override
   String toString() => 'ConnectionUnavailable(${detail ?? ''})';
+}
+
+/// Kod bağlanırken artık geçerli değil: süresi doldu ya da başka bir
+/// telefon kullandı (hekim kodu tek kullanımlıktır).
+class ConnectionCodeGone extends ConnectionUnavailable {
+  const ConnectionCodeGone() : super('kod geçersiz');
+}
+
+/// Portal çok fazla hatalı kod denemesi gördü; bir dakika sonra yeniden.
+class ConnectionThrottled extends ConnectionUnavailable {
+  const ConnectionThrottled() : super('çok fazla deneme');
 }
 
 /// Bellekte çalışan sahte sunucu. Demoda iki kod çalışır:

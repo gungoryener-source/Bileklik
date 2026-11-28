@@ -38,16 +38,20 @@ class _ConsentScreenState extends State<ConsentScreen> {
     final messenger = ScaffoldMessenger.of(context);
     final l = context.l10n;
     try {
-      final c = await ConnectionScope.of(
-        context,
-      ).connect(offer, {..._selected});
+      final c = await ConnectionScope.of(context)
+          .connect(offer, {..._selected});
       if (mounted) navigator.pop(c);
-    } on ConnectionUnavailable {
+    } on ConnectionUnavailable catch (e) {
       if (!mounted) return;
       setState(() => _busy = false);
+      final text = switch (e) {
+        ConnectionCodeGone() => l.connCodeInvalid,
+        ConnectionThrottled() => l.connTooManyTries,
+        _ => l.connServerError,
+      };
       messenger
         ..hideCurrentSnackBar()
-        ..showSnackBar(SnackBar(content: Text(l.connServerError)));
+        ..showSnackBar(SnackBar(content: Text(text)));
     }
   }
 
@@ -107,7 +111,10 @@ class _ConsentScreenState extends State<ConsentScreen> {
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Icon(Icons.warning_amber_rounded, color: colors.danger),
+                          Icon(
+                            Icons.warning_amber_rounded,
+                            color: colors.danger,
+                          ),
                           const SizedBox(width: 10),
                           Expanded(child: Text(l.connUnverified)),
                         ],

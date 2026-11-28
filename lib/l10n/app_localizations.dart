@@ -1143,8 +1143,14 @@ abstract class AppLocalizations {
   /// No description provided for @connCodeInvalid.
   ///
   /// In tr, this message translates to:
-  /// **'Bu kod geçersiz ya da süresi dolmuş.'**
+  /// **'Bu kod geçersiz, kullanılmış ya da süresi dolmuş. Hekiminizden yeni kod isteyin.'**
   String get connCodeInvalid;
+
+  /// No description provided for @connTooManyTries.
+  ///
+  /// In tr, this message translates to:
+  /// **'Çok fazla hatalı kod denendi. Bir dakika bekleyip yeniden deneyin.'**
+  String get connTooManyTries;
 
   /// No description provided for @connConfirm.
   ///
