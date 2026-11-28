@@ -52,11 +52,17 @@ Future<void> _go(String method, String path, {String? form}) async {
   final headers = <String, String>{
     'accept-language': web.window.navigator.language,
     if (_cookies.isNotEmpty)
-      'cookie': [for (final e in _cookies.entries) '${e.key}=${e.value}'].join('; '),
+      'cookie': [for (final e in _cookies.entries) '${e.key}=${e.value}']
+          .join('; '),
     if (form != null) 'content-type': 'application/x-www-form-urlencoded',
   };
   final res = await _api.handler(
-    Request(method, Uri.parse('http://demo$path'), headers: headers, body: form),
+    Request(
+      method,
+      Uri.parse('http://demo$path'),
+      headers: headers,
+      body: form,
+    ),
   );
   for (final c in res.headersAll['set-cookie'] ?? const <String>[]) {
     final pair = c.split(';').first;
@@ -77,7 +83,9 @@ Future<void> _go(String method, String path, {String? form}) async {
   // CSV ve FHIR dışa aktarma: sayfaya yazılmaz, dosya olarak indirilir.
   final disposition = res.headers['content-disposition'];
   if (disposition != null && disposition.startsWith('attachment')) {
-    final name = RegExp('filename="([^"]+)"').firstMatch(disposition)?.group(1) ?? 'bileklik';
+    final name =
+        RegExp('filename="([^"]+)"').firstMatch(disposition)?.group(1) ??
+        'bileklik';
     final blob = web.Blob(
       [(await res.readAsString()).toJS].toJS,
       web.BlobPropertyBag(type: res.headers['content-type'] ?? 'text/plain'),
@@ -116,8 +124,9 @@ web.Element _banner(web.Document doc) {
     ..setAttribute('data-demo', '')
     ..setAttribute(
       'style',
-      'background:#2b2140;color:#e9e3ff;padding:10px 16px;font:14px/1.5 '
-          'system-ui,sans-serif;display:flex;flex-wrap:wrap;gap:6px 16px;'
+      'background:rgba(22,26,34,.92);color:#fff;border-bottom:1px solid '
+          'rgba(255,255,255,.14);padding:10px 16px;font:14px/1.5 '
+          'Manrope,system-ui,sans-serif;display:flex;flex-wrap:wrap;gap:6px 16px;'
           'align-items:center',
     );
   b.innerHTML =
@@ -132,8 +141,8 @@ web.Element _banner(web.Document doc) {
               'border-radius:4px">demo-doctor</code>) · '
               'Araştırma: <code style="background:#ffffff1a;padding:1px 6px;'
               'border-radius:4px">demo-research</code></span>'
-              '<span><a style="color:#b9a7ff" href="/panel">Panel</a> · '
-              '<a style="color:#b9a7ff" href="/gizlilik">Gizlilik '
+              '<span><a style="color:#45D6B8" href="/panel">Panel</a> · '
+              '<a style="color:#45D6B8" href="/gizlilik">Gizlilik '
               'politikası</a></span>')
           .toJS;
   return b;
@@ -152,7 +161,13 @@ void _onClick(web.Event e) {
   final href = link?.getAttribute('href');
   if (link == null || href == null || href.startsWith('http')) return;
   e.preventDefault();
-  _go('GET', Uri.parse('http://demo$_path').resolve(href).toString().substring('http://demo'.length));
+  _go(
+    'GET',
+    Uri.parse('http://demo$_path')
+        .resolve(href)
+        .toString()
+        .substring('http://demo'.length),
+  );
 }
 
 void _onSubmit(web.Event e) {

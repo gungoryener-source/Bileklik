@@ -59,12 +59,13 @@ class PrivacyPage {
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#1F2E4D">
 <title>${_h(p.title)} · Bileklik</title>
 <style>
-:root { color-scheme: light dark; --bg: #f6f7fb; --fg: #16181d; --muted: #5d6472; --line: #dfe3ea; --accent: #2457d6; }
-@media (prefers-color-scheme: dark) { :root { --bg: #111318; --fg: #e9ebf0; --muted: #9aa3b2; --line: #2c313b; --accent: #7aa2ff; } }
-body { margin: 0; font: 17px/1.6 system-ui, sans-serif; background: var(--bg); color: var(--fg); }
-main { max-width: 720px; margin: 0 auto; padding: 24px 16px 48px; }
+:root { color-scheme: dark; --fg: #FFFFFF; --muted: rgba(255,255,255,.75); --line: rgba(255,255,255,.18); --accent: #45D6B8; }
+body { margin: 0; font: 17px/1.6 Manrope, "Segoe UI", system-ui, sans-serif; background: radial-gradient(55vmax 55vmax at 14% 10%, rgba(76,141,255,.28), transparent 70%), radial-gradient(55vmax 55vmax at 10% 88%, rgba(69,214,184,.16), transparent 70%), linear-gradient(180deg, #1F2E4D 0%, #34507A 45%, #0C1016 100%) fixed, #0C1016; color: var(--fg); -webkit-font-smoothing: antialiased; }
+main { max-width: 760px; margin: 16px auto 48px; padding: 24px clamp(16px, 4vw, 36px) 40px; background: linear-gradient(135deg, rgba(255,255,255,.12), rgba(255,255,255,.02)), rgba(22,26,34,.62); border: 1px solid var(--line); border-radius: 28px; }
+@media print { body { background: #fff; color: #000; } main { background: none; border: 0; } :root { --muted: #444; --accent: #0B6B58; } }
 h1 { font-size: 1.8rem; margin: 16px 0; }
 h2 { font-size: 1.2rem; margin: 28px 0 8px; }
 a { color: var(--accent); }

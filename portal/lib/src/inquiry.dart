@@ -148,8 +148,9 @@ class InquiryEndpoint {
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>${_h(title)} · Bileklik</title>
 <style>
-:root { color-scheme: light dark; }
-body { margin: 0; font: 17px/1.6 system-ui, sans-serif; }
+:root { color-scheme: dark; }
+body { margin: 0; font: 17px/1.6 Manrope, "Segoe UI", system-ui, sans-serif; background: radial-gradient(55vmax 55vmax at 14% 10%, rgba(76,141,255,.28), transparent 70%), radial-gradient(55vmax 55vmax at 10% 88%, rgba(69,214,184,.16), transparent 70%), linear-gradient(180deg, #1F2E4D 0%, #34507A 45%, #0C1016 100%) fixed, #0C1016; color: #fff; min-height: 100vh; }
+a { color: #45D6B8; }
 main { max-width: 560px; margin: 0 auto; padding: 48px 16px; }
 </style>
 </head>

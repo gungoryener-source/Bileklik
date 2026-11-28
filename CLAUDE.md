@@ -154,7 +154,10 @@ verilmezse `FakeConnectionServer` kullanılır. Uygulama testleri gerçek portal
 API'sini bellekte, `MockClient` üzerinden çalıştırır (`test/portal_test.dart`).
 
 Ayrı bir Dart paketi (shelf): FHIR Bundle alır, takipçilere yalnızca rızadaki
-türleri gösterir, her erişimi `AuditEvent` olarak kaydeder. Kökteki
+türleri gösterir, her erişimi `AuditEvent` olarak kaydeder. Hekim panelinin, gizlilik
+ve geliştirici sayfalarının görünümü ile tanıtım sitesi (`website/`) uygulamanın
+koyu Cam tasarımını izler; renkler `AppColors.cam`/`HomeSky` ile aynı tutulur,
+yazdırma (PDF rapor) açık zeminde kalır. Ayrıntı `website/README.md`. Kökteki
 `flutter analyze` bu klasörü taramaz; CI'da ayrı işte `dart analyze
 --fatal-infos` ve `dart test` çalışır. Ayrıntılar `portal/README.md`.
 
