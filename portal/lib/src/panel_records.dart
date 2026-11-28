@@ -114,9 +114,10 @@ extension _PanelRecords on PanelApi {
         s,
         c['newPatient'],
         active: '/panel/records/new',
-        '<h1>${PanelApi._h(c['newPatient'])}</h1>'
-        '<p class="muted">${PanelApi._h(c['newPatientIntro'])}</p>'
-        '${_recordForm(t, s, action: '/panel/records')}',
+        bare: true,
+        '<div class="page-head"><div class="titles"><div class="eyebrow">${PanelApi._h(PanelApi._m(r)['navPatients'])}</div><h1>${PanelApi._h(c['newPatient'])}</h1>'
+        '<p class="sub">${PanelApi._h(c['newPatientIntro'])}</p></div></div>'
+        '<section class="panel" style="max-width:760px"><div class="panel-body">${_recordForm(t, s, action: '/panel/records').replaceFirst('class="card"', '')}</div></section>',
       ),
     );
   }
@@ -333,14 +334,14 @@ ${qrSvg(pendingInvite.code, label: c['codeQrLabel'])}
 <dt>${esc(t.colShared)}</dt><dd>${esc(PanelApi._scopes(t, consent.scopes))}</dd>
 <dt>${esc(t.colConsentEnd)}</dt><dd>${esc(PanelApi._date(t, consent.end))}</dd>
 </dl>
-<p class="row"><a class="button" href="/panel/patients/$pid">${esc(c['viewData'])}</a> <a class="button" href="/panel/patients/$pid/report">${esc(c['createReport'])}</a></p>
-<form method="post" action="/panel/records/$enc/unlink">$csrf<button type="submit" class="link">${esc(c['unlink'])}</button> <span class="muted small">${esc(c['unlinkNote'])}</span></form>''';
+<p class="row"><a class="button" href="/panel/patients/$pid">${esc(c['viewData'])}</a> <a class="button secondary" href="/panel/patients/$pid/report">${esc(c['createReport'])}</a></p>
+<form method="post" action="/panel/records/$enc/unlink" class="unlink">$csrf<button type="submit" class="secondary small">${esc(c['unlink'])}</button><span class="muted small">${esc(c['unlinkNote'])}</span></form>''';
     } else if (rec.patientId != null) {
       wristband =
           '''
 <p>${esc(c['consentEnded'])}</p>
 $inviteForm
-<form method="post" action="/panel/records/$enc/unlink">$csrf<button type="submit" class="link">${esc(c['unlink'])}</button></form>''';
+<form method="post" action="/panel/records/$enc/unlink" class="unlink">$csrf<button type="submit" class="secondary small">${esc(c['unlink'])}</button></form>''';
     } else {
       wristband =
           '''
@@ -350,22 +351,13 @@ ${pendingInvite == null ? inviteForm : '<details><summary>${esc(t.createInvite)}
 $linkExisting''';
     }
 
-    return _html(
-      status,
-      _page(
-        t,
-        me,
-        s,
-        rec.name,
-        head: waiting
-            ? '\n<meta http-equiv="refresh" content="10;url=/panel/records/$enc?w=1">'
-            : '',
+    final m = PanelApi._m(r);
+    final snap = _snapshotFor(me, now, recordId: rec.id)!;
+    final facts =
         '''
-<p><a href="/panel">${t.rtl ? '→' : '←'} ${esc(t.myPatients)}</a></p>
-<h1>${esc(rec.name)} <span class="badge $cls">${esc(label)}</span></h1>
-${shownNotice == null ? '' : '<p class="ok" role="status">${esc(shownNotice)}</p>'}
-${error == null ? '' : '<p class="error" role="alert">${esc(error)}</p>'}
-<section class="card">
+<section class="panel">
+<div class="panel-head"><h2>${esc(m['recordFacts'])}</h2></div>
+<div class="panel-body">
 <dl class="facts">
 ${fact('fileNo', rec.fileNo, ltr: true)}
 ${fact('birthDate', rec.birthDate == null ? null : '${PanelApi._date(t, rec.birthDate!)}${age == null ? '' : ' (${c.f('ageYears', {'n': age})})'}')}
@@ -374,25 +366,64 @@ ${fact('phone', rec.phone, ltr: true)}
 ${fact('notes', rec.notes)}
 ${fact('createdAt', PanelApi._date(t, rec.created))}
 </dl>
-</section>
-<section class="card">
-<h2>${esc(c['linkTitle'])}</h2>
+</div>
+</section>''';
+    final link =
+        '''
+<section class="panel${pendingInvite != null ? ' alert-edge' : ''}" style="${pendingInvite != null ? 'border-color:rgba(69,214,184,.45)' : ''}">
+<div class="panel-head"><h2>${esc(c['linkTitle'])}</h2><span class="badge $cls">${esc(label)}</span></div>
+<div class="panel-body">
 $wristband
-</section>
-${_careSection(t, c, s, rec, now)}
-<details class="card"${form == null ? '' : ' open'}>
-<summary><strong>${esc(c['editRecord'])}</strong></summary>
-${_recordForm(t, s, action: '/panel/records/${rec.id}', rec: rec, form: form)}
+</div>
+</section>''';
+    final manage =
+        '''
+<details class="panel"${form == null ? '' : ' open'}>
+<summary class="panel-head" style="border-bottom:0"><h2>${esc(c['editRecord'])}</h2></summary>
+<div class="panel-body" style="border-top:1px solid var(--line)">
+${_recordForm(t, s, action: '/panel/records/${rec.id}', rec: rec, form: form).replaceFirst('class="card"', '')}
+</div>
 </details>
-<details class="card">
-<summary><strong>${esc(c['deleteRecord'])}</strong></summary>
+<details class="panel">
+<summary class="panel-head" style="border-bottom:0"><h2>${esc(c['deleteRecord'])}</h2></summary>
+<div class="panel-body" style="border-top:1px solid var(--line)">
 <p class="muted">${esc(c['deleteNote'])}</p>
 <form method="post" action="/panel/records/$enc/delete" class="row">
 $csrf
 <label>${esc(c['deleteConfirm'])}<input name="confirm" required autocomplete="off"></label>
 <button type="submit" class="danger">${esc(c['deleteRecord'])}</button>
 </form>
-</details>
+</div>
+</details>''';
+    final live = rec.patientId != null && consent != null;
+    return _html(
+      status,
+      _page(
+        t,
+        me,
+        s,
+        rec.name,
+        bare: true,
+        active: '/panel/patients',
+        crumbs: [('/panel/patients', m['navPatients']), (null, rec.name)],
+        head: waiting
+            ? '\n<meta http-equiv="refresh" content="10;url=/panel/records/$enc?w=1">'
+            : '',
+        '''
+${_patientHeader(t, c, m, snap, now, 'care')}
+${shownNotice == null ? '' : '<p class="notice mt" role="status">${esc(shownNotice)}</p>'}
+${error == null ? '' : '<p class="error mt" role="alert">${esc(error)}</p>'}
+<div class="grid cols-main mt">
+<div class="stack">
+${live ? '' : link}
+${_careSection(t, c, s, rec, now)}
+</div>
+<div class="stack">
+$facts
+${live ? link : ''}
+$manage
+</div>
+</div>
 ''',
       ),
     );

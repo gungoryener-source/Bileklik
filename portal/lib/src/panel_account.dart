@@ -72,8 +72,8 @@ extension _PanelAccount on PanelApi {
     String v(String k) => PanelApi._h(form[k]?.firstOrNull ?? '');
     final researcher = form['type']?.firstOrNull == 'researcher';
     return PanelApi._document(t, c['registerTitle'], '''
-<main class="narrow">
-${PanelApi._languages(t)}
+<main class="narrow solo">
+<div class="row" style="justify-content:space-between;align-items:center"><a href="/panel" style="text-decoration:none">${PanelApi._brand()}</a>${PanelApi._languages(t)}</div>
 <h1>${PanelApi._h(c['registerTitle'])}</h1>
 <p class="muted">${PanelApi._h(c['registerIntro'])}</p>
 ${error == null ? '' : '<p class="error" role="alert">${PanelApi._h(error)}</p>'}
@@ -162,11 +162,15 @@ ${error == null ? '' : '<p class="error" role="alert">${PanelApi._h(error)}</p>'
         : '<dt>${PanelApi._h(c[key])}</dt><dd>${PanelApi._h(value)}</dd>';
     return _html(
       status,
-      _page(t, me, s, c['myAccount'], active: '/panel/account', '''
-<h1>${PanelApi._h(c['myAccount'])}</h1>
-${notice == null ? '' : '<p class="ok" role="status">${PanelApi._h(notice)}</p>'}
+      _page(t, me, s, c['myAccount'], active: '/panel/account', bare: true, '''
+<div class="page-head"><div class="titles"><div class="eyebrow">${PanelApi._h(MonitorText.of(t.lang)['navManage'])}</div><h1>${PanelApi._h(c['myAccount'])}</h1></div></div>
+${me.verified ? '' : '<p class="warn" role="status">${PanelApi._h(c['unverified'])}</p>'}
+${notice == null ? '' : '<p class="notice" role="status">${PanelApi._h(notice)}</p>'}
 ${error == null ? '' : '<p class="error" role="alert">${PanelApi._h(error)}</p>'}
-<section class="card">
+<div class="grid cols-2">
+<section class="panel">
+<div class="panel-head"><h2>${PanelApi._h(c['fullName'])}</h2>${me.verified ? '<span class="badge on">${PanelApi._h(c['verified'])}</span>' : '<span class="badge wait">${PanelApi._h(c['notVerified'])}</span>'}</div>
+<div class="panel-body">
 <dl class="facts">
 ${fact('fullName', me.name)}
 ${fact('accountType', me.role == Role.researcher ? c['typeResearcher'] : c['typeClinician'])}
@@ -174,19 +178,24 @@ ${fact('specialty', me.specialty)}
 ${fact('organization', me.organization)}
 ${fact('licenseNo', me.licenseNo)}
 ${fact('email', me.email)}
-<dt></dt><dd>${me.verified ? '<span class="badge on">${PanelApi._h(c['verified'])}</span>' : '<span class="badge wait">${PanelApi._h(c['notVerified'])}</span>'}</dd>
 </dl>
+</div>
 </section>
-<h2>${PanelApi._h(hasPassword ? c['changePassword'] : c['setPassword'])}</h2>
+<section class="panel">
+<div class="panel-head"><h2>${PanelApi._h(hasPassword ? c['changePassword'] : c['setPassword'])}</h2></div>
+<div class="panel-body">
 ${hasPassword || me.email != null ? '' : '<p class="muted">${PanelApi._h(c['noPasswordYet'])}</p>'}
-<form method="post" action="/panel/account/password" class="card">
+<form method="post" action="/panel/account/password">
 <input type="hidden" name="csrf" value="${PanelApi._h(s.csrf)}">
 ${me.email == null ? '<label>${PanelApi._h(c['email'])}<input type="email" name="email" required maxlength="120" autocomplete="username" dir="ltr"></label>' : ''}
 ${hasPassword ? '<label>${PanelApi._h(c['currentPassword'])}<input type="password" name="current" required autocomplete="current-password"></label>' : ''}
-<label>${PanelApi._h(c['newPassword'])}<input type="password" name="password" required minlength="${PasswordHasher.minLength}" autocomplete="new-password"><span class="muted small">${PanelApi._h(c['passwordHint'])}</span></label>
+<label>${PanelApi._h(c['newPassword'])}<input type="password" name="password" required minlength="${PasswordHasher.minLength}" autocomplete="new-password"><span class="faint small">${PanelApi._h(c['passwordHint'])}</span></label>
 <label>${PanelApi._h(c['password2'])}<input type="password" name="password2" required minlength="${PasswordHasher.minLength}" autocomplete="new-password"></label>
 <button type="submit">${PanelApi._h(c['save'])}</button>
 </form>
+</div>
+</section>
+</div>
 '''),
     );
   }

@@ -138,7 +138,7 @@ void main() {
     final p = _Portal();
     final cookie = await p.login('doctor');
     final home = await p.page('/panel', cookie);
-    expect(home, contains('Henüz rıza vermiş hasta yok'));
+    expect(home, contains('Henüz hasta yok'));
     // Ad HTML olarak değil metin olarak yazılır.
     expect(home, contains('Dr. &lt;b&gt;Ayşe&lt;/b&gt; Kaya'));
     expect(home, isNot(contains('<b>Ayşe</b>')));
@@ -214,13 +214,13 @@ void main() {
       200,
     );
 
-    final list = await p.page('/panel', cookie);
+    final list = await p.page('/panel/patients', cookie);
     expect(list, contains('>6f1c2a3e</a>'), reason: 'ekranda kısa kimlik');
 
     final detail = await p.page('/panel/patients/$_patientId', cookie);
     expect(detail, contains('Nabız'));
     expect(detail, contains('72 atım/dk'));
-    expect(detail, contains('<svg class="spark"'));
+    expect(detail, contains('<svg class="spark'));
     expect(detail, isNot(contains('SpO2</h2>')), reason: 'SpO2 paylaşılmadı');
     expect(detail, isNot(contains('97 %')));
 
@@ -323,8 +323,8 @@ void main() {
     // Girişten sonra sayfa da seçilen dilde; değerler dile göre biçimlenir.
     final cookie = await p.login('doctor');
     final home = await p.page('/panel?lang=en', cookie);
-    expect(home, contains('My patients'));
-    expect(home, contains('Heart rate and HRV'));
+    expect(home, contains('Monitored patients'));
+    expect(home, contains('Priority patients'));
     expect(home, contains('Sign out'));
 
     expect(PanelText.de.number(36.6), '36,6');

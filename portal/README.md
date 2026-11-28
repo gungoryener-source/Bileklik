@@ -88,6 +88,33 @@ Sunucu çalışırken `http://…/panel` adresinden açılır. Dört dilde (Tür
 İngilizce, Arapça, Almanca; `PanelText`, `ClinicText`); Arapçada sayfa
 sağdan sola.
 
+### Görünüm ve izlem (`MonitorBoard`, `lib/src/monitor.dart`)
+
+Tasarım sistemi `panel_style.dart` (koyu Cam: gökyüzü degradesi, cam
+paneller, durum renkleri kritik/bakılmalı/izlenecek/stabil/izlenmiyor),
+ortak parçalar `panel_ui.dart`, izlem metinleri `MonitorText` (dört dil).
+Betik yoktur: süzgeç, sıralama, sayfalama ve sekmeler bağlantı ya da GET
+formu; açılır parçalar `<details>`; telefonda yan menü onay kutusuyla açılır.
+
+- `/panel` genel bakış: KPI şeridi, öncelikli hastalar (her satırda en ağır
+  sinyal ve dayanağı), durum dağılımı, açık uyarılar, 14 günlük veri
+  kapsaması ve günlük uyarı eğilimi, içgörüler (her biri hastalara ve
+  kuralına götürür), son etkinlik ve görevler.
+- `/panel/patients`: arama (`q`), durum (`status`), sıralama (`sort`:
+  öncelik, ad, son veri, uyum), sayfa başına 10/25/50 (`n`) ve sayfa (`p`).
+- `/panel/patients/<takma kimlik>`: durumun dayanağı, ölçüm kartları, seçilen
+  ölçümün grafiği (`days` 1/7/30/90, `m` ölçüm; 30/90 günde günlük
+  en düşük/ortalama/en yüksek bandı), ölçüm geçmişi, hastanın uyarıları,
+  son geceler, 30 günlük veri takvimi, notlar ve EKG kayıtları.
+- `/panel/activity`: son 30 günün olayları, türe göre süzülür.
+
+Durum kuralları `MonitorBoard` içinde ve ekranda yazılıdır: son 7 günde eşik
+dışı okumalar (`PatientReport` eşikleri; 3 ve üstü "bakılmalı"), 24 saati
+aşan veri kesintisi, 14 günde ≥2 kg kilo değişimi, haftalık dinlenik nabız
+(+5) ve adım (−%30) değişimi, 14 günlük uyum (<%70), geciken görevler ve
+açık uyarılar. Tarama içindir, tanı değildir. Deneme verisinde sayfalar
+"Deneme verisi" etiketi taşır (`PanelApi.demoData`).
+
 ### Dil seçimi (`PortalLocale`, `lib/src/locale.dart`)
 
 Panel, gizlilik sayfası, `/developers` ve başvuru yanıt sayfası aynı kuralı

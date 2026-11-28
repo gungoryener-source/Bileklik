@@ -110,7 +110,7 @@ extension _PanelReport on PanelApi {
     final base = '/panel/patients/${esc(Uri.encodeComponent(id))}';
     final html = StringBuffer()
       ..write('''
-<p class="noprint"><a href="${record == null ? base : '/panel/records/${esc(Uri.encodeComponent(record.id))}'}">${t.rtl ? '→' : '←'} ${esc(record?.name ?? '${t.patient} ${PanelApi._shortId(id)}')}</a></p>
+${_patientHeader(t, c, PanelApi._m(r), _snapshotFor(me, now, patientId: id)!, now, 'report')}
 <form method="get" action="$base/report" class="card noprint">
 <div class="row">
 <label>${esc(c['fromDate'])}<input type="date" name="from" value="${_PanelRecords._ymd(from)}" dir="ltr"></label>
@@ -152,6 +152,16 @@ extension _PanelReport on PanelApi {
         s,
         '${c['reportTitle']} · ${record?.name ?? PanelApi._shortId(id)}',
         html.toString(),
+        bare: true,
+        active: '/panel/patients',
+        crumbs: [
+          ('/panel/patients', PanelApi._m(r)['navPatients']),
+          (
+            '/panel/patients/${esc(Uri.encodeComponent(id))}',
+            record?.name ?? PanelApi._shortId(id),
+          ),
+          (null, c['reportTitle']),
+        ],
         // Dil değişince seçilen tarih aralığı kalsın.
         query: {...r.url.queryParameters}..remove('lang'),
       ),

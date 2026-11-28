@@ -738,7 +738,7 @@ void main() {
     await seedDemo(api, now: now);
     final doctor = store.accountByToken(DemoTokens.doctor)!;
     final consents = store.consentsForActor(doctor.id);
-    expect(consents, hasLength(3));
+    expect(consents, hasLength(11));
     const first = '00000000-0000-4000-8000-000000000001';
     expect(store.observations(first), hasLength(greaterThan(80)));
     final seen = store.observations(first, codes: consents.firstWhere((c) => c.patientId == first).codes);

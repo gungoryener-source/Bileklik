@@ -162,7 +162,11 @@ dakikada 10 (`ConnectionThrottled`). Adımlar `docs/hekim-canli.md`. Uygulama te
 API'sini bellekte, `MockClient` üzerinden çalıştırır (`test/portal_test.dart`).
 
 Ayrı bir Dart paketi (shelf): FHIR Bundle alır, takipçilere yalnızca rızadaki
-türleri gösterir, her erişimi `AuditEvent` olarak kaydeder. Hekim panelinin, gizlilik
+türleri gösterir, her erişimi `AuditEvent` olarak kaydeder. Hekim paneli genel
+bakış, hasta listesi (süzgeç/sıralama/sayfalama) ve hasta izlem sayfasıyla
+çalışır; durum ve sinyaller `MonitorBoard` (`portal/lib/src/monitor.dart`),
+tasarım sistemi `panel_style.dart`, metinler `MonitorText`. Her durumun
+dayanağı ekranda yazılır; deneme verisi etiketlenir. Hekim panelinin, gizlilik
 ve geliştirici sayfalarının görünümü ile tanıtım sitesi (`website/`) uygulamanın
 koyu Cam tasarımını izler; renkler `AppColors.cam`/`HomeSky` ile aynı tutulur,
 yazdırma (PDF rapor) açık zeminde kalır. Ayrıntı `website/README.md`.
