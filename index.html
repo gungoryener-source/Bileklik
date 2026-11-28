@@ -1,0 +1,979 @@
+<!doctype html>
+<html lang="tr" data-source-lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Bileklik · Kalbiniz bileğinizde, verileriniz sizde</title>
+<meta name="description" content="JCV8 EKG bileklik için sağlık uygulaması: nabız, 30 saniyelik EKG, uyku, SpO2 ve egzersiz takibi. Verilerinizi yalnızca seçtiğiniz hekim, kurum ve aile üyeleriyle, KVKK'ya uygun açık rızayla paylaşın.">
+<meta name="theme-color" content="#1F2E4D">
+<meta name="color-scheme" content="dark">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="tr_TR">
+<meta property="og:title" content="Bileklik · Kalbiniz bileğinizde, verileriniz sizde">
+<meta property="og:description" content="Nabız, EKG, uyku ve SpO2 takibi; yalnızca sizin seçtiğiniz kişilerle paylaşım.">
+<meta property="og:image" content="img/paylasim.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="alternate" hreflang="tr" href="?lang=tr">
+<link rel="alternate" hreflang="en" href="?lang=en">
+<link rel="alternate" hreflang="ar" href="?lang=ar">
+<link rel="alternate" hreflang="de" href="?lang=de">
+<link rel="alternate" hreflang="x-default" href="./">
+<script src="i18n.js"></script>
+<link rel="preload" href="fonts/Manrope-ExtraBold.ttf" as="font" type="font/ttf" crossorigin>
+<style>
+@font-face { font-family: "Manrope"; src: url("fonts/Manrope-Regular.ttf") format("truetype"); font-weight: 400 500; font-display: swap; }
+@font-face { font-family: "Manrope"; src: url("fonts/Manrope-SemiBold.ttf") format("truetype"); font-weight: 600 700; font-display: swap; }
+@font-face { font-family: "Manrope"; src: url("fonts/Manrope-ExtraBold.ttf") format("truetype"); font-weight: 800; font-display: swap; }
+/* Uygulamanın Cam görünümü (yalnızca koyu): lacivert-mavi gökyüzü, altta dağ,
+   koyu yarı saydam cam kartlar, turkuaz vurgu, yeşilden maviye ana düğme.
+   Renkler lib/ui/theme.dart içindeki AppColors.cam, HomeSky ve DataColors'tan. */
+:root {
+  color-scheme: dark;
+  --bg: #0C1016; --sky-top: #1F2E4D; --sky-mid: #34507A;
+  --glass: rgba(22,26,34,.62); --glass-hi: rgba(22,26,34,.86); --floating: rgba(22,26,34,.9);
+  --sheen: linear-gradient(135deg, rgba(255,255,255,.12), rgba(255,255,255,.02));
+  --ink: #FFFFFF; --body: rgba(255,255,255,.86); --muted: rgba(255,255,255,.75); --faint: rgba(255,255,255,.6);
+  --line: rgba(255,255,255,.14); --edge: rgba(255,255,255,.18); --soft: rgba(255,255,255,.08); --field: rgba(14,18,24,.6);
+  --violet: #45D6B8; --violet-ink: #9DF2D8; --heart: #FF5C84; --heart-ink: #FFB8C8;
+  --teal: #2EE6C9; --amber: #FFAA5C; --green: #5BE37D; --blue: #4FC3FF; --sky-blue: #4C8DFF;
+  --cta: linear-gradient(120deg, #17735E, #2C5FC4); --cta-glow: 0 10px 28px rgba(51,209,168,.28);
+  --shadow: 0 18px 44px rgba(0,0,0,.35);
+  --r-card: 28px; --r-hero: 32px; --r-box: 22px;
+  --font: "Manrope", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: 84px; background: var(--bg); }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+body { margin: 0; background: transparent; color: var(--ink); font: 400 17px/1.6 var(--font); -webkit-font-smoothing: antialiased; overflow-x: hidden; position: relative; }
+/* Gökyüzü: degrade, yumuşak ışıklar, metin karşıtlığı için ince perde. Sabit katman. */
+body::before { content: ""; position: fixed; inset: 0; z-index: -2; pointer-events: none;
+  background:
+    linear-gradient(rgba(12,16,22,.2), rgba(12,16,22,.2)),
+    radial-gradient(55vmax 55vmax at 16% 12%, rgba(76,141,255,.30), transparent 70%),
+    radial-gradient(60vmax 60vmax at 88% 40%, rgba(125,139,160,.25), transparent 70%),
+    radial-gradient(55vmax 55vmax at 12% 85%, rgba(69,214,184,.18), transparent 70%),
+    radial-gradient(50vmax 50vmax at 85% 100%, rgba(232,185,120,.15), transparent 70%),
+    linear-gradient(180deg, var(--sky-top) 0%, var(--sky-mid) 45%, var(--bg) 100%); }
+/* Kodla çizilmiş dağ: ekranın altında sabit, kısılmış renklerle; kartlar üstünden kayar. */
+.sky-mountain { position: fixed; left: -4vw; right: -4vw; bottom: 0; height: 46vh; z-index: -1; pointer-events: none; filter: brightness(.48) saturate(.9);
+  -webkit-mask-image: linear-gradient(#000 50%, transparent); mask-image: linear-gradient(#000 50%, transparent); }
+.sky-mountain svg { width: 100%; height: 100%; display: block; }
+img { max-width: 100%; height: auto; display: block; }
+a { color: var(--violet); }
+a:hover { color: var(--violet-ink); }
+:focus-visible { outline: 3px solid var(--violet); outline-offset: 3px; border-radius: 6px; }
+::selection { background: rgba(69,214,184,.35); }
+.wrap { width: 100%; max-width: 1200px; margin: 0 auto; padding-left: max(20px, env(safe-area-inset-left)); padding-right: max(20px, env(safe-area-inset-right)); }
+.skip { position: absolute; inset-inline-start: -999px; top: 8px; background: var(--floating); color: var(--ink); padding: 10px 16px; border-radius: 12px; z-index: 50; }
+.skip:focus { inset-inline-start: 12px; }
+
+/* Üst çubuk: uygulamadaki yüzen gezinme çubuğu gibi bulanık koyu cam */
+.top { position: sticky; top: 0; z-index: 20; background: rgba(22,26,34,.72); backdrop-filter: saturate(1.3) blur(18px); -webkit-backdrop-filter: saturate(1.3) blur(18px); border-bottom: 1px solid var(--line); }
+.top .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 68px; }
+.brand { display: inline-flex; align-items: center; gap: 10px; color: var(--ink); text-decoration: none; font-weight: 800; font-size: 21px; letter-spacing: -.01em; }
+.brand:hover { color: var(--ink); }
+.mark { display: grid; place-items: center; width: 38px; height: 38px; border-radius: 12px; background: radial-gradient(circle at 30% 25%, #9DF2D8, #2E9E86 55%, #0B4A40); box-shadow: 0 6px 18px rgba(51,209,168,.4), inset 0 1px 0 rgba(255,255,255,.4); }
+.nav { display: flex; align-items: center; gap: 4px 20px; overflow-x: auto; scrollbar-width: none; }
+.nav::-webkit-scrollbar { display: none; }
+.nav a { color: var(--muted); text-decoration: none; font-weight: 600; font-size: 15px; padding: 10px 2px; white-space: nowrap; }
+.nav a:hover { color: var(--ink); }
+.top-end { display: flex; align-items: center; gap: 10px; flex: 0 0 auto; }
+/* Dil seçici: her genişlikte görünür, cam hap; yerel seçim listesi (erişilebilir, telefonda kendi seçicisi açılır) */
+.lang { position: relative; display: inline-flex; align-items: center; gap: 6px; min-height: 44px; padding-inline: 12px 8px; border-radius: 999px; background: rgba(255,255,255,.1); border: 1px solid var(--edge); color: var(--ink); cursor: pointer; }
+.lang:hover { background: rgba(255,255,255,.16); border-color: rgba(255,255,255,.3); }
+.lang:focus-within { outline: 3px solid var(--violet); outline-offset: 2px; }
+.lang select { appearance: none; -webkit-appearance: none; background: transparent; border: 0; color: inherit; font: 600 15px/1 var(--font); min-height: 42px; padding-inline: 0 18px; cursor: pointer; outline: none;
+  background-image: linear-gradient(45deg, transparent 50%, currentColor 50%), linear-gradient(135deg, currentColor 50%, transparent 50%); background-position: calc(100% - 9px) 52%, calc(100% - 4px) 52%; background-size: 5px 5px; background-repeat: no-repeat; }
+[dir="rtl"] .lang select { background-position: 4px 52%, 9px 52%; }
+.lang select option { background: #161A22; color: #fff; }
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+/* Sözlük yüklenirken Türkçe metin görünüp değişmesin (en çok 2 sn) */
+.bk-i18n-wait body { visibility: hidden; }
+
+/* Düğmeler: ana düğme yeşilden maviye parıltılı; ikincil düğme cam hap */
+.btn { position: relative; display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 52px; padding: 0 26px; border-radius: 999px; font: 700 16px/1 var(--font); text-decoration: none; border: 1px solid transparent; white-space: nowrap; transition: transform .16s cubic-bezier(.2,.8,.2,1), filter .16s; }
+.btn:active { transform: scale(.96); }
+@media (prefers-reduced-motion: reduce) { .btn:active { transform: none; } }
+.btn-primary { background: var(--cta); color: #fff; box-shadow: var(--cta-glow), inset 0 1px 0 rgba(255,255,255,.25); }
+.btn-primary:hover { color: #fff; filter: brightness(1.1); }
+.btn-ghost { background: rgba(255,255,255,.1); color: var(--ink); border-color: var(--edge); }
+.btn-ghost:hover { color: var(--ink); background: rgba(255,255,255,.16); border-color: rgba(255,255,255,.3); }
+.btn-sm { min-height: 44px; padding: 0 18px; font-size: 15px; }
+.store { display: inline-flex; align-items: center; gap: 10px; min-height: 52px; padding: 0 18px; border-radius: 16px; background: var(--glass-hi); border: 1px solid var(--edge); color: #fff; font-weight: 700; font-size: 14px; line-height: 1.2; }
+.store small { display: block; font-weight: 500; font-size: 11px; color: var(--muted); }
+
+/* Ortak */
+.eyebrow { font: 700 13px/1 var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--violet); margin: 0 0 14px; }
+h1, h2, h3 { text-wrap: balance; }
+.h2 { font-size: clamp(30px, 4vw, 46px); line-height: 1.12; font-weight: 800; letter-spacing: -.02em; margin: 0 0 18px; }
+.h3 { font-size: clamp(26px, 3.2vw, 38px); line-height: 1.15; font-weight: 800; letter-spacing: -.02em; margin: 0 0 16px; }
+.lead { font-size: 18px; color: var(--muted); margin: 0 0 22px; max-width: 580px; }
+.sec { padding-top: 112px; }
+.center { text-align: center; }
+.center .lead, .center .h2 { margin-left: auto; margin-right: auto; }
+.row { display: flex; flex-wrap: wrap; align-items: center; gap: 56px; }
+.row.rev { flex-direction: row-reverse; }
+.txt { flex: 1 1 380px; min-width: 0; }
+.media { flex: 1 1 420px; display: flex; gap: 20px; justify-content: center; align-items: flex-start; min-width: 0; }
+.phone { flex: 0 1 300px; max-width: 300px; }
+.phone img { width: 100%; border-radius: 40px; border: 8px solid #05070B; box-shadow: 0 30px 70px rgba(0,0,0,.5), 0 0 0 1px rgba(255,255,255,.16), 0 0 60px rgba(76,141,255,.18); background: #0C1016; }
+.phone.sm { flex-basis: 240px; max-width: 240px; }
+.phone.sm img { border-radius: 32px; border-width: 7px; }
+.phone.lower { margin-top: 56px; }
+.list { list-style: none; padding: 0; margin: 0; display: grid; gap: 12px; }
+.list li { display: flex; gap: 12px; align-items: flex-start; color: var(--body); }
+.dot { flex: 0 0 auto; width: 8px; height: 8px; border-radius: 50%; margin-top: 10px; box-shadow: 0 0 10px currentColor; }
+.note { margin: 18px 0 0; font-size: 14px; color: var(--muted); }
+/* Cam kart: koyu yarı saydam taban, üstte çapraz parlaklık, ince açık kenar.
+   Bulanıklık yok: kaydırırken her karede yeniden hesaplanmasın (uygulamadaki GlassCard gibi). */
+.card { background: var(--sheen), var(--glass); border: 1px solid var(--edge); border-radius: var(--r-card); padding: 24px; box-shadow: var(--shadow); }
+.grid3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 20px; }
+.grid4 { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 250px), 1fr)); gap: 16px; }
+
+/* Giriş */
+.hero { position: relative; padding-top: 64px; padding-bottom: 24px; overflow-x: clip; }
+.hero h1 { font-size: clamp(42px, 6.2vw, 80px); line-height: 1.02; font-weight: 800; letter-spacing: -.035em; margin: 0 0 22px; }
+.hero h1 span { background: linear-gradient(100deg, #9DF2D8, #45D6B8 40%, #4AA8FF); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.hero .lead { font-size: 20px; }
+.actions { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 26px; }
+.stores { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+.ecg { margin-top: 56px; }
+.ecg svg { width: 100%; height: 70px; display: block; overflow: visible; }
+.ecg polyline { fill: none; stroke: var(--heart); stroke-width: 2.2; stroke-linejoin: round; stroke-linecap: round; stroke-dasharray: 2600; stroke-dashoffset: 0; filter: drop-shadow(0 0 6px rgba(255,92,132,.6)); }
+@media (prefers-reduced-motion: no-preference) { .ecg polyline { animation: trace 3.2s ease-out both; } @keyframes trace { from { stroke-dashoffset: 2600; } } }
+
+/* Ölçüm şeridi */
+.strip { margin-top: 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); background: rgba(22,26,34,.55); }
+.strip .wrap { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px 28px; padding-top: 24px; padding-bottom: 24px; }
+.strip span { display: inline-flex; align-items: center; gap: 8px; font: 500 14px/1.4 var(--mono); color: var(--body); }
+.strip i { width: 7px; height: 7px; border-radius: 50%; display: inline-block; }
+.strip em { font-style: normal; color: var(--faint); }
+
+/* Nasıl çalışır */
+.steps { counter-reset: s; }
+.step { display: grid; gap: 10px; align-content: start; }
+.step b { display: grid; place-items: center; width: 44px; height: 44px; border-radius: 50%; background: radial-gradient(circle at 30% 25%, #9DF2D8, #2E9E86 60%, #0B4A40); color: #05221C; font-weight: 800; box-shadow: 0 6px 18px rgba(51,209,168,.35); }
+.step h3 { margin: 4px 0 0; font-size: 20px; }
+.step p { margin: 0; color: var(--muted); }
+
+/* Küçük özellikler */
+.feat { display: grid; gap: 10px; align-content: start; }
+.feat .ic { display: grid; place-items: center; width: 46px; height: 46px; border-radius: 50%; box-shadow: inset 0 1px 0 rgba(255,255,255,.18); }
+.feat h3 { margin: 4px 0 0; font-size: 18px; }
+.feat p { margin: 0; color: var(--muted); font-size: 15px; line-height: 1.55; }
+
+/* Paylaşım */
+.who { display: grid; gap: 12px; align-content: start; }
+.who h3 { margin: 0; font-size: 22px; }
+.who p { margin: 0; color: var(--muted); }
+.code { display: flex; gap: 6px; flex-wrap: wrap; font-family: var(--mono); }
+.code span { display: grid; place-items: center; width: 34px; height: 42px; border-radius: 10px; background: var(--soft); border: 1px solid var(--edge); color: var(--violet-ink); font-weight: 700; font-size: 18px; }
+.shot { border-radius: 20px; border: 1px solid var(--edge); box-shadow: 0 30px 70px rgba(0,0,0,.45); background: var(--bg); }
+.shots { flex: 1 1 520px; min-width: 0; display: grid; gap: 16px; }
+.shots .shot:nth-child(2) { width: 82%; margin-left: auto; margin-top: -90px; }
+
+/* Gizlilik */
+.privacy { padding: clamp(24px, 5vw, 56px); border-radius: var(--r-hero); border: 1px solid var(--edge); background: linear-gradient(135deg, rgba(69,214,184,.2), rgba(76,141,255,.1) 60%), var(--glass); box-shadow: var(--shadow); }
+.pgrid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 230px), 1fr)); gap: 0 24px; }
+.pgrid div { display: grid; gap: 6px; padding: 16px 0; border-top: 1px solid var(--line); }
+.pgrid span { color: var(--muted); font-size: 15px; line-height: 1.55; }
+
+/* Deneyin */
+.try { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr)); gap: 20px; }
+.try .card { display: grid; gap: 12px; align-content: start; }
+.try h3 { margin: 0; font-size: 22px; }
+.try p { margin: 0; color: var(--muted); }
+.cred { display: flex; flex-wrap: wrap; gap: 8px; }
+.cred code { font: 600 14px/1 var(--mono); background: var(--soft); border: 1px solid var(--line); color: var(--violet-ink); padding: 8px 10px; border-radius: 10px; }
+
+/* Nasıl ölçer */
+.sci { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 16px; }
+.sci .card { display: grid; gap: 8px; align-content: start; }
+.sci h3 { margin: 0; font-size: 19px; }
+.sci p { margin: 0; color: var(--muted); font-size: 15px; line-height: 1.6; }
+.sci .lim { color: var(--body); font-size: 14px; border-top: 1px solid var(--line); padding-top: 8px; margin-top: 4px; }
+.wear { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr)); gap: 28px; align-items: center; margin-top: 48px; }
+.wear svg { width: 100%; max-width: 420px; height: auto; display: block; margin: 0 auto; }
+.wear ol { margin: 0; padding-inline-start: 22px; display: grid; gap: 10px; color: var(--body); }
+
+/* Formlar: koyu cam alanlar */
+input, select, textarea { color-scheme: dark; }
+.wait { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; align-items: flex-start; max-width: 560px; margin: 28px auto 0; text-align: start; }
+.wait input[type=email] { flex: 1 1 240px; min-height: 52px; padding: 12px 18px; border-radius: 999px; border: 1px solid var(--edge); background: var(--field); color: var(--ink); font: 400 16px/1.4 var(--font); }
+.wait input::placeholder, .form input::placeholder, .form textarea::placeholder { color: var(--faint); }
+.wait input[type=email]:focus-visible { outline: 3px solid var(--violet); outline-offset: 1px; }
+.wait [aria-invalid="true"] { border-color: var(--heart-ink); }
+.wait .btn { border: 0; cursor: pointer; }
+.wait .check { flex: 1 1 100%; display: flex; gap: 10px; align-items: flex-start; font-size: 14px; color: var(--body); }
+.wait .check input { width: 20px; height: 20px; margin: 2px 0 0; flex: 0 0 auto; accent-color: var(--violet); }
+.wait .status { flex: 1 1 100%; text-align: center; }
+
+/* İş birliği formu */
+.b2b { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 380px), 1fr)); gap: 40px; align-items: start; }
+.form { display: grid; gap: 16px; }
+.form .two { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr)); gap: 16px; }
+.form label { display: grid; gap: 6px; font-weight: 600; font-size: 15px; color: var(--ink); }
+.form label small { font-weight: 500; color: var(--muted); }
+.form input, .form select, .form textarea { width: 100%; min-height: 48px; padding: 12px 14px; border-radius: 14px; border: 1px solid var(--edge); background: var(--field); color: var(--ink); font: 400 16px/1.4 var(--font); }
+.form select option { background: #161A22; color: #fff; }
+.form textarea { min-height: 128px; resize: vertical; }
+.form input:focus-visible, .form select:focus-visible, .form textarea:focus-visible { outline: 3px solid var(--violet); outline-offset: 1px; border-color: var(--violet); }
+.form [aria-invalid="true"] { border-color: var(--heart-ink); }
+.form .check { display: flex; gap: 12px; align-items: flex-start; font-weight: 500; color: var(--body); font-size: 15px; }
+.form .check input { width: 22px; min-height: 22px; height: 22px; margin: 2px 0 0; flex: 0 0 auto; accent-color: var(--violet); }
+.hp { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap; }
+.form .btn { justify-self: start; border: 0; cursor: pointer; }
+.form .btn[disabled] { opacity: .45; cursor: progress; box-shadow: none; }
+.status { margin: 0; font-weight: 600; min-height: 1.6em; }
+.status.ok { color: var(--green); }
+.status.err { color: var(--heart-ink); }
+
+/* SSS */
+.faq { max-width: 860px; margin: 0 auto; }
+details { border-bottom: 1px solid var(--line); padding: 18px 0; }
+summary { cursor: pointer; font-weight: 700; font-size: 18px; list-style: none; display: flex; justify-content: space-between; gap: 16px; }
+summary::-webkit-details-marker { display: none; }
+summary::after { content: "+"; color: var(--violet); font-weight: 800; }
+details[open] summary::after { content: "–"; }
+details p { color: var(--muted); margin: 12px 0 0; }
+
+/* Son çağrı ve alt bilgi */
+.cta { padding-top: 112px; padding-bottom: 96px; text-align: center; }
+.cta .actions { justify-content: center; }
+.beat { display: inline-block; color: var(--heart); text-shadow: 0 0 18px rgba(255,92,132,.6); }
+@media (prefers-reduced-motion: no-preference) { .beat { animation: beat 1.2s ease-in-out infinite; } @keyframes beat { 0%,100% { transform: scale(1); } 15% { transform: scale(1.22); } 30% { transform: scale(1); } } }
+footer { border-top: 1px solid var(--line); background: rgba(12,16,22,.82); }
+footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 16px 32px; padding-top: 32px; padding-bottom: max(40px, env(safe-area-inset-bottom)); font-size: 14px; color: var(--muted); }
+footer p { margin: 0; max-width: 620px; }
+footer nav { display: flex; flex-wrap: wrap; gap: 8px 20px; }
+
+/* Satın al (demo): ürünler, sepet, sahte ödeme sayfası */
+.shop { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 380px), 1fr)); gap: 32px; align-items: start; }
+.products { display: grid; gap: 16px; }
+.product { display: grid; gap: 10px; }
+.product h3 { margin: 0; font-size: 20px; }
+.product p { margin: 0; color: var(--body); }
+.price { font-size: 28px; font-weight: 800; letter-spacing: -.01em; color: var(--ink); font-variant-numeric: tabular-nums; }
+.price small { font-size: 15px; font-weight: 600; color: var(--muted); }
+.product .btn { justify-self: start; border: 0; cursor: pointer; }
+.demo-note { font-size: 14px; color: var(--body); background: var(--soft); border: 1px solid var(--line); border-radius: 16px; padding: 12px 14px; margin: 0; }
+.cart h3 { margin: 0 0 12px; font-size: 20px; }
+.cart-lines { list-style: none; padding: 0; margin: 0 0 12px; display: grid; gap: 12px; }
+.cart-line { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; }
+.cart-line .name { flex: 1 1 160px; font-weight: 600; overflow-wrap: anywhere; }
+.qty { display: inline-flex; align-items: center; gap: 4px; }
+.qty button { width: 44px; height: 44px; border-radius: 50%; border: 1px solid var(--edge); background: rgba(255,255,255,.1); font: 700 20px/1 var(--font); color: var(--ink); cursor: pointer; }
+.qty button:hover { background: rgba(255,255,255,.16); }
+.qty output { min-width: 28px; text-align: center; font-weight: 700; font-variant-numeric: tabular-nums; }
+.cart-line .sum { min-width: 96px; text-align: end; font-weight: 700; font-variant-numeric: tabular-nums; }
+.totals { display: grid; grid-template-columns: 1fr auto; gap: 6px 12px; border-top: 1px solid var(--line); padding-top: 12px; margin-bottom: 16px; }
+.totals .grand { font-size: 20px; font-weight: 800; }
+.empty-cart { color: var(--muted); margin: 0 0 8px; }
+/* Ödeme penceresi: uygulamadaki diyalog gibi arkası bulanık cam */
+.pay-dialog { border: 1px solid var(--edge); border-radius: var(--r-card); padding: 24px; width: min(440px, calc(100vw - 32px)); background: var(--sheen), var(--floating); color: var(--ink); box-shadow: 0 30px 80px rgba(0,0,0,.6); }
+.pay-dialog::backdrop { background: rgba(5,7,11,.55); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
+.pay-dialog h3 { margin: 0 0 8px; }
+.pay-dialog .actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 16px; }
+.pay-dialog .btn { border: 0; cursor: pointer; }
+.order-ok { background: rgba(91,227,125,.14); border: 1px solid rgba(91,227,125,.4); color: var(--green); border-radius: 16px; padding: 14px; font-weight: 600; margin: 0 0 12px; }
+
+/* Arapça: sağdan sola. Manrope Arapça harf içermez; sistemin Arapça yazı tipine geçilir.
+   Arap yazısı bitişik olduğu için harf aralığı ve büyük harf kullanılmaz. */
+[lang="ar"] body, [lang="ar"] .btn, [lang="ar"] input, [lang="ar"] select, [lang="ar"] textarea { font-family: "Manrope", "Noto Sans Arabic", "Noto Naskh Arabic", "Segoe UI", Tahoma, "Geeza Pro", sans-serif; }
+[lang="ar"] h1, [lang="ar"] h2, [lang="ar"] h3, [lang="ar"] .h2, [lang="ar"] .h3, [lang="ar"] .brand, [lang="ar"] .eyebrow { letter-spacing: 0; }
+[lang="ar"] .eyebrow { font-family: inherit; font-size: 14px; }
+[lang="ar"] .hero h1 { line-height: 1.2; }
+[lang="ar"] body { line-height: 1.75; }
+.code, .cred, .ecg { direction: ltr; }
+.shots .shot:nth-child(2) { margin-left: 0; margin-inline-start: auto; }
+
+@media (max-width: 1180px) { .top .btn { display: none; } }
+@media (max-width: 760px) {
+  body { font-size: 16px; }
+  .sec { padding-top: 76px; }
+  .row { gap: 36px; }
+  .hide-sm { display: none; }
+  .phone.lower { margin-top: 0; }
+  .lead, .hero .lead { font-size: 17px; }
+  .top .btn { display: none; }
+  .nav { -webkit-mask-image: linear-gradient(90deg, #000 85%, transparent); mask-image: linear-gradient(90deg, #000 85%, transparent); padding-right: 24px; }
+  [dir="rtl"] .nav { -webkit-mask-image: linear-gradient(270deg, #000 85%, transparent); mask-image: linear-gradient(270deg, #000 85%, transparent); padding-right: 0; padding-left: 24px; }
+  .top .wrap { gap: 10px; }
+  .brand { font-size: 19px; }
+  .shots .shot:nth-child(2) { width: 100%; margin-top: 0; }
+  .card { border-radius: 24px; padding: 20px; }
+}
+</style>
+</head>
+<body>
+<div class="sky-mountain" aria-hidden="true"><svg viewBox="0 0 1000 500" preserveAspectRatio="none" aria-hidden="true" focusable="false"><defs><radialGradient id="sky-glow" cx="20%" cy="62%" r="70%"><stop offset="0" stop-color="#E8B978" stop-opacity=".35"/><stop offset="1" stop-color="#E8B978" stop-opacity="0"/></radialGradient><linearGradient id="sky-rock" x1="0" y1="0" x2="1" y2="1"><stop offset=".1" stop-color="#B59A78"/><stop offset=".45" stop-color="#3A4352"/><stop offset=".9" stop-color="#1B1F27"/></linearGradient></defs><rect width="1000" height="500" fill="url(#sky-glow)"/><path d="M0 500 L0 290 120 250 220 280 330 235 700 250 820 220 920 260 1000 240 1000 500Z" fill="#52627C" fill-opacity=".7"/><path d="M0 500 L0 360 180 300 300 210 400 130 500 30 580 100 660 165 780 225 900 290 1000 320 1000 500Z" fill="url(#sky-rock)"/><path d="M500 30 580 100 660 165 780 225 620 350 520 200Z" fill="#1B1F27" fill-opacity=".45"/><path d="M500 30 580 100 660 165 640 182 625 150 600 190 575 160 548 200 520 168 490 205 465 170 440 196 420 160 400 182 375 160 300 210 400 130Z" fill="#EEF2F8" fill-opacity=".85"/></svg></div>
+<a class="skip" href="#icerik">İçeriğe geç</a>
+
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="#" aria-label="Bileklik ana sayfa">
+      <span class="mark"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12h4l2-5 4 10 2-5h8"/></svg></span>
+      Bileklik
+    </a>
+    <nav class="nav" aria-label="Bölümler">
+      <a href="#ozellikler">Özellikler</a>
+      <a href="#ekg">EKG</a>
+      <a href="#paylasim">Paylaşım</a>
+      <a href="#gizlilik">Gizlilik</a>
+      <a href="#nasil-olcer">Nasıl ölçer</a>
+      <a href="#dene">Deneyin</a>
+      <a href="#satin-al">Satın al</a>
+      <a href="#is-birligi">İş birliği</a>
+      <a href="#sss">SSS</a>
+    </nav>
+    <div class="top-end">
+      <label class="lang" translate="no"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg><span class="sr">Dil / Language</span><select data-lang-picker aria-label="Dil / Language / اللغة / Sprache"></select></label>
+      <a class="btn btn-ghost btn-sm" href="#dene">Demoyu dene</a>
+    </div>
+  </div>
+</header>
+
+<main id="icerik">
+
+<section class="hero" aria-labelledby="baslik">
+  <div class="wrap row">
+    <div class="txt">
+      <p class="eyebrow">JCV8 EKG bileklik için</p>
+      <h1 id="baslik">Kalbiniz bileğinizde. <span>Verileriniz sizde.</span></h1>
+      <p class="lead">Nabız, EKG, uyku ve kandaki oksijeni ekransız bileklikle izleyin. Hekiminiz, aileniz ya da bir araştırma kurumu yalnızca sizin seçtiğiniz verileri, sizin belirlediğiniz süre boyunca görür.</p>
+      <div class="actions">
+        <a class="btn btn-primary" href="https://bileklik-test.onrender.com/uygulama/">Tarayıcıda dene</a>
+        <a class="btn btn-ghost" href="#ozellikler">Özellikleri gör</a>
+      </div>
+      <div class="stores" aria-label="Mağazalar">
+        <span class="store"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16.4 12.6c0-2.4 2-3.6 2.1-3.7-1.1-1.7-2.9-1.9-3.5-1.9-1.5-.2-2.9.9-3.7.9-.8 0-1.9-.9-3.2-.8-1.6 0-3.1 1-4 2.4-1.7 3-.4 7.4 1.2 9.8.8 1.2 1.8 2.5 3 2.4 1.2 0 1.7-.8 3.2-.8 1.5 0 1.9.8 3.2.8 1.3 0 2.2-1.2 3-2.4.9-1.4 1.3-2.7 1.3-2.8 0 0-2.6-1-2.6-3.9zM14 5.5c.7-.8 1.1-1.9 1-3-1 0-2.1.7-2.8 1.5-.6.7-1.2 1.8-1 2.9 1 .1 2.1-.6 2.8-1.4z"/></svg><span><small>Yakında</small>App Store</span></span>
+        <span class="store"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4 3.5v17c0 .4.4.7.8.5l9.4-8.5L4.8 3c-.4-.2-.8.1-.8.5zm11.3 9.9 2.6 2.4-10.4 5.9 7.8-8.3zm0-2.8L7.5 2.3l10.4 5.9-2.6 2.4zm3.8-1.6 2.6 1.5c.6.4.6 1.3 0 1.7l-2.6 1.5-2.8-2.4 2.8-2.3z"/></svg><span><small>Yakında</small>Google Play</span></span>
+      </div>
+    </div>
+    <div class="media">
+      <div class="phone"><img src="img/ana-sayfa.webp" width="780" height="1688" alt="Ana Sayfa: enerji 65, uyku skoru 82, günlük toparlanma yüzde 62, günlük yük ve günün yapay zeka analizi"></div>
+      <div class="phone sm lower hide-sm"><img src="img/ekg.webp" width="780" height="1688" alt="EKG raporu: 30 saniyelik ölçüm düğmesi, kayıtlı ritim ve bulgular"></div>
+    </div>
+  </div>
+  <div class="wrap ecg" aria-hidden="true">
+    <svg viewBox="0 0 1200 90" preserveAspectRatio="none"><polyline points="0,50 18,50 24,46 30,50 40,50 44,56 48,8 53,72 58,50 72,50 82,40 92,50 110,50 128,50 134,46 140,50 150,50 154,56 158,8 163,72 168,50 182,50 192,40 202,50 220,50 238,50 244,46 250,50 260,50 264,56 268,8 273,72 278,50 292,50 302,40 312,50 330,50 348,50 354,46 360,50 370,50 374,56 378,8 383,72 388,50 402,50 412,40 422,50 440,50 458,50 464,46 470,50 480,50 484,56 488,8 493,72 498,50 512,50 522,40 532,50 550,50 568,50 574,46 580,50 590,50 594,56 598,8 603,72 608,50 622,50 632,40 642,50 660,50 678,50 684,46 690,50 700,50 704,56 708,8 713,72 718,50 732,50 742,40 752,50 770,50 788,50 794,46 800,50 810,50 814,56 818,8 823,72 828,50 842,50 852,40 862,50 880,50 898,50 904,46 910,50 920,50 924,56 928,8 933,72 938,50 952,50 962,40 972,50 990,50 1008,50 1014,46 1020,50 1030,50 1034,56 1038,8 1043,72 1048,50 1062,50 1072,40 1082,50 1100,50 1118,50 1124,46 1130,50 1140,50 1144,56 1148,8 1153,72 1158,50 1172,50 1182,40 1192,50 1200,50"/></svg>
+  </div>
+</section>
+
+<section class="strip" aria-label="Ölçülen değerler">
+  <div class="wrap">
+    <span><i style="background:#FF5C84"></i>Nabız <em>bpm</em></span>
+    <span><i style="background:#2EE6C9"></i>HRV <em>ms</em></span>
+    <span><i style="background:#4FC3FF"></i>SpO2 <em>%</em></span>
+    <span><i style="background:#FF5C84"></i>EKG <em>30 sn</em></span>
+    <span><i style="background:#8FA6FF"></i>Uyku evreleri <em>dk</em></span>
+    <span><i style="background:#9BE15D"></i>Adım <em>adım</em></span>
+    <span><i style="background:#FFAA5C"></i>Kalori <em>kcal</em></span>
+    <span><i style="background:#FFAA5C"></i>Vücut ısısı <em>°C</em></span>
+    <span><i style="background:#C59BFF"></i>Stres <em>0–100</em></span>
+    <span><i style="background:#FF9DB4"></i>Tansiyon <em>tahmini</em></span>
+  </div>
+</section>
+
+<section class="sec" aria-labelledby="nasil">
+  <div class="wrap">
+    <div class="center" style="margin-bottom: 40px">
+      <p class="eyebrow">Nasıl çalışır</p>
+      <h2 id="nasil" class="h2">Üç adımda başlayın</h2>
+    </div>
+    <div class="grid3 steps">
+      <div class="card step"><b>1</b><h3>Bilekliği takın</h3><p>JCV8 bileklik gün boyu nabız, SpO2, uyku ve adımı ölçer; parmağınızı elektroda koyunca EKG çeker.</p></div>
+      <div class="card step"><b>2</b><h3>Telefonla eşleştirin</h3><p>Kutudaki QR kodu okutun ya da yakındaki bileklikleri arayın. Ölçümler telefona gelir ve orada şifreli saklanır.</p></div>
+      <div class="card step"><b>3</b><h3>İsterseniz paylaşın</h3><p>Hekiminizin verdiği davet kodunu girin ya da aile grubu kurun. Neyi, kiminle, ne kadar süre paylaşacağınızı siz seçersiniz.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="ozellikler" class="sec" aria-labelledby="oz-baslik">
+  <div class="wrap center" style="margin-bottom: 64px">
+    <p class="eyebrow">Özellikler</p>
+    <h2 id="oz-baslik" class="h2" style="max-width: 760px">Bilekliğin ölçtüğü her şey, okunaklı ve tek yerde</h2>
+    <p class="lead">Bileklik ekransızdır; ekranı telefonunuzdur. Uygulama ölçümleri bileklikten çeker, telefonda şifreli saklar ve gün gün gösterir.</p>
+  </div>
+  <div class="wrap" style="display: grid; gap: 120px">
+
+    <div class="row">
+      <div class="txt">
+        <p class="eyebrow" style="color: var(--amber)">Günün özeti</p>
+        <h3 class="h3">Sabah tek bakışta: uyku, toparlanma, stres yükü</h3>
+        <p class="lead">Ana Sayfa gece uykusunu, gece HRV ortalamasını ve gün içi yükü bir cümlede toplar. Tarih gezgini ile önceki günlere dönebilirsiniz.</p>
+        <ul class="list">
+          <li><span class="dot" style="background: #FF5C84"></span>Canlı nabız ve dinlenik nabız</li>
+          <li><span class="dot" style="background: #8FA6FF"></span>Uyku, adım, kalori ve aktif süre kartları</li>
+          <li><span class="dot" style="background: #2EE6C9"></span>Kalp atış hızı ve SpO2 gün grafikleri, zaman çizelgesi</li>
+        </ul>
+      </div>
+      <div class="media"><div class="phone"><img src="img/gunun-ozeti.webp" width="780" height="1688" loading="lazy" alt="Ana Sayfa alt bölümü: gün boyu kan oksijeni grafiği, Sağlık Radarı ve gecenin zaman çizelgesi"></div></div>
+    </div>
+
+    <div id="ekg" class="row rev">
+      <div class="txt">
+        <p class="eyebrow" style="color: var(--heart-ink)">EKG</p>
+        <h3 class="h3">30 saniyede tek kanallı EKG</h3>
+        <p class="lead">Parmağınızı bilekliğin üstündeki elektroda koyun; ritim canlı çizilir. Kayıt ortalama, en düşük ve en yüksek nabızla saklanır, hekiminizle FHIR olarak paylaşılabilir.</p>
+        <ul class="list">
+          <li><span class="dot" style="background: #FF5C84"></span>Adım adım nasıl ölçüleceğini anlatan ekran</li>
+          <li><span class="dot" style="background: #FF5C84"></span>Geçmiş kayıtlar ve nabız çözümlemesi</li>
+          <li><span class="dot" style="background: #FF5C84"></span>Tek dokunuşla nabız ve SpO2 ölçümü</li>
+        </ul>
+        <p class="note">Bileklik tıbbi cihaz değildir; tanı koymaz.</p>
+      </div>
+      <div class="media"><div class="phone"><img src="img/ekg.webp" width="780" height="1688" loading="lazy" alt="EKG raporu: ay seçici, kayıtların ritim çizimi, ortalama nabız ve normal ritim bulguları"></div></div>
+    </div>
+
+    <div class="row">
+      <div class="txt">
+        <p class="eyebrow" style="color: var(--violet)">Uyku</p>
+        <h3 class="h3">Derin, hafif, REM: gecenin dökümü</h3>
+        <p class="lead">Uyku süresi, yattığınız ve kalktığınız saat, evrelerin süresi ve yüzdesi. Son 7 gece yan yana.</p>
+        <ul class="list">
+          <li><span class="dot" style="background: #8FA6FF"></span>Evre evre dakika ve yüzde</li>
+          <li><span class="dot" style="background: #8FA6FF"></span>Haftalık uyku grafiği</li>
+        </ul>
+      </div>
+      <div class="media"><div class="phone"><img src="img/uyku.webp" width="780" height="1688" loading="lazy" alt="Uyku ekranı: uyku skoru 82, uykuya dalma 23:49, uyanma 05:49, 5 sa 57 dk ve evre grafiği"></div></div>
+    </div>
+
+    <div class="row rev">
+      <div class="txt">
+        <p class="eyebrow" style="color: var(--heart-ink)">Kalp ve oksijen</p>
+        <h3 class="h3">Gün, hafta, ay: her değerin kendi grafiği</h3>
+        <p class="lead">Nabız, HRV, SpO2, stres, vücut ısısı ve tahmini tansiyon için ayrıntı ekranları. Ortalama, en yüksek ve en düşük değer her zaman görünür.</p>
+        <ul class="list">
+          <li><span class="dot" style="background: #2EE6C9"></span>Otomatik ölçüm aralığını siz belirlersiniz</li>
+          <li><span class="dot" style="background: #2EE6C9"></span>Bileklik çıkarılınca ölçüm durur</li>
+          <li><span class="dot" style="background: #2EE6C9"></span>Tansiyon her yerde "tahmini" diye yazar</li>
+        </ul>
+      </div>
+      <div class="media">
+        <div class="phone sm"><img src="img/nabiz.webp" width="780" height="1688" loading="lazy" alt="Kalp atış hızı ve kan oksijeni kartları: canlı 73 bpm, gün grafikleri, dinlenik nabız 58 bpm"></div>
+        <div class="phone sm lower hide-sm"><img src="img/saglik.webp" width="780" height="1688" loading="lazy" alt="Sağlık sekmesi: hareket halkaları, kalp atış hızı, kan oksijeni ve uyku kartları"></div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="txt">
+        <p class="eyebrow" style="color: var(--green)">Egzersiz</p>
+        <h3 class="h3">16 spor, canlı süre, nabız ve tempo</h3>
+        <p class="lead">Koşudan yogaya sporu seçin, başlatın; bileklik süreyi, nabzı, adımı, mesafeyi ve kaloriyi canlı gönderir. Son 30 günün egzersizleri listede kalır.</p>
+        <ul class="list">
+          <li><span class="dot" style="background: #9BE15D"></span>Haftalık egzersiz sayısı, süre ve kalori</li>
+          <li><span class="dot" style="background: #9BE15D"></span>Duraklat, bitir, ayrıntılarına bak</li>
+        </ul>
+      </div>
+      <div class="media">
+        <div class="phone sm"><img src="img/egzersiz.webp" width="780" height="1688" loading="lazy" alt="Egzersiz sekmesi: toplam süre ve egzersiz sayısı, koşu, bisiklet ve yürüyüş seçimi, harita ve GO düğmesi"></div>
+        <div class="phone sm lower hide-sm"><img src="img/canli-egzersiz.webp" width="780" height="1688" loading="lazy" alt="Egzersiz raporu: bisiklet, 494 kcal, 47 dakika, ortalama 145 bpm, egzersiz yükü 7,8, mesafe ve tempo"></div>
+      </div>
+    </div>
+
+    <div class="row rev">
+      <div class="txt">
+        <p class="eyebrow" style="color: var(--amber)">İlerleme</p>
+        <h3 class="h3">Enerji skoru, haftalık rapor, rozetler</h3>
+        <p class="lead">Uyku ve HRV'den hesaplanan günlük enerji, geçen haftayla karşılaştırmalı rapor ve adım hedefinize göre rozetler. Hesabın nasıl yapıldığı ekranda yazar.</p>
+        <ul class="list">
+          <li><span class="dot" style="background: #FFAA5C"></span>HRV ayrıntısı ve VO2 Max tahmini</li>
+          <li><span class="dot" style="background: #FFAA5C"></span>Değişimler yüzdeyle ve okla</li>
+        </ul>
+      </div>
+      <div class="media"><div class="phone"><img src="img/ilerleme.webp" width="780" height="1688" loading="lazy" alt="Toparlanma ekranı: günlük toparlanma yüzde 70, değerlendirme, dinlenik nabız, HRV ve stres"></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="sec" aria-labelledby="dahasi">
+  <div class="wrap">
+    <p class="eyebrow">Dahası</p>
+    <h2 id="dahasi" class="h2" style="margin-bottom: 36px">Günlük kullanım için gerekenler</h2>
+    <div class="grid4">
+      <div class="card feat"><span class="ic" style="background:rgba(255,170,92,.14);color:#FFAA5C"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg></span><h3>Hatırlatıcılar</h3><p>İlaç ve su hatırlatıcıları bilekliğe yazılır; telefon yanınızda olmasa da titrer.</p></div>
+      <div class="card feat"><span class="ic" style="background:rgba(255,255,255,.1);color:rgba(255,255,255,.85)"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6h18M7 6l-3 9a4 4 0 0 0 6 0L7 6M17 6l-3 9a4 4 0 0 0 6 0l-3-9M12 3v18"/></svg></span><h3>Kilo ve VKİ</h3><p>Kilo ve vücut kompozisyonunu elle girin; VKİ ve grafik hazır. Ayrıca seçmedikçe kimseyle paylaşılmaz.</p></div>
+      <div class="card feat"><span class="ic" style="background:rgba(79,195,255,.14);color:#4FC3FF"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 16l-4-4 4-4M17 8l4 4-4 4M3 12h18"/></svg></span><h3>Apple Sağlık ve Health Connect</h3><p>Seçtiğiniz türleri telefonun sağlık uygulamasına yazar; oradan veri okumaz.</p></div>
+      <div class="card feat"><span class="ic" style="background:rgba(46,230,201,.14);color:#2EE6C9"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12M7 8l5-5 5 5M5 21h14"/></svg></span><h3>Verilerimi dışa aktar</h3><p>Tüm ölçümleriniz FHIR R4 dosyası olarak; hekiminize ya da başka bir uygulamaya.</p></div>
+      <div class="card feat"><span class="ic" style="background:rgba(197,155,255,.16);color:#C59BFF"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 7v5l3 2M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0"/></svg></span><h3>Otomatik ölçüm</h3><p>Nabız, SpO2 ve diğer ölçümlerin aralığını ve saatlerini siz seçersiniz.</p></div>
+      <div class="card feat"><span class="ic" style="background:rgba(255,92,132,.16);color:#FF8FAB"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3h7v7H3zM14 3h7v7h-7zM3 14h7v7H3zM14 14h3v3h-3zM20 14v7h-6"/></svg></span><h3>QR ile eşleştirme</h3><p>Bilekliğin kutusundaki QR kodu okutun ya da yakındaki bileklikleri arayın.</p></div>
+      <div class="card feat"><span class="ic" style="background:rgba(91,227,125,.14);color:#5BE37D"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h16M4 12h10M4 17h7"/></svg></span><h3>Saat ve birim</h3><p>24 ya da 12 saat, metrik ya da ABD birimleri; bileklik ayarları uygulamadan.</p></div>
+      <div class="card feat"><span class="ic" style="background:rgba(255,92,132,.16);color:#FF8FAB"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><path d="M12 12l6-6"/></svg></span><h3>Sağlık Radarı</h3><p>Her sabah son gecenin nabız, HRV, ısı ve SpO2'si kendi olağan değerlerinizle karşılaştırılır; belirgin sapma varsa kart söyler.</p></div>
+      <div class="card feat"><span class="ic" style="background:rgba(46,230,201,.14);color:#2EE6C9"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 8v4l3 3M3 12a9 9 0 1 0 3-6.7L3 8M3 3v5h5"/></svg></span><h3>Biyolojik yaş</h3><p>Dinlenik nabız, adım, uyku ve VKİ'den takvim yaşınıza göre bir tahmin ve son 8 haftanın eğilimi.</p></div>
+      <div class="card feat"><span class="ic" style="background:rgba(255,170,92,.14);color:#FFAA5C"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20V14M9 20V10M14 20V6M19 20V3"/></svg></span><h3>Nabız bölgeleri</h3><p>Isınmadan azamiye beş bölge; nabız ekranında ve her egzersizin özetinde hangi bölgede ne kadar kaldığınız.</p></div>
+      <div class="card feat"><span class="ic" style="background:rgba(79,195,255,.14);color:#4FC3FF"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 14.8V4a2 2 0 0 0-4 0v10.8a4 4 0 1 0 4 0z"/></svg></span><h3>Isı sapması</h3><p>İlk haftanın ortalaması olağan ısınız sayılır; sonraki günlerin farkı sıfırın üstü ve altı olarak çizilir.</p></div>
+      <div class="card feat"><span class="ic" style="background:rgba(197,155,255,.16);color:#C59BFF"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></span><h3>Geri bildirim</h3><p>Hata ya da öneriyi uygulamadan iletin; kimliğiniz ve sağlık veriniz gönderilmez.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="nasil-olcer" class="sec" aria-labelledby="olcer-baslik">
+  <div class="wrap">
+    <div class="center" style="margin-bottom: 40px">
+      <p class="eyebrow">Nasıl ölçer</p>
+      <h2 id="olcer-baslik" class="h2">Her sayının arkasında ne var, nerede sınırı var</h2>
+      <p class="lead">Bileklik bir tıbbi cihaz değildir. Neyi nasıl ölçtüğünü ve hangi durumda yanılabileceğini açıkça yazıyoruz.</p>
+    </div>
+    <div class="sci">
+      <div class="card"><p class="eyebrow" style="margin: 0; color: var(--heart-ink)">Nabız ve SpO2</p><h3>Işıkla okunan kan akışı</h3><p>Bilekliğin altındaki ışık, her atımda deride değişen kan miktarını okur (fotopletismografi, PPG). Nabız bu dalganın sıklığından, SpO2 farklı dalga boylarındaki ışığın ne kadar emildiğinden hesaplanır.</p><p class="lim">Hareket, soğuk el, dövme ve gevşek takma ölçümü bozar.</p></div>
+      <div class="card"><p class="eyebrow" style="margin: 0; color: var(--heart-ink)">EKG</p><h3>Tek kanal, 30 saniye</h3><p>Bilekteki elektrotla diğer elinizin parmağını koyduğunuz üst elektrot arasında kalbin elektriksel sinyali kaydedilir; kollar arası tek derivasyona benzer. Atımlar arası süreden nabız ve değişkenlik hesaplanır.</p><p class="lim">Hastanedeki 12 kanallı EKG'nin yerine geçmez; ritim hakkında fikir verir.</p></div>
+      <div class="card"><p class="eyebrow" style="margin: 0; color: var(--violet)">HRV ve stres</p><h3>Atımlar arasındaki küçük farklar</h3><p>Ardışık atımlar arasındaki sürelerin ne kadar değiştiği (HRV) dinlenmişlikle ilgilidir. Değer kişiden kişiye çok değiştiği için uygulama sizi başkalarıyla değil, kendi geçmişinizle karşılaştırır.</p><p class="lim">Kafein, alkol, hastalık ve geç yemek geceki HRV'yi düşürür.</p></div>
+      <div class="card"><p class="eyebrow" style="margin: 0; color: var(--violet)">Uyku</p><h3>Hareket ve nabızdan evre tahmini</h3><p>Bileklik gece boyunca hareketi ve nabzı izleyip derin, hafif, REM ve uyanık evreleri tahmin eder; uygulama süreyi ve evrelerin payını gösterir.</p><p class="lim">Uyku laboratuvarındaki polisomnografi kadar kesin değildir.</p></div>
+      <div class="card"><p class="eyebrow" style="margin: 0; color: var(--amber)">Tansiyon</p><h3>Her zaman "tahmini"</h3><p>Değer kolluk takılmadan, nabız dalgasının biçiminden tahmin edilir. Eğilimi görmek için kullanın.</p><p class="lim">İlaç ya da tedavi kararı için kollu bir tansiyon aletiyle ölçün.</p></div>
+      <div class="card"><p class="eyebrow" style="margin: 0; color: var(--blue)">Vücut ısısı</p><h3>Mutlak değer değil, sapma</h3><p>Bilek cildinin ısısı vücudun iç ısısından düşüktür ve ortamdan etkilenir. Bu yüzden uygulama ilk haftanızın ortalamasını temel alır ve ondan farkı gösterir.</p><p class="lim">Ateşi bir termometreyle doğrulayın.</p></div>
+    </div>
+    <div class="wear">
+      <svg viewBox="0 0 420 260" role="img" aria-labelledby="wear-svg-title">
+        <title id="wear-svg-title">Bileklik, bilek kemiği çıkıntısının bir parmak üstüne takılır</title>
+        <path d="M0 150 C 90 130, 200 128, 420 118 L 420 210 C 220 214, 110 220, 0 236 Z" fill="rgba(255,255,255,.08)" stroke="rgba(255,255,255,.22)" stroke-width="2"/>
+        <circle cx="120" cy="196" r="13" fill="rgba(255,255,255,.14)" stroke="rgba(255,255,255,.4)" stroke-width="2"/>
+        <text x="120" y="250" text-anchor="middle" font-size="14" fill="rgba(255,255,255,.75)" font-family="Manrope, sans-serif">bilek kemiği</text>
+        <rect x="176" y="112" width="58" height="118" rx="16" fill="#05070B" stroke="rgba(255,255,255,.22)"/>
+        <rect x="190" y="146" width="30" height="48" rx="9" fill="#45D6B8"/>
+        <path d="M134 98 H 178" stroke="#FF5C84" stroke-width="3" stroke-linecap="round"/>
+        <path d="M134 90 V 106 M178 90 V 106" stroke="#FF5C84" stroke-width="3" stroke-linecap="round"/>
+        <text x="156" y="80" text-anchor="middle" font-size="14" fill="#FFB8C8" font-family="Manrope, sans-serif">bir parmak</text>
+      </svg>
+      <div>
+        <h3 class="h3" style="font-size: clamp(22px, 2.6vw, 30px)">Doğru takın, doğru ölçsün</h3>
+        <ol>
+          <li>Bilekliği bilek kemiği çıkıntısının bir parmak üstüne takın.</li>
+          <li>Sıkı ama rahat olsun: kayışla bilek arasına bir parmak zor girmeli.</li>
+          <li>Ölçüm sırasında kolunuzu kıpırdatmayın, kalp hizasında tutun.</li>
+          <li>EKG için diğer elinizin parmağını üst elektroda hafifçe koyun, bastırmayın.</li>
+          <li>Bilek çevrenizi kağıt bir şerit ya da mezurayla bilek kemiğinin hemen üstünden ölçün. Kayış ölçü aralığı satış başladığında burada yazacak.</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="paylasim" class="sec" aria-labelledby="pay-baslik">
+  <div class="wrap">
+    <div class="row" style="align-items: flex-end; margin-bottom: 40px; gap: 24px">
+      <div class="txt">
+        <p class="eyebrow">Paylaşım</p>
+        <h2 id="pay-baslik" class="h2">Kim, neyi, ne kadar süre görecek: siz seçersiniz</h2>
+      </div>
+      <p class="lead" style="flex: 1 1 380px; margin: 0">Her paylaşım ayrı bir açık rızadır. Türleri tek tek açarsınız; varsayılan olarak hiçbir şey paylaşılmaz. Bağlantıyı kaldırdığınız an erişim biter.</p>
+    </div>
+    <div class="grid3">
+      <div class="card who">
+        <p class="eyebrow" style="margin: 0; color: var(--heart-ink)">Hekim</p>
+        <h3>Davet koduyla bağlanın</h3>
+        <p>Hekiminiz panelden 7 haneli bir kod verir. Kodu girince amaç, istenen veriler ve süre ekranda görünür; hangilerini paylaşacağınızı siz seçersiniz.</p>
+        <div class="code" translate="no" aria-label="Örnek davet kodu K7PQM2X"><span>K</span><span>7</span><span>P</span><span>Q</span><span>M</span><span>2</span><span>X</span></div>
+      </div>
+      <div class="card who">
+        <p class="eyebrow" style="margin: 0; color: var(--violet)">Araştırma kurumu</p>
+        <h3>Çalışmaya katılın, istediğinizde çıkın</h3>
+        <p>Kurum yalnızca rızadaki türleri, takma kimliğinizle görür. Adınız, TC kimlik numaranız ya da iletişim bilginiz istenmez.</p>
+      </div>
+      <div class="card who">
+        <p class="eyebrow" style="margin: 0; color: var(--teal)">Aile</p>
+        <h3>Aile grubunda birbirinizi izleyin</h3>
+        <p>Grup kurun, annenizi ya da kardeşinizi kişiye özel kodla davet edin. Herkes grupla ne paylaşacağını kendisi seçer.</p>
+      </div>
+    </div>
+
+    <div class="row" style="margin-top: 80px">
+      <div class="txt">
+        <h3 class="h3">Hekim paneli</h3>
+        <p class="lead">Hekim tarayıcıdan giriş yapar ve yalnızca rıza vermiş hastaları görür. Kendi hasta kayıtlarını açar, kayda özel davet kodu verir; rızadaki türlerin tarih aralıklı raporunu grafik ve tablolarla oluşturur. Her görüntüleme hastanın erişim kayıtlarına geçer.</p>
+        <ul class="list">
+          <li><span class="dot" style="background: #FF5C84"></span>Uyarı panosu: 10 dakikadan uzun düşük SpO2, yüksek ya da düşük nabız, tansiyon krizi, ateş ve "veri gelmiyor"; "Gördüm" ve yanıt süresi kaydı</li>
+          <li><span class="dot" style="background: #FF5C84"></span>İzlem notları ve son günlü görevler</li>
+          <li><span class="dot" style="background: #FF5C84"></span>Rapor: yazdır / PDF, CSV, FHIR ve HL7 v2</li>
+          <li><span class="dot" style="background: #FF5C84"></span>Eşiğe dayalı "dikkat çeken bulgular" ve uyarılar; tanı değildir</li>
+          <li><span class="dot" style="background: #FF5C84"></span>Türkçe, İngilizce, Arapça ve Almanca</li>
+        </ul>
+      </div>
+      <div class="shots">
+        <img class="shot" src="img/panel-hastalar.webp" width="1600" height="1012" loading="lazy" alt="Hekim paneli, Hastalarım: kayıtlı hasta, veri paylaşan, bekleyen davet ve son 24 saatte veri sayıları; hasta tablosu">
+        <img class="shot" src="img/panel-rapor.webp" width="1600" height="1012" loading="lazy" alt="Sağlık raporu: dikkat çeken bulgular ve 30 günlük nabız grafiği">
+      </div>
+    </div>
+
+    <div class="row rev" style="margin-top: 80px">
+      <div class="txt">
+        <h3 class="h3">Aile grubu</h3>
+        <p class="lead">Grupla neyi paylaştığınızı anahtarlarla seçersiniz; değişiklik anında geçerli olur ve izin tarihi kayıtlıdır. Üyelerin neyi paylaştığı listede görünür. İsterseniz "Acil durumda grubu uyar"ı da açarsınız: paylaştığınız nabız ya da SpO2 uzun süre olağan dışı kalırsa aileniz uygulamada uyarı görür.</p>
+      </div>
+      <div class="media">
+        <div class="phone sm"><img src="img/aile-grubu.webp" width="780" height="1688" loading="lazy" alt="Aile grubu: paylaşım anahtarları, nabız ve uyku açık"></div>
+        <div class="phone sm lower hide-sm"><img src="img/davet-kodu.webp" width="780" height="1688" loading="lazy" alt="Davet kodu penceresi: kişiye özel 6 karakterlik kod"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="gizlilik" class="sec" aria-labelledby="giz-baslik">
+  <div class="wrap">
+    <div class="privacy">
+      <div class="row" style="align-items: flex-start">
+        <div class="txt">
+          <p class="eyebrow">Gizlilik ve KVKK</p>
+          <h2 id="giz-baslik" class="h2">Sağlık veriniz özel nitelikli. Öyle davranıyoruz.</h2>
+          <p class="lead">Veriler önce telefonunuzda kalır. Portala yalnızca paylaşmayı seçtiğiniz türler gider; orada da şifreli saklanır ve her erişim kaydedilir.</p>
+          <div class="pgrid">
+            <div><strong>Telefonda şifreli</strong><span>Ölçümler şifreli veritabanında; anahtar telefonun güvenli bölgesinde.</span></div>
+            <div><strong>Takma kimlik</strong><span>Portalda rastgele bir kimlikle tanınırsınız; ad ve TC kimlik istenmez.</span></div>
+            <div><strong>Yedeğe girmez</strong><span>Sağlık verisi telefon yedeğiyle başka yere taşınmaz.</span></div>
+            <div><strong>Her erişim kayıtlı</strong><span>Kimin ne zaman baktığını uygulamadan görürsünüz.</span></div>
+            <div><strong>Unutulma hakkı</strong><span>Portaldaki verilerinizi tek dokunuşla silersiniz.</span></div>
+            <div><strong>Kurtarma kodu</strong><span>Telefon değişince bağlantılarınızı kodla geri alırsınız.</span></div>
+          </div>
+          <p class="note"><a href="https://bileklik-test.onrender.com/gizlilik" data-lang-link>Gizlilik politikasının tamamı</a> (taslak, dört dil)</p>
+        </div>
+        <div class="phone sm"><img src="img/portal-hesabi.webp" width="780" height="1688" loading="lazy" alt="Portal hesabı: kurtarma kodu, hesabı geri yükleme, portaldaki verileri silme"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec" aria-labelledby="dil-baslik">
+  <div class="wrap row rev">
+    <div class="txt">
+      <p class="eyebrow">Dört dil</p>
+      <h2 id="dil-baslik" class="h2">Türkçe, English, <span lang="ar">العربية</span>, Deutsch</h2>
+      <p class="lead">Arapçada ekran sağdan sola aynalanır; sayılar ve birimler okunaklı kalır. Dil ilk açılışta seçilir, Profil'den değiştirilir. Hekim paneli ve bu site de dört dildedir.</p>
+    </div>
+    <div class="media"><div class="phone sm"><img src="img/arapca.webp" width="780" height="1688" loading="lazy" alt="Arapça geri bildirim ekranı, sağdan sola yerleşim"></div></div>
+  </div>
+</section>
+
+<section id="dene" class="sec" aria-labelledby="dene-baslik">
+  <div class="wrap">
+    <div class="center" style="margin-bottom: 40px">
+      <p class="eyebrow">Deneyin</p>
+      <h2 id="dene-baslik" class="h2">Bileklik olmadan, hemen şimdi</h2>
+      <p class="lead">Test sunucusunda uygulama ve hekim paneli birbirine bağlı: paneldeki davet kodunu uygulamaya girdiğinizde bağlantı kurulur, ölçümler panelde görünür. Sunucu bir süre kullanılmayınca uyur; ilk açılış bir dakika kadar sürebilir.</p>
+    </div>
+    <div class="try">
+      <div class="card">
+        <p class="eyebrow" style="margin: 0; color: var(--heart-ink)">Uygulama</p>
+        <h3>Tarayıcıda, sahte bileklikle</h3>
+        <p>Telefonda açıp ana ekrana da ekleyebilirsiniz. Profil &gt; Hekim ve araştırma kurumu'ndan panelin verdiği kodu girin.</p>
+        <div><a class="btn btn-primary" href="https://bileklik-test.onrender.com/uygulama/">Uygulamayı aç</a></div>
+      </div>
+      <div class="card">
+        <p class="eyebrow" style="margin: 0; color: var(--violet)">Hekim paneli</p>
+        <h3>Örnek hastalarla giriş yapın</h3>
+        <p>Hastalarım &gt; Davet oluştur ile kod alın ya da kendi hekim hesabınızı açın.</p>
+        <div class="cred" translate="no"><code>demo@bileklik.app</code><code>demo-sifre-2026</code></div>
+        <div><a class="btn btn-ghost" href="https://bileklik-test.onrender.com/panel" data-lang-link>Paneli aç</a></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="satin-al" class="sec" aria-labelledby="satin-baslik">
+  <div class="wrap">
+    <p class="eyebrow">Satın al</p>
+    <h2 id="satin-baslik" class="h2">Bilekliğinizi alın</h2>
+    <p class="lead">Uygulama ve temel özellikler ücretsiz. Yapay zeka raporu için uygulamadan Premium'a geçebilirsiniz: aylık 149,99 TL ya da yıllık 1.199,99 TL.</p>
+    <p class="demo-note" style="margin-bottom: 24px"><strong>Demo:</strong> fiyatlar örnektir, gerçek ödeme alınmaz ve bilgileriniz hiçbir yere gönderilmez. Yayında ödeme, kart bilgilerinin doğrudan ödeme kuruluşuna gittiği güvenli ödeme sayfasıyla alınacak; kart bilgisi bizim sunucumuza gelmez.</p>
+    <div class="shop">
+      <div class="products">
+        <article class="card product" data-id="band" data-name="JCV8 EKG bileklik" data-price="2499">
+          <h3>JCV8 EKG bileklik</h3>
+          <p>Nabız, EKG, kan oksijeni, uyku, adım ve cilt ısısı. Şarj kablosu ve kullanım kılavuzuyla.</p>
+          <div class="price">2.499,00 TL <small>KDV dahil</small></div>
+          <button class="btn btn-primary js-add" type="button">Sepete ekle</button>
+        </article>
+        <article class="card product" data-id="band-premium" data-name="Bileklik + 1 yıl Premium" data-price="3299">
+          <h3>Bileklik + 1 yıl Premium</h3>
+          <p>Bileklik ve bir yıllık Premium kodu: haftalık yapay zeka sağlık raporu ve kişisel öneriler.</p>
+          <div class="price">3.299,00 TL <small>KDV dahil</small></div>
+          <button class="btn btn-primary js-add" type="button">Sepete ekle</button>
+        </article>
+      </div>
+      <div class="card cart" id="cart" aria-labelledby="sepet-baslik">
+        <h3 id="sepet-baslik">Sepetiniz</h3>
+        <noscript><p class="empty-cart">Sepet için tarayıcınızda JavaScript açık olmalı.</p></noscript>
+        <p class="order-ok" id="order-ok" role="status" hidden data-i18n-skip></p>
+        <p class="empty-cart" id="cart-empty">Sepetiniz boş.</p>
+        <ul class="cart-lines" id="cart-lines" aria-live="polite" data-i18n-skip></ul>
+        <div class="totals" id="cart-totals" hidden>
+          <span>Ara toplam</span><span id="t-sub" data-i18n-skip></span>
+          <span>Kargo</span><span>Ücretsiz</span>
+          <span class="grand">Toplam</span><span class="grand" id="t-total" data-i18n-skip></span>
+        </div>
+        <form id="checkout" class="form" novalidate hidden>
+          <label>Adınız soyadınız<input name="name" autocomplete="name" maxlength="120" required></label>
+          <div class="two">
+            <label>E-posta<input name="email" type="email" autocomplete="email" maxlength="200" required></label>
+            <label>Telefon<input name="phone" type="tel" autocomplete="tel" maxlength="40" required></label>
+          </div>
+          <label>Teslimat adresi<textarea name="address" autocomplete="street-address" maxlength="400" required style="min-height: 88px"></textarea></label>
+          <div class="two">
+            <label>İl<input name="city" autocomplete="address-level1" maxlength="80" required></label>
+            <label><span>Posta kodu <small>(isteğe bağlı)</small></span><input name="zip" autocomplete="postal-code" maxlength="12"></label>
+          </div>
+          <label class="check"><input type="checkbox" name="terms" required><span>Ön bilgilendirme formunu ve mesafeli satış sözleşmesini okudum, onaylıyorum. <small>(Metinler yayın öncesi eklenecek.)</small></span></label>
+          <button class="btn btn-primary" type="submit">Ödemeye geç</button>
+          <p class="status" role="status" aria-live="polite" data-i18n-skip></p>
+        </form>
+      </div>
+    </div>
+  </div>
+  <dialog class="pay-dialog" id="pay-dialog" aria-labelledby="pay-baslik">
+    <h3 id="pay-baslik">Demo ödeme sayfası</h3>
+    <p>Yayında burada ödeme kuruluşunun (ör. iyzico) güvenli sayfası açılır ve kart bilgileri orada girilir.</p>
+    <p><strong>Ödenecek tutar:</strong> <strong id="pay-total" data-i18n-skip></strong></p>
+    <div class="actions">
+      <button class="btn btn-primary" type="button" id="pay-ok">Ödemeyi onayla</button>
+      <button class="btn btn-ghost" type="button" id="pay-fail">Başarısız ödemeyi dene</button>
+    </div>
+  </dialog>
+</section>
+
+<section id="is-birligi" class="sec" aria-labelledby="b2b-baslik">
+  <div class="wrap b2b">
+    <div class="txt">
+      <p class="eyebrow">İş birliği</p>
+      <h2 id="b2b-baslik" class="h2">Bileklik'i birlikte sunalım</h2>
+      <p class="lead">Distribütörler, kendi markasıyla üretmek isteyen firmalar, çalışanlarına sağlık programı kuran kurumlar ve hastalarını uzaktan izlemek isteyen klinikler için.</p>
+      <ul class="list">
+        <li><i class="dot" style="background: var(--heart)"></i><span><strong>Distribütörlük:</strong> bölgenizde bileklik ve uygulamanın satışı, kurulum desteği.</span></li>
+        <li><i class="dot" style="background: var(--violet)"></i><span><strong>OEM / ODM:</strong> kendi markanızla uygulama ve hekim paneli, dört dil hazır.</span></li>
+        <li><i class="dot" style="background: var(--teal)"></i><span><strong>Kurumsal sağlık:</strong> çalışanlar verisini yalnızca kendi seçtikleriyle paylaşır; kurum kişisel veri görmez.</span></li>
+        <li><i class="dot" style="background: var(--amber)"></i><span><strong>Klinik ve hastane:</strong> hekim panelinde uzaktan izlem, uyarı panosu, rapor ve FHIR R4 aktarımı.</span></li>
+      </ul>
+    </div>
+    <div class="card">
+      <form id="b2b-form" class="form" action="https://bileklik-test.onrender.com/inquiry" method="post" novalidate>
+        <input type="hidden" name="lang" value="tr">
+        <label>Başvuru türü
+          <select name="kind" required>
+            <option value="distributor">Distribütörlük</option>
+            <option value="oem">OEM / ODM (kendi markanız)</option>
+            <option value="corporate">Kurumsal sağlık programı</option>
+            <option value="clinic">Klinik ya da hastane</option>
+            <option value="other">Diğer</option>
+          </select>
+        </label>
+        <div class="two">
+          <label>Adınız soyadınız<input name="name" autocomplete="name" maxlength="120" required></label>
+          <label>Kurum<input name="company" autocomplete="organization" maxlength="120" required></label>
+        </div>
+        <div class="two">
+          <label>E-posta<input name="email" type="email" autocomplete="email" maxlength="200" required></label>
+          <label><span>Telefon <small>(isteğe bağlı)</small></span><input name="phone" type="tel" autocomplete="tel" maxlength="40"></label>
+        </div>
+        <label><span>Ülke / bölge <small>(isteğe bağlı)</small></span><input name="country" autocomplete="country-name" maxlength="120"></label>
+        <label>Mesajınız<textarea name="message" maxlength="2000" required placeholder="Hedef pazar, tahmini adet, ihtiyacınız…"></textarea></label>
+        <label class="hp" aria-hidden="true">Web sitesi<input name="website" tabindex="-1" autocomplete="off"></label>
+        <label class="check"><input type="checkbox" name="consent" required><span>Bilgilerimin yalnızca başvuruma dönülmesi için saklanacağını ve sağlık verisiyle birleştirilmeyeceğini okudum (<a href="https://bileklik-test.onrender.com/gizlilik" data-lang-link>gizlilik politikası</a>).</span></label>
+        <button class="btn btn-primary" type="submit">Başvuruyu gönder</button>
+        <p class="status" role="status" aria-live="polite" data-i18n-skip></p>
+      </form>
+    </div>
+  </div>
+</section>
+
+<section id="sss" class="sec" aria-labelledby="sss-baslik">
+  <div class="wrap faq">
+    <p class="eyebrow">Sık sorulanlar</p>
+    <h2 id="sss-baslik" class="h2" style="margin-bottom: 18px">Sorular</h2>
+    <details><summary>Bileklik bir tıbbi cihaz mı?</summary><p>Hayır. Ölçümler kendinizi takip etmeniz ve hekiminizle konuşmanız içindir; tanı koymaz. Tansiyon değeri tahminidir.</p></details>
+    <details><summary>Hangi bileklikle çalışıyor?</summary><p>JCV8 ekransız EKG bileklikle. Bluetooth ile bağlanır; eşleştirme için QR kodu okutabilir ya da yakındaki bileklikleri arayabilirsiniz.</p></details>
+    <details><summary>Verilerim nerede duruyor?</summary><p>Telefonunuzda, şifreli. Bir hekim, aile grubu ya da araştırma kurumuyla paylaşmayı seçtiğinizde yalnızca o türler portala gider ve orada da şifreli saklanır.</p></details>
+    <details><summary>Hekimim verilerimi nasıl görür?</summary><p>Hekiminizin verdiği davet kodunu uygulamaya girer, paylaşacağınız türleri ve süreyi onaylarsınız. Hekim tarayıcıdaki panelden yalnızca bunları görür.</p></details>
+    <details><summary>Paylaşımı nasıl durdururum?</summary><p>Profil &gt; Hekim ve araştırma kurumu ya da Sağlık topluluğu bölümünden bağlantıyı kaldırın; erişim hemen biter. Portaldaki verilerinizi Profil &gt; Portal hesabı'ndan silebilirsiniz.</p></details>
+    <details><summary>Telefonu değiştirirsem ne olur?</summary><p>Portal hesabınızın kurtarma kodunu yeni telefona girersiniz; hekim ve aile bağlantılarınız geri gelir, eski telefonun erişimi kesilir.</p></details>
+    <details><summary>Uygulama ne zaman mağazalarda?</summary><p>App Store ve Google Play sürümleri hazırlanıyor. O zamana kadar uygulamayı ve hekim panelini yukarıdaki test sunucusunda deneyebilirsiniz.</p></details>
+  </div>
+</section>
+
+<section class="cta" aria-labelledby="son-baslik">
+  <div class="wrap">
+    <span class="beat" aria-hidden="true"><svg width="44" height="44" viewBox="0 0 24 24" fill="currentColor"><path d="M12 21s-7.5-4.6-9.6-9.2C.9 8.4 3 4.5 6.8 4.5c2.1 0 3.6 1.1 5.2 3 1.6-1.9 3.1-3 5.2-3 3.8 0 5.9 3.9 4.4 7.3C19.5 16.4 12 21 12 21z"/></svg></span>
+    <h2 id="son-baslik" class="h2" style="margin: 12px auto 16px; max-width: 720px">Kalbinizi takip edin, kararı siz verin</h2>
+    <p class="lead" style="margin: 0 auto 28px">Uygulamayı ve hekim panelini bileklik olmadan tarayıcıda deneyin.</p>
+    <div class="actions">
+      <a class="btn btn-primary" href="https://bileklik-test.onrender.com/uygulama/">Uygulamayı dene</a>
+      <a class="btn btn-ghost" href="https://bileklik-test.onrender.com/panel" data-lang-link>Hekim panelini aç</a>
+    </div>
+    <form id="wait-form" class="wait js-inquiry" action="https://bileklik-test.onrender.com/inquiry" method="post" novalidate aria-labelledby="wait-baslik">
+      <p id="wait-baslik" style="flex: 1 1 100%; margin: 0 0 4px; text-align: center; font-weight: 700">Mağazalara çıkınca haber verelim</p>
+      <input type="hidden" name="kind" value="waitlist">
+      <input type="hidden" name="lang" value="tr">
+      <input type="email" name="email" autocomplete="email" maxlength="200" required placeholder="E-posta adresiniz" aria-label="E-posta adresiniz">
+      <button class="btn btn-primary" type="submit">Haber ver</button>
+      <label class="hp" aria-hidden="true">Web sitesi<input name="website" tabindex="-1" autocomplete="off"></label>
+      <label class="check"><input type="checkbox" name="consent" required><span>E-postamın yalnızca bu duyuru için saklanacağını okudum (<a href="https://bileklik-test.onrender.com/gizlilik" data-lang-link>gizlilik politikası</a>).</span></label>
+      <p class="status" role="status" aria-live="polite" data-i18n-skip></p>
+    </form>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <p>Bileklik bir tıbbi cihaz değildir; tanı ve tedavi için kullanılmaz. Tansiyon değeri tahminidir. Şikâyetiniz varsa hekiminize başvurun.</p>
+    <nav aria-label="Alt bağlantılar">
+      <a href="https://bileklik-test.onrender.com/gizlilik" data-lang-link>Gizlilik politikası</a>
+      <a href="#sss">SSS</a>
+      <a href="https://bileklik-test.onrender.com/panel" data-lang-link>Hekim girişi</a>
+      <span>© 2026 Bileklik</span>
+    </nav>
+  </div>
+</footer>
+<script>
+// İş birliği ve ön kayıt formları: betik varsa sayfadan çıkmadan gönderilir;
+// yoksa form portala normal yoldan gider ve portal kısa bir sayfa gösterir.
+(function () {
+  if (!window.fetch) return;
+  var T = window.bkI18n ? window.bkI18n.t : function (s, v) { return s.replace(/\{(\w+)\}/g, function (m, k) { return v && v[k] != null ? v[k] : m; }); };
+  var labels = { kind: "başvuru türü", name: "ad soyad", company: "kurum", email: "e-posta", message: "mesaj", consent: "aydınlatma onayı" };
+  function setup(form, required, okText) {
+    if (!form) return;
+    var status = form.querySelector(".status");
+    var button = form.querySelector("button[type=submit]");
+    function show(text, ok) { status.textContent = text; status.className = "status " + (ok ? "ok" : "err"); }
+    function mark(fields) {
+      form.querySelectorAll("[aria-invalid]").forEach(function (el) { el.removeAttribute("aria-invalid"); });
+      fields.forEach(function (f) { var el = form.elements[f]; if (el) el.setAttribute("aria-invalid", "true"); });
+      if (fields.length && form.elements[fields[0]]) form.elements[fields[0]].focus();
+    }
+    function list(fields) { return fields.map(function (f) { return labels[f] ? T(labels[f]) : f; }).join(", "); }
+    // Dil değişince eski dildeki durum yazısı kalmasın.
+    document.addEventListener("bk:lang", function () { status.textContent = ""; status.className = "status"; });
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+      var missing = required.filter(function (f) { return !form.elements[f].value.trim(); });
+      if (form.elements.email.value && !form.elements.email.checkValidity() && missing.indexOf("email") < 0) missing.push("email");
+      if (!form.elements.consent.checked) missing.push("consent");
+      if (missing.length) { mark(missing); show(T("Eksik ya da hatalı: {alanlar}.", { alanlar: list(missing) }), false); return; }
+      mark([]);
+      button.disabled = true;
+      show(T("Gönderiliyor…"), true);
+      fetch(form.action, { method: "POST", body: new URLSearchParams(new FormData(form)), headers: { "Accept": "application/json" } })
+        .then(function (r) { return r.json().catch(function () { return {}; }).then(function (b) { return { status: r.status, body: b }; }); })
+        .then(function (r) {
+          if (r.status === 201) { form.reset(); show(T(okText), true); }
+          else if (r.status === 429) { show(T("Şu an çok fazla istek geliyor; birkaç dakika sonra yeniden deneyin."), false); }
+          else { var f = (r.body && r.body.fields) || []; mark(f); show(T("Eksik ya da hatalı: {alanlar}.", { alanlar: list(f) || T("form") }), false); }
+        })
+        .catch(function () { show(T("Bağlantı kurulamadı. Sunucu uyuyorsa ilk açılış bir dakika sürebilir; biraz sonra yeniden deneyin."), false); })
+        .then(function () { button.disabled = false; });
+    });
+  }
+  setup(document.getElementById("b2b-form"), ["name", "company", "email", "message"], "Teşekkürler, başvurunuz alındı. En kısa sürede e-postayla döneceğiz.");
+  setup(document.getElementById("wait-form"), ["email"], "Teşekkürler. Uygulama mağazalara çıkınca size bir kez e-posta göndereceğiz.");
+})();
+</script>
+<script>
+// Satın al (demo): sepet tarayıcıda durur, hiçbir yere gönderilmez.
+(function () {
+  var root = document.getElementById("satin-al");
+  if (!root) return;
+  var KEY = "bileklik-sepet";
+  var I = window.bkI18n;
+  var T = I ? I.t : function (s, v) { return s.replace(/\{(\w+)\}/g, function (m, k) { return v && v[k] != null ? v[k] : m; }); };
+  // Tutar seçilen dilin sayı biçimiyle (Arapçada da Latin rakamları, uygulamadaki gibi).
+  var LOCALES = { tr: "tr-TR", en: "en-GB", ar: "ar-u-nu-latn", de: "de-DE" };
+  var money = function (n) {
+    var l = (I && I.lang) || "tr";
+    var s;
+    try { s = n.toLocaleString(LOCALES[l] || "tr-TR", { minimumFractionDigits: 2, maximumFractionDigits: 2 }); }
+    catch (e) { s = n.toFixed(2); }
+    return s + " TL";
+  };
+  var products = {};
+  root.querySelectorAll(".product").forEach(function (el) {
+    products[el.dataset.id] = { name: el.dataset.name, price: Number(el.dataset.price) };
+  });
+  var cart = {};
+  try { cart = JSON.parse(localStorage.getItem(KEY) || "{}") || {}; } catch (e) { cart = {}; }
+  function save() { try { localStorage.setItem(KEY, JSON.stringify(cart)); } catch (e) {} }
+  var lines = document.getElementById("cart-lines");
+  var empty = document.getElementById("cart-empty");
+  var totals = document.getElementById("cart-totals");
+  var form = document.getElementById("checkout");
+  var ok = document.getElementById("order-ok");
+  var status = form.querySelector(".status");
+  var dialog = document.getElementById("pay-dialog");
+  function total() {
+    return Object.keys(cart).reduce(function (sum, id) { return products[id] ? sum + products[id].price * cart[id] : sum; }, 0);
+  }
+  function render() {
+    lines.textContent = "";
+    var ids = Object.keys(cart).filter(function (id) { return products[id] && cart[id] > 0; });
+    ids.forEach(function (id) {
+      var p = products[id];
+      var li = document.createElement("li");
+      li.className = "cart-line";
+      var name = document.createElement("span"); name.className = "name"; name.textContent = T(p.name);
+      var qty = document.createElement("span"); qty.className = "qty";
+      var minus = document.createElement("button"); minus.type = "button"; minus.textContent = "−"; minus.setAttribute("aria-label", T("{urun}: bir azalt", { urun: T(p.name) }));
+      var out = document.createElement("output"); out.textContent = cart[id]; out.setAttribute("aria-label", T("Adet"));
+      var plus = document.createElement("button"); plus.type = "button"; plus.textContent = "+"; plus.setAttribute("aria-label", T("{urun}: bir artır", { urun: T(p.name) }));
+      minus.addEventListener("click", function () { change(id, -1); });
+      plus.addEventListener("click", function () { change(id, 1); });
+      qty.append(minus, out, plus);
+      var sum = document.createElement("span"); sum.className = "sum"; sum.textContent = money(p.price * cart[id]);
+      li.append(name, qty, sum);
+      lines.appendChild(li);
+    });
+    var has = ids.length > 0;
+    empty.hidden = has;
+    totals.hidden = !has;
+    form.hidden = !has;
+    document.getElementById("t-sub").textContent = money(total());
+    document.getElementById("t-total").textContent = money(total());
+  }
+  function change(id, by) {
+    cart[id] = Math.max(0, Math.min(10, (cart[id] || 0) + by));
+    if (!cart[id]) delete cart[id];
+    ok.hidden = true;
+    save(); render();
+  }
+  root.querySelectorAll(".js-add").forEach(function (b) {
+    b.addEventListener("click", function () {
+      change(b.closest(".product").dataset.id, 1);
+      document.getElementById("cart").scrollIntoView({ block: "nearest" });
+    });
+  });
+  function show(text, good) { status.textContent = text; status.className = "status " + (good ? "ok" : "err"); }
+  var labels = { name: "ad soyad", email: "e-posta", phone: "telefon", address: "adres", city: "il", terms: "sözleşme onayı" };
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
+    var missing = ["name", "email", "phone", "address", "city"].filter(function (f) { return !form.elements[f].value.trim(); });
+    if (form.elements.email.value && !form.elements.email.checkValidity() && missing.indexOf("email") < 0) missing.push("email");
+    if (!form.elements.terms.checked) missing.push("terms");
+    form.querySelectorAll("[aria-invalid]").forEach(function (el) { el.removeAttribute("aria-invalid"); });
+    missing.forEach(function (f) { form.elements[f].setAttribute("aria-invalid", "true"); });
+    if (missing.length) {
+      form.elements[missing[0]].focus();
+      show(T("Eksik ya da hatalı: {alanlar}.", { alanlar: missing.map(function (f) { return T(labels[f]); }).join(", ") }), false);
+      return;
+    }
+    show("", true);
+    document.getElementById("pay-total").textContent = money(total());
+    if (dialog.showModal) dialog.showModal(); else dialog.setAttribute("open", "");
+  });
+  function close() { if (dialog.close) dialog.close(); else dialog.removeAttribute("open"); }
+  document.getElementById("pay-ok").addEventListener("click", function () {
+    close();
+    var no = "BLK-" + Math.floor(100000 + Math.random() * 900000);
+    ok.textContent = T("Teşekkürler! Demo siparişiniz alındı: {no}. Gerçek ödeme alınmadı, ürün gönderilmeyecek.", { no: no });
+    ok.hidden = false;
+    cart = {}; save(); form.reset(); render();
+    ok.focus && ok.setAttribute("tabindex", "-1"); ok.focus();
+  });
+  document.getElementById("pay-fail").addEventListener("click", function () {
+    close();
+    show(T("Ödeme alınamadı, kartınızdan para çekilmedi. Bilgilerinizi kontrol edip yeniden deneyin."), false);
+  });
+  document.addEventListener("bk:lang", function () { show("", true); ok.hidden = true; render(); });
+  render();
+})();
+</script>
+</body>
+</html>
